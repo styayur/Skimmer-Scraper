@@ -11,7 +11,7 @@ interface Streak {
 
 export interface SpeedRibbons {
   object: THREE.LineSegments;
-  update(speed: number, boosting: boolean, dt: number): void;
+  update(speed: number, boosting: boolean, dt: number, proximity?: number, visualScale?: number): void;
   hide(): void;
   dispose(): void;
 }
@@ -49,10 +49,16 @@ export const createSpeedRibbons = (): SpeedRibbons => {
 
   return {
     object,
-    update: (speed, boosting, dt) => {
-      const targetOpacity = Math.max(0, Math.min(1, (speed - 72) / 34)) * 0.22 + (boosting ? 0.22 : 0);
+    update: (speed, boosting, dt, proximity = 0, visualScale = 1) => {
+      const targetOpacity = (
+        Math.max(0, Math.min(1, (speed - 72) / 34)) * 0.16 +
+        Math.max(0, Math.min(1, proximity)) * 0.3 +
+        (boosting ? 0.18 : 0)
+      ) * Math.max(0, Math.min(1, visualScale));
       opacity = damp(opacity, targetOpacity, 5, Math.max(0, dt));
       material.opacity = opacity;
+      const color = new THREE.Color(0xa8fff0).lerp(new THREE.Color(0xff8da8), Math.max(0, Math.min(1, proximity)));
+      material.color.copy(color);
       object.visible = opacity > 0.004;
       if (!object.visible) return;
 

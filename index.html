@@ -15,6 +15,7 @@
     <div id="app">
       <canvas id="game-canvas" aria-label="Skimmer-Scraper 3D flight view"></canvas>
       <div class="scene-treatment" aria-hidden="true"></div>
+      <div id="proximity-treatment" class="proximity-treatment" aria-hidden="true"></div>
 
       <div id="loading-screen" class="loading-screen" role="status" aria-live="polite">
         <div class="loading-mark" aria-hidden="true">
@@ -32,7 +33,9 @@
         </div>
         <div class="top-rail__tools">
           <button id="mute-button" class="utility-button" type="button" aria-pressed="false">声音 · 开</button>
+          <button id="effects-button" class="utility-button" type="button" aria-pressed="false">视觉 · 标准</button>
           <button id="quality-button" class="utility-button" type="button">画质 · 平衡</button>
+          <button id="camera-button" class="utility-button" type="button">视角 · 追尾 <kbd>C</kbd></button>
           <button id="library-open" class="utility-button" type="button">机库 <kbd>M</kbd></button>
         </div>
       </header>
@@ -69,7 +72,7 @@
             </div>
             <div class="control-group">
               <span class="data-label">SYSTEM</span>
-              <p><kbd>SHIFT</kbd> 加速 <i></i> <kbd>R</kbd> 立即重试 <i></i> <kbd>M</kbd> 机库</p>
+              <p><kbd>SHIFT</kbd> 加速 <i></i> <kbd>C</kbd> 视角 <i></i> <kbd>R</kbd> 立即重试 <i></i> <kbd>M</kbd> 机库</p>
             </div>
           </div>
         </div>
@@ -81,11 +84,18 @@
           <small>WEBGL2 · SEED 0x51A7A</small>
         </div>
 
+        <aside id="record-hint" class="record-hint" aria-label="录屏提示">
+          <button id="record-hint-close" class="record-hint__close" type="button" aria-label="关闭录屏提示">×</button>
+          <span class="data-label">CAPTURE THE LINE</span>
+          <strong>记录你的精彩飞行</strong>
+          <p>推荐系统录屏或 OBS Studio。Windows 可尝试 <kbd>Win</kbd> + <kbd>Alt</kbd> + <kbd>R</kbd>，需系统录屏功能可用。</p>
+        </aside>
+
         <div class="title-footer">
           <span>NO ACCOUNT</span>
           <span>LOCAL BEST ONLY</span>
           <span>GLB STAYS ON DEVICE</span>
-          <span class="title-footer__version">v0.1.0 / RELEASE</span>
+          <span class="title-footer__version">v0.2.0 / DEV</span>
         </div>
       </section>
 
@@ -109,6 +119,12 @@
           </div>
         </div>
 
+        <div id="cockpit-frame" class="cockpit-frame" aria-hidden="true" hidden>
+          <span class="cockpit-frame__left"></span>
+          <span class="cockpit-frame__right"></span>
+          <span class="cockpit-frame__crown"></span>
+        </div>
+
         <div id="surface-status" class="surface-status" aria-live="polite">
           <div class="surface-status__row">
             <span id="surface-state" class="surface-state">SURFACE MODEL PENDING</span>
@@ -125,7 +141,7 @@
 
         <div class="hud-bottom">
           <p id="flight-status" class="flight-status">原型飞行 · 近距规则将在下一阶段接入</p>
-          <p class="hud-hint"><kbd>R</kbd> 重试 <i></i> <kbd>M</kbd> 机库</p>
+          <p class="hud-hint"><span id="hud-view">CHASE / 追尾</span> <i></i> <kbd>C</kbd> 视角 <i></i> <kbd>R</kbd> 重试 <i></i> <kbd>M</kbd> 机库</p>
         </div>
       </section>
 

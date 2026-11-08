@@ -1,0 +1,119 @@
+{
+  "schemaVersion": 1,
+  "product": "Skimmer-Scraper",
+  "version": "0.2.0",
+  "phase": 1,
+  "stage": "Flight Experience",
+  "generatedAt": "2026-11-08T15:57:18.253Z",
+  "sourceRevision": "b00e447",
+  "worktreeDirty": true,
+  "status": "pass",
+  "commands": [
+    {
+      "label": "typecheck",
+      "command": "npm run typecheck",
+      "status": "pass",
+      "exitCode": 0,
+      "durationMs": 1342
+    },
+    {
+      "label": "unit-tests",
+      "command": "npx vitest run --reporter=json --outputFile E:\\GitHub\\Skimmer-Scraper\\acceptance\\v0.2\\.vitest-phase-1.json",
+      "status": "pass",
+      "exitCode": 0,
+      "durationMs": 3689
+    },
+    {
+      "label": "production-build",
+      "command": "npm run build",
+      "status": "pass",
+      "exitCode": 0,
+      "durationMs": 2707
+    },
+    {
+      "label": "browser-tests",
+      "command": "npx playwright test --reporter=json",
+      "status": "pass",
+      "exitCode": 0,
+      "durationMs": 250284
+    }
+  ],
+  "tests": {
+    "unit": {
+      "passed": 30,
+      "failed": 0,
+      "total": 30
+    },
+    "browser": {
+      "passed": 6,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 247385.088
+    }
+  },
+  "deliverables": [
+    {
+      "path": "src/config/experience.ts",
+      "exists": true
+    },
+    {
+      "path": "src/game/preferences.ts",
+      "exists": true
+    },
+    {
+      "path": "src/game/proximityFeedback.ts",
+      "exists": true
+    },
+    {
+      "path": "src/render/cameraRig.ts",
+      "exists": true
+    },
+    {
+      "path": "tests/unit/cameraRig.test.ts",
+      "exists": true
+    },
+    {
+      "path": "tests/unit/preferences.test.ts",
+      "exists": true
+    },
+    {
+      "path": "tests/unit/proximityFeedback.test.ts",
+      "exists": true
+    },
+    {
+      "path": "tests/e2e/flight-experience.spec.ts",
+      "exists": true
+    }
+  ],
+  "evidence": [
+    {
+      "path": "evidence/v0.2/phase-1-cockpit-imported.png",
+      "bytes": 757952,
+      "sha256": "f908a16c5ab162f5f2d1dbc21dffd0ed6b5554aa99e97c3d422523c3c462cb88"
+    },
+    {
+      "path": "evidence/v0.2/phase-1-cockpit.png",
+      "bytes": 738061,
+      "sha256": "6e099f528f129d1eadd594177549246eaa20ffe03f6df9b615fa7e7b4dd1d518"
+    },
+    {
+      "path": "evidence/v0.2/phase-1-extreme-feedback.png",
+      "bytes": 660842,
+      "sha256": "a55af614b6aa4e1809b76d751f02bfc4f1c2f5ba25e7415186812c239127a0ad"
+    },
+    {
+      "path": "evidence/v0.2/phase-1-runtime.json",
+      "bytes": 509,
+      "sha256": "8e04988d35d3674aaae2bc5693e8e8b28af3769bd7da08c6c2b8cd28fb5e2bf7"
+    }
+  ],
+  "environment": {
+    "os": "win32 10.0.26300",
+    "node": "v26.7.0",
+    "browser": "Chromium headless / Playwright"
+  },
+  "caveats": [
+    "Browser integration may use SwiftShader and is not a real-GPU performance certification.",
+    "Stage acceptance is evidence for this phase only; final v0.2.0 release gates are recorded in acceptance/v0.2.0.json."
+  ]
+}

@@ -2,6 +2,8 @@ import '@fontsource-variable/syne';
 import '@fontsource-variable/ibm-plex-sans';
 import './styles.css';
 
+import type { CameraMode, VisualStimulation } from './config/experience';
+import { EXPERIENCE_CONFIG } from './config/experience';
 import { FixedStepRunner } from './core/fixedStep';
 import { FLIGHT, createFlightState, stepFlight, type FlightState } from './flight/flightModel';
 import {
@@ -18,6 +20,8 @@ import {
   type RunRulesState,
 } from './game/runRules';
 import type { Group } from 'three';
+import { loadPreferences, savePreferences, type GamePreferences } from './game/preferences';
+import { createProximityFeedback, updateProximityFeedback, type ProximityFeedbackState } from './game/proximityFeedback';
 import { loadBest, submitBest } from './game/storage';
 import { FlightAudio } from './audio/synth';
 import { AircraftLibrary, BUILT_IN_AIRCRAFT_ID } from './model/aircraftLibrary';
@@ -49,10 +53,19 @@ interface DebugSnapshot {
   debugInput: boolean;
   selectedAircraft: string;
   localModelCount: number;
+  cameraMode: CameraMode;
+  cameraBlend: number;
+  fov: number;
+  proximity: number;
+  proximityZone: string;
+  visualStimulation: VisualStimulation;
+  recordingHintVisible: boolean;
 }
 
 interface SkimmerDebugBridge {
   readonly version: string;
+  toggleCamera(): CameraMode;
+  setCameraMode(mode: CameraMode): CameraMode;
   snapshot(): DebugSnapshot;
   start(): void;
   retry(): void;
@@ -90,11 +103,16 @@ let lastFrameTime = performance.now();
 let muted = false;
 let qualityName: 'balanced' | 'high' = 'balanced';
 let best = loadBest();
+let preferences: GamePreferences = loadPreferences();
+let proximityFeedback: ProximityFeedbackState = createProximityFeedback();
 let renderer: GameRenderer | null = null;
 let currentImportedAircraft: Group | null = null;
 let modelLoadVersion = 0;
 
 const stepRunner = new FixedStepRunner(FLIGHT.fixedDt, 12);
+const visualScaleFor = (level: VisualStimulation): number => level === 'reduced'
+  ? EXPERIENCE_CONFIG.visuals.reducedScale
+  : EXPERIENCE_CONFIG.visuals.standardScale;
 const audio = new FlightAudio();
 const aircraftLibrary = new AircraftLibrary();
 const keyboard = new KeyboardInputSource();
@@ -130,10 +148,45 @@ const ui: GameUI = new GameUI({
   onRotateModel: () => {
     void rotateSelectedAircraft();
   },
+  onCameraToggle: () => toggleCameraMode(),
+  onVisualStimulationToggle: () => toggleVisualStimulation(),
+  onRecordingHintDismiss: () => dismissRecordingHint(),
 });
 
 ui.setBest(best);
 ui.setModels([builtInModel], builtInModel.id);
+ui.setCameraMode(preferences.cameraMode);
+ui.setVisualStimulation(preferences.visualStimulation === 'reduced');
+ui.setRecordingHintVisible(!preferences.recordingHintDismissed);
+
+const persistPreferences = (next: Partial<GamePreferences>): void => {
+  preferences = { ...preferences, ...next };
+  savePreferences(preferences);
+};
+
+const applyCameraMode = (mode: CameraMode): CameraMode => {
+  persistPreferences({ cameraMode: mode });
+  renderer?.setCameraMode(mode);
+  ui.setCameraMode(mode);
+  return mode;
+};
+
+const toggleCameraMode = (): CameraMode => {
+  const current = renderer?.getCameraSnapshot().mode ?? preferences.cameraMode;
+  return applyCameraMode(current === 'chase' ? 'cockpit' : 'chase');
+};
+
+const toggleVisualStimulation = (): boolean => {
+  const next: VisualStimulation = preferences.visualStimulation === 'standard' ? 'reduced' : 'standard';
+  persistPreferences({ visualStimulation: next });
+  renderer?.setVisualStimulation(next);
+  ui.setVisualStimulation(next === 'reduced');
+  return next === 'reduced';
+};
+
+const dismissRecordingHint = (): void => {
+  persistPreferences({ recordingHintDismissed: true });
+};
 
 const refreshModelOptions = (): void => {
   ui.setModels(aircraftLibrary.options(), aircraftLibrary.getSelectedId());
@@ -227,6 +280,8 @@ const syncHud = (): void => {
     distance: lastSurfaceHit?.distance ?? null,
     grace: runRules.grace,
     locked: runRules.locked,
+    proximity: proximityFeedback.intensity,
+    zone: proximityFeedback.zone,
   });
 };
 
@@ -235,6 +290,12 @@ const simulateFixedStep = (dt: number): boolean => {
   flightState = stepFlight(flightState, inputSource.sample(flightState.elapsed), dt);
   lastSurfaceHit = worldAdapter.queryNearest(flightState.position, SURFACE_QUERY_RANGE);
   runRules = updateRunRules(runRules, { distance: lastSurfaceHit?.distance ?? null }, dt);
+  proximityFeedback = updateProximityFeedback(
+    proximityFeedback,
+    lastSurfaceHit?.distance ?? null,
+    dt,
+    visualScaleFor(preferences.visualStimulation),
+  );
   return runRules.status === 'running';
 };
 
@@ -270,6 +331,7 @@ const resetFlightState = (): void => {
     speed: spawn.speed,
   });
   runRules = createRunRules();
+  proximityFeedback = createProximityFeedback();
   lastSurfaceHit = worldAdapter?.queryNearest(flightState.position, SURFACE_QUERY_RANGE) ?? null;
   stepRunner.reset();
 };
@@ -346,6 +408,13 @@ const debugSnapshot = (): DebugSnapshot => {
     debugInput: debugInputEnabled,
     selectedAircraft: aircraftLibrary.getSelectedId(),
     localModelCount: Math.max(0, aircraftLibrary.options().length - 1),
+    cameraMode: renderer.getCameraSnapshot().mode,
+    cameraBlend: renderer.getCameraSnapshot().blend,
+    fov: renderer.getCameraSnapshot().fov,
+    proximity: proximityFeedback.intensity,
+    proximityZone: proximityFeedback.zone,
+    visualStimulation: preferences.visualStimulation,
+    recordingHintVisible: !preferences.recordingHintDismissed,
   };
 };
 
@@ -368,6 +437,7 @@ const debugSetPose = (position: { x: number; y: number; z: number }): DebugSnaps
     position: { x: position.x, y: position.y, z: position.z },
   };
   lastSurfaceHit = worldAdapter?.queryNearest(flightState.position, SURFACE_QUERY_RANGE) ?? null;
+  proximityFeedback = updateProximityFeedback(proximityFeedback, lastSurfaceHit?.distance ?? null, 1, visualScaleFor(preferences.visualStimulation));
   syncHud();
   return debugSnapshot();
 };
@@ -383,6 +453,7 @@ keyboard.onAction((action: GameAction) => {
     return;
   }
   if (ui.isLibraryOpen()) return;
+  if (action === 'camera' && mode !== 'title') toggleCameraMode();
   if (action === 'start' && mode === 'title') startRun();
   if (action === 'retry' && mode !== 'title') startRun();
 });
@@ -395,8 +466,8 @@ const frame = (now: number): void => {
     stepRunner.advance(delta, simulateFixedStep);
     syncHud();
     if (runRules.status === 'failed') finishRun();
-    if (flightState) audio.update(flightState.speed, flightState.boosting);
-    renderer.renderFlight(flightState, delta, now);
+    if (flightState) audio.update(flightState.speed, flightState.boosting, proximityFeedback.intensity);
+    renderer.renderFlight(flightState, delta, now, proximityFeedback.intensity);
   } else if (renderer && mode === 'title') {
     renderer.renderTitle(now);
   } else if (renderer && flightState) {
@@ -421,6 +492,8 @@ const boot = async (): Promise<void> => {
   ui.setLoadingCopy('正在编译近距飞行场景');
   await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
   renderer = new GameRenderer(canvas, world);
+  renderer.setCameraMode(preferences.cameraMode, true);
+  renderer.setVisualStimulation(preferences.visualStimulation);
   ui.setLoadingCopy('正在载入本机机库');
   try {
     const options = await aircraftLibrary.initialize();
@@ -441,7 +514,9 @@ const boot = async (): Promise<void> => {
   requestAnimationFrame(frame);
 
   window.__SKIMMER_SCRAPER__ = {
-    version: '0.1.0',
+    version: '0.2.0',
+    toggleCamera: toggleCameraMode,
+    setCameraMode: applyCameraMode,
     snapshot: debugSnapshot,
     start: startRun,
     retry: startRun,
@@ -481,6 +556,3 @@ boot().catch((error: unknown) => {
     console.error(error);
   }
 });
-
-
-

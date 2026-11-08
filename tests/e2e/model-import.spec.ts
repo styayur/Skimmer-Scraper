@@ -57,6 +57,11 @@ test.describe('phase 3 local GLB aircraft library', () => {
     await page.waitForTimeout(700);
     await page.screenshot({ path: 'evidence/phase-3-imported-flight.png', fullPage: true });
 
+    await page.locator('#camera-button').click();
+    await expect(page.locator('#cockpit-frame')).toBeVisible();
+    await page.waitForTimeout(700);
+    await page.screenshot({ path: 'evidence/v0.2/phase-1-cockpit-imported.png', fullPage: true });
+
     expect(requestedUrls.some((url) => url.includes('test-aircraft'))).toBe(false);
     const nonLocalRequests = requestedUrls.filter((url) =>
       !url.startsWith('http://127.0.0.1:4173') &&

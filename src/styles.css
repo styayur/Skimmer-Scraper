@@ -336,6 +336,203 @@ kbd {
 .fatal-screen h2 { margin: 0.65rem 0 1rem; font-family: var(--display); font-size: clamp(2rem, 6vw, 4rem); letter-spacing: -0.05em; }
 .fatal-screen p:not(.kicker) { color: var(--paper-muted); line-height: 1.6; }
 
+#app {
+  --proximity-intensity: 0;
+}
+
+.proximity-treatment {
+  position: fixed;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  opacity: calc(var(--proximity-intensity) * 0.58);
+  background:
+    radial-gradient(ellipse at 50% 58%, transparent 0 38%, rgba(255, 93, 143, 0.18) 70%, rgba(255, 93, 143, 0.35) 100%);
+  mix-blend-mode: screen;
+  transition: opacity 90ms linear;
+}
+
+.proximity-treatment::before,
+.proximity-treatment::after {
+  content: "";
+  position: absolute;
+  top: 10%;
+  bottom: 12%;
+  width: 18%;
+  opacity: 0.55;
+  background: repeating-linear-gradient(
+    90deg,
+    transparent 0 12px,
+    rgba(255, 240, 226, 0.28) 12px 13px,
+    transparent 13px 25px
+  );
+  filter: blur(2px);
+}
+
+.proximity-treatment::before {
+  left: 0;
+  transform: skewY(-8deg);
+  mask-image: linear-gradient(90deg, #000, transparent);
+}
+
+.proximity-treatment::after {
+  right: 0;
+  transform: skewY(8deg);
+  mask-image: linear-gradient(-90deg, #000, transparent);
+}
+
+#app.low-stim .proximity-treatment {
+  opacity: calc(var(--proximity-intensity) * 0.12);
+}
+
+#app.low-stim .proximity-treatment::before,
+#app.low-stim .proximity-treatment::after {
+  display: none;
+}
+
+.record-hint {
+  position: absolute;
+  z-index: 16;
+  top: 5.2rem;
+  right: clamp(1.5rem, 6vw, 7.5rem);
+  width: min(17rem, 29vw);
+  padding: 0.72rem 0.85rem 0.8rem;
+  border: 1px solid rgba(255, 244, 233, 0.18);
+  border-left: 2px solid var(--peach);
+  background: linear-gradient(115deg, rgba(22, 14, 28, 0.84), rgba(22, 14, 28, 0.52));
+  backdrop-filter: blur(10px);
+  box-shadow: 0 18px 42px rgba(0, 0, 0, 0.2);
+  pointer-events: auto;
+  animation: hint-in 500ms cubic-bezier(0.22, 1, 0.36, 1) 250ms both;
+}
+
+.record-hint strong {
+  display: block;
+  margin-top: 0.35rem;
+  font-family: var(--display);
+  font-size: 0.82rem;
+  letter-spacing: -0.02em;
+}
+
+.record-hint p {
+  margin: 0.35rem 0 0;
+  color: var(--paper-muted);
+  font-size: 0.56rem;
+  line-height: 1.48;
+}
+
+.record-hint kbd {
+  min-width: 1.2rem;
+  height: 1.15rem;
+  font-size: 0.46rem;
+}
+
+.record-hint__close {
+  position: absolute;
+  top: 0.3rem;
+  right: 0.35rem;
+  width: 1.5rem;
+  height: 1.5rem;
+  border: 0;
+  background: transparent;
+  color: var(--paper-muted);
+  cursor: pointer;
+  font-family: var(--display);
+  font-size: 1rem;
+}
+
+.cockpit-frame {
+  position: fixed;
+  inset: 0;
+  z-index: 8;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.cockpit-frame__left,
+.cockpit-frame__right {
+  position: absolute;
+  top: 10%;
+  bottom: 8%;
+  width: 4px;
+  border-radius: 50%;
+  background: linear-gradient(180deg, transparent, rgba(83, 229, 207, 0.52) 22%, rgba(255, 93, 143, 0.32) 82%, transparent);
+  box-shadow: 0 0 18px rgba(83, 229, 207, 0.24);
+}
+
+.cockpit-frame__left {
+  left: 3.5%;
+  transform: rotate(2.5deg);
+}
+
+.cockpit-frame__right {
+  right: 3.5%;
+  transform: rotate(-2.5deg);
+}
+
+.cockpit-frame__crown {
+  position: absolute;
+  top: 0;
+  left: 22%;
+  right: 22%;
+  height: 4.5rem;
+  border-bottom: 1px solid rgba(255, 244, 233, 0.18);
+  border-radius: 0 0 50% 50%;
+  background: linear-gradient(180deg, rgba(12, 7, 15, 0.3), transparent);
+}
+
+#app.low-stim .cockpit-frame {
+  opacity: 0.36;
+}
+
+.surface-status.is-strong {
+  border-color: rgba(255, 181, 143, 0.7);
+  box-shadow: 0 0 34px rgba(255, 181, 143, 0.12);
+}
+
+.surface-status.is-extreme {
+  border-color: rgba(255, 93, 143, 0.92);
+  box-shadow: 0 0 46px rgba(255, 93, 143, 0.2);
+}
+
+.surface-state {
+  transition: color 90ms linear;
+}
+
+.hud-hint #hud-view {
+  color: var(--teal);
+  font-family: var(--display);
+  font-size: 0.5rem;
+  letter-spacing: 0.12em;
+}
+
+#app.low-stim .speed-lines,
+#app.low-stim .scene-treatment::after {
+  opacity: 0.06;
+}
+
+@keyframes hint-in {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 900px) {
+  .record-hint {
+    right: 1.2rem;
+    width: min(18rem, 54vw);
+  }
+}
+
+@media (max-width: 640px) {
+  .record-hint {
+    display: none;
+  }
+
+  .cockpit-frame__left,
+  .cockpit-frame__right {
+    width: 2px;
+  }
+}
 @keyframes loading-sweep {
   0%, 100% { transform: translate(-50%, -50%) rotate(0deg) scaleX(0.15); opacity: 0.2; }
   40% { transform: translate(-50%, -50%) rotate(-8deg) scaleX(1); opacity: 1; }
