@@ -90,4 +90,41 @@ export const createBillboard = (placement: BillboardPlacement): THREE.Mesh => {
   mesh.name = `billboard-${placement.index}`;
   return mesh;
 };
+export interface BillboardMaterialSet {
+  materials: THREE.MeshBasicMaterial[];
+  dispose(): void;
+}
+
+export const createBillboardMaterialSet = (): BillboardMaterialSet => {
+  const textures: THREE.CanvasTexture[] = [];
+  const materials = SIGN_COPY.map(([label, accent]) => {
+    const texture = createSignTexture(label, accent);
+    textures.push(texture);
+    return new THREE.MeshBasicMaterial({
+      map: texture,
+      color: 0xd9c9c2,
+      side: THREE.DoubleSide,
+    });
+  });
+  return {
+    materials,
+    dispose: () => {
+      for (const texture of textures) texture.dispose();
+      for (const material of materials) material.dispose();
+    },
+  };
+};
+
+export const createBillboardMesh = (
+  placement: BillboardPlacement,
+  materials: readonly THREE.MeshBasicMaterial[],
+): THREE.Mesh => {
+  const selected = materials[placement.index % materials.length]!;
+  const geometry = new THREE.PlaneGeometry(placement.width, placement.height);
+  const mesh = new THREE.Mesh(geometry, selected);
+  mesh.position.set(placement.x, placement.y, placement.z);
+  mesh.rotation.y = placement.rotationY;
+  mesh.name = `billboard-${placement.index}`;
+  return mesh;
+};
 

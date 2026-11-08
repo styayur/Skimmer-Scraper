@@ -98,7 +98,7 @@ export class GameRenderer {
     this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     this.renderer.info.autoReset = false;
 
-    this.scene.fog = new THREE.FogExp2(0x6f4152, 0.00096);
+    this.scene.fog = new THREE.FogExp2(0x6f4152, world.settings.config.fogDensity);
     this.scene.background = new THREE.Color(0x241723);
     this.scene.add(world.root);
 
@@ -256,6 +256,10 @@ export class GameRenderer {
     return this.world.spawn;
   }
 
+  public getWorldFingerprint(): number {
+    return this.world.fingerprint;
+  }
+
   public resize(): void {
     if (this.disposed) return;
     const width = Math.max(1, this.canvas.clientWidth || window.innerWidth);
@@ -279,16 +283,7 @@ export class GameRenderer {
     this.atmosphere.dispose();
     this.petals.dispose();
     this.speedRibbons.dispose();
-    this.world.root.traverse((object) => {
-      if (object instanceof THREE.Mesh) {
-        object.geometry.dispose();
-        if (Array.isArray(object.material)) {
-          for (const material of object.material) material.dispose();
-        } else {
-          object.material.dispose();
-        }
-      }
-    });
+    this.world.dispose();
     this.renderer.dispose();
   }
 

@@ -36,6 +36,7 @@
           <button id="effects-button" class="utility-button" type="button" aria-pressed="false">视觉 · 标准</button>
           <button id="quality-button" class="utility-button" type="button">画质 · 平衡</button>
           <button id="camera-button" class="utility-button" type="button">视角 · 追尾 <kbd>C</kbd></button>
+          <button id="world-open" class="utility-button" type="button">世界</button>
           <button id="library-open" class="utility-button" type="button">机库 <kbd>M</kbd></button>
         </div>
       </header>
@@ -79,9 +80,9 @@
 
         <div class="title-aside" aria-hidden="true">
           <span class="title-aside__index">01</span>
-          <p>SAKURA<br />DUSK<br />DISTRICT</p>
+          <p id="title-world-preset">SAKURA<br />DUSK<br />DISTRICT</p>
           <span class="title-aside__rule"></span>
-          <small>WEBGL2 · SEED 0x51A7A</small>
+          <small id="title-world-meta">WEBGL2 · SEED 334458 · STABLE</small>
         </div>
 
         <aside id="record-hint" class="record-hint" aria-label="录屏提示">
@@ -192,6 +193,50 @@
         <p id="model-note" class="model-note">当前为内置程序化机型 KITE-07。</p>
       </aside>
 
+      <aside id="world-panel" class="world-panel" aria-labelledby="world-title" hidden>
+        <div class="library-header">
+          <div>
+            <p class="kicker">WORLD GENERATOR</p>
+            <h2 id="world-title">世界种子</h2>
+          </div>
+          <button id="world-close" class="icon-button" type="button" aria-label="关闭世界设置">关闭</button>
+        </div>
+        <p class="library-copy">
+          相同种子、预设和生成器版本会得到相同城市。分享链接包含全部世界参数。
+        </p>
+        <form id="world-form" class="world-form">
+          <label class="world-field">
+            <span class="data-label">WORLD SEED</span>
+            <input id="world-seed-input" name="seed" type="text" maxlength="64" autocomplete="off" spellcheck="false" />
+          </label>
+          <label class="world-field">
+            <span class="data-label">PRESET</span>
+            <select id="world-preset-select" name="preset">
+              <option value="sakura">Sakura Dusk</option>
+              <option value="neon">Neon Megacity</option>
+              <option value="archipelago">Floating Archipelago</option>
+              <option value="randomized">Randomized</option>
+            </select>
+          </label>
+          <p id="world-preset-description" class="world-description"></p>
+          <div class="world-inline-actions">
+            <button id="world-random" class="text-button" type="button">随机种子</button>
+            <button id="world-copy-seed" class="text-button" type="button">复制种子</button>
+            <button id="world-copy-link" class="text-button" type="button">复制分享链接</button>
+          </div>
+          <div class="world-stability">
+            <span class="data-label">STABLE WORLD</span>
+            <p>同一种子与坐标始终生成同一个世界。遗忘式模式将在后续阶段解锁。</p>
+          </div>
+          <div class="world-actions">
+            <button class="primary-button" type="submit">
+              <span>生成并重载</span>
+              <span class="button-meta">APPLY</span>
+            </button>
+            <button id="world-reset" class="secondary-button" type="button">恢复默认种子</button>
+          </div>
+        </form>
+      </aside>
       <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
 
       <section id="webgl-error" class="fatal-screen" role="alert" hidden>

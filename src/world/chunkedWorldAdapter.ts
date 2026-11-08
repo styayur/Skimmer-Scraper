@@ -5,6 +5,7 @@ import type { CollisionChunk, SurfaceProvider, SurfaceQuery } from './worldTypes
 
 interface IndexedChunk {
   id: string;
+  origin: THREE.Vector3;
   bounds: THREE.Box3;
   bvh: MeshBVH;
 }
@@ -22,6 +23,7 @@ export interface WorldAdapterStats {
 export class ChunkedWorldAdapter implements SurfaceProvider {
   private readonly chunks: IndexedChunk[];
   private readonly queryPoint = new THREE.Vector3();
+  private readonly localPoint = new THREE.Vector3();
   private readonly hitPoint = new THREE.Vector3();
   private lastBroadPhaseCandidates = 0;
   private lastQueries = 0;
@@ -34,6 +36,7 @@ export class ChunkedWorldAdapter implements SurfaceProvider {
       chunk.geometry.clearGroups();
       return {
         id: chunk.id,
+        origin: new THREE.Vector3(chunk.origin.x, chunk.origin.y, chunk.origin.z),
         bounds: chunk.bounds.clone(),
         bvh: new MeshBVH(chunk.geometry, {
           maxDepth: 28,
@@ -54,10 +57,11 @@ export class ChunkedWorldAdapter implements SurfaceProvider {
     const bestPoint = new THREE.Vector3();
 
     for (const chunk of this.chunks) {
-      if (chunk.bounds.distanceToPoint(this.queryPoint) > bestDistance) continue;
+      this.localPoint.copy(this.queryPoint).sub(chunk.origin);
+      if (chunk.bounds.distanceToPoint(this.localPoint) > bestDistance) continue;
       this.lastBroadPhaseCandidates += 1;
       this.lastQueries += 1;
-      const hit = chunk.bvh.closestPointToPoint(this.queryPoint, {
+      const hit = chunk.bvh.closestPointToPoint(this.localPoint, {
         point: this.hitPoint,
         distance: Number.POSITIVE_INFINITY,
         faceIndex: -1,
@@ -65,7 +69,7 @@ export class ChunkedWorldAdapter implements SurfaceProvider {
       if (!hit || hit.distance >= bestDistance) continue;
       bestDistance = hit.distance;
       bestChunk = chunk;
-      bestPoint.copy(hit.point);
+      bestPoint.copy(hit.point).add(chunk.origin);
     }
 
     if (!bestChunk) return null;
@@ -89,4 +93,3 @@ export class ChunkedWorldAdapter implements SurfaceProvider {
     this.chunks.length = 0;
   }
 }
-

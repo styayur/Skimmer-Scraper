@@ -5,10 +5,12 @@ import type { CollisionChunk } from '../../src/world/worldTypes';
 
 const chunk = (id: string, x: number): CollisionChunk => {
   const geometry = new THREE.BoxGeometry(2, 2, 2);
-  geometry.translate(x, 0, 0);
   geometry.computeBoundingBox();
   return {
     id,
+    chunkX: x,
+    chunkZ: 0,
+    origin: { x, y: 0, z: 0 },
     geometry,
     bounds: geometry.boundingBox!.clone(),
   };
