@@ -1,6 +1,7 @@
 export const SURFACE_RANGE = 32;
 export const GRACE_SECONDS = 5;
-export const COLLISION_RADIUS = 2.2;
+// One gameplay envelope for every aircraft keeps imported models comparable.
+export const COLLISION_RADIUS = 3.2;
 
 export type RunStatus = 'running' | 'failed';
 export type FailureReason = 'impact' | 'grace-expired' | null;

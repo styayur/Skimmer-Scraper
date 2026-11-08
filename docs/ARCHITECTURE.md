@@ -44,7 +44,7 @@ browser input -> FixedStepRunner (120 Hz)
 
 - A solid surface within 32 m locks the player's proximity state and resets grace to 5 seconds.
 - Outside 32 m, grace decreases at simulation time. Re-entering the band restores it immediately.
-- Surface contact within the 2.2 m aircraft collision radius fails the run immediately.
+- Surface contact within the 3.2 m gameplay collision envelope fails the run immediately. The envelope is intentionally fixed across built-in and imported aircraft so survival comparisons remain fair.
 - Grace reaching 0 fails the run with a distinct “skyline lost you” state.
 - On failure, the browser stores only the best survival time in `localStorage`; there is no account,
   telemetry profile or remote upload.
