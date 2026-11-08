@@ -6,7 +6,9 @@ import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPa
 import type { Attitude, Vec3 } from '../core/math';
 import type { FlightState } from '../flight/flightModel';
 import type { WorldData } from '../world/worldTypes';
-import { ChaseCamera } from './cameraRig';
+import type { CameraMode, VisualStimulation } from '../config/experience';
+import { EXPERIENCE_CONFIG } from '../config/experience';
+import { FlightCameraRig } from './cameraRig';
 import { createPetalField, type PetalField } from './petals';
 import {
   createProceduralAircraft,
@@ -48,12 +50,13 @@ export class GameRenderer {
   private readonly renderer: THREE.WebGLRenderer;
   private readonly composer: EffectComposer;
   private readonly bloomPass: UnrealBloomPass;
-  private readonly cameraRig: ChaseCamera;
+  private readonly cameraRig: FlightCameraRig;
   private readonly atmosphere: SkyAtmosphere;
   private readonly petals: PetalField;
   private readonly speedRibbons: SpeedRibbons;
   private readonly proceduralAircraft: ProceduralAircraft;
   private readonly aircraftMount = new THREE.Group();
+  private readonly aircraftModelMount = new THREE.Group();
   private externalAircraft: THREE.Object3D | null = null;
   private readonly world: WorldData;
   private readonly resizeObserver: ResizeObserver;
@@ -66,6 +69,7 @@ export class GameRenderer {
   private drawnPoints = 0;
   private drawnLines = 0;
   private disposed = false;
+  private visualScale: number = EXPERIENCE_CONFIG.visuals.standardScale;
 
   public constructor(
     private readonly canvas: HTMLCanvasElement,
@@ -99,7 +103,7 @@ export class GameRenderer {
     this.scene.add(world.root);
 
     this.camera = new THREE.PerspectiveCamera(64, 1, 0.25, 2300);
-    this.cameraRig = new ChaseCamera(this.camera);
+    this.cameraRig = new FlightCameraRig(this.camera);
 
     this.atmosphere = createSkyAtmosphere();
     this.scene.add(this.atmosphere.group);
@@ -124,7 +128,9 @@ export class GameRenderer {
 
     this.proceduralAircraft = createProceduralAircraft();
     this.aircraftMount.name = 'aircraft-mount';
-    this.aircraftMount.add(this.proceduralAircraft.group);
+    this.aircraftModelMount.name = 'aircraft-model-mount';
+    this.aircraftMount.add(this.aircraftModelMount);
+    this.aircraftModelMount.add(this.proceduralAircraft.group);
     this.speedRibbons = createSpeedRibbons();
     this.aircraftMount.add(this.speedRibbons.object);
     this.scene.add(this.aircraftMount);
@@ -163,7 +169,7 @@ export class GameRenderer {
 
   public setAircraftModel(model: THREE.Object3D | null): void {
     if (this.externalAircraft) {
-      this.aircraftMount.remove(this.externalAircraft);
+      this.aircraftModelMount.remove(this.externalAircraft);
       this.externalAircraft = null;
     }
     if (model) {
@@ -174,18 +180,37 @@ export class GameRenderer {
           object.receiveShadow = true;
         }
       });
-      this.aircraftMount.add(model);
+      this.aircraftModelMount.add(model);
       this.proceduralAircraft.group.visible = false;
     } else {
       this.proceduralAircraft.group.visible = true;
     }
   }
 
+  public setCameraMode(mode: CameraMode, immediate = false): void {
+    this.cameraRig.setMode(mode, immediate);
+  }
+
+  public setVisualStimulation(level: VisualStimulation): void {
+    const reduced = level === 'reduced';
+    this.visualScale = reduced ? EXPERIENCE_CONFIG.visuals.reducedScale : EXPERIENCE_CONFIG.visuals.standardScale;
+    this.cameraRig.setComfortMode(reduced);
+  }
+
+  public getCameraSnapshot(): ReturnType<FlightCameraRig['getSnapshot']> {
+    return this.cameraRig.getSnapshot();
+  }
+
   public snapCamera(state: FlightState): void {
     this.cameraRig.snapTo(state);
   }
 
+  public shiftRenderOrigin(delta: Vec3): void {
+    this.cameraRig.shiftRenderOrigin(delta);
+  }
+
   public renderTitle(now: number): void {
+    this.aircraftModelMount.visible = true;
     this.atmosphere.update(now);
     this.cameraRig.updateAttract(now, this.world.spawn.position);
     const bob = Math.sin(now * 0.0012) * 0.35;
@@ -203,12 +228,13 @@ export class GameRenderer {
     this.draw(now);
   }
 
-  public renderFlight(state: FlightState, dt: number, now: number): void {
+  public renderFlight(state: FlightState, dt: number, now: number, proximity = 0): void {
+    this.aircraftModelMount.visible = this.cameraRig.getMode() !== 'cockpit' && this.cameraRig.getSnapshot().blend < 0.96;
     this.atmosphere.update(now);
-    this.cameraRig.update(dt, state);
+    this.cameraRig.update(dt, state, proximity, this.visualScale);
     this.setAircraftTransform(state.position, state.attitude, state.boosting);
     this.petals.update(dt, state.position);
-    this.speedRibbons.update(state.speed, state.boosting, dt);
+    this.speedRibbons.update(state.speed, state.boosting, dt, proximity, this.visualScale);
     this.draw(now);
   }
 

@@ -1,3 +1,4 @@
+import type { CameraMode } from '../config/experience';
 import { formatTime } from '../game/storage';
 
 export interface FlightHudSnapshot {
@@ -12,6 +13,8 @@ export interface SurfaceHudSnapshot {
   distance: number | null;
   grace: number;
   locked: boolean;
+  proximity: number;
+  zone: 'detached' | 'near' | 'strong' | 'extreme';
   prototype?: boolean;
 }
 
@@ -42,6 +45,9 @@ export interface GameUIHooks {
   onSelectModel(id: string): void;
   onRemoveModel(): void;
   onRotateModel(): void;
+  onCameraToggle(): CameraMode;
+  onVisualStimulationToggle(): boolean;
+  onRecordingHintDismiss(): void;
 }
 
 const required = <T extends HTMLElement>(id: string): T => {
@@ -83,6 +89,11 @@ export class GameUI {
   private readonly modelFile = required<HTMLInputElement>('model-file');
   private readonly muteButton = required<HTMLButtonElement>('mute-button');
   private readonly qualityButton = required<HTMLButtonElement>('quality-button');
+  private readonly effectsButton = required<HTMLButtonElement>('effects-button');
+  private readonly cameraButton = required<HTMLButtonElement>('camera-button');
+  private readonly hudView = required<HTMLElement>('hud-view');
+  private readonly cockpitFrame = required<HTMLElement>('cockpit-frame');
+  private readonly recordHint = required<HTMLElement>('record-hint');
   private readonly toast = required<HTMLElement>('toast');
   private toastTimer: number | undefined;
   private currentModels: ModelListItem[] = [];
@@ -109,6 +120,18 @@ export class GameUI {
     this.qualityButton.addEventListener('click', () => {
       const label = hooks.onQualityChange();
       this.qualityButton.textContent = `画质 · ${label}`;
+    });
+    this.effectsButton.addEventListener('click', () => {
+      const reduced = hooks.onVisualStimulationToggle();
+      this.setVisualStimulation(reduced);
+    });
+    this.cameraButton.addEventListener('click', () => {
+      const mode = hooks.onCameraToggle();
+      this.setCameraMode(mode);
+    });
+    required<HTMLButtonElement>('record-hint-close').addEventListener('click', () => {
+      hooks.onRecordingHintDismiss();
+      this.setRecordingHintVisible(false);
     });
     required<HTMLButtonElement>('reload-button').addEventListener('click', () => window.location.reload());
   }
@@ -162,24 +185,52 @@ export class GameUI {
 
   public updateSurface(snapshot: SurfaceHudSnapshot): void {
     const gracePercent = Math.max(0, Math.min(1, snapshot.grace / 5));
+    const app = document.getElementById('app');
     this.graceBar.style.transform = `scaleX(${gracePercent})`;
     this.graceValue.textContent = `${snapshot.grace.toFixed(2)}s`;
     this.graceMeter.setAttribute('aria-valuenow', snapshot.grace.toFixed(2));
     this.surfaceDistance.textContent = snapshot.distance === null ? '-- m' : `${snapshot.distance.toFixed(1)} m`;
+    app?.style.setProperty('--proximity-intensity', Math.max(0, Math.min(1, snapshot.proximity)).toFixed(4));
     this.surfaceStatus.classList.toggle('is-locked', snapshot.locked);
     this.surfaceStatus.classList.toggle('is-warning', !snapshot.locked && !snapshot.prototype);
-    document.getElementById('app')?.classList.toggle('is-danger', !snapshot.locked && !snapshot.prototype && snapshot.grace < 2.4);
-    this.surfaceState.textContent = snapshot.prototype
-      ? 'SURFACE MODEL PENDING'
-      : snapshot.locked
-        ? 'SURFACE LOCK'
-        : 'SURFACE LOST';
+    this.surfaceStatus.classList.toggle('is-strong', snapshot.zone === 'strong');
+    this.surfaceStatus.classList.toggle('is-extreme', snapshot.zone === 'extreme');
+    app?.classList.toggle('is-danger', !snapshot.locked && !snapshot.prototype && snapshot.grace < 2.4);
+    if (snapshot.prototype) {
+      this.surfaceState.textContent = 'SURFACE MODEL PENDING';
+      this.flightStatus.textContent = '原型飞行 · 近距规则将在下一阶段接入';
+    } else if (snapshot.zone === 'extreme') {
+      this.surfaceState.textContent = 'RAZOR LINE / 极近贴飞';
+      this.flightStatus.textContent = '极近贴飞 · 松开修正让机翼留在表面外';
+    } else if (snapshot.zone === 'strong') {
+      this.surfaceState.textContent = 'CLOSE VECTOR / 强化贴近';
+      this.flightStatus.textContent = '贴飞增强 · 风噪与尾迹正在加强';
+    } else if (snapshot.locked) {
+      this.surfaceState.textContent = 'SURFACE LOCK';
+      this.flightStatus.textContent = '近距稳定 · 保持这条线';
+    } else {
+      this.surfaceState.textContent = 'SURFACE LOST';
+      this.flightStatus.textContent = '远离所有表面 · 立即回贴';
+    }
     this.surfaceState.style.color = snapshot.locked ? 'var(--teal)' : 'var(--rose)';
-    this.flightStatus.textContent = snapshot.prototype
-      ? '原型飞行 · 近距规则将在下一阶段接入'
-      : snapshot.locked
-        ? '近距稳定 · 保持这条线'
-        : '远离所有表面 · 立即回贴';
+  }
+
+  public setCameraMode(mode: CameraMode): void {
+    const cockpit = mode === 'cockpit';
+    this.cameraButton.innerHTML = cockpit ? '视角 · 机头 <kbd>C</kbd>' : '视角 · 追尾 <kbd>C</kbd>';
+    this.hudView.textContent = cockpit ? 'NOSE / 机头' : 'CHASE / 追尾';
+    this.cockpitFrame.hidden = !cockpit;
+    document.getElementById('app')?.classList.toggle('is-cockpit', cockpit);
+  }
+
+  public setVisualStimulation(reduced: boolean): void {
+    this.effectsButton.textContent = reduced ? '视觉 · 柔和' : '视觉 · 标准';
+    this.effectsButton.setAttribute('aria-pressed', String(reduced));
+    document.getElementById('app')?.classList.toggle('low-stim', reduced);
+  }
+
+  public setRecordingHintVisible(visible: boolean): void {
+    this.recordHint.hidden = !visible;
   }
 
   public openLibrary(): void {
@@ -264,6 +315,3 @@ export class GameUI {
     this.webglError.hidden = false;
   }
 }
-
-
-

@@ -27,7 +27,7 @@ export class KeyboardInputSource implements InputSource {
   private readonly handledCodes = new Set([
     'KeyW', 'KeyA', 'KeyS', 'KeyD', 'KeyQ', 'KeyE',
     'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight',
-    'Space', 'ShiftLeft', 'ShiftRight', 'KeyR', 'KeyM', 'Escape', 'Enter',
+    'Space', 'ShiftLeft', 'ShiftRight', 'KeyC', 'KeyR', 'KeyM', 'Escape', 'Enter',
   ]);
 
   public constructor(target: Window = window) {
@@ -73,6 +73,7 @@ export class KeyboardInputSource implements InputSource {
     if (event.code === 'Enter') this.emit('start');
     if (event.code === 'KeyR') this.emit('retry');
     if (event.code === 'KeyM') this.emit('library');
+    if (event.code === 'KeyC') this.emit('camera');
     if (event.code === 'Escape') this.emit('close');
   };
 
