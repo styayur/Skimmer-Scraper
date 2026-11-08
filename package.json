@@ -1,0 +1,44 @@
+{
+  "name": "skimmer-scraper",
+  "version": "0.1.0",
+  "description": "A close-surface 3D flight challenge through a sakura-dusk megacity.",
+  "scripts": {
+    "test": "vitest run",
+    "dev": "vite --host 127.0.0.1",
+    "build": "tsc -p tsconfig.json --noEmit && vite build",
+    "preview": "vite preview --host 127.0.0.1",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test:watch": "vitest",
+    "test:e2e": "playwright test",
+    "test:all": "npm run typecheck && npm run test && npm run build && npm run test:e2e",
+    "deploy:cf": "npm run build && wrangler pages deploy dist --project-name skimmer-scraper"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/styayur/Skimmer-Scraper.git"
+  },
+  "keywords": [],
+  "author": "styayur",
+  "license": "MIT",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/styayur/Skimmer-Scraper/issues"
+  },
+  "homepage": "https://github.com/styayur/Skimmer-Scraper#readme",
+  "dependencies": {
+    "@fontsource-variable/ibm-plex-sans": "^5.3.0",
+    "@fontsource-variable/syne": "^5.3.0",
+    "three": "^0.187.0",
+    "three-mesh-bvh": "^0.9.18"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.65.0",
+    "@types/node": "^26.6.6",
+    "@types/three": "^0.187.0",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.6",
+    "vitest": "^5.1.0",
+    "wrangler": "^4.158.0"
+  },
+  "private": true
+}
