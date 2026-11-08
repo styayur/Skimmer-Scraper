@@ -312,7 +312,7 @@ kbd {
 .text-button:hover:not(:disabled) { color: var(--rose); }
 .text-button:disabled { cursor: not-allowed; opacity: 0.35; }
 
-.library-panel { position: fixed; z-index: 70; top: 0; right: 0; width: min(27rem, 100vw); height: 100%; padding: 2rem 1.75rem; display: flex; flex-direction: column; border-left: 1px solid var(--line-strong); background: linear-gradient(180deg, rgba(255, 93, 143, 0.06), transparent 26%), rgba(15, 9, 19, 0.96); box-shadow: -30px 0 80px rgba(0, 0, 0, 0.35); backdrop-filter: blur(18px); animation: panel-in 320ms cubic-bezier(0.22, 1, 0.36, 1) both; }
+.library-panel, .world-panel { position: fixed; z-index: 70; top: 0; right: 0; width: min(27rem, 100vw); height: 100%; padding: 2rem 1.75rem; display: flex; flex-direction: column; border-left: 1px solid var(--line-strong); background: linear-gradient(180deg, rgba(255, 93, 143, 0.06), transparent 26%), rgba(15, 9, 19, 0.96); box-shadow: -30px 0 80px rgba(0, 0, 0, 0.35); backdrop-filter: blur(18px); animation: panel-in 320ms cubic-bezier(0.22, 1, 0.36, 1) both; }
 .library-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; }
 .library-header h2 { margin: 0.3rem 0 0; font-family: var(--display); font-size: 2.5rem; letter-spacing: -0.05em; }
 .icon-button { padding: 0.55rem 0.7rem; font-size: 0.6rem; }
@@ -580,4 +580,89 @@ kbd {
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; }
+}
+
+.world-form {
+  display: grid;
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
+.world-field {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.world-field input,
+.world-field select {
+  width: 100%;
+  min-height: 2.8rem;
+  border: 1px solid var(--line-strong);
+  background: rgba(255, 255, 255, 0.035);
+  color: var(--paper);
+  padding: 0.65rem 0.75rem;
+  font-family: var(--display);
+  font-size: 0.78rem;
+  outline: none;
+}
+
+.world-field input:focus,
+.world-field select:focus {
+  border-color: var(--teal);
+}
+
+.world-field select option {
+  background: #1a111f;
+  color: var(--paper);
+}
+
+.world-description {
+  min-height: 2.2rem;
+  margin: -0.25rem 0 0;
+  color: var(--paper-muted);
+  font-size: 0.62rem;
+  line-height: 1.55;
+}
+
+.world-inline-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  padding: 0.8rem 0;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.world-stability {
+  padding: 0.8rem;
+  border-left: 2px solid var(--peach);
+  background: rgba(255, 181, 143, 0.055);
+}
+
+.world-stability p {
+  margin: 0.35rem 0 0;
+  color: var(--paper-muted);
+  font-size: 0.6rem;
+  line-height: 1.55;
+}
+
+.world-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  margin-top: 0.2rem;
+}
+
+.world-actions .primary-button {
+  width: 100%;
+}
+
+.world-actions .secondary-button {
+  width: 100%;
+}
+
+@media (max-width: 640px) {
+  .world-actions {
+    gap: 0.55rem;
+  }
 }

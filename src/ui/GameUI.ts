@@ -1,5 +1,7 @@
 import type { CameraMode } from '../config/experience';
 import { formatTime } from '../game/storage';
+import type { WorldPresetId, WorldSettings } from '../world/worldConfig';
+import { WORLD_PRESET_OPTIONS } from '../world/worldConfig';
 
 export interface FlightHudSnapshot {
   runTime: number;
@@ -48,6 +50,13 @@ export interface GameUIHooks {
   onCameraToggle(): CameraMode;
   onVisualStimulationToggle(): boolean;
   onRecordingHintDismiss(): void;
+  onWorldOpen(): void;
+  onWorldClose(): void;
+  onWorldApply(seed: string, preset: WorldPresetId): void;
+  onWorldRandom(): string;
+  onWorldCopySeed(seed: string): void;
+  onWorldCopyLink(seed: string, preset: WorldPresetId): void;
+  onWorldReset(): { seed: string; preset: WorldPresetId };
 }
 
 const required = <T extends HTMLElement>(id: string): T => {
@@ -94,6 +103,12 @@ export class GameUI {
   private readonly hudView = required<HTMLElement>('hud-view');
   private readonly cockpitFrame = required<HTMLElement>('cockpit-frame');
   private readonly recordHint = required<HTMLElement>('record-hint');
+  private readonly worldPanel = required<HTMLElement>('world-panel');
+  private readonly worldSeedInput = required<HTMLInputElement>('world-seed-input');
+  private readonly worldPresetSelect = required<HTMLSelectElement>('world-preset-select');
+  private readonly worldPresetDescription = required<HTMLElement>('world-preset-description');
+  private readonly titleWorldPreset = required<HTMLElement>('title-world-preset');
+  private readonly titleWorldMeta = required<HTMLElement>('title-world-meta');
   private readonly toast = required<HTMLElement>('toast');
   private toastTimer: number | undefined;
   private currentModels: ModelListItem[] = [];
@@ -132,6 +147,28 @@ export class GameUI {
     required<HTMLButtonElement>('record-hint-close').addEventListener('click', () => {
       hooks.onRecordingHintDismiss();
       this.setRecordingHintVisible(false);
+    });
+    required<HTMLButtonElement>('world-open').addEventListener('click', hooks.onWorldOpen);
+    required<HTMLButtonElement>('world-close').addEventListener('click', hooks.onWorldClose);
+    required<HTMLFormElement>('world-form').addEventListener('submit', (event) => {
+      event.preventDefault();
+      hooks.onWorldApply(this.worldSeedInput.value, this.worldPresetSelect.value as WorldPresetId);
+    });
+    this.worldPresetSelect.addEventListener('change', () => this.updateWorldPresetDescription());
+    required<HTMLButtonElement>('world-random').addEventListener('click', () => {
+      this.worldSeedInput.value = hooks.onWorldRandom();
+    });
+    required<HTMLButtonElement>('world-copy-seed').addEventListener('click', () => {
+      hooks.onWorldCopySeed(this.worldSeedInput.value);
+    });
+    required<HTMLButtonElement>('world-copy-link').addEventListener('click', () => {
+      hooks.onWorldCopyLink(this.worldSeedInput.value, this.worldPresetSelect.value as WorldPresetId);
+    });
+    required<HTMLButtonElement>('world-reset').addEventListener('click', () => {
+      const reset = hooks.onWorldReset();
+      this.worldSeedInput.value = reset.seed;
+      this.worldPresetSelect.value = reset.preset;
+      this.updateWorldPresetDescription();
     });
     required<HTMLButtonElement>('reload-button').addEventListener('click', () => window.location.reload());
   }
@@ -231,6 +268,46 @@ export class GameUI {
 
   public setRecordingHintVisible(visible: boolean): void {
     this.recordHint.hidden = !visible;
+  }
+
+  public setWorldSettings(settings: WorldSettings): void {
+    this.worldSeedInput.value = settings.seedText;
+    this.worldPresetSelect.value = settings.preset;
+    this.updateWorldPresetDescription();
+    const titleMap: Record<WorldPresetId, string> = {
+      sakura: 'SAKURA<br />DUSK<br />DISTRICT',
+      neon: 'NEON<br />MEGACITY<br />DISTRICT',
+      archipelago: 'FLOATING<br />ARCHIPELAGO',
+      randomized: 'RANDOMIZED<br />CITY',
+    };
+    this.titleWorldPreset.innerHTML = titleMap[settings.preset];
+    this.titleWorldMeta.textContent = `WEBGL2 · SEED ${settings.seedText} · ${settings.mode.toUpperCase()}`;
+  }
+
+  public setWorldSeedValue(seed: string): void {
+    this.worldSeedInput.value = seed;
+  }
+
+  public getWorldSeedValue(): string {
+    return this.worldSeedInput.value;
+  }
+
+  public openWorld(): void {
+    this.worldPanel.hidden = false;
+    this.worldSeedInput.focus({ preventScroll: true });
+  }
+
+  public closeWorld(): void {
+    this.worldPanel.hidden = true;
+  }
+
+  public isWorldOpen(): boolean {
+    return !this.worldPanel.hidden;
+  }
+
+  public updateWorldPresetDescription(): void {
+    const preset = WORLD_PRESET_OPTIONS.find((option) => option.id === this.worldPresetSelect.value);
+    this.worldPresetDescription.textContent = preset?.description ?? '';
   }
 
   public openLibrary(): void {

@@ -1,0 +1,127 @@
+{
+  "schemaVersion": 1,
+  "product": "Skimmer-Scraper",
+  "version": "0.2.0",
+  "phase": 2,
+  "stage": "Seeded Procedural City",
+  "generatedAt": "2026-11-08T16:41:28.179Z",
+  "sourceRevision": "f9ebfc1",
+  "worktreeDirty": true,
+  "status": "pass",
+  "commands": [
+    {
+      "label": "typecheck",
+      "command": "npm run typecheck",
+      "status": "pass",
+      "exitCode": 0,
+      "durationMs": 1308
+    },
+    {
+      "label": "unit-tests",
+      "command": "npx vitest run --reporter=json --outputFile E:\\GitHub\\Skimmer-Scraper\\acceptance\\v0.2\\.vitest-phase-2.json",
+      "status": "pass",
+      "exitCode": 0,
+      "durationMs": 4416
+    },
+    {
+      "label": "production-build",
+      "command": "npm run build",
+      "status": "pass",
+      "exitCode": 0,
+      "durationMs": 2384
+    },
+    {
+      "label": "browser-tests",
+      "command": "npx playwright test --reporter=json",
+      "status": "pass",
+      "exitCode": 0,
+      "durationMs": 249040
+    }
+  ],
+  "tests": {
+    "unit": {
+      "passed": 40,
+      "failed": 0,
+      "total": 40
+    },
+    "browser": {
+      "passed": 7,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 245490.28999999998
+    }
+  },
+  "deliverables": [
+    {
+      "path": "src/world/worldConfig.ts",
+      "exists": true
+    },
+    {
+      "path": "src/world/deterministic.ts",
+      "exists": true
+    },
+    {
+      "path": "src/world/terrain.ts",
+      "exists": true
+    },
+    {
+      "path": "src/world/chunkGenerator.ts",
+      "exists": true
+    },
+    {
+      "path": "src/world/seededWorld.ts",
+      "exists": true
+    },
+    {
+      "path": "tests/unit/worldConfig.test.ts",
+      "exists": true
+    },
+    {
+      "path": "tests/unit/terrain.test.ts",
+      "exists": true
+    },
+    {
+      "path": "tests/unit/chunkGenerator.test.ts",
+      "exists": true
+    },
+    {
+      "path": "tests/e2e/world-seed.spec.ts",
+      "exists": true
+    },
+    {
+      "path": "docs/WORLD.md",
+      "exists": true
+    }
+  ],
+  "evidence": [
+    {
+      "path": "evidence/v0.2/phase-2-runtime.json",
+      "bytes": 931,
+      "sha256": "2a50958f07f3b2bb5fcf474afa7984903ac3cce0ca91fb7be88901d39bf55d41"
+    },
+    {
+      "path": "evidence/v0.2/phase-2-seed-variation.png",
+      "bytes": 919253,
+      "sha256": "38473feb673fc7e87e393de161f5a4f9ae05d0192b21457d239a14dff26097e2"
+    },
+    {
+      "path": "evidence/v0.2/phase-2-shared-seed.png",
+      "bytes": 850740,
+      "sha256": "40f981a9bcc6077013515c0bd59d96e26d6d985870ad1c3d2ac5ff709766cae8"
+    },
+    {
+      "path": "evidence/v0.2/phase-2-world-panel.png",
+      "bytes": 807404,
+      "sha256": "0df092b5ed04e4f7ca46c0266204cae52f1d9a51ab69d0d42fcff757e5636670"
+    }
+  ],
+  "environment": {
+    "os": "win32 10.0.26300",
+    "node": "v26.7.0",
+    "browser": "Chromium headless / Playwright"
+  },
+  "caveats": [
+    "Browser integration may use SwiftShader and is not a real-GPU performance certification.",
+    "Stage acceptance is evidence for this phase only; final v0.2.0 release gates are recorded in acceptance/v0.2.0.json."
+  ]
+}

@@ -29,7 +29,9 @@ import { disposeObject3D } from './model/glb';
 import { GameRenderer, WebGL2UnavailableError, type RenderStats } from './render/GameRenderer';
 import { GameUI, type ModelListItem } from './ui/GameUI';
 import { ChunkedWorldAdapter, type WorldAdapterStats } from './world/chunkedWorldAdapter';
-import { generateSakuraMegacity } from './world/proceduralCity';
+import { generateSeededWorld } from './world/seededWorld';
+import type { WorldMode, WorldPresetId } from './world/worldConfig';
+import { buildWorldShareUrl, DEFAULT_WORLD_SEED, resolveWorldSettings, worldSettingsFromSearch } from './world/worldConfig';
 import type { SurfaceQuery, WorldStats } from './world/worldTypes';
 
 type GameMode = 'title' | 'running' | 'paused' | 'failed';
@@ -60,6 +62,10 @@ interface DebugSnapshot {
   proximityZone: string;
   visualStimulation: VisualStimulation;
   recordingHintVisible: boolean;
+  worldPreset: WorldPresetId;
+  worldMode: WorldMode;
+  generatorVersion: number;
+  worldFingerprint: number;
 }
 
 interface SkimmerDebugBridge {
@@ -83,8 +89,8 @@ declare global {
 const params = new URLSearchParams(window.location.search);
 const debugInputEnabled = params.has('debug');
 const autoStart = params.get('autostart') === '1';
-const requestedSeed = Number(params.get('seed'));
-const seed = Number.isFinite(requestedSeed) && requestedSeed !== 0 ? requestedSeed : 0x51a7a;
+const worldSettings = worldSettingsFromSearch(window.location.search);
+const seed = worldSettings.seed;
 const SURFACE_QUERY_RANGE = 90;
 const builtInModel: ModelListItem = {
   id: BUILT_IN_AIRCRAFT_ID,
@@ -95,6 +101,7 @@ const builtInModel: ModelListItem = {
 
 let mode: GameMode = 'title';
 let modeBeforeLibrary: GameMode = 'title';
+let modeBeforeWorld: GameMode = 'title';
 let flightState: FlightState | null = null;
 let runRules: RunRulesState = createRunRules();
 let lastSurfaceHit: SurfaceQuery | null = null;
@@ -151,6 +158,13 @@ const ui: GameUI = new GameUI({
   onCameraToggle: () => toggleCameraMode(),
   onVisualStimulationToggle: () => toggleVisualStimulation(),
   onRecordingHintDismiss: () => dismissRecordingHint(),
+  onWorldOpen: () => openWorldPanel(),
+  onWorldClose: () => closeWorldPanel(),
+  onWorldApply: (seedValue, preset) => applyWorldSettings(seedValue, preset),
+  onWorldRandom: () => createRandomSeed(),
+  onWorldCopySeed: (seedValue) => { void copyWorldText(seedValue.trim(), '种子已复制。'); },
+  onWorldCopyLink: (seedValue, preset) => { void copyWorldLink(seedValue, preset); },
+  onWorldReset: () => ({ seed: String(DEFAULT_WORLD_SEED), preset: 'sakura' }),
 });
 
 ui.setBest(best);
@@ -158,6 +172,7 @@ ui.setModels([builtInModel], builtInModel.id);
 ui.setCameraMode(preferences.cameraMode);
 ui.setVisualStimulation(preferences.visualStimulation === 'reduced');
 ui.setRecordingHintVisible(!preferences.recordingHintDismissed);
+ui.setWorldSettings(worldSettings);
 
 const persistPreferences = (next: Partial<GamePreferences>): void => {
   preferences = { ...preferences, ...next };
@@ -186,6 +201,39 @@ const toggleVisualStimulation = (): boolean => {
 
 const dismissRecordingHint = (): void => {
   persistPreferences({ recordingHintDismissed: true });
+};
+
+const createRandomSeed = (): string => {
+  const values = new Uint32Array(1);
+  crypto.getRandomValues(values);
+  return String(values[0] || 1);
+};
+
+const copyWorldText = async (text: string, successMessage: string): Promise<void> => {
+  try {
+    await navigator.clipboard.writeText(text);
+    ui.showToast(successMessage);
+  } catch {
+    const textarea = document.createElement('textarea');
+    textarea.value = text;
+    textarea.style.position = 'fixed';
+    textarea.style.opacity = '0';
+    document.body.append(textarea);
+    textarea.select();
+    const copied = document.execCommand('copy');
+    textarea.remove();
+    ui.showToast(copied ? successMessage : '复制失败，请手动选择种子文本。', !copied);
+  }
+};
+
+const applyWorldSettings = (seedValue: string, preset: WorldPresetId): void => {
+  const next = resolveWorldSettings({ seed: seedValue, preset, mode: 'stable' });
+  window.location.assign(buildWorldShareUrl(window.location.href, next));
+};
+
+const copyWorldLink = async (seedValue: string, preset: WorldPresetId): Promise<void> => {
+  const next = resolveWorldSettings({ seed: seedValue, preset, mode: 'stable' });
+  await copyWorldText(buildWorldShareUrl(window.location.href, next), '分享链接已复制。');
 };
 
 const refreshModelOptions = (): void => {
@@ -339,6 +387,7 @@ const resetFlightState = (): void => {
 const startRun = (): void => {
   if (!renderer) return;
   closeLibrary(false);
+  closeWorldPanel(false);
   resetFlightState();
   lastFrameTime = performance.now();
   mode = 'running';
@@ -352,6 +401,7 @@ const startRun = (): void => {
 
 const returnToTitle = (): void => {
   closeLibrary(false);
+  closeWorldPanel(false);
   mode = 'title';
   keyboard.setEnabled(false);
   audio.stop();
@@ -362,6 +412,7 @@ const returnToTitle = (): void => {
 
 const openLibrary = (): void => {
   if (ui.isLibraryOpen()) return;
+  if (ui.isWorldOpen()) closeWorldPanel();
   modeBeforeLibrary = mode;
   if (mode === 'running') {
     mode = 'paused';
@@ -385,6 +436,31 @@ const closeLibrary = (resume = true): void => {
   }
 };
 
+
+const openWorldPanel = (): void => {
+  if (ui.isWorldOpen()) return;
+  if (ui.isLibraryOpen()) closeLibrary();
+  modeBeforeWorld = mode;
+  if (mode === 'running') {
+    mode = 'paused';
+    keyboard.setEnabled(false);
+    stepRunner.reset();
+    audio.pause();
+  }
+  ui.openWorld();
+};
+
+const closeWorldPanel = (resume = true): void => {
+  if (!ui.isWorldOpen()) return;
+  ui.closeWorld();
+  if (resume && mode === 'paused' && modeBeforeWorld === 'running') {
+    mode = 'running';
+    stepRunner.reset();
+    lastFrameTime = performance.now();
+    keyboard.setEnabled(!debugInputEnabled);
+    audio.resume();
+  }
+};
 const debugSnapshot = (): DebugSnapshot => {
   if (!renderer || !flightState) {
     throw new Error('Game is not ready.');
@@ -415,6 +491,10 @@ const debugSnapshot = (): DebugSnapshot => {
     proximityZone: proximityFeedback.zone,
     visualStimulation: preferences.visualStimulation,
     recordingHintVisible: !preferences.recordingHintDismissed,
+    worldPreset: worldSettings.preset,
+    worldMode: worldSettings.mode,
+    generatorVersion: worldSettings.generatorVersion,
+    worldFingerprint: renderer.getWorldFingerprint(),
   };
 };
 
@@ -484,7 +564,7 @@ const boot = async (): Promise<void> => {
   const canvas = document.getElementById('game-canvas');
   if (!(canvas instanceof HTMLCanvasElement)) throw new Error('Missing game canvas.');
 
-  const world = generateSakuraMegacity(seed);
+  const world = generateSeededWorld(worldSettings, { chunkRadius: 2 });
   ui.setLoadingCopy('正在建立表面空间索引');
   await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
   worldAdapter = new ChunkedWorldAdapter(world.chunks);

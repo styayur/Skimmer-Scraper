@@ -1,0 +1,39 @@
+{
+  "generatedAt": "2026-11-08T16:41:23.146Z",
+  "generatorVersion": 2,
+  "sharedStableSeed": {
+    "seed": "seed-alpha",
+    "preset": "neon",
+    "firstFingerprint": 3537457058,
+    "repeatFingerprint": 3537457058,
+    "reproduced": true
+  },
+  "variedSeed": {
+    "seed": "seed-beta",
+    "preset": "archipelago",
+    "fingerprint": 579856572,
+    "changed": true
+  },
+  "worldStats": {
+    "alpha": {
+      "chunks": 25,
+      "buildings": 329,
+      "bridges": 65,
+      "islands": 2,
+      "collisionTriangles": 361756,
+      "renderTriangles": 658742
+    },
+    "beta": {
+      "chunks": 25,
+      "buildings": 94,
+      "bridges": 30,
+      "islands": 15,
+      "collisionTriangles": 73148,
+      "renderTriangles": 147956
+    }
+  },
+  "shareLinkVerified": true,
+  "defaultResetVerified": true,
+  "consoleErrors": [],
+  "caveat": "Chromium headless integration evidence. Boundary/order determinism is covered by Vitest."
+}

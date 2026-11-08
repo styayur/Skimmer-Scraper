@@ -1,15 +1,42 @@
 import type { Box3, BufferGeometry, Group } from 'three';
 import type { Vec3 } from '../core/math';
+import type { WorldSettings } from './worldConfig';
 
 export interface CollisionChunk {
   id: string;
+  chunkX: number;
+  chunkZ: number;
+  origin: Vec3;
   bounds: Box3;
   geometry: BufferGeometry;
+}
+
+export interface ChunkGenerationStats {
+  buildings: number;
+  bridges: number;
+  islands: number;
+  collisionTriangles: number;
+  renderTriangles: number;
+}
+
+export interface GeneratedChunk {
+  key: string;
+  chunkX: number;
+  chunkZ: number;
+  revision: number;
+  origin: Vec3;
+  group: Group;
+  bounds: Box3;
+  collisionGeometry: BufferGeometry;
+  fingerprint: number;
+  stats: ChunkGenerationStats;
 }
 
 export interface WorldStats {
   chunks: number;
   buildings: number;
+  bridges: number;
+  islands: number;
   collisionTriangles: number;
   renderTriangles: number;
 }
@@ -27,6 +54,7 @@ export interface SurfaceProvider {
 
 export interface WorldData {
   seed: number;
+  settings: WorldSettings;
   root: Group;
   chunks: CollisionChunk[];
   spawn: {
@@ -36,4 +64,6 @@ export interface WorldData {
     speed: number;
   };
   stats: WorldStats;
+  fingerprint: number;
+  dispose(): void;
 }
