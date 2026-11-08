@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#160f1d" />
+    <meta
+      name="description"
+      content="Skimmer-Scraper — a close-surface 3D flight challenge through a sakura-dusk megacity."
+    />
+    <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+    <title>Skimmer-Scraper — Close-Surface Flight</title>
+  </head>
+  <body>
+    <div id="app">
+      <canvas id="game-canvas" aria-label="Skimmer-Scraper 3D flight view"></canvas>
+      <div class="scene-treatment" aria-hidden="true"></div>
+
+      <div id="loading-screen" class="loading-screen" role="status" aria-live="polite">
+        <div class="loading-mark" aria-hidden="true">
+          <span></span><span></span><span></span>
+        </div>
+        <p class="kicker">SKIMMER / SCRAPER</p>
+        <p id="loading-copy" class="loading-copy">正在构筑空中城区</p>
+        <div class="loading-line"><i></i></div>
+      </div>
+
+      <header class="top-rail" aria-label="游戏工具">
+        <div class="micro-brand">
+          <span class="micro-brand__mark" aria-hidden="true"></span>
+          <span>SS<span class="micro-brand__slash">/</span>01</span>
+        </div>
+        <div class="top-rail__tools">
+          <button id="mute-button" class="utility-button" type="button" aria-pressed="false">声音 · 开</button>
+          <button id="quality-button" class="utility-button" type="button">画质 · 平衡</button>
+          <button id="library-open" class="utility-button" type="button">机库 <kbd>M</kbd></button>
+        </div>
+      </header>
+
+      <section id="title-screen" class="title-screen" aria-labelledby="game-title">
+        <div class="title-panel">
+          <p class="kicker title-kicker">CLOSE-SURFACE FLIGHT / 近距飞行挑战</p>
+          <h1 id="game-title" class="game-title">
+            <span>SKIMMER</span>
+            <span class="game-title__second">SCRAPER</span>
+          </h1>
+          <p class="title-deck">
+            贴着城市飞。<span>别让天际线甩掉你。</span>
+          </p>
+          <p class="title-copy">
+            建筑、屋脊、桥面、地面与悬浮岛都是有效表面。保持近距，连续生存五秒仅是你的最后缓冲。
+          </p>
+
+          <div class="title-actions">
+            <button id="start-button" class="primary-button" type="button">
+              <span>开始挑战</span>
+              <span class="button-meta">ENTER</span>
+            </button>
+            <div class="best-readout">
+              <span class="data-label">PERSONAL BEST</span>
+              <strong id="title-best">00:00.00</strong>
+            </div>
+          </div>
+
+          <div class="control-deck" aria-label="操作提示">
+            <div class="control-group">
+              <span class="data-label">FLIGHT</span>
+              <p><kbd>W</kbd><kbd>S</kbd> 俯仰 <i></i> <kbd>A</kbd><kbd>D</kbd> 滚转 <i></i> <kbd>Q</kbd><kbd>E</kbd> 偏航</p>
+            </div>
+            <div class="control-group">
+              <span class="data-label">SYSTEM</span>
+              <p><kbd>SHIFT</kbd> 加速 <i></i> <kbd>R</kbd> 立即重试 <i></i> <kbd>M</kbd> 机库</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="title-aside" aria-hidden="true">
+          <span class="title-aside__index">01</span>
+          <p>SAKURA<br />DUSK<br />DISTRICT</p>
+          <span class="title-aside__rule"></span>
+          <small>WEBGL2 · SEED 0x51A7A</small>
+        </div>
+
+        <div class="title-footer">
+          <span>NO ACCOUNT</span>
+          <span>LOCAL BEST ONLY</span>
+          <span>GLB STAYS ON DEVICE</span>
+          <span class="title-footer__version">v0.1.0 / ALPHA</span>
+        </div>
+      </section>
+
+      <section id="hud" class="hud" aria-label="飞行状态" hidden>
+        <div class="hud-top">
+          <div class="hud-block hud-block--time">
+            <span class="data-label">SURVIVAL</span>
+            <strong id="hud-timer">00:00.00</strong>
+          </div>
+          <div class="hud-block hud-block--best">
+            <span class="data-label">BEST</span>
+            <strong id="hud-best">00:00.00</strong>
+          </div>
+          <div class="hud-block hud-block--flight">
+            <span class="data-label">VELOCITY</span>
+            <strong><span id="hud-speed">066</span><small> m/s</small></strong>
+          </div>
+          <div class="hud-block hud-block--altitude">
+            <span class="data-label">ALTITUDE</span>
+            <strong><span id="hud-altitude">024</span><small> m</small></strong>
+          </div>
+        </div>
+
+        <div id="surface-status" class="surface-status" aria-live="polite">
+          <div class="surface-status__row">
+            <span id="surface-state" class="surface-state">SURFACE MODEL PENDING</span>
+            <span id="surface-distance" class="surface-distance">-- m</span>
+          </div>
+          <div class="grace-meter" role="meter" aria-label="近距宽限倒计时" aria-valuemin="0" aria-valuemax="5" aria-valuenow="5">
+            <i id="grace-bar"></i>
+          </div>
+          <div class="surface-status__row surface-status__row--muted">
+            <span>PROXIMITY GRACE</span>
+            <span id="grace-value">5.00s</span>
+          </div>
+        </div>
+
+        <div class="hud-bottom">
+          <p id="flight-status" class="flight-status">原型飞行 · 近距规则将在下一阶段接入</p>
+          <p class="hud-hint"><kbd>R</kbd> 重试 <i></i> <kbd>M</kbd> 机库</p>
+        </div>
+      </section>
+
+      <section id="fail-screen" class="fail-screen" aria-labelledby="fail-title" hidden>
+        <div class="fail-panel">
+          <p id="fail-eyebrow" class="kicker">RUN ENDED / 挑战结束</p>
+          <h2 id="fail-title">撞上天际线</h2>
+          <p id="fail-reason" class="fail-reason">你与障碍物发生了碰撞。</p>
+          <div class="result-grid">
+            <div>
+              <span class="data-label">SURVIVED</span>
+              <strong id="fail-time">00:00.00</strong>
+            </div>
+            <div>
+              <span class="data-label">BEST</span>
+              <strong id="fail-best">00:00.00</strong>
+            </div>
+          </div>
+          <p id="new-best-badge" class="new-best" hidden>NEW PERSONAL BEST / 新纪录</p>
+          <div class="fail-actions">
+            <button id="retry-button" class="primary-button" type="button">
+              <span>再飞一次</span>
+              <span class="button-meta">R</span>
+            </button>
+            <button id="menu-button" class="secondary-button" type="button">返回标题</button>
+          </div>
+        </div>
+      </section>
+
+      <aside id="library-panel" class="library-panel" aria-labelledby="library-title" hidden>
+        <div class="library-header">
+          <div>
+            <p class="kicker">LOCAL AIRCRAFT</p>
+            <h2 id="library-title">机库</h2>
+          </div>
+          <button id="library-close" class="icon-button" type="button" aria-label="关闭机库">关闭</button>
+        </div>
+        <p class="library-copy">
+          导入本机 <code>.glb</code> 模型。文件只保存在此浏览器，不会上传，也不需要账号。
+        </p>
+        <div id="model-list" class="model-list" role="listbox" aria-label="可选机型"></div>
+        <div class="library-actions">
+          <input id="model-file" type="file" accept=".glb,model/gltf-binary" hidden />
+          <button id="import-model-button" class="secondary-button" type="button">导入本机 GLB</button>
+          <button id="remove-model-button" class="text-button" type="button" disabled>移除当前导入</button>
+        </div>
+        <p id="model-note" class="model-note">当前为内置程序化机型 KITE-07。</p>
+      </aside>
+
+      <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+
+      <section id="webgl-error" class="fatal-screen" role="alert" hidden>
+        <div>
+          <p class="kicker">RENDERER OFFLINE</p>
+          <h2>无法启动 WebGL2</h2>
+          <p id="error-message">请开启硬件加速，或使用最新版桌面 Chrome、Edge、Firefox 或 Safari。</p>
+          <button id="reload-button" class="secondary-button" type="button">重新载入</button>
+        </div>
+      </section>
+
+      <noscript>
+        <div class="fatal-screen">
+          <div>
+            <p class="kicker">JAVASCRIPT REQUIRED</p>
+            <h2>需要启用 JavaScript</h2>
+            <p>Skimmer-Scraper 是实时三维网页游戏。</p>
+          </div>
+        </div>
+      </noscript>
+    </div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

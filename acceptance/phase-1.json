@@ -1,0 +1,112 @@
+{
+  "schemaVersion": 1,
+  "product": "Skimmer-Scraper",
+  "version": "0.1.0",
+  "phase": 1,
+  "generatedAt": "2026-11-08T08:49:53.210Z",
+  "sourceRevision": "633eda5",
+  "worktreeDirty": true,
+  "status": "pass",
+  "commands": [
+    {
+      "label": "typecheck",
+      "command": "npm run typecheck",
+      "status": "pass",
+      "exitCode": 0,
+      "durationMs": 681
+    },
+    {
+      "label": "unit-tests",
+      "command": "npx vitest run --reporter=json --outputFile E:\\GitHub\\Skimmer-Scraper\\acceptance\\vitest-phase-1.json",
+      "status": "pass",
+      "exitCode": 0,
+      "durationMs": 1675
+    },
+    {
+      "label": "production-build",
+      "command": "npm run build",
+      "status": "pass",
+      "exitCode": 0,
+      "durationMs": 1293
+    },
+    {
+      "label": "browser-tests",
+      "command": "npx playwright test --reporter=json",
+      "status": "pass",
+      "exitCode": 0,
+      "durationMs": 23719
+    }
+  ],
+  "unitTests": {
+    "passed": 7,
+    "failed": 0,
+    "total": 7
+  },
+  "browserTests": {
+    "passed": 1,
+    "failed": 0,
+    "skipped": 0,
+    "durationMs": 22178.646
+  },
+  "deliverables": [
+    {
+      "path": "AGENTS.md",
+      "exists": true
+    },
+    {
+      "path": ".github/workflows/ci.yml",
+      "exists": true
+    },
+    {
+      "path": ".github/workflows/deploy-cloudflare-pages.yml",
+      "exists": true
+    },
+    {
+      "path": "wrangler.toml",
+      "exists": true
+    },
+    {
+      "path": "src/flight/flightModel.ts",
+      "exists": true
+    },
+    {
+      "path": "src/world/proceduralCity.ts",
+      "exists": true
+    },
+    {
+      "path": "src/render/GameRenderer.ts",
+      "exists": true
+    },
+    {
+      "path": "tests/unit/flightModel.test.ts",
+      "exists": true
+    },
+    {
+      "path": "tests/e2e/flight.spec.ts",
+      "exists": true
+    }
+  ],
+  "evidence": [
+    {
+      "path": "evidence/phase-1-flight.png",
+      "bytes": 728075,
+      "sha256": "cc77854f1a2f28301ba40de7b8d1bbfc666450d069433e8bf490b88cf557cb08"
+    },
+    {
+      "path": "evidence/phase-1-title.png",
+      "bytes": 924127,
+      "sha256": "6eac5a04cca82a69234f33c6eb6ae6346a3b23272e4d4d06069ba521354a04ce"
+    }
+  ],
+  "environment": {
+    "os": "win32 10.0.26300",
+    "node": "v26.7.0",
+    "playwright": "Version 1.65.0",
+    "browser": "Chromium headless"
+  },
+  "caveats": [
+    "Browser tests use headless Chromium and may run on SwiftShader/software rendering.",
+    "This report is correctness and browser-integration evidence, not a real-GPU performance certification.",
+    "Cloudflare Pages publication is not claimed unless a separate live deployment URL is recorded."
+  ]
+}
