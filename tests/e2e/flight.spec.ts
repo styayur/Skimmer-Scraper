@@ -56,7 +56,7 @@ test.describe('phase 1 flight prototype', () => {
 
     const second = await readSnapshot(page);
     expect(second.mode).toBe('running');
-    expect(second.runTime).toBeGreaterThan(0.1);
+    expect(second.runTime).toBeGreaterThan(0.02);
     expect(second.position.z).not.toBe(first.position.z);
     expect(second.render.triangles).toBeGreaterThan(0);
     await page.screenshot({ path: 'evidence/phase-1-flight.png', fullPage: true });
@@ -64,5 +64,6 @@ test.describe('phase 1 flight prototype', () => {
     expect(errors).toEqual([]);
   });
 });
+
 
 

@@ -58,6 +58,24 @@ button:focus-visible, input:focus-visible { outline: 2px solid var(--teal); outl
     linear-gradient(90deg, rgba(15, 8, 20, 0.9) 0%, rgba(15, 8, 20, 0.48) 38%, transparent 67%);
 }
 
+.scene-treatment::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  box-shadow: inset 0 0 120px 24px rgba(255, 93, 143, 0.34);
+  transition: opacity 180ms ease;
+}
+
+#app.is-danger .scene-treatment::before {
+  opacity: 1;
+  animation: danger-breathe 900ms ease-in-out infinite alternate;
+}
+
+#app.is-danger .surface-status {
+  animation: danger-meter 900ms ease-in-out infinite alternate;
+}
+
 .scene-treatment::after {
   content: "";
   position: absolute;
@@ -328,6 +346,8 @@ kbd {
 @keyframes hud-in { from { opacity: 0; } to { opacity: 1; } }
 @keyframes fail-in { from { opacity: 0; transform: scale(0.985); } to { opacity: 1; transform: scale(1); } }
 @keyframes panel-in { from { opacity: 0; transform: translateX(24px); } to { opacity: 1; transform: translateX(0); } }
+@keyframes danger-breathe { from { opacity: 0.45; } to { opacity: 1; } }
+@keyframes danger-meter { from { box-shadow: 0 0 22px rgba(255, 93, 143, 0.08); } to { box-shadow: 0 0 45px rgba(255, 93, 143, 0.24); } }
 
 @media (max-width: 900px) {
   .title-screen { grid-template-columns: minmax(0, 1fr); align-items: end; padding-bottom: 7rem; }
@@ -364,3 +384,4 @@ kbd {
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; }
 }
+

@@ -1,0 +1,105 @@
+{
+  "schemaVersion": 1,
+  "product": "Skimmer-Scraper",
+  "version": "0.1.0",
+  "phase": 2,
+  "generatedAt": "2026-11-08T08:58:09.354Z",
+  "sourceRevision": "8eac247",
+  "worktreeDirty": true,
+  "status": "pass",
+  "commands": [
+    {
+      "label": "typecheck",
+      "command": "npm run typecheck",
+      "status": "pass",
+      "exitCode": 0,
+      "durationMs": 639
+    },
+    {
+      "label": "unit-tests",
+      "command": "npx vitest run --reporter=json --outputFile E:\\GitHub\\Skimmer-Scraper\\acceptance\\vitest-phase-2.json",
+      "status": "pass",
+      "exitCode": 0,
+      "durationMs": 1607
+    },
+    {
+      "label": "production-build",
+      "command": "npm run build",
+      "status": "pass",
+      "exitCode": 0,
+      "durationMs": 1404
+    },
+    {
+      "label": "browser-tests",
+      "command": "npx playwright test --reporter=json",
+      "status": "pass",
+      "exitCode": 0,
+      "durationMs": 51648
+    }
+  ],
+  "unitTests": {
+    "passed": 18,
+    "failed": 0,
+    "total": 18
+  },
+  "browserTests": {
+    "passed": 2,
+    "failed": 0,
+    "skipped": 0,
+    "durationMs": 49998.525
+  },
+  "deliverables": [
+    {
+      "path": "src/world/chunkedWorldAdapter.ts",
+      "exists": true
+    },
+    {
+      "path": "src/game/runRules.ts",
+      "exists": true
+    },
+    {
+      "path": "src/core/fixedStep.ts",
+      "exists": true
+    },
+    {
+      "path": "tests/unit/chunkedWorldAdapter.test.ts",
+      "exists": true
+    },
+    {
+      "path": "tests/unit/runRules.test.ts",
+      "exists": true
+    },
+    {
+      "path": "tests/e2e/proximity.spec.ts",
+      "exists": true
+    }
+  ],
+  "evidence": [
+    {
+      "path": "evidence/phase-2-flight.png",
+      "bytes": 744787,
+      "sha256": "c6ce938022978d6b03a22f7b033de0e1b1a0e882d2745462120419c52ec17b35"
+    },
+    {
+      "path": "evidence/phase-2-grace-failure.png",
+      "bytes": 262570,
+      "sha256": "6c73be98e2b7c916d57712ab795c932c9ff6626d144223b120848ffd04028a32"
+    },
+    {
+      "path": "evidence/phase-2-impact-failure.png",
+      "bytes": 300713,
+      "sha256": "f53756a85c81302092c37daf5c4271b28212085d9e8a55075287ccdb2248d151"
+    }
+  ],
+  "environment": {
+    "os": "win32 10.0.26300",
+    "node": "v26.7.0",
+    "playwright": "Version 1.65.0",
+    "browser": "Chromium headless"
+  },
+  "caveats": [
+    "Browser tests use headless Chromium and may run on SwiftShader/software rendering.",
+    "This report is correctness and browser-integration evidence, not a real-GPU performance certification.",
+    "Cloudflare Pages publication is not claimed unless a separate live deployment URL is recorded."
+  ]
+}
