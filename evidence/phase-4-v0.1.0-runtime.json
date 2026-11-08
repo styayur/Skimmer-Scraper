@@ -1,0 +1,61 @@
+{
+  "generatedAt": "2026-11-08T09:35:29.872Z",
+  "url": "http://127.0.0.1:4173/?seed=334458",
+  "title": "Skimmer-Scraper — Close-Surface Flight",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/158.0.8127.18 Safari/537.36",
+  "webgl": {
+    "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+    "vendor": "Google Inc. (Google)",
+    "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+    "hardwareConcurrency": 16,
+    "devicePixelRatio": 1
+  },
+  "checks": {
+    "desktopTitle": true,
+    "desktopFlight": true,
+    "mobileLayout": true,
+    "noHorizontalOverflow": true,
+    "webgl2": true,
+    "surfaceLockAttained": true
+  },
+  "snapshot": {
+    "ready": true,
+    "mode": "running",
+    "runTime": 0.9166666666666659,
+    "best": 0,
+    "speed": 66.07240620917237,
+    "altitude": 23.091931602584232,
+    "position": {
+      "x": 0,
+      "y": 23.091931602584232,
+      "z": 225.4666472490416
+    },
+    "surfaceDistance": 23.091931602584282,
+    "surfaceLocked": true,
+    "grace": 5,
+    "failureReason": null,
+    "world": {
+      "chunks": 40,
+      "buildings": 127,
+      "collisionTriangles": 101906,
+      "renderTriangles": 237678
+    },
+    "adapter": {
+      "chunks": 40,
+      "lastBroadPhaseCandidates": 2,
+      "lastQueries": 2
+    },
+    "render": {
+      "calls": 621,
+      "triangles": 447982,
+      "points": 560,
+      "lines": 0,
+      "fps": 21.22573402425253
+    },
+    "seed": 334458,
+    "debugInput": false,
+    "selectedAircraft": "procedural",
+    "localModelCount": 0
+  },
+  "caveat": "Headless Chromium rendering evidence only; this is not a real-GPU performance certification."
+}

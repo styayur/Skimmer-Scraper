@@ -17,7 +17,7 @@ import { createSpeedRibbons, type SpeedRibbons } from './speedRibbons';
 
 export class WebGL2UnavailableError extends Error {
   public constructor() {
-    super('This game needs WebGL2, but the browser could not create a WebGL2 context.');
+    super('此游戏需要 WebGL2，但当前浏览器无法创建 WebGL2 上下文。请开启硬件加速或换用最新版桌面浏览器。');
     this.name = 'WebGL2UnavailableError';
   }
 }
@@ -298,7 +298,3 @@ export class GameRenderer {
 }
 
 export type { FlightState };
-
-
-
-

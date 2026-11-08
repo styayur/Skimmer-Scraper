@@ -53,10 +53,11 @@ const deliverablesByPhase = {
   ],
   '4': [
     'README.md',
+    'CHANGELOG.md',
     'docs/ACCEPTANCE.md',
     'docs/DEPLOYMENT.md',
-    'acceptance/v0.1.0.json',
     'tests/e2e/release.spec.ts',
+    '.github/workflows/deploy-github-pages.yml',
   ],
 };
 
@@ -116,7 +117,7 @@ const deliverables = (deliverablesByPhase[phase] ?? []).map((path) => ({
 }));
 
 const evidence = readdirSync(join(root, 'evidence'))
-  .filter((file) => file.startsWith(`phase-${phase}-`) && file.endsWith('.png'))
+  .filter((file) => file.startsWith(`phase-${phase}-`) && /\.(png|json)$/.test(file))
   .sort()
   .map((file) => {
     const bytes = readFileSync(join(root, 'evidence', file));
@@ -169,8 +170,3 @@ for (const file of [vitestJson, playwrightJson]) {
 
 console.log(`\nAcceptance phase ${phase}: ${report.status}`);
 process.exit(report.status === 'pass' ? 0 : 1);
-
-
-
-
-

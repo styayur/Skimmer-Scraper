@@ -363,7 +363,7 @@ kbd {
   .utility-button:not(:last-child) { display: none; }
   .title-screen { padding: 5rem 1.2rem 6rem; }
   .title-panel { width: 100%; }
-  .game-title { font-size: clamp(3.6rem, 17vw, 5.8rem); }
+  .game-title { font-size: clamp(3rem, 13.2vw, 4.8rem); line-height: 0.8; }
   .title-copy { max-width: 25rem; }
   .title-actions { align-items: flex-start; flex-direction: column; gap: 1rem; }
   .primary-button { width: 100%; }
@@ -384,5 +384,3 @@ kbd {
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; }
 }
-
-

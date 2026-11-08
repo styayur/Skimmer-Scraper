@@ -1,0 +1,48 @@
+# v0.1.0 acceptance
+
+Status: **release candidate accepted for source/GitHub Pages preview** on 2026-11-08. Cloudflare Pages
+production publication remains blocked on account credentials and is not claimed as complete.
+
+## Requirement matrix
+
+| Requirement | Implementation | Evidence | State |
+| --- | --- | --- | --- |
+| Original 3D close-surface flight game | Fixed-step arcade flight, chase camera, procedural city | `tests/unit/flightModel.test.ts`, `tests/e2e/flight.spec.ts` | PASS |
+| Buildings, roofs, ground, islands, bridges are surfaces | Merged world collision geometry + per-chunk BVH | `src/world/proceduralCity.ts`, `tests/unit/chunkedWorldAdapter.test.ts` | PASS |
+| 5 second grace, proximity reset, collision failure | Pure run-rule state machine | `tests/unit/runRules.test.ts`, `tests/e2e/proximity.spec.ts` | PASS |
+| Survival time and local best only | localStorage + failure settlement | `tests/unit/storage.test.ts`, `tests/e2e/proximity.spec.ts` | PASS |
+| Instant retry | R key and failure button | `tests/e2e/proximity.spec.ts` | PASS |
+| Local GLB import, no account/upload | GLB validator + IndexedDB + browser request audit | `tests/e2e/model-import.spec.ts`, `docs/MODELS.md` | PASS |
+| TypeScript/Three/Vite/BVH/Vitest/Playwright | Declared stack and automated suites | `package.json`, `package-lock.json` | PASS |
+| WebGL2 default rendering | Explicit WebGL2 context creation | `tests/e2e/release.spec.ts` | PASS |
+| Fixed timestep and repeatable debug input | FixedStepRunner, ScriptedInputSource, debug advance | `tests/unit/fixedStep.test.ts`, debug bridge | PASS |
+| Separate flight, collision, world adapter, render modules | Module boundaries under `src/` | `docs/ARCHITECTURE.md`, source review | PASS |
+| Static site + Cloudflare Pages configuration | Vite `dist/`, Wrangler Pages config, deploy workflow | `.github/workflows/deploy-cloudflare-pages.yml`, `wrangler.toml` | CONFIGURED / BLOCKED ON AUTH |
+| Public HTTPS build | GitHub Pages preview workflow | `.github/workflows/deploy-github-pages.yml` | DEPLOYED/PENDING VERIFICATION at merge time |
+| Real-GPU performance acceptance | Not performed | Headless report identifies SwiftShader | NOT CLAIMED |
+
+## Browser evidence
+
+- `evidence/phase-4-v0.1.0-title.png` — desktop title.
+- `evidence/phase-4-v0.1.0-flight.png` — active WebGL2 flight and HUD.
+- `evidence/phase-4-v0.1.0-mobile.png` — 390 px responsive title.
+- `evidence/phase-4-v0.1.0-webgl2-error.png` — explicit unsupported-renderer state.
+- `evidence/phase-4-v0.1.0-runtime.json` — WebGL vendor/version, renderer statistics and snapshot.
+- `acceptance/phase-4.json` — command results, test counts, deliverables and evidence hashes.
+- `acceptance/v0.1.0.json` — final release summary with deployment status.
+
+## Runtime snapshot
+
+The release test records the environment instead of asserting a GPU target. On the CI/headless path,
+WebGL2 may use SwiftShader. Browser tests prove page integration, rule behavior and visual output; they
+do not prove real-hardware frame rate, thermal behavior or mobile GPU performance.
+
+## Manual/blocked gates
+
+1. **Cloudflare Pages production:** requires valid `CLOUDFLARE_API_TOKEN`,
+   `CLOUDFLARE_ACCOUNT_ID`, repository secret setup, and one-time project authorization. Wrangler OAuth
+   was expired and non-interactive refresh failed.
+2. **Real-GPU benchmark:** must run on named hardware/browser with frame-time capture and quality
+   settings recorded. This release deliberately does not substitute software rendering for that gate.
+3. **Subjective visual QA on target hardware:** desktop screenshots were inspected in Chromium; a final
+   human pass on representative displays remains advisable.

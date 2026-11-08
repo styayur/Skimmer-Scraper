@@ -1,0 +1,115 @@
+{
+  "schemaVersion": 1,
+  "product": "Skimmer-Scraper",
+  "version": "0.1.0",
+  "phase": 4,
+  "generatedAt": "2026-11-08T09:35:39.248Z",
+  "sourceRevision": "33f3217",
+  "worktreeDirty": true,
+  "status": "pass",
+  "commands": [
+    {
+      "label": "typecheck",
+      "command": "npm run typecheck",
+      "status": "pass",
+      "exitCode": 0,
+      "durationMs": 695
+    },
+    {
+      "label": "unit-tests",
+      "command": "npx vitest run --reporter=json --outputFile E:\\GitHub\\Skimmer-Scraper\\acceptance\\vitest-phase-4.json",
+      "status": "pass",
+      "exitCode": 0,
+      "durationMs": 1805
+    },
+    {
+      "label": "production-build",
+      "command": "npm run build",
+      "status": "pass",
+      "exitCode": 0,
+      "durationMs": 1457
+    },
+    {
+      "label": "browser-tests",
+      "command": "npx playwright test --reporter=json",
+      "status": "pass",
+      "exitCode": 0,
+      "durationMs": 116246
+    }
+  ],
+  "unitTests": {
+    "passed": 22,
+    "failed": 0,
+    "total": 22
+  },
+  "browserTests": {
+    "passed": 5,
+    "failed": 0,
+    "skipped": 0,
+    "durationMs": 114575.334
+  },
+  "deliverables": [
+    {
+      "path": "README.md",
+      "exists": true
+    },
+    {
+      "path": "CHANGELOG.md",
+      "exists": true
+    },
+    {
+      "path": "docs/ACCEPTANCE.md",
+      "exists": true
+    },
+    {
+      "path": "docs/DEPLOYMENT.md",
+      "exists": true
+    },
+    {
+      "path": "tests/e2e/release.spec.ts",
+      "exists": true
+    },
+    {
+      "path": ".github/workflows/deploy-github-pages.yml",
+      "exists": true
+    }
+  ],
+  "evidence": [
+    {
+      "path": "evidence/phase-4-v0.1.0-flight.png",
+      "bytes": 694884,
+      "sha256": "282ecc5116b68a90e2afeb74d074ce727e08aa290cf5d1526821151434b777be"
+    },
+    {
+      "path": "evidence/phase-4-v0.1.0-mobile.png",
+      "bytes": 222695,
+      "sha256": "9d0282096e8fe8afaa414136153e59f99542713367a6b1b4fdfdb9fa9d86337b"
+    },
+    {
+      "path": "evidence/phase-4-v0.1.0-runtime.json",
+      "bytes": 1733,
+      "sha256": "22ba5ef77aaa7fbcaedee19103b003235145f48de7d8a54130f5de06d08cd88e"
+    },
+    {
+      "path": "evidence/phase-4-v0.1.0-title.png",
+      "bytes": 871896,
+      "sha256": "e4347da0d71cc592a6216662ad1fc890607144d163a3bf689fa764fbb6643d1a"
+    },
+    {
+      "path": "evidence/phase-4-v0.1.0-webgl2-error.png",
+      "bytes": 37878,
+      "sha256": "94297354e1a7ae2870ca81a8b9e766c6e183a29ae2384f6ca14cd91921a6fa5a"
+    }
+  ],
+  "environment": {
+    "os": "win32 10.0.26300",
+    "node": "v26.7.0",
+    "playwright": "Version 1.65.0",
+    "browser": "Chromium headless"
+  },
+  "caveats": [
+    "Browser tests use headless Chromium and may run on SwiftShader/software rendering.",
+    "This report is correctness and browser-integration evidence, not a real-GPU performance certification.",
+    "Cloudflare Pages publication is not claimed unless a separate live deployment URL is recorded."
+  ]
+}
