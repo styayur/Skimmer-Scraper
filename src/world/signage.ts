@@ -90,3 +90,4 @@ export const createBillboard = (placement: BillboardPlacement): THREE.Mesh => {
   mesh.name = `billboard-${placement.index}`;
   return mesh;
 };
+

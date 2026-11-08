@@ -63,3 +63,19 @@ browser input -> FixedStepRunner (120 Hz)
 The debug bridge (`window.__SKIMMER_SCRAPER__`) exposes snapshots, start/retry, pose reset and fixed
 time advancement when running a debug build. Playwright uses it to reproduce grace expiry and impact
 without relying on wall-clock frame rate.
+
+## Local aircraft models
+
+- `src/model/glb.ts` validates the GLB container, rejects external URIs, enforces the 48 MB / 250k
+  triangle budgets, and preserves authored materials while normalizing the model to an 8 m envelope.
+- `src/model/modelStore.ts` uses browser IndexedDB. Only local model IDs are kept in localStorage.
+- `src/model/aircraftLibrary.ts` owns import/remove/rotate/selection semantics. The composition root swaps
+  the normalized Three.js root into the existing aircraft mount.
+- No model bytes are sent over the network. The Playwright test records requests and asserts that the
+  fixture name never appears in a network URL.
+
+## Audio
+
+`src/audio/synth.ts` creates a small WebAudio graph from oscillators and filtered noise. Engine pitch and
+level follow simulation speed and boost. The context is created on a user gesture and muted/paused without
+changing simulation state.

@@ -3,8 +3,11 @@
 ## Project code and generated art
 
 - Skimmer-Scraper source code and original procedural world/aircraft geometry: MIT, © 2026 styayur.
-- Sky, facades, signage, blossom, particle and aircraft materials are generated at runtime by this
-  repository. Imported GLB files remain user-owned local data and are not shipped with the game.
+- Sky, facade textures, signage, blossom, particles, aircraft materials, engine sound and wind noise
+  are generated at runtime by this repository. Imported GLB files remain user-owned local data and are
+  not shipped with the game. 	ests/fixtures/test-aircraft.glb is an original synthetic test fixture.
+- src/audio/synth.ts contains an original WebAudio engine/wind synthesis graph; no audio recordings are
+  bundled.
 
 ## Runtime and build dependencies
 
@@ -17,6 +20,7 @@
 | [Playwright](https://github.com/microsoft/playwright) | 1.65.0 | Apache-2.0 | browser interaction and screenshot tests |
 | [TypeScript](https://github.com/microsoft/TypeScript) | 7.0.2 | Apache-2.0 | type checking |
 | [Wrangler](https://github.com/cloudflare/workers-sdk) | 4.158.0 | MIT OR Apache-2.0 | Cloudflare Pages deployment CLI |
+| [fake-indexeddb](https://github.com/dumbmatter/fakeIndexedDB) | 6.2.7 | Apache-2.0 | IndexedDB tests |
 | [Syne](https://fontsource.org/fonts/syne) | 5.3.0 | SIL OFL 1.1 | display typography |
 | [IBM Plex Sans](https://fontsource.org/fonts/ibm-plex-sans) | 5.3.0 | SIL OFL 1.1 | interface typography |
 
@@ -43,3 +47,4 @@ meshes, textures, shaders, audio or other assets from them are included here.
   or other assets are copied.
 
 See [docs/RESEARCH.md](docs/RESEARCH.md) for the concrete design conclusions and rejected shortcuts.
+
