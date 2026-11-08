@@ -54,12 +54,20 @@ export interface StreamerUpdate {
   stats: StreamerStats;
 }
 
+export interface ChunkStreamEvent {
+  chunkX: number;
+  chunkZ: number;
+  revision: number;
+}
+
 export interface WorldStreamerOptions {
   source?: ChunkSource;
   maxLoadedChunks?: number;
   renderRadius?: number;
   collisionRadius?: number;
   revisionProvider?: (chunkX: number, chunkZ: number) => number;
+  onChunkActivated?: (event: ChunkStreamEvent) => void;
+  onChunkRetired?: (event: ChunkStreamEvent) => void;
 }
 
 const SPAWN_X = 0;
@@ -103,6 +111,8 @@ export class WorldStreamer implements RenderableWorld {
   private readonly renderRadius: number;
   private readonly collisionRadius: number;
   private readonly revisionProvider: (chunkX: number, chunkZ: number) => number;
+  private readonly onChunkActivated: (event: ChunkStreamEvent) => void;
+  private readonly onChunkRetired: (event: ChunkStreamEvent) => void;
   private readonly generationTimes: number[] = [];
   private readonly renderOrigin = { x: 0, y: 0, z: 0 };
   private lastPosition = { x: 0, y: 24, z: SPAWN_Z };
@@ -123,6 +133,8 @@ export class WorldStreamer implements RenderableWorld {
     this.renderRadius = Math.max(1, options.renderRadius ?? 2);
     this.collisionRadius = Math.max(1, options.collisionRadius ?? 1);
     this.revisionProvider = options.revisionProvider ?? (() => 0);
+    this.onChunkActivated = options.onChunkActivated ?? (() => {});
+    this.onChunkRetired = options.onChunkRetired ?? (() => {});
     this.root.name = `world-stream-${settings.seed}`;
     const ground = terrainHeightAt(SPAWN_X, SPAWN_Z, settings);
     this.defaultSpawn = {
@@ -317,11 +329,17 @@ export class WorldStreamer implements RenderableWorld {
     };
   }
 
-  public getChunkStates(): Array<{ key: string; state: ChunkLifecycleState; revision: number }> {
+  public getChunkStates(): Array<{
+    key: string;
+    state: ChunkLifecycleState;
+    revision: number;
+    fingerprint: number | null;
+  }> {
     return [...this.chunks.values()].map((record) => ({
       key: record.key,
       state: record.state,
       revision: record.revision,
+      fingerprint: record.generated?.fingerprint ?? null,
     }));
   }
 
@@ -446,6 +464,17 @@ export class WorldStreamer implements RenderableWorld {
         record.state = 'ACTIVE';
         record.generated = generated;
         this.generatedTotal += 1;
+        if (!this.disposed) {
+          try {
+            this.onChunkActivated({
+              chunkX: record.chunkX,
+              chunkZ: record.chunkZ,
+              revision: record.revision,
+            });
+          } catch (error) {
+            console.error('Chunk activation observer failed', record.key, error);
+          }
+        }
       })
       .catch((error: unknown) => {
         record.state = 'UNLOADED';
@@ -476,6 +505,17 @@ export class WorldStreamer implements RenderableWorld {
       this.disposeGenerated(record.generated);
       this.retiredTotal += 1;
       record.generated = undefined;
+      if (!this.disposed) {
+        try {
+          this.onChunkRetired({
+            chunkX: record.chunkX,
+            chunkZ: record.chunkZ,
+            revision: record.revision,
+          });
+        } catch (error) {
+          console.error('Chunk retirement observer failed', record.key, error);
+        }
+      }
     }
     record.state = 'DISPOSED';
     this.chunks.delete(record.key);

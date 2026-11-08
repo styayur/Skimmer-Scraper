@@ -8,10 +8,9 @@ A close-surface 3D flight challenge through an original sakura-dusk megacity. St
 the architecture, thread bridges and floating islands, and keep your run alive. No account, no remote
 profile, no model upload.
 
-**v0.2 development snapshot:** seeded cities, cockpit/chase views, dynamic proximity feedback and an
-on-demand streaming world are implemented. Ephemeral-world mode and the final v0.2.0 release remain in
-the phase sequence; the public link still serves the last merged build until each PR is merged and
-GitHub Pages redeploys.
+**v0.2 development snapshot:** seeded cities, cockpit/chase views, dynamic proximity feedback,
+on-demand world streaming and Stable/Ephemeral world modes are implemented. Final QA and the v0.2.0
+release remain in the phase sequence; the public link follows `main` after each merged PR.
 
 **Public preview:** [https://styayur.github.io/Skimmer-Scraper/](https://styayur.github.io/Skimmer-Scraper/)
 
@@ -32,6 +31,8 @@ success is claimed.
 - Only survival time and a browser-local personal best are recorded.
 - Press **R** at any time for instant retry.
 - Import your own self-contained GLB aircraft; it stays in your browser's IndexedDB.
+- Choose **Stable World** for reproducible seeds or **Ephemeral World** to let unloaded interiors
+  change when you return.
 
 ## Controls
 
@@ -137,6 +138,6 @@ original synthetic assets are documented in [CREDITS.md](CREDITS.md). Project so
 | --- | --- | --- |
 | Flight Experience | merged | `acceptance/v0.2/phase-1.json` |
 | Seeded Procedural City | merged | `acceptance/v0.2/phase-2.json` |
-| Infinite World Streaming | in review | `acceptance/v0.2/phase-3.json` |
-| Ephemeral World | planned | next PR |
+| Infinite World Streaming | merged | `acceptance/v0.2/phase-3.json` |
+| Ephemeral World | in review | `acceptance/v0.2/phase-4.json` |
 | Final QA / v0.2.0 release | planned | final PR |

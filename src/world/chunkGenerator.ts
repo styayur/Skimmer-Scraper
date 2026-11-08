@@ -11,6 +11,7 @@ import {
   type BillboardPlacement,
 } from './signage';
 import { terrainHeightAt } from './terrain';
+import { bridgeLineAt } from './stableBoundary';
 import {
   CHUNK_SIZE,
   GENERATOR_VERSION,
@@ -384,16 +385,8 @@ export class ChunkGenerator {
       }
     }
 
-    const bridgeLine = (axis: 'x' | 'z', lineIndex: number): { enabled: boolean; height: number } => {
-      const random = seededRandom(this.settings.seed, this.settings.generatorVersion, 'bridge-line', axis === 'x' ? 1 : 2, lineIndex);
-      return {
-        enabled: random() < this.settings.config.bridgeFrequency,
-        height: range(random, this.settings.config.bridgeHeightMin, this.settings.config.bridgeHeightMax),
-      };
-    };
-
     const addBridgeSegment = (axis: 'x' | 'z', lineIndex: number): void => {
-      const line = bridgeLine(axis, lineIndex);
+      const line = bridgeLineAt(this.settings, axis, lineIndex);
       if (!line.enabled) return;
       const lineWorld = lineIndex * spacing;
       const localLine = lineWorld - (axis === 'x' ? z0 : x0);
@@ -517,7 +510,3 @@ export class ChunkGenerator {
     this.billboardMaterials.dispose();
   }
 }
-
-
-
-

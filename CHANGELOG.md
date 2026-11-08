@@ -11,10 +11,12 @@
   BVHs, explicit buffer pauses and floating-origin rendering.
 - Deterministic 15-minute streaming simulation, in-flight cancellation coverage and browser evidence
   for chunk replacement, BVH bounds and geometry retirement counters.
+- Optional Ephemeral World mode with a 256-entry bounded LRU revision history, stable terrain/bridge
+  boundaries, session-local forgetting and scenario-isolated personal bests.
+- Stable/Ephemeral world selector and share links carrying mode, seed, preset and generator version.
 
 ### In progress
 
-- Ephemeral-world revisions, bounded revision history and mode-isolated personal bests.
 - Final v0.2.0 performance/release acceptance and public deployment verification.
 
 ## 0.1.0 — 2026-11-08

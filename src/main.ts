@@ -22,13 +22,18 @@ import {
 import type { Group } from 'three';
 import { loadPreferences, savePreferences, type GamePreferences } from './game/preferences';
 import { createProximityFeedback, updateProximityFeedback, type ProximityFeedbackState } from './game/proximityFeedback';
-import { loadBest, submitBest } from './game/storage';
+import { loadBest, scoreContextFor, submitBest } from './game/storage';
 import { FlightAudio } from './audio/synth';
 import { AircraftLibrary, BUILT_IN_AIRCRAFT_ID } from './model/aircraftLibrary';
 import { disposeObject3D } from './model/glb';
 import { GameRenderer, WebGL2UnavailableError, type RenderStats } from './render/GameRenderer';
 import { GameUI, type ModelListItem } from './ui/GameUI';
 import type { WorldAdapterStats } from './world/chunkedWorldAdapter';
+import {
+  DEFAULT_REVISION_HISTORY_SIZE,
+  ChunkRevisionHistory,
+  type ChunkRevisionSnapshot,
+} from './world/chunkRevisionHistory';
 import { WorldStreamer, type StreamerStats, type StreamerUpdate } from './world/worldStreamer';
 import type { WorldMode, WorldPresetId } from './world/worldConfig';
 import { buildWorldShareUrl, DEFAULT_WORLD_SEED, resolveWorldSettings, worldSettingsFromSearch } from './world/worldConfig';
@@ -69,6 +74,13 @@ interface DebugSnapshot {
   streaming: StreamerStats | null;
   buffering: boolean;
   renderOrigin: { x: number; y: number; z: number };
+  revisionHistory: ChunkRevisionSnapshot | null;
+  chunkStates: Array<{
+    key: string;
+    state: string;
+    revision: number;
+    fingerprint: number | null;
+  }>;
 }
 
 interface SkimmerDebugBridge {
@@ -100,6 +112,9 @@ const debugInputEnabled = params.has('debug');
 const autoStart = params.get('autostart') === '1';
 const worldSettings = worldSettingsFromSearch(window.location.search);
 const seed = worldSettings.seed;
+const revisionHistory = worldSettings.mode === 'ephemeral'
+  ? new ChunkRevisionHistory(DEFAULT_REVISION_HISTORY_SIZE)
+  : null;
 const SURFACE_QUERY_RANGE = 90;
 const builtInModel: ModelListItem = {
   id: BUILT_IN_AIRCRAFT_ID,
@@ -121,7 +136,7 @@ let streamPreparationCount = 0;
 let lastFrameTime = performance.now();
 let muted = false;
 let qualityName: 'balanced' | 'high' = 'balanced';
-let best = loadBest();
+let best = loadBest(scoreContextFor(worldSettings));
 let preferences: GamePreferences = loadPreferences();
 let proximityFeedback: ProximityFeedbackState = createProximityFeedback();
 let renderer: GameRenderer | null = null;
@@ -219,11 +234,11 @@ const ui: GameUI = new GameUI({
   onRecordingHintDismiss: () => dismissRecordingHint(),
   onWorldOpen: () => openWorldPanel(),
   onWorldClose: () => closeWorldPanel(),
-  onWorldApply: (seedValue, preset) => applyWorldSettings(seedValue, preset),
+  onWorldApply: (seedValue, preset, worldMode) => applyWorldSettings(seedValue, preset, worldMode),
   onWorldRandom: () => createRandomSeed(),
   onWorldCopySeed: (seedValue) => { void copyWorldText(seedValue.trim(), '种子已复制。'); },
-  onWorldCopyLink: (seedValue, preset) => { void copyWorldLink(seedValue, preset); },
-  onWorldReset: () => ({ seed: String(DEFAULT_WORLD_SEED), preset: 'sakura' }),
+  onWorldCopyLink: (seedValue, preset, worldMode) => { void copyWorldLink(seedValue, preset, worldMode); },
+  onWorldReset: () => ({ seed: String(DEFAULT_WORLD_SEED), preset: 'sakura', mode: 'stable' }),
 });
 
 ui.setBest(best);
@@ -285,13 +300,21 @@ const copyWorldText = async (text: string, successMessage: string): Promise<void
   }
 };
 
-const applyWorldSettings = (seedValue: string, preset: WorldPresetId): void => {
-  const next = resolveWorldSettings({ seed: seedValue, preset, mode: 'stable' });
+const applyWorldSettings = (
+  seedValue: string,
+  preset: WorldPresetId,
+  worldMode: WorldMode,
+): void => {
+  const next = resolveWorldSettings({ seed: seedValue, preset, mode: worldMode });
   window.location.assign(buildWorldShareUrl(window.location.href, next));
 };
 
-const copyWorldLink = async (seedValue: string, preset: WorldPresetId): Promise<void> => {
-  const next = resolveWorldSettings({ seed: seedValue, preset, mode: 'stable' });
+const copyWorldLink = async (
+  seedValue: string,
+  preset: WorldPresetId,
+  worldMode: WorldMode,
+): Promise<void> => {
+  const next = resolveWorldSettings({ seed: seedValue, preset, mode: worldMode });
   await copyWorldText(buildWorldShareUrl(window.location.href, next), '分享链接已复制。');
 };
 
@@ -434,7 +457,7 @@ const finishRun = (): void => {
   keyboard.setEnabled(false);
   stepRunner.reset();
   audio.fail();
-  const score = submitBest(runRules.elapsed);
+  const score = submitBest(runRules.elapsed, scoreContextFor(worldSettings));
   best = score.best;
   ui.setBest(best);
 
@@ -635,6 +658,8 @@ const debugSnapshot = (): DebugSnapshot => {
     worldMode: worldSettings.mode,
     generatorVersion: worldSettings.generatorVersion,
     worldFingerprint: renderer.getWorldFingerprint(),
+    revisionHistory: revisionHistory?.snapshot() ?? null,
+    chunkStates: worldStreamer?.getChunkStates() ?? [],
   };
 };
 
@@ -756,6 +781,15 @@ const boot = async (): Promise<void> => {
     renderRadius: 2,
     collisionRadius: 1,
     maxLoadedChunks: 41,
+    revisionProvider: revisionHistory
+      ? (chunkX, chunkZ) => revisionHistory.revisionFor(chunkX, chunkZ)
+      : undefined,
+    onChunkActivated: revisionHistory
+      ? ({ chunkX, chunkZ, revision }) => revisionHistory.markActive(chunkX, chunkZ, revision)
+      : undefined,
+    onChunkRetired: revisionHistory
+      ? ({ chunkX, chunkZ, revision }) => revisionHistory.markRetired(chunkX, chunkZ, revision)
+      : undefined,
   });
   worldStreamer = streamer;
   ui.setLoadingCopy('正在准备出生点碰撞区块');

@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import { describe, expect, it } from 'vitest';
 import { ChunkGenerator } from '../../src/world/chunkGenerator';
 import type { WorldMaterials, WorldMaterialKey } from '../../src/world/materials';
+import { stableBoundaryProfile } from '../../src/world/stableBoundary';
 import { resolveWorldSettings } from '../../src/world/worldConfig';
 import type { BillboardMaterialSet } from '../../src/world/signage';
 
@@ -90,6 +91,43 @@ describe('deterministic chunk generation', () => {
     neon.dispose();
   });
 
+  it('changes Ephemeral interiors without changing stable boundary data', () => {
+    const settings = resolveWorldSettings({
+      seed: 'ephemeral-interior',
+      preset: 'neon',
+      mode: 'ephemeral',
+    });
+    const generator = new ChunkGenerator(settings, fakeMaterials(), fakeBillboards());
+    const original = generator.generate(0, 0, 0);
+    const revisited = generator.generate(0, 0, 7);
+    const neighbor = generator.generate(1, 0, 3);
+    expect(revisited.fingerprint).not.toBe(original.fingerprint);
+    expect(geometryChecksum(revisited)).not.toBe(geometryChecksum(original));
+    expect(stableBoundaryProfile(settings, 0, 0).fingerprint).toBe(
+      stableBoundaryProfile(settings, 0, 0).fingerprint,
+    );
+
+    const originalGround = original.group.getObjectByName(`${original.key}-ground`) as THREE.Mesh;
+    const neighborGround = neighbor.group.getObjectByName(`${neighbor.key}-ground`) as THREE.Mesh;
+    const originalPositions = originalGround.geometry.getAttribute('position');
+    const neighborPositions = neighborGround.geometry.getAttribute('position');
+    const eastEdge = new Map<number, number>();
+    const westEdge = new Map<number, number>();
+    for (let index = 0; index < originalPositions.count; index += 1) {
+      if (Math.abs(originalPositions.getX(index) - 220) < 0.001) {
+        eastEdge.set(Math.round(originalPositions.getZ(index) * 1000), originalPositions.getY(index));
+      }
+    }
+    for (let index = 0; index < neighborPositions.count; index += 1) {
+      if (Math.abs(neighborPositions.getX(index)) < 0.001) {
+        westEdge.set(Math.round(neighborPositions.getZ(index) * 1000), neighborPositions.getY(index));
+      }
+    }
+    for (const [z, height] of eastEdge) expect(westEdge.get(z)).toBeCloseTo(height, 6);
+    for (const chunk of [original, revisited, neighbor]) disposeChunk(chunk);
+    generator.dispose();
+  });
+
   it('shares exact terrain height samples across adjacent chunk edges', () => {
     const settings = resolveWorldSettings({ seed: 'edge-continuity', preset: 'archipelago' });
     const generator = new ChunkGenerator(settings, fakeMaterials(), fakeBillboards());
@@ -118,4 +156,3 @@ describe('deterministic chunk generation', () => {
     generator.dispose();
   });
 });
-

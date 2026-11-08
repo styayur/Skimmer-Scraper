@@ -39,6 +39,9 @@ browser input -> FixedStepRunner (120 Hz)
 - `WorldStreamer` keeps a 3 x 3 collision ring, a larger visible ring and velocity-directed prefetch
   under a hard active-chunk budget. One chunk is generated per asynchronous task; stale queued work is
   cancelled and in-flight stale results are disposed.
+- Stable World supplies revision 0. Ephemeral World is composed from a bounded `ChunkRevisionHistory`;
+  activation/retirement callbacks advance a revision only after complete unload. Stable boundary data
+  (terrain edges and bridge lines) bypasses revision changes. See [EPHEMERAL.md](EPHEMERAL.md).
 - `ChunkedWorldAdapter` accepts dynamic chunk inserts/removals. It first rejects distant chunks with
   AABB distance, then runs `MeshBVH.closestPointToPoint` only on candidates. The nearest hit supplies
   distance, contact point, and chunk/surface identity in absolute coordinates.

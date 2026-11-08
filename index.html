@@ -202,7 +202,7 @@
           <button id="world-close" class="icon-button" type="button" aria-label="关闭世界设置">关闭</button>
         </div>
         <p class="library-copy">
-          相同种子、预设和生成器版本会得到相同城市。分享链接包含全部世界参数。
+          Stable World 可复现分享；Ephemeral World 会在区块彻底卸载后遗忘内部布局。分享链接包含种子、预设、模式与生成器版本。
         </p>
         <form id="world-form" class="world-form">
           <label class="world-field">
@@ -219,14 +219,22 @@
             </select>
           </label>
           <p id="world-preset-description" class="world-description"></p>
+          <label class="world-field">
+            <span class="data-label">WORLD MEMORY</span>
+            <select id="world-mode-select" name="world">
+              <option value="stable">Stable World</option>
+              <option value="ephemeral">Ephemeral World</option>
+            </select>
+          </label>
+          <p id="world-mode-description" class="world-description"></p>
           <div class="world-inline-actions">
             <button id="world-random" class="text-button" type="button">随机种子</button>
             <button id="world-copy-seed" class="text-button" type="button">复制种子</button>
             <button id="world-copy-link" class="text-button" type="button">复制分享链接</button>
           </div>
           <div class="world-stability">
-            <span class="data-label">STABLE WORLD</span>
-            <p>同一种子与坐标始终生成同一个世界。遗忘式模式将在后续阶段解锁。</p>
+            <span class="data-label">LOCAL WORLD MEMORY</span>
+            <p>Ephemeral 修订历史仅保存在当前页面会话，最多记录最近 256 个卸载区块；不会上传，也不会无限增长。</p>
           </div>
           <div class="world-actions">
             <button class="primary-button" type="submit">
