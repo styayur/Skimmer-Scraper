@@ -6,8 +6,9 @@ The repository publishes a static preview through `.github/workflows/deploy-gith
 
 **https://styayur.github.io/Skimmer-Scraper/**
 
-This is an HTTPS playable build and is labelled as the temporary public preview. It is not represented
-as the requested Cloudflare Pages production deployment.
+This is an HTTPS playable build and is labelled as the public preview. It was verified on 2026-11-08
+with HTTP 200, WebGL2 and a Playwright start-flight smoke. It is not represented as the requested Cloudflare
+Pages production deployment.
 
 ## Cloudflare Pages
 
@@ -43,3 +44,5 @@ HTTPS URL with the release browser test.
 
 `dist/` is platform-neutral and can be served by any HTTPS static host. No server-side runtime is
 required. Keep the `_headers` file when a host supports response-header configuration.
+
+

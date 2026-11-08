@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "product": "Skimmer-Scraper",
   "version": "0.1.0",
-  "generatedAt": "2026-11-08T09:36:06.996Z",
+  "generatedAt": "2026-11-08T09:49:18.107Z",
   "sourceRevisionAtAcceptance": "33f3217",
   "acceptanceStatus": "pass_with_external_blockers",
   "releaseEligibility": "eligible_for_v0.1.0_source_release",
@@ -89,8 +89,15 @@
   "hosting": {
     "githubPagesPreview": {
       "url": "https://styayur.github.io/Skimmer-Scraper/",
-      "status": "configured_for_main_deployment",
-      "role": "temporary public HTTPS preview"
+      "status": "live_verified",
+      "httpStatus": 200,
+      "verifiedAt": "2026-11-08T09:47:27.057Z",
+      "role": "public HTTPS preview",
+      "verificationEvidence": "evidence/v0.1.0-live-pages-verification.json",
+      "screenshots": [
+        "evidence/v0.1.0-live-pages-title.png",
+        "evidence/v0.1.0-live-pages-flight.png"
+      ]
     },
     "cloudflarePages": {
       "status": "blocked",
@@ -131,6 +138,21 @@
       "path": "evidence/phase-4-v0.1.0-webgl2-error.png",
       "bytes": 37878,
       "sha256": "94297354e1a7ae2870ca81a8b9e766c6e183a29ae2384f6ca14cd91921a6fa5a"
+    },
+    {
+      "path": "evidence/v0.1.0-live-pages-title.png",
+      "bytes": 864399,
+      "sha256": "aa82e5bd9ac233677fa32c17446069f6e2403bb7af5e890259749ff39feec6c5"
+    },
+    {
+      "path": "evidence/v0.1.0-live-pages-flight.png",
+      "bytes": 741076,
+      "sha256": "5d027e40da5702548383af43f4cd5f11662f523ee196bc9a018daddeef023562"
+    },
+    {
+      "path": "evidence/v0.1.0-live-pages-verification.json",
+      "bytes": 1447,
+      "sha256": "15e2d0efe662d4ca6cfe5d5bb3c604e1608b0460530465c933980079a4354e9a"
     }
   ],
   "deliverables": [
@@ -163,5 +185,7 @@
     "Browser tests use headless Chromium and may run on SwiftShader/software rendering.",
     "This report is correctness and browser-integration evidence, not a real-GPU performance certification.",
     "Cloudflare Pages publication is not claimed unless a separate live deployment URL is recorded."
-  ]
+  ],
+  "releaseBaseRevision": "cee83f9",
+  "notes": "GitHub Pages preview verified live with HTTP 200 and Playwright. Cloudflare Pages and real-GPU performance remain external blockers."
 }

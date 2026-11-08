@@ -18,7 +18,7 @@ production publication remains blocked on account credentials and is not claimed
 | Fixed timestep and repeatable debug input | FixedStepRunner, ScriptedInputSource, debug advance | `tests/unit/fixedStep.test.ts`, debug bridge | PASS |
 | Separate flight, collision, world adapter, render modules | Module boundaries under `src/` | `docs/ARCHITECTURE.md`, source review | PASS |
 | Static site + Cloudflare Pages configuration | Vite `dist/`, Wrangler Pages config, deploy workflow | `.github/workflows/deploy-cloudflare-pages.yml`, `wrangler.toml` | CONFIGURED / BLOCKED ON AUTH |
-| Public HTTPS build | GitHub Pages preview workflow | `.github/workflows/deploy-github-pages.yml` | DEPLOYED/PENDING VERIFICATION at merge time |
+| Public HTTPS build | GitHub Pages preview workflow | `.github/workflows/deploy-github-pages.yml`, `evidence/v0.1.0-live-pages-verification.json` | PASS — HTTP 200 + WebGL2 flight smoke |
 | Real-GPU performance acceptance | Not performed | Headless report identifies SwiftShader | NOT CLAIMED |
 
 ## Browser evidence
@@ -30,6 +30,7 @@ production publication remains blocked on account credentials and is not claimed
 - `evidence/phase-4-v0.1.0-runtime.json` — WebGL vendor/version, renderer statistics and snapshot.
 - `acceptance/phase-4.json` — command results, test counts, deliverables and evidence hashes.
 - `acceptance/v0.1.0.json` — final release summary with deployment status.
+- `evidence/v0.1.0-live-pages-verification.json` and `evidence/v0.1.0-live-pages-*.png` — public HTTPS verification.
 
 ## Runtime snapshot
 
@@ -46,3 +47,6 @@ do not prove real-hardware frame rate, thermal behavior or mobile GPU performanc
    settings recorded. This release deliberately does not substitute software rendering for that gate.
 3. **Subjective visual QA on target hardware:** desktop screenshots were inspected in Chromium; a final
    human pass on representative displays remains advisable.
+
+
+
