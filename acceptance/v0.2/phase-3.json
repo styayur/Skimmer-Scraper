@@ -1,0 +1,184 @@
+{
+  "schemaVersion": 1,
+  "product": "Skimmer-Scraper",
+  "version": "0.2.0",
+  "phase": 3,
+  "stage": "Infinite World Streaming",
+  "generatedAt": "2026-11-08T23:03:10.878Z",
+  "sourceRevision": "295abb8",
+  "worktreeDirty": true,
+  "status": "pass",
+  "commands": [
+    {
+      "label": "typecheck",
+      "command": "npm run typecheck",
+      "status": "pass",
+      "exitCode": 0,
+      "durationMs": 2275
+    },
+    {
+      "label": "unit-tests",
+      "command": "npx vitest run --reporter=json --outputFile E:\\GitHub\\Skimmer-Scraper\\acceptance\\v0.2\\.vitest-phase-3.json",
+      "status": "pass",
+      "exitCode": 0,
+      "durationMs": 6496
+    },
+    {
+      "label": "production-build",
+      "command": "npm run build",
+      "status": "pass",
+      "exitCode": 0,
+      "durationMs": 3315
+    },
+    {
+      "label": "browser-tests",
+      "command": "npx playwright test --reporter=json",
+      "status": "pass",
+      "exitCode": 0,
+      "durationMs": 236159
+    }
+  ],
+  "tests": {
+    "unit": {
+      "passed": 45,
+      "failed": 0,
+      "total": 45
+    },
+    "browser": {
+      "passed": 8,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 232266.557
+    }
+  },
+  "deliverables": [
+    {
+      "path": "src/world/chunkSource.ts",
+      "exists": true
+    },
+    {
+      "path": "src/world/renderWorld.ts",
+      "exists": true
+    },
+    {
+      "path": "src/world/worldStreamer.ts",
+      "exists": true
+    },
+    {
+      "path": "src/world/chunkedWorldAdapter.ts",
+      "exists": true
+    },
+    {
+      "path": "src/render/GameRenderer.ts",
+      "exists": true
+    },
+    {
+      "path": "tests/unit/worldStreamer.test.ts",
+      "exists": true
+    },
+    {
+      "path": "tests/e2e/world-streaming.spec.ts",
+      "exists": true
+    },
+    {
+      "path": "docs/STREAMING.md",
+      "exists": true
+    }
+  ],
+  "phaseChecks": {
+    "browserRuntimeEvidencePresent": true,
+    "noConsoleErrors": true,
+    "coverageComplete": true,
+    "activeChunksWithinBudget": true,
+    "bvhCountMatchesActive": true,
+    "geometryDisposalObserved": true,
+    "floatingOriginRebased": true,
+    "bufferingPausedRunTimer": true,
+    "longDistance15MinuteTestPassed": true
+  },
+  "runtimeEvidence": {
+    "generatedAt": "2026-11-08T23:03:07.701Z",
+    "world": {
+      "seed": "phase-3-stream",
+      "preset": "neon",
+      "mode": "stable",
+      "chunksBeforeTeleport": 13,
+      "chunksAfterTeleport": 25
+    },
+    "streaming": {
+      "stateCounts": {
+        "UNLOADED": 0,
+        "QUEUED": 0,
+        "GENERATING": 0,
+        "READY": 0,
+        "ACTIVE": 25,
+        "RETIRING": 0,
+        "DISPOSED": 0
+      },
+      "loadedChunks": 25,
+      "activeChunks": 25,
+      "queuedChunks": 0,
+      "generatingChunks": 0,
+      "generatedTotal": 52,
+      "retiredTotal": 29,
+      "disposedGeometryCount": 471,
+      "bvhCount": 25,
+      "renderObjectCount": 396,
+      "estimatedCpuGeometryBytes": 78423596,
+      "generationAvgMs": 212.722222223326,
+      "generationP95Ms": 1580.8999999910593,
+      "maxLoadedChunks": 41,
+      "coverageComplete": true,
+      "rebaseCount": 1
+    },
+    "rebase": {
+      "count": 1,
+      "renderOrigin": {
+        "x": 10000,
+        "y": 0,
+        "z": 0
+      }
+    },
+    "runtime": {
+      "position": {
+        "x": 12105,
+        "y": 598.8349975445259,
+        "z": -77.66100526525224
+      },
+      "runTime": 5.891666666666749,
+      "surfaceLocked": false,
+      "calls": 133,
+      "triangles": 275218
+    },
+    "bufferingPausedRunTimer": true,
+    "bufferedTimerDeltaSeconds": 0.1,
+    "consoleErrors": [],
+    "caveat": "Chromium headless verifies integration and resource counters. It is not a real-GPU performance certification or proof of complete GPU memory reclamation."
+  },
+  "evidence": [
+    {
+      "path": "evidence/v0.2/phase-3-rebased-city.png",
+      "bytes": 891341,
+      "sha256": "563245436b58ef785ccb0b16a344e139a3711c65232b63fd7eb4d62a19d11e28"
+    },
+    {
+      "path": "evidence/v0.2/phase-3-runtime.json",
+      "bytes": 1429,
+      "sha256": "4d0e567c130956f1c21f08db9706f2705819b119acd5cfd5f28efb23bca7abe1"
+    },
+    {
+      "path": "evidence/v0.2/phase-3-streaming.png",
+      "bytes": 631123,
+      "sha256": "e7d7bce4fea8a5f4e09fb68ef7487176dfa33076315facf92827442aa88ee268"
+    }
+  ],
+  "environment": {
+    "os": "win32 10.0.26300",
+    "node": "v26.7.0",
+    "browser": "Chromium headless / Playwright"
+  },
+  "caveats": [
+    "Browser integration may use SwiftShader and is not a real-GPU performance certification.",
+    "Stage acceptance is evidence for this phase only; final v0.2.0 release gates are recorded in acceptance/v0.2.0.json."
+  ]
+}

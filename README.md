@@ -8,6 +8,11 @@ A close-surface 3D flight challenge through an original sakura-dusk megacity. St
 the architecture, thread bridges and floating islands, and keep your run alive. No account, no remote
 profile, no model upload.
 
+**v0.2 development snapshot:** seeded cities, cockpit/chase views, dynamic proximity feedback and an
+on-demand streaming world are implemented. Ephemeral-world mode and the final v0.2.0 release remain in
+the phase sequence; the public link still serves the last merged build until each PR is merged and
+GitHub Pages redeploys.
+
 **Public preview:** [https://styayur.github.io/Skimmer-Scraper/](https://styayur.github.io/Skimmer-Scraper/)
 
 The GitHub Pages preview is a playable static build. The requested Cloudflare Pages production
@@ -36,6 +41,7 @@ success is claimed.
 | A / D or Arrow Left / Right | Roll |
 | Q / E | Yaw |
 | Shift | Boost |
+| C | Chase / cockpit view |
 | R | Instant retry |
 | M | Aircraft library |
 | Enter | Start |
@@ -47,7 +53,7 @@ resource URIs, stores the file in IndexedDB, and preserves authored materials wh
 model to an 8 m envelope. Imported models can be rotated 180° or removed. No model bytes are uploaded.
 
 Limits: 48 MB, 250,000 triangles, 24 locally stored models. Draco/Meshopt-compressed GLBs require
-extra decoders and are not supported in v0.1.0. Full details: [docs/MODELS.md](docs/MODELS.md).
+extra decoders and are not currently supported. Full details: [docs/MODELS.md](docs/MODELS.md).
 
 ## Stack
 
@@ -66,6 +72,10 @@ browser input -> FixedStepRunner (120 Hz)
               FlightModel.step()
                     |
                     v
+             WorldStreamer.update()
+       collision/render rings + prefetch
+                    |
+                    v
          ChunkedWorldAdapter.queryNearest()
            AABB chunks -> per-chunk MeshBVH
                     |
@@ -75,7 +85,7 @@ browser input -> FixedStepRunner (120 Hz)
              HUD state   failure/best
                     |
                     v
-              GameRenderer (WebGL2)
+     GameRenderer (WebGL2, render-local frame)
 ```
 
 The flight model, run rules, spatial adapter, renderer, local model store and UI are separate modules.
@@ -120,3 +130,13 @@ Full matrix: [docs/ACCEPTANCE.md](docs/ACCEPTANCE.md).
 Research notes cover Skyward, Neon Zenith and Sakura Fantasy in [docs/RESEARCH.md](docs/RESEARCH.md).
 No code or assets from those projects are copied. Dependencies, fonts, research references and
 original synthetic assets are documented in [CREDITS.md](CREDITS.md). Project source is MIT licensed.
+
+## v0.2 phase status
+
+| Phase | Status | Evidence |
+| --- | --- | --- |
+| Flight Experience | merged | `acceptance/v0.2/phase-1.json` |
+| Seeded Procedural City | merged | `acceptance/v0.2/phase-2.json` |
+| Infinite World Streaming | in review | `acceptance/v0.2/phase-3.json` |
+| Ephemeral World | planned | next PR |
+| Final QA / v0.2.0 release | planned | final PR |

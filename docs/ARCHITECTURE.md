@@ -4,7 +4,11 @@
 browser input -> FixedStepRunner (120 Hz)
                     |
                     v
-              FlightModel.step()
+              FlightModel.step()  (absolute world coordinates)
+                    |
+                    v
+             WorldStreamer.update()
+       active render ring + collision ring
                     |
                     v
          ChunkedWorldAdapter.queryNearest()
@@ -16,7 +20,7 @@ browser input -> FixedStepRunner (120 Hz)
              HUD state   failure/best
                     |
                     v
-              GameRenderer
+     GameRenderer (render-origin-local state)
 ```
 
 ## Runtime and simulation
@@ -30,15 +34,19 @@ browser input -> FixedStepRunner (120 Hz)
 
 ## World and spatial queries
 
-- `generateSakuraMegacity(seed)` deterministically emits render geometry and collision geometry in
-  world space. Buildings, bridges, ground and floating islands are in the same surface set.
-- Render geometry is merged by material inside 220 m spatial chunks. Collision geometry is merged per
-  chunk independently, preserving exact solid surfaces while reducing draw and BVH overhead.
-- `ChunkedWorldAdapter` first rejects distant chunks with AABB distance, then runs
-  `MeshBVH.closestPointToPoint` only on candidates. The nearest hit supplies distance, contact point,
-  and chunk/surface identity.
+- `ChunkGenerator` deterministically emits render geometry and collision geometry in local chunk space.
+  Buildings, bridges, ground and floating islands are in the same surface set.
+- `WorldStreamer` keeps a 3 x 3 collision ring, a larger visible ring and velocity-directed prefetch
+  under a hard active-chunk budget. One chunk is generated per asynchronous task; stale queued work is
+  cancelled and in-flight stale results are disposed.
+- `ChunkedWorldAdapter` accepts dynamic chunk inserts/removals. It first rejects distant chunks with
+  AABB distance, then runs `MeshBVH.closestPointToPoint` only on candidates. The nearest hit supplies
+  distance, contact point, and chunk/surface identity in absolute coordinates.
+- Render geometry is merged by material inside 220 m spatial chunks. The active render root uses a
+  floating origin; physics and scoring do not. See [STREAMING.md](STREAMING.md).
 - The current query radius is 90 m, larger than the 32 m gameplay surface range so the HUD can show
-  a meaningful distance as the player leaves the safe band.
+  a meaningful distance as the player leaves the safe band. The collision ring is not dropped while
+  this query range is active.
 
 ## Run rules
 
@@ -56,7 +64,8 @@ browser input -> FixedStepRunner (120 Hz)
   procedural aircraft and petal field.
 - The DOM UI owns title, HUD, surface-lock meter, failure and aircraft-library surfaces.
 - HUD distance and grace come only from the run-rule snapshot. They are not inferred from render
-  timing.
+  timing. If collision coverage is unavailable, simulation and rule time pause behind an explicit
+  stream-buffering state.
 
 ## Deterministic diagnostics
 

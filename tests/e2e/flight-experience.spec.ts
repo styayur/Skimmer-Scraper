@@ -16,7 +16,10 @@ interface ExperienceSnapshot {
 interface DebugBridge {
   snapshot(): ExperienceSnapshot;
   advance(seconds: number): ExperienceSnapshot;
-  setPose(position: { x: number; y: number; z: number }): ExperienceSnapshot;
+  setPose(
+    position: { x: number; y: number; z: number },
+    options?: { pitch?: number },
+  ): ExperienceSnapshot;
 }
 
 const call = (page: Page, method: keyof DebugBridge, ...args: unknown[]): Promise<ExperienceSnapshot> =>
@@ -92,7 +95,7 @@ test.describe('v0.2 phase 1 flight experience', () => {
     expect((await call(page, 'snapshot')).visualStimulation).toBe('reduced');
     await expect(page.locator('#app')).toHaveClass(/low-stim/);
 
-    await call(page, 'setPose', { x: 0, y: 4.5, z: 180 });
+    await call(page, 'setPose', { x: 0, y: 4.5, z: 180 }, { pitch: 0 });
     await call(page, 'advance', 0.2);
     const extreme = await call(page, 'snapshot');
     expect(extreme.proximityZone).toBe('extreme');
@@ -131,7 +134,3 @@ test.describe('v0.2 phase 1 flight experience', () => {
     expect(errors).toEqual([]);
   });
 });
-
-
-
-

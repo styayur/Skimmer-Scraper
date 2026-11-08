@@ -34,6 +34,25 @@ describe('chunked world adapter', () => {
     adapter.dispose();
   });
 
+  it('adds, removes and re-adds dynamic chunks without retaining their BVH', () => {
+    const adapter = new ChunkedWorldAdapter();
+    const dynamic = chunk('dynamic', 8);
+    adapter.addChunk(dynamic);
+    expect(adapter.hasChunk('dynamic')).toBe(true);
+    expect(adapter.getChunkIds()).toEqual(['dynamic']);
+    expect(adapter.getStats().bvhCount).toBe(1);
+    expect(adapter.queryNearest({ x: 8, y: 5, z: 0 }, 10)?.chunkId).toBe('dynamic');
+
+    adapter.removeChunk('dynamic');
+    expect(adapter.hasChunk('dynamic')).toBe(false);
+    expect(adapter.getStats().bvhCount).toBe(0);
+    expect(adapter.queryNearest({ x: 8, y: 5, z: 0 }, 10)).toBeNull();
+
+    adapter.addChunk(chunk('dynamic', 8));
+    expect(adapter.queryNearest({ x: 8, y: 5, z: 0 }, 10)?.chunkId).toBe('dynamic');
+    adapter.dispose();
+  });
+
   it('selects the nearest of multiple broad-phase candidates', () => {
     const adapter = new ChunkedWorldAdapter([chunk('left', -5), chunk('right', 5)]);
     const hit = adapter.queryNearest({ x: 3.8, y: 5, z: 0 }, 20);

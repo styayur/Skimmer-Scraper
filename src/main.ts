@@ -28,8 +28,8 @@ import { AircraftLibrary, BUILT_IN_AIRCRAFT_ID } from './model/aircraftLibrary';
 import { disposeObject3D } from './model/glb';
 import { GameRenderer, WebGL2UnavailableError, type RenderStats } from './render/GameRenderer';
 import { GameUI, type ModelListItem } from './ui/GameUI';
-import { ChunkedWorldAdapter, type WorldAdapterStats } from './world/chunkedWorldAdapter';
-import { generateSeededWorld } from './world/seededWorld';
+import type { WorldAdapterStats } from './world/chunkedWorldAdapter';
+import { WorldStreamer, type StreamerStats, type StreamerUpdate } from './world/worldStreamer';
 import type { WorldMode, WorldPresetId } from './world/worldConfig';
 import { buildWorldShareUrl, DEFAULT_WORLD_SEED, resolveWorldSettings, worldSettingsFromSearch } from './world/worldConfig';
 import type { SurfaceQuery, WorldStats } from './world/worldTypes';
@@ -66,6 +66,9 @@ interface DebugSnapshot {
   worldMode: WorldMode;
   generatorVersion: number;
   worldFingerprint: number;
+  streaming: StreamerStats | null;
+  buffering: boolean;
+  renderOrigin: { x: number; y: number; z: number };
 }
 
 interface SkimmerDebugBridge {
@@ -76,8 +79,14 @@ interface SkimmerDebugBridge {
   start(): void;
   retry(): void;
   title(): void;
-  setPose(position: { x: number; y: number; z: number }): DebugSnapshot;
-  advance(seconds: number): DebugSnapshot;
+  setPose(
+    position: { x: number; y: number; z: number },
+    options?: { pitch?: number },
+  ): Promise<DebugSnapshot>;
+  advance(
+    seconds: number,
+    options?: { holdPosition?: boolean },
+  ): Promise<DebugSnapshot>;
 }
 
 declare global {
@@ -105,7 +114,10 @@ let modeBeforeWorld: GameMode = 'title';
 let flightState: FlightState | null = null;
 let runRules: RunRulesState = createRunRules();
 let lastSurfaceHit: SurfaceQuery | null = null;
-let worldAdapter: ChunkedWorldAdapter | null = null;
+let worldStreamer: WorldStreamer | null = null;
+let buffering = false;
+let worldTransition = 0;
+let streamPreparationCount = 0;
 let lastFrameTime = performance.now();
 let muted = false;
 let qualityName: 'balanced' | 'high' = 'balanced';
@@ -120,6 +132,53 @@ const stepRunner = new FixedStepRunner(FLIGHT.fixedDt, 12);
 const visualScaleFor = (level: VisualStimulation): number => level === 'reduced'
   ? EXPERIENCE_CONFIG.visuals.reducedScale
   : EXPERIENCE_CONFIG.visuals.standardScale;
+
+const delay = (milliseconds: number): Promise<void> => new Promise((resolve) => {
+  setTimeout(resolve, milliseconds);
+});
+
+const syncWorldStreaming = (
+  state: Pick<FlightState, 'position' | 'velocity'>,
+): StreamerUpdate | null => {
+  if (!worldStreamer) return null;
+  const update = worldStreamer.update(state.position, state.velocity);
+  if (update.rebaseDelta) renderer?.shiftRenderOrigin(update.rebaseDelta);
+  return update;
+};
+
+const toRenderFlightState = (state: FlightState): FlightState => {
+  if (!worldStreamer) return state;
+  return {
+    ...state,
+    position: worldStreamer.getLocalPosition(state.position),
+  };
+};
+
+const waitForCollisionCoverage = async (
+  position: { x: number; y: number; z: number },
+  velocity: { x: number; y: number; z: number },
+  timeoutMs = 30_000,
+  shouldContinue: () => boolean = () => true,
+): Promise<boolean> => {
+  if (!worldStreamer) return false;
+  const started = performance.now();
+  streamPreparationCount += 1;
+  try {
+    while (shouldContinue() && performance.now() - started <= timeoutMs) {
+      const update = syncWorldStreaming({ position, velocity });
+      if (update?.coverageComplete) {
+        buffering = false;
+        return true;
+      }
+      buffering = true;
+      await delay(8);
+    }
+    buffering = true;
+    return false;
+  } finally {
+    streamPreparationCount = Math.max(0, streamPreparationCount - 1);
+  }
+};
 const audio = new FlightAudio();
 const aircraftLibrary = new AircraftLibrary();
 const keyboard = new KeyboardInputSource();
@@ -128,9 +187,9 @@ const scripted = new ScriptedInputSource(demoInput);
 const inputSource: InputSource = debugInputEnabled ? scripted : keyboard;
 
 const ui: GameUI = new GameUI({
-  onStart: () => startRun(),
-  onRetry: () => startRun(),
-  onMenu: () => returnToTitle(),
+  onStart: () => { void startRun(); },
+  onRetry: () => { void startRun(); },
+  onMenu: () => { void returnToTitle(); },
   onLibraryOpen: () => openLibrary(),
   onLibraryClose: () => closeLibrary(),
   onMuteToggle: () => {
@@ -330,13 +389,35 @@ const syncHud = (): void => {
     locked: runRules.locked,
     proximity: proximityFeedback.intensity,
     zone: proximityFeedback.zone,
+    buffering,
   });
 };
 
-const simulateFixedStep = (dt: number): boolean => {
-  if (mode !== 'running' || !flightState || !worldAdapter) return false;
-  flightState = stepFlight(flightState, inputSource.sample(flightState.elapsed), dt);
-  lastSurfaceHit = worldAdapter.queryNearest(flightState.position, SURFACE_QUERY_RANGE);
+const simulateFixedStep = (dt: number, holdPosition = false): boolean => {
+  if (mode !== 'running' || !flightState || !worldStreamer) return false;
+  if (!worldStreamer.isCollisionCovered(flightState.position)) {
+    syncWorldStreaming(flightState);
+    buffering = true;
+    return false;
+  }
+
+  let nextState = stepFlight(flightState, inputSource.sample(flightState.elapsed), dt);
+  if (holdPosition) {
+    nextState = {
+      ...nextState,
+      position: { ...flightState.position },
+      velocity: { x: 0, y: 0, z: 0 },
+    };
+  }
+  if (!worldStreamer.isCollisionCovered(nextState.position)) {
+    syncWorldStreaming(nextState);
+    buffering = true;
+    return false;
+  }
+
+  buffering = false;
+  flightState = nextState;
+  lastSurfaceHit = worldStreamer.queryNearest(flightState.position, SURFACE_QUERY_RANGE);
   runRules = updateRunRules(runRules, { distance: lastSurfaceHit?.distance ?? null }, dt);
   proximityFeedback = updateProximityFeedback(
     proximityFeedback,
@@ -370,8 +451,8 @@ const finishRun = (): void => {
 };
 
 const resetFlightState = (): void => {
-  if (!renderer) return;
-  const spawn = renderer.getWorldSpawn();
+  if (!renderer || !worldStreamer) return;
+  const spawn = worldStreamer.getDefaultSpawn();
   flightState = createFlightState({
     position: { ...spawn.position },
     yaw: spawn.yaw,
@@ -380,32 +461,88 @@ const resetFlightState = (): void => {
   });
   runRules = createRunRules();
   proximityFeedback = createProximityFeedback();
-  lastSurfaceHit = worldAdapter?.queryNearest(flightState.position, SURFACE_QUERY_RANGE) ?? null;
+  buffering = false;
+  syncWorldStreaming(flightState);
+  lastSurfaceHit = worldStreamer.isCollisionCovered(flightState.position)
+    ? worldStreamer.queryNearest(flightState.position, SURFACE_QUERY_RANGE)
+    : null;
   stepRunner.reset();
 };
 
-const startRun = (): void => {
-  if (!renderer) return;
+const startRun = async (): Promise<void> => {
+  if (!renderer || !worldStreamer) return;
+  const transition = ++worldTransition;
   closeLibrary(false);
   closeWorldPanel(false);
+  mode = 'title';
+  keyboard.setEnabled(false);
+  stepRunner.reset();
+  audio.stop();
+  ui.showLoading('正在准备出生点区块');
+
+  const spawn = worldStreamer.getDefaultSpawn();
+  const covered = await waitForCollisionCoverage(
+    spawn.position,
+    { x: 0, y: 0, z: -spawn.speed },
+    30_000,
+    () => transition === worldTransition,
+  );
+  if (transition !== worldTransition) return;
+  if (!covered || !renderer || !worldStreamer) {
+    ui.showFatal('无法准备出生点周围的碰撞区块。请重试；若持续出现，请刷新页面。');
+    return;
+  }
+
   resetFlightState();
+  if (!flightState) return;
+  syncWorldStreaming(flightState);
+  lastSurfaceHit = worldStreamer.queryNearest(flightState.position, SURFACE_QUERY_RANGE);
   lastFrameTime = performance.now();
   mode = 'running';
   keyboard.setEnabled(!debugInputEnabled);
   audio.start();
   audio.setMuted(muted);
+  ui.finishLoading();
   ui.showFlight();
   syncHud();
-  if (flightState) renderer.snapCamera(flightState);
+  renderer.snapCamera(toRenderFlightState(flightState));
 };
 
-const returnToTitle = (): void => {
+const returnToTitle = async (): Promise<void> => {
+  const transition = ++worldTransition;
   closeLibrary(false);
   closeWorldPanel(false);
   mode = 'title';
   keyboard.setEnabled(false);
+  stepRunner.reset();
   audio.stop();
+
+  if (!renderer || !worldStreamer) {
+    ui.showTitle();
+    ui.setBest(best);
+    return;
+  }
+
+  ui.showLoading('正在返回起点');
+  const spawn = worldStreamer.getDefaultSpawn();
+  const covered = await waitForCollisionCoverage(
+    spawn.position,
+    { x: 0, y: 0, z: -spawn.speed },
+    30_000,
+    () => transition === worldTransition,
+  );
+  if (transition !== worldTransition) return;
+  if (!covered) {
+    ui.showFatal('无法恢复出生点周围的城市区块。请重新载入页面。');
+    return;
+  }
+
   resetFlightState();
+  if (flightState) {
+    syncWorldStreaming(flightState);
+    renderer.snapCamera(toRenderFlightState(flightState));
+  }
+  ui.finishLoading();
   ui.showTitle();
   ui.setBest(best);
 };
@@ -478,7 +615,10 @@ const debugSnapshot = (): DebugSnapshot => {
     grace: runRules.grace,
     failureReason: runRules.failureReason,
     world: renderer.getWorldStats(),
-    adapter: worldAdapter?.getStats() ?? null,
+    adapter: worldStreamer?.getAdapterStats() ?? null,
+    streaming: worldStreamer?.getStreamerStats() ?? null,
+    buffering,
+    renderOrigin: worldStreamer?.getRenderOrigin() ?? { x: 0, y: 0, z: 0 },
     render: renderer.getStats(),
     seed,
     debugInput: debugInputEnabled,
@@ -498,11 +638,29 @@ const debugSnapshot = (): DebugSnapshot => {
   };
 };
 
-const debugAdvance = (seconds: number): DebugSnapshot => {
-  if (!flightState || mode !== 'running') return debugSnapshot();
-  const steps = Math.min(7200, Math.max(0, Math.floor(seconds / FLIGHT.fixedDt)));
-  for (let index = 0; index < steps; index += 1) {
-    if (!simulateFixedStep(FLIGHT.fixedDt)) break;
+const debugAdvance = async (
+  seconds: number,
+  options: { holdPosition?: boolean } = {},
+): Promise<DebugSnapshot> => {
+  if (!flightState || mode !== 'running' || !worldStreamer) return debugSnapshot();
+  const targetSteps = Math.min(7200, Math.max(0, Math.floor(seconds / FLIGHT.fixedDt)));
+  let simulatedSteps = 0;
+  while (simulatedSteps < targetSteps && mode === 'running') {
+    if (simulatedSteps % 120 === 0) {
+      const covered = await waitForCollisionCoverage(flightState.position, flightState.velocity);
+      if (!covered || mode !== 'running') break;
+    }
+    if (!simulateFixedStep(FLIGHT.fixedDt, options.holdPosition === true)) {
+      if (mode !== 'running' || runRules.status === 'failed') break;
+      const covered = await waitForCollisionCoverage(flightState.position, flightState.velocity);
+      if (!covered || mode !== 'running') break;
+      continue;
+    }
+    simulatedSteps += 1;
+  }
+  if (flightState) {
+    syncWorldStreaming(flightState);
+    renderer?.snapCamera(toRenderFlightState(flightState));
   }
   syncHud();
   if (runRules.status === 'failed') finishRun();
@@ -510,14 +668,27 @@ const debugAdvance = (seconds: number): DebugSnapshot => {
   return debugSnapshot();
 };
 
-const debugSetPose = (position: { x: number; y: number; z: number }): DebugSnapshot => {
-  if (!flightState) return debugSnapshot();
+const debugSetPose = async (
+  position: { x: number; y: number; z: number },
+  options: { pitch?: number } = {},
+): Promise<DebugSnapshot> => {
+  if (!flightState || !worldStreamer) return debugSnapshot();
+  const covered = await waitForCollisionCoverage(position, flightState.velocity);
   flightState = {
     ...flightState,
     position: { x: position.x, y: position.y, z: position.z },
+    attitude: {
+      ...flightState.attitude,
+      pitch: options.pitch ?? flightState.attitude.pitch,
+    },
   };
-  lastSurfaceHit = worldAdapter?.queryNearest(flightState.position, SURFACE_QUERY_RANGE) ?? null;
+  buffering = !covered;
+  syncWorldStreaming(flightState);
+  lastSurfaceHit = covered
+    ? worldStreamer.queryNearest(flightState.position, SURFACE_QUERY_RANGE)
+    : null;
   proximityFeedback = updateProximityFeedback(proximityFeedback, lastSurfaceHit?.distance ?? null, 1, visualScaleFor(preferences.visualStimulation));
+  renderer?.snapCamera(toRenderFlightState(flightState));
   syncHud();
   return debugSnapshot();
 };
@@ -534,24 +705,41 @@ keyboard.onAction((action: GameAction) => {
   }
   if (ui.isLibraryOpen()) return;
   if (action === 'camera' && mode !== 'title') toggleCameraMode();
-  if (action === 'start' && mode === 'title') startRun();
-  if (action === 'retry' && mode !== 'title') startRun();
+  if (action === 'start' && mode === 'title') void startRun();
+  if (action === 'retry' && mode !== 'title') void startRun();
 });
 
 const frame = (now: number): void => {
   const delta = Math.min(0.1, Math.max(0, (now - lastFrameTime) / 1000));
   lastFrameTime = now;
 
-  if (mode === 'running' && renderer && flightState) {
-    stepRunner.advance(delta, simulateFixedStep);
-    syncHud();
-    if (runRules.status === 'failed') finishRun();
-    if (flightState) audio.update(flightState.speed, flightState.boosting, proximityFeedback.intensity);
-    renderer.renderFlight(flightState, delta, now, proximityFeedback.intensity);
+  if (renderer && flightState && worldStreamer) {
+    const streaming = streamPreparationCount === 0 ? syncWorldStreaming(flightState) : null;
+    if (mode === 'running') {
+      if (streamPreparationCount > 0 || !streaming?.coverageComplete) {
+        buffering = true;
+        stepRunner.reset();
+      } else {
+        buffering = false;
+        stepRunner.advance(delta, simulateFixedStep);
+        if (flightState) syncWorldStreaming(flightState);
+      }
+      syncHud();
+      if (runRules.status === 'failed') finishRun();
+      audio.update(flightState.speed, flightState.boosting, proximityFeedback.intensity);
+      renderer.renderFlight(
+        toRenderFlightState(flightState),
+        delta,
+        now,
+        proximityFeedback.intensity,
+      );
+    } else if (mode === 'title') {
+      renderer.renderTitle(now);
+    } else {
+      renderer.renderFlight(toRenderFlightState(flightState), 0, now);
+    }
   } else if (renderer && mode === 'title') {
     renderer.renderTitle(now);
-  } else if (renderer && flightState) {
-    renderer.renderFlight(flightState, mode === 'paused' ? 0 : delta, now);
   }
 
   requestAnimationFrame(frame);
@@ -564,14 +752,24 @@ const boot = async (): Promise<void> => {
   const canvas = document.getElementById('game-canvas');
   if (!(canvas instanceof HTMLCanvasElement)) throw new Error('Missing game canvas.');
 
-  const world = generateSeededWorld(worldSettings, { chunkRadius: 2 });
-  ui.setLoadingCopy('正在建立表面空间索引');
+  const streamer = new WorldStreamer(worldSettings, {
+    renderRadius: 2,
+    collisionRadius: 1,
+    maxLoadedChunks: 41,
+  });
+  worldStreamer = streamer;
+  ui.setLoadingCopy('正在准备出生点碰撞区块');
   await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
-  worldAdapter = new ChunkedWorldAdapter(world.chunks);
+  const spawn = streamer.getDefaultSpawn();
+  const covered = await waitForCollisionCoverage(
+    spawn.position,
+    { x: 0, y: 0, z: -spawn.speed },
+  );
+  if (!covered) throw new Error('Timed out while preparing the spawn collision ring.');
 
   ui.setLoadingCopy('正在编译近距飞行场景');
   await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
-  renderer = new GameRenderer(canvas, world);
+  renderer = new GameRenderer(canvas, streamer);
   renderer.setCameraMode(preferences.cameraMode, true);
   renderer.setVisualStimulation(preferences.visualStimulation);
   ui.setLoadingCopy('正在载入本机机库');
@@ -588,6 +786,7 @@ const boot = async (): Promise<void> => {
     setTimeout(() => ui.showToast(`本机模型库不可用，已使用内置机型：${message}`, true, 6200), 0);
   }
   resetFlightState();
+  if (flightState) syncWorldStreaming(flightState);
   ui.finishLoading();
   ui.showTitle();
   renderer.renderTitle(performance.now());
@@ -605,7 +804,7 @@ const boot = async (): Promise<void> => {
     advance: debugAdvance,
   };
 
-  if (autoStart || debugInputEnabled) startRun();
+  if (autoStart || debugInputEnabled) void startRun();
 };
 
 document.addEventListener('visibilitychange', () => {
@@ -623,8 +822,8 @@ window.addEventListener('beforeunload', () => {
   audio.dispose();
   if (currentImportedAircraft) disposeObject3D(currentImportedAircraft);
   aircraftLibrary.dispose();
-  worldAdapter?.dispose();
-  renderer?.dispose();
+  if (renderer) renderer.dispose();
+  else worldStreamer?.dispose();
 });
 
 boot().catch((error: unknown) => {

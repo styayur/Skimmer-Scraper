@@ -1,5 +1,22 @@
 # Changelog
 
+## Unreleased — v0.2.0
+
+### Added
+
+- Seeded, reproducible city presets and shareable `seed`, `preset`, `world` and generator-version URLs.
+- Continuous proximity feedback, comfort mode, configurable dynamic FOV, chase/cockpit views and a
+  dismissible recording hint.
+- On-demand 220 m chunk streaming with a collision ring, velocity-directed prefetch, dynamic per-chunk
+  BVHs, explicit buffer pauses and floating-origin rendering.
+- Deterministic 15-minute streaming simulation, in-flight cancellation coverage and browser evidence
+  for chunk replacement, BVH bounds and geometry retirement counters.
+
+### In progress
+
+- Ephemeral-world revisions, bounded revision history and mode-isolated personal bests.
+- Final v0.2.0 performance/release acceptance and public deployment verification.
+
 ## 0.1.0 — 2026-11-08
 
 Initial public release candidate.

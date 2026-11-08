@@ -69,7 +69,7 @@ Never claim real-GPU performance from CI/headless Chromium.
 
 ## Git workflow
 
-- Work in one `codex/phase-*` branch per delivery phase.
+- Work in one `codex/v0.2-phase-*` branch per v0.2 delivery phase.
 - Open and merge one PR per phase after CI passes.
 - Keep generated screenshots and acceptance JSON with the corresponding phase commit.
-- Tag the final accepted release `v0.1.0` only after the release PR is merged.
+- Preserve the `v0.1.0` tag/release and its evidence. Tag `v0.2.0` only after the final release PR is merged.

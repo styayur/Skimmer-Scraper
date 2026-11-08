@@ -5,7 +5,8 @@ import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
 import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js';
 import type { Attitude, Vec3 } from '../core/math';
 import type { FlightState } from '../flight/flightModel';
-import type { WorldData } from '../world/worldTypes';
+import type { RenderableWorld, SpawnState } from '../world/renderWorld';
+import type { WorldStats } from '../world/worldTypes';
 import type { CameraMode, VisualStimulation } from '../config/experience';
 import { EXPERIENCE_CONFIG } from '../config/experience';
 import { FlightCameraRig } from './cameraRig';
@@ -58,7 +59,7 @@ export class GameRenderer {
   private readonly aircraftMount = new THREE.Group();
   private readonly aircraftModelMount = new THREE.Group();
   private externalAircraft: THREE.Object3D | null = null;
-  private readonly world: WorldData;
+  private readonly world: RenderableWorld;
   private readonly resizeObserver: ResizeObserver;
   private readonly aircraftEuler = new THREE.Euler(0, 0, 0, 'YXZ');
   private quality = QUALITY_PRESETS.balanced;
@@ -73,7 +74,7 @@ export class GameRenderer {
 
   public constructor(
     private readonly canvas: HTMLCanvasElement,
-    world: WorldData,
+    world: RenderableWorld,
   ) {
     const context = canvas.getContext('webgl2', {
       alpha: false,
@@ -101,6 +102,7 @@ export class GameRenderer {
     this.scene.fog = new THREE.FogExp2(0x6f4152, world.settings.config.fogDensity);
     this.scene.background = new THREE.Color(0x241723);
     this.scene.add(world.root);
+    const spawn = world.getSpawn();
 
     this.camera = new THREE.PerspectiveCamera(64, 1, 0.25, 2300);
     this.cameraRig = new FlightCameraRig(this.camera);
@@ -149,12 +151,12 @@ export class GameRenderer {
     this.resize();
 
     canvas.addEventListener('webglcontextlost', this.handleContextLost);
-    this.setAircraftTransform(world.spawn.position, {
-      pitch: world.spawn.pitch,
+    this.setAircraftTransform(spawn.position, {
+      pitch: spawn.pitch,
       roll: 0,
-      yaw: world.spawn.yaw,
+      yaw: spawn.yaw,
     }, false);
-    this.cameraRig.updateAttract(performance.now(), world.spawn.position);
+    this.cameraRig.updateAttract(performance.now(), spawn.position);
   }
 
   public setQuality(name: RenderQuality['name']): void {
@@ -212,18 +214,19 @@ export class GameRenderer {
   public renderTitle(now: number): void {
     this.aircraftModelMount.visible = true;
     this.atmosphere.update(now);
-    this.cameraRig.updateAttract(now, this.world.spawn.position);
+    const spawn = this.world.getSpawn();
+    this.cameraRig.updateAttract(now, spawn.position);
     const bob = Math.sin(now * 0.0012) * 0.35;
     this.setAircraftTransform(
       {
-        x: this.world.spawn.position.x,
-        y: this.world.spawn.position.y + bob,
-        z: this.world.spawn.position.z,
+        x: spawn.position.x,
+        y: spawn.position.y + bob,
+        z: spawn.position.z,
       },
-      { pitch: this.world.spawn.pitch, roll: Math.sin(now * 0.0007) * 0.07, yaw: this.world.spawn.yaw },
+      { pitch: spawn.pitch, roll: Math.sin(now * 0.0007) * 0.07, yaw: spawn.yaw },
       false,
     );
-    this.petals.update(1 / 60, this.world.spawn.position);
+    this.petals.update(1 / 60, spawn.position);
     this.speedRibbons.hide();
     this.draw(now);
   }
@@ -248,16 +251,16 @@ export class GameRenderer {
     };
   }
 
-  public getWorldStats(): WorldData['stats'] {
-    return this.world.stats;
+  public getWorldStats(): WorldStats {
+    return this.world.getStats();
   }
 
-  public getWorldSpawn(): WorldData['spawn'] {
-    return this.world.spawn;
+  public getWorldSpawn(): SpawnState {
+    return this.world.getSpawn();
   }
 
   public getWorldFingerprint(): number {
-    return this.world.fingerprint;
+    return this.world.getFingerprint();
   }
 
   public resize(): void {
