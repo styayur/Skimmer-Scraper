@@ -165,6 +165,7 @@ export class GameUI {
     this.surfaceDistance.textContent = snapshot.distance === null ? '-- m' : `${snapshot.distance.toFixed(1)} m`;
     this.surfaceStatus.classList.toggle('is-locked', snapshot.locked);
     this.surfaceStatus.classList.toggle('is-warning', !snapshot.locked && !snapshot.prototype);
+    document.getElementById('app')?.classList.toggle('is-danger', !snapshot.locked && !snapshot.prototype && snapshot.grace < 2.4);
     this.surfaceState.textContent = snapshot.prototype
       ? 'SURFACE MODEL PENDING'
       : snapshot.locked
@@ -259,3 +260,4 @@ export class GameUI {
     this.webglError.hidden = false;
   }
 }
+

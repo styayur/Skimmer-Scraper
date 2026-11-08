@@ -2,6 +2,7 @@ import '@fontsource-variable/syne';
 import '@fontsource-variable/ibm-plex-sans';
 import './styles.css';
 
+import { FixedStepRunner } from './core/fixedStep';
 import { FLIGHT, createFlightState, stepFlight, type FlightState } from './flight/flightModel';
 import {
   KeyboardInputSource,
@@ -10,11 +11,18 @@ import {
   type GameAction,
   type InputSource,
 } from './flight/input';
-import { loadBest } from './game/storage';
+import {
+  createRunRules,
+  updateRunRules,
+  type FailureReason,
+  type RunRulesState,
+} from './game/runRules';
+import { loadBest, submitBest } from './game/storage';
 import { GameRenderer, WebGL2UnavailableError, type RenderStats } from './render/GameRenderer';
 import { GameUI, type ModelListItem } from './ui/GameUI';
+import { ChunkedWorldAdapter, type WorldAdapterStats } from './world/chunkedWorldAdapter';
 import { generateSakuraMegacity } from './world/proceduralCity';
-import type { WorldStats } from './world/worldTypes';
+import type { SurfaceQuery, WorldStats } from './world/worldTypes';
 
 type GameMode = 'title' | 'running' | 'paused' | 'failed';
 
@@ -26,7 +34,12 @@ interface DebugSnapshot {
   speed: number;
   altitude: number;
   position: { x: number; y: number; z: number };
+  surfaceDistance: number | null;
+  surfaceLocked: boolean;
+  grace: number;
+  failureReason: FailureReason;
   world: WorldStats;
+  adapter: WorldAdapterStats | null;
   render: RenderStats;
   seed: number;
   debugInput: boolean;
@@ -38,6 +51,8 @@ interface SkimmerDebugBridge {
   start(): void;
   retry(): void;
   title(): void;
+  setPose(position: { x: number; y: number; z: number }): DebugSnapshot;
+  advance(seconds: number): DebugSnapshot;
 }
 
 declare global {
@@ -51,6 +66,7 @@ const debugInputEnabled = params.has('debug');
 const autoStart = params.get('autostart') === '1';
 const requestedSeed = Number(params.get('seed'));
 const seed = Number.isFinite(requestedSeed) && requestedSeed !== 0 ? requestedSeed : 0x51a7a;
+const SURFACE_QUERY_RANGE = 90;
 const builtInModel: ModelListItem = {
   id: 'procedural',
   name: 'KITE-07',
@@ -61,13 +77,16 @@ const builtInModel: ModelListItem = {
 let mode: GameMode = 'title';
 let modeBeforeLibrary: GameMode = 'title';
 let flightState: FlightState | null = null;
-let accumulator = 0;
+let runRules: RunRulesState = createRunRules();
+let lastSurfaceHit: SurfaceQuery | null = null;
+let worldAdapter: ChunkedWorldAdapter | null = null;
 let lastFrameTime = performance.now();
 let muted = false;
 let qualityName: 'balanced' | 'high' = 'balanced';
 let best = loadBest();
 let renderer: GameRenderer | null = null;
 
+const stepRunner = new FixedStepRunner(FLIGHT.fixedDt, 12);
 const keyboard = new KeyboardInputSource();
 keyboard.setEnabled(false);
 const scripted = new ScriptedInputSource(demoInput);
@@ -102,41 +121,52 @@ const ui: GameUI = new GameUI({
 ui.setBest(best);
 ui.setModels([builtInModel], builtInModel.id);
 
-const startRun = (): void => {
-  if (!renderer) return;
-  closeLibrary(false);
-  flightState = createFlightState({
-    position: { ...renderer.getWorldSpawn().position },
-    yaw: renderer.getWorldSpawn().yaw,
-    pitch: renderer.getWorldSpawn().pitch,
-    speed: renderer.getWorldSpawn().speed,
-  });
-  accumulator = 0;
-  lastFrameTime = performance.now();
-  mode = 'running';
-  keyboard.setEnabled(!debugInputEnabled);
-  ui.showFlight();
+const syncHud = (): void => {
+  if (!flightState) return;
   ui.updateFlight({
-    runTime: 0,
+    runTime: runRules.elapsed,
     best,
     speed: flightState.speed,
     altitude: flightState.position.y,
-    boosting: false,
+    boosting: flightState.boosting,
   });
-  ui.updateSurface({ distance: null, grace: 5, locked: true, prototype: true });
-  renderer.snapCamera(flightState);
+  ui.updateSurface({
+    distance: lastSurfaceHit?.distance ?? null,
+    grace: runRules.grace,
+    locked: runRules.locked,
+  });
 };
 
-const returnToTitle = (): void => {
-  closeLibrary(false);
-  mode = 'title';
+const simulateFixedStep = (dt: number): boolean => {
+  if (mode !== 'running' || !flightState || !worldAdapter) return false;
+  flightState = stepFlight(flightState, inputSource.sample(flightState.elapsed), dt);
+  lastSurfaceHit = worldAdapter.queryNearest(flightState.position, SURFACE_QUERY_RANGE);
+  runRules = updateRunRules(runRules, { distance: lastSurfaceHit?.distance ?? null }, dt);
+  return runRules.status === 'running';
+};
+
+const finishRun = (): void => {
+  if (!flightState || runRules.status !== 'failed' || mode === 'failed') return;
+  mode = 'failed';
   keyboard.setEnabled(false);
-  firstFlightState();
-  ui.showTitle();
+  stepRunner.reset();
+  const score = submitBest(runRules.elapsed);
+  best = score.best;
   ui.setBest(best);
+
+  const graceFailure = runRules.failureReason === 'grace-expired';
+  ui.showFailure({
+    title: graceFailure ? '天际线甩掉了你' : '撞上天际线',
+    reason: graceFailure
+      ? '你连续 5 秒离开了所有有效表面。回到建筑、屋脊、桥面、地面或悬浮岛附近。'
+      : '你触碰了建筑或场景表面。贴近飞行，但别把机翼送进去。',
+    runTime: runRules.elapsed,
+    best,
+    isNewBest: score.isNewBest,
+  });
 };
 
-const firstFlightState = (): void => {
+const resetFlightState = (): void => {
   if (!renderer) return;
   const spawn = renderer.getWorldSpawn();
   flightState = createFlightState({
@@ -145,7 +175,30 @@ const firstFlightState = (): void => {
     pitch: spawn.pitch,
     speed: spawn.speed,
   });
-  accumulator = 0;
+  runRules = createRunRules();
+  lastSurfaceHit = worldAdapter?.queryNearest(flightState.position, SURFACE_QUERY_RANGE) ?? null;
+  stepRunner.reset();
+};
+
+const startRun = (): void => {
+  if (!renderer) return;
+  closeLibrary(false);
+  resetFlightState();
+  lastFrameTime = performance.now();
+  mode = 'running';
+  keyboard.setEnabled(!debugInputEnabled);
+  ui.showFlight();
+  syncHud();
+  if (flightState) renderer.snapCamera(flightState);
+};
+
+const returnToTitle = (): void => {
+  closeLibrary(false);
+  mode = 'title';
+  keyboard.setEnabled(false);
+  resetFlightState();
+  ui.showTitle();
+  ui.setBest(best);
 };
 
 const openLibrary = (): void => {
@@ -154,6 +207,7 @@ const openLibrary = (): void => {
   if (mode === 'running') {
     mode = 'paused';
     keyboard.setEnabled(false);
+    stepRunner.reset();
   }
   ui.openLibrary();
   ui.setModels([builtInModel], builtInModel.id);
@@ -164,10 +218,57 @@ const closeLibrary = (resume = true): void => {
   ui.closeLibrary();
   if (resume && mode === 'paused' && modeBeforeLibrary === 'running') {
     mode = 'running';
-    accumulator = 0;
+    stepRunner.reset();
     lastFrameTime = performance.now();
     keyboard.setEnabled(!debugInputEnabled);
   }
+};
+
+const debugSnapshot = (): DebugSnapshot => {
+  if (!renderer || !flightState) {
+    throw new Error('Game is not ready.');
+  }
+  return {
+    ready: true,
+    mode,
+    runTime: runRules.elapsed,
+    best,
+    speed: flightState.speed,
+    altitude: flightState.position.y,
+    position: { ...flightState.position },
+    surfaceDistance: lastSurfaceHit?.distance ?? null,
+    surfaceLocked: runRules.locked,
+    grace: runRules.grace,
+    failureReason: runRules.failureReason,
+    world: renderer.getWorldStats(),
+    adapter: worldAdapter?.getStats() ?? null,
+    render: renderer.getStats(),
+    seed,
+    debugInput: debugInputEnabled,
+  };
+};
+
+const debugAdvance = (seconds: number): DebugSnapshot => {
+  if (!flightState || mode !== 'running') return debugSnapshot();
+  const steps = Math.min(7200, Math.max(0, Math.floor(seconds / FLIGHT.fixedDt)));
+  for (let index = 0; index < steps; index += 1) {
+    if (!simulateFixedStep(FLIGHT.fixedDt)) break;
+  }
+  syncHud();
+  if (runRules.status === 'failed') finishRun();
+  lastFrameTime = performance.now();
+  return debugSnapshot();
+};
+
+const debugSetPose = (position: { x: number; y: number; z: number }): DebugSnapshot => {
+  if (!flightState) return debugSnapshot();
+  flightState = {
+    ...flightState,
+    position: { x: position.x, y: position.y, z: position.z },
+  };
+  lastSurfaceHit = worldAdapter?.queryNearest(flightState.position, SURFACE_QUERY_RANGE) ?? null;
+  syncHud();
+  return debugSnapshot();
 };
 
 keyboard.onAction((action: GameAction) => {
@@ -190,20 +291,9 @@ const frame = (now: number): void => {
   lastFrameTime = now;
 
   if (mode === 'running' && renderer && flightState) {
-    accumulator += delta;
-    let steps = 0;
-    while (accumulator >= FLIGHT.fixedDt && steps < 12) {
-      flightState = stepFlight(flightState, inputSource.sample(flightState.elapsed), FLIGHT.fixedDt);
-      accumulator -= FLIGHT.fixedDt;
-      steps += 1;
-    }
-    ui.updateFlight({
-      runTime: flightState.elapsed,
-      best,
-      speed: flightState.speed,
-      altitude: flightState.position.y,
-      boosting: flightState.boosting,
-    });
+    stepRunner.advance(delta, simulateFixedStep);
+    syncHud();
+    if (runRules.status === 'failed') finishRun();
     renderer.renderFlight(flightState, delta, now);
   } else if (renderer && mode === 'title') {
     renderer.renderTitle(now);
@@ -222,11 +312,14 @@ const boot = async (): Promise<void> => {
   if (!(canvas instanceof HTMLCanvasElement)) throw new Error('Missing game canvas.');
 
   const world = generateSakuraMegacity(seed);
+  ui.setLoadingCopy('正在建立表面空间索引');
+  await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
+  worldAdapter = new ChunkedWorldAdapter(world.chunks);
+
   ui.setLoadingCopy('正在编译近距飞行场景');
   await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
-
   renderer = new GameRenderer(canvas, world);
-  firstFlightState();
+  resetFlightState();
   ui.finishLoading();
   ui.showTitle();
   renderer.renderTitle(performance.now());
@@ -234,24 +327,12 @@ const boot = async (): Promise<void> => {
 
   window.__SKIMMER_SCRAPER__ = {
     version: '0.1.0',
-    snapshot: () => ({
-      ready: renderer !== null,
-      mode,
-      runTime: flightState?.elapsed ?? 0,
-      best,
-      speed: flightState?.speed ?? 0,
-      altitude: flightState?.position.y ?? 0,
-      position: flightState
-        ? { ...flightState.position }
-        : { ...world.spawn.position },
-      world: world.stats,
-      render: renderer?.getStats() ?? { calls: 0, triangles: 0, points: 0, lines: 0, fps: 0 },
-      seed,
-      debugInput: debugInputEnabled,
-    }),
-    start: () => startRun(),
-    retry: () => startRun(),
-    title: () => returnToTitle(),
+    snapshot: debugSnapshot,
+    start: startRun,
+    retry: startRun,
+    title: returnToTitle,
+    setPose: debugSetPose,
+    advance: debugAdvance,
   };
 
   if (autoStart || debugInputEnabled) startRun();
@@ -260,12 +341,17 @@ const boot = async (): Promise<void> => {
 document.addEventListener('visibilitychange', () => {
   if (document.visibilityState === 'visible') {
     lastFrameTime = performance.now();
-    accumulator = 0;
+    stepRunner.reset();
   }
 });
 
 window.addEventListener('skimmer:webgl-context-lost', () => {
   ui.showFatal('WebGL2 上下文已丢失。请重新载入页面。');
+});
+
+window.addEventListener('beforeunload', () => {
+  worldAdapter?.dispose();
+  renderer?.dispose();
 });
 
 boot().catch((error: unknown) => {
@@ -277,4 +363,3 @@ boot().catch((error: unknown) => {
     console.error(error);
   }
 });
-
