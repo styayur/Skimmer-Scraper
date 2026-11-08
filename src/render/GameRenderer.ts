@@ -13,6 +13,7 @@ import {
   type ProceduralAircraft,
 } from './proceduralAircraft';
 import { createSkyAtmosphere, type SkyAtmosphere } from './sky';
+import { createSpeedRibbons, type SpeedRibbons } from './speedRibbons';
 
 export class WebGL2UnavailableError extends Error {
   public constructor() {
@@ -50,6 +51,7 @@ export class GameRenderer {
   private readonly cameraRig: ChaseCamera;
   private readonly atmosphere: SkyAtmosphere;
   private readonly petals: PetalField;
+  private readonly speedRibbons: SpeedRibbons;
   private readonly proceduralAircraft: ProceduralAircraft;
   private readonly aircraftMount = new THREE.Group();
   private externalAircraft: THREE.Object3D | null = null;
@@ -87,12 +89,12 @@ export class GameRenderer {
     });
     this.renderer.outputColorSpace = THREE.SRGBColorSpace;
     this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    this.renderer.toneMappingExposure = 1.08;
+    this.renderer.toneMappingExposure = 1.01;
     this.renderer.shadowMap.enabled = true;
     this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     this.renderer.info.autoReset = false;
 
-    this.scene.fog = new THREE.FogExp2(0x5c3548, 0.00115);
+    this.scene.fog = new THREE.FogExp2(0x6f4152, 0.00096);
     this.scene.background = new THREE.Color(0x241723);
     this.scene.add(world.root);
 
@@ -123,6 +125,8 @@ export class GameRenderer {
     this.proceduralAircraft = createProceduralAircraft();
     this.aircraftMount.name = 'aircraft-mount';
     this.aircraftMount.add(this.proceduralAircraft.group);
+    this.speedRibbons = createSpeedRibbons();
+    this.aircraftMount.add(this.speedRibbons.object);
     this.scene.add(this.aircraftMount);
 
     this.petals = createPetalField();
@@ -130,7 +134,7 @@ export class GameRenderer {
 
     this.composer = new EffectComposer(this.renderer);
     this.composer.addPass(new RenderPass(this.scene, this.camera));
-    this.bloomPass = new UnrealBloomPass(new THREE.Vector2(1, 1), 0.68, 0.38, 0.78);
+    this.bloomPass = new UnrealBloomPass(new THREE.Vector2(1, 1), 0.52, 0.34, 0.74);
     this.composer.addPass(this.bloomPass);
     this.composer.addPass(new OutputPass());
 
@@ -195,6 +199,7 @@ export class GameRenderer {
       false,
     );
     this.petals.update(1 / 60, this.world.spawn.position);
+    this.speedRibbons.hide();
     this.draw(now);
   }
 
@@ -203,6 +208,7 @@ export class GameRenderer {
     this.cameraRig.update(dt, state);
     this.setAircraftTransform(state.position, state.attitude, state.boosting);
     this.petals.update(dt, state.position);
+    this.speedRibbons.update(state.speed, state.boosting, dt);
     this.draw(now);
   }
 
@@ -246,6 +252,7 @@ export class GameRenderer {
     this.proceduralAircraft.dispose();
     this.atmosphere.dispose();
     this.petals.dispose();
+    this.speedRibbons.dispose();
     this.world.root.traverse((object) => {
       if (object instanceof THREE.Mesh) {
         object.geometry.dispose();
@@ -291,4 +298,7 @@ export class GameRenderer {
 }
 
 export type { FlightState };
+
+
+
 

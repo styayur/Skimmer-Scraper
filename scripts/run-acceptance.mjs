@@ -41,11 +41,15 @@ const deliverablesByPhase = {
     'tests/e2e/proximity.spec.ts',
   ],
   '3': [
-    'src/model/modelLibrary.ts',
-    'src/model/glbLoader.ts',
-    'src/render/audio.ts',
-    'tests/unit/modelLibrary.test.ts',
+    'src/model/aircraftLibrary.ts',
+    'src/model/glb.ts',
+    'src/model/modelStore.ts',
+    'src/audio/synth.ts',
+    'tests/unit/glb.test.ts',
+    'tests/unit/modelStore.test.ts',
     'tests/e2e/model-import.spec.ts',
+    'tests/fixtures/test-aircraft.glb',
+    'docs/MODELS.md',
   ],
   '4': [
     'README.md',
@@ -165,6 +169,7 @@ for (const file of [vitestJson, playwrightJson]) {
 
 console.log(`\nAcceptance phase ${phase}: ${report.status}`);
 process.exit(report.status === 'pass' ? 0 : 1);
+
 
 
 

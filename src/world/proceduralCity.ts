@@ -222,44 +222,51 @@ const createCity = (seed: number): WorldData => {
     y1: number,
     randomValue: Random,
   ): void => {
-    const floorStep = range(randomValue, 5.2, 7.2);
-    const face = pick(randomValue, [0, 1, 2, 3]);
-    const columns = Math.max(1, Math.floor((face < 2 ? width : depth) / 7));
-    for (let y = y0 + 3.2; y < y1 - 2.2; y += floorStep) {
-      if (chance(randomValue, 0.24)) continue;
-      const count = Math.min(columns, 1 + Math.floor(randomValue() * 3));
-      for (let c = 0; c < count; c += 1) {
-        const offset = ((c + 0.5) / count - 0.5) * (face < 2 ? width : depth) * 0.78;
-        const windowWidth = range(randomValue, 1.2, 2.5);
-        const windowHeight = range(randomValue, 0.8, 1.5);
-        let px = x;
-        let pz = z;
-        let rotationY = 0;
+    const floorStep = range(randomValue, 4.4, 6.2);
+    const innerFace = x < 0 ? 2 : 3;
+    const faces = [0, innerFace];
+    if (chance(randomValue, 0.42)) faces.push(x < 0 ? 3 : 2);
+    if (chance(randomValue, 0.28)) faces.push(1);
 
-        if (face === 0) {
-          px += offset;
-          pz += depth * 0.5 + 0.045;
-        } else if (face === 1) {
-          px -= offset;
-          pz -= depth * 0.5 + 0.045;
-          rotationY = Math.PI;
-        } else if (face === 2) {
-          px += width * 0.5 + 0.045;
-          pz += offset;
-          rotationY = Math.PI * 0.5;
-        } else {
-          px -= width * 0.5 + 0.045;
-          pz -= offset;
-          rotationY = -Math.PI * 0.5;
+    for (const face of faces) {
+      const span = face < 2 ? width : depth;
+      const columns = Math.max(1, Math.floor(span / 6.4));
+      for (let y = y0 + 3.1; y < y1 - 2.0; y += floorStep) {
+        if (chance(randomValue, 0.14)) continue;
+        const count = Math.min(columns, 1 + Math.floor(randomValue() * 3));
+        for (let c = 0; c < count; c += 1) {
+          const offset = ((c + 0.5) / count - 0.5) * span * 0.8;
+          const windowWidth = range(randomValue, 1.35, 2.8);
+          const windowHeight = range(randomValue, 0.9, 1.65);
+          let px = x;
+          let pz = z;
+          let rotationY = 0;
+
+          if (face === 0) {
+            px += offset;
+            pz += depth * 0.5 + 0.045;
+          } else if (face === 1) {
+            px -= offset;
+            pz -= depth * 0.5 + 0.045;
+            rotationY = Math.PI;
+          } else if (face === 2) {
+            px += width * 0.5 + 0.045;
+            pz += offset;
+            rotationY = Math.PI * 0.5;
+          } else {
+            px -= width * 0.5 + 0.045;
+            pz -= offset;
+            rotationY = -Math.PI * 0.5;
+          }
+
+          addPiece(
+            chunk,
+            'windowWarm',
+            new THREE.PlaneGeometry(windowWidth, windowHeight),
+            matrixAt(px, y, pz, 0, rotationY),
+            false,
+          );
         }
-
-        addPiece(
-          chunk,
-          'windowWarm',
-          new THREE.PlaneGeometry(windowWidth, windowHeight),
-          matrixAt(px, y, pz, 0, rotationY),
-          false,
-        );
       }
     }
   };
@@ -419,6 +426,32 @@ const createCity = (seed: number): WorldData => {
       false,
     );
 
+    if (chance(random, 0.42)) {
+      const gardenWidth = Math.max(4, sectionWidth * 0.46);
+      addBox(chunk, 'wood', gardenWidth, 1.1, 4.2, x - sectionWidth * 0.18, finalRoofY + 0.55, z + sectionDepth * 0.18, rotationY, false);
+      for (let bloom = 0; bloom < 4; bloom += 1) {
+        const angle = range(random, 0, Math.PI * 2);
+        addPiece(
+          chunk,
+          'blossom',
+          new THREE.IcosahedronGeometry(range(random, 1.3, 2.4), 1),
+          matrixAt(
+            x - sectionWidth * 0.18 + Math.cos(angle) * gardenWidth * 0.28,
+            finalRoofY + range(random, 1.4, 3.0),
+            z + sectionDepth * 0.18 + Math.sin(angle) * 1.5,
+            0,
+            0,
+            0,
+            1.1,
+            0.8,
+            1.1,
+          ),
+          false,
+        );
+      }
+      addBox(chunk, 'teal', 0.14, 0.12, 3.4, x - sectionWidth * 0.18, finalRoofY + 1.2, z + 2.1, rotationY, false);
+    }
+
     if (chance(random, 0.7)) {
       const spireHeight = range(random, 6, 25);
       addPiece(
@@ -530,6 +563,41 @@ const createCity = (seed: number): WorldData => {
       true,
     );
 
+    addPiece(
+      chunk,
+      'teal',
+      new THREE.TorusGeometry(radius * 0.62, 0.24, 5, 36),
+      matrixAt(x, y - height * 0.2, z, Math.PI * 0.5),
+      false,
+    );
+    addPiece(
+      chunk,
+      'teal',
+      new THREE.ConeGeometry(radius * 0.14, 18, 5),
+      matrixAt(x, y - height * 0.5 - 9, z, Math.PI),
+      false,
+    );
+    for (let root = 0; root < 5; root += 1) {
+      const angle = (root / 5) * Math.PI * 2 + 0.35;
+      const rootX = x + Math.cos(angle) * radius * 0.58;
+      const rootZ = z + Math.sin(angle) * radius * 0.58;
+      const rootLength = range(random, 8, 22);
+      addPiece(
+        chunk,
+        'rose',
+        new THREE.CylinderGeometry(0.15, 0.48, rootLength, 5),
+        matrixAt(rootX, y - height * 0.5 - rootLength * 0.5, rootZ, 0.07, 0, angle * 0.08),
+        false,
+      );
+      addPiece(
+        chunk,
+        'teal',
+        new THREE.IcosahedronGeometry(range(random, 0.55, 1.3), 1),
+        matrixAt(rootX, y - height * 0.5 - rootLength, rootZ),
+        false,
+      );
+    }
+
     const treeCount = Math.max(3, Math.floor(radius / 11));
     for (let index = 0; index < treeCount; index += 1) {
       const angle = range(random, 0, Math.PI * 2);
@@ -633,6 +701,7 @@ const createCity = (seed: number): WorldData => {
   }
 
   const islands = [
+    { x: 0, y: 105, z: 92, radius: 38, height: 30 },
     { x: -165, y: 215, z: -70, radius: 48, height: 42 },
     { x: 194, y: 155, z: -260, radius: 57, height: 48 },
     { x: -286, y: 286, z: -470, radius: 68, height: 56 },
@@ -704,4 +773,8 @@ const createCity = (seed: number): WorldData => {
 };
 
 export const generateSakuraMegacity = (seed = 0x51a7a): WorldData => createCity(seed);
+
+
+
+
 

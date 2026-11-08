@@ -171,6 +171,7 @@ export const createProceduralAircraft = (): ProceduralAircraft => {
 
   const exhaustGeometry = new THREE.ConeGeometry(0.28, 1.7, 12, 1, true);
   exhaustGeometry.rotateX(Math.PI * 0.5);
+  group.scale.setScalar(1.07);
   const exhaust = addMesh(exhaustGeometry, exhaustMaterial, 0, 0, 3.0);
   exhaust.castShadow = false;
   exhaust.receiveShadow = false;
@@ -194,3 +195,4 @@ export const createProceduralAircraft = (): ProceduralAircraft => {
     },
   };
 };
+

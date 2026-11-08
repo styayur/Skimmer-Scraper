@@ -17,7 +17,11 @@ import {
   type FailureReason,
   type RunRulesState,
 } from './game/runRules';
+import type { Group } from 'three';
 import { loadBest, submitBest } from './game/storage';
+import { FlightAudio } from './audio/synth';
+import { AircraftLibrary, BUILT_IN_AIRCRAFT_ID } from './model/aircraftLibrary';
+import { disposeObject3D } from './model/glb';
 import { GameRenderer, WebGL2UnavailableError, type RenderStats } from './render/GameRenderer';
 import { GameUI, type ModelListItem } from './ui/GameUI';
 import { ChunkedWorldAdapter, type WorldAdapterStats } from './world/chunkedWorldAdapter';
@@ -43,6 +47,8 @@ interface DebugSnapshot {
   render: RenderStats;
   seed: number;
   debugInput: boolean;
+  selectedAircraft: string;
+  localModelCount: number;
 }
 
 interface SkimmerDebugBridge {
@@ -68,9 +74,9 @@ const requestedSeed = Number(params.get('seed'));
 const seed = Number.isFinite(requestedSeed) && requestedSeed !== 0 ? requestedSeed : 0x51a7a;
 const SURFACE_QUERY_RANGE = 90;
 const builtInModel: ModelListItem = {
-  id: 'procedural',
+  id: BUILT_IN_AIRCRAFT_ID,
   name: 'KITE-07',
-  meta: '程序化 · 近距截击机',
+  meta: '程序化 · 8 m · 内置',
   tag: 'BUILT-IN',
 };
 
@@ -85,8 +91,12 @@ let muted = false;
 let qualityName: 'balanced' | 'high' = 'balanced';
 let best = loadBest();
 let renderer: GameRenderer | null = null;
+let currentImportedAircraft: Group | null = null;
+let modelLoadVersion = 0;
 
 const stepRunner = new FixedStepRunner(FLIGHT.fixedDt, 12);
+const audio = new FlightAudio();
+const aircraftLibrary = new AircraftLibrary();
 const keyboard = new KeyboardInputSource();
 keyboard.setEnabled(false);
 const scripted = new ScriptedInputSource(demoInput);
@@ -100,6 +110,7 @@ const ui: GameUI = new GameUI({
   onLibraryClose: () => closeLibrary(),
   onMuteToggle: () => {
     muted = !muted;
+    audio.setMuted(muted);
     return muted;
   },
   onQualityChange: () => {
@@ -107,20 +118,102 @@ const ui: GameUI = new GameUI({
     renderer?.setQuality(qualityName);
     return qualityName === 'balanced' ? '平衡' : '高';
   },
-  onImportModel: () => {
-    ui.showToast('GLB 导入将在第 3 阶段接入；当前可使用内置 KITE-07。', false);
+  onImportModel: (file) => {
+    void importAircraft(file);
   },
   onSelectModel: (id) => {
-    if (id === builtInModel.id) ui.selectModel(id);
+    void selectAircraft(id);
   },
   onRemoveModel: () => {
-    ui.showToast('内置机型不可移除。', true);
+    void removeSelectedAircraft();
+  },
+  onRotateModel: () => {
+    void rotateSelectedAircraft();
   },
 });
 
 ui.setBest(best);
 ui.setModels([builtInModel], builtInModel.id);
 
+const refreshModelOptions = (): void => {
+  ui.setModels(aircraftLibrary.options(), aircraftLibrary.getSelectedId());
+};
+
+const applyAircraft = (root: Group | null): void => {
+  const previous = currentImportedAircraft;
+  currentImportedAircraft = root;
+  renderer?.setAircraftModel(root);
+  if (previous) disposeObject3D(previous);
+};
+
+const selectAircraft = async (id: string): Promise<void> => {
+  if (!renderer) return;
+  const previousSelection = aircraftLibrary.getSelectedId();
+  const version = ++modelLoadVersion;
+  ui.setModelBusy(true, '正在载入本机机型…');
+  try {
+    aircraftLibrary.select(id);
+    const loaded = await aircraftLibrary.load(id);
+    if (version !== modelLoadVersion) {
+      if (loaded) disposeObject3D(loaded.root);
+      return;
+    }
+    applyAircraft(loaded?.root ?? null);
+    refreshModelOptions();
+    const selected = aircraftLibrary.options().find((option) => option.id === id);
+    ui.showToast(`已切换机型：${selected?.name ?? id}`);
+  } catch (error) {
+    if (version === modelLoadVersion) {
+      aircraftLibrary.select(previousSelection);
+      refreshModelOptions();
+      const message = error instanceof Error ? error.message : String(error);
+      ui.showToast(`机型载入失败：${message}`, true, 5200);
+    }
+  } finally {
+    if (version === modelLoadVersion) ui.setModelBusy(false);
+  }
+};
+
+const importAircraft = async (file: File): Promise<void> => {
+  ui.setModelBusy(true, '正在验证并保存本机 GLB…');
+  try {
+    await aircraftLibrary.importFile(file);
+    refreshModelOptions();
+    await selectAircraft(aircraftLibrary.getSelectedId());
+    ui.showToast(`已导入 ${file.name}。模型仅保存在此浏览器。`);
+  } catch (error) {
+    ui.setModelBusy(false);
+    const message = error instanceof Error ? error.message : String(error);
+    ui.showToast(`导入失败：${message}`, true, 6000);
+  }
+};
+
+const removeSelectedAircraft = async (): Promise<void> => {
+  const id = aircraftLibrary.getSelectedId();
+  if (id === BUILT_IN_AIRCRAFT_ID) return;
+  try {
+    await aircraftLibrary.remove(id);
+    refreshModelOptions();
+    await selectAircraft(BUILT_IN_AIRCRAFT_ID);
+    ui.showToast('已从本机机库移除模型。');
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
+    ui.showToast(`移除失败：${message}`, true, 5200);
+  }
+};
+
+const rotateSelectedAircraft = async (): Promise<void> => {
+  const id = aircraftLibrary.getSelectedId();
+  if (id === BUILT_IN_AIRCRAFT_ID) return;
+  try {
+    await aircraftLibrary.rotate(id);
+    await selectAircraft(id);
+    ui.showToast('已旋转模型 180°。');
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
+    ui.showToast(`旋转失败：${message}`, true, 5200);
+  }
+};
 const syncHud = (): void => {
   if (!flightState) return;
   ui.updateFlight({
@@ -150,6 +243,7 @@ const finishRun = (): void => {
   mode = 'failed';
   keyboard.setEnabled(false);
   stepRunner.reset();
+  audio.fail();
   const score = submitBest(runRules.elapsed);
   best = score.best;
   ui.setBest(best);
@@ -187,6 +281,8 @@ const startRun = (): void => {
   lastFrameTime = performance.now();
   mode = 'running';
   keyboard.setEnabled(!debugInputEnabled);
+  audio.start();
+  audio.setMuted(muted);
   ui.showFlight();
   syncHud();
   if (flightState) renderer.snapCamera(flightState);
@@ -196,6 +292,7 @@ const returnToTitle = (): void => {
   closeLibrary(false);
   mode = 'title';
   keyboard.setEnabled(false);
+  audio.stop();
   resetFlightState();
   ui.showTitle();
   ui.setBest(best);
@@ -208,9 +305,10 @@ const openLibrary = (): void => {
     mode = 'paused';
     keyboard.setEnabled(false);
     stepRunner.reset();
+    audio.pause();
   }
   ui.openLibrary();
-  ui.setModels([builtInModel], builtInModel.id);
+  refreshModelOptions();
 };
 
 const closeLibrary = (resume = true): void => {
@@ -221,6 +319,7 @@ const closeLibrary = (resume = true): void => {
     stepRunner.reset();
     lastFrameTime = performance.now();
     keyboard.setEnabled(!debugInputEnabled);
+    audio.resume();
   }
 };
 
@@ -245,6 +344,8 @@ const debugSnapshot = (): DebugSnapshot => {
     render: renderer.getStats(),
     seed,
     debugInput: debugInputEnabled,
+    selectedAircraft: aircraftLibrary.getSelectedId(),
+    localModelCount: Math.max(0, aircraftLibrary.options().length - 1),
   };
 };
 
@@ -294,6 +395,7 @@ const frame = (now: number): void => {
     stepRunner.advance(delta, simulateFixedStep);
     syncHud();
     if (runRules.status === 'failed') finishRun();
+    if (flightState) audio.update(flightState.speed, flightState.boosting);
     renderer.renderFlight(flightState, delta, now);
   } else if (renderer && mode === 'title') {
     renderer.renderTitle(now);
@@ -319,6 +421,19 @@ const boot = async (): Promise<void> => {
   ui.setLoadingCopy('正在编译近距飞行场景');
   await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
   renderer = new GameRenderer(canvas, world);
+  ui.setLoadingCopy('正在载入本机机库');
+  try {
+    const options = await aircraftLibrary.initialize();
+    ui.setModels(options, aircraftLibrary.getSelectedId());
+    const selected = aircraftLibrary.getSelectedId();
+    const loaded = await aircraftLibrary.load(selected);
+    applyAircraft(loaded?.root ?? null);
+  } catch (error) {
+    aircraftLibrary.select(BUILT_IN_AIRCRAFT_ID);
+    ui.setModels([builtInModel], BUILT_IN_AIRCRAFT_ID);
+    const message = error instanceof Error ? error.message : String(error);
+    setTimeout(() => ui.showToast(`本机模型库不可用，已使用内置机型：${message}`, true, 6200), 0);
+  }
   resetFlightState();
   ui.finishLoading();
   ui.showTitle();
@@ -350,6 +465,9 @@ window.addEventListener('skimmer:webgl-context-lost', () => {
 });
 
 window.addEventListener('beforeunload', () => {
+  audio.dispose();
+  if (currentImportedAircraft) disposeObject3D(currentImportedAircraft);
+  aircraftLibrary.dispose();
   worldAdapter?.dispose();
   renderer?.dispose();
 });
@@ -363,3 +481,6 @@ boot().catch((error: unknown) => {
     console.error(error);
   }
 });
+
+
+

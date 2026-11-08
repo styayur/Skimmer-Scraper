@@ -41,6 +41,7 @@ export interface GameUIHooks {
   onImportModel(file: File): void;
   onSelectModel(id: string): void;
   onRemoveModel(): void;
+  onRotateModel(): void;
 }
 
 const required = <T extends HTMLElement>(id: string): T => {
@@ -78,6 +79,7 @@ export class GameUI {
   private readonly modelList = required<HTMLElement>('model-list');
   private readonly modelNote = required<HTMLElement>('model-note');
   private readonly removeModelButton = required<HTMLButtonElement>('remove-model-button');
+  private readonly rotateModelButton = required<HTMLButtonElement>('rotate-model-button');
   private readonly modelFile = required<HTMLInputElement>('model-file');
   private readonly muteButton = required<HTMLButtonElement>('mute-button');
   private readonly qualityButton = required<HTMLButtonElement>('quality-button');
@@ -94,6 +96,7 @@ export class GameUI {
     required<HTMLButtonElement>('library-close').addEventListener('click', hooks.onLibraryClose);
     required<HTMLButtonElement>('import-model-button').addEventListener('click', () => this.modelFile.click());
     this.removeModelButton.addEventListener('click', hooks.onRemoveModel);
+    this.rotateModelButton.addEventListener('click', hooks.onRotateModel);
     this.modelFile.addEventListener('change', () => {
       const file = this.modelFile.files?.[0];
       if (file) hooks.onImportModel(file);
@@ -223,6 +226,7 @@ export class GameUI {
       ? `当前机型 ${current.name} · ${current.meta}`
       : '选择一架飞机开始挑战。';
     this.removeModelButton.disabled = selectedId === 'procedural';
+    this.rotateModelButton.disabled = selectedId === 'procedural';
   }
 
   public setModelBusy(busy: boolean, note?: string): void {
@@ -260,4 +264,6 @@ export class GameUI {
     this.webglError.hidden = false;
   }
 }
+
+
 

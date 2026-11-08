@@ -1,0 +1,112 @@
+{
+  "schemaVersion": 1,
+  "product": "Skimmer-Scraper",
+  "version": "0.1.0",
+  "phase": 3,
+  "generatedAt": "2026-11-08T09:21:18.388Z",
+  "sourceRevision": "3ac7914",
+  "worktreeDirty": true,
+  "status": "pass",
+  "commands": [
+    {
+      "label": "typecheck",
+      "command": "npm run typecheck",
+      "status": "pass",
+      "exitCode": 0,
+      "durationMs": 654
+    },
+    {
+      "label": "unit-tests",
+      "command": "npx vitest run --reporter=json --outputFile E:\\GitHub\\Skimmer-Scraper\\acceptance\\vitest-phase-3.json",
+      "status": "pass",
+      "exitCode": 0,
+      "durationMs": 1642
+    },
+    {
+      "label": "production-build",
+      "command": "npm run build",
+      "status": "pass",
+      "exitCode": 0,
+      "durationMs": 1447
+    },
+    {
+      "label": "browser-tests",
+      "command": "npx playwright test --reporter=json",
+      "status": "pass",
+      "exitCode": 0,
+      "durationMs": 91059
+    }
+  ],
+  "unitTests": {
+    "passed": 22,
+    "failed": 0,
+    "total": 22
+  },
+  "browserTests": {
+    "passed": 3,
+    "failed": 0,
+    "skipped": 0,
+    "durationMs": 89544.14499999999
+  },
+  "deliverables": [
+    {
+      "path": "src/model/aircraftLibrary.ts",
+      "exists": true
+    },
+    {
+      "path": "src/model/glb.ts",
+      "exists": true
+    },
+    {
+      "path": "src/model/modelStore.ts",
+      "exists": true
+    },
+    {
+      "path": "src/audio/synth.ts",
+      "exists": true
+    },
+    {
+      "path": "tests/unit/glb.test.ts",
+      "exists": true
+    },
+    {
+      "path": "tests/unit/modelStore.test.ts",
+      "exists": true
+    },
+    {
+      "path": "tests/e2e/model-import.spec.ts",
+      "exists": true
+    },
+    {
+      "path": "tests/fixtures/test-aircraft.glb",
+      "exists": true
+    },
+    {
+      "path": "docs/MODELS.md",
+      "exists": true
+    }
+  ],
+  "evidence": [
+    {
+      "path": "evidence/phase-3-imported-flight.png",
+      "bytes": 723069,
+      "sha256": "91169935de9f55ef732d35beef52238d247fecb545dacee03e51efc8f26d3271"
+    },
+    {
+      "path": "evidence/phase-3-model-library.png",
+      "bytes": 746162,
+      "sha256": "a74967439d417fe6b9917f9513f1c09626be6646de46c8cef848c7fa36dca93d"
+    }
+  ],
+  "environment": {
+    "os": "win32 10.0.26300",
+    "node": "v26.7.0",
+    "playwright": "Version 1.65.0",
+    "browser": "Chromium headless"
+  },
+  "caveats": [
+    "Browser tests use headless Chromium and may run on SwiftShader/software rendering.",
+    "This report is correctness and browser-integration evidence, not a real-GPU performance certification.",
+    "Cloudflare Pages publication is not claimed unless a separate live deployment URL is recorded."
+  ]
+}

@@ -59,7 +59,7 @@ export class ChaseCamera {
     this.camera.up.copy(this.up).applyAxisAngle(this.forward, -state.attitude.roll * 0.2);
     this.camera.lookAt(this.smoothLook);
 
-    const targetFov = 64 + Math.min(11, speedRatio * 9) + (state.boosting ? 5 : 0);
+    const targetFov = 62 + Math.min(10, speedRatio * 8) + (state.boosting ? 5 : 0);
     this.camera.fov = damp(this.camera.fov, targetFov, 3.4, dt);
     this.camera.updateProjectionMatrix();
   }
@@ -70,9 +70,11 @@ export class ChaseCamera {
     const z = center.z + 58 + Math.cos(time * 0.00011) * 10;
     this.camera.position.set(x, y, z);
     this.camera.up.set(0, 1, 0);
-    this.camera.lookAt(center.x - 10, center.y + 22, center.z - 190);
-    this.camera.fov = damp(this.camera.fov, 52, 2.5, 0.016);
+    this.camera.lookAt(center.x - 8, center.y + 52, center.z - 220);
+    this.camera.fov = damp(this.camera.fov, 56, 2.5, 0.016);
     this.camera.updateProjectionMatrix();
     this.initialized = false;
   }
 }
+
+
