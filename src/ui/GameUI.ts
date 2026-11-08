@@ -18,6 +18,7 @@ export interface SurfaceHudSnapshot {
   proximity: number;
   zone: 'detached' | 'near' | 'strong' | 'extreme';
   prototype?: boolean;
+  buffering?: boolean;
 }
 
 export interface FailureSnapshot {
@@ -177,6 +178,11 @@ export class GameUI {
     this.loadingScreen.hidden = true;
   }
 
+  public showLoading(copy: string): void {
+    this.loadingCopy.textContent = copy;
+    this.loadingScreen.hidden = false;
+  }
+
   public setLoadingCopy(copy: string): void {
     this.loadingCopy.textContent = copy;
   }
@@ -228,12 +234,18 @@ export class GameUI {
     this.graceMeter.setAttribute('aria-valuenow', snapshot.grace.toFixed(2));
     this.surfaceDistance.textContent = snapshot.distance === null ? '-- m' : `${snapshot.distance.toFixed(1)} m`;
     app?.style.setProperty('--proximity-intensity', Math.max(0, Math.min(1, snapshot.proximity)).toFixed(4));
-    this.surfaceStatus.classList.toggle('is-locked', snapshot.locked);
-    this.surfaceStatus.classList.toggle('is-warning', !snapshot.locked && !snapshot.prototype);
-    this.surfaceStatus.classList.toggle('is-strong', snapshot.zone === 'strong');
-    this.surfaceStatus.classList.toggle('is-extreme', snapshot.zone === 'extreme');
-    app?.classList.toggle('is-danger', !snapshot.locked && !snapshot.prototype && snapshot.grace < 2.4);
-    if (snapshot.prototype) {
+    const buffering = Boolean(snapshot.buffering);
+    this.surfaceStatus.classList.toggle('is-locked', snapshot.locked && !buffering);
+    this.surfaceStatus.classList.toggle('is-warning', !snapshot.locked && !snapshot.prototype && !buffering);
+    this.surfaceStatus.classList.toggle('is-strong', snapshot.zone === 'strong' && !buffering);
+    this.surfaceStatus.classList.toggle('is-extreme', snapshot.zone === 'extreme' && !buffering);
+    this.surfaceStatus.classList.toggle('is-buffering', buffering);
+    app?.classList.toggle('is-danger', !buffering && !snapshot.locked && !snapshot.prototype && snapshot.grace < 2.4);
+    app?.classList.toggle('is-buffering', buffering);
+    if (buffering) {
+      this.surfaceState.textContent = 'WORLD STREAM / 区块缓冲';
+      this.flightStatus.textContent = '前方城市正在载入 · 生存计时暂停';
+    } else if (snapshot.prototype) {
       this.surfaceState.textContent = 'SURFACE MODEL PENDING';
       this.flightStatus.textContent = '原型飞行 · 近距规则将在下一阶段接入';
     } else if (snapshot.zone === 'extreme') {
@@ -249,7 +261,11 @@ export class GameUI {
       this.surfaceState.textContent = 'SURFACE LOST';
       this.flightStatus.textContent = '远离所有表面 · 立即回贴';
     }
-    this.surfaceState.style.color = snapshot.locked ? 'var(--teal)' : 'var(--rose)';
+    this.surfaceState.style.color = buffering
+      ? 'var(--peach)'
+      : snapshot.locked
+        ? 'var(--teal)'
+        : 'var(--rose)';
   }
 
   public setCameraMode(mode: CameraMode): void {

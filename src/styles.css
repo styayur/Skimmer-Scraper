@@ -284,6 +284,7 @@ kbd {
 }
 .surface-status.is-locked { border-color: rgba(83, 229, 207, 0.52); box-shadow: 0 0 36px rgba(83, 229, 207, 0.08); }
 .surface-status.is-warning { border-color: rgba(255, 93, 143, 0.68); box-shadow: 0 0 38px rgba(255, 93, 143, 0.12); }
+.surface-status.is-buffering { border-color: rgba(255, 190, 143, 0.58); box-shadow: 0 0 34px rgba(255, 190, 143, 0.12); }
 .surface-status__row { display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
 .surface-state { color: var(--teal); font-family: var(--display); font-size: 0.58rem; font-weight: 700; letter-spacing: 0.14em; }
 .surface-distance { font-family: var(--display); font-size: 0.62rem; font-variant-numeric: tabular-nums; color: var(--paper); }

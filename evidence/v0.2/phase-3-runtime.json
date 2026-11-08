@@ -1,0 +1,59 @@
+{
+  "generatedAt": "2026-11-08T17:36:37.358Z",
+  "world": {
+    "seed": "phase-3-stream",
+    "preset": "neon",
+    "mode": "stable",
+    "chunksBeforeTeleport": 14,
+    "chunksAfterTeleport": 25
+  },
+  "streaming": {
+    "stateCounts": {
+      "UNLOADED": 0,
+      "QUEUED": 0,
+      "GENERATING": 0,
+      "READY": 0,
+      "ACTIVE": 25,
+      "RETIRING": 0,
+      "DISPOSED": 0
+    },
+    "loadedChunks": 25,
+    "activeChunks": 25,
+    "queuedChunks": 0,
+    "generatingChunks": 0,
+    "generatedTotal": 55,
+    "retiredTotal": 32,
+    "disposedGeometryCount": 525,
+    "bvhCount": 25,
+    "renderObjectCount": 396,
+    "estimatedCpuGeometryBytes": 78423596,
+    "generationAvgMs": 255.94912280874294,
+    "generationP95Ms": 2194.4000000059605,
+    "maxLoadedChunks": 41,
+    "coverageComplete": true,
+    "rebaseCount": 1
+  },
+  "rebase": {
+    "count": 1,
+    "renderOrigin": {
+      "x": 10000,
+      "y": 0,
+      "z": 0
+    }
+  },
+  "runtime": {
+    "position": {
+      "x": 12105,
+      "y": 598.9093593153227,
+      "z": -72.7039256932195
+    },
+    "runTime": 5.891666666666749,
+    "surfaceLocked": false,
+    "calls": 135,
+    "triangles": 278742
+  },
+  "bufferingPausedRunTimer": true,
+  "bufferedTimerDeltaSeconds": 0,
+  "consoleErrors": [],
+  "caveat": "Chromium headless verifies integration and resource counters. It is not a real-GPU performance certification or proof of complete GPU memory reclamation."
+}

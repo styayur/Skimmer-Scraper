@@ -53,7 +53,16 @@ const deliverablesByPhase = {
     'tests/e2e/world-seed.spec.ts',
     'docs/WORLD.md',
   ],
-  3: [],
+  3: [
+    'src/world/chunkSource.ts',
+    'src/world/renderWorld.ts',
+    'src/world/worldStreamer.ts',
+    'src/world/chunkedWorldAdapter.ts',
+    'src/render/GameRenderer.ts',
+    'tests/unit/worldStreamer.test.ts',
+    'tests/e2e/world-streaming.spec.ts',
+    'docs/STREAMING.md',
+  ],
   4: [],
   5: [],
 };
@@ -89,8 +98,10 @@ const commands = [
 
 let unitTests = { passed: 0, failed: 0, total: 0 };
 let browserTests = { passed: 0, failed: 0, skipped: 0, durationMs: 0 };
+let unitReport = null;
 try {
   const parsed = JSON.parse(readFileSync(vitestJson, 'utf8'));
+  unitReport = parsed;
   unitTests = {
     passed: Number(parsed.numPassedTests ?? 0),
     failed: Number(parsed.numFailedTests ?? 0),
@@ -106,6 +117,41 @@ try {
     durationMs: Number(parsed.stats?.duration ?? 0),
   };
 } catch {}
+
+const testNamePassed = (report, pattern) => {
+  for (const file of report?.testResults ?? []) {
+    for (const assertion of file?.assertionResults ?? []) {
+      const name = String(assertion?.fullName ?? assertion?.title ?? '');
+      if (pattern.test(name) && assertion?.status === 'passed') return true;
+    }
+  }
+  return false;
+};
+
+let phase3Runtime = null;
+if (phase === 3) {
+  try {
+    phase3Runtime = JSON.parse(readFileSync(join(evidenceDir, 'phase-3-runtime.json'), 'utf8'));
+  } catch {}
+}
+const phaseChecks = phase === 3
+  ? {
+      browserRuntimeEvidencePresent: Boolean(phase3Runtime),
+      noConsoleErrors: Array.isArray(phase3Runtime?.consoleErrors) &&
+        phase3Runtime.consoleErrors.length === 0,
+      coverageComplete: phase3Runtime?.streaming?.coverageComplete === true,
+      activeChunksWithinBudget: Number(phase3Runtime?.streaming?.activeChunks) > 0 &&
+        Number(phase3Runtime?.streaming?.activeChunks) <=
+          Number(phase3Runtime?.streaming?.maxLoadedChunks),
+      bvhCountMatchesActive: Number(phase3Runtime?.streaming?.bvhCount) ===
+        Number(phase3Runtime?.streaming?.activeChunks),
+      geometryDisposalObserved: Number(phase3Runtime?.streaming?.retiredTotal) > 0 &&
+        Number(phase3Runtime?.streaming?.disposedGeometryCount) > 0,
+      floatingOriginRebased: Number(phase3Runtime?.streaming?.rebaseCount) > 0,
+      bufferingPausedRunTimer: phase3Runtime?.bufferingPausedRunTimer === true,
+      longDistance15MinuteTestPassed: testNamePassed(unitReport, /15-minute curved flight/i),
+    }
+  : {};
 
 const deliverables = (deliverablesByPhase[phase] ?? []).map((path) => ({
   path,
@@ -135,7 +181,8 @@ const dirty = spawnSync('git', ['status', '--porcelain'], {
 });
 const nodeVersion = process.version;
 const passed = commands.every((command) => command.status === 'pass') &&
-  deliverables.every((deliverable) => deliverable.exists);
+  deliverables.every((deliverable) => deliverable.exists) &&
+  Object.values(phaseChecks).every(Boolean);
 
 const report = {
   schemaVersion: 1,
@@ -150,6 +197,8 @@ const report = {
   commands,
   tests: { unit: unitTests, browser: browserTests },
   deliverables,
+  phaseChecks,
+  runtimeEvidence: phase3Runtime,
   evidence,
   environment: {
     os: `${platform()} ${release()}`,

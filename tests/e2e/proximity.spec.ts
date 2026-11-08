@@ -14,7 +14,7 @@ interface DebugSnapshot {
 
 interface DebugBridge {
   snapshot(): DebugSnapshot;
-  advance(seconds: number): DebugSnapshot;
+  advance(seconds: number, options?: { holdPosition?: boolean }): DebugSnapshot;
   setPose(position: { x: number; y: number; z: number }): DebugSnapshot;
 }
 
@@ -61,7 +61,7 @@ test.describe('phase 2 proximity and collision rules', () => {
     await page.screenshot({ path: 'evidence/phase-2-flight.png', fullPage: true });
 
     await bridgeCall(page, 'setPose', { x: 0, y: 280, z: 0 });
-    const graceExpired = await bridgeCall<DebugSnapshot>(page, 'advance', 5.2);
+    const graceExpired = await bridgeCall<DebugSnapshot>(page, 'advance', 5.2, { holdPosition: true });
     expect(graceExpired.mode).toBe('failed');
     expect(graceExpired.failureReason).toBe('grace-expired');
     await expect(page.locator('#fail-screen')).toBeVisible();
@@ -79,7 +79,7 @@ test.describe('phase 2 proximity and collision rules', () => {
     });
 
     await bridgeCall(page, 'setPose', { x: 0, y: 0.5, z: 0 });
-    const impact = await bridgeCall<DebugSnapshot>(page, 'advance', 0.1);
+    const impact = await bridgeCall<DebugSnapshot>(page, 'advance', 0.1, { holdPosition: true });
     expect(impact.mode).toBe('failed');
     expect(impact.failureReason).toBe('impact');
     await expect(page.locator('#fail-title')).toHaveText('撞上天际线');
@@ -91,5 +91,3 @@ test.describe('phase 2 proximity and collision rules', () => {
     expect(errors).toEqual([]);
   });
 });
-
-
