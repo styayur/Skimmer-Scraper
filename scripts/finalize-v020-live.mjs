@@ -1,5 +1,5 @@
 import { createHash } from 'node:crypto';
-import { readFileSync, writeFileSync } from 'node:fs';
+import { readFileSync, readdirSync, writeFileSync } from 'node:fs';
 import { spawnSync } from 'node:child_process';
 
 const reportPath = 'acceptance/v0.2.0.json';
@@ -30,15 +30,21 @@ report.blockers = (report.blockers ?? []).filter((blocker) => !blocker.startsWit
 if (report.hosting.cloudflarePages?.status !== 'verified') {
   report.blockers.push('Cloudflare Pages remains blocked on OAuth or repository secrets; GitHub Pages is the verified release host.');
 }
-const bytes = readFileSync(liveEvidencePath);
-const evidenceEntry = {
-  path: liveEvidencePath,
-  bytes: bytes.length,
-  sha256: createHash('sha256').update(bytes).digest('hex'),
-};
-const existingIndex = report.evidence.findIndex((entry) => entry.path === liveEvidencePath);
-if (existingIndex >= 0) report.evidence[existingIndex] = evidenceEntry;
-else report.evidence.push(evidenceEntry);
+report.blockers = [...new Set(report.blockers)];
+for (const file of readdirSync('evidence')
+  .filter((name) => name.startsWith('v0.2.0-live-pages-') && /\.(png|json)$/.test(name))
+  .sort()) {
+  const path = `evidence/${file}`;
+  const bytes = readFileSync(path);
+  const evidenceEntry = {
+    path,
+    bytes: bytes.length,
+    sha256: createHash('sha256').update(bytes).digest('hex'),
+  };
+  const existingIndex = report.evidence.findIndex((entry) => entry.path === path);
+  if (existingIndex >= 0) report.evidence[existingIndex] = evidenceEntry;
+  else report.evidence.push(evidenceEntry);
+}
 report.liveFinalizedAt = new Date().toISOString();
 report.generatedAt = report.liveFinalizedAt;
 writeFileSync(reportPath, `${JSON.stringify(report, null, 2)}

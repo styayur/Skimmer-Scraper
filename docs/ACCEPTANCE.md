@@ -63,7 +63,7 @@ PASS values.
 | 2 — Seeded Procedural City | seed determinism, ordering, terrain seams, share URLs | `evidence/v0.2/phase-2-*` | PASS |
 | 3 — Infinite World Streaming | 15-minute simulated flight, cancellation, BVH/active bounds, geometry disposal, floating origin, stream-buffer timer pause | `evidence/v0.2/phase-3-*` | PASS |
 | 4 — Ephemeral World | stable/ephemeral round trip, bounded LRU revisions, revision-free boundaries, mode-isolated scores | `evidence/v0.2/phase-4-*` | PASS |
-| 5 — Final QA / Release | 30/60/144 FPS consistency, software frame proxy, real AMD 780M benchmark, version and release report | `acceptance/v0.2.0.json`, `evidence/v0.2.0-*` | PASS_PENDING_LIVE |
+| 5 — Final QA / Release | 30/60/144 FPS consistency, software frame proxy, real AMD 780M benchmark, live GitHub Pages verification | `acceptance/v0.2.0.json`, `evidence/v0.2.0-*` | PASS |
 
 Phase 3 browser counters are integration evidence from headless Chromium. The run environment may use
 SwiftShader, so `evidence/v0.2/phase-3-runtime.json` is not a real-GPU frame-time or GPU-memory
@@ -89,3 +89,11 @@ A headed Chrome run on the target-class Windows machine recorded hardware render
 Method and raw counters are in `evidence/v0.2.0-real-gpu.json`. This certificate applies only to the
 named hardware, driver, browser, resolution and paused-simulation measurement method. The separate
 headless QA proxy remains recorded as software-rendered evidence and is not mixed into this result.
+
+## v0.2.0 public deployment
+
+GitHub Pages returned HTTP 200 for the deployed commit `e56b034492f71ee7f1d3a51468df13c1850fa13d`.
+Playwright verified WebGL2, both camera modes, project-subpath assets, the Stable/Ephemeral selector,
+share-link parameters and an Ephemeral flight. Evidence is in
+`evidence/v0.2.0-live-pages-verification.json` and the three live-pages screenshots. Cloudflare Pages
+remains blocked and is not part of the v0.2.0 release claim.
