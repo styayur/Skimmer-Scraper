@@ -146,7 +146,7 @@ original synthetic assets are documented in [CREDITS.md](CREDITS.md). Project so
 - Frame-rate rules: equivalent 30/60/144 FPS outcomes for lock, impact and grace expiry.
 - Real GPU: AMD Radeon 780M passed the Balanced and High p95 target at 1920 x 1080.
 - Final machine-readable report: `acceptance/v0.2.0.json`.
-- Public production verification is completed after the final PR merges.
+- GitHub Pages production verification passed on 2026-11-09 for deployed commit `e56b034`.
 
 ## v0.2 phase status
 
@@ -156,4 +156,4 @@ original synthetic assets are documented in [CREDITS.md](CREDITS.md). Project so
 | Seeded Procedural City | merged | `acceptance/v0.2/phase-2.json` |
 | Infinite World Streaming | merged | `acceptance/v0.2/phase-3.json` |
 | Ephemeral World | merged | `acceptance/v0.2/phase-4.json` |
-| Final QA / v0.2.0 release | in review | `acceptance/v0.2.0.json` |
+| Final QA / v0.2.0 release | verified | `acceptance/v0.2.0.json` |

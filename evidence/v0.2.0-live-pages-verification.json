@@ -1,0 +1,473 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-11-09T04:24:53.486Z",
+  "url": "https://styayur.github.io/Skimmer-Scraper/?seed=v020-live&preset=neon&world=ephemeral&gen=2",
+  "baseUrl": "https://styayur.github.io/Skimmer-Scraper/",
+  "httpStatus": 200,
+  "initialVersion": "0.2.0",
+  "runtime": {
+    "bridgeVersion": "0.2.0",
+    "title": "Skimmer-Scraper — Close-Surface Flight",
+    "snapshot": {
+      "ready": true,
+      "mode": "running",
+      "runTime": 1.3499999999999976,
+      "best": 0,
+      "speed": 66,
+      "altitude": 85,
+      "position": {
+        "x": 0,
+        "y": 85,
+        "z": 30.900000000000453
+      },
+      "surfaceDistance": 14.940269470214844,
+      "surfaceLocked": true,
+      "grace": 5,
+      "failureReason": null,
+      "world": {
+        "chunks": 25,
+        "buildings": 314,
+        "bridges": 70,
+        "islands": 1,
+        "collisionTriangles": 318222,
+        "renderTriangles": 634006
+      },
+      "adapter": {
+        "chunks": 25,
+        "bvhCount": 25,
+        "lastBroadPhaseCandidates": 2,
+        "lastQueries": 2
+      },
+      "streaming": {
+        "stateCounts": {
+          "UNLOADED": 0,
+          "QUEUED": 0,
+          "GENERATING": 0,
+          "READY": 0,
+          "ACTIVE": 25,
+          "RETIRING": 0,
+          "DISPOSED": 0
+        },
+        "loadedChunks": 25,
+        "activeChunks": 25,
+        "queuedChunks": 0,
+        "generatingChunks": 0,
+        "generatedTotal": 25,
+        "retiredTotal": 0,
+        "disposedGeometryCount": 0,
+        "bvhCount": 25,
+        "renderObjectCount": 367,
+        "estimatedCpuGeometryBytes": 74242780,
+        "generationAvgMs": 106.1599999988079,
+        "generationP95Ms": 411.59999999403954,
+        "maxLoadedChunks": 41,
+        "coverageComplete": true,
+        "rebaseCount": 0
+      },
+      "buffering": false,
+      "renderOrigin": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "render": {
+        "calls": 460,
+        "triangles": 771630,
+        "points": 560,
+        "lines": 64,
+        "fps": 40.571657772869635
+      },
+      "seed": 1375862398,
+      "debugInput": false,
+      "selectedAircraft": "procedural",
+      "localModelCount": 0,
+      "cameraMode": "chase",
+      "cameraBlend": 0.011068901180605125,
+      "fov": 64.66069855055403,
+      "proximity": 0.32953056740935255,
+      "proximityZone": "near",
+      "visualStimulation": "standard",
+      "recordingHintVisible": true,
+      "worldPreset": "neon",
+      "worldMode": "ephemeral",
+      "generatorVersion": 2,
+      "worldFingerprint": 3527237326,
+      "revisionHistory": {
+        "maxEntries": 256,
+        "epoch": 0,
+        "entries": [
+          {
+            "key": "2:2",
+            "chunkX": 2,
+            "chunkZ": 2,
+            "revision": 0,
+            "retireCount": 0,
+            "lastUsed": 25
+          },
+          {
+            "key": "-2:2",
+            "chunkX": -2,
+            "chunkZ": 2,
+            "revision": 0,
+            "retireCount": 0,
+            "lastUsed": 24
+          },
+          {
+            "key": "2:-2",
+            "chunkX": 2,
+            "chunkZ": -2,
+            "revision": 0,
+            "retireCount": 0,
+            "lastUsed": 23
+          },
+          {
+            "key": "-2:-2",
+            "chunkX": -2,
+            "chunkZ": -2,
+            "revision": 0,
+            "retireCount": 0,
+            "lastUsed": 22
+          },
+          {
+            "key": "1:2",
+            "chunkX": 1,
+            "chunkZ": 2,
+            "revision": 0,
+            "retireCount": 0,
+            "lastUsed": 21
+          },
+          {
+            "key": "-1:2",
+            "chunkX": -1,
+            "chunkZ": 2,
+            "revision": 0,
+            "retireCount": 0,
+            "lastUsed": 20
+          },
+          {
+            "key": "2:1",
+            "chunkX": 2,
+            "chunkZ": 1,
+            "revision": 0,
+            "retireCount": 0,
+            "lastUsed": 19
+          },
+          {
+            "key": "-2:1",
+            "chunkX": -2,
+            "chunkZ": 1,
+            "revision": 0,
+            "retireCount": 0,
+            "lastUsed": 18
+          },
+          {
+            "key": "2:-1",
+            "chunkX": 2,
+            "chunkZ": -1,
+            "revision": 0,
+            "retireCount": 0,
+            "lastUsed": 17
+          },
+          {
+            "key": "-2:-1",
+            "chunkX": -2,
+            "chunkZ": -1,
+            "revision": 0,
+            "retireCount": 0,
+            "lastUsed": 16
+          },
+          {
+            "key": "1:-2",
+            "chunkX": 1,
+            "chunkZ": -2,
+            "revision": 0,
+            "retireCount": 0,
+            "lastUsed": 15
+          },
+          {
+            "key": "-1:-2",
+            "chunkX": -1,
+            "chunkZ": -2,
+            "revision": 0,
+            "retireCount": 0,
+            "lastUsed": 14
+          },
+          {
+            "key": "0:2",
+            "chunkX": 0,
+            "chunkZ": 2,
+            "revision": 0,
+            "retireCount": 0,
+            "lastUsed": 13
+          },
+          {
+            "key": "2:0",
+            "chunkX": 2,
+            "chunkZ": 0,
+            "revision": 0,
+            "retireCount": 0,
+            "lastUsed": 12
+          },
+          {
+            "key": "-2:0",
+            "chunkX": -2,
+            "chunkZ": 0,
+            "revision": 0,
+            "retireCount": 0,
+            "lastUsed": 11
+          },
+          {
+            "key": "0:-2",
+            "chunkX": 0,
+            "chunkZ": -2,
+            "revision": 0,
+            "retireCount": 0,
+            "lastUsed": 10
+          },
+          {
+            "key": "1:1",
+            "chunkX": 1,
+            "chunkZ": 1,
+            "revision": 0,
+            "retireCount": 0,
+            "lastUsed": 9
+          },
+          {
+            "key": "-1:1",
+            "chunkX": -1,
+            "chunkZ": 1,
+            "revision": 0,
+            "retireCount": 0,
+            "lastUsed": 8
+          },
+          {
+            "key": "1:-1",
+            "chunkX": 1,
+            "chunkZ": -1,
+            "revision": 0,
+            "retireCount": 0,
+            "lastUsed": 7
+          },
+          {
+            "key": "-1:-1",
+            "chunkX": -1,
+            "chunkZ": -1,
+            "revision": 0,
+            "retireCount": 0,
+            "lastUsed": 6
+          },
+          {
+            "key": "0:1",
+            "chunkX": 0,
+            "chunkZ": 1,
+            "revision": 0,
+            "retireCount": 0,
+            "lastUsed": 5
+          },
+          {
+            "key": "1:0",
+            "chunkX": 1,
+            "chunkZ": 0,
+            "revision": 0,
+            "retireCount": 0,
+            "lastUsed": 4
+          },
+          {
+            "key": "-1:0",
+            "chunkX": -1,
+            "chunkZ": 0,
+            "revision": 0,
+            "retireCount": 0,
+            "lastUsed": 3
+          },
+          {
+            "key": "0:-1",
+            "chunkX": 0,
+            "chunkZ": -1,
+            "revision": 0,
+            "retireCount": 0,
+            "lastUsed": 2
+          },
+          {
+            "key": "0:0",
+            "chunkX": 0,
+            "chunkZ": 0,
+            "revision": 0,
+            "retireCount": 0,
+            "lastUsed": 1
+          }
+        ]
+      },
+      "chunkStates": [
+        {
+          "key": "0:0",
+          "state": "ACTIVE",
+          "revision": 0,
+          "fingerprint": 2683938
+        },
+        {
+          "key": "0:-1",
+          "state": "ACTIVE",
+          "revision": 0,
+          "fingerprint": 1377995321
+        },
+        {
+          "key": "-1:0",
+          "state": "ACTIVE",
+          "revision": 0,
+          "fingerprint": 453800535
+        },
+        {
+          "key": "1:0",
+          "state": "ACTIVE",
+          "revision": 0,
+          "fingerprint": 409206316
+        },
+        {
+          "key": "0:1",
+          "state": "ACTIVE",
+          "revision": 0,
+          "fingerprint": 879757528
+        },
+        {
+          "key": "-1:-1",
+          "state": "ACTIVE",
+          "revision": 0,
+          "fingerprint": 4171626117
+        },
+        {
+          "key": "1:-1",
+          "state": "ACTIVE",
+          "revision": 0,
+          "fingerprint": 4104850332
+        },
+        {
+          "key": "-1:1",
+          "state": "ACTIVE",
+          "revision": 0,
+          "fingerprint": 256636421
+        },
+        {
+          "key": "1:1",
+          "state": "ACTIVE",
+          "revision": 0,
+          "fingerprint": 2351885991
+        },
+        {
+          "key": "0:-2",
+          "state": "ACTIVE",
+          "revision": 0,
+          "fingerprint": 217971356
+        },
+        {
+          "key": "-2:0",
+          "state": "ACTIVE",
+          "revision": 0,
+          "fingerprint": 4276675407
+        },
+        {
+          "key": "2:0",
+          "state": "ACTIVE",
+          "revision": 0,
+          "fingerprint": 1478028218
+        },
+        {
+          "key": "0:2",
+          "state": "ACTIVE",
+          "revision": 0,
+          "fingerprint": 3001444619
+        },
+        {
+          "key": "-1:-2",
+          "state": "ACTIVE",
+          "revision": 0,
+          "fingerprint": 1771573175
+        },
+        {
+          "key": "1:-2",
+          "state": "ACTIVE",
+          "revision": 0,
+          "fingerprint": 2976030196
+        },
+        {
+          "key": "-2:-1",
+          "state": "ACTIVE",
+          "revision": 0,
+          "fingerprint": 314490594
+        },
+        {
+          "key": "2:-1",
+          "state": "ACTIVE",
+          "revision": 0,
+          "fingerprint": 3070363413
+        },
+        {
+          "key": "-2:1",
+          "state": "ACTIVE",
+          "revision": 0,
+          "fingerprint": 3593532902
+        },
+        {
+          "key": "2:1",
+          "state": "ACTIVE",
+          "revision": 0,
+          "fingerprint": 3908521234
+        },
+        {
+          "key": "-1:2",
+          "state": "ACTIVE",
+          "revision": 0,
+          "fingerprint": 3166419424
+        },
+        {
+          "key": "1:2",
+          "state": "ACTIVE",
+          "revision": 0,
+          "fingerprint": 3402947740
+        },
+        {
+          "key": "-2:-2",
+          "state": "ACTIVE",
+          "revision": 0,
+          "fingerprint": 2969743250
+        },
+        {
+          "key": "2:-2",
+          "state": "ACTIVE",
+          "revision": 0,
+          "fingerprint": 2158775111
+        },
+        {
+          "key": "-2:2",
+          "state": "ACTIVE",
+          "revision": 0,
+          "fingerprint": 815191028
+        },
+        {
+          "key": "2:2",
+          "state": "ACTIVE",
+          "revision": 0,
+          "fingerprint": 537346709
+        }
+      ]
+    },
+    "webglVersion": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+    "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+    "markers": {
+      "worldModeSelector": true,
+      "ephemeralTitle": true,
+      "hudVisible": true
+    }
+  },
+  "shareLinkChecks": {
+    "seed": true,
+    "preset": true,
+    "world": true,
+    "generatorVersion": true,
+    "projectSubpathPreserved": true
+  },
+  "consoleErrors": [],
+  "failedRequests": [],
+  "status": "pass",
+  "caveat": "Public GitHub Pages smoke test. Headless Chromium may use SwiftShader; this is not the real-GPU benchmark."
+}

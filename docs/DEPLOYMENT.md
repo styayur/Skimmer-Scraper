@@ -6,10 +6,10 @@ The repository publishes a static preview through `.github/workflows/deploy-gith
 
 **https://styayur.github.io/Skimmer-Scraper/**
 
-This is the primary public HTTPS release host. The v0.1.0 preview was verified on 2026-11-08. The
-v0.2.0 release workflow verifies the deployed main commit with HTTP status, WebGL2, both camera
-modes, world-mode selection, ephemeral mode and project-subpath asset loading. It is not represented
-as a Cloudflare Pages deployment.
+This is the primary public HTTPS release host. v0.2.0 was verified on 2026-11-09 for deployed main
+commit `e56b034492f71ee7f1d3a51468df13c1850fa13d`: HTTP 200, WebGL2, both camera modes,
+project-subpath assets, the world-mode selector, share-link parameters and an Ephemeral flight. It is
+not represented as a Cloudflare Pages deployment.
 
 ## Cloudflare Pages
 
@@ -41,6 +41,8 @@ HTTPS URL with the release browser test.
 - No `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID` or matching GitHub repository secrets are present.
 - Cloudflare Pages publication remains **BLOCKED_ON_AUTH / BLOCKED_ON_REPOSITORY_SECRETS**. No Cloudflare
   URL or deployment success is claimed. GitHub Pages remains the verified public release host.
+- v0.2.0 live evidence: `evidence/v0.2.0-live-pages-verification.json` and
+  `evidence/v0.2.0-live-pages-*.png`.
 
 ## Static host portability
 
