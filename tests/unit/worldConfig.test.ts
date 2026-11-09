@@ -35,6 +35,9 @@ describe('world settings', () => {
     expect(parsed.seed).toBe(settings.seed);
     expect(parsed.preset).toBe('archipelago');
     expect(parsed.mode).toBe('ephemeral');
+    expect(new URL(url).searchParams.get('world')).toBe('ephemeral');
+    expect(new URL(url).searchParams.get('gen')).toBe(String(GENERATOR_VERSION));
     expect(new URL(url).pathname).toBe('/Skimmer-Scraper/');
+    expect(worldSettingsFromSearch('?world=unknown').mode).toBe('stable');
   });
 });

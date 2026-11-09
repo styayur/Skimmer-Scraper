@@ -1,6 +1,6 @@
 import type { CameraMode } from '../config/experience';
 import { formatTime } from '../game/storage';
-import type { WorldPresetId, WorldSettings } from '../world/worldConfig';
+import type { WorldMode, WorldPresetId, WorldSettings } from '../world/worldConfig';
 import { WORLD_PRESET_OPTIONS } from '../world/worldConfig';
 
 export interface FlightHudSnapshot {
@@ -53,11 +53,11 @@ export interface GameUIHooks {
   onRecordingHintDismiss(): void;
   onWorldOpen(): void;
   onWorldClose(): void;
-  onWorldApply(seed: string, preset: WorldPresetId): void;
+  onWorldApply(seed: string, preset: WorldPresetId, mode: WorldMode): void;
   onWorldRandom(): string;
   onWorldCopySeed(seed: string): void;
-  onWorldCopyLink(seed: string, preset: WorldPresetId): void;
-  onWorldReset(): { seed: string; preset: WorldPresetId };
+  onWorldCopyLink(seed: string, preset: WorldPresetId, mode: WorldMode): void;
+  onWorldReset(): { seed: string; preset: WorldPresetId; mode: WorldMode };
 }
 
 const required = <T extends HTMLElement>(id: string): T => {
@@ -107,6 +107,8 @@ export class GameUI {
   private readonly worldPanel = required<HTMLElement>('world-panel');
   private readonly worldSeedInput = required<HTMLInputElement>('world-seed-input');
   private readonly worldPresetSelect = required<HTMLSelectElement>('world-preset-select');
+  private readonly worldModeSelect = required<HTMLSelectElement>('world-mode-select');
+  private readonly worldModeDescription = required<HTMLElement>('world-mode-description');
   private readonly worldPresetDescription = required<HTMLElement>('world-preset-description');
   private readonly titleWorldPreset = required<HTMLElement>('title-world-preset');
   private readonly titleWorldMeta = required<HTMLElement>('title-world-meta');
@@ -153,9 +155,14 @@ export class GameUI {
     required<HTMLButtonElement>('world-close').addEventListener('click', hooks.onWorldClose);
     required<HTMLFormElement>('world-form').addEventListener('submit', (event) => {
       event.preventDefault();
-      hooks.onWorldApply(this.worldSeedInput.value, this.worldPresetSelect.value as WorldPresetId);
+      hooks.onWorldApply(
+        this.worldSeedInput.value,
+        this.worldPresetSelect.value as WorldPresetId,
+        this.worldModeSelect.value as WorldMode,
+      );
     });
     this.worldPresetSelect.addEventListener('change', () => this.updateWorldPresetDescription());
+    this.worldModeSelect.addEventListener('change', () => this.updateWorldModeDescription());
     required<HTMLButtonElement>('world-random').addEventListener('click', () => {
       this.worldSeedInput.value = hooks.onWorldRandom();
     });
@@ -163,13 +170,19 @@ export class GameUI {
       hooks.onWorldCopySeed(this.worldSeedInput.value);
     });
     required<HTMLButtonElement>('world-copy-link').addEventListener('click', () => {
-      hooks.onWorldCopyLink(this.worldSeedInput.value, this.worldPresetSelect.value as WorldPresetId);
+      hooks.onWorldCopyLink(
+        this.worldSeedInput.value,
+        this.worldPresetSelect.value as WorldPresetId,
+        this.worldModeSelect.value as WorldMode,
+      );
     });
     required<HTMLButtonElement>('world-reset').addEventListener('click', () => {
       const reset = hooks.onWorldReset();
       this.worldSeedInput.value = reset.seed;
       this.worldPresetSelect.value = reset.preset;
+      this.worldModeSelect.value = reset.mode;
       this.updateWorldPresetDescription();
+      this.updateWorldModeDescription();
     });
     required<HTMLButtonElement>('reload-button').addEventListener('click', () => window.location.reload());
   }
@@ -289,7 +302,9 @@ export class GameUI {
   public setWorldSettings(settings: WorldSettings): void {
     this.worldSeedInput.value = settings.seedText;
     this.worldPresetSelect.value = settings.preset;
+    this.worldModeSelect.value = settings.mode;
     this.updateWorldPresetDescription();
+    this.updateWorldModeDescription();
     const titleMap: Record<WorldPresetId, string> = {
       sakura: 'SAKURA<br />DUSK<br />DISTRICT',
       neon: 'NEON<br />MEGACITY<br />DISTRICT',
@@ -324,6 +339,12 @@ export class GameUI {
   public updateWorldPresetDescription(): void {
     const preset = WORLD_PRESET_OPTIONS.find((option) => option.id === this.worldPresetSelect.value);
     this.worldPresetDescription.textContent = preset?.description ?? '';
+  }
+
+  public updateWorldModeDescription(): void {
+    this.worldModeDescription.textContent = this.worldModeSelect.value === 'ephemeral'
+      ? '你离开后的城市，将不再完全记得自己原来的模样。最近 256 个卸载区块保留明确修订历史。'
+      : '同一种子、预设与生成器版本始终得到相同城市，适合分享与复现。';
   }
 
   public openLibrary(): void {

@@ -14,7 +14,7 @@
 
 - `seed` — numeric or textual world seed.
 - `preset` — `sakura`, `neon`, `archipelago` or `randomized`.
-- `world` — `stable` for v0.2 phase 3; ephemeral is implemented in the next phase.
+- `world` — `stable` or `ephemeral`. Stable is the default and remains reproducible.
 - `gen` — generator version in shared links. The runtime currently resolves generator version 2.
 
 The world panel can randomize a seed, copy the raw seed, copy a complete share URL and restore the
@@ -55,3 +55,9 @@ The runtime no longer generates the complete 5 x 5 world during boot. `WorldStre
 collision ring, a larger render ring and a velocity-directed prefetch corridor while disposing chunks
 that leave the desired set. See [STREAMING.md](STREAMING.md) for lifecycle, coordinate, buffering and
 resource-accounting details.
+
+## World memory modes
+
+Stable World always uses revision 0. Ephemeral World advances a chunk revision only after complete
+unload, using a 256-entry LRU history and a global epoch fallback. Stable terrain, street anchors and
+bridge definitions never include the revision. See [EPHEMERAL.md](EPHEMERAL.md).

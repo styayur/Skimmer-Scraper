@@ -62,7 +62,7 @@ PASS values.
 | 1 — Flight Experience | cockpit/chase, FOV bounds, proximity preferences | `evidence/v0.2/phase-1-*` | PASS |
 | 2 — Seeded Procedural City | seed determinism, ordering, terrain seams, share URLs | `evidence/v0.2/phase-2-*` | PASS |
 | 3 — Infinite World Streaming | 15-minute simulated flight, cancellation, BVH/active bounds, geometry disposal, floating origin, stream-buffer timer pause | `evidence/v0.2/phase-3-*` | PASS |
-| 4 — Ephemeral World | pending implementation | — | PLANNED |
+| 4 — Ephemeral World | stable/ephemeral round trip, bounded LRU revisions, revision-free boundaries, mode-isolated scores | `evidence/v0.2/phase-4-*` | PASS |
 | 5 — Final QA / Release | pending final report | — | PLANNED |
 
 Phase 3 browser counters are integration evidence from headless Chromium. The run environment may use
@@ -71,4 +71,5 @@ certification. GPU reclamation still requires a named hardware/browser performan
 phase.
 
 The streaming design, lifetime rules and resource ownership are documented in
-[STREAMING.md](STREAMING.md).
+[STREAMING.md](STREAMING.md). World-memory rules and their bounded-history guarantee are documented
+in [EPHEMERAL.md](EPHEMERAL.md).

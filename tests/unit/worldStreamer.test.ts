@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import { describe, expect, it } from 'vitest';
 import type { ChunkSource, ChunkSourceRequest } from '../../src/world/chunkSource';
 import { chunkKey } from '../../src/world/chunkSource';
+import { ChunkRevisionHistory } from '../../src/world/chunkRevisionHistory';
 import { resolveWorldSettings } from '../../src/world/worldConfig';
 import { WorldStreamer } from '../../src/world/worldStreamer';
 import type { GeneratedChunk } from '../../src/world/worldTypes';
@@ -58,7 +59,7 @@ const createChunk = (
       new THREE.Vector3(12, 12, 12),
     ),
     collisionGeometry,
-    fingerprint: 1,
+    fingerprint: 0x1000 + request.revision,
     stats: {
       buildings: 1,
       bridges: 0,
@@ -198,6 +199,53 @@ describe('world streamer lifecycle', () => {
     expect(after.disposedGeometryCount).toBe(after.retiredTotal * 2);
     expect(source.state.disposedGeometries).toBe(after.disposedGeometryCount);
     expect(streamer.getChunkStates().every((chunk) => chunk.state !== 'RETIRING')).toBe(true);
+    streamer.dispose();
+  });
+
+  it('advances Ephemeral revision only after a whole chunk is retired', async () => {
+    const source = new ImmediateSource();
+    const history = new ChunkRevisionHistory(64);
+    const activated: string[] = [];
+    const retired: string[] = [];
+    const streamer = new WorldStreamer(settings, {
+      source,
+      renderRadius: 1,
+      collisionRadius: 1,
+      maxLoadedChunks: 17,
+      revisionProvider: (chunkX, chunkZ) => history.revisionFor(chunkX, chunkZ),
+      onChunkActivated: ({ chunkX, chunkZ, revision }) => {
+        history.markActive(chunkX, chunkZ, revision);
+        activated.push(chunkKey(chunkX, chunkZ));
+      },
+      onChunkRetired: ({ chunkX, chunkZ, revision }) => {
+        history.markRetired(chunkX, chunkZ, revision);
+        retired.push(chunkKey(chunkX, chunkZ));
+      },
+    });
+    const home = { x: 20, y: 40, z: 140 };
+    await streamer.prime(home);
+    await settle(streamer);
+    const before = streamer.getChunkStates().find((chunk) => chunk.key === '0:0');
+    expect(before?.revision).toBe(0);
+    expect(before?.fingerprint).toBe(0x1000);
+    expect(history.snapshot().entries.find((entry) => entry.key === '0:0')?.revision).toBe(0);
+
+    for (let offset = 0; offset < 3; offset += 1) {
+      await cover(streamer, { x: 30 + offset, y: 40, z: 130 }, { x: 10, y: 0, z: -10 });
+    }
+    expect(streamer.getChunkStates().find((chunk) => chunk.key === '0:0')?.revision).toBe(0);
+
+    await cover(streamer, { x: 4_420, y: 40, z: 140 }, { x: 100, y: 0, z: 0 });
+    expect(streamer.getChunkStates().some((chunk) => chunk.key === '0:0')).toBe(false);
+    expect(history.snapshot().entries.find((entry) => entry.key === '0:0')?.revision).toBe(1);
+    await cover(streamer, home, { x: -100, y: 0, z: 0 });
+
+    const after = streamer.getChunkStates().find((chunk) => chunk.key === '0:0');
+    expect(after?.revision).toBe(1);
+    expect(after?.fingerprint).toBe(0x1001);
+    expect(history.snapshot().entries.find((entry) => entry.key === '0:0')?.revision).toBe(1);
+    expect(activated).toContain('0:0');
+    expect(retired).toContain('0:0');
     streamer.dispose();
   });
 

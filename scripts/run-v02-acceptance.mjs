@@ -63,7 +63,17 @@ const deliverablesByPhase = {
     'tests/e2e/world-streaming.spec.ts',
     'docs/STREAMING.md',
   ],
-  4: [],
+  4: [
+    'src/world/chunkRevisionHistory.ts',
+    'src/world/stableBoundary.ts',
+    'src/game/storage.ts',
+    'src/ui/GameUI.ts',
+    'tests/unit/chunkRevisionHistory.test.ts',
+    'tests/unit/stableBoundary.test.ts',
+    'tests/unit/storage.test.ts',
+    'tests/e2e/ephemeral-world.spec.ts',
+    'docs/WORLD.md',
+  ],
   5: [],
 };
 
@@ -134,6 +144,12 @@ if (phase === 3) {
     phase3Runtime = JSON.parse(readFileSync(join(evidenceDir, 'phase-3-runtime.json'), 'utf8'));
   } catch {}
 }
+let phase4Runtime = null;
+if (phase === 4) {
+  try {
+    phase4Runtime = JSON.parse(readFileSync(join(evidenceDir, 'phase-4-runtime.json'), 'utf8'));
+  } catch {}
+}
 const phaseChecks = phase === 3
   ? {
       browserRuntimeEvidencePresent: Boolean(phase3Runtime),
@@ -151,7 +167,30 @@ const phaseChecks = phase === 3
       bufferingPausedRunTimer: phase3Runtime?.bufferingPausedRunTimer === true,
       longDistance15MinuteTestPassed: testNamePassed(unitReport, /15-minute curved flight/i),
     }
-  : {};
+  : phase === 4
+    ? {
+        browserRuntimeEvidencePresent: Boolean(phase4Runtime),
+        noConsoleErrors: Array.isArray(phase4Runtime?.consoleErrors) &&
+          phase4Runtime.consoleErrors.length === 0,
+        ephemeralChangedAfterUnload: phase4Runtime?.ephemeral?.changedAfterUnload === true,
+        ephemeralRevisionAdvanced: Number(phase4Runtime?.ephemeral?.initialRevision) === 0 &&
+          Number(phase4Runtime?.ephemeral?.revisitRevision) > 0,
+        revisionHistoryBounded: Number(phase4Runtime?.ephemeral?.revisionHistory?.entryCount) <=
+          Number(phase4Runtime?.ephemeral?.revisionHistory?.maxEntries),
+        stableRoundTripRepeatable: phase4Runtime?.stable?.repeatable === true,
+        stableRevisionRemainsZero: Number(phase4Runtime?.stable?.initialRevision) === 0 &&
+          Number(phase4Runtime?.stable?.revisitRevision) === 0,
+        activeChunksWithinBudget: Number(phase4Runtime?.ephemeral?.activeChunks) > 0 &&
+          Number(phase4Runtime?.ephemeral?.activeChunks) <= 41,
+        coverageComplete: phase4Runtime?.ephemeral?.coverageComplete === true,
+        uiModeAndShareLinkVerified: phase4Runtime?.ui?.modeSelector === 'ephemeral' &&
+          phase4Runtime?.ui?.shareLinkRoundTrip === true &&
+          phase4Runtime?.ui?.modeSelectorApplied === true,
+        boundedMetadataUnitTestPassed: testNamePassed(unitReport, /bounds metadata with LRU eviction/i),
+        stableBoundaryUnitTestPassed: testNamePassed(unitReport, /revision-free bridge definition/i),
+        modeIsolationUnitTestPassed: testNamePassed(unitReport, /isolates mode, preset, seed/i),
+      }
+    : {};
 
 const deliverables = (deliverablesByPhase[phase] ?? []).map((path) => ({
   path,
@@ -198,7 +237,7 @@ const report = {
   tests: { unit: unitTests, browser: browserTests },
   deliverables,
   phaseChecks,
-  runtimeEvidence: phase3Runtime,
+  runtimeEvidence: phase === 4 ? phase4Runtime : phase3Runtime,
   evidence,
   environment: {
     os: `${platform()} ${release()}`,

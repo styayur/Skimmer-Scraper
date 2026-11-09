@@ -1,0 +1,48 @@
+{
+  "generatedAt": "2026-11-08T23:39:10.066Z",
+  "ephemeral": {
+    "seed": "phase-4-ephemeral",
+    "initialRevision": 0,
+    "revisitRevision": 1,
+    "initialFingerprint": 1226678685,
+    "revisitFingerprint": 2753028314,
+    "changedAfterUnload": true,
+    "revisionHistory": {
+      "maxEntries": 256,
+      "epoch": 3,
+      "entryCount": 75,
+      "homeEntry": {
+        "key": "0:0",
+        "chunkX": 0,
+        "chunkZ": 0,
+        "revision": 1,
+        "retireCount": 1,
+        "lastUsed": 176
+      }
+    },
+    "activeChunks": 25,
+    "coverageComplete": true
+  },
+  "stable": {
+    "seed": "phase-4-stable",
+    "initialRevision": 0,
+    "revisitRevision": 0,
+    "initialFingerprint": 2412202707,
+    "revisitFingerprint": 2412202707,
+    "repeatable": true
+  },
+  "ui": {
+    "modeSelector": "ephemeral",
+    "shareLinkRoundTrip": true,
+    "modeSelectorApplied": true
+  },
+  "render": {
+    "calls": 505,
+    "triangles": 861130,
+    "points": 560,
+    "lines": 64,
+    "fps": 39.10852280549016
+  },
+  "consoleErrors": [],
+  "caveat": "Chromium headless integration evidence. Revision history is session-local and bounded to 256 entries; it is not persistent world history."
+}

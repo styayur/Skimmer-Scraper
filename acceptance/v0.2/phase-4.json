@@ -1,0 +1,181 @@
+{
+  "schemaVersion": 1,
+  "product": "Skimmer-Scraper",
+  "version": "0.2.0",
+  "phase": 4,
+  "stage": "Ephemeral World",
+  "generatedAt": "2026-11-08T23:41:26.585Z",
+  "sourceRevision": "f1c91b1",
+  "worktreeDirty": true,
+  "status": "pass",
+  "commands": [
+    {
+      "label": "typecheck",
+      "command": "npm run typecheck",
+      "status": "pass",
+      "exitCode": 0,
+      "durationMs": 905
+    },
+    {
+      "label": "unit-tests",
+      "command": "npx vitest run --reporter=json --outputFile E:\\GitHub\\Skimmer-Scraper\\acceptance\\v0.2\\.vitest-phase-4.json",
+      "status": "pass",
+      "exitCode": 0,
+      "durationMs": 4402
+    },
+    {
+      "label": "production-build",
+      "command": "npm run build",
+      "status": "pass",
+      "exitCode": 0,
+      "durationMs": 2015
+    },
+    {
+      "label": "browser-tests",
+      "command": "npx playwright test --reporter=json",
+      "status": "pass",
+      "exitCode": 0,
+      "durationMs": 178350
+    }
+  ],
+  "tests": {
+    "unit": {
+      "passed": 57,
+      "failed": 0,
+      "total": 57
+    },
+    "browser": {
+      "passed": 9,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 176435.97400000002
+    }
+  },
+  "deliverables": [
+    {
+      "path": "src/world/chunkRevisionHistory.ts",
+      "exists": true
+    },
+    {
+      "path": "src/world/stableBoundary.ts",
+      "exists": true
+    },
+    {
+      "path": "src/game/storage.ts",
+      "exists": true
+    },
+    {
+      "path": "src/ui/GameUI.ts",
+      "exists": true
+    },
+    {
+      "path": "tests/unit/chunkRevisionHistory.test.ts",
+      "exists": true
+    },
+    {
+      "path": "tests/unit/stableBoundary.test.ts",
+      "exists": true
+    },
+    {
+      "path": "tests/unit/storage.test.ts",
+      "exists": true
+    },
+    {
+      "path": "tests/e2e/ephemeral-world.spec.ts",
+      "exists": true
+    },
+    {
+      "path": "docs/WORLD.md",
+      "exists": true
+    }
+  ],
+  "phaseChecks": {
+    "browserRuntimeEvidencePresent": true,
+    "noConsoleErrors": true,
+    "ephemeralChangedAfterUnload": true,
+    "ephemeralRevisionAdvanced": true,
+    "revisionHistoryBounded": true,
+    "stableRoundTripRepeatable": true,
+    "stableRevisionRemainsZero": true,
+    "activeChunksWithinBudget": true,
+    "coverageComplete": true,
+    "uiModeAndShareLinkVerified": true,
+    "boundedMetadataUnitTestPassed": true,
+    "stableBoundaryUnitTestPassed": true,
+    "modeIsolationUnitTestPassed": true
+  },
+  "runtimeEvidence": {
+    "generatedAt": "2026-11-08T23:39:10.066Z",
+    "ephemeral": {
+      "seed": "phase-4-ephemeral",
+      "initialRevision": 0,
+      "revisitRevision": 1,
+      "initialFingerprint": 1226678685,
+      "revisitFingerprint": 2753028314,
+      "changedAfterUnload": true,
+      "revisionHistory": {
+        "maxEntries": 256,
+        "epoch": 3,
+        "entryCount": 75,
+        "homeEntry": {
+          "key": "0:0",
+          "chunkX": 0,
+          "chunkZ": 0,
+          "revision": 1,
+          "retireCount": 1,
+          "lastUsed": 176
+        }
+      },
+      "activeChunks": 25,
+      "coverageComplete": true
+    },
+    "stable": {
+      "seed": "phase-4-stable",
+      "initialRevision": 0,
+      "revisitRevision": 0,
+      "initialFingerprint": 2412202707,
+      "revisitFingerprint": 2412202707,
+      "repeatable": true
+    },
+    "ui": {
+      "modeSelector": "ephemeral",
+      "shareLinkRoundTrip": true,
+      "modeSelectorApplied": true
+    },
+    "render": {
+      "calls": 505,
+      "triangles": 861130,
+      "points": 560,
+      "lines": 64,
+      "fps": 39.10852280549016
+    },
+    "consoleErrors": [],
+    "caveat": "Chromium headless integration evidence. Revision history is session-local and bounded to 256 entries; it is not persistent world history."
+  },
+  "evidence": [
+    {
+      "path": "evidence/v0.2/phase-4-ephemeral-world-panel.png",
+      "bytes": 803547,
+      "sha256": "9c9c3caf97d7c993bab8db896bb5b3afdbad587291b758363db6bcc39a3560cd"
+    },
+    {
+      "path": "evidence/v0.2/phase-4-runtime.json",
+      "bytes": 1196,
+      "sha256": "4fdce7ea55f67cfa381b67ff68a21a04b07a00ca77b1512d9a9352cc27638036"
+    },
+    {
+      "path": "evidence/v0.2/phase-4-stable-roundtrip.png",
+      "bytes": 800490,
+      "sha256": "5e33a59edd967a8e8cacf807a086802182dddcdc42c64cf38034ba57f8266da9"
+    }
+  ],
+  "environment": {
+    "os": "win32 10.0.26300",
+    "node": "v26.7.0",
+    "browser": "Chromium headless / Playwright"
+  },
+  "caveats": [
+    "Browser integration may use SwiftShader and is not a real-GPU performance certification.",
+    "Stage acceptance is evidence for this phase only; final v0.2.0 release gates are recorded in acceptance/v0.2.0.json."
+  ]
+}
