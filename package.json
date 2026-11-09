@@ -1,6 +1,6 @@
 {
   "name": "skimmer-scraper",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "A close-surface 3D flight challenge through a sakura-dusk megacity.",
   "scripts": {
     "test": "vitest run",
@@ -12,7 +12,11 @@
     "test:e2e": "playwright test",
     "test:all": "npm run typecheck && npm run test && npm run build && npm run test:e2e",
     "deploy:cf": "npm run build && wrangler pages deploy dist --project-name skimmer-scraper",
-    "fixtures": "node scripts/generate-test-glb.mjs"
+    "fixtures": "node scripts/generate-test-glb.mjs",
+    "acceptance:v020": "node scripts/run-v02-acceptance.mjs --phase 5",
+    "benchmark:gpu": "node scripts/run-real-gpu-benchmark.mjs",
+    "verify:live": "node scripts/verify-live-pages.mjs",
+    "finalize:live": "node scripts/finalize-v020-live.mjs"
   },
   "repository": {
     "type": "git",

@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased — v0.2.0
+## 0.2.0 — 2026-11-09
 
 ### Added
 
@@ -11,13 +11,15 @@
   BVHs, explicit buffer pauses and floating-origin rendering.
 - Deterministic 15-minute streaming simulation, in-flight cancellation coverage and browser evidence
   for chunk replacement, BVH bounds and geometry retirement counters.
+- 30/60/144 FPS fixed-rule consistency tests and a headed real-GPU benchmark on AMD Radeon 780M.
 - Optional Ephemeral World mode with a 256-entry bounded LRU revision history, stable terrain/bridge
   boundaries, session-local forgetting and scenario-isolated personal bests.
 - Stable/Ephemeral world selector and share links carrying mode, seed, preset and generator version.
 
-### In progress
+### Notes
 
-- Final v0.2.0 performance/release acceptance and public deployment verification.
+- Automated browser evidence uses headless Chromium and may run on SwiftShader. Real-GPU performance
+  is recorded separately and is never inferred from software rendering.
 
 ## 0.1.0 — 2026-11-08
 

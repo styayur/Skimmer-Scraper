@@ -1,0 +1,120 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-11-09T03:49:19.288Z",
+  "evidenceClass": "real_gpu_benchmark",
+  "status": "pass",
+  "targetDevice": {
+    "os": "Windows 11",
+    "recordedGpu": "AMD Radeon 780M Graphics",
+    "recordedDriver": "32.0.21030.1005",
+    "requestedResolution": "1920x1080",
+    "requestedQuality": [
+      "balanced",
+      "high"
+    ]
+  },
+  "environment": {
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/157.0.0.0 Safari/537.36",
+    "hardwareConcurrency": 16,
+    "devicePixelRatio": 1,
+    "viewport": {
+      "width": 1920,
+      "height": 1080
+    },
+    "webglVersion": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+    "vendor": "Google Inc. (AMD)",
+    "renderer": "ANGLE (AMD, AMD Radeon 780M Graphics (0x00001900) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+    "memory": {}
+  },
+  "balanced": {
+    "performance": {
+      "sampleCount": 791,
+      "p50Ms": 8.400000000001455,
+      "p95Ms": 25,
+      "averageMs": 12.657269279385638,
+      "maxMs": 25.400000000000546,
+      "averageFps": 79.0059828804194,
+      "meetsP95_33_3ms": true,
+      "meetsApprox60Fps": true
+    },
+    "snapshot": {
+      "mode": "paused",
+      "runTime": 0.8166666666666662,
+      "position": {
+        "x": 0,
+        "y": 23.191033626796596,
+        "z": 66.0729533456454
+      },
+      "world": {
+        "chunks": 25,
+        "buildings": 312,
+        "bridges": 70,
+        "islands": 2,
+        "collisionTriangles": 325114,
+        "renderTriangles": 633308
+      },
+      "streaming": {
+        "activeChunks": 25,
+        "bvhCount": 25,
+        "estimatedCpuGeometryBytes": 74465796,
+        "generationAvgMs": 86.12799999713897,
+        "generationP95Ms": 89.90000000596046
+      },
+      "render": {
+        "calls": 475,
+        "triangles": 786474,
+        "points": 560,
+        "lines": 64,
+        "fps": 90.81582729615721
+      },
+      "surfaceLocked": true
+    }
+  },
+  "high": {
+    "performance": {
+      "sampleCount": 814,
+      "p50Ms": 8.400000000001455,
+      "p95Ms": 16.80000000000109,
+      "averageMs": 12.292751842766487,
+      "maxMs": 25.200000000000728,
+      "averageFps": 81.34875028722207,
+      "meetsP95_33_3ms": true,
+      "meetsApprox60Fps": true
+    },
+    "snapshot": {
+      "mode": "paused",
+      "runTime": 0.8166666666666662,
+      "position": {
+        "x": 0,
+        "y": 23.191033626796596,
+        "z": 66.0729533456454
+      },
+      "world": {
+        "chunks": 25,
+        "buildings": 312,
+        "bridges": 70,
+        "islands": 2,
+        "collisionTriangles": 325114,
+        "renderTriangles": 633308
+      },
+      "streaming": {
+        "activeChunks": 25,
+        "bvhCount": 25,
+        "estimatedCpuGeometryBytes": 74465796,
+        "generationAvgMs": 86.12799999713897,
+        "generationP95Ms": 89.90000000596046
+      },
+      "render": {
+        "calls": 475,
+        "triangles": 786474,
+        "points": 560,
+        "lines": 64,
+        "fps": 94.03065759631514
+      },
+      "surfaceLocked": true
+    }
+  },
+  "consoleErrors": [],
+  "method": "Headed Chromium, paused simulation, 10 seconds of requestAnimationFrame timestamps per quality preset at 1920x1080.",
+  "caveat": "Frame timing is only a real-GPU certificate when the unmasked WebGL renderer identifies hardware (not SwiftShader/llvmpipe/software)."
+}
