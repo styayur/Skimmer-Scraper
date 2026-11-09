@@ -1,0 +1,303 @@
+{
+  "schemaVersion": 1,
+  "product": "Skimmer-Scraper",
+  "version": "0.2.0",
+  "generatedAt": "2026-11-09T04:09:09.478Z",
+  "sourceRevisionAtAcceptance": "9d1d2ac",
+  "acceptanceStatus": "pass_pending_live_verification",
+  "releaseEligibility": "pending_live_github_pages_verification",
+  "tests": {
+    "unit": {
+      "passed": 59,
+      "failed": 0,
+      "total": 59
+    },
+    "browser": {
+      "passed": 10,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 202581.181
+    },
+    "commands": [
+      {
+        "label": "typecheck",
+        "command": "npm run typecheck",
+        "status": "pass",
+        "exitCode": 0,
+        "durationMs": 939
+      },
+      {
+        "label": "unit-tests",
+        "command": "npx vitest run --reporter=json --outputFile E:\\GitHub\\Skimmer-Scraper\\acceptance\\v0.2\\.vitest-phase-5.json",
+        "status": "pass",
+        "exitCode": 0,
+        "durationMs": 4384
+      },
+      {
+        "label": "production-build",
+        "command": "npm run build",
+        "status": "pass",
+        "exitCode": 0,
+        "durationMs": 1764
+      },
+      {
+        "label": "browser-tests",
+        "command": "npx playwright test --reporter=json",
+        "status": "pass",
+        "exitCode": 0,
+        "durationMs": 204640
+      }
+    ],
+    "phaseReports": [
+      "acceptance/v0.2/phase-1.json",
+      "acceptance/v0.2/phase-2.json",
+      "acceptance/v0.2/phase-3.json",
+      "acceptance/v0.2/phase-4.json",
+      "acceptance/v0.2/phase-5.json"
+    ]
+  },
+  "gameplayAcceptance": {
+    "flightExperience": true,
+    "seededProceduralCity": true,
+    "infiniteWorldStreaming": true,
+    "longDistanceFlight": true,
+    "ephemeralWorld": true,
+    "boundedRevisionHistory": true,
+    "modeIsolatedScores": true,
+    "frameRateRules30_60_144": true,
+    "localGlbImport": true,
+    "instantRetry": true,
+    "noAccountOrUpload": true
+  },
+  "streaming": {
+    "phaseReport": "acceptance/v0.2/phase-3.json",
+    "runtimeEvidence": "evidence/v0.2/phase-3-runtime.json",
+    "activeChunks": 25,
+    "maxActiveChunks": 41,
+    "bvhCount": 25,
+    "disposedGeometryCount": 524,
+    "rebaseCount": 1,
+    "longDistanceSimulatedMinutes": 15
+  },
+  "ephemeralWorld": {
+    "phaseReport": "acceptance/v0.2/phase-4.json",
+    "runtimeEvidence": "evidence/v0.2/phase-4-runtime.json",
+    "stableRoundTripRepeatable": true,
+    "ephemeralChangedAfterUnload": true,
+    "revisionHistoryEntries": 75,
+    "revisionHistoryLimit": 256
+  },
+  "performance": {
+    "automatedProxyEvidence": "evidence/v0.2.0-qa-runtime.json",
+    "automatedProxy": {
+      "environment": {
+        "webglVersion": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+        "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+        "viewport": {
+          "width": 1280,
+          "height": 720
+        }
+      },
+      "balanced": {
+        "sampleCount": 11,
+        "p50Ms": 416.60000000000036,
+        "p95Ms": 433.2000000000007,
+        "averageMs": 386.4818181807345,
+        "maxMs": 433.2000000000007,
+        "averageFps": 2.5874438407148035
+      },
+      "high": {
+        "sampleCount": 12,
+        "p50Ms": 400,
+        "p95Ms": 849.9000000000015,
+        "averageMs": 339.90000000049685,
+        "maxMs": 849.9000000000015,
+        "averageFps": 2.942041776988933
+      },
+      "resourceBounds": {
+        "activeChunks": 25,
+        "hardChunkBudget": 41,
+        "bvhCount": 25,
+        "estimatedCpuGeometryBytes": 77749556
+      },
+      "verdict": {
+        "correctness": true,
+        "realGpuPerformanceCertified": false,
+        "evidenceClass": "headless-software-rendering-proxy"
+      }
+    },
+    "realGpu": {
+      "schemaVersion": 1,
+      "generatedAt": "2026-11-09T03:49:19.288Z",
+      "evidenceClass": "real_gpu_benchmark",
+      "status": "pass",
+      "targetDevice": {
+        "os": "Windows 11",
+        "recordedGpu": "AMD Radeon 780M Graphics",
+        "recordedDriver": "32.0.21030.1005",
+        "requestedResolution": "1920x1080",
+        "requestedQuality": [
+          "balanced",
+          "high"
+        ]
+      },
+      "environment": {
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/157.0.0.0 Safari/537.36",
+        "hardwareConcurrency": 16,
+        "devicePixelRatio": 1,
+        "viewport": {
+          "width": 1920,
+          "height": 1080
+        },
+        "webglVersion": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+        "vendor": "Google Inc. (AMD)",
+        "renderer": "ANGLE (AMD, AMD Radeon 780M Graphics (0x00001900) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+        "memory": {}
+      },
+      "balanced": {
+        "performance": {
+          "sampleCount": 791,
+          "p50Ms": 8.400000000001455,
+          "p95Ms": 25,
+          "averageMs": 12.657269279385638,
+          "maxMs": 25.400000000000546,
+          "averageFps": 79.0059828804194,
+          "meetsP95_33_3ms": true,
+          "meetsApprox60Fps": true
+        },
+        "snapshot": {
+          "mode": "paused",
+          "runTime": 0.8166666666666662,
+          "position": {
+            "x": 0,
+            "y": 23.191033626796596,
+            "z": 66.0729533456454
+          },
+          "world": {
+            "chunks": 25,
+            "buildings": 312,
+            "bridges": 70,
+            "islands": 2,
+            "collisionTriangles": 325114,
+            "renderTriangles": 633308
+          },
+          "streaming": {
+            "activeChunks": 25,
+            "bvhCount": 25,
+            "estimatedCpuGeometryBytes": 74465796,
+            "generationAvgMs": 86.12799999713897,
+            "generationP95Ms": 89.90000000596046
+          },
+          "render": {
+            "calls": 475,
+            "triangles": 786474,
+            "points": 560,
+            "lines": 64,
+            "fps": 90.81582729615721
+          },
+          "surfaceLocked": true
+        }
+      },
+      "high": {
+        "performance": {
+          "sampleCount": 814,
+          "p50Ms": 8.400000000001455,
+          "p95Ms": 16.80000000000109,
+          "averageMs": 12.292751842766487,
+          "maxMs": 25.200000000000728,
+          "averageFps": 81.34875028722207,
+          "meetsP95_33_3ms": true,
+          "meetsApprox60Fps": true
+        },
+        "snapshot": {
+          "mode": "paused",
+          "runTime": 0.8166666666666662,
+          "position": {
+            "x": 0,
+            "y": 23.191033626796596,
+            "z": 66.0729533456454
+          },
+          "world": {
+            "chunks": 25,
+            "buildings": 312,
+            "bridges": 70,
+            "islands": 2,
+            "collisionTriangles": 325114,
+            "renderTriangles": 633308
+          },
+          "streaming": {
+            "activeChunks": 25,
+            "bvhCount": 25,
+            "estimatedCpuGeometryBytes": 74465796,
+            "generationAvgMs": 86.12799999713897,
+            "generationP95Ms": 89.90000000596046
+          },
+          "render": {
+            "calls": 475,
+            "triangles": 786474,
+            "points": 560,
+            "lines": 64,
+            "fps": 94.03065759631514
+          },
+          "surfaceLocked": true
+        }
+      },
+      "consoleErrors": [],
+      "method": "Headed Chromium, paused simulation, 10 seconds of requestAnimationFrame timestamps per quality preset at 1920x1080.",
+      "caveat": "Frame timing is only a real-GPU certificate when the unmasked WebGL renderer identifies hardware (not SwiftShader/llvmpipe/software)."
+    },
+    "realGpuStatus": "pass"
+  },
+  "hosting": {
+    "githubPages": {
+      "url": "https://styayur.github.io/Skimmer-Scraper/",
+      "status": "pending_live_verification",
+      "verifiedAt": null,
+      "verifiedSourceRevision": null
+    },
+    "cloudflarePages": {
+      "status": "blocked_on_oauth_or_repository_secrets",
+      "liveUrl": null,
+      "configuredFiles": [
+        ".github/workflows/deploy-cloudflare-pages.yml",
+        "wrangler.toml"
+      ]
+    }
+  },
+  "blockers": [
+    "GitHub Pages production verification is pending until this phase is merged and deployed.",
+    "Cloudflare Pages CLI OAuth could not be refreshed from the existing browser session; no Cloudflare live deployment is claimed."
+  ],
+  "evidence": [
+    {
+      "path": "evidence/v0.2.0-final-flight-balanced.png",
+      "bytes": 550656,
+      "sha256": "296c8bd6531688d69a469e7d187247e41a53d4f58dc22a80d733fc771ba0c5fc"
+    },
+    {
+      "path": "evidence/v0.2.0-qa-runtime.json",
+      "bytes": 12929,
+      "sha256": "885901bb4fe222bcf905d72f45f1193902c239d4f0eb1392692aadfbfa9d5fd2"
+    },
+    {
+      "path": "evidence/v0.2.0-real-gpu-balanced.png",
+      "bytes": 1153664,
+      "sha256": "cca6154a61189270c3c9b3d071d44ea017c6764efdf01a73720f65bb05876559"
+    },
+    {
+      "path": "evidence/v0.2.0-real-gpu-high.png",
+      "bytes": 1152286,
+      "sha256": "3e2bed752d3612399323a06a2357a74c04954ccf193d3ca6660f8a8a6e536a79"
+    },
+    {
+      "path": "evidence/v0.2.0-real-gpu.json",
+      "bytes": 3357,
+      "sha256": "72ee0f749d0dc559a56465fbbb7ed877608eef1378b8ef33ff6d3a00dc8247ee"
+    }
+  ],
+  "caveats": [
+    "Headless Chromium proxy results are separate from the recorded real-GPU benchmark.",
+    "The real-GPU result applies only to the named hardware, browser, resolution and methodology in evidence/v0.2.0-real-gpu.json.",
+    "No external account, telemetry, leaderboard or cloud model upload is part of the release."
+  ]
+}

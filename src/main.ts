@@ -91,6 +91,8 @@ interface SkimmerDebugBridge {
   start(): void;
   retry(): void;
   title(): void;
+  pause(): boolean;
+  resume(): boolean;
   setPose(
     position: { x: number; y: number; z: number },
     options?: { pitch?: number },
@@ -531,6 +533,25 @@ const startRun = async (): Promise<void> => {
   renderer.snapCamera(toRenderFlightState(flightState));
 };
 
+const debugPause = (): boolean => {
+  if (mode !== 'running') return mode === 'paused';
+  mode = 'paused';
+  keyboard.setEnabled(false);
+  stepRunner.reset();
+  audio.pause();
+  return true;
+};
+
+const debugResume = (): boolean => {
+  if (mode !== 'paused' || !flightState) return mode === 'running';
+  mode = 'running';
+  stepRunner.reset();
+  lastFrameTime = performance.now();
+  keyboard.setEnabled(!debugInputEnabled);
+  audio.resume();
+  return true;
+};
+
 const returnToTitle = async (): Promise<void> => {
   const transition = ++worldTransition;
   closeLibrary(false);
@@ -834,6 +855,8 @@ const boot = async (): Promise<void> => {
     start: startRun,
     retry: startRun,
     title: returnToTitle,
+    pause: debugPause,
+    resume: debugResume,
     setPose: debugSetPose,
     advance: debugAdvance,
   };

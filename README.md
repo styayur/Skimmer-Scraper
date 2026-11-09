@@ -8,16 +8,15 @@ A close-surface 3D flight challenge through an original sakura-dusk megacity. St
 the architecture, thread bridges and floating islands, and keep your run alive. No account, no remote
 profile, no model upload.
 
-**v0.2 development snapshot:** seeded cities, cockpit/chase views, dynamic proximity feedback,
-on-demand world streaming and Stable/Ephemeral world modes are implemented. Final QA and the v0.2.0
-release remain in the phase sequence; the public link follows `main` after each merged PR.
+**v0.2.0** adds reproducible seeded cities, cockpit/chase views, continuous proximity feedback,
+on-demand world streaming and Stable/Ephemeral world modes while preserving the local-only aircraft
+and score model.
 
 **Public preview:** [https://styayur.github.io/Skimmer-Scraper/](https://styayur.github.io/Skimmer-Scraper/)
 
-The GitHub Pages preview is a playable static build. The requested Cloudflare Pages production
-deployment is configured but currently blocked on Cloudflare credentials; see
-[docs/DEPLOYMENT.md](docs/DEPLOYMENT.md). This distinction is deliberate and no Cloudflare deployment
-success is claimed.
+GitHub Pages is the public release host. Cloudflare Pages remains configured but blocked on CLI OAuth
+or repository secrets; see [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md). No Cloudflare deployment success
+is claimed.
 
 <img src="evidence/phase-4-v0.1.0-title.png" alt="Skimmer-Scraper title screen over the sakura-dusk city" width="100%">
 
@@ -124,6 +123,10 @@ npm run fixtures
 - The browser tests use SwiftShader in CI/headless mode. They are not a real-GPU performance
   certification. No real-GPU benchmark was performed for v0.1.0.
 
+For v0.2.0, the headless proxy remains separate from a headed hardware benchmark. On Windows 11 with an
+AMD Radeon 780M, Chrome 157, 1920 x 1080, both Balanced and High p95 frame times were below 33.3 ms.
+See `evidence/v0.2.0-real-gpu.json` and [docs/ACCEPTANCE.md](docs/ACCEPTANCE.md).
+
 Full matrix: [docs/ACCEPTANCE.md](docs/ACCEPTANCE.md).
 
 ## Research and licenses
@@ -132,6 +135,19 @@ Research notes cover Skyward, Neon Zenith and Sakura Fantasy in [docs/RESEARCH.m
 No code or assets from those projects are copied. Dependencies, fonts, research references and
 original synthetic assets are documented in [CREDITS.md](CREDITS.md). Project source is MIT licensed.
 
+## v0.2.0 acceptance
+
+- Vitest: 59 passed, 0 failed.
+- Playwright: 10 passed, 0 failed, 0 skipped.
+- Streaming: 15-minute deterministic flight, bounded chunks/BVHs, cancellation, floating origin and
+  geometry-retirement evidence.
+- Ephemeral World: Stable round trip reproducible; Ephemeral revisits change only after unload; history
+  bounded to 256 entries.
+- Frame-rate rules: equivalent 30/60/144 FPS outcomes for lock, impact and grace expiry.
+- Real GPU: AMD Radeon 780M passed the Balanced and High p95 target at 1920 x 1080.
+- Final machine-readable report: `acceptance/v0.2.0.json`.
+- Public production verification is completed after the final PR merges.
+
 ## v0.2 phase status
 
 | Phase | Status | Evidence |
@@ -139,5 +155,5 @@ original synthetic assets are documented in [CREDITS.md](CREDITS.md). Project so
 | Flight Experience | merged | `acceptance/v0.2/phase-1.json` |
 | Seeded Procedural City | merged | `acceptance/v0.2/phase-2.json` |
 | Infinite World Streaming | merged | `acceptance/v0.2/phase-3.json` |
-| Ephemeral World | in review | `acceptance/v0.2/phase-4.json` |
-| Final QA / v0.2.0 release | planned | final PR |
+| Ephemeral World | merged | `acceptance/v0.2/phase-4.json` |
+| Final QA / v0.2.0 release | in review | `acceptance/v0.2.0.json` |

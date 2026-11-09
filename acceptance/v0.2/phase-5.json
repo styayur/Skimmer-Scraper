@@ -1,0 +1,672 @@
+{
+  "schemaVersion": 1,
+  "product": "Skimmer-Scraper",
+  "version": "0.2.0",
+  "phase": 5,
+  "stage": "Final QA and Release",
+  "generatedAt": "2026-11-09T04:09:09.475Z",
+  "sourceRevision": "9d1d2ac",
+  "worktreeDirty": true,
+  "status": "pass",
+  "commands": [
+    {
+      "label": "typecheck",
+      "command": "npm run typecheck",
+      "status": "pass",
+      "exitCode": 0,
+      "durationMs": 939
+    },
+    {
+      "label": "unit-tests",
+      "command": "npx vitest run --reporter=json --outputFile E:\\GitHub\\Skimmer-Scraper\\acceptance\\v0.2\\.vitest-phase-5.json",
+      "status": "pass",
+      "exitCode": 0,
+      "durationMs": 4384
+    },
+    {
+      "label": "production-build",
+      "command": "npm run build",
+      "status": "pass",
+      "exitCode": 0,
+      "durationMs": 1764
+    },
+    {
+      "label": "browser-tests",
+      "command": "npx playwright test --reporter=json",
+      "status": "pass",
+      "exitCode": 0,
+      "durationMs": 204640
+    }
+  ],
+  "tests": {
+    "unit": {
+      "passed": 59,
+      "failed": 0,
+      "total": 59
+    },
+    "browser": {
+      "passed": 10,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 202581.181
+    }
+  },
+  "deliverables": [
+    {
+      "path": "tests/unit/frameRateConsistency.test.ts",
+      "exists": true
+    },
+    {
+      "path": "tests/e2e/final-qa.spec.ts",
+      "exists": true
+    },
+    {
+      "path": "scripts/run-real-gpu-benchmark.mjs",
+      "exists": true
+    },
+    {
+      "path": "README.md",
+      "exists": true
+    },
+    {
+      "path": "CHANGELOG.md",
+      "exists": true
+    },
+    {
+      "path": "docs/ACCEPTANCE.md",
+      "exists": true
+    },
+    {
+      "path": "docs/DEPLOYMENT.md",
+      "exists": true
+    },
+    {
+      "path": "CREDITS.md",
+      "exists": true
+    },
+    {
+      "path": "package-lock.json",
+      "exists": true
+    }
+  ],
+  "phaseChecks": {
+    "finalVersionIs020": true,
+    "frameRateRulesTestPassed": true,
+    "finalQaEvidencePresent": true,
+    "finalQaNoConsoleErrors": true,
+    "finalQaNoFailedRequests": true,
+    "finalQaWebgl2": true,
+    "finalQaChunkBudgetBounded": true,
+    "finalQaFrameSamplesPresent": true,
+    "flightPhasePassed": true,
+    "seededWorldPhasePassed": true,
+    "streamingPhasePassed": true,
+    "ephemeralPhasePassed": true,
+    "realGpuStatusRecorded": true
+  },
+  "runtimeEvidence": {
+    "schemaVersion": 1,
+    "generatedAt": "2026-11-09T04:06:47.518Z",
+    "version": "0.2.0",
+    "environment": {
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/158.0.8127.18 Safari/537.36",
+      "hardwareConcurrency": 16,
+      "devicePixelRatio": 1,
+      "webglVersion": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+      "vendor": "Google Inc. (Google)",
+      "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "memory": {},
+      "viewport": {
+        "width": 1280,
+        "height": 720
+      },
+      "sampleDurationMs": 4000
+    },
+    "balanced": {
+      "performance": {
+        "sampleCount": 11,
+        "p50Ms": 416.60000000000036,
+        "p95Ms": 433.2000000000007,
+        "averageMs": 386.4818181807345,
+        "maxMs": 433.2000000000007,
+        "averageFps": 2.5874438407148035
+      },
+      "snapshot": {
+        "ready": true,
+        "mode": "paused",
+        "runTime": 0.5166666666666673,
+        "best": 0,
+        "speed": 66.05121959055717,
+        "altitude": 23.488294630438126,
+        "position": {
+          "x": 0,
+          "y": 23.488294630438126,
+          "z": 85.888867261101
+        },
+        "surfaceDistance": 23.488294630438126,
+        "surfaceLocked": true,
+        "grace": 5,
+        "failureReason": null,
+        "world": {
+          "chunks": 25,
+          "buildings": 325,
+          "bridges": 60,
+          "islands": 1,
+          "collisionTriangles": 354382,
+          "renderTriangles": 654712
+        },
+        "adapter": {
+          "chunks": 25,
+          "bvhCount": 25,
+          "lastBroadPhaseCandidates": 2,
+          "lastQueries": 2
+        },
+        "streaming": {
+          "stateCounts": {
+            "UNLOADED": 0,
+            "QUEUED": 0,
+            "GENERATING": 0,
+            "READY": 0,
+            "ACTIVE": 25,
+            "RETIRING": 0,
+            "DISPOSED": 0
+          },
+          "loadedChunks": 25,
+          "activeChunks": 25,
+          "queuedChunks": 0,
+          "generatingChunks": 0,
+          "generatedTotal": 25,
+          "retiredTotal": 0,
+          "disposedGeometryCount": 0,
+          "bvhCount": 25,
+          "renderObjectCount": 369,
+          "estimatedCpuGeometryBytes": 77749556,
+          "generationAvgMs": 195.80400000095366,
+          "generationP95Ms": 1084.800000011921,
+          "maxLoadedChunks": 41,
+          "coverageComplete": true,
+          "rebaseCount": 0
+        },
+        "buffering": false,
+        "renderOrigin": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "render": {
+          "calls": 485,
+          "triangles": 909354,
+          "points": 560,
+          "lines": 64,
+          "fps": 22.365294081483235
+        },
+        "seed": 1317131093,
+        "debugInput": false,
+        "selectedAircraft": "procedural",
+        "localModelCount": 0,
+        "cameraMode": "chase",
+        "cameraBlend": 0,
+        "fov": 63.384942423825336,
+        "proximity": 0.13185468620567947,
+        "proximityZone": "near",
+        "visualStimulation": "standard",
+        "recordingHintVisible": true,
+        "worldPreset": "neon",
+        "worldMode": "stable",
+        "generatorVersion": 2,
+        "worldFingerprint": 3086900296,
+        "revisionHistory": null,
+        "chunkStates": [
+          {
+            "key": "0:0",
+            "state": "ACTIVE",
+            "revision": 0,
+            "fingerprint": 3506449089
+          },
+          {
+            "key": "0:-1",
+            "state": "ACTIVE",
+            "revision": 0,
+            "fingerprint": 1335187734
+          },
+          {
+            "key": "-1:0",
+            "state": "ACTIVE",
+            "revision": 0,
+            "fingerprint": 615480833
+          },
+          {
+            "key": "1:0",
+            "state": "ACTIVE",
+            "revision": 0,
+            "fingerprint": 1237574968
+          },
+          {
+            "key": "0:1",
+            "state": "ACTIVE",
+            "revision": 0,
+            "fingerprint": 3468342292
+          },
+          {
+            "key": "-1:-1",
+            "state": "ACTIVE",
+            "revision": 0,
+            "fingerprint": 1497722200
+          },
+          {
+            "key": "1:-1",
+            "state": "ACTIVE",
+            "revision": 0,
+            "fingerprint": 3644101098
+          },
+          {
+            "key": "-1:1",
+            "state": "ACTIVE",
+            "revision": 0,
+            "fingerprint": 1335144904
+          },
+          {
+            "key": "1:1",
+            "state": "ACTIVE",
+            "revision": 0,
+            "fingerprint": 4027415536
+          },
+          {
+            "key": "0:-2",
+            "state": "ACTIVE",
+            "revision": 0,
+            "fingerprint": 1515563612
+          },
+          {
+            "key": "-2:0",
+            "state": "ACTIVE",
+            "revision": 0,
+            "fingerprint": 2726437101
+          },
+          {
+            "key": "2:0",
+            "state": "ACTIVE",
+            "revision": 0,
+            "fingerprint": 2330913908
+          },
+          {
+            "key": "0:2",
+            "state": "ACTIVE",
+            "revision": 0,
+            "fingerprint": 336002235
+          },
+          {
+            "key": "-1:-2",
+            "state": "ACTIVE",
+            "revision": 0,
+            "fingerprint": 2533861823
+          },
+          {
+            "key": "1:-2",
+            "state": "ACTIVE",
+            "revision": 0,
+            "fingerprint": 2921397300
+          },
+          {
+            "key": "-2:-1",
+            "state": "ACTIVE",
+            "revision": 0,
+            "fingerprint": 924646212
+          },
+          {
+            "key": "2:-1",
+            "state": "ACTIVE",
+            "revision": 0,
+            "fingerprint": 2331578859
+          },
+          {
+            "key": "-2:1",
+            "state": "ACTIVE",
+            "revision": 0,
+            "fingerprint": 595770266
+          },
+          {
+            "key": "2:1",
+            "state": "ACTIVE",
+            "revision": 0,
+            "fingerprint": 1106153590
+          },
+          {
+            "key": "-1:2",
+            "state": "ACTIVE",
+            "revision": 0,
+            "fingerprint": 847840972
+          },
+          {
+            "key": "1:2",
+            "state": "ACTIVE",
+            "revision": 0,
+            "fingerprint": 1170150609
+          },
+          {
+            "key": "-2:-2",
+            "state": "ACTIVE",
+            "revision": 0,
+            "fingerprint": 1254759092
+          },
+          {
+            "key": "2:-2",
+            "state": "ACTIVE",
+            "revision": 0,
+            "fingerprint": 1933284005
+          },
+          {
+            "key": "-2:2",
+            "state": "ACTIVE",
+            "revision": 0,
+            "fingerprint": 1411590350
+          },
+          {
+            "key": "2:2",
+            "state": "ACTIVE",
+            "revision": 0,
+            "fingerprint": 884691616
+          }
+        ]
+      }
+    },
+    "high": {
+      "performance": {
+        "sampleCount": 12,
+        "p50Ms": 400,
+        "p95Ms": 849.9000000000015,
+        "averageMs": 339.90000000049685,
+        "maxMs": 849.9000000000015,
+        "averageFps": 2.942041776988933
+      },
+      "snapshot": {
+        "ready": true,
+        "mode": "paused",
+        "runTime": 0.5166666666666673,
+        "best": 0,
+        "speed": 66.05121959055717,
+        "altitude": 23.488294630438126,
+        "position": {
+          "x": 0,
+          "y": 23.488294630438126,
+          "z": 85.888867261101
+        },
+        "surfaceDistance": 23.488294630438126,
+        "surfaceLocked": true,
+        "grace": 5,
+        "failureReason": null,
+        "world": {
+          "chunks": 25,
+          "buildings": 325,
+          "bridges": 60,
+          "islands": 1,
+          "collisionTriangles": 354382,
+          "renderTriangles": 654712
+        },
+        "adapter": {
+          "chunks": 25,
+          "bvhCount": 25,
+          "lastBroadPhaseCandidates": 2,
+          "lastQueries": 2
+        },
+        "streaming": {
+          "stateCounts": {
+            "UNLOADED": 0,
+            "QUEUED": 0,
+            "GENERATING": 0,
+            "READY": 0,
+            "ACTIVE": 25,
+            "RETIRING": 0,
+            "DISPOSED": 0
+          },
+          "loadedChunks": 25,
+          "activeChunks": 25,
+          "queuedChunks": 0,
+          "generatingChunks": 0,
+          "generatedTotal": 25,
+          "retiredTotal": 0,
+          "disposedGeometryCount": 0,
+          "bvhCount": 25,
+          "renderObjectCount": 369,
+          "estimatedCpuGeometryBytes": 77749556,
+          "generationAvgMs": 195.80400000095366,
+          "generationP95Ms": 1084.800000011921,
+          "maxLoadedChunks": 41,
+          "coverageComplete": true,
+          "rebaseCount": 0
+        },
+        "buffering": false,
+        "renderOrigin": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "render": {
+          "calls": 485,
+          "triangles": 909354,
+          "points": 560,
+          "lines": 64,
+          "fps": 13.455137832900974
+        },
+        "seed": 1317131093,
+        "debugInput": false,
+        "selectedAircraft": "procedural",
+        "localModelCount": 0,
+        "cameraMode": "chase",
+        "cameraBlend": 0,
+        "fov": 63.384942423825336,
+        "proximity": 0.13185468620567947,
+        "proximityZone": "near",
+        "visualStimulation": "standard",
+        "recordingHintVisible": true,
+        "worldPreset": "neon",
+        "worldMode": "stable",
+        "generatorVersion": 2,
+        "worldFingerprint": 3086900296,
+        "revisionHistory": null,
+        "chunkStates": [
+          {
+            "key": "0:0",
+            "state": "ACTIVE",
+            "revision": 0,
+            "fingerprint": 3506449089
+          },
+          {
+            "key": "0:-1",
+            "state": "ACTIVE",
+            "revision": 0,
+            "fingerprint": 1335187734
+          },
+          {
+            "key": "-1:0",
+            "state": "ACTIVE",
+            "revision": 0,
+            "fingerprint": 615480833
+          },
+          {
+            "key": "1:0",
+            "state": "ACTIVE",
+            "revision": 0,
+            "fingerprint": 1237574968
+          },
+          {
+            "key": "0:1",
+            "state": "ACTIVE",
+            "revision": 0,
+            "fingerprint": 3468342292
+          },
+          {
+            "key": "-1:-1",
+            "state": "ACTIVE",
+            "revision": 0,
+            "fingerprint": 1497722200
+          },
+          {
+            "key": "1:-1",
+            "state": "ACTIVE",
+            "revision": 0,
+            "fingerprint": 3644101098
+          },
+          {
+            "key": "-1:1",
+            "state": "ACTIVE",
+            "revision": 0,
+            "fingerprint": 1335144904
+          },
+          {
+            "key": "1:1",
+            "state": "ACTIVE",
+            "revision": 0,
+            "fingerprint": 4027415536
+          },
+          {
+            "key": "0:-2",
+            "state": "ACTIVE",
+            "revision": 0,
+            "fingerprint": 1515563612
+          },
+          {
+            "key": "-2:0",
+            "state": "ACTIVE",
+            "revision": 0,
+            "fingerprint": 2726437101
+          },
+          {
+            "key": "2:0",
+            "state": "ACTIVE",
+            "revision": 0,
+            "fingerprint": 2330913908
+          },
+          {
+            "key": "0:2",
+            "state": "ACTIVE",
+            "revision": 0,
+            "fingerprint": 336002235
+          },
+          {
+            "key": "-1:-2",
+            "state": "ACTIVE",
+            "revision": 0,
+            "fingerprint": 2533861823
+          },
+          {
+            "key": "1:-2",
+            "state": "ACTIVE",
+            "revision": 0,
+            "fingerprint": 2921397300
+          },
+          {
+            "key": "-2:-1",
+            "state": "ACTIVE",
+            "revision": 0,
+            "fingerprint": 924646212
+          },
+          {
+            "key": "2:-1",
+            "state": "ACTIVE",
+            "revision": 0,
+            "fingerprint": 2331578859
+          },
+          {
+            "key": "-2:1",
+            "state": "ACTIVE",
+            "revision": 0,
+            "fingerprint": 595770266
+          },
+          {
+            "key": "2:1",
+            "state": "ACTIVE",
+            "revision": 0,
+            "fingerprint": 1106153590
+          },
+          {
+            "key": "-1:2",
+            "state": "ACTIVE",
+            "revision": 0,
+            "fingerprint": 847840972
+          },
+          {
+            "key": "1:2",
+            "state": "ACTIVE",
+            "revision": 0,
+            "fingerprint": 1170150609
+          },
+          {
+            "key": "-2:-2",
+            "state": "ACTIVE",
+            "revision": 0,
+            "fingerprint": 1254759092
+          },
+          {
+            "key": "2:-2",
+            "state": "ACTIVE",
+            "revision": 0,
+            "fingerprint": 1933284005
+          },
+          {
+            "key": "-2:2",
+            "state": "ACTIVE",
+            "revision": 0,
+            "fingerprint": 1411590350
+          },
+          {
+            "key": "2:2",
+            "state": "ACTIVE",
+            "revision": 0,
+            "fingerprint": 884691616
+          }
+        ]
+      }
+    },
+    "resourceBounds": {
+      "activeChunks": 25,
+      "hardChunkBudget": 41,
+      "bvhCount": 25,
+      "estimatedCpuGeometryBytes": 77749556
+    },
+    "verdict": {
+      "correctness": true,
+      "realGpuPerformanceCertified": false,
+      "evidenceClass": "headless-software-rendering-proxy"
+    },
+    "consoleErrors": [],
+    "failedRequests": [],
+    "caveat": "This is Chromium automation evidence. It does not certify real-GPU frame pacing, thermals or GPU memory reclamation."
+  },
+  "evidence": [
+    {
+      "path": "evidence/v0.2.0-final-flight-balanced.png",
+      "bytes": 550656,
+      "sha256": "296c8bd6531688d69a469e7d187247e41a53d4f58dc22a80d733fc771ba0c5fc"
+    },
+    {
+      "path": "evidence/v0.2.0-qa-runtime.json",
+      "bytes": 12929,
+      "sha256": "885901bb4fe222bcf905d72f45f1193902c239d4f0eb1392692aadfbfa9d5fd2"
+    },
+    {
+      "path": "evidence/v0.2.0-real-gpu-balanced.png",
+      "bytes": 1153664,
+      "sha256": "cca6154a61189270c3c9b3d071d44ea017c6764efdf01a73720f65bb05876559"
+    },
+    {
+      "path": "evidence/v0.2.0-real-gpu-high.png",
+      "bytes": 1152286,
+      "sha256": "3e2bed752d3612399323a06a2357a74c04954ccf193d3ca6660f8a8a6e536a79"
+    },
+    {
+      "path": "evidence/v0.2.0-real-gpu.json",
+      "bytes": 3357,
+      "sha256": "72ee0f749d0dc559a56465fbbb7ed877608eef1378b8ef33ff6d3a00dc8247ee"
+    }
+  ],
+  "environment": {
+    "os": "win32 10.0.26300",
+    "node": "v26.7.0",
+    "browser": "Chromium headless / Playwright"
+  },
+  "caveats": [
+    "Browser integration may use SwiftShader and is not a real-GPU performance certification.",
+    "Stage acceptance is evidence for this phase only; final v0.2.0 release gates are recorded in acceptance/v0.2.0.json."
+  ]
+}

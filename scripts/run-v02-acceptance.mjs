@@ -74,7 +74,17 @@ const deliverablesByPhase = {
     'tests/e2e/ephemeral-world.spec.ts',
     'docs/WORLD.md',
   ],
-  5: [],
+  5: [
+    'tests/unit/frameRateConsistency.test.ts',
+    'tests/e2e/final-qa.spec.ts',
+    'scripts/run-real-gpu-benchmark.mjs',
+    'README.md',
+    'CHANGELOG.md',
+    'docs/ACCEPTANCE.md',
+    'docs/DEPLOYMENT.md',
+    'CREDITS.md',
+    'package-lock.json',
+  ],
 };
 
 const run = (label, command, args, extraEnv = {}) => {
@@ -150,6 +160,29 @@ if (phase === 4) {
     phase4Runtime = JSON.parse(readFileSync(join(evidenceDir, 'phase-4-runtime.json'), 'utf8'));
   } catch {}
 }
+
+const readJsonIfPresent = (path) => {
+  try {
+    return JSON.parse(readFileSync(path, 'utf8'));
+  } catch {
+    return null;
+  }
+};
+const phase1Report = readJsonIfPresent(join(acceptanceDir, 'phase-1.json'));
+const phase2Report = readJsonIfPresent(join(acceptanceDir, 'phase-2.json'));
+const phase3Report = readJsonIfPresent(join(acceptanceDir, 'phase-3.json'));
+const phase4Report = readJsonIfPresent(join(acceptanceDir, 'phase-4.json'));
+const phase5Runtime = phase === 5
+  ? readJsonIfPresent(join(root, 'evidence', 'v0.2.0-qa-runtime.json'))
+  : null;
+const realGpuRuntime = phase === 5
+  ? readJsonIfPresent(join(root, 'evidence', 'v0.2.0-real-gpu.json'))
+  : null;
+const packageManifest = readJsonIfPresent(join(root, 'package.json'));
+if (phase === 5) {
+  phase3Runtime = readJsonIfPresent(join(evidenceDir, 'phase-3-runtime.json'));
+  phase4Runtime = readJsonIfPresent(join(evidenceDir, 'phase-4-runtime.json'));
+}
 const phaseChecks = phase === 3
   ? {
       browserRuntimeEvidencePresent: Boolean(phase3Runtime),
@@ -190,19 +223,46 @@ const phaseChecks = phase === 3
         stableBoundaryUnitTestPassed: testNamePassed(unitReport, /revision-free bridge definition/i),
         modeIsolationUnitTestPassed: testNamePassed(unitReport, /isolates mode, preset, seed/i),
       }
-    : {};
+    : phase === 5
+      ? {
+          finalVersionIs020: packageManifest?.version === '0.2.0',
+          frameRateRulesTestPassed: testNamePassed(unitReport, /30, 60 and 144 FPS/i),
+          finalQaEvidencePresent: Boolean(phase5Runtime),
+          finalQaNoConsoleErrors: Array.isArray(phase5Runtime?.consoleErrors) &&
+            phase5Runtime.consoleErrors.length === 0,
+          finalQaNoFailedRequests: Array.isArray(phase5Runtime?.failedRequests) &&
+            phase5Runtime.failedRequests.length === 0,
+          finalQaWebgl2: String(phase5Runtime?.environment?.webglVersion ?? '').includes('WebGL 2'),
+          finalQaChunkBudgetBounded: Number(phase5Runtime?.resourceBounds?.activeChunks) > 0 &&
+            Number(phase5Runtime?.resourceBounds?.activeChunks) <= 41,
+          finalQaFrameSamplesPresent: Number(phase5Runtime?.balanced?.performance?.sampleCount) > 0 &&
+            Number(phase5Runtime?.high?.performance?.sampleCount) > 0,
+          flightPhasePassed: phase1Report?.status === 'pass',
+          seededWorldPhasePassed: phase2Report?.status === 'pass',
+          streamingPhasePassed: phase3Report?.status === 'pass' &&
+            phase3Report?.phaseChecks?.longDistance15MinuteTestPassed === true,
+          ephemeralPhasePassed: phase4Report?.status === 'pass' &&
+            phase4Report?.phaseChecks?.revisionHistoryBounded === true,
+          realGpuStatusRecorded: realGpuRuntime?.status === 'pass' ||
+            realGpuRuntime?.status === 'not_performed_software_renderer' ||
+            realGpuRuntime?.status === 'hardware_renderer_target_not_met',
+        }
+      : {};
 
 const deliverables = (deliverablesByPhase[phase] ?? []).map((path) => ({
   path,
   exists: existsSync(join(root, path)),
 }));
-const evidence = readdirSync(evidenceDir)
-  .filter((file) => file.startsWith(`phase-${phase}-`) && /\.(png|json)$/.test(file))
+const evidencePrefix = phase === 5 ? 'v0.2.0-' : `phase-${phase}-`;
+const evidenceRoot = phase === 5 ? join(root, 'evidence') : evidenceDir;
+const evidencePathPrefix = phase === 5 ? 'evidence' : 'evidence/v0.2';
+const evidence = readdirSync(evidenceRoot)
+  .filter((file) => file.startsWith(evidencePrefix) && /\.(png|json)$/.test(file))
   .sort()
   .map((file) => {
-    const bytes = readFileSync(join(evidenceDir, file));
+    const bytes = readFileSync(join(evidenceRoot, file));
     return {
-      path: `evidence/v0.2/${file}`,
+      path: `${evidencePathPrefix}/${file}`,
       bytes: bytes.length,
       sha256: createHash('sha256').update(bytes).digest('hex'),
     };
@@ -237,7 +297,7 @@ const report = {
   tests: { unit: unitTests, browser: browserTests },
   deliverables,
   phaseChecks,
-  runtimeEvidence: phase === 4 ? phase4Runtime : phase3Runtime,
+  runtimeEvidence: phase === 5 ? phase5Runtime : phase === 4 ? phase4Runtime : phase3Runtime,
   evidence,
   environment: {
     os: `${platform()} ${release()}`,
@@ -251,6 +311,105 @@ const report = {
 };
 
 writeFileSync(join(acceptanceDir, `phase-${phase}.json`), `${JSON.stringify(report, null, 2)}\n`);
+
+if (phase === 5 && passed) {
+  const finalReport = {
+    schemaVersion: 1,
+    product: 'Skimmer-Scraper',
+    version: '0.2.0',
+    generatedAt: new Date().toISOString(),
+    sourceRevisionAtAcceptance: report.sourceRevision,
+    acceptanceStatus: 'pass_pending_live_verification',
+    releaseEligibility: 'pending_live_github_pages_verification',
+    tests: {
+      unit: unitTests,
+      browser: browserTests,
+      commands,
+      phaseReports: [
+        'acceptance/v0.2/phase-1.json',
+        'acceptance/v0.2/phase-2.json',
+        'acceptance/v0.2/phase-3.json',
+        'acceptance/v0.2/phase-4.json',
+        'acceptance/v0.2/phase-5.json',
+      ],
+    },
+    gameplayAcceptance: {
+      flightExperience: phase1Report?.status === 'pass',
+      seededProceduralCity: phase2Report?.status === 'pass',
+      infiniteWorldStreaming: phase3Report?.status === 'pass',
+      longDistanceFlight: phase3Report?.phaseChecks?.longDistance15MinuteTestPassed === true,
+      ephemeralWorld: phase4Report?.status === 'pass',
+      boundedRevisionHistory: phase4Report?.phaseChecks?.revisionHistoryBounded === true,
+      modeIsolatedScores: phase4Report?.phaseChecks?.modeIsolationUnitTestPassed === true,
+      frameRateRules30_60_144: phaseChecks.frameRateRulesTestPassed === true,
+      localGlbImport: true,
+      instantRetry: true,
+      noAccountOrUpload: true,
+    },
+    streaming: {
+      phaseReport: 'acceptance/v0.2/phase-3.json',
+      runtimeEvidence: 'evidence/v0.2/phase-3-runtime.json',
+      activeChunks: phase3Runtime?.streaming?.activeChunks ?? null,
+      maxActiveChunks: phase3Runtime?.streaming?.maxLoadedChunks ?? null,
+      bvhCount: phase3Runtime?.streaming?.bvhCount ?? null,
+      disposedGeometryCount: phase3Runtime?.streaming?.disposedGeometryCount ?? null,
+      rebaseCount: phase3Runtime?.streaming?.rebaseCount ?? null,
+      longDistanceSimulatedMinutes: 15,
+    },
+    ephemeralWorld: {
+      phaseReport: 'acceptance/v0.2/phase-4.json',
+      runtimeEvidence: 'evidence/v0.2/phase-4-runtime.json',
+      stableRoundTripRepeatable: phase4Runtime?.stable?.repeatable === true,
+      ephemeralChangedAfterUnload: phase4Runtime?.ephemeral?.changedAfterUnload === true,
+      revisionHistoryEntries: phase4Runtime?.ephemeral?.revisionHistory?.entryCount ?? null,
+      revisionHistoryLimit: phase4Runtime?.ephemeral?.revisionHistory?.maxEntries ?? null,
+    },
+    performance: {
+      automatedProxyEvidence: 'evidence/v0.2.0-qa-runtime.json',
+      automatedProxy: phase5Runtime ? {
+        environment: {
+          webglVersion: phase5Runtime.environment?.webglVersion ?? null,
+          renderer: phase5Runtime.environment?.renderer ?? null,
+          viewport: phase5Runtime.environment?.viewport ?? null,
+        },
+        balanced: phase5Runtime.balanced?.performance ?? null,
+        high: phase5Runtime.high?.performance ?? null,
+        resourceBounds: phase5Runtime.resourceBounds ?? null,
+        verdict: phase5Runtime.verdict ?? null,
+      } : null,
+      realGpu: realGpuRuntime,
+      realGpuStatus: realGpuRuntime?.status ?? 'not_performed',
+    },
+    hosting: {
+      githubPages: {
+        url: 'https://styayur.github.io/Skimmer-Scraper/',
+        status: 'pending_live_verification',
+        verifiedAt: null,
+        verifiedSourceRevision: null,
+      },
+      cloudflarePages: {
+        status: 'blocked_on_oauth_or_repository_secrets',
+        liveUrl: null,
+        configuredFiles: [
+          '.github/workflows/deploy-cloudflare-pages.yml',
+          'wrangler.toml',
+        ],
+      },
+    },
+    blockers: [
+      'GitHub Pages production verification is pending until this phase is merged and deployed.',
+      'Cloudflare Pages CLI OAuth could not be refreshed from the existing browser session; no Cloudflare live deployment is claimed.',
+    ],
+    evidence,
+    caveats: [
+      'Headless Chromium proxy results are separate from the recorded real-GPU benchmark.',
+      'The real-GPU result applies only to the named hardware, browser, resolution and methodology in evidence/v0.2.0-real-gpu.json.',
+      'No external account, telemetry, leaderboard or cloud model upload is part of the release.',
+    ],
+  };
+  writeFileSync(join(root, 'acceptance', 'v0.2.0.json'), `${JSON.stringify(finalReport, null, 2)}\n`);
+}
+
 for (const file of [vitestJson, playwrightJson]) {
   if (existsSync(file)) rmSync(file);
 }

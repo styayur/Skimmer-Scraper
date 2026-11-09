@@ -63,7 +63,7 @@ PASS values.
 | 2 — Seeded Procedural City | seed determinism, ordering, terrain seams, share URLs | `evidence/v0.2/phase-2-*` | PASS |
 | 3 — Infinite World Streaming | 15-minute simulated flight, cancellation, BVH/active bounds, geometry disposal, floating origin, stream-buffer timer pause | `evidence/v0.2/phase-3-*` | PASS |
 | 4 — Ephemeral World | stable/ephemeral round trip, bounded LRU revisions, revision-free boundaries, mode-isolated scores | `evidence/v0.2/phase-4-*` | PASS |
-| 5 — Final QA / Release | pending final report | — | PLANNED |
+| 5 — Final QA / Release | 30/60/144 FPS consistency, software frame proxy, real AMD 780M benchmark, version and release report | `acceptance/v0.2.0.json`, `evidence/v0.2.0-*` | PASS_PENDING_LIVE |
 
 Phase 3 browser counters are integration evidence from headless Chromium. The run environment may use
 SwiftShader, so `evidence/v0.2/phase-3-runtime.json` is not a real-GPU frame-time or GPU-memory
@@ -73,3 +73,19 @@ phase.
 The streaming design, lifetime rules and resource ownership are documented in
 [STREAMING.md](STREAMING.md). World-memory rules and their bounded-history guarantee are documented
 in [EPHEMERAL.md](EPHEMERAL.md).
+
+## v0.2.0 real-GPU performance
+
+A headed Chrome run on the target-class Windows machine recorded hardware rendering, not SwiftShader:
+
+- GPU: AMD Radeon 780M Graphics
+- Driver: 32.0.21030.1005
+- WebGL: WebGL 2 via ANGLE D3D11
+- Resolution: 1920 x 1080
+- Balanced: 791 samples, p50 8.4 ms, p95 25.0 ms, average 79.0 FPS
+- High: 814 samples, p50 8.4 ms, p95 16.8 ms, average 81.3 FPS
+- Result: both presets met the p95 <= 33.3 ms and approximate-60-FPS targets
+
+Method and raw counters are in `evidence/v0.2.0-real-gpu.json`. This certificate applies only to the
+named hardware, driver, browser, resolution and paused-simulation measurement method. The separate
+headless QA proxy remains recorded as software-rendered evidence and is not mixed into this result.
