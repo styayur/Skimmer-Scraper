@@ -69,7 +69,9 @@ seed, query distance and scoring do not change.
 - Retiring a chunk removes its root group, removes its adapter entry, disposes render/collision
   geometry and drops the BVH reference.
 - `WorldStreamer` reports active chunks, queued/generating counts, BVH count, render-object count,
-  estimated CPU geometry bytes, retirement/disposal counts and generation p50/p95 proxies.
+  estimated CPU geometry bytes, retirement/disposal counts and generation timing. The p95 value is the
+  sample at `floor(count * 0.95)`, clamped to the last sample. It is not assumed to be greater than or
+  equal to the average: a few very slow generations can pull the mean above that order statistic.
 
 Disposal counters prove that repository-owned geometry was released. They do not prove that the GPU
 driver reclaimed every allocation. Real GPU memory profiling remains a separate hardware gate.
@@ -78,6 +80,7 @@ driver reclaimed every allocation. Real GPU memory profiling remains a separate 
 
 - `tests/unit/worldStreamer.test.ts` runs a deterministic 15-minute curved flight, checks the active and
   BVH bounds, forces A -> B movement, cancels an in-flight generation and verifies geometry disposal.
-- `tests/e2e/world-streaming.spec.ts` exercises the real browser scene, verifies buffering freezes the
-  run timer, checks the hard chunk budget and validates a 10,000 m floating-origin rebase.
+- `tests/e2e/world-streaming.spec.ts` exercises the real browser scene, verifies the load HUD while
+  buffering is true, checks that buffering freezes the run timer, checks the hard chunk budget and
+  validates a 10,000 m floating-origin rebase.
 - `evidence/v0.2/phase-3-runtime.json` records the observed counters and Playwright/SwiftShader caveat.

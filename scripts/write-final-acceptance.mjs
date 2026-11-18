@@ -52,12 +52,9 @@ const final = {
       role: 'temporary public HTTPS preview',
     },
     cloudflarePages: {
-      status: 'blocked',
-      reason: 'Wrangler OAuth expired; no CLOUDFLARE_API_TOKEN, CLOUDFLARE_ACCOUNT_ID or repository secrets were available.',
-      configuredFiles: [
-        '.github/workflows/deploy-cloudflare-pages.yml',
-        'wrangler.toml',
-      ],
+      status: 'cancelled',
+      reason: 'Cloudflare Pages deployment is cancelled. GitHub Pages is the release host. No Cloudflare deployment is claimed.',
+      configuredFiles: [],
       liveUrl: null,
     },
   },

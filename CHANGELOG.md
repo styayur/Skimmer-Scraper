@@ -1,5 +1,19 @@
 # Changelog
 
+## Unreleased
+
+### Removed
+
+- Cloudflare Pages deployment. The dedicated workflow, Wrangler config, and deploy script are removed.
+  GitHub Pages remains the public host. No Cloudflare deployment is claimed.
+
+### Fixed
+
+- The world-streaming browser test now records the load HUD while buffering is true, instead of
+  checking that transient label after the load can already have finished.
+- Generation p95 is checked as an order statistic. It is not assumed to be greater than or equal to
+  the average, which a heavy tail can pull above the 95th percentile.
+
 ## 0.2.0 — 2026-11-09
 
 ### Added

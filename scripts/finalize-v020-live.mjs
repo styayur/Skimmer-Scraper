@@ -26,10 +26,15 @@ report.releaseEligibility = live.status === 'pass' && report.performance?.realGp
   : live.status === 'pass'
     ? 'eligible_with_unverified_real_gpu_performance'
     : 'not_eligible';
-report.blockers = (report.blockers ?? []).filter((blocker) => !blocker.startsWith('GitHub Pages production verification'));
-if (report.hosting.cloudflarePages?.status !== 'verified') {
-  report.blockers.push('Cloudflare Pages remains blocked on OAuth or repository secrets; GitHub Pages is the verified release host.');
-}
+report.blockers = (report.blockers ?? []).filter((blocker) =>
+  !blocker.startsWith('GitHub Pages production verification') &&
+  !blocker.startsWith('Cloudflare Pages')
+);
+report.hosting.cloudflarePages = {
+  status: 'cancelled',
+  liveUrl: null,
+  configuredFiles: [],
+};
 report.blockers = [...new Set(report.blockers)];
 for (const file of readdirSync('evidence')
   .filter((name) => name.startsWith('v0.2.0-live-pages-') && /\.(png|json)$/.test(name))
