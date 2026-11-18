@@ -4,7 +4,7 @@ import type { ChunkSource, ChunkSourceRequest } from '../../src/world/chunkSourc
 import { chunkKey } from '../../src/world/chunkSource';
 import { ChunkRevisionHistory } from '../../src/world/chunkRevisionHistory';
 import { resolveWorldSettings } from '../../src/world/worldConfig';
-import { WorldStreamer } from '../../src/world/worldStreamer';
+import { summarizeGenerationTimes, WorldStreamer } from '../../src/world/worldStreamer';
 import type { GeneratedChunk } from '../../src/world/worldTypes';
 
 const CHUNK_SIZE = 220;
@@ -148,6 +148,19 @@ const cover = async (
 };
 
 describe('world streamer lifecycle', () => {
+  it('reports generation p95 as an order statistic below a heavy-tail average', () => {
+    const timing = summarizeGenerationTimes([...Array.from({ length: 20 }, () => 1), 10_000]);
+    expect(timing.count).toBe(21);
+    expect(timing.min).toBe(1);
+    expect(timing.p95).toBe(1);
+    expect(timing.max).toBe(10_000);
+    expect(timing.average).toBeCloseTo(10_020 / 21);
+    expect(timing.average).toBeGreaterThan(timing.p95);
+    expect(timing.min).toBeLessThanOrEqual(timing.average);
+    expect(timing.average).toBeLessThanOrEqual(timing.max);
+    expect(timing.p95).toBeLessThanOrEqual(timing.max);
+  });
+
   it('primes collision coverage and enforces one-at-a-time, bounded generation', async () => {
     const source = new ImmediateSource();
     const streamer = new WorldStreamer(settings, {
@@ -319,8 +332,11 @@ describe('world streamer lifecycle', () => {
     expect(stats.generatedTotal).toBeGreaterThan(100);
     expect(stats.retiredTotal).toBeGreaterThan(100);
     expect(stats.disposedGeometryCount).toBe(stats.retiredTotal * 2);
-    expect(stats.generationAvgMs).toBeGreaterThanOrEqual(0);
-    expect(stats.generationP95Ms).toBeGreaterThanOrEqual(stats.generationAvgMs);
+    expect(stats.generationSampleCount).toBeGreaterThan(0);
+    expect(stats.generationMinMs).toBeLessThanOrEqual(stats.generationAvgMs);
+    expect(stats.generationAvgMs).toBeLessThanOrEqual(stats.generationMaxMs);
+    expect(stats.generationMinMs).toBeLessThanOrEqual(stats.generationP95Ms);
+    expect(stats.generationP95Ms).toBeLessThanOrEqual(stats.generationMaxMs);
 
     streamer.dispose();
     expect(streamer.getStreamerStats().activeChunks).toBe(0);

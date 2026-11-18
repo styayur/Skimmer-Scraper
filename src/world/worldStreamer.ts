@@ -43,6 +43,9 @@ export interface StreamerStats {
   estimatedCpuGeometryBytes: number;
   generationAvgMs: number;
   generationP95Ms: number;
+  generationMinMs: number;
+  generationMaxMs: number;
+  generationSampleCount: number;
   maxLoadedChunks: number;
   coverageComplete: boolean;
   rebaseCount: number;
@@ -75,6 +78,28 @@ const SPAWN_Z = 120;
 const ORIGIN_REBASE_THRESHOLD = 12_000;
 const ORIGIN_REBASE_STEP = 10_000;
 const LOOK_AHEAD_SECONDS = 4;
+
+export interface GenerationTiming {
+  count: number;
+  average: number;
+  min: number;
+  max: number;
+  p95: number;
+}
+
+export const summarizeGenerationTimes = (values: readonly number[]): GenerationTiming => {
+  const sorted = [...values].sort((left, right) => left - right);
+  const count = sorted.length;
+  if (count === 0) return { count: 0, average: 0, min: 0, max: 0, p95: 0 };
+  const p95Index = Math.min(count - 1, Math.floor(count * 0.95));
+  return {
+    count,
+    average: sorted.reduce((sum, value) => sum + value, 0) / count,
+    min: sorted[0]!,
+    max: sorted[count - 1]!,
+    p95: sorted[p95Index]!,
+  };
+};
 
 const emptyStateCounts = (): Record<ChunkLifecycleState, number> => ({
   UNLOADED: 0,
@@ -306,9 +331,7 @@ export class WorldStreamer implements RenderableWorld {
         geometryBytesTotal += geometryBytes(object.geometry);
       });
     }
-    const sorted = [...this.generationTimes].sort((a, b) => a - b);
-    const average = sorted.length ? sorted.reduce((sum, value) => sum + value, 0) / sorted.length : 0;
-    const p95 = sorted.length ? sorted[Math.min(sorted.length - 1, Math.floor(sorted.length * 0.95))]! : 0;
+    const timing = summarizeGenerationTimes(this.generationTimes);
     return {
       stateCounts,
       loadedChunks: active,
@@ -321,8 +344,11 @@ export class WorldStreamer implements RenderableWorld {
       bvhCount: this.adapter.getStats().bvhCount,
       renderObjectCount,
       estimatedCpuGeometryBytes: geometryBytesTotal,
-      generationAvgMs: average,
-      generationP95Ms: p95,
+      generationAvgMs: timing.average,
+      generationP95Ms: timing.p95,
+      generationMinMs: timing.min,
+      generationMaxMs: timing.max,
+      generationSampleCount: timing.count,
       maxLoadedChunks: this.maxLoadedChunks,
       coverageComplete: this.isCollisionCovered(this.lastPosition),
       rebaseCount: this.rebaseCount,

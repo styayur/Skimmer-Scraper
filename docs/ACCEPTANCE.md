@@ -1,7 +1,7 @@
 # v0.1.0 acceptance
 
 Status: **release candidate accepted for source/GitHub Pages preview** on 2026-11-08. Cloudflare Pages
-production publication remains blocked on account credentials and is not claimed as complete.
+was never published. That deployment path is cancelled and is not claimed as complete.
 
 ## Requirement matrix
 
@@ -17,8 +17,9 @@ production publication remains blocked on account credentials and is not claimed
 | WebGL2 default rendering | Explicit WebGL2 context creation | `tests/e2e/release.spec.ts` | PASS |
 | Fixed timestep and repeatable debug input | FixedStepRunner, ScriptedInputSource, debug advance | `tests/unit/fixedStep.test.ts`, debug bridge | PASS |
 | Separate flight, collision, world adapter, render modules | Module boundaries under `src/` | `docs/ARCHITECTURE.md`, source review | PASS |
-| Static site + Cloudflare Pages configuration | Vite `dist/`, Wrangler Pages config, deploy workflow | `.github/workflows/deploy-cloudflare-pages.yml`, `wrangler.toml` | CONFIGURED / BLOCKED ON AUTH |
-| Public HTTPS build | GitHub Pages preview workflow | `.github/workflows/deploy-github-pages.yml`, `evidence/v0.1.0-live-pages-verification.json` | PASS — HTTP 200 + WebGL2 flight smoke |
+| Static site | Vite `dist/` published by GitHub Pages | `.github/workflows/deploy-github-pages.yml` | PASS — see public HTTPS row |
+| Public HTTPS build | GitHub Pages workflow | `.github/workflows/deploy-github-pages.yml`, `evidence/v0.1.0-live-pages-verification.json` | PASS — HTTP 200 + WebGL2 flight smoke |
+| Cloudflare Pages | Dedicated workflow and Wrangler config removed | `docs/DEPLOYMENT.md` | CANCELLED — not a release host |
 | Real-GPU performance acceptance | Not performed | Headless report identifies SwiftShader | NOT CLAIMED |
 
 ## Browser evidence
@@ -40,9 +41,8 @@ do not prove real-hardware frame rate, thermal behavior or mobile GPU performanc
 
 ## Manual/blocked gates
 
-1. **Cloudflare Pages production:** requires valid `CLOUDFLARE_API_TOKEN`,
-   `CLOUDFLARE_ACCOUNT_ID`, repository secret setup, and one-time project authorization. Wrangler OAuth
-   was expired and non-interactive refresh failed.
+1. **Cloudflare Pages:** cancelled. Do not configure API tokens, an account ID, or a Pages project.
+   GitHub Pages is the release host. No Cloudflare deployment is claimed.
 2. **Real-GPU benchmark:** must run on named hardware/browser with frame-time capture and quality
    settings recorded. This release deliberately does not substitute software rendering for that gate.
 3. **Subjective visual QA on target hardware:** desktop screenshots were inspected in Chromium; a final
@@ -96,4 +96,4 @@ GitHub Pages returned HTTP 200 for the deployed commit `e56b034492f71ee7f1d3a514
 Playwright verified WebGL2, both camera modes, project-subpath assets, the Stable/Ephemeral selector,
 share-link parameters and an Ephemeral flight. Evidence is in
 `evidence/v0.2.0-live-pages-verification.json` and the three live-pages screenshots. Cloudflare Pages
-remains blocked and is not part of the v0.2.0 release claim.
+was not part of the v0.2.0 release claim, and that deployment path has since been cancelled.

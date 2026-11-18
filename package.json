@@ -11,7 +11,6 @@
     "test:watch": "vitest",
     "test:e2e": "playwright test",
     "test:all": "npm run typecheck && npm run test && npm run build && npm run test:e2e",
-    "deploy:cf": "npm run build && wrangler pages deploy dist --project-name skimmer-scraper",
     "fixtures": "node scripts/generate-test-glb.mjs",
     "acceptance:v020": "node scripts/run-v02-acceptance.mjs --phase 5",
     "benchmark:gpu": "node scripts/run-real-gpu-benchmark.mjs",
@@ -48,8 +47,7 @@
     "fake-indexeddb": "^6.2.8",
     "typescript": "^7.0.2",
     "vite": "^8.3.7",
-    "vitest": "^5.1.0",
-    "wrangler": "^4.160.0"
+    "vitest": "^5.1.0"
   },
   "private": true
 }

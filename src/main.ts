@@ -188,9 +188,11 @@ const waitForCollisionCoverage = async (
         return true;
       }
       buffering = true;
+      syncHud();
       await delay(8);
     }
     buffering = true;
+    syncHud();
     return false;
   } finally {
     streamPreparationCount = Math.max(0, streamPreparationCount - 1);

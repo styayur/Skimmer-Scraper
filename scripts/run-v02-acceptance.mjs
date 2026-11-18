@@ -388,17 +388,14 @@ if (phase === 5 && passed) {
         verifiedSourceRevision: null,
       },
       cloudflarePages: {
-        status: 'blocked_on_oauth_or_repository_secrets',
+        status: 'cancelled',
         liveUrl: null,
-        configuredFiles: [
-          '.github/workflows/deploy-cloudflare-pages.yml',
-          'wrangler.toml',
-        ],
+        configuredFiles: [],
       },
     },
     blockers: [
       'GitHub Pages production verification is pending until this phase is merged and deployed.',
-      'Cloudflare Pages CLI OAuth could not be refreshed from the existing browser session; no Cloudflare live deployment is claimed.',
+      'Cloudflare Pages deployment is cancelled. GitHub Pages is the release host. No Cloudflare deployment is claimed.',
     ],
     evidence,
     caveats: [

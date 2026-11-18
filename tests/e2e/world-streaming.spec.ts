@@ -14,6 +14,9 @@ interface StreamerSnapshot {
   estimatedCpuGeometryBytes: number;
   generationAvgMs: number;
   generationP95Ms: number;
+  generationMinMs: number;
+  generationMaxMs: number;
+  generationSampleCount: number;
   maxLoadedChunks: number;
   coverageComplete: boolean;
   rebaseCount: number;
@@ -101,6 +104,14 @@ test.describe('v0.2 phase 3 infinite world streaming', () => {
     expect(normalFlight.position.z).toBeLessThan(initial.position.z - 150);
     expect(normalFlight.streaming!.generatedTotal).toBeGreaterThan(initial.streaming!.generatedTotal);
 
+    const bufferedState = page.waitForFunction(() => {
+      const bridge = (window as unknown as { __SKIMMER_SCRAPER__?: StreamingBridge })
+        .__SKIMMER_SCRAPER__;
+      const state = bridge?.snapshot();
+      const label = document.querySelector('#surface-state')?.textContent ?? '';
+      if (!state?.buffering || !label.includes('WORLD STREAM')) return false;
+      return { runTime: state.runTime, label };
+    }, { timeout: 15_000 });
     await page.evaluate((target) => {
       const bridge = (window as unknown as {
         __SKIMMER_SCRAPER__?: { setPose(position: typeof target): Promise<unknown> };
@@ -109,14 +120,8 @@ test.describe('v0.2 phase 3 infinite world streaming', () => {
       void bridge.setPose(target);
     }, { x: 12_105, y: 85, z: 0 });
 
-    const bufferedState = await page.waitForFunction(() => {
-      const bridge = (window as unknown as { __SKIMMER_SCRAPER__?: StreamingBridge })
-        .__SKIMMER_SCRAPER__;
-      const state = bridge?.snapshot();
-      return state?.buffering === true ? { runTime: state.runTime } : false;
-    }, { timeout: 15_000 });
-    const bufferedAt = await bufferedState.jsonValue() as { runTime: number };
-    await expect(page.locator('#surface-state')).toContainText('WORLD STREAM');
+    const bufferedAt = await (await bufferedState).jsonValue() as { runTime: number; label: string };
+    expect(bufferedAt.label).toContain('WORLD STREAM');
 
     await page.waitForFunction(() => {
       const bridge = (window as unknown as { __SKIMMER_SCRAPER__?: StreamingBridge })
@@ -171,7 +176,11 @@ test.describe('v0.2 phase 3 infinite world streaming', () => {
     expect(final.streaming!.retiredTotal).toBeGreaterThan(0);
     expect(final.streaming!.disposedGeometryCount).toBeGreaterThan(0);
     expect(final.streaming!.generationAvgMs).toBeGreaterThan(0);
-    expect(final.streaming!.generationP95Ms).toBeGreaterThanOrEqual(final.streaming!.generationAvgMs);
+    expect(final.streaming!.generationSampleCount).toBeGreaterThan(0);
+    expect(final.streaming!.generationMinMs).toBeLessThanOrEqual(final.streaming!.generationAvgMs);
+    expect(final.streaming!.generationAvgMs).toBeLessThanOrEqual(final.streaming!.generationMaxMs);
+    expect(final.streaming!.generationMinMs).toBeLessThanOrEqual(final.streaming!.generationP95Ms);
+    expect(final.streaming!.generationP95Ms).toBeLessThanOrEqual(final.streaming!.generationMaxMs);
     expect(final.render.calls).toBeGreaterThan(0);
     expect(final.render.triangles).toBeGreaterThan(10_000);
 

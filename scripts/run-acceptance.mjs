@@ -24,8 +24,6 @@ const deliverablesByPhase = {
   '1': [
     'AGENTS.md',
     '.github/workflows/ci.yml',
-    '.github/workflows/deploy-cloudflare-pages.yml',
-    'wrangler.toml',
     'src/flight/flightModel.ts',
     'src/world/proceduralCity.ts',
     'src/render/GameRenderer.ts',
@@ -159,7 +157,7 @@ const report = {
   caveats: [
     'Browser tests use headless Chromium and may run on SwiftShader/software rendering.',
     'This report is correctness and browser-integration evidence, not a real-GPU performance certification.',
-    'Cloudflare Pages publication is not claimed unless a separate live deployment URL is recorded.',
+    'Cloudflare Pages deployment is cancelled and is not a release host. GitHub Pages is the public host. No Cloudflare deployment is claimed.',
   ],
 };
 

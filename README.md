@@ -12,11 +12,10 @@ profile, no model upload.
 on-demand world streaming and Stable/Ephemeral world modes while preserving the local-only aircraft
 and score model.
 
-**Public preview:** [https://styayur.github.io/Skimmer-Scraper/](https://styayur.github.io/Skimmer-Scraper/)
+**Public site:** [https://styayur.github.io/Skimmer-Scraper/](https://styayur.github.io/Skimmer-Scraper/)
 
-GitHub Pages is the public release host. Cloudflare Pages remains configured but blocked on CLI OAuth
-or repository secrets; see [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md). No Cloudflare deployment success
-is claimed.
+GitHub Pages is the only deployment target. Cloudflare Pages deployment is cancelled; see
+[docs/DEPLOYMENT.md](docs/DEPLOYMENT.md). No Cloudflare deployment success is claimed.
 
 <img src="evidence/phase-4-v0.1.0-title.png" alt="Skimmer-Scraper title screen over the sakura-dusk city" width="100%">
 
@@ -60,7 +59,7 @@ extra decoders and are not currently supported. Full details: [docs/MODELS.md](d
 - TypeScript, Three.js, Vite and `three-mesh-bvh`
 - Vitest for pure simulation/rules/storage tests
 - Playwright for real Chromium WebGL interaction and screenshots
-- Cloudflare Pages and GitHub Pages static deployment workflows
+- GitHub Pages static deployment workflow
 - WebAudio synthesis for engine and wind sound; no audio downloads
 
 ## Architecture
