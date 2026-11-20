@@ -7,12 +7,19 @@ test('earned Trust and a real nearby surface partner provide only a finite chall
  const result=await page.evaluate(async()=>{
   const g=window.__SKIMMER_SCRAPER__!;await g.retry();let earned=await g.advance(2.2);
   // Controlled geometric fixture, not a claim about unaided human survival.
-  g.pause();let partner=earned.companions[0];let surface=g.surface(partner.position,40);
-  if(!surface||surface.distance<7||surface.distance>30){await g.setPose({x:0,y:24,z:120});g.resume();earned=await g.advance(1);g.pause();partner=earned.companions[0];surface=g.surface(partner.position,40);}
+  g.pause();await g.setPose({x:0,y:24,z:120});
+  const partner=g.snapshot().companions[0];const surface=g.surface(partner.position,40);
   if(!surface)throw Error('Fixture lacks a real surface');
-  const normal={x:(partner.position.x-surface.point.x)/surface.distance,y:(partner.position.y-surface.point.y)/surface.distance,z:(partner.position.z-surface.point.z)/surface.distance};
   const anchor={...partner.position};
-  await g.setPose({x:anchor.x+normal.x*39,y:anchor.y+normal.y*39,z:anchor.z+normal.z*39},{pitch:0,preserveCompanions:true});g.resume();await g.advance(.01,{holdPosition:true});
+  let detached:{x:number;y:number;z:number}|null=null;
+  for(const dy of [35,45])for(const dx of [0,20,-20,35,-35])for(const dz of [0,20,-20]){
+    const candidate={x:anchor.x+dx,y:anchor.y+dy,z:anchor.z+dz};
+    if(Math.hypot(dx,dy,dz)>58||g.surface(candidate,42))continue;
+    let clear=true;for(let i=1;i<10;i++){const t=i/10;const p={x:anchor.x+dx*t,y:anchor.y+dy*t,z:anchor.z+dz*t};if(g.surface(p,7))clear=false;}
+    if(clear&&!detached)detached=candidate;
+  }
+  if(!detached)throw Error('Fixture lacks a detached line-of-sight rescue position');
+  await g.setPose(detached,{pitch:0,preserveCompanions:true});g.resume();await g.advance(.01,{holdPosition:true});
   let before=g.snapshot();
   // One fixed HOLD anchor remains valid throughout the finite countdown.
   {

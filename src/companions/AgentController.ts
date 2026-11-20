@@ -41,7 +41,7 @@ export class CompanionTeam {
   public events: CompanionEvent[] = [];
   public settings: CompanionSettings = normalizeCompanions();
   public cooperation = { trust: 0.5, risk: 0.3 };
-  private overrides = new Map<number, { target: Vec3; task: AgentTask; expires: number }>();
+  private overrides = new Map<number, { target: Vec3; task: AgentTask; expires: number; routeSide: number }>();
   public configure(settings: CompanionSettings): void {
     this.settings = normalizeCompanions(settings);
     for (const agent of this.agents) agent.perceptionIn = 0;
@@ -58,9 +58,9 @@ export class CompanionTeam {
       this.agents.push(agent); this.record(agent, position ? 'spawn' : 'coverage');
     }
   }
-  public setTarget(id: number, target: Vec3, task: AgentTask, ttl: number): boolean {
+  public setTarget(id: number, target: Vec3, task: AgentTask, ttl: number, routeSide = 0): boolean {
     if (!this.agents.some(agent => agent.id === id && agent.deployed) || !Object.values(target).every(Number.isFinite) || !Number.isFinite(ttl) || ttl <= 0) return false;
-    this.overrides.set(id, { target: { ...target }, task, expires: this.elapsed + clamp(ttl, 0.1, 15) });
+    this.overrides.set(id, { target: { ...target }, task, expires: this.elapsed + clamp(ttl, 0.1, 15), routeSide: Math.sign(routeSide) });
     this.agents.find(agent => agent.id === id)!.perceptionIn = 0;
     return true;
   }
@@ -107,6 +107,8 @@ export class CompanionTeam {
         if (override && override.expires > this.elapsed) {
           task = override.task;
           target = ['FORMATION_FOLLOW', 'REGROUP', 'PROTECT'].includes(task) ? this.formationTarget(player, agent.id) : { ...override.target };
+          // A leading corridor moves with the pilot; an old network waypoint must not make the leader turn back.
+          if (task === 'LEAD') target = this.safeRoute(player, world, agent.id, override.routeSide);
           if (task === 'HOLD' || task === 'RELAY') {
             target.x += Math.cos(this.elapsed * 0.7 + agent.id) * 9;
             target.z += Math.sin(this.elapsed * 0.7 + agent.id) * 9;
@@ -205,14 +207,14 @@ export class CompanionTeam {
     target.y += 4 + Math.sin(this.elapsed * 0.6 + id) * 2 + (id === 3 ? 2 : 0);
     return target;
   }
-  private safeRoute(player: FlightState, world: CompanionWorld, id: number): Vec3 {
+  private safeRoute(player: FlightState, world: CompanionWorld, id: number, preferredSide = 0): Vec3 {
     const forward = unit(player.velocity);
     const right = { x: Math.cos(player.attitude.yaw), y: 0, z: -Math.sin(player.attitude.yaw) };
     let best = this.formationTarget(player, id); let bestCost = Infinity;
     for (const side of [0, -1, 1]) {
       const candidate = add(add(player.position, scale(forward, 90)), scale(right, side * 40)); candidate.y += side === 0 ? 6 : 20;
       if (!covered(world, candidate)) continue;
-      let cost = Math.abs(side) * 4;
+      let cost = Math.abs(side - preferredSide) * 8;
       for (const ratio of [0.3, 0.6, 1]) {
         const probe = add(player.position, scale(sub(candidate, player.position), ratio));
         const hit = world.queryNearest(probe, 25); cost += hit ? Math.max(0, 25 - hit.distance) * 4 : 0;

@@ -34,6 +34,11 @@ describe('declarative AI boundary',()=>{
   const solid={queryNearest:()=>({distance:0,point:{x:0,y:0,z:0},chunkId:'x',surfaceId:'x'})};expect(validatePlan(f.plan,{...f.context,world:solid}).ok).toBe(false);
   f.runtime.invalidate();expect(f.runtime.replay(f.plan,f.perception)).toBe(false);
  });
+ it('keeps a delayed model LEAD corridor ahead of a moving pilot',()=>{
+  const f=fixture();expect(f.runtime.replay({...f.plan,orders:[{agents:[1],action:'LEAD',targetId:'route-ahead'}]},f.perception)).toBe(true);
+  const moved={...f.player,position:{...f.player.position,z:-100}};f.team.step(moved,ground,.2);
+  expect(f.team.agents[0].target.z).toBeLessThan(moved.position.z);
+ });
  it.each(['FOLLOW','LEAD','REGROUP','SCOUT','PROTECT','HOLD'])('supports %s with published targets',action=>{const f=fixture();expect(validatePlan({...f.plan,orders:[{agents:[1,2,3],action,targetId:'route-ahead'}]},f.context).ok).toBe(true);});
 });
 describe('observable Trust and finite Surface Relay',()=>{

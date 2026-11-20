@@ -18,6 +18,7 @@ export interface ModelReply { decision:unknown; usage:TokenUsage; latencyMs:numb
 const PROMPT = `You plan a small aircraft team in a real flight game. Return ONLY a json object, no code or tools.
 Required exact keys: requestId, epoch, ttl (1..12 seconds), risk (0..riskLimit), formation (wedge|line|spread), orders (1..3), reason (brief Chinese, <=100 characters).
 Each order has exact keys agents (unique active integer IDs), action (FOLLOW|LEAD|REGROUP|SCOUT|PROTECT|RELAY|HOLD), targetId (a published target ID or null for FOLLOW/REGROUP/PROTECT). Never invent a target, agent, trust value or key.
+Each agent can appear in ONLY ONE order across the entire plan. In free mode grace never drains: RELAY is optional training, not a survival emergency. LEAD selects a moving local corridor; SCOUT/HOLD select fixed published points.
 Use perception, hazards, grace, trust, charges and recent outcomes to choose actual cooperation. In clear space choose useful lead/scout/formation; near obstacles choose safe routes/regroup/protect. When grace is draining and a surface partner exists, prepare RELAY with sufficient ttl. RELAY must target that partner's surface ID and include the partner. HOLD loiters at a target; local physics handles safety. No chat.
 Example json: {"requestId":"copy perception.requestId","epoch":0,"ttl":10,"risk":0.3,"formation":"wedge","orders":[{"agents":[1],"action":"FOLLOW","targetId":null}],"reason":"保持安全编队"}`;
 const safeNumber=(value:unknown):number=>typeof value==='number'&&Number.isFinite(value)&&value>=0?Math.min(1e8,value):0;
@@ -65,6 +66,7 @@ export class ModelClient {
       if(!response.ok){
         if(response.status===429)this.#blockedUntil=this.clock()+Math.max(10000,Math.min(120000,Number(response.headers.get('retry-after')??10)*1000||10000));
         if(response.status===401||response.status===403){this.#key='';this.#stats.connected=false;}
+        await response.body?.cancel().catch(()=>{});
         throw Error(`http-${response.status}`);
       }
       const reader=response.body?.getReader();if(!reader)throw Error('empty-response');

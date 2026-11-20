@@ -2,8 +2,8 @@
   "phase": 4,
   "typecheck": "passed",
   "unitTests": {
-    "passed": 118,
-    "newAIAndCooperation": 34
+    "passed": 119,
+    "newAIAndCooperation": 35
   },
   "liveInference": {
     "provider": "DeepSeek official HTTPS, genuine browser calls, environment-only key",
@@ -14,15 +14,15 @@
     "requests": 4,
     "successfulResponses": 4,
     "validatedPlans": 4,
-    "flashStrategy": "LEAD/FOLLOW, then REGROUP/FOLLOW as team separation changes",
-    "proStrategy": "LEAD/FOLLOW in open high-altitude geometry",
+    "flashStrategy": "Moves from forward LEAD corridor to left LEAD corridor in denser geometry",
+    "proStrategy": "Maintains forward LEAD in open high-altitude geometry",
     "latencyMs": [
-      1795.4,
-      2383.9,
-      1866.4,
-      2182.4
+      810.8999999985099,
+      1236.6000000014901,
+      2840.60000000149,
+      2312.89999999851
     ],
-    "totalTokens": 4272,
+    "totalTokens": 4511,
     "evidence": [
       "evidence/v0.3/phase-4-real-deepseek-flash.json",
       "evidence/v0.3/phase-4-real-deepseek-v4-pro.json"
@@ -30,7 +30,7 @@
     "closedLoop": "perception, genuine decision, validation, target execution, moving aircraft, outcome, Trust and bounded memory recorded",
     "cost": {
       "currency": "USD",
-      "estimatedPeakUpperBound": 0.004125408,
+      "estimatedPeakUpperBound": 0.004398168,
       "notBillingInvoice": true,
       "source": "https://api-docs.deepseek.com/quick_start/pricing/",
       "method": "Actual input/output/cache-hit tokens at published peak rates; off-peak may cost less"
@@ -54,5 +54,6 @@
     "fullRun": "18 passed, 1 failed before fetch-binding fix; corrected synthetic adapter and new real-geometry Relay tests both passed",
     "verifiedCases": 20,
     "relayEvidence": "evidence/v0.3/phase-4-relay-browser.json"
-  }
+  },
+  "flightCorrection": "Observed stale network LEAD targets behind the player; now selects a live safe corridor, with a regression test."
 }

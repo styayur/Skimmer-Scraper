@@ -79,10 +79,13 @@ export class SymbiosisRuntime {
     const plan=result.plan;this.used.add(plan.requestId);if(this.used.size>128)this.used.delete(this.used.values().next().value!);
     this.team.clearTargets();this.team.configure({...this.team.settings,formation:plan.formation});
     this.team.cooperation={trust:this.trust.value,risk:plan.risk};
-    for(const order of plan.resolved)for(const id of order.agents)this.team.setTarget(id,order.target,tasks[order.action],plan.ttl-(this.time-perception.time));
+    for(const order of plan.resolved)for(const id of order.agents)this.team.setTarget(id,order.target,tasks[order.action],plan.ttl-(this.time-perception.time),order.targetId==='route-left'?-1:order.targetId==='route-right'?1:0);
     this.lastPlan=plan;this.planUntil=perception.time+plan.ttl;this.planner=`${label} · ${reply.model}`;
     const lead=plan.resolved.find(order=>order.action==='LEAD');
-    if(lead)this.trackLead(lead.agents[0]!,lead.target,plan.ttl);
+    if(lead){
+      const direction=forwardFromAttitude(c.player.attitude);
+      this.trackLead(lead.agents[0]!,{x:c.player.position.x+direction.x*90,y:c.player.position.y+direction.y*90,z:c.player.position.z+direction.z*90},plan.ttl);
+    }
     this.record('execution',{plan,agents:this.positions()});return true;
   }
   private trackLead(id:number,target:Vec3,ttl:number):void {

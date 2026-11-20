@@ -92,44 +92,44 @@
         "grace": 5,
         "failureReason": null,
         "world": {
-          "chunks": 13,
-          "buildings": 73,
-          "bridges": 20,
+          "chunks": 14,
+          "buildings": 77,
+          "bridges": 21,
           "islands": 1,
-          "collisionTriangles": 70286,
-          "renderTriangles": 128232
+          "collisionTriangles": 72572,
+          "renderTriangles": 134088
         },
         "adapter": {
-          "chunks": 13,
-          "bvhCount": 13,
+          "chunks": 14,
+          "bvhCount": 14,
           "lastBroadPhaseCandidates": 2,
           "lastQueries": 2
         },
         "streaming": {
           "stateCounts": {
             "UNLOADED": 0,
-            "QUEUED": 11,
+            "QUEUED": 10,
             "GENERATING": 1,
             "READY": 0,
-            "ACTIVE": 13,
+            "ACTIVE": 14,
             "RETIRING": 0,
             "DISPOSED": 0
           },
-          "loadedChunks": 13,
-          "activeChunks": 13,
-          "queuedChunks": 11,
+          "loadedChunks": 14,
+          "activeChunks": 14,
+          "queuedChunks": 10,
           "generatingChunks": 1,
-          "generatedTotal": 13,
+          "generatedTotal": 14,
           "retiredTotal": 0,
           "disposedGeometryCount": 0,
-          "bvhCount": 13,
-          "renderObjectCount": 150,
-          "estimatedCpuGeometryBytes": 15265084,
-          "generationAvgMs": 68.77692307589146,
-          "generationP95Ms": 535.1999999955297,
-          "generationMinMs": 4.200000002980232,
-          "generationMaxMs": 535.1999999955297,
-          "generationSampleCount": 13,
+          "bvhCount": 14,
+          "renderObjectCount": 161,
+          "estimatedCpuGeometryBytes": 15923692,
+          "generationAvgMs": 64.2142857148179,
+          "generationP95Ms": 545.5,
+          "generationMinMs": 5.100000001490116,
+          "generationMaxMs": 545.5,
+          "generationSampleCount": 14,
           "maxLoadedChunks": 41,
           "coverageComplete": true,
           "rebaseCount": 0
@@ -141,12 +141,12 @@
           "z": 0
         },
         "render": {
-          "calls": 245,
-          "triangles": 151550,
+          "calls": 250,
+          "triangles": 157634,
           "points": 560,
           "lines": 0,
-          "fps": 113.42858229699172,
-          "geometries": 131,
+          "fps": 113.50137005165378,
+          "geometries": 136,
           "textures": 22
         },
         "seed": 334458,
@@ -246,13 +246,13 @@
           },
           {
             "key": "-1:-2",
-            "state": "GENERATING",
+            "state": "ACTIVE",
             "revision": 0,
-            "fingerprint": null
+            "fingerprint": 3788906424
           },
           {
             "key": "1:-2",
-            "state": "QUEUED",
+            "state": "GENERATING",
             "revision": 0,
             "fingerprint": null
           },
@@ -436,16 +436,16 @@
             "queuedChunks": 6,
             "generatingChunks": 1,
             "generatedTotal": 20,
-            "retiredTotal": 3,
-            "disposedGeometryCount": 42,
+            "retiredTotal": 4,
+            "disposedGeometryCount": 51,
             "bvhCount": 18,
             "renderObjectCount": 204,
             "estimatedCpuGeometryBytes": 18933964,
-            "generationAvgMs": 52.12857142764898,
-            "generationP95Ms": 135.5,
-            "generationMinMs": 4.200000002980232,
-            "generationMaxMs": 535.1999999955297,
-            "generationSampleCount": 21,
+            "generationAvgMs": 51.84090909158642,
+            "generationP95Ms": 113.10000000149012,
+            "generationMinMs": 5.100000001490116,
+            "generationMaxMs": 545.5,
+            "generationSampleCount": 22,
             "maxLoadedChunks": 41,
             "coverageComplete": true,
             "rebaseCount": 0
@@ -457,12 +457,12 @@
             "z": 0
           },
           "render": {
-            "calls": 327,
-            "triangles": 218454,
+            "calls": 321,
+            "triangles": 217234,
             "points": 560,
             "lines": 304,
-            "fps": 87.60660674618329,
-            "geometries": 188,
+            "fps": 89.60642563430683,
+            "geometries": 190,
             "textures": 23
           },
           "seed": 334458,
@@ -751,16 +751,16 @@
             "queuedChunks": 1,
             "generatingChunks": 1,
             "generatedTotal": 26,
-            "retiredTotal": 4,
-            "disposedGeometryCount": 55,
+            "retiredTotal": 5,
+            "disposedGeometryCount": 64,
             "bvhCount": 23,
             "renderObjectCount": 263,
             "estimatedCpuGeometryBytes": 25957200,
-            "generationAvgMs": 46.17777777739145,
-            "generationP95Ms": 135.5,
-            "generationMinMs": 4.200000002980232,
-            "generationMaxMs": 535.1999999955297,
-            "generationSampleCount": 27,
+            "generationAvgMs": 46.4857142860336,
+            "generationP95Ms": 113.10000000149012,
+            "generationMinMs": 5.100000001490116,
+            "generationMaxMs": 545.5,
+            "generationSampleCount": 28,
             "maxLoadedChunks": 41,
             "coverageComplete": true,
             "rebaseCount": 0
@@ -772,12 +772,12 @@
             "z": 0
           },
           "render": {
-            "calls": 375,
-            "triangles": 279406,
+            "calls": 398,
+            "triangles": 313010,
             "points": 560,
             "lines": 64,
-            "fps": 84.19878209328914,
-            "geometries": 238,
+            "fps": 91.52862837490109,
+            "geometries": 253,
             "textures": 23
           },
           "seed": 334458,
@@ -1066,16 +1066,16 @@
             "queuedChunks": 6,
             "generatingChunks": 1,
             "generatedTotal": 33,
-            "retiredTotal": 18,
-            "disposedGeometryCount": 232,
+            "retiredTotal": 19,
+            "disposedGeometryCount": 241,
             "bvhCount": 18,
             "renderObjectCount": 207,
             "estimatedCpuGeometryBytes": 19188748,
-            "generationAvgMs": 41.336111111152505,
-            "generationP95Ms": 135.5,
-            "generationMinMs": 4.200000002980232,
-            "generationMaxMs": 535.1999999955297,
-            "generationSampleCount": 36,
+            "generationAvgMs": 41.843243243927894,
+            "generationP95Ms": 113.10000000149012,
+            "generationMinMs": 5.100000001490116,
+            "generationMaxMs": 545.5,
+            "generationSampleCount": 37,
             "maxLoadedChunks": 41,
             "coverageComplete": true,
             "rebaseCount": 0
@@ -1087,12 +1087,12 @@
             "z": 0
           },
           "render": {
-            "calls": 348,
-            "triangles": 249634,
+            "calls": 344,
+            "triangles": 249486,
             "points": 560,
             "lines": 64,
-            "fps": 81.70659281194384,
-            "geometries": 210,
+            "fps": 92.23254506528485,
+            "geometries": 211,
             "textures": 23
           },
           "seed": 334458,
@@ -1382,16 +1382,16 @@
           "queuedChunks": 6,
           "generatingChunks": 1,
           "generatedTotal": 33,
-          "retiredTotal": 18,
-          "disposedGeometryCount": 232,
+          "retiredTotal": 19,
+          "disposedGeometryCount": 241,
           "bvhCount": 18,
           "renderObjectCount": 207,
           "estimatedCpuGeometryBytes": 19188748,
-          "generationAvgMs": 41.336111111152505,
-          "generationP95Ms": 135.5,
-          "generationMinMs": 4.200000002980232,
-          "generationMaxMs": 535.1999999955297,
-          "generationSampleCount": 36,
+          "generationAvgMs": 41.843243243927894,
+          "generationP95Ms": 113.10000000149012,
+          "generationMinMs": 5.100000001490116,
+          "generationMaxMs": 545.5,
+          "generationSampleCount": 37,
           "maxLoadedChunks": 41,
           "coverageComplete": true,
           "rebaseCount": 0
@@ -1403,12 +1403,12 @@
           "z": 0
         },
         "render": {
-          "calls": 348,
-          "triangles": 249634,
+          "calls": 344,
+          "triangles": 249486,
           "points": 560,
           "lines": 64,
-          "fps": 81.70659281194384,
-          "geometries": 210,
+          "fps": 92.23254506528485,
+          "geometries": 211,
           "textures": 23
         },
         "seed": 334458,
@@ -1800,10 +1800,10 @@
           "bvhCount": 11,
           "renderObjectCount": 123,
           "estimatedCpuGeometryBytes": 12303856,
-          "generationAvgMs": 40.11818181858821,
-          "generationP95Ms": 231.70000000298023,
-          "generationMinMs": 7.100000001490116,
-          "generationMaxMs": 231.70000000298023,
+          "generationAvgMs": 41.91818181831729,
+          "generationP95Ms": 231.90000000596046,
+          "generationMinMs": 6,
+          "generationMaxMs": 231.90000000596046,
           "generationSampleCount": 11,
           "maxLoadedChunks": 41,
           "coverageComplete": true,
@@ -1820,7 +1820,7 @@
           "triangles": 135056,
           "points": 560,
           "lines": 0,
-          "fps": 114.20087394954274,
+          "fps": 77.36606080097731,
           "geometries": 116,
           "textures": 22
         },
@@ -2298,43 +2298,43 @@
           "grace": 5,
           "failureReason": null,
           "world": {
-            "chunks": 19,
-            "buildings": 103,
-            "bridges": 25,
+            "chunks": 18,
+            "buildings": 93,
+            "bridges": 24,
             "islands": 2,
-            "collisionTriangles": 91016,
-            "renderTriangles": 175628
+            "collisionTriangles": 83042,
+            "renderTriangles": 160860
           },
           "adapter": {
-            "chunks": 19,
-            "bvhCount": 19,
+            "chunks": 18,
+            "bvhCount": 18,
             "lastBroadPhaseCandidates": 1,
             "lastQueries": 1
           },
           "streaming": {
             "stateCounts": {
               "UNLOADED": 0,
-              "QUEUED": 5,
+              "QUEUED": 6,
               "GENERATING": 1,
               "READY": 0,
-              "ACTIVE": 19,
+              "ACTIVE": 18,
               "RETIRING": 0,
               "DISPOSED": 0
             },
-            "loadedChunks": 19,
-            "activeChunks": 19,
-            "queuedChunks": 5,
+            "loadedChunks": 18,
+            "activeChunks": 18,
+            "queuedChunks": 6,
             "generatingChunks": 1,
-            "generatedTotal": 21,
-            "retiredTotal": 4,
-            "disposedGeometryCount": 47,
-            "bvhCount": 19,
-            "renderObjectCount": 216,
-            "estimatedCpuGeometryBytes": 20686740,
-            "generationAvgMs": 32.16956521700258,
-            "generationP95Ms": 51.399999998509884,
-            "generationMinMs": 7.100000001490116,
-            "generationMaxMs": 231.70000000298023,
+            "generatedTotal": 19,
+            "retiredTotal": 5,
+            "disposedGeometryCount": 65,
+            "bvhCount": 18,
+            "renderObjectCount": 204,
+            "estimatedCpuGeometryBytes": 18933964,
+            "generationAvgMs": 32.29130434795566,
+            "generationP95Ms": 56.100000001490116,
+            "generationMinMs": 6,
+            "generationMaxMs": 231.90000000596046,
             "generationSampleCount": 23,
             "maxLoadedChunks": 41,
             "coverageComplete": true,
@@ -2347,12 +2347,12 @@
             "z": 0
           },
           "render": {
-            "calls": 351,
-            "triangles": 250624,
+            "calls": 321,
+            "triangles": 213292,
             "points": 560,
             "lines": 304,
-            "fps": 83.9785843412299,
-            "geometries": 197,
+            "fps": 76.21941280697848,
+            "geometries": 186,
             "textures": 23
           },
           "seed": 334458,
@@ -2470,9 +2470,9 @@
             },
             {
               "key": "0:-3",
-              "state": "ACTIVE",
+              "state": "GENERATING",
               "revision": 0,
-              "fingerprint": 4259250541
+              "fingerprint": null
             },
             {
               "key": "-1:-3",
@@ -2488,15 +2488,9 @@
             },
             {
               "key": "-2:-3",
-              "state": "GENERATING",
+              "state": "QUEUED",
               "revision": 0,
               "fingerprint": null
-            },
-            {
-              "key": "-3:-1",
-              "state": "ACTIVE",
-              "revision": 0,
-              "fingerprint": 2821410578
             },
             {
               "key": "-3:-2",
@@ -2521,6 +2515,12 @@
               "state": "QUEUED",
               "revision": 0,
               "fingerprint": null
+            },
+            {
+              "key": "-3:-1",
+              "state": "ACTIVE",
+              "revision": 0,
+              "fingerprint": 2821410578
             }
           ]
         },
@@ -3549,16 +3549,16 @@
             "activeChunks": 23,
             "queuedChunks": 1,
             "generatingChunks": 1,
-            "generatedTotal": 26,
+            "generatedTotal": 25,
             "retiredTotal": 6,
-            "disposedGeometryCount": 73,
+            "disposedGeometryCount": 78,
             "bvhCount": 23,
             "renderObjectCount": 263,
             "estimatedCpuGeometryBytes": 25957200,
-            "generationAvgMs": 31.331034482553086,
-            "generationP95Ms": 51.399999998509884,
-            "generationMinMs": 7.100000001490116,
-            "generationMaxMs": 231.70000000298023,
+            "generationAvgMs": 31.427586207102085,
+            "generationP95Ms": 56.100000001490116,
+            "generationMinMs": 6,
+            "generationMaxMs": 231.90000000596046,
             "generationSampleCount": 29,
             "maxLoadedChunks": 41,
             "coverageComplete": true,
@@ -3571,12 +3571,12 @@
             "z": 0
           },
           "render": {
-            "calls": 402,
-            "triangles": 310388,
+            "calls": 379,
+            "triangles": 282388,
             "points": 560,
             "lines": 64,
-            "fps": 78.92298973028254,
-            "geometries": 251,
+            "fps": 71.01126216548701,
+            "geometries": 237,
             "textures": 23
           },
           "seed": 334458,
@@ -5328,16 +5328,16 @@
             "activeChunks": 18,
             "queuedChunks": 6,
             "generatingChunks": 1,
-            "generatedTotal": 33,
+            "generatedTotal": 32,
             "retiredTotal": 20,
-            "disposedGeometryCount": 250,
+            "disposedGeometryCount": 255,
             "bvhCount": 18,
             "renderObjectCount": 207,
             "estimatedCpuGeometryBytes": 19188748,
-            "generationAvgMs": 29.952631579025795,
-            "generationP95Ms": 51.399999998509884,
-            "generationMinMs": 7.100000001490116,
-            "generationMaxMs": 231.70000000298023,
+            "generationAvgMs": 29.494736842222903,
+            "generationP95Ms": 56.100000001490116,
+            "generationMinMs": 6,
+            "generationMaxMs": 231.90000000596046,
             "generationSampleCount": 38,
             "maxLoadedChunks": 41,
             "coverageComplete": true,
@@ -5350,12 +5350,12 @@
             "z": 0
           },
           "render": {
-            "calls": 340,
-            "triangles": 247116,
+            "calls": 350,
+            "triangles": 249688,
             "points": 560,
             "lines": 64,
-            "fps": 77.05634833725766,
-            "geometries": 209,
+            "fps": 83.81541259499912,
+            "geometries": 211,
             "textures": 23
           },
           "seed": 334458,
@@ -7108,16 +7108,16 @@
           "activeChunks": 18,
           "queuedChunks": 6,
           "generatingChunks": 1,
-          "generatedTotal": 33,
+          "generatedTotal": 32,
           "retiredTotal": 20,
-          "disposedGeometryCount": 250,
+          "disposedGeometryCount": 255,
           "bvhCount": 18,
           "renderObjectCount": 207,
           "estimatedCpuGeometryBytes": 19188748,
-          "generationAvgMs": 29.952631579025795,
-          "generationP95Ms": 51.399999998509884,
-          "generationMinMs": 7.100000001490116,
-          "generationMaxMs": 231.70000000298023,
+          "generationAvgMs": 29.494736842222903,
+          "generationP95Ms": 56.100000001490116,
+          "generationMinMs": 6,
+          "generationMaxMs": 231.90000000596046,
           "generationSampleCount": 38,
           "maxLoadedChunks": 41,
           "coverageComplete": true,
@@ -7130,12 +7130,12 @@
           "z": 0
         },
         "render": {
-          "calls": 340,
-          "triangles": 247116,
+          "calls": 350,
+          "triangles": 249688,
           "points": 560,
           "lines": 64,
-          "fps": 77.05634833725766,
-          "geometries": 209,
+          "fps": 83.81541259499912,
+          "geometries": 211,
           "textures": 23
         },
         "seed": 334458,
@@ -7527,10 +7527,10 @@
           "bvhCount": 11,
           "renderObjectCount": 123,
           "estimatedCpuGeometryBytes": 12303856,
-          "generationAvgMs": 36.96363636444915,
-          "generationP95Ms": 211.5,
-          "generationMinMs": 6.399999998509884,
-          "generationMaxMs": 211.5,
+          "generationAvgMs": 36.59090909023177,
+          "generationP95Ms": 202.29999999701977,
+          "generationMinMs": 7.0999999940395355,
+          "generationMaxMs": 202.29999999701977,
           "generationSampleCount": 11,
           "maxLoadedChunks": 41,
           "coverageComplete": true,
@@ -7547,7 +7547,7 @@
           "triangles": 135056,
           "points": 560,
           "lines": 0,
-          "fps": 114.33684309147318,
+          "fps": 79.41550372218809,
           "geometries": 116,
           "textures": 22
         },
@@ -8058,10 +8058,10 @@
             "bvhCount": 19,
             "renderObjectCount": 216,
             "estimatedCpuGeometryBytes": 20686740,
-            "generationAvgMs": 30.347826086956523,
-            "generationP95Ms": 49.899999998509884,
-            "generationMinMs": 6.399999998509884,
-            "generationMaxMs": 211.5,
+            "generationAvgMs": 30.230434781507306,
+            "generationP95Ms": 52.29999999701977,
+            "generationMinMs": 7.0999999940395355,
+            "generationMaxMs": 202.29999999701977,
             "generationSampleCount": 23,
             "maxLoadedChunks": 41,
             "coverageComplete": true,
@@ -8074,11 +8074,11 @@
             "z": 0
           },
           "render": {
-            "calls": 347,
-            "triangles": 247832,
+            "calls": 348,
+            "triangles": 252304,
             "points": 560,
             "lines": 64,
-            "fps": 82.84099399455152,
+            "fps": 74.59052919223356,
             "geometries": 192,
             "textures": 23
           },
@@ -8310,7 +8310,7 @@
             "lastPlan": {
               "requestId": "3-1",
               "epoch": 3,
-              "ttl": 8,
+              "ttl": 10,
               "risk": 0.3,
               "formation": "wedge",
               "orders": [
@@ -8330,7 +8330,7 @@
                   "targetId": null
                 }
               ],
-              "reason": "前方净空良好，保持楔形编队沿航线前进",
+              "reason": "净空良好，1号领航沿前方航线，2/3号楔形跟随",
               "resolved": [
                 {
                   "agents": [
@@ -8377,7 +8377,7 @@
                   "decision": {
                     "requestId": "3-1",
                     "epoch": 3,
-                    "ttl": 8,
+                    "ttl": 10,
                     "risk": 0.3,
                     "formation": "wedge",
                     "orders": [
@@ -8397,7 +8397,7 @@
                         "targetId": null
                       }
                     ],
-                    "reason": "前方净空良好，保持楔形编队沿航线前进"
+                    "reason": "净空良好，1号领航沿前方航线，2/3号楔形跟随"
                   },
                   "usage": {
                     "input": 0,
@@ -8418,7 +8418,7 @@
                   "plan": {
                     "requestId": "3-1",
                     "epoch": 3,
-                    "ttl": 8,
+                    "ttl": 10,
                     "risk": 0.3,
                     "formation": "wedge",
                     "orders": [
@@ -8438,7 +8438,7 @@
                         "targetId": null
                       }
                     ],
-                    "reason": "前方净空良好，保持楔形编队沿航线前进",
+                    "reason": "净空良好，1号领航沿前方航线，2/3号楔形跟随",
                     "resolved": [
                       {
                         "agents": [
@@ -8525,14 +8525,14 @@
                       "id": 1,
                       "task": "AVOID",
                       "position": {
-                        "x": -99.47129037856057,
-                        "y": 36.54395436868998,
-                        "z": -77.87219423166461
+                        "x": -99.47149091648157,
+                        "y": 36.544157816121164,
+                        "z": -77.87066623240197
                       },
                       "target": {
-                        "x": 35.68380986912556,
-                        "y": 54.98568115903328,
-                        "z": -92.09727528328048
+                        "x": 42.88351533064968,
+                        "y": 67.07649736896931,
+                        "z": -53.36598048300725
                       },
                       "impacts": 1
                     },
@@ -8602,14 +8602,14 @@
                       "id": 1,
                       "task": "LEAD",
                       "position": {
-                        "x": -64.13939020752743,
-                        "y": 30.40093521245292,
-                        "z": -80.86814311437976
+                        "x": -65.105467307883,
+                        "y": 32.53670152368043,
+                        "z": -75.33672062444367
                       },
                       "target": {
-                        "x": 35.68380986912556,
-                        "y": 54.98568115903328,
-                        "z": -92.09727528328048
+                        "x": 106.5343579542463,
+                        "y": 85.7194915877702,
+                        "z": -96.31505435205304
                       },
                       "impacts": 1
                     },
@@ -8669,14 +8669,14 @@
                       "id": 1,
                       "task": "AVOID",
                       "position": {
-                        "x": 17.702931920533462,
-                        "y": 49.921738089694124,
-                        "z": -88.85631046080458
+                        "x": 30.767769242819174,
+                        "y": 52.064312228164454,
+                        "z": -86.47001483025092
                       },
                       "target": {
-                        "x": 35.68380986912556,
-                        "y": 54.98568115903328,
-                        "z": -92.09727528328048
+                        "x": 136.88687338698392,
+                        "y": 21.112093378363753,
+                        "z": -152.24383041544542
                       },
                       "impacts": 1
                     },
@@ -8699,9 +8699,9 @@
                       "id": 3,
                       "task": "AVOID",
                       "position": {
-                        "x": 25.423010214141556,
-                        "y": 68.36555883753086,
-                        "z": -95.89213966779512
+                        "x": 25.88834685454713,
+                        "y": 68.27361249591713,
+                        "z": -96.92093700670398
                       },
                       "target": {
                         "x": 57.91701648129548,
@@ -8734,16 +8734,16 @@
                   "agents": [
                     {
                       "id": 1,
-                      "task": "LEAD",
+                      "task": "AVOID",
                       "position": {
-                        "x": 52.92785797783426,
-                        "y": 52.353059355824755,
-                        "z": -85.01856964121562
+                        "x": 111.01359330880048,
+                        "y": 42.9063456964352,
+                        "z": -86.3030320694844
                       },
                       "target": {
-                        "x": 35.68380986912556,
-                        "y": 54.98568115903328,
-                        "z": -92.09727528328048
+                        "x": 142.63360811963557,
+                        "y": 18.694151832199008,
+                        "z": -18.252441782871863
                       },
                       "impacts": 1
                     },
@@ -8766,9 +8766,9 @@
                       "id": 3,
                       "task": "AVOID",
                       "position": {
-                        "x": 69.67406299449793,
-                        "y": 70.32972801407404,
-                        "z": -109.360625725475
+                        "x": 70.25542433756135,
+                        "y": 69.9994264062676,
+                        "z": -110.02880012413192
                       },
                       "target": {
                         "x": 95.48491347129087,
@@ -8801,26 +8801,26 @@
                   "agents": [
                     {
                       "id": 1,
-                      "task": "LEAD",
+                      "task": "AVOID",
                       "position": {
-                        "x": 39.63184806122657,
-                        "y": 46.49144260333111,
-                        "z": -88.83579400859821
+                        "x": 122.97735212085507,
+                        "y": 27.461959972456935,
+                        "z": -43.58150402986557
                       },
                       "target": {
-                        "x": 35.68380986912556,
-                        "y": 54.98568115903328,
-                        "z": -92.09727528328048
+                        "x": 40.53966648841296,
+                        "y": 13,
+                        "z": -16.778735453732452
                       },
-                      "impacts": 1
+                      "impacts": 2
                     },
                     {
                       "id": 2,
                       "task": "AVOID",
                       "position": {
-                        "x": 95.72179063537526,
-                        "y": 37.54070141132411,
-                        "z": -79.40316821194445
+                        "x": 95.71381468583728,
+                        "y": 37.5133507707378,
+                        "z": -79.40187819390889
                       },
                       "target": {
                         "x": 96.07764836590202,
@@ -8833,14 +8833,14 @@
                       "id": 3,
                       "task": "AVOID",
                       "position": {
-                        "x": 102.10467402675842,
-                        "y": 62.540168088221165,
-                        "z": -98.26539182504027
+                        "x": 102.28177073242436,
+                        "y": 61.69945690504749,
+                        "z": -97.87965145826894
                       },
                       "target": {
-                        "x": 108.57649256939123,
-                        "y": 19.735906685199314,
-                        "z": -76.60304830590728
+                        "x": 109.33612071008436,
+                        "y": 20.04517206938291,
+                        "z": -76.80836102689214
                       },
                       "impacts": 2
                     }
@@ -8870,24 +8870,24 @@
                       "id": 1,
                       "task": "LEAD",
                       "position": {
-                        "x": 20.300907915722547,
-                        "y": 56.559231601930335,
-                        "z": -89.57237494673296
+                        "x": 77.13494116716709,
+                        "y": 24.751816382644645,
+                        "z": -17.22037830179244
                       },
                       "target": {
-                        "x": 35.68380986912556,
-                        "y": 54.98568115903328,
-                        "z": -92.09727528328048
+                        "x": -8.452178019278634,
+                        "y": 58.400062333947915,
+                        "z": -44.972473417149075
                       },
-                      "impacts": 1
+                      "impacts": 2
                     },
                     {
                       "id": 2,
                       "task": "AVOID",
                       "position": {
-                        "x": 108.89096575242743,
-                        "y": 8.690860940344958,
-                        "z": -71.74065799444723
+                        "x": 108.8750655559885,
+                        "y": 8.66078087084402,
+                        "z": -71.74379442240931
                       },
                       "target": {
                         "x": 53.89425485822473,
@@ -8900,14 +8900,14 @@
                       "id": 3,
                       "task": "AVOID",
                       "position": {
-                        "x": 97.7842431072087,
-                        "y": 29.551038836978098,
-                        "z": -78.85999428187611
+                        "x": 97.65066953394467,
+                        "y": 28.495211473586135,
+                        "z": -78.28267908173537
                       },
                       "target": {
-                        "x": 66.07543799198834,
-                        "y": 18.317881629341905,
-                        "z": -65.11583937753477
+                        "x": 66.77176057087708,
+                        "y": 17.966356248833655,
+                        "z": -65.30404183568015
                       },
                       "impacts": 2
                     }
@@ -8990,24 +8990,24 @@
               "id": 1,
               "callsign": "KITE-1",
               "position": {
-                "x": 33.8902599169418,
-                "y": 65.06232086861637,
-                "z": -89.83903195838589
+                "x": 1.4874861935454966,
+                "y": 55.25793673553057,
+                "z": -28.115536870768107
               },
               "velocity": {
-                "x": 17.794026622731185,
-                "y": -0.11247033941277826,
-                "z": 2.712925906154869
+                "x": -80.87141562200763,
+                "y": 37.1980203812836,
+                "z": -12.816976456920777
               },
               "target": {
-                "x": 35.68380986912556,
-                "y": 54.98568115903328,
-                "z": -92.09727528328048
+                "x": -54.77010256733193,
+                "y": 83.09392228406854,
+                "z": -32.45363872698641
               },
               "task": "LEAD",
-              "surfaceDistance": 16.485975327972284,
-              "decisions": 61,
-              "impacts": 1,
+              "surfaceDistance": 50.959427910929975,
+              "decisions": 62,
+              "impacts": 2,
               "uncovered": false,
               "deployed": true
             },
@@ -9015,14 +9015,14 @@
               "id": 2,
               "callsign": "KITE-2",
               "position": {
-                "x": 60.42666587931961,
-                "y": 24.235108972343568,
-                "z": -69.19598206008575
+                "x": 60.418484764486614,
+                "y": 24.224530618613915,
+                "z": -69.19790066155643
               },
               "velocity": {
-                "x": -72.88317097411296,
-                "y": 28.233575985069727,
-                "z": 4.870209391627268
+                "x": -72.87272286693397,
+                "y": 28.25552107227097,
+                "z": 4.87328343432293
               },
               "target": {
                 "x": 7.75068171588918,
@@ -9030,7 +9030,7 @@
                 "z": -63.45532531013863
               },
               "task": "FORMATION_FOLLOW",
-              "surfaceDistance": 20.601435981508107,
+              "surfaceDistance": 20.587810794352244,
               "decisions": 61,
               "impacts": 2,
               "uncovered": false,
@@ -9040,22 +9040,22 @@
               "id": 3,
               "callsign": "KITE-3",
               "position": {
-                "x": 49.83867494741858,
-                "y": 28.220940877024148,
-                "z": -59.132089275496455
+                "x": 49.595045226034685,
+                "y": 27.975071748982554,
+                "z": -59.03792678622832
               },
               "velocity": {
-                "x": -60.276386449398494,
-                "y": 14.983089138657297,
-                "z": 15.671685965256401
+                "x": -60.18265842678798,
+                "y": 16.008573763270196,
+                "z": 15.289340525868392
               },
               "target": {
-                "x": 18.71502072325289,
-                "y": 42.5164385725247,
-                "z": -52.315239168660696
+                "x": 19.561972750384083,
+                "y": 42.079251063176955,
+                "z": -52.544153838771905
               },
               "task": "FORMATION_FOLLOW",
-              "surfaceDistance": 28.09608180086867,
+              "surfaceDistance": 27.58305590999139,
               "decisions": 62,
               "impacts": 2,
               "uncovered": false,
@@ -9063,24 +9063,6 @@
             }
           ],
           "companionEvents": [
-            {
-              "time": 5.608333333333402,
-              "agent": 3,
-              "event": "task",
-              "task": "RECOVER"
-            },
-            {
-              "time": 5.608333333333402,
-              "agent": 3,
-              "event": "impact",
-              "task": "RECOVER"
-            },
-            {
-              "time": 5.6166666666667355,
-              "agent": 3,
-              "event": "task",
-              "task": "AVOID"
-            },
             {
               "time": 5.658333333333404,
               "agent": 2,
@@ -9160,7 +9142,7 @@
               "task": "REGROUP"
             },
             {
-              "time": 7.808333333333511,
+              "time": 8.00833333333352,
               "agent": 1,
               "event": "task",
               "task": "AVOID"
@@ -9176,12 +9158,6 @@
               "agent": 3,
               "event": "task",
               "task": "AVOID"
-            },
-            {
-              "time": 8.258333333333505,
-              "agent": 1,
-              "event": "task",
-              "task": "LEAD"
             },
             {
               "time": 8.27500000000017,
@@ -9202,25 +9178,43 @@
               "task": "AVOID"
             },
             {
+              "time": 9.283333333333447,
+              "agent": 1,
+              "event": "task",
+              "task": "RECOVER"
+            },
+            {
+              "time": 9.283333333333447,
+              "agent": 1,
+              "event": "impact",
+              "task": "RECOVER"
+            },
+            {
+              "time": 9.29166666666678,
+              "agent": 1,
+              "event": "task",
+              "task": "AVOID"
+            },
+            {
               "time": 9.325000000000111,
               "agent": 2,
               "event": "task",
               "task": "FORMATION_FOLLOW"
             },
             {
-              "time": 9.391666666666774,
+              "time": 9.375000000000108,
               "agent": 3,
               "event": "task",
               "task": "RECOVER"
             },
             {
-              "time": 9.391666666666774,
+              "time": 9.375000000000108,
               "agent": 3,
               "event": "impact",
               "task": "RECOVER"
             },
             {
-              "time": 9.400000000000107,
+              "time": 9.383333333333441,
               "agent": 3,
               "event": "task",
               "task": "AVOID"
@@ -9232,16 +9226,22 @@
               "task": "AVOID"
             },
             {
-              "time": 10.450000000000047,
+              "time": 10.433333333333382,
               "agent": 3,
               "event": "task",
               "task": "FORMATION_FOLLOW"
             },
             {
-              "time": 10.600000000000039,
+              "time": 10.583333333333373,
               "agent": 3,
               "event": "task",
               "task": "AVOID"
+            },
+            {
+              "time": 10.941666666666686,
+              "agent": 1,
+              "event": "task",
+              "task": "LEAD"
             },
             {
               "time": 11.524999999999986,
@@ -9250,7 +9250,7 @@
               "task": "FORMATION_FOLLOW"
             },
             {
-              "time": 11.649999999999979,
+              "time": 11.633333333333313,
               "agent": 3,
               "event": "task",
               "task": "FORMATION_FOLLOW"
@@ -9306,10 +9306,10 @@
             "bvhCount": 23,
             "renderObjectCount": 263,
             "estimatedCpuGeometryBytes": 25957200,
-            "generationAvgMs": 29.924137931702464,
-            "generationP95Ms": 49.899999998509884,
-            "generationMinMs": 6.399999998509884,
-            "generationMaxMs": 211.5,
+            "generationAvgMs": 29.68620689572959,
+            "generationP95Ms": 52.29999999701977,
+            "generationMinMs": 7.0999999940395355,
+            "generationMaxMs": 202.29999999701977,
             "generationSampleCount": 29,
             "maxLoadedChunks": 41,
             "coverageComplete": true,
@@ -9322,12 +9322,12 @@
             "z": 0
           },
           "render": {
-            "calls": 377,
-            "triangles": 283008,
+            "calls": 397,
+            "triangles": 309860,
             "points": 560,
             "lines": 64,
-            "fps": 75.01913498329408,
-            "geometries": 235,
+            "fps": 68.57908745391626,
+            "geometries": 252,
             "textures": 23
           },
           "seed": 334458,
@@ -9505,7 +9505,7 @@
             "time": 17.99999999999962,
             "epoch": 3,
             "trust": {
-              "value": 0.5049999999999999,
+              "value": 0.5549999999999999,
               "events": [
                 {
                   "time": 3.8333333333333224,
@@ -9518,12 +9518,6 @@
                   "event": "accepted-lead",
                   "delta": 0.07999999999999996,
                   "value": 0.5549999999999999
-                },
-                {
-                  "time": 16.741666666666358,
-                  "event": "lost-coordination",
-                  "delta": -0.050000000000000044,
-                  "value": 0.5049999999999999
                 }
               ]
             },
@@ -9564,7 +9558,7 @@
             "lastPlan": {
               "requestId": "3-2",
               "epoch": 3,
-              "ttl": 8,
+              "ttl": 10,
               "risk": 0.3,
               "formation": "wedge",
               "orders": [
@@ -9584,7 +9578,7 @@
                   "targetId": null
                 }
               ],
-              "reason": "前方净空良好，保持楔形编队沿航线前进",
+              "reason": "净空良好，1号领航沿前方航线，2/3号楔形跟随",
               "resolved": [
                 {
                   "agents": [
@@ -9631,7 +9625,7 @@
                   "decision": {
                     "requestId": "3-1",
                     "epoch": 3,
-                    "ttl": 8,
+                    "ttl": 10,
                     "risk": 0.3,
                     "formation": "wedge",
                     "orders": [
@@ -9651,7 +9645,7 @@
                         "targetId": null
                       }
                     ],
-                    "reason": "前方净空良好，保持楔形编队沿航线前进"
+                    "reason": "净空良好，1号领航沿前方航线，2/3号楔形跟随"
                   },
                   "usage": {
                     "input": 0,
@@ -9672,7 +9666,7 @@
                   "plan": {
                     "requestId": "3-1",
                     "epoch": 3,
-                    "ttl": 8,
+                    "ttl": 10,
                     "risk": 0.3,
                     "formation": "wedge",
                     "orders": [
@@ -9692,7 +9686,7 @@
                         "targetId": null
                       }
                     ],
-                    "reason": "前方净空良好，保持楔形编队沿航线前进",
+                    "reason": "净空良好，1号领航沿前方航线，2/3号楔形跟随",
                     "resolved": [
                       {
                         "agents": [
@@ -9779,14 +9773,14 @@
                       "id": 1,
                       "task": "AVOID",
                       "position": {
-                        "x": -99.47129037856057,
-                        "y": 36.54395436868998,
-                        "z": -77.87219423166461
+                        "x": -99.47149091648157,
+                        "y": 36.544157816121164,
+                        "z": -77.87066623240197
                       },
                       "target": {
-                        "x": 35.68380986912556,
-                        "y": 54.98568115903328,
-                        "z": -92.09727528328048
+                        "x": 42.88351533064968,
+                        "y": 67.07649736896931,
+                        "z": -53.36598048300725
                       },
                       "impacts": 1
                     },
@@ -9856,14 +9850,14 @@
                       "id": 1,
                       "task": "LEAD",
                       "position": {
-                        "x": -64.13939020752743,
-                        "y": 30.40093521245292,
-                        "z": -80.86814311437976
+                        "x": -65.105467307883,
+                        "y": 32.53670152368043,
+                        "z": -75.33672062444367
                       },
                       "target": {
-                        "x": 35.68380986912556,
-                        "y": 54.98568115903328,
-                        "z": -92.09727528328048
+                        "x": 106.5343579542463,
+                        "y": 85.7194915877702,
+                        "z": -96.31505435205304
                       },
                       "impacts": 1
                     },
@@ -9923,14 +9917,14 @@
                       "id": 1,
                       "task": "AVOID",
                       "position": {
-                        "x": 17.702931920533462,
-                        "y": 49.921738089694124,
-                        "z": -88.85631046080458
+                        "x": 30.767769242819174,
+                        "y": 52.064312228164454,
+                        "z": -86.47001483025092
                       },
                       "target": {
-                        "x": 35.68380986912556,
-                        "y": 54.98568115903328,
-                        "z": -92.09727528328048
+                        "x": 136.88687338698392,
+                        "y": 21.112093378363753,
+                        "z": -152.24383041544542
                       },
                       "impacts": 1
                     },
@@ -9953,9 +9947,9 @@
                       "id": 3,
                       "task": "AVOID",
                       "position": {
-                        "x": 25.423010214141556,
-                        "y": 68.36555883753086,
-                        "z": -95.89213966779512
+                        "x": 25.88834685454713,
+                        "y": 68.27361249591713,
+                        "z": -96.92093700670398
                       },
                       "target": {
                         "x": 57.91701648129548,
@@ -9988,16 +9982,16 @@
                   "agents": [
                     {
                       "id": 1,
-                      "task": "LEAD",
+                      "task": "AVOID",
                       "position": {
-                        "x": 52.92785797783426,
-                        "y": 52.353059355824755,
-                        "z": -85.01856964121562
+                        "x": 111.01359330880048,
+                        "y": 42.9063456964352,
+                        "z": -86.3030320694844
                       },
                       "target": {
-                        "x": 35.68380986912556,
-                        "y": 54.98568115903328,
-                        "z": -92.09727528328048
+                        "x": 142.63360811963557,
+                        "y": 18.694151832199008,
+                        "z": -18.252441782871863
                       },
                       "impacts": 1
                     },
@@ -10020,9 +10014,9 @@
                       "id": 3,
                       "task": "AVOID",
                       "position": {
-                        "x": 69.67406299449793,
-                        "y": 70.32972801407404,
-                        "z": -109.360625725475
+                        "x": 70.25542433756135,
+                        "y": 69.9994264062676,
+                        "z": -110.02880012413192
                       },
                       "target": {
                         "x": 95.48491347129087,
@@ -10055,26 +10049,26 @@
                   "agents": [
                     {
                       "id": 1,
-                      "task": "LEAD",
+                      "task": "AVOID",
                       "position": {
-                        "x": 39.63184806122657,
-                        "y": 46.49144260333111,
-                        "z": -88.83579400859821
+                        "x": 122.97735212085507,
+                        "y": 27.461959972456935,
+                        "z": -43.58150402986557
                       },
                       "target": {
-                        "x": 35.68380986912556,
-                        "y": 54.98568115903328,
-                        "z": -92.09727528328048
+                        "x": 40.53966648841296,
+                        "y": 13,
+                        "z": -16.778735453732452
                       },
-                      "impacts": 1
+                      "impacts": 2
                     },
                     {
                       "id": 2,
                       "task": "AVOID",
                       "position": {
-                        "x": 95.72179063537526,
-                        "y": 37.54070141132411,
-                        "z": -79.40316821194445
+                        "x": 95.71381468583728,
+                        "y": 37.5133507707378,
+                        "z": -79.40187819390889
                       },
                       "target": {
                         "x": 96.07764836590202,
@@ -10087,14 +10081,14 @@
                       "id": 3,
                       "task": "AVOID",
                       "position": {
-                        "x": 102.10467402675842,
-                        "y": 62.540168088221165,
-                        "z": -98.26539182504027
+                        "x": 102.28177073242436,
+                        "y": 61.69945690504749,
+                        "z": -97.87965145826894
                       },
                       "target": {
-                        "x": 108.57649256939123,
-                        "y": 19.735906685199314,
-                        "z": -76.60304830590728
+                        "x": 109.33612071008436,
+                        "y": 20.04517206938291,
+                        "z": -76.80836102689214
                       },
                       "impacts": 2
                     }
@@ -10124,24 +10118,24 @@
                       "id": 1,
                       "task": "LEAD",
                       "position": {
-                        "x": 20.300907915722547,
-                        "y": 56.559231601930335,
-                        "z": -89.57237494673296
+                        "x": 77.13494116716709,
+                        "y": 24.751816382644645,
+                        "z": -17.22037830179244
                       },
                       "target": {
-                        "x": 35.68380986912556,
-                        "y": 54.98568115903328,
-                        "z": -92.09727528328048
+                        "x": -8.452178019278634,
+                        "y": 58.400062333947915,
+                        "z": -44.972473417149075
                       },
-                      "impacts": 1
+                      "impacts": 2
                     },
                     {
                       "id": 2,
                       "task": "AVOID",
                       "position": {
-                        "x": 108.89096575242743,
-                        "y": 8.690860940344958,
-                        "z": -71.74065799444723
+                        "x": 108.8750655559885,
+                        "y": 8.66078087084402,
+                        "z": -71.74379442240931
                       },
                       "target": {
                         "x": 53.89425485822473,
@@ -10154,14 +10148,14 @@
                       "id": 3,
                       "task": "AVOID",
                       "position": {
-                        "x": 97.7842431072087,
-                        "y": 29.551038836978098,
-                        "z": -78.85999428187611
+                        "x": 97.65066953394467,
+                        "y": 28.495211473586135,
+                        "z": -78.28267908173537
                       },
                       "target": {
-                        "x": 66.07543799198834,
-                        "y": 18.317881629341905,
-                        "z": -65.11583937753477
+                        "x": 66.77176057087708,
+                        "y": 17.966356248833655,
+                        "z": -65.30404183568015
                       },
                       "impacts": 2
                     }
@@ -10189,7 +10183,7 @@
                   "decision": {
                     "requestId": "3-2",
                     "epoch": 3,
-                    "ttl": 8,
+                    "ttl": 10,
                     "risk": 0.3,
                     "formation": "wedge",
                     "orders": [
@@ -10209,7 +10203,7 @@
                         "targetId": null
                       }
                     ],
-                    "reason": "前方净空良好，保持楔形编队沿航线前进"
+                    "reason": "净空良好，1号领航沿前方航线，2/3号楔形跟随"
                   },
                   "usage": {
                     "input": 0,
@@ -10230,7 +10224,7 @@
                   "plan": {
                     "requestId": "3-2",
                     "epoch": 3,
-                    "ttl": 8,
+                    "ttl": 10,
                     "risk": 0.3,
                     "formation": "wedge",
                     "orders": [
@@ -10250,7 +10244,7 @@
                         "targetId": null
                       }
                     ],
-                    "reason": "前方净空良好，保持楔形编队沿航线前进",
+                    "reason": "净空良好，1号领航沿前方航线，2/3号楔形跟随",
                     "resolved": [
                       {
                         "agents": [
@@ -10284,24 +10278,24 @@
                       "id": 1,
                       "task": "LEAD",
                       "position": {
-                        "x": 33.8902599169418,
-                        "y": 65.06232086861637,
-                        "z": -89.83903195838589
+                        "x": 1.4874861935454966,
+                        "y": 55.25793673553057,
+                        "z": -28.115536870768107
                       },
                       "target": {
-                        "x": 35.68380986912556,
-                        "y": 54.98568115903328,
-                        "z": -92.09727528328048
+                        "x": -54.77010256733193,
+                        "y": 83.09392228406854,
+                        "z": -32.45363872698641
                       },
-                      "impacts": 1
+                      "impacts": 2
                     },
                     {
                       "id": 2,
                       "task": "FORMATION_FOLLOW",
                       "position": {
-                        "x": 60.42666587931961,
-                        "y": 24.235108972343568,
-                        "z": -69.19598206008575
+                        "x": 60.418484764486614,
+                        "y": 24.224530618613915,
+                        "z": -69.19790066155643
                       },
                       "target": {
                         "x": 7.75068171588918,
@@ -10314,14 +10308,14 @@
                       "id": 3,
                       "task": "FORMATION_FOLLOW",
                       "position": {
-                        "x": 49.83867494741858,
-                        "y": 28.220940877024148,
-                        "z": -59.132089275496455
+                        "x": 49.595045226034685,
+                        "y": 27.975071748982554,
+                        "z": -59.03792678622832
                       },
                       "target": {
-                        "x": 18.71502072325289,
-                        "y": 42.5164385725247,
-                        "z": -52.315239168660696
+                        "x": 19.561972750384083,
+                        "y": 42.079251063176955,
+                        "z": -52.544153838771905
                       },
                       "impacts": 2
                     }
@@ -10337,24 +10331,24 @@
                       "id": 1,
                       "task": "LEAD",
                       "position": {
-                        "x": 34.621065501224585,
-                        "y": 65.07434061307693,
-                        "z": -89.67312440642023
+                        "x": -1.8820333770633386,
+                        "y": 56.81671702443919,
+                        "z": -28.62304079059717
                       },
                       "target": {
-                        "x": -60.25310248140971,
-                        "y": 88.0171195841611,
-                        "z": -30.971690427267088
+                        "x": -60.677019956720876,
+                        "y": 86.24312622992267,
+                        "z": -30.857113773682663
                       },
-                      "impacts": 1
+                      "impacts": 2
                     },
                     {
                       "id": 2,
                       "task": "FORMATION_FOLLOW",
                       "position": {
-                        "x": 57.368939428482875,
-                        "y": 25.42986104415521,
-                        "z": -68.97774553580372
+                        "x": 57.36118889153401,
+                        "y": 25.42017784603819,
+                        "z": -68.9795366176395
                       },
                       "target": {
                         "x": 1.0051141631343343,
@@ -10367,9 +10361,9 @@
                       "id": 3,
                       "task": "FORMATION_FOLLOW",
                       "position": {
-                        "x": 47.316990732465264,
-                        "y": 28.886778704315905,
-                        "z": -58.48388949842455
+                        "x": 47.077906920076146,
+                        "y": 28.68235465508678,
+                        "z": -58.404991437788155
                       },
                       "target": {
                         "x": 18.291103247941724,
@@ -10404,24 +10398,24 @@
                       "id": 1,
                       "task": "LEAD",
                       "position": {
-                        "x": 17.707873058676473,
-                        "y": 73.15405009527791,
-                        "z": -66.1434818525283
+                        "x": -77.82880230183991,
+                        "y": 94.98471909674645,
+                        "z": -27.34154579092838
                       },
                       "target": {
-                        "x": -60.25310248140971,
-                        "y": 88.0171195841611,
-                        "z": -30.971690427267088
+                        "x": -112.96017528257728,
+                        "y": 114.11727922716368,
+                        "z": -16.725993154807668
                       },
-                      "impacts": 1
+                      "impacts": 2
                     },
                     {
                       "id": 2,
                       "task": "FORMATION_FOLLOW",
                       "position": {
-                        "x": -16.248937629554177,
-                        "y": 58.31292880029923,
-                        "z": -57.48122299559511
+                        "x": -16.250107169495816,
+                        "y": 58.31457878679414,
+                        "z": -57.48090476512861
                       },
                       "target": {
                         "x": -51.27804116272206,
@@ -10434,9 +10428,9 @@
                       "id": 3,
                       "task": "FORMATION_FOLLOW",
                       "position": {
-                        "x": -12.281775000978662,
-                        "y": 57.45781985361519,
-                        "z": -44.07619051405296
+                        "x": -12.379000468219846,
+                        "y": 57.60657068024409,
+                        "z": -44.076965614249225
                       },
                       "target": {
                         "x": -33.992052077914664,
@@ -10471,24 +10465,24 @@
                       "id": 1,
                       "task": "LEAD",
                       "position": {
-                        "x": -53.86482497306996,
-                        "y": 87.43256325696655,
-                        "z": -32.72041751370875
+                        "x": -142.8701438691028,
+                        "y": 130.05352643694135,
+                        "z": -9.12796618357046
                       },
                       "target": {
-                        "x": -60.25310248140971,
-                        "y": 88.0171195841611,
-                        "z": -30.971690427267088
+                        "x": -166.50030491382913,
+                        "y": 142.66157337950182,
+                        "z": -2.255136813907786
                       },
-                      "impacts": 1
+                      "impacts": 2
                     },
                     {
                       "id": 2,
                       "task": "FORMATION_FOLLOW",
                       "position": {
-                        "x": -81.59018163565644,
-                        "y": 92.0709728925419,
-                        "z": -39.50963442224318
+                        "x": -81.59087074255693,
+                        "y": 92.07166230623908,
+                        "z": -39.509295212690475
                       },
                       "target": {
                         "x": -104.8181707939739,
@@ -10501,9 +10495,9 @@
                       "id": 3,
                       "task": "FORMATION_FOLLOW",
                       "position": {
-                        "x": -70.04477311491716,
-                        "y": 89.51861705934137,
-                        "z": -28.39901984507849
+                        "x": -69.93944783209523,
+                        "y": 89.4678037161165,
+                        "z": -28.376455853576555
                       },
                       "target": {
                         "x": -87.53218170916652,
@@ -10538,24 +10532,24 @@
                       "id": 1,
                       "task": "LEAD",
                       "position": {
-                        "x": -89.91955102516481,
-                        "y": 98.38382454556951,
-                        "z": -21.536002847081342
+                        "x": -202.70318018953662,
+                        "y": 161.98235481995204,
+                        "z": 7.720861624732771
                       },
                       "target": {
-                        "x": -60.25310248140971,
-                        "y": 88.0171195841611,
-                        "z": -30.971690427267088
+                        "x": -220.36629289163676,
+                        "y": 171.3795950995568,
+                        "z": 12.303792704120559
                       },
-                      "impacts": 1
+                      "impacts": 2
                     },
                     {
                       "id": 2,
                       "task": "FORMATION_FOLLOW",
                       "position": {
-                        "x": -141.41776716642153,
-                        "y": 123.4385672068929,
-                        "z": -23.054942308997337
+                        "x": -141.41821563964658,
+                        "y": 123.43866318584743,
+                        "z": -23.054863944263275
                       },
                       "target": {
                         "x": -158.68415877178157,
@@ -10568,9 +10562,9 @@
                       "id": 3,
                       "task": "FORMATION_FOLLOW",
                       "position": {
-                        "x": -126.5549838639161,
-                        "y": 119.84544910159087,
-                        "z": -13.02808944685156
+                        "x": -126.44151351423561,
+                        "y": 119.78266655192095,
+                        "z": -13.06404759854842
                       },
                       "target": {
                         "x": -141.39816968697417,
@@ -10605,24 +10599,24 @@
                       "id": 1,
                       "task": "LEAD",
                       "position": {
-                        "x": -97.42540956309976,
-                        "y": 93.62236000956754,
-                        "z": -28.982099697692703
+                        "x": -259.7810181736193,
+                        "y": 192.38641405019857,
+                        "z": 22.914894937436323
                       },
                       "target": {
-                        "x": -60.25310248140971,
-                        "y": 88.0171195841611,
-                        "z": -30.971690427267088
+                        "x": -274.31675647213933,
+                        "y": 200.1426539995482,
+                        "z": 26.88555433554358
                       },
-                      "impacts": 1
+                      "impacts": 2
                     },
                     {
                       "id": 2,
                       "task": "FORMATION_FOLLOW",
                       "position": {
-                        "x": -198.26203635763687,
-                        "y": 153.7888360929048,
-                        "z": -7.7928392838103155
+                        "x": -198.2622057492763,
+                        "y": 153.78895983563132,
+                        "z": -7.792786671042474
                       },
                       "target": {
                         "x": -212.6346223522841,
@@ -10635,9 +10629,9 @@
                       "id": 3,
                       "task": "FORMATION_FOLLOW",
                       "position": {
-                        "x": -181.8771244200405,
-                        "y": 150.44640020497445,
-                        "z": 1.8968861991684327
+                        "x": -181.80403564712336,
+                        "y": 150.40852118189727,
+                        "z": 1.8759924145483917
                       },
                       "target": {
                         "x": -195.3486332674767,
@@ -10664,47 +10658,37 @@
                 }
               },
               {
-                "time": 16.741666666666358,
-                "event": "trust",
-                "data": {
-                  "time": 16.741666666666358,
-                  "event": "lost-coordination",
-                  "delta": -0.050000000000000044,
-                  "value": 0.5049999999999999
-                }
-              },
-              {
                 "time": 17.083333333333005,
                 "event": "outcome",
                 "data": {
                   "agents": [
                     {
                       "id": 1,
-                      "task": "REGROUP",
+                      "task": "LEAD",
                       "position": {
-                        "x": -85.47100875406869,
-                        "y": 101.13030441619604,
-                        "z": -32.09557847216564
+                        "x": -310.83655619627746,
+                        "y": 221.3109528816635,
+                        "z": 45.77037889762773
                       },
                       "target": {
-                        "x": -236.2905645985886,
-                        "y": 199.96880698938278,
-                        "z": 16.61468092546667
+                        "x": -309.68493419412715,
+                        "y": 232.54168772367606,
+                        "z": 75.06430426095446
                       },
-                      "impacts": 1
+                      "impacts": 2
                     },
                     {
                       "id": 2,
                       "task": "FORMATION_FOLLOW",
                       "position": {
-                        "x": -253.03858777723366,
-                        "y": 183.70153225168636,
-                        "z": 10.263184782991608
+                        "x": -252.99485083389888,
+                        "y": 183.70025732500187,
+                        "z": 10.334309193686957
                       },
                       "target": {
-                        "x": -266.7367597210907,
+                        "x": -266.5187217450922,
                         "y": 192.19525290349605,
-                        "z": 23.008977820917046
+                        "z": 23.28276503943254
                       },
                       "impacts": 2
                     },
@@ -10712,9 +10696,9 @@
                       "id": 3,
                       "task": "FORMATION_FOLLOW",
                       "position": {
-                        "x": -236.0750978885191,
-                        "y": 180.9894630001978,
-                        "z": 18.59695812502266
+                        "x": -236.03236067878197,
+                        "y": 180.96514121936613,
+                        "z": 18.578893658799732
                       },
                       "target": {
                         "x": -247.16380453866836,
@@ -10730,7 +10714,7 @@
                     "z": 29.008966254859274
                   },
                   "grace": 5,
-                  "trust": 0.5049999999999999,
+                  "trust": 0.5549999999999999,
                   "relay": {
                     "charges": 2,
                     "cooldownUntil": 0,
@@ -10832,24 +10816,24 @@
               "id": 1,
               "callsign": "KITE-1",
               "position": {
-                "x": -132.89386674452467,
-                "y": 139.9549182510292,
-                "z": -14.314190484916976
+                "x": -308.2818853388591,
+                "y": 249.31949544765948,
+                "z": 98.46566231181926
               },
               "velocity": {
-                "x": -79.22089405748275,
-                "y": 54.304007823140374,
-                "z": 33.22323996047651
+                "x": 37.35832753078922,
+                "y": 37.777415405296345,
+                "z": 65.88760683049951
               },
               "target": {
-                "x": -267.01473519481874,
-                "y": 228.82328822774403,
-                "z": 47.58446252046638
+                "x": -277.9505882905656,
+                "y": 270.3911215159705,
+                "z": 133.67922855224748
               },
-              "task": "REGROUP",
-              "surfaceDistance": 51.182900976713704,
-              "decisions": 91,
-              "impacts": 1,
+              "task": "LEAD",
+              "surfaceDistance": 72.62816355114506,
+              "decisions": 92,
+              "impacts": 2,
               "uncovered": false,
               "deployed": true
             },
@@ -10857,22 +10841,22 @@
               "id": 2,
               "callsign": "KITE-2",
               "position": {
-                "x": -285.09715048671654,
-                "y": 212.42026208093316,
-                "z": 51.74046247467012
+                "x": -284.7791984105304,
+                "y": 212.4572938463192,
+                "z": 52.00286687074845
               },
               "velocity": {
-                "x": -14.724076649419663,
-                "y": 36.85073820873031,
-                "z": 62.18447738945444
+                "x": -14.519468093354082,
+                "y": 36.973415726183646,
+                "z": 62.10706402321709
               },
               "target": {
-                "x": -284.10867494827977,
+                "x": -283.76146474817074,
                 "y": 223.39276496979718,
-                "z": 71.33431207164405
+                "z": 71.3784150980735
               },
               "task": "FORMATION_FOLLOW",
-              "surfaceDistance": 44.77637778182887,
+              "surfaceDistance": 44.94225037504416,
               "decisions": 91,
               "impacts": 2,
               "uncovered": false,
@@ -10882,14 +10866,14 @@
               "id": 3,
               "callsign": "KITE-3",
               "position": {
-                "x": -269.2492729428181,
-                "y": 212.05520095682843,
-                "z": 52.49058175003732
+                "x": -269.24181450383537,
+                "y": 212.0353091593501,
+                "z": 52.46287192779345
               },
               "velocity": {
-                "x": -16.536185279386626,
-                "y": 39.591379376642635,
-                "z": 51.91992782326957
+                "x": -16.57396470279508,
+                "y": 39.59657275509038,
+                "z": 51.92201807811171
               },
               "target": {
                 "x": -268.6348615793738,
@@ -10897,7 +10881,7 @@
                 "z": 60.339242673322836
               },
               "task": "FORMATION_FOLLOW",
-              "surfaceDistance": 49.3930199033375,
+              "surfaceDistance": 49.395259835837294,
               "decisions": 92,
               "impacts": 2,
               "uncovered": false,
@@ -10905,18 +10889,6 @@
             }
           ],
           "companionEvents": [
-            {
-              "time": 5.608333333333402,
-              "agent": 3,
-              "event": "impact",
-              "task": "RECOVER"
-            },
-            {
-              "time": 5.6166666666667355,
-              "agent": 3,
-              "event": "task",
-              "task": "AVOID"
-            },
             {
               "time": 5.658333333333404,
               "agent": 2,
@@ -10996,7 +10968,7 @@
               "task": "REGROUP"
             },
             {
-              "time": 7.808333333333511,
+              "time": 8.00833333333352,
               "agent": 1,
               "event": "task",
               "task": "AVOID"
@@ -11012,12 +10984,6 @@
               "agent": 3,
               "event": "task",
               "task": "AVOID"
-            },
-            {
-              "time": 8.258333333333505,
-              "agent": 1,
-              "event": "task",
-              "task": "LEAD"
             },
             {
               "time": 8.27500000000017,
@@ -11038,25 +11004,43 @@
               "task": "AVOID"
             },
             {
+              "time": 9.283333333333447,
+              "agent": 1,
+              "event": "task",
+              "task": "RECOVER"
+            },
+            {
+              "time": 9.283333333333447,
+              "agent": 1,
+              "event": "impact",
+              "task": "RECOVER"
+            },
+            {
+              "time": 9.29166666666678,
+              "agent": 1,
+              "event": "task",
+              "task": "AVOID"
+            },
+            {
               "time": 9.325000000000111,
               "agent": 2,
               "event": "task",
               "task": "FORMATION_FOLLOW"
             },
             {
-              "time": 9.391666666666774,
+              "time": 9.375000000000108,
               "agent": 3,
               "event": "task",
               "task": "RECOVER"
             },
             {
-              "time": 9.391666666666774,
+              "time": 9.375000000000108,
               "agent": 3,
               "event": "impact",
               "task": "RECOVER"
             },
             {
-              "time": 9.400000000000107,
+              "time": 9.383333333333441,
               "agent": 3,
               "event": "task",
               "task": "AVOID"
@@ -11068,16 +11052,22 @@
               "task": "AVOID"
             },
             {
-              "time": 10.450000000000047,
+              "time": 10.433333333333382,
               "agent": 3,
               "event": "task",
               "task": "FORMATION_FOLLOW"
             },
             {
-              "time": 10.600000000000039,
+              "time": 10.583333333333373,
               "agent": 3,
               "event": "task",
               "task": "AVOID"
+            },
+            {
+              "time": 10.941666666666686,
+              "agent": 1,
+              "event": "task",
+              "task": "LEAD"
             },
             {
               "time": 11.524999999999986,
@@ -11086,16 +11076,10 @@
               "task": "FORMATION_FOLLOW"
             },
             {
-              "time": 11.649999999999979,
+              "time": 11.633333333333313,
               "agent": 3,
               "event": "task",
               "task": "FORMATION_FOLLOW"
-            },
-            {
-              "time": 16.208333333333055,
-              "agent": 1,
-              "event": "task",
-              "task": "REGROUP"
             }
           ],
           "shieldImpacts": 5,
@@ -11148,10 +11132,10 @@
             "bvhCount": 18,
             "renderObjectCount": 207,
             "estimatedCpuGeometryBytes": 19188748,
-            "generationAvgMs": 28.600000000509777,
-            "generationP95Ms": 49.899999998509884,
-            "generationMinMs": 6.399999998509884,
-            "generationMaxMs": 211.5,
+            "generationAvgMs": 28.305263157345745,
+            "generationP95Ms": 52.29999999701977,
+            "generationMinMs": 7.0999999940395355,
+            "generationMaxMs": 202.29999999701977,
             "generationSampleCount": 38,
             "maxLoadedChunks": 41,
             "coverageComplete": true,
@@ -11164,12 +11148,12 @@
             "z": 0
           },
           "render": {
-            "calls": 342,
-            "triangles": 249036,
+            "calls": 350,
+            "triangles": 252924,
             "points": 560,
             "lines": 64,
-            "fps": 80.2155667614703,
-            "geometries": 209,
+            "fps": 72.46765739502014,
+            "geometries": 211,
             "textures": 23
           },
           "seed": 334458,
@@ -11348,7 +11332,7 @@
           "time": 17.99999999999962,
           "epoch": 3,
           "trust": {
-            "value": 0.5049999999999999,
+            "value": 0.5549999999999999,
             "events": [
               {
                 "time": 3.8333333333333224,
@@ -11361,12 +11345,6 @@
                 "event": "accepted-lead",
                 "delta": 0.07999999999999996,
                 "value": 0.5549999999999999
-              },
-              {
-                "time": 16.741666666666358,
-                "event": "lost-coordination",
-                "delta": -0.050000000000000044,
-                "value": 0.5049999999999999
               }
             ]
           },
@@ -11407,7 +11385,7 @@
           "lastPlan": {
             "requestId": "3-2",
             "epoch": 3,
-            "ttl": 8,
+            "ttl": 10,
             "risk": 0.3,
             "formation": "wedge",
             "orders": [
@@ -11427,7 +11405,7 @@
                 "targetId": null
               }
             ],
-            "reason": "前方净空良好，保持楔形编队沿航线前进",
+            "reason": "净空良好，1号领航沿前方航线，2/3号楔形跟随",
             "resolved": [
               {
                 "agents": [
@@ -11474,7 +11452,7 @@
                 "decision": {
                   "requestId": "3-1",
                   "epoch": 3,
-                  "ttl": 8,
+                  "ttl": 10,
                   "risk": 0.3,
                   "formation": "wedge",
                   "orders": [
@@ -11494,7 +11472,7 @@
                       "targetId": null
                     }
                   ],
-                  "reason": "前方净空良好，保持楔形编队沿航线前进"
+                  "reason": "净空良好，1号领航沿前方航线，2/3号楔形跟随"
                 },
                 "usage": {
                   "input": 0,
@@ -11515,7 +11493,7 @@
                 "plan": {
                   "requestId": "3-1",
                   "epoch": 3,
-                  "ttl": 8,
+                  "ttl": 10,
                   "risk": 0.3,
                   "formation": "wedge",
                   "orders": [
@@ -11535,7 +11513,7 @@
                       "targetId": null
                     }
                   ],
-                  "reason": "前方净空良好，保持楔形编队沿航线前进",
+                  "reason": "净空良好，1号领航沿前方航线，2/3号楔形跟随",
                   "resolved": [
                     {
                       "agents": [
@@ -11622,14 +11600,14 @@
                     "id": 1,
                     "task": "AVOID",
                     "position": {
-                      "x": -99.47129037856057,
-                      "y": 36.54395436868998,
-                      "z": -77.87219423166461
+                      "x": -99.47149091648157,
+                      "y": 36.544157816121164,
+                      "z": -77.87066623240197
                     },
                     "target": {
-                      "x": 35.68380986912556,
-                      "y": 54.98568115903328,
-                      "z": -92.09727528328048
+                      "x": 42.88351533064968,
+                      "y": 67.07649736896931,
+                      "z": -53.36598048300725
                     },
                     "impacts": 1
                   },
@@ -11699,14 +11677,14 @@
                     "id": 1,
                     "task": "LEAD",
                     "position": {
-                      "x": -64.13939020752743,
-                      "y": 30.40093521245292,
-                      "z": -80.86814311437976
+                      "x": -65.105467307883,
+                      "y": 32.53670152368043,
+                      "z": -75.33672062444367
                     },
                     "target": {
-                      "x": 35.68380986912556,
-                      "y": 54.98568115903328,
-                      "z": -92.09727528328048
+                      "x": 106.5343579542463,
+                      "y": 85.7194915877702,
+                      "z": -96.31505435205304
                     },
                     "impacts": 1
                   },
@@ -11766,14 +11744,14 @@
                     "id": 1,
                     "task": "AVOID",
                     "position": {
-                      "x": 17.702931920533462,
-                      "y": 49.921738089694124,
-                      "z": -88.85631046080458
+                      "x": 30.767769242819174,
+                      "y": 52.064312228164454,
+                      "z": -86.47001483025092
                     },
                     "target": {
-                      "x": 35.68380986912556,
-                      "y": 54.98568115903328,
-                      "z": -92.09727528328048
+                      "x": 136.88687338698392,
+                      "y": 21.112093378363753,
+                      "z": -152.24383041544542
                     },
                     "impacts": 1
                   },
@@ -11796,9 +11774,9 @@
                     "id": 3,
                     "task": "AVOID",
                     "position": {
-                      "x": 25.423010214141556,
-                      "y": 68.36555883753086,
-                      "z": -95.89213966779512
+                      "x": 25.88834685454713,
+                      "y": 68.27361249591713,
+                      "z": -96.92093700670398
                     },
                     "target": {
                       "x": 57.91701648129548,
@@ -11831,16 +11809,16 @@
                 "agents": [
                   {
                     "id": 1,
-                    "task": "LEAD",
+                    "task": "AVOID",
                     "position": {
-                      "x": 52.92785797783426,
-                      "y": 52.353059355824755,
-                      "z": -85.01856964121562
+                      "x": 111.01359330880048,
+                      "y": 42.9063456964352,
+                      "z": -86.3030320694844
                     },
                     "target": {
-                      "x": 35.68380986912556,
-                      "y": 54.98568115903328,
-                      "z": -92.09727528328048
+                      "x": 142.63360811963557,
+                      "y": 18.694151832199008,
+                      "z": -18.252441782871863
                     },
                     "impacts": 1
                   },
@@ -11863,9 +11841,9 @@
                     "id": 3,
                     "task": "AVOID",
                     "position": {
-                      "x": 69.67406299449793,
-                      "y": 70.32972801407404,
-                      "z": -109.360625725475
+                      "x": 70.25542433756135,
+                      "y": 69.9994264062676,
+                      "z": -110.02880012413192
                     },
                     "target": {
                       "x": 95.48491347129087,
@@ -11898,26 +11876,26 @@
                 "agents": [
                   {
                     "id": 1,
-                    "task": "LEAD",
+                    "task": "AVOID",
                     "position": {
-                      "x": 39.63184806122657,
-                      "y": 46.49144260333111,
-                      "z": -88.83579400859821
+                      "x": 122.97735212085507,
+                      "y": 27.461959972456935,
+                      "z": -43.58150402986557
                     },
                     "target": {
-                      "x": 35.68380986912556,
-                      "y": 54.98568115903328,
-                      "z": -92.09727528328048
+                      "x": 40.53966648841296,
+                      "y": 13,
+                      "z": -16.778735453732452
                     },
-                    "impacts": 1
+                    "impacts": 2
                   },
                   {
                     "id": 2,
                     "task": "AVOID",
                     "position": {
-                      "x": 95.72179063537526,
-                      "y": 37.54070141132411,
-                      "z": -79.40316821194445
+                      "x": 95.71381468583728,
+                      "y": 37.5133507707378,
+                      "z": -79.40187819390889
                     },
                     "target": {
                       "x": 96.07764836590202,
@@ -11930,14 +11908,14 @@
                     "id": 3,
                     "task": "AVOID",
                     "position": {
-                      "x": 102.10467402675842,
-                      "y": 62.540168088221165,
-                      "z": -98.26539182504027
+                      "x": 102.28177073242436,
+                      "y": 61.69945690504749,
+                      "z": -97.87965145826894
                     },
                     "target": {
-                      "x": 108.57649256939123,
-                      "y": 19.735906685199314,
-                      "z": -76.60304830590728
+                      "x": 109.33612071008436,
+                      "y": 20.04517206938291,
+                      "z": -76.80836102689214
                     },
                     "impacts": 2
                   }
@@ -11967,24 +11945,24 @@
                     "id": 1,
                     "task": "LEAD",
                     "position": {
-                      "x": 20.300907915722547,
-                      "y": 56.559231601930335,
-                      "z": -89.57237494673296
+                      "x": 77.13494116716709,
+                      "y": 24.751816382644645,
+                      "z": -17.22037830179244
                     },
                     "target": {
-                      "x": 35.68380986912556,
-                      "y": 54.98568115903328,
-                      "z": -92.09727528328048
+                      "x": -8.452178019278634,
+                      "y": 58.400062333947915,
+                      "z": -44.972473417149075
                     },
-                    "impacts": 1
+                    "impacts": 2
                   },
                   {
                     "id": 2,
                     "task": "AVOID",
                     "position": {
-                      "x": 108.89096575242743,
-                      "y": 8.690860940344958,
-                      "z": -71.74065799444723
+                      "x": 108.8750655559885,
+                      "y": 8.66078087084402,
+                      "z": -71.74379442240931
                     },
                     "target": {
                       "x": 53.89425485822473,
@@ -11997,14 +11975,14 @@
                     "id": 3,
                     "task": "AVOID",
                     "position": {
-                      "x": 97.7842431072087,
-                      "y": 29.551038836978098,
-                      "z": -78.85999428187611
+                      "x": 97.65066953394467,
+                      "y": 28.495211473586135,
+                      "z": -78.28267908173537
                     },
                     "target": {
-                      "x": 66.07543799198834,
-                      "y": 18.317881629341905,
-                      "z": -65.11583937753477
+                      "x": 66.77176057087708,
+                      "y": 17.966356248833655,
+                      "z": -65.30404183568015
                     },
                     "impacts": 2
                   }
@@ -12032,7 +12010,7 @@
                 "decision": {
                   "requestId": "3-2",
                   "epoch": 3,
-                  "ttl": 8,
+                  "ttl": 10,
                   "risk": 0.3,
                   "formation": "wedge",
                   "orders": [
@@ -12052,7 +12030,7 @@
                       "targetId": null
                     }
                   ],
-                  "reason": "前方净空良好，保持楔形编队沿航线前进"
+                  "reason": "净空良好，1号领航沿前方航线，2/3号楔形跟随"
                 },
                 "usage": {
                   "input": 0,
@@ -12073,7 +12051,7 @@
                 "plan": {
                   "requestId": "3-2",
                   "epoch": 3,
-                  "ttl": 8,
+                  "ttl": 10,
                   "risk": 0.3,
                   "formation": "wedge",
                   "orders": [
@@ -12093,7 +12071,7 @@
                       "targetId": null
                     }
                   ],
-                  "reason": "前方净空良好，保持楔形编队沿航线前进",
+                  "reason": "净空良好，1号领航沿前方航线，2/3号楔形跟随",
                   "resolved": [
                     {
                       "agents": [
@@ -12127,24 +12105,24 @@
                     "id": 1,
                     "task": "LEAD",
                     "position": {
-                      "x": 33.8902599169418,
-                      "y": 65.06232086861637,
-                      "z": -89.83903195838589
+                      "x": 1.4874861935454966,
+                      "y": 55.25793673553057,
+                      "z": -28.115536870768107
                     },
                     "target": {
-                      "x": 35.68380986912556,
-                      "y": 54.98568115903328,
-                      "z": -92.09727528328048
+                      "x": -54.77010256733193,
+                      "y": 83.09392228406854,
+                      "z": -32.45363872698641
                     },
-                    "impacts": 1
+                    "impacts": 2
                   },
                   {
                     "id": 2,
                     "task": "FORMATION_FOLLOW",
                     "position": {
-                      "x": 60.42666587931961,
-                      "y": 24.235108972343568,
-                      "z": -69.19598206008575
+                      "x": 60.418484764486614,
+                      "y": 24.224530618613915,
+                      "z": -69.19790066155643
                     },
                     "target": {
                       "x": 7.75068171588918,
@@ -12157,14 +12135,14 @@
                     "id": 3,
                     "task": "FORMATION_FOLLOW",
                     "position": {
-                      "x": 49.83867494741858,
-                      "y": 28.220940877024148,
-                      "z": -59.132089275496455
+                      "x": 49.595045226034685,
+                      "y": 27.975071748982554,
+                      "z": -59.03792678622832
                     },
                     "target": {
-                      "x": 18.71502072325289,
-                      "y": 42.5164385725247,
-                      "z": -52.315239168660696
+                      "x": 19.561972750384083,
+                      "y": 42.079251063176955,
+                      "z": -52.544153838771905
                     },
                     "impacts": 2
                   }
@@ -12180,24 +12158,24 @@
                     "id": 1,
                     "task": "LEAD",
                     "position": {
-                      "x": 34.621065501224585,
-                      "y": 65.07434061307693,
-                      "z": -89.67312440642023
+                      "x": -1.8820333770633386,
+                      "y": 56.81671702443919,
+                      "z": -28.62304079059717
                     },
                     "target": {
-                      "x": -60.25310248140971,
-                      "y": 88.0171195841611,
-                      "z": -30.971690427267088
+                      "x": -60.677019956720876,
+                      "y": 86.24312622992267,
+                      "z": -30.857113773682663
                     },
-                    "impacts": 1
+                    "impacts": 2
                   },
                   {
                     "id": 2,
                     "task": "FORMATION_FOLLOW",
                     "position": {
-                      "x": 57.368939428482875,
-                      "y": 25.42986104415521,
-                      "z": -68.97774553580372
+                      "x": 57.36118889153401,
+                      "y": 25.42017784603819,
+                      "z": -68.9795366176395
                     },
                     "target": {
                       "x": 1.0051141631343343,
@@ -12210,9 +12188,9 @@
                     "id": 3,
                     "task": "FORMATION_FOLLOW",
                     "position": {
-                      "x": 47.316990732465264,
-                      "y": 28.886778704315905,
-                      "z": -58.48388949842455
+                      "x": 47.077906920076146,
+                      "y": 28.68235465508678,
+                      "z": -58.404991437788155
                     },
                     "target": {
                       "x": 18.291103247941724,
@@ -12247,24 +12225,24 @@
                     "id": 1,
                     "task": "LEAD",
                     "position": {
-                      "x": 17.707873058676473,
-                      "y": 73.15405009527791,
-                      "z": -66.1434818525283
+                      "x": -77.82880230183991,
+                      "y": 94.98471909674645,
+                      "z": -27.34154579092838
                     },
                     "target": {
-                      "x": -60.25310248140971,
-                      "y": 88.0171195841611,
-                      "z": -30.971690427267088
+                      "x": -112.96017528257728,
+                      "y": 114.11727922716368,
+                      "z": -16.725993154807668
                     },
-                    "impacts": 1
+                    "impacts": 2
                   },
                   {
                     "id": 2,
                     "task": "FORMATION_FOLLOW",
                     "position": {
-                      "x": -16.248937629554177,
-                      "y": 58.31292880029923,
-                      "z": -57.48122299559511
+                      "x": -16.250107169495816,
+                      "y": 58.31457878679414,
+                      "z": -57.48090476512861
                     },
                     "target": {
                       "x": -51.27804116272206,
@@ -12277,9 +12255,9 @@
                     "id": 3,
                     "task": "FORMATION_FOLLOW",
                     "position": {
-                      "x": -12.281775000978662,
-                      "y": 57.45781985361519,
-                      "z": -44.07619051405296
+                      "x": -12.379000468219846,
+                      "y": 57.60657068024409,
+                      "z": -44.076965614249225
                     },
                     "target": {
                       "x": -33.992052077914664,
@@ -12314,24 +12292,24 @@
                     "id": 1,
                     "task": "LEAD",
                     "position": {
-                      "x": -53.86482497306996,
-                      "y": 87.43256325696655,
-                      "z": -32.72041751370875
+                      "x": -142.8701438691028,
+                      "y": 130.05352643694135,
+                      "z": -9.12796618357046
                     },
                     "target": {
-                      "x": -60.25310248140971,
-                      "y": 88.0171195841611,
-                      "z": -30.971690427267088
+                      "x": -166.50030491382913,
+                      "y": 142.66157337950182,
+                      "z": -2.255136813907786
                     },
-                    "impacts": 1
+                    "impacts": 2
                   },
                   {
                     "id": 2,
                     "task": "FORMATION_FOLLOW",
                     "position": {
-                      "x": -81.59018163565644,
-                      "y": 92.0709728925419,
-                      "z": -39.50963442224318
+                      "x": -81.59087074255693,
+                      "y": 92.07166230623908,
+                      "z": -39.509295212690475
                     },
                     "target": {
                       "x": -104.8181707939739,
@@ -12344,9 +12322,9 @@
                     "id": 3,
                     "task": "FORMATION_FOLLOW",
                     "position": {
-                      "x": -70.04477311491716,
-                      "y": 89.51861705934137,
-                      "z": -28.39901984507849
+                      "x": -69.93944783209523,
+                      "y": 89.4678037161165,
+                      "z": -28.376455853576555
                     },
                     "target": {
                       "x": -87.53218170916652,
@@ -12381,24 +12359,24 @@
                     "id": 1,
                     "task": "LEAD",
                     "position": {
-                      "x": -89.91955102516481,
-                      "y": 98.38382454556951,
-                      "z": -21.536002847081342
+                      "x": -202.70318018953662,
+                      "y": 161.98235481995204,
+                      "z": 7.720861624732771
                     },
                     "target": {
-                      "x": -60.25310248140971,
-                      "y": 88.0171195841611,
-                      "z": -30.971690427267088
+                      "x": -220.36629289163676,
+                      "y": 171.3795950995568,
+                      "z": 12.303792704120559
                     },
-                    "impacts": 1
+                    "impacts": 2
                   },
                   {
                     "id": 2,
                     "task": "FORMATION_FOLLOW",
                     "position": {
-                      "x": -141.41776716642153,
-                      "y": 123.4385672068929,
-                      "z": -23.054942308997337
+                      "x": -141.41821563964658,
+                      "y": 123.43866318584743,
+                      "z": -23.054863944263275
                     },
                     "target": {
                       "x": -158.68415877178157,
@@ -12411,9 +12389,9 @@
                     "id": 3,
                     "task": "FORMATION_FOLLOW",
                     "position": {
-                      "x": -126.5549838639161,
-                      "y": 119.84544910159087,
-                      "z": -13.02808944685156
+                      "x": -126.44151351423561,
+                      "y": 119.78266655192095,
+                      "z": -13.06404759854842
                     },
                     "target": {
                       "x": -141.39816968697417,
@@ -12448,24 +12426,24 @@
                     "id": 1,
                     "task": "LEAD",
                     "position": {
-                      "x": -97.42540956309976,
-                      "y": 93.62236000956754,
-                      "z": -28.982099697692703
+                      "x": -259.7810181736193,
+                      "y": 192.38641405019857,
+                      "z": 22.914894937436323
                     },
                     "target": {
-                      "x": -60.25310248140971,
-                      "y": 88.0171195841611,
-                      "z": -30.971690427267088
+                      "x": -274.31675647213933,
+                      "y": 200.1426539995482,
+                      "z": 26.88555433554358
                     },
-                    "impacts": 1
+                    "impacts": 2
                   },
                   {
                     "id": 2,
                     "task": "FORMATION_FOLLOW",
                     "position": {
-                      "x": -198.26203635763687,
-                      "y": 153.7888360929048,
-                      "z": -7.7928392838103155
+                      "x": -198.2622057492763,
+                      "y": 153.78895983563132,
+                      "z": -7.792786671042474
                     },
                     "target": {
                       "x": -212.6346223522841,
@@ -12478,9 +12456,9 @@
                     "id": 3,
                     "task": "FORMATION_FOLLOW",
                     "position": {
-                      "x": -181.8771244200405,
-                      "y": 150.44640020497445,
-                      "z": 1.8968861991684327
+                      "x": -181.80403564712336,
+                      "y": 150.40852118189727,
+                      "z": 1.8759924145483917
                     },
                     "target": {
                       "x": -195.3486332674767,
@@ -12507,47 +12485,37 @@
               }
             },
             {
-              "time": 16.741666666666358,
-              "event": "trust",
-              "data": {
-                "time": 16.741666666666358,
-                "event": "lost-coordination",
-                "delta": -0.050000000000000044,
-                "value": 0.5049999999999999
-              }
-            },
-            {
               "time": 17.083333333333005,
               "event": "outcome",
               "data": {
                 "agents": [
                   {
                     "id": 1,
-                    "task": "REGROUP",
+                    "task": "LEAD",
                     "position": {
-                      "x": -85.47100875406869,
-                      "y": 101.13030441619604,
-                      "z": -32.09557847216564
+                      "x": -310.83655619627746,
+                      "y": 221.3109528816635,
+                      "z": 45.77037889762773
                     },
                     "target": {
-                      "x": -236.2905645985886,
-                      "y": 199.96880698938278,
-                      "z": 16.61468092546667
+                      "x": -309.68493419412715,
+                      "y": 232.54168772367606,
+                      "z": 75.06430426095446
                     },
-                    "impacts": 1
+                    "impacts": 2
                   },
                   {
                     "id": 2,
                     "task": "FORMATION_FOLLOW",
                     "position": {
-                      "x": -253.03858777723366,
-                      "y": 183.70153225168636,
-                      "z": 10.263184782991608
+                      "x": -252.99485083389888,
+                      "y": 183.70025732500187,
+                      "z": 10.334309193686957
                     },
                     "target": {
-                      "x": -266.7367597210907,
+                      "x": -266.5187217450922,
                       "y": 192.19525290349605,
-                      "z": 23.008977820917046
+                      "z": 23.28276503943254
                     },
                     "impacts": 2
                   },
@@ -12555,9 +12523,9 @@
                     "id": 3,
                     "task": "FORMATION_FOLLOW",
                     "position": {
-                      "x": -236.0750978885191,
-                      "y": 180.9894630001978,
-                      "z": 18.59695812502266
+                      "x": -236.03236067878197,
+                      "y": 180.96514121936613,
+                      "z": 18.578893658799732
                     },
                     "target": {
                       "x": -247.16380453866836,
@@ -12573,7 +12541,7 @@
                   "z": 29.008966254859274
                 },
                 "grace": 5,
-                "trust": 0.5049999999999999,
+                "trust": 0.5549999999999999,
                 "relay": {
                   "charges": 2,
                   "cooldownUntil": 0,
@@ -12675,24 +12643,24 @@
             "id": 1,
             "callsign": "KITE-1",
             "position": {
-              "x": -132.89386674452467,
-              "y": 139.9549182510292,
-              "z": -14.314190484916976
+              "x": -308.2818853388591,
+              "y": 249.31949544765948,
+              "z": 98.46566231181926
             },
             "velocity": {
-              "x": -79.22089405748275,
-              "y": 54.304007823140374,
-              "z": 33.22323996047651
+              "x": 37.35832753078922,
+              "y": 37.777415405296345,
+              "z": 65.88760683049951
             },
             "target": {
-              "x": -267.01473519481874,
-              "y": 228.82328822774403,
-              "z": 47.58446252046638
+              "x": -277.9505882905656,
+              "y": 270.3911215159705,
+              "z": 133.67922855224748
             },
-            "task": "REGROUP",
-            "surfaceDistance": 51.182900976713704,
-            "decisions": 91,
-            "impacts": 1,
+            "task": "LEAD",
+            "surfaceDistance": 72.62816355114506,
+            "decisions": 92,
+            "impacts": 2,
             "uncovered": false,
             "deployed": true
           },
@@ -12700,22 +12668,22 @@
             "id": 2,
             "callsign": "KITE-2",
             "position": {
-              "x": -285.09715048671654,
-              "y": 212.42026208093316,
-              "z": 51.74046247467012
+              "x": -284.7791984105304,
+              "y": 212.4572938463192,
+              "z": 52.00286687074845
             },
             "velocity": {
-              "x": -14.724076649419663,
-              "y": 36.85073820873031,
-              "z": 62.18447738945444
+              "x": -14.519468093354082,
+              "y": 36.973415726183646,
+              "z": 62.10706402321709
             },
             "target": {
-              "x": -284.10867494827977,
+              "x": -283.76146474817074,
               "y": 223.39276496979718,
-              "z": 71.33431207164405
+              "z": 71.3784150980735
             },
             "task": "FORMATION_FOLLOW",
-            "surfaceDistance": 44.77637778182887,
+            "surfaceDistance": 44.94225037504416,
             "decisions": 91,
             "impacts": 2,
             "uncovered": false,
@@ -12725,14 +12693,14 @@
             "id": 3,
             "callsign": "KITE-3",
             "position": {
-              "x": -269.2492729428181,
-              "y": 212.05520095682843,
-              "z": 52.49058175003732
+              "x": -269.24181450383537,
+              "y": 212.0353091593501,
+              "z": 52.46287192779345
             },
             "velocity": {
-              "x": -16.536185279386626,
-              "y": 39.591379376642635,
-              "z": 51.91992782326957
+              "x": -16.57396470279508,
+              "y": 39.59657275509038,
+              "z": 51.92201807811171
             },
             "target": {
               "x": -268.6348615793738,
@@ -12740,7 +12708,7 @@
               "z": 60.339242673322836
             },
             "task": "FORMATION_FOLLOW",
-            "surfaceDistance": 49.3930199033375,
+            "surfaceDistance": 49.395259835837294,
             "decisions": 92,
             "impacts": 2,
             "uncovered": false,
@@ -12748,18 +12716,6 @@
           }
         ],
         "companionEvents": [
-          {
-            "time": 5.608333333333402,
-            "agent": 3,
-            "event": "impact",
-            "task": "RECOVER"
-          },
-          {
-            "time": 5.6166666666667355,
-            "agent": 3,
-            "event": "task",
-            "task": "AVOID"
-          },
           {
             "time": 5.658333333333404,
             "agent": 2,
@@ -12839,7 +12795,7 @@
             "task": "REGROUP"
           },
           {
-            "time": 7.808333333333511,
+            "time": 8.00833333333352,
             "agent": 1,
             "event": "task",
             "task": "AVOID"
@@ -12855,12 +12811,6 @@
             "agent": 3,
             "event": "task",
             "task": "AVOID"
-          },
-          {
-            "time": 8.258333333333505,
-            "agent": 1,
-            "event": "task",
-            "task": "LEAD"
           },
           {
             "time": 8.27500000000017,
@@ -12881,25 +12831,43 @@
             "task": "AVOID"
           },
           {
+            "time": 9.283333333333447,
+            "agent": 1,
+            "event": "task",
+            "task": "RECOVER"
+          },
+          {
+            "time": 9.283333333333447,
+            "agent": 1,
+            "event": "impact",
+            "task": "RECOVER"
+          },
+          {
+            "time": 9.29166666666678,
+            "agent": 1,
+            "event": "task",
+            "task": "AVOID"
+          },
+          {
             "time": 9.325000000000111,
             "agent": 2,
             "event": "task",
             "task": "FORMATION_FOLLOW"
           },
           {
-            "time": 9.391666666666774,
+            "time": 9.375000000000108,
             "agent": 3,
             "event": "task",
             "task": "RECOVER"
           },
           {
-            "time": 9.391666666666774,
+            "time": 9.375000000000108,
             "agent": 3,
             "event": "impact",
             "task": "RECOVER"
           },
           {
-            "time": 9.400000000000107,
+            "time": 9.383333333333441,
             "agent": 3,
             "event": "task",
             "task": "AVOID"
@@ -12911,16 +12879,22 @@
             "task": "AVOID"
           },
           {
-            "time": 10.450000000000047,
+            "time": 10.433333333333382,
             "agent": 3,
             "event": "task",
             "task": "FORMATION_FOLLOW"
           },
           {
-            "time": 10.600000000000039,
+            "time": 10.583333333333373,
             "agent": 3,
             "event": "task",
             "task": "AVOID"
+          },
+          {
+            "time": 10.941666666666686,
+            "agent": 1,
+            "event": "task",
+            "task": "LEAD"
           },
           {
             "time": 11.524999999999986,
@@ -12929,16 +12903,10 @@
             "task": "FORMATION_FOLLOW"
           },
           {
-            "time": 11.649999999999979,
+            "time": 11.633333333333313,
             "agent": 3,
             "event": "task",
             "task": "FORMATION_FOLLOW"
-          },
-          {
-            "time": 16.208333333333055,
-            "agent": 1,
-            "event": "task",
-            "task": "REGROUP"
           }
         ],
         "shieldImpacts": 5,
@@ -12991,10 +12959,10 @@
           "bvhCount": 18,
           "renderObjectCount": 207,
           "estimatedCpuGeometryBytes": 19188748,
-          "generationAvgMs": 28.600000000509777,
-          "generationP95Ms": 49.899999998509884,
-          "generationMinMs": 6.399999998509884,
-          "generationMaxMs": 211.5,
+          "generationAvgMs": 28.305263157345745,
+          "generationP95Ms": 52.29999999701977,
+          "generationMinMs": 7.0999999940395355,
+          "generationMaxMs": 202.29999999701977,
           "generationSampleCount": 38,
           "maxLoadedChunks": 41,
           "coverageComplete": true,
@@ -13007,12 +12975,12 @@
           "z": 0
         },
         "render": {
-          "calls": 342,
-          "triangles": 249036,
+          "calls": 350,
+          "triangles": 252924,
           "points": 560,
           "lines": 64,
-          "fps": 80.2155667614703,
-          "geometries": 209,
+          "fps": 72.46765739502014,
+          "geometries": 211,
           "textures": 23
         },
         "seed": 334458,

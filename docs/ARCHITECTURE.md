@@ -8,6 +8,9 @@ flight outcome → bounded memory. Seven declarative actions are supported. No m
 output is evaluated as code. Local collision and 120 Hz motion never await a network
 request. Cancellation invalidates the world epoch; expired/invalid plans fall back
 to the explicitly named local controller. Recorded plans are labelled as replay.
+LEAD selects a published directional corridor and refreshes its safe forward route
+locally as the pilot moves; SCOUT/HOLD retain bounded fixed waypoints. This avoids
+turning a leader back toward an already-passed waypoint after network latency.
 
 Trust starts at 0.5 and changes only through observed lead progress, separation,
 regrouping, impacts and verified Relay outcomes. It changes formation spacing,
