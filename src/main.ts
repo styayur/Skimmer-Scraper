@@ -262,6 +262,7 @@ const ui: GameUI = new GameUI({
 });
 
 ui.setBest(best);
+ui.setRules(selectedRules);
 ui.setModels([builtInModel], builtInModel.id);
 ui.setCameraMode(preferences.cameraMode);
 ui.setVisualStimulation(preferences.visualStimulation === 'reduced');
@@ -783,6 +784,7 @@ const debugSetPose = async (
 new RunSettingsPanel(selectedRules, (next) => {
   if (mode !== 'title' && mode !== 'failed') return;
   selectedRules = normalizeRules(next); saveRules(selectedRules);
+  ui.setRules(selectedRules);
   best = loadBest(scoreContextFor(worldSettings, selectedRules)); ui.setBest(best);
 }, () => {
   closeLibrary(); closeWorldPanel();

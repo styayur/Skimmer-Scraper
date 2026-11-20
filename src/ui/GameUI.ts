@@ -1,5 +1,6 @@
 import type { CameraMode } from '../config/experience';
 import { formatTime } from '../game/storage';
+import type { RuleConfig } from '../game/ruleConfig';
 import type { WorldMode, WorldPresetId, WorldSettings } from '../world/worldConfig';
 import { WORLD_PRESET_OPTIONS } from '../world/worldConfig';
 
@@ -207,6 +208,13 @@ export class GameUI {
     this.titleBest.textContent = formatted;
     this.hudBest.textContent = formatted;
     this.failBest.textContent = formatted;
+  }
+  public setRules(config: RuleConfig): void {
+    const free = config.mode === 'free';
+    required('start-button').querySelector('span')!.textContent = free ? '开始自由飞行' : '开始挑战';
+    document.querySelector<HTMLElement>('.title-copy')!.textContent = free
+      ? `自由探索城市，无近距宽限失败。${config.shield ? '防护罩开启，接触时减速反弹。' : '防护罩关闭，撞击仍会结束飞行。'} 自由飞行不计挑战成绩。`
+      : `建筑、屋脊、桥面、地面与悬浮岛都是有效表面。保持在 32 m 内，脱离表面后有 ${config.graceSeconds} 秒宽限。`;
   }
 
   public showTitle(): void {

@@ -7,7 +7,7 @@
   },
   "build": "passed",
   "browser": {
-    "total": 13,
+    "total": 14,
     "passedAfterTargetedFixes": 13,
     "initialFailures": 2,
     "fixes": [
@@ -18,7 +18,9 @@
       "modelAndFlight": 3,
       "flightAfterReconnectAddition": 2
     },
-    "renderer": "Chromium software WebGL2"
+    "renderer": "Chromium software WebGL2",
+    "passedAcrossFullAndTargetedRuns": 14,
+    "latestTargetedRun": 4
   },
   "controls": [
     "classic",
@@ -76,5 +78,7 @@
     "soakShieldImpacts": 2,
     "soakPeakChunks": 28,
     "soakPeakBvh": 28
-  }
+  },
+  "audioLifecycle": "resume/close rejection handled; browser denial/reload test passed",
+  "titleRules": "mode, shield and grace copy synchronized"
 }

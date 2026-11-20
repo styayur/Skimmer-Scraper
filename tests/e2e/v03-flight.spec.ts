@@ -71,3 +71,20 @@ test('browser Gamepad API input hotplug, camera, pause, retry and keyboard fallb
   });
   await expect.poll(() => page.evaluate(() => window.__SKIMMER_SCRAPER__!.snapshot().inputDevice)).toContain('Gamepad');
 });
+
+test('audio resume rejection keeps flight and page teardown usable', async ({ page }) => {
+  test.setTimeout(90_000);
+  const errors: string[] = []; page.on('pageerror', error => errors.push(error.message));
+  await page.addInitScript(() => {
+    localStorage.setItem('skimmer-scraper.rules.v3', JSON.stringify({ mode: 'free' }));
+    AudioContext.prototype.resume = () => Promise.reject(new Error('Simulated autoplay denial'));
+  });
+  await page.goto('/?autostart=1&seed=334458');
+  await page.waitForFunction(() => window.__SKIMMER_SCRAPER__?.snapshot().mode === 'running');
+  await page.keyboard.press('Escape');
+  await page.locator('#pause-resume').click();
+  await expect.poll(() => page.evaluate(() => window.__SKIMMER_SCRAPER__!.snapshot().mode)).toBe('running');
+  await page.reload();
+  await page.waitForFunction(() => window.__SKIMMER_SCRAPER__?.snapshot().mode === 'running');
+  expect(errors).toEqual([]);
+});
