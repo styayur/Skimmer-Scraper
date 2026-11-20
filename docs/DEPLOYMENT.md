@@ -16,6 +16,11 @@ Phase merges and RC tags leave production untouched. `workflow_dispatch` remains
 an explicit maintainer deployment action. Release gates and player-experience
 issues are recorded in acceptance/v0.3.0.json before a stable tag is created.
 
+The v0.3.0-rc.1 candidate is a GitHub prerelease with static/source ZIPs and
+SHA256 manifests; it does not dispatch Pages or change the latest stable release.
+Build and packaging instructions are in [V030-QA.md](V030-QA.md). Human experience
+and the measured world-exchange frame spike remain stable-promotion gates.
+
 Live evidence: `evidence/v0.2.0-live-pages-verification.json` and `evidence/v0.2.0-live-pages-*.png`.
 
 ## Cloudflare Pages

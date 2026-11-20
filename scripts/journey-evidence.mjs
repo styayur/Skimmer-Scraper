@@ -1,6 +1,7 @@
 import {chromium} from '@playwright/test';
 import {writeFileSync,readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
+const prefix=process.env.EVIDENCE_PREFIX??'phase-5';
 const browser=await chromium.launch({channel:process.env.BENCHMARK_CHANNEL??'chrome',headless:false,args:['--use-angle=d3d11','--disable-software-rasterizer']});
 try{
  const page=await browser.newPage({viewport:{width:1920,height:1080}});const errors=[];page.on('pageerror',e=>errors.push(e.message));
@@ -27,7 +28,7 @@ try{
   await page.waitForFunction(i=>window.__SKIMMER_SCRAPER__.snapshot().journey.crossings===i,index,{timeout:60000});
   await page.evaluate(()=>new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r))));
   worlds.push(await page.evaluate(()=>window.__SKIMMER_SCRAPER__.snapshot()));
-  await page.screenshot({path:`evidence/v0.3/phase-5-real-world-${index}.png`});
+  await page.screenshot({path:`evidence/v0.3/${prefix}-real-world-${index}.png`});
  }
  const result=await page.evaluate(()=>{
   const c=window.journeyCapture;c.active=false;c.observer.disconnect();
@@ -39,6 +40,6 @@ try{
  result.testedAsset=await page.locator('script[type="module"]').getAttribute('src');
  if(result.testedAsset?.startsWith('./assets/'))result.assetSha256=createHash('sha256').update(readFileSync(`dist/${result.testedAsset.slice(2)}`)).digest('hex');
  result.method='Actual running rAF flight and five transitions on real GPU. Paused fixture approach519m excluded from frame samples; actual climb crosses520m. Long-task capture includes fixture setup. No debug time advance; no model key or inference.';
- writeFileSync('evidence/v0.3/phase-5-real-gpu.json',JSON.stringify(result,null,2));
+ writeFileSync(`evidence/v0.3/${prefix}-real-gpu.json`,JSON.stringify(result,null,2));
  console.log(JSON.stringify({gpu:result.gpu,realHardware:result.realHardware,averageFps:result.averageFps,p95Ms:result.p95Ms,p99Ms:result.p99Ms,maxFrameMs:result.maxFrameMs,stages:result.stages,worlds:worlds.map(s=>({index:s.journey.worldIndex,crossings:s.journey.crossings,seed:s.seed,companions:s.companions.length,bvh:s.streaming.bvhCount,releases:s.worldReleases,trust:s.cooperation.trust.value})),errors}));
 }finally{await browser.close();}

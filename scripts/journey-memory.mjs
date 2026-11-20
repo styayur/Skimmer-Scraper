@@ -1,5 +1,6 @@
 import {chromium} from '@playwright/test';
 import {writeFileSync} from 'node:fs';
+const prefix=process.env.EVIDENCE_PREFIX??'phase-5';
 const browser=await chromium.launch({channel:'chrome',headless:false,args:['--use-angle=d3d11','--disable-software-rasterizer']});
 try{
  const page=await browser.newPage({viewport:{width:1920,height:1080}});const errors=[];page.on('pageerror',e=>errors.push(e.message));
@@ -21,5 +22,5 @@ try{
   await page.evaluate(()=>window.__SKIMMER_SCRAPER__.retry());await sample(`after-${cycle*5}-world-exchanges-and-base-restore`);
  }
  const result={method:'Three accelerated five-world journeys with actual browser/WebGL resources, normalized to the same base seed/spawn/settled chunks and forced CDP GC. Not an FPS benchmark or a guarantee of indefinite leak freedom.',samples,errors,testedAsset:await page.locator('script[type="module"]').getAttribute('src')};
- writeFileSync('evidence/v0.3/phase-5-memory.json',JSON.stringify(result,null,2));console.log(JSON.stringify({asset:result.testedAsset,samples:samples.map(s=>({label:s.label,heap:s.heap,dom:s.dom,geometries:s.state.render.geometries,textures:s.state.render.textures,bvh:s.state.streaming.bvhCount,releases:s.state.worldReleases.length})),errors}));
+ writeFileSync(`evidence/v0.3/${prefix}-memory.json`,JSON.stringify(result,null,2));console.log(JSON.stringify({asset:result.testedAsset,samples:samples.map(s=>({label:s.label,heap:s.heap,dom:s.dom,geometries:s.state.render.geometries,textures:s.state.render.textures,bvh:s.state.streaming.bvhCount,releases:s.state.worldReleases.length})),errors}));
 }finally{await browser.close();}
