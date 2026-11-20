@@ -1,6 +1,26 @@
 import { expect, test } from '@playwright/test';
 import { writeFileSync } from 'node:fs';
 
+test('three companions retain shared geometry and recover during 120 seconds of boost', async ({ page }) => {
+  test.setTimeout(180_000);
+  await page.addInitScript(() => {
+    localStorage.setItem('skimmer-scraper.rules.v3', JSON.stringify({ mode: 'free' }));
+    localStorage.setItem('skimmer-scraper.companions.v3', JSON.stringify({ count: 3 }));
+  });
+  await page.goto('/?autostart=1&seed=334458');
+  await page.waitForFunction(() => window.__SKIMMER_SCRAPER__?.snapshot().mode === 'running');
+  await page.keyboard.down('Shift');
+  const states = [];
+  for (let i = 0; i < 2; i++) states.push(await page.evaluate(() => window.__SKIMMER_SCRAPER__!.advance(60)));
+  await page.keyboard.up('Shift');
+  const final = states[1];
+  expect(final.mode).toBe('running');expect(final.runTime).toBeGreaterThanOrEqual(119.99);
+  expect(final.companions.every(agent => agent.deployed && !agent.uncovered)).toBe(true);
+  expect(final.streaming!.activeChunks).toBeLessThanOrEqual(41);
+  for (const agent of final.companions) expect(Math.hypot(agent.position.x-final.position.x,agent.position.y-final.position.y,agent.position.z-final.position.z)).toBeLessThan(250);
+  writeFileSync('evidence/v0.3/phase-3-boost-recovery.json',JSON.stringify({ method: '120 simulation seconds, deterministic keyboard boost, actual browser and shared streamed BVHs; not a real-time FPS benchmark', states },null,2));
+});
+
 for (const count of [1,2,3]) {
   test(`${count} local autonomous companions fly, regroup after rebase and release on retry`, async ({ page }) => {
     test.setTimeout(180_000);

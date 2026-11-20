@@ -104,14 +104,19 @@ export class CompanionTeam {
         target = this.formationTarget(player, agent.id);
         if (this.settings.behavior === 'lead' && agent.id === 1) { task = 'LEAD'; target = this.safeRoute(player, world, agent.id); }
         if (override && override.expires > this.elapsed) { task = override.task; target = { ...override.target }; }
-        if (distance(agent.flight.position, player.position) > 135) { task = 'REGROUP'; target = this.formationTarget(player, agent.id); }
+        if (distance(agent.flight.position, player.position) > 135) {
+          task = 'REGROUP'; target = add(player.position, scale(forwardFromAttitude(player.attitude), -18));
+          const horizontalGap = Math.hypot(agent.flight.position.x - player.position.x, agent.flight.position.z - player.position.z);
+          target.y = horizontalGap < 100 ? player.position.y + 18 : Math.max(player.position.y + 18, agent.flight.position.y);
+          if (horizontalGap > 220) target.y = Math.max(target.y, Math.min(320, agent.flight.position.y + 60));
+        }
         const goalHit = world.queryNearest(target, 9);
         if (goalHit && goalHit.distance < 8) {
           target = add(goalHit.point, scale(unit(sub(target, goalHit.point)), 13)); task = 'RECOVER';
         }
         agent.navigationTask = task;
       } else if ((!override || override.expires <= this.elapsed) &&
-        ['FORMATION_FOLLOW', 'INDEPENDENT_FOLLOW', 'REGROUP'].includes(agent.navigationTask)) {
+        ['FORMATION_FOLLOW', 'INDEPENDENT_FOLLOW'].includes(agent.navigationTask)) {
         target = this.formationTarget(player, agent.id);
       }
       agent.target = target; this.task(agent, agent.avoidanceFor > 0 ? 'AVOID' : agent.navigationTask);

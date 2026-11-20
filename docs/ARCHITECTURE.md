@@ -26,6 +26,10 @@ floating-origin changes affect only rendering.
 
 The player's collision gate remains its original 3×3 ring. Companions check the
 loaded cells covering their 60 m perception envelope in that same streamer.
+Up to three 80 m follower retention hints enter its existing priority queue,
+below player collision coverage and above distant scenery. The 41-chunk cap is
+unchanged. A distant agent regroups through a higher clearance corridor before
+descending back into formation; it does not freeze because its old cells retire.
 Spawn slots require swept path clearance and 11 m separation from the pilot and
 teammates; without a valid slot, deployment waits. Debug fixed-time advancement
 waits for the actual missing forward coverage and yields to generation tasks;

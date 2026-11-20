@@ -189,6 +189,7 @@ const syncWorldStreaming = (
   state: Pick<FlightState, 'position' | 'velocity'>,
 ): StreamerUpdate | null => {
   if (!worldStreamer) return null;
+  worldStreamer.setCompanionPositions(companions.agents.filter(agent => agent.deployed).map(agent => agent.flight.position));
   const update = worldStreamer.update(state.position, state.velocity);
   if (update.rebaseDelta) renderer?.shiftRenderOrigin(update.rebaseDelta);
   return update;

@@ -18,22 +18,22 @@
         "callsign": "KITE-1",
         "position": {
           "x": -14,
-          "y": 31.01654626742797,
-          "z": 92.46445775017503
+          "y": 31.041716889925976,
+          "z": 93.00049167130163
         },
         "velocity": {
           "x": 0,
-          "y": -3.020474699760846,
-          "z": -64.3240705351927
+          "y": -2.9713128923793697,
+          "z": -64.35780967467423
         },
         "target": {
           "x": -14,
-          "y": 29.388258339066077,
-          "z": 92.25029147332589
+          "y": 29.392176851410024,
+          "z": 92.8004379545678
         },
         "task": "FORMATION_FOLLOW",
-        "surfaceDistance": 31.041716889925976,
-        "decisions": 2,
+        "surfaceDistance": 31.4729498445272,
+        "decisions": 1,
         "impacts": 0,
         "uncovered": false,
         "deployed": true
@@ -50,58 +50,58 @@
     "shieldImpacts": 0,
     "inputDevice": "Keyboard",
     "mode": "running",
-    "runTime": 0.20833333333333331,
+    "runTime": 0.19999999999999998,
     "best": 0,
-    "speed": 66.02500542286914,
-    "altitude": 23.79371527595648,
+    "speed": 66.02413438651438,
+    "altitude": 23.801968092145607,
     "position": {
       "x": 0,
-      "y": 23.79371527595648,
-      "z": 106.24871650285691
+      "y": 23.801968092145607,
+      "z": 106.79886298409882
     },
-    "surfaceDistance": 23.79371527595648,
+    "surfaceDistance": 23.801968092145607,
     "surfaceLocked": true,
     "grace": 5,
     "failureReason": null,
     "world": {
-      "chunks": 17,
-      "buildings": 89,
-      "bridges": 25,
+      "chunks": 15,
+      "buildings": 81,
+      "bridges": 22,
       "islands": 1,
-      "collisionTriangles": 86260,
-      "renderTriangles": 155286
+      "collisionTriangles": 77284,
+      "renderTriangles": 140924
     },
     "adapter": {
-      "chunks": 17,
-      "bvhCount": 17,
+      "chunks": 15,
+      "bvhCount": 15,
       "lastBroadPhaseCandidates": 1,
       "lastQueries": 1
     },
     "streaming": {
       "stateCounts": {
         "UNLOADED": 0,
-        "QUEUED": 7,
+        "QUEUED": 9,
         "GENERATING": 1,
         "READY": 0,
-        "ACTIVE": 17,
+        "ACTIVE": 15,
         "RETIRING": 0,
         "DISPOSED": 0
       },
-      "loadedChunks": 17,
-      "activeChunks": 17,
-      "queuedChunks": 7,
+      "loadedChunks": 15,
+      "activeChunks": 15,
+      "queuedChunks": 9,
       "generatingChunks": 1,
-      "generatedTotal": 17,
+      "generatedTotal": 15,
       "retiredTotal": 0,
       "disposedGeometryCount": 0,
-      "bvhCount": 17,
-      "renderObjectCount": 193,
-      "estimatedCpuGeometryBytes": 18534296,
-      "generationAvgMs": 217.87647058727111,
-      "generationP95Ms": 1982.1999999955297,
-      "generationMinMs": 4.199999995529652,
-      "generationMaxMs": 1982.1999999955297,
-      "generationSampleCount": 17,
+      "bvhCount": 15,
+      "renderObjectCount": 174,
+      "estimatedCpuGeometryBytes": 16778132,
+      "generationAvgMs": 203.36000000089408,
+      "generationP95Ms": 1373.6000000014901,
+      "generationMinMs": 15.299999997019768,
+      "generationMaxMs": 1373.6000000014901,
+      "generationSampleCount": 15,
       "maxLoadedChunks": 41,
       "coverageComplete": true,
       "rebaseCount": 0
@@ -113,11 +113,11 @@
       "z": 0
     },
     "render": {
-      "calls": 277,
-      "triangles": 171004,
+      "calls": 246,
+      "triangles": 151048,
       "points": 560,
       "lines": 64,
-      "fps": 98.09325890668413
+      "fps": 100.86110787344376
     },
     "seed": 334458,
     "debugInput": true,
@@ -125,8 +125,8 @@
     "localModelCount": 0,
     "cameraMode": "chase",
     "cameraBlend": 0,
-    "fov": 63.38111106779801,
-    "proximity": 0.10508915437043924,
+    "fov": 63.38096529701239,
+    "proximity": 0.10337662024798835,
     "proximityZone": "near",
     "visualStimulation": "standard",
     "recordingHintVisible": true,
@@ -228,19 +228,19 @@
       },
       {
         "key": "-2:-1",
-        "state": "ACTIVE",
+        "state": "GENERATING",
         "revision": 0,
-        "fingerprint": 691181459
+        "fingerprint": null
       },
       {
         "key": "2:-1",
-        "state": "ACTIVE",
+        "state": "QUEUED",
         "revision": 0,
-        "fingerprint": 4155033499
+        "fingerprint": null
       },
       {
         "key": "-2:1",
-        "state": "GENERATING",
+        "state": "QUEUED",
         "revision": 0,
         "fingerprint": null
       },
@@ -306,14 +306,14 @@
         "id": 1,
         "callsign": "KITE-1",
         "position": {
-          "x": 29.428643053828154,
-          "y": 55.21548532672549,
-          "z": -117.51927513689455
+          "x": 29.127148111579004,
+          "y": 55.192104549103426,
+          "z": -117.57466923978004
         },
         "velocity": {
-          "x": 36.17939306989812,
-          "y": 2.8056933146482854,
-          "z": 6.647292346257959
+          "x": 35.96815486495861,
+          "y": 3.387257719095567,
+          "z": 6.992107333410382
         },
         "target": {
           "x": 77.51838712056822,
@@ -411,16 +411,16 @@
     "shieldImpacts": 3,
     "inputDevice": "Keyboard",
     "mode": "running",
-    "runTime": 8.208333333333508,
+    "runTime": 8.200000000000175,
     "best": 0,
-    "speed": 37.665827801448486,
-    "altitude": 45.5012932884007,
+    "speed": 37.317523214154775,
+    "altitude": 45.61449432431327,
     "position": {
-      "x": 66.66444475275632,
-      "y": 45.5012932884007,
-      "z": -120.63503043183476
+      "x": 66.4250382703084,
+      "y": 45.61449432431327,
+      "z": -120.80352941622088
     },
-    "surfaceDistance": 4.96210801630859,
+    "surfaceDistance": 4.812603584885037,
     "surfaceLocked": true,
     "grace": 5,
     "failureReason": null,
@@ -452,17 +452,17 @@
       "activeChunks": 19,
       "queuedChunks": 5,
       "generatingChunks": 1,
-      "generatedTotal": 24,
-      "retiredTotal": 7,
-      "disposedGeometryCount": 89,
+      "generatedTotal": 22,
+      "retiredTotal": 4,
+      "disposedGeometryCount": 51,
       "bvhCount": 19,
       "renderObjectCount": 217,
       "estimatedCpuGeometryBytes": 21207564,
-      "generationAvgMs": 149.40384615298646,
-      "generationP95Ms": 1370.5999999940395,
-      "generationMinMs": 4.199999995529652,
-      "generationMaxMs": 1982.1999999955297,
-      "generationSampleCount": 26,
+      "generationAvgMs": 139.31304347839045,
+      "generationP95Ms": 1287.5,
+      "generationMinMs": 10.299999997019768,
+      "generationMaxMs": 1373.6000000014901,
+      "generationSampleCount": 23,
       "maxLoadedChunks": 41,
       "coverageComplete": true,
       "rebaseCount": 0
@@ -474,11 +474,11 @@
       "z": 0
     },
     "render": {
-      "calls": 277,
-      "triangles": 171004,
+      "calls": 246,
+      "triangles": 151048,
       "points": 560,
       "lines": 64,
-      "fps": 98.09325890668413
+      "fps": 100.86110787344376
     },
     "seed": 334458,
     "debugInput": true,
@@ -487,7 +487,7 @@
     "cameraMode": "chase",
     "cameraBlend": 0,
     "fov": 62,
-    "proximity": 0.8432508548512896,
+    "proximity": 0.8454935600983201,
     "proximityZone": "extreme",
     "visualStimulation": "standard",
     "recordingHintVisible": true,
@@ -667,22 +667,22 @@
         "id": 1,
         "callsign": "KITE-1",
         "position": {
-          "x": 70.74019378920666,
-          "y": 49.761412298492914,
-          "z": -113.05542582912565
+          "x": 78.43934380286761,
+          "y": 47.92292372306533,
+          "z": -108.59709115079376
         },
         "velocity": {
-          "x": 37.04070125545009,
-          "y": -16.178084357039076,
-          "z": 24.808457647182898
+          "x": 45.42594409085833,
+          "y": -18.46940072308261,
+          "z": 32.11846037931942
         },
         "target": {
-          "x": 157.90865412671624,
-          "y": 11.471494308755204,
-          "z": -7.501564395062104
+          "x": 160.27472083884524,
+          "y": 10.352722585815279,
+          "z": -5.836280172567086
         },
         "task": "AVOID",
-        "surfaceDistance": 8.704653549645899,
+        "surfaceDistance": 10.82872671835883,
         "decisions": 50,
         "impacts": 3,
         "uncovered": false,
@@ -769,19 +769,19 @@
         "task": "AVOID"
       },
       {
-        "time": 8.733333333333478,
+        "time": 8.783333333333475,
         "agent": 1,
         "event": "task",
         "task": "RECOVER"
       },
       {
-        "time": 8.733333333333478,
+        "time": 8.783333333333475,
         "agent": 1,
         "event": "impact",
         "task": "RECOVER"
       },
       {
-        "time": 8.741666666666811,
+        "time": 8.791666666666808,
         "agent": 1,
         "event": "task",
         "task": "AVOID"
@@ -790,16 +790,16 @@
     "shieldImpacts": 3,
     "inputDevice": "Keyboard",
     "mode": "running",
-    "runTime": 9.391666666666774,
+    "runTime": 9.416666666666773,
     "best": 0,
-    "speed": 62.221147395676965,
-    "altitude": 22.81108761366938,
+    "speed": 62.427943193729504,
+    "altitude": 22.248840855178585,
     "position": {
-      "x": 114.65148199862405,
-      "y": 22.81108761366938,
-      "z": -86.8608111335465
+      "x": 115.84056580543647,
+      "y": 22.248840855178585,
+      "z": -86.02391059622934
     },
-    "surfaceDistance": 14.15598286866452,
+    "surfaceDistance": 12.69927100792022,
     "surfaceLocked": true,
     "grace": 5,
     "failureReason": null,
@@ -831,17 +831,17 @@
       "activeChunks": 25,
       "queuedChunks": 0,
       "generatingChunks": 0,
-      "generatedTotal": 30,
-      "retiredTotal": 7,
-      "disposedGeometryCount": 89,
+      "generatedTotal": 28,
+      "retiredTotal": 4,
+      "disposedGeometryCount": 51,
       "bvhCount": 25,
       "renderObjectCount": 286,
       "estimatedCpuGeometryBytes": 28535136,
-      "generationAvgMs": 125.78124999930151,
-      "generationP95Ms": 1370.5999999940395,
-      "generationMinMs": 4.199999995529652,
-      "generationMaxMs": 1982.1999999955297,
-      "generationSampleCount": 32,
+      "generationAvgMs": 116.7172413794645,
+      "generationP95Ms": 1287.5,
+      "generationMinMs": 9.399999998509884,
+      "generationMaxMs": 1373.6000000014901,
+      "generationSampleCount": 29,
       "maxLoadedChunks": 41,
       "coverageComplete": true,
       "rebaseCount": 0
@@ -857,7 +857,7 @@
       "triangles": 345072,
       "points": 560,
       "lines": 304,
-      "fps": 61.09678479714041
+      "fps": 58.115872601127506
     },
     "seed": 334458,
     "debugInput": true,
@@ -865,8 +865,8 @@
     "localModelCount": 0,
     "cameraMode": "chase",
     "cameraBlend": 0,
-    "fov": 62.72778403373741,
-    "proximity": 0.24409428074053646,
+    "fov": 62.763438481677504,
+    "proximity": 0.2636466583983712,
     "proximityZone": "near",
     "visualStimulation": "standard",
     "recordingHintVisible": true,
@@ -1046,22 +1046,22 @@
         "id": 1,
         "callsign": "KITE-1",
         "position": {
-          "x": 13105.927539145372,
-          "y": 56.477073797010185,
-          "z": -12963.249668709368
+          "x": 13127.673776602902,
+          "y": 45.57977504463229,
+          "z": -12946.305257837303
         },
         "velocity": {
-          "x": 95.2209418394427,
-          "y": -28.399885980846378,
-          "z": 56.36147285093939
+          "x": 95.4868110402622,
+          "y": -35.425612872133,
+          "z": 42.41817801989407
         },
         "target": {
-          "x": 13197.149234110004,
-          "y": 17.665753115183477,
-          "z": -12910.15649634991
+          "x": 13193.796875054835,
+          "y": 19.250883617565066,
+          "z": -12912.515952494614
         },
-        "task": "AVOID",
-        "surfaceDistance": 15.625359371130958,
+        "task": "LEAD",
+        "surfaceDistance": 26.180075121087583,
         "decisions": 62,
         "impacts": 4,
         "uncovered": false,
@@ -1148,67 +1148,61 @@
         "task": "AVOID"
       },
       {
-        "time": 8.733333333333478,
+        "time": 8.783333333333475,
         "agent": 1,
         "event": "task",
         "task": "RECOVER"
       },
       {
-        "time": 8.733333333333478,
+        "time": 8.783333333333475,
         "agent": 1,
         "event": "impact",
         "task": "RECOVER"
       },
       {
-        "time": 8.741666666666811,
+        "time": 8.791666666666808,
         "agent": 1,
         "event": "task",
         "task": "AVOID"
       },
       {
-        "time": 9.46666666666677,
+        "time": 9.425000000000106,
         "agent": 1,
         "event": "task",
         "task": "RECOVER"
       },
       {
-        "time": 9.46666666666677,
+        "time": 9.425000000000106,
         "agent": 1,
         "event": "impact",
         "task": "RECOVER"
       },
       {
-        "time": 9.475000000000103,
+        "time": 9.433333333333438,
         "agent": 1,
         "event": "task",
         "task": "AVOID"
       },
       {
-        "time": 10.275000000000057,
+        "time": 10.233333333333393,
         "agent": 1,
         "event": "task",
         "task": "LEAD"
-      },
-      {
-        "time": 11.075000000000012,
-        "agent": 1,
-        "event": "task",
-        "task": "AVOID"
       }
     ],
     "shieldImpacts": 3,
     "inputDevice": "Keyboard",
     "mode": "running",
-    "runTime": 11.491666666666655,
+    "runTime": 11.516666666666653,
     "best": 0,
-    "speed": 68.08651925951504,
-    "altitude": 29.714875566233296,
+    "speed": 68.09866200392533,
+    "altitude": 29.66316653676067,
     "position": {
-      "x": 13106.346948710274,
-      "y": 29.714875566233296,
-      "z": -12925.150928800987
+      "x": 13106.456307045708,
+      "y": 29.66316653676067,
+      "z": -12925.073960256668
     },
-    "surfaceDistance": 29.714875566233296,
+    "surfaceDistance": 29.66316653676067,
     "surfaceLocked": true,
     "grace": 5,
     "failureReason": null,
@@ -1240,17 +1234,17 @@
       "activeChunks": 14,
       "queuedChunks": 10,
       "generatingChunks": 1,
-      "generatedTotal": 45,
-      "retiredTotal": 34,
-      "disposedGeometryCount": 423,
+      "generatedTotal": 43,
+      "retiredTotal": 31,
+      "disposedGeometryCount": 385,
       "bvhCount": 14,
       "renderObjectCount": 152,
       "estimatedCpuGeometryBytes": 14587816,
-      "generationAvgMs": 90.39791666623205,
-      "generationP95Ms": 53,
-      "generationMinMs": 4.199999995529652,
-      "generationMaxMs": 1982.1999999955297,
-      "generationSampleCount": 48,
+      "generationAvgMs": 82.1333333330022,
+      "generationP95Ms": 56.70000000298023,
+      "generationMinMs": 9.099999994039536,
+      "generationMaxMs": 1373.6000000014901,
+      "generationSampleCount": 45,
       "maxLoadedChunks": 41,
       "coverageComplete": true,
       "rebaseCount": 1
@@ -1262,11 +1256,11 @@
       "z": -10000
     },
     "render": {
-      "calls": 138,
-      "triangles": 108268,
+      "calls": 159,
+      "triangles": 119532,
       "points": 380,
       "lines": 304,
-      "fps": 57.62043145102338
+      "fps": 54.80893824686003
     },
     "seed": 334458,
     "debugInput": true,
@@ -1274,8 +1268,8 @@
     "localModelCount": 0,
     "cameraMode": "chase",
     "cameraBlend": 0,
-    "fov": 63.73905504474397,
-    "proximity": 0.1660385747880966,
+    "fov": 63.741148621366435,
+    "proximity": 0.16475583711300415,
     "proximityZone": "near",
     "visualStimulation": "standard",
     "recordingHintVisible": true,
@@ -1529,17 +1523,17 @@
       "activeChunks": 14,
       "queuedChunks": 10,
       "generatingChunks": 1,
-      "generatedTotal": 61,
-      "retiredTotal": 51,
-      "disposedGeometryCount": 624,
+      "generatedTotal": 60,
+      "retiredTotal": 49,
+      "disposedGeometryCount": 601,
       "bvhCount": 14,
       "renderObjectCount": 161,
       "estimatedCpuGeometryBytes": 15923692,
-      "generationAvgMs": 72.33076923042536,
-      "generationP95Ms": 46.20000000298023,
-      "generationMinMs": 4.199999995529652,
-      "generationMaxMs": 1982.1999999955297,
-      "generationSampleCount": 65,
+      "generationAvgMs": 65.19523809507253,
+      "generationP95Ms": 50.099999994039536,
+      "generationMinMs": 9.099999994039536,
+      "generationMaxMs": 1373.6000000014901,
+      "generationSampleCount": 63,
       "maxLoadedChunks": 41,
       "coverageComplete": true,
       "rebaseCount": 1
@@ -1551,11 +1545,11 @@
       "z": -10000
     },
     "render": {
-      "calls": 148,
-      "triangles": 94194,
+      "calls": 127,
+      "triangles": 69874,
       "points": 380,
       "lines": 0,
-      "fps": 54.34322356576215
+      "fps": 51.70991553385512
     },
     "seed": 334458,
     "debugInput": true,

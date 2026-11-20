@@ -3,7 +3,7 @@
   "controller": "Local Autonomous Controller; no model inference",
   "typecheck": "passed",
   "unit": {
-    "passed": 83,
+    "passed": 84,
     "failed": 0,
     "longFlight": "15-minute deterministic unit simulation with bounded 3 states and 256 events",
     "retries": 30
@@ -11,7 +11,7 @@
   "build": "passed",
   "browser": {
     "fullRunPassed": 17,
-    "latestCompanionAndStreamingRerunPassed": 4,
+    "latestCompanionAndStreamingRerunPassed": 5,
     "initialRun": "interrupted after observing debug forward-coverage starvation; fixed and rerun",
     "cases": [
       1,
@@ -26,7 +26,9 @@
       "3 rapid retries",
       "disable companions",
       "exact scripted time advance"
-    ]
+    ],
+    "totalVerifiedAcrossRuns": 18,
+    "longBoostRegression": "120 deterministic simulation seconds; all 3 active, within 250 m, shared BVHs <=41"
   },
   "resourceModel": {
     "sharedWorld": true,
@@ -36,7 +38,9 @@
     "perceptionHz": 5,
     "simulationHz": 120,
     "spawnMinimumSeparationM": 11,
-    "unsafeSpawn": "deferred until a swept-clear slot exists"
+    "unsafeSpawn": "deferred until a swept-clear slot exists",
+    "sharedFollowerRetentionEnvelopeM": 80,
+    "maximumLoadedChunks": 41
   },
   "hardware": {
     "gpu": "AMD Radeon 780M",
@@ -72,6 +76,27 @@
     "evidence/v0.3/phase-3-3-companions.json",
     "evidence/v0.3/phase-3-gpu-1.json",
     "evidence/v0.3/phase-3-gpu-2.json",
-    "evidence/v0.3/phase-3-gpu-3.json"
-  ]
+    "evidence/v0.3/phase-3-gpu-3.json",
+    "evidence/v0.3/phase-3-boost-recovery.json",
+    "evidence/v0.3/phase-3-soak.json",
+    "evidence/v0.3/phase-3-memory.json",
+    "evidence/v0.3/phase-3-memory-before-retention.json",
+    "evidence/v0.3/phase-3-cross-browser.json"
+  ],
+  "recoveryFix": {
+    "observed": "a follower lacked geometry at end of real 120-second boost flight",
+    "resolution": "80 m retention hints in same world queue, no budget increase; high-clearance regroup corridor",
+    "realRetest": "120.18 seconds running; all 3 returned to FORMATION_FOLLOW, 12\u201315 m from player, no errors"
+  },
+  "memory": {
+    "method": "same spawn/settled geometry, explicit CDP GC before and after 120-second real boost flight",
+    "retainedHeapDeltaBytes": 1279652,
+    "backingStorageDeltaBytes": 1096,
+    "sameGeometryFootprint": true,
+    "listenersBefore": 77,
+    "listenersAfter": 77,
+    "domNodesBefore": 1073,
+    "domNodesAfter": 1074,
+    "caveat": "single bounded-duration observation, not an indefinite leak guarantee"
+  }
 }
