@@ -148,6 +148,11 @@
         </div>
       </section>
 
+      <section id="pause-panel" class="pause-panel" aria-label="暂停菜单" hidden>
+        <p class="kicker">FLIGHT PAUSED</p><h2>飞行已暂停</h2>
+        <button id="pause-resume" class="primary-button" type="button">继续飞行 · Esc</button>
+        <button id="pause-menu" class="secondary-button" type="button">返回标题</button>
+      </section>
       <section id="fail-screen" class="fail-screen" aria-labelledby="fail-title" hidden>
         <div class="fail-panel">
           <p id="fail-eyebrow" class="kicker">RUN ENDED / 挑战结束</p>
@@ -181,6 +186,33 @@
         <label>宽限秒数（1–15）<input id="run-grace" type="number" min="1" max="15" step="0.1" value="5" /></label>
         <label><input id="run-shield" type="checkbox" /> 自由模式防护罩</label>
         <p>标准 5 秒个人挑战、自定义规则和 AI 辅助挑战分别记录；自由模式不计成绩。</p>
+        <details><summary>操控与手柄</summary>
+          <p id="input-device">Keyboard</p>
+          <label>操控方案 <select data-control="profile"><option value="precision">Precision · 高速精确操控</option><option value="classic">Classic · 经典操控</option></select></label>
+          <label>灵敏度 <input data-control="sensitivity" type="number" min="0.2" max="2" step="0.1" /></label>
+          <label>响应曲线 <input data-control="curve" type="number" min="1" max="3" step="0.1" /></label>
+          <label>手柄死区 <input data-control="deadZone" type="number" min="0" max="0.4" step="0.01" /></label>
+          <label>水平恢复辅助 <input data-control="levelAssist" type="number" min="0" max="2" step="0.1" /></label>
+          <label><input data-control="autoCoordinate" type="checkbox" /> 自动协调转弯</label>
+          <label><input data-control="invertPitch" type="checkbox" /> 反转俯仰</label>
+          <label><input data-control="invertRoll" type="checkbox" /> 反转滚转</label>
+          <label><input data-control="invertYaw" type="checkbox" /> 反转偏航</label>
+          <p>标准 XInput：左摇杆俯仰/滚转、右摇杆偏航、RT 加速、Y 视角、X 重试、Menu 暂停。键盘有输入时优先使用键盘。</p>
+          <label>俯仰轴 <input data-control="pitchAxis" type="number" min="0" max="7" /></label>
+          <label>滚转轴 <input data-control="rollAxis" type="number" min="0" max="7" /></label>
+          <label>偏航轴 <input data-control="yawAxis" type="number" min="0" max="7" /></label>
+          <label>加速按钮 <input data-control="boostButton" type="number" min="0" max="31" /></label>
+          <label>视角按钮 <input data-control="cameraButton" type="number" min="0" max="31" /></label>
+          <label>暂停按钮 <input data-control="pauseButton" type="number" min="0" max="31" /></label>
+          <label>重试按钮 <input data-control="retryButton" type="number" min="0" max="31" /></label>
+        </details>
+        <details><summary>当前机型第一人称锚点（米）</summary>
+          <p>相对归一化机身的位置；X 向右，Y 向上，负 Z 向前。没有设置时分别使用机头/驾驶舱回退。第一人称隐藏机身，不改变碰撞范围。</p>
+          <label>X <input id="anchor-x" type="number" min="-8" max="8" step="0.1" value="0" /></label>
+          <label>Y <input id="anchor-y" type="number" min="-8" max="8" step="0.1" value="0.72" /></label>
+          <label>Z <input id="anchor-z" type="number" min="-8" max="8" step="0.1" value="-2.35" /></label>
+          <button id="anchor-save" class="utility-button" type="button">保存当前机型锚点</button>
+        </details>
       </aside>
       <aside id="library-panel" class="library-panel" aria-labelledby="library-title" hidden>
         <div class="library-header">

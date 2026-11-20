@@ -27,6 +27,14 @@ The loaded glTF scene is wrapped without replacing its authored materials. The e
 and uniformly scaled so its largest dimension is 8 m. Browser-local materials, textures and node
 transforms are preserved. A 180° orientation control handles GLBs that use the opposite forward axis.
 
+## First-person anchors
+
+Flight Settings exposes a per-aircraft first-person position anchor in normalized
+aircraft meters (X right, Y up, negative Z forward; each within ±8 m). Anchors are
+optional local metadata and do not change the IndexedDB model schema or collision
+envelope. Without an anchor, Nose and Cockpit use independent defaults. Imported
+and built-in meshes are hidden in both first-person modes to keep the view clear.
+
 ## Browser support
 
 WebGL2 remains required for rendering. GLTF loading itself uses Three.js `GLTFLoader`; Draco or Meshopt

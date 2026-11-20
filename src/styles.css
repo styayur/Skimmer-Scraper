@@ -672,3 +672,5 @@ kbd {
 .flight-settings label { display: block; margin: 16px 0; color: var(--teal); }
 .flight-settings select, .flight-settings input[type="number"] { display: block; width: 100%; padding: 10px; margin-top: 6px; color: #f7e9df; background: #211a28; border: 1px solid #56746e; }
 .flight-settings p { font-size: 13px; line-height: 1.6; }
+.pause-panel { position: fixed; z-index: 35; left: 50%; top: 50%; transform: translate(-50%, -50%); display: grid; gap: 18px; width: min(340px, 88vw); padding: 30px; border: 1px solid #56746e; background: #211a28ed; box-shadow: 0 20px 80px #0008; text-align: center; }
+.pause-panel[hidden] { display: none; }

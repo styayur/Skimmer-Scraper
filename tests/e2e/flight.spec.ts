@@ -39,7 +39,7 @@ test.describe('phase 1 flight prototype', () => {
     });
     await expect(page.locator('#loading-screen')).toBeHidden();
     await expect(page.getByRole('heading', { name: 'SKIMMER SCRAPER' })).toBeVisible();
-    await page.screenshot({ path: 'evidence/phase-1-title.png', fullPage: true });
+    await page.screenshot({ path: 'evidence/v0.3/regression/phase-1-title.png', fullPage: true });
 
     await page.getByRole('button', { name: /开始挑战/ }).click();
     await expect(page.locator('#hud')).toBeVisible();
@@ -59,7 +59,7 @@ test.describe('phase 1 flight prototype', () => {
     expect(second.runTime).toBeGreaterThan(0.02);
     expect(second.position.z).not.toBe(first.position.z);
     expect(second.render.triangles).toBeGreaterThan(0);
-    await page.screenshot({ path: 'evidence/phase-1-flight.png', fullPage: true });
+    await page.screenshot({ path: 'evidence/v0.3/regression/phase-1-flight.png', fullPage: true });
 
     expect(errors).toEqual([]);
   });

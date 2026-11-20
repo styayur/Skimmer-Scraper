@@ -160,7 +160,7 @@ test.describe('v0.2 phase 4 ephemeral world', () => {
     expect(revisited.streaming!.activeChunks).toBeLessThanOrEqual(41);
     expect(revisited.streaming!.coverageComplete).toBe(true);
     await page.screenshot({
-      path: 'evidence/v0.2/phase-4-ephemeral-world-panel.png',
+      path: 'evidence/v0.3/regression/v0.2/phase-4-ephemeral-world-panel.png',
       fullPage: true,
       animations: 'disabled',
     });
@@ -191,7 +191,7 @@ test.describe('v0.2 phase 4 ephemeral world', () => {
     expect(stableRevisitedHome!.revision).toBe(0);
     expect(stableRevisitedHome!.fingerprint).toBe(stableInitialHome!.fingerprint);
     await stablePage.screenshot({
-      path: 'evidence/v0.2/phase-4-stable-roundtrip.png',
+      path: 'evidence/v0.3/regression/v0.2/phase-4-stable-roundtrip.png',
       fullPage: true,
       animations: 'disabled',
     });
@@ -203,7 +203,7 @@ test.describe('v0.2 phase 4 ephemeral world', () => {
     await stablePage.close();
 
     writeFileSync(
-      'evidence/v0.2/phase-4-runtime.json',
+      'evidence/v0.3/regression/v0.2/phase-4-runtime.json',
       `${JSON.stringify({
         generatedAt: new Date().toISOString(),
         ephemeral: {

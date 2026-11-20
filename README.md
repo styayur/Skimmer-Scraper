@@ -40,7 +40,7 @@ GitHub Pages is the only deployment target. Cloudflare Pages deployment is cance
 | A / D or Arrow Left / Right | Roll |
 | Q / E | Yaw |
 | Shift | Boost |
-| C | Chase / cockpit view |
+| C | Chase → Nose → Cockpit |
 | R | Instant retry |
 | M | Aircraft library |
 | Enter | Start |
@@ -162,3 +162,12 @@ original synthetic assets are documented in [CREDITS.md](CREDITS.md). New releas
 Challenge grace is configurable from 1 to 15 seconds (default 5). Free Flight has no proximity expiry and defaults to a shield. Options lock at takeoff; retry keeps the selection. Custom and assisted scores are separate; historical standard scores retain their keys.
 
 Production deployment is now triggered by a stable version tag; merges and RC tags do not replace the public game. Source: https://github.com/styayur/Skimmer-Scraper. See docs/LICENSE-AUDIT.md.
+
+Flight Settings includes a Classic profile and a Precision profile (speed-sensitive
+control gain, full rolls/loops, optional coordinated turns and adjustable leveling).
+Standard XInput gamepads support stick/trigger flight, Y view, X retry and Menu pause;
+axis/button mappings, dead zone, response curve, sensitivity and inversion are editable.
+Keyboard input takes priority while held. Esc pauses/resumes. The Free Flight shield
+sweeps the collision sphere, reduces speed and reflects/slides along surfaces; disable
+it before takeoff for ordinary impact failure. First-person aircraft anchors can be
+saved per local model; both first-person views hide the aircraft mesh.

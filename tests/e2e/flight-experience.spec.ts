@@ -68,6 +68,7 @@ test.describe('v0.2 phase 1 flight experience', () => {
     await expect(page.locator('#hud')).toBeVisible();
 
     await page.locator('#camera-button').click();
+    await page.locator('#camera-button').click();
     await page.waitForFunction(() => {
       const bridge = (window as unknown as {
         __SKIMMER_SCRAPER__?: { snapshot(): { cameraMode: string; cameraBlend: number } };
@@ -79,7 +80,7 @@ test.describe('v0.2 phase 1 flight experience', () => {
     expect(cockpit.fov).toBeGreaterThanOrEqual(62);
     expect(cockpit.fov).toBeLessThanOrEqual(88);
     await expect(page.locator('#cockpit-frame')).toBeVisible();
-    await page.screenshot({ path: 'evidence/v0.2/phase-1-cockpit.png', fullPage: true });
+    await page.screenshot({ path: 'evidence/v0.3/regression/v0.2/phase-1-cockpit.png', fullPage: true });
 
     await page.keyboard.press('r');
     await page.waitForFunction(() => {
@@ -104,7 +105,7 @@ test.describe('v0.2 phase 1 flight experience', () => {
       getComputedStyle(element).getPropertyValue('--proximity-intensity').trim(),
     );
     expect(Number(proximityVariable)).toBeGreaterThan(0.2);
-    await page.screenshot({ path: 'evidence/v0.2/phase-1-extreme-feedback.png', fullPage: true });
+    await page.screenshot({ path: 'evidence/v0.3/regression/v0.2/phase-1-extreme-feedback.png', fullPage: true });
 
     await page.keyboard.press('c');
     await page.waitForFunction(() => {
@@ -118,7 +119,7 @@ test.describe('v0.2 phase 1 flight experience', () => {
     expect(chase.fov).toBeGreaterThanOrEqual(62);
     expect(chase.fov).toBeLessThanOrEqual(78);
     writeFileSync(
-      'evidence/v0.2/phase-1-runtime.json',
+      'evidence/v0.3/regression/v0.2/phase-1-runtime.json',
       `${JSON.stringify({
         generatedAt: new Date().toISOString(),
         cameraModes: { cockpit: cockpit.cameraMode, chase: chase.cameraMode },

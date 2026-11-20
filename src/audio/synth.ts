@@ -34,7 +34,7 @@ export class FlightAudio {
     if (!this.context || !this.master || !this.engineGain) return;
     this.started = true;
     this.paused = false;
-    void this.context.resume();
+    void this.context.resume().catch(() => { /* Autoplay denial or page teardown: flight remains usable. */ });
     this.master.gain.setTargetAtTime(this.muted ? 0 : 0.24, this.context.currentTime, 0.08);
     this.engineGain.gain.setTargetAtTime(0.13, this.context.currentTime, 0.1);
   }
@@ -49,7 +49,7 @@ export class FlightAudio {
   public resume(): void {
     if (!this.context || !this.master || !this.engineGain || !this.started) return;
     this.paused = false;
-    void this.context.resume();
+    void this.context.resume().catch(() => { /* The context can close while resume is pending. */ });
     this.master.gain.setTargetAtTime(this.muted ? 0 : 0.24, this.context.currentTime, 0.08);
   }
 
@@ -109,7 +109,7 @@ export class FlightAudio {
       }
     }
     this.engineOscillators = [];
-    void this.context?.close();
+    void this.context?.close().catch(() => { /* Closing an already closed context is harmless. */ });
     this.context = null;
   }
 

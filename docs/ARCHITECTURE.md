@@ -1,5 +1,18 @@
 # Architecture
 
+## v0.3 flight adapters
+
+`RuleConfig` is normalized before takeoff and copied into the pure rule state.
+Free Flight and assisted/custom challenges never write the legacy solo score key.
+`ControlSettings` shapes keyboard/pad input; the Precision profile is an optional
+parameter to pure `stepFlight`, preserving the Classic integrator. Gamepad polling
+is a browser adapter with button-edge actions and neutral disconnect fallback.
+`resolveShield` sweeps the collision envelope against the existing shared surface
+provider, rolls back contact, reflects velocity and validates corner correction.
+The renderer consumes impact intensity and owns only the short wireframe effect.
+Nose/Cockpit use separate defaults and optional per-model local position anchors;
+all first-person modes hide the model while preserving physics.
+
 ```text
 browser input -> FixedStepRunner (120 Hz)
                     |

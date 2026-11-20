@@ -72,7 +72,7 @@ test.describe('v0.1.0 release acceptance', () => {
     await expect(page).toHaveTitle('Skimmer-Scraper — Close-Surface Flight');
     await expect(page.getByRole('heading', { name: 'SKIMMER SCRAPER' })).toBeVisible();
     await page.screenshot({
-      path: 'evidence/phase-4-v0.1.0-title.png',
+      path: 'evidence/v0.3/regression/phase-4-v0.1.0-title.png',
       fullPage: true,
       animations: 'disabled',
     });
@@ -90,7 +90,7 @@ test.describe('v0.1.0 release acceptance', () => {
     expect(mobileLayout).toBe(true);
     expect(noHorizontalOverflow).toBe(true);
     await page.screenshot({
-      path: 'evidence/phase-4-v0.1.0-mobile.png',
+      path: 'evidence/v0.3/regression/phase-4-v0.1.0-mobile.png',
       fullPage: true,
       animations: 'disabled',
     });
@@ -113,7 +113,7 @@ test.describe('v0.1.0 release acceptance', () => {
 
     await page.waitForTimeout(700);
     await page.screenshot({
-      path: 'evidence/phase-4-v0.1.0-flight.png',
+      path: 'evidence/v0.3/regression/phase-4-v0.1.0-flight.png',
       fullPage: true,
     });
 
@@ -160,7 +160,7 @@ test.describe('v0.1.0 release acceptance', () => {
       snapshot: state,
       caveat: 'Headless Chromium rendering evidence only; this is not a real-GPU performance certification.',
     };
-    writeFileSync('evidence/phase-4-v0.1.0-runtime.json', `${JSON.stringify(runtime, null, 2)}\n`);
+    writeFileSync('evidence/v0.3/regression/phase-4-v0.1.0-runtime.json', `${JSON.stringify(runtime, null, 2)}\n`);
     expect(errors).toEqual([]);
   });
 
@@ -182,7 +182,7 @@ test.describe('v0.1.0 release acceptance', () => {
     await expect(page.locator('#webgl-error')).toBeVisible();
     await expect(page.getByRole('heading', { name: '无法启动 WebGL2' })).toBeVisible();
     await page.screenshot({
-      path: 'evidence/phase-4-v0.1.0-webgl2-error.png',
+      path: 'evidence/v0.3/regression/phase-4-v0.1.0-webgl2-error.png',
       fullPage: true,
       animations: 'disabled',
     });

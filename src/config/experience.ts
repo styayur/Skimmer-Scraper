@@ -31,6 +31,10 @@ export const EXPERIENCE_CONFIG = {
       forwardOffset: 2.35,
       upOffset: 0.72,
     },
+    nose: {
+      minFov: 70, maxFov: 88, speedGain: 12, boostGain: 5,
+      forwardOffset: 4.3, upOffset: 0.2,
+    },
     comfortFovScale: 0.68,
     standardShake: 1,
     reducedShake: 0,
@@ -42,5 +46,5 @@ export const EXPERIENCE_CONFIG = {
 } as const;
 
 export type VisualStimulation = 'standard' | 'reduced';
-export type CameraMode = 'chase' | 'cockpit';
+export type CameraMode = 'chase' | 'nose' | 'cockpit';
 

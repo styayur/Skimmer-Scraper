@@ -46,7 +46,7 @@ test.describe('phase 3 local GLB aircraft library', () => {
     const imported = await snapshot(page);
     expect(imported.selectedAircraft).not.toBe('procedural');
     expect(imported.localModelCount).toBe(1);
-    await page.screenshot({ path: 'evidence/phase-3-model-library.png', fullPage: true, animations: 'disabled' });
+    await page.screenshot({ path: 'evidence/v0.3/regression/phase-3-model-library.png', fullPage: true, animations: 'disabled' });
 
     await page.getByRole('button', { name: '旋转 180°' }).click();
     await expect(page.locator('#toast')).toContainText('旋转模型 180°');
@@ -55,12 +55,13 @@ test.describe('phase 3 local GLB aircraft library', () => {
     await page.getByRole('button', { name: /开始挑战/ }).click();
     await expect(page.locator('#hud')).toBeVisible();
     await page.waitForTimeout(700);
-    await page.screenshot({ path: 'evidence/phase-3-imported-flight.png', fullPage: true });
+    await page.screenshot({ path: 'evidence/v0.3/regression/phase-3-imported-flight.png', fullPage: true });
 
+    await page.locator('#camera-button').click();
     await page.locator('#camera-button').click();
     await expect(page.locator('#cockpit-frame')).toBeVisible();
     await page.waitForTimeout(700);
-    await page.screenshot({ path: 'evidence/v0.2/phase-1-cockpit-imported.png', fullPage: true });
+    await page.screenshot({ path: 'evidence/v0.3/regression/v0.2/phase-1-cockpit-imported.png', fullPage: true });
 
     expect(requestedUrls.some((url) => url.includes('test-aircraft'))).toBe(false);
     const nonLocalRequests = requestedUrls.filter((url) =>

@@ -26,5 +26,5 @@ test('free flight, custom grace persistence and retry rule lock', async ({ page 
   await page.reload();
   await page.waitForFunction(() => window.__SKIMMER_SCRAPER__?.snapshot().ready);
   expect(await page.evaluate(() => window.__SKIMMER_SCRAPER__!.snapshot().rules.mode)).toBe('free');
-  await page.screenshot({ path: 'evidence/v03-phase-1-free.png' });
+  await page.screenshot({ path: 'evidence/v0.3/regression/v03-phase-1-free.png' });
 });
