@@ -129,7 +129,7 @@ export interface WorldMaterials {
   dispose(): void;
 }
 
-export const createWorldMaterials = (): WorldMaterials => {
+export const createWorldMaterials = (paletteHue = 0): WorldMaterials => {
   const groundMap = createGroundTexture();
   const celadonMap = createFacadeTexture('#5c8881', '#a3d6ca', '#53e5cf');
   const plumMap = createFacadeTexture('#79506d', '#d397b3', '#ff5d8f');
@@ -214,6 +214,12 @@ export const createWorldMaterials = (): WorldMaterials => {
     }),
   };
 
+  if (paletteHue !== 0) for (const material of Object.values(byKey)) {
+    if (material instanceof THREE.MeshStandardMaterial) {
+      material.color.offsetHSL(paletteHue, 0, 0);
+      material.emissive.offsetHSL(paletteHue, 0, 0);
+    }
+  }
   return {
     byKey,
     dispose: () => {

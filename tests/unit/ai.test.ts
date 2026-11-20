@@ -42,6 +42,15 @@ describe('declarative AI boundary',()=>{
  it.each(['FOLLOW','LEAD','REGROUP','SCOUT','PROTECT','HOLD'])('supports %s with published targets',action=>{const f=fixture();expect(validatePlan({...f.plan,orders:[{agents:[1,2,3],action,targetId:'route-ahead'}]},f.context).ok).toBe(true);});
 });
 describe('observable Trust and finite Surface Relay',()=>{
+ it('does not count the same impact again after a pause or world invalidation',()=>{
+  const f=fixture();f.team.agents[0].impacts=1;f.runtime.step(f.player,f.rules,ground,1,1);const trust=f.runtime.trust.value;
+  f.runtime.invalidate();f.runtime.step(f.player,f.rules,ground,1,1);expect(f.runtime.trust.value).toBe(trust);
+ });
+ it('preserves non-default Trust, spent Relay resources and cooldown when replacing world/team state',()=>{
+  const f=fixture();f.runtime.trust=trustEvent(f.runtime.trust,'relay-success',0);f.runtime.relay={...f.runtime.relay,charges:1,cooldownUntil:20,successes:1};
+  f.runtime.invalidate();f.team.reset(f.player,ground);f.runtime.step(f.player,f.rules,ground,2,.01);
+  expect(f.runtime.trust.value).toBe(.62);expect(f.runtime.relay.charges).toBe(1);expect(f.runtime.relay.cooldownUntil).toBe(20);
+ });
  it('never gains Trust from idle time; earned Trust changes spacing and risk',()=>{
   const f=fixture();f.runtime.step(f.player,f.rules,ground,1,60);expect(f.runtime.trust.value).toBe(.5);
   let trust=createTrust();for(let i=0;i<20;i++)trust=trustEvent(trust,'accepted-lead',i);expect(trust.value).toBe(1);

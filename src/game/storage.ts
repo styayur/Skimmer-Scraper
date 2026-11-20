@@ -11,6 +11,7 @@ const LEGACY_BEST_KEY = 'skimmer-scraper.best.v1';
 const SCOPED_BEST_PREFIX = 'skimmer-scraper.best.v2';
 
 export interface ScoreContext {
+  journey?: boolean;
   seedText: string;
   preset: WorldPresetId;
   mode: WorldMode;
@@ -41,7 +42,7 @@ export const bestStorageKey = (context: ScoreContext): string => [
   context.preset,
   `gen${context.generatorVersion}`,
   encodeURIComponent(context.seedText),
-].join(':') + (standard(context) ? '' : `:${context.rules!.mode}:grace${context.rules!.graceSeconds}:${context.rules!.assisted ? 'assisted' : 'solo'}`);
+].join(':') + (standard(context) ? '' : `:${context.rules!.mode}:grace${context.rules!.graceSeconds}:${context.rules!.assisted ? 'assisted' : 'solo'}`) + (context.journey ? ':sky-journey-v3' : '');
 
 export const formatTime = (seconds: number): string => {
   const safe = Math.max(0, Number.isFinite(seconds) ? seconds : 0);
@@ -61,6 +62,7 @@ const readPositive = (storage: Storage, key: string): number => {
 };
 
 const isLegacyDefaultContext = (context: ScoreContext): boolean =>
+  !context.journey &&
   standard(context) &&
   context.seedText === defaultScoreContext.seedText &&
   context.preset === defaultScoreContext.preset &&

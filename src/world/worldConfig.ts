@@ -29,6 +29,7 @@ export interface CityGenerationConfig {
 }
 
 export interface WorldSettings {
+  paletteHue?: number;
   seed: number;
   seedText: string;
   preset: WorldPresetId;

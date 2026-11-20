@@ -19,6 +19,8 @@ import { createSkyAtmosphere, type SkyAtmosphere } from './sky';
 import { createSpeedRibbons, type SpeedRibbons } from './speedRibbons';
 import { CompanionRenderer } from './companions';
 import type { AgentState } from '../companions/AgentController';
+import { journeyProfile } from '../world/journeyWorlds';
+import { JourneyGate } from './journeyGate';
 
 export class WebGL2UnavailableError extends Error {
   public constructor() {
@@ -35,6 +37,7 @@ export interface RenderStats {
   fps: number;
   geometries: number;
   textures: number;
+  inversionAngle: number;
 }
 
 export interface RenderQuality {
@@ -67,7 +70,9 @@ export class GameRenderer {
   private readonly shieldMesh = new THREE.Mesh(new THREE.IcosahedronGeometry(5.2, 1),
     new THREE.MeshBasicMaterial({ color: 0x53e5cf, wireframe: true, transparent: true, opacity: 0, depthWrite: false }));
   private externalAircraft: THREE.Object3D | null = null;
-  private readonly world: RenderableWorld;
+  private world: RenderableWorld | null;
+  private readonly journeyGate = new JourneyGate();
+  private inversion = 0;
   private readonly resizeObserver: ResizeObserver;
   private readonly aircraftEuler = new THREE.Euler(0, 0, 0, 'YXZ');
   private quality = QUALITY_PRESETS.balanced;
@@ -110,6 +115,7 @@ export class GameRenderer {
     this.scene.fog = new THREE.FogExp2(0x6f4152, world.settings.config.fogDensity);
     this.scene.background = new THREE.Color(0x241723);
     this.scene.add(world.root);
+    this.scene.add(this.journeyGate.group);
     this.scene.add(this.relayLine); this.relayLine.visible=false; this.relayLine.frustumCulled=false;
     const spawn = world.getSpawn();
 
@@ -205,6 +211,16 @@ export class GameRenderer {
     this.cameraRig.setMode(mode, immediate);
   }
   public setCameraAnchor(anchor: Vec3 | null): void { this.cameraRig.setAnchor(anchor); }
+  public releaseWorld():void {if(this.world)this.scene.remove(this.world.root);this.world=null;this.journeyGate.group.visible=false;}
+  public setWorld(world:RenderableWorld,index:number):void {
+    this.releaseWorld();this.world=world;this.scene.add(world.root);
+    const profile=index>0?journeyProfile(index):null;
+    this.atmosphere.palette(profile?.top??0x21152e,profile?.mid??0x9f4f66,profile?.horizon??0xffb58f);
+    this.scene.fog=new THREE.FogExp2(profile?.mid??0x6f4152,world.settings.config.fogDensity);
+    this.journeyGate.group.visible=index===5;
+    const spawn=world.getSpawn();this.journeyGate.group.position.set(spawn.position.x,spawn.position.y+30,spawn.position.z-260);
+  }
+  public setInversion(angle:number):void {this.inversion=angle;}
   public setCompanions(agents: readonly AgentState[], origin: Vec3): void { this.companions.update(agents, origin); }
   public setRelay(flash:{from:Vec3;to:Vec3;until:number}|null,time:number,origin:Vec3):void {
     this.relayLine.visible=!!flash&&flash.until>time;
@@ -238,6 +254,7 @@ export class GameRenderer {
   }
 
   public renderTitle(now: number): void {
+    if(!this.world){this.draw(now);return;}
     this.aircraftModelMount.visible = true;
     this.atmosphere.update(now);
     const spawn = this.world.getSpawn();
@@ -261,6 +278,7 @@ export class GameRenderer {
     this.aircraftModelMount.visible = this.cameraRig.getMode() === 'chase' && this.cameraRig.getSnapshot().blend < 0.96;
     this.atmosphere.update(now);
     this.cameraRig.update(dt, state, proximity, this.visualScale);
+    if(this.inversion)this.camera.rotateZ(this.inversion);
     this.setAircraftTransform(state.position, state.attitude, state.boosting);
     this.petals.update(dt, state.position);
     this.speedRibbons.update(state.speed, state.boosting, dt, proximity, this.visualScale);
@@ -276,19 +294,20 @@ export class GameRenderer {
       fps: this.smoothedFps,
       geometries: this.renderer.info.memory.geometries,
       textures: this.renderer.info.memory.textures,
+      inversionAngle:this.inversion,
     };
   }
 
   public getWorldStats(): WorldStats {
-    return this.world.getStats();
+    return this.world?.getStats()??{chunks:0,buildings:0,bridges:0,islands:0,collisionTriangles:0,renderTriangles:0};
   }
 
   public getWorldSpawn(): SpawnState {
-    return this.world.getSpawn();
+    return this.world?.getSpawn()??{position:{x:0,y:24,z:120},yaw:0,pitch:0,speed:66};
   }
 
   public getWorldFingerprint(): number {
-    return this.world.getFingerprint();
+    return this.world?.getFingerprint()??0;
   }
 
   public resize(): void {
@@ -317,7 +336,8 @@ export class GameRenderer {
     this.atmosphere.dispose();
     this.petals.dispose();
     this.speedRibbons.dispose();
-    this.world.dispose();
+    this.world?.dispose();
+    this.journeyGate.dispose();
     this.renderer.dispose();
   }
 

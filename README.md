@@ -24,6 +24,14 @@ hosted inference service is active. Without a key or on API failure, the complet
 local companion controller remains available. Budgets persist across run retries.
 See [architecture](docs/ARCHITECTURE.md) and sanitized [AI evidence](evidence/v0.3/).
 
+For **Sky Inversion**, climb through **520 m** from a roof/island or use Free
+Flight to explore upward. A live upward crossing opens a short inversion and safe
+formation dive into the next seeded world. The transition can be skipped; **视觉 ·
+轻缓** or the system reduced-motion setting removes the extra roll. Challenge time
+and grace freeze only after the valid crossing. Five arrivals reveal an original
+light sculpture and local signature; flying continues afterward. Retry returns to
+the initial seed. Journey scores are separate from historical solo scores.
+
 GitHub Pages is the only deployment target. Cloudflare Pages deployment is cancelled; see
 [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md). No Cloudflare deployment success is claimed.
 

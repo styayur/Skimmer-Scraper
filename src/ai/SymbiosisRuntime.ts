@@ -29,6 +29,7 @@ export class SymbiosisRuntime {
   public invalidate():void {
     this.epoch++;this.client.cancel();this.team.clearTargets();this.lastPlan=null;this.lead=null;
     this.context=null;this.planner='Local Autonomous Controller';this.relayFlash=null;
+    this.separated.clear();this.impacts=this.team.agents.reduce((count,agent)=>count+agent.impacts,0);
   }
   public suspend():void { if(this.context?.active)this.invalidate(); }
   private record(event:string,data:unknown):void {this.trace.push({time:this.time,event,data});if(this.trace.length>256)this.trace.shift();}
@@ -75,7 +76,7 @@ export class SymbiosisRuntime {
     if(!c)return false;
     const result=validatePlan(reply.decision,{perception,epoch:this.epoch,time:this.time,active:c.active,player:c.player.position,agents:this.team.agents,world:c.world,usedIds:this.used});
     this.record('decision',{...reply,validation:result.ok?'accepted':result.reason});
-    if(!result.ok){this.event('bad-plan');return false;}
+    if(!result.ok){if(!['stale-epoch','inactive-state'].includes(result.reason))this.event('bad-plan');return false;}
     const plan=result.plan;this.used.add(plan.requestId);if(this.used.size>128)this.used.delete(this.used.values().next().value!);
     this.team.clearTargets();this.team.configure({...this.team.settings,formation:plan.formation});
     this.team.cooperation={trust:this.trust.value,risk:plan.risk};

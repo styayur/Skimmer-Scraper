@@ -15,6 +15,10 @@ import { updateCompanionHud } from './ui/CompanionHud';
 import { SymbiosisRuntime } from './ai/SymbiosisRuntime';
 import { bindModelSettings } from './ui/ModelSettings';
 import type { Perception } from './ai/contracts';
+import { SkyJourney } from './game/skyJourney';
+import { chooseSkyEntry,stepSkyDive } from './game/skyFlight';
+import { journeyWorld } from './world/journeyWorlds';
+import { JourneyHud } from './ui/JourneyHud';
 
 import type { CameraMode, VisualStimulation } from './config/experience';
 import { EXPERIENCE_CONFIG } from './config/experience';
@@ -56,6 +60,8 @@ import type { SurfaceQuery, WorldStats } from './world/worldTypes';
 type GameMode = 'title' | 'running' | 'paused' | 'failed';
 
 interface DebugSnapshot {
+  worldReleases: Array<{seed:number;bvhBefore:number;bvhAfter:number;rootChildrenAfter:number;disposedGeometryCount:number}>;
+  journey: ReturnType<SkyJourney['snapshot']> & ReturnType<JourneyHud['snapshot']>;
   cooperation: ReturnType<SymbiosisRuntime['snapshot']>;
   attitude: FlightState['attitude'];
   control: FlightState['control'];
@@ -109,6 +115,7 @@ interface DebugSnapshot {
 }
 
 interface SkimmerDebugBridge {
+  skipJourney():void;
   surface(position: {x:number;y:number;z:number}, range?:number): SurfaceQuery | null;
   aiPerception(): Perception | null;
   aiRequest(): Promise<boolean>;
@@ -153,9 +160,9 @@ let shieldImpacts = 0;
 let shieldCooldown = 0;
 const debugInputEnabled = params.has('debug');
 const autoStart = params.get('autostart') === '1';
-const worldSettings = worldSettingsFromSearch(window.location.search);
-const seed = worldSettings.seed;
-const revisionHistory = worldSettings.mode === 'ephemeral'
+const baseWorldSettings = worldSettingsFromSearch(window.location.search);
+let worldSettings = journeyWorld(baseWorldSettings,0);
+let revisionHistory = worldSettings.mode === 'ephemeral'
   ? new ChunkRevisionHistory(DEFAULT_REVISION_HISTORY_SIZE)
   : null;
 const SURFACE_QUERY_RANGE = 90;
@@ -173,8 +180,14 @@ let flightState: FlightState | null = null;
 let runRules: RunRulesState = createRunRules(selectedRules);
 let lastSurfaceHit: SurfaceQuery | null = null;
 let worldStreamer: WorldStreamer | null = null;
+const journey = new SkyJourney();
+let pendingWorldSwap: Promise<void> | null = null;
+let diveStart: FlightState['position'] | null = null;
+let diveEnd: FlightState['position'] | null = null;
+let worldReleases:DebugSnapshot['worldReleases']=[];
 let buffering = false;
 let worldTransition = 0;
+let runGeneration = 0;
 let streamPreparationCount = 0;
 let neededCoverage: Pick<FlightState, 'position' | 'velocity'> | null = null;
 let debugAdvancing = false;
@@ -468,8 +481,73 @@ const syncHud = (): void => {
   });
 };
 
+const runScoreContext = () => ({ ...scoreContextFor(baseWorldSettings,runRules.config),journey:journey.worldIndex>0 });
+const createStreamer = (settings:typeof worldSettings):WorldStreamer => {
+  const history=revisionHistory;
+  return new WorldStreamer(settings,{renderRadius:2,collisionRadius:1,maxLoadedChunks:41,
+    revisionProvider:history?(x,z)=>history.revisionFor(x,z):undefined,
+    onChunkActivated:history?({chunkX,chunkZ,revision})=>history.markActive(chunkX,chunkZ,revision):undefined,
+    onChunkRetired:history?({chunkX,chunkZ,revision})=>history.markRetired(chunkX,chunkZ,revision):undefined});
+};
+const loadJourneyWorld = async (index:number,token:number):Promise<boolean> => {
+  symbiosis.invalidate();companions.dispose();
+  renderer?.releaseWorld();
+  if(worldStreamer){
+    const before=worldStreamer.getStreamerStats();const releasedSeed=worldStreamer.settings.seed;
+    worldStreamer.dispose();const after=worldStreamer.getStreamerStats();
+    worldReleases.push({seed:releasedSeed,bvhBefore:before.bvhCount,bvhAfter:after.bvhCount,rootChildrenAfter:worldStreamer.root.children.length,disposedGeometryCount:after.disposedGeometryCount});
+    if(worldReleases.length>16)worldReleases.shift();
+  }
+  worldStreamer=null;
+  worldSettings=journeyWorld(baseWorldSettings,index);
+  revisionHistory=worldSettings.mode==='ephemeral'?new ChunkRevisionHistory(DEFAULT_REVISION_HISTORY_SIZE):null;
+  const next=createStreamer(worldSettings);worldStreamer=next;
+  const spawn=next.getDefaultSpawn();flightState=createFlightState(spawn);renderer?.setWorld(next,index);
+  renderer?.snapCamera(toRenderFlightState(flightState));
+  return await waitForCollisionCoverage(spawn.position,{x:0,y:0,z:-spawn.speed},30000,()=>token===worldTransition&&worldStreamer===next);
+};
+const restoreJourneyStart = async (token:number):Promise<boolean> => {
+  const replace=journey.worldIndex>0||journey.active||worldSettings.seed!==baseWorldSettings.seed;
+  journey.reset();journeyHud.reset();diveStart=null;diveEnd=null;renderer?.setInversion(0);
+  return !replace||await loadJourneyWorld(0,token);
+};
+const beginSkySwap = ():void => {
+  const token=++worldTransition;const index=journey.worldIndex+1;
+  const job=(async()=>{
+    const ready=await loadJourneyWorld(index,token);
+    if(token!==worldTransition)return;
+    if(!ready||!worldStreamer||!flightState)throw Error('Unable to prepare new sky');
+    const spawn=worldStreamer.getDefaultSpawn();diveEnd={...spawn.position};diveStart=chooseSkyEntry(spawn.position,worldStreamer);
+    if(!diveStart)throw Error('No safe entry corridor');
+    flightState=createFlightState({...spawn,position:{...diveStart},pitch:-1});
+    companions.configure(companionSettings);companions.reset(flightState,worldStreamer);
+    renderer?.snapCamera(toRenderFlightState(flightState));journey.worldReady();
+    best=loadBest(runScoreContext());ui.setBest(best);lastSurfaceHit=worldStreamer.queryNearest(flightState.position,SURFACE_QUERY_RANGE);
+    buffering=false;neededCoverage=null;stepRunner.reset();lastFrameTime=performance.now();
+  })();
+  pendingWorldSwap=job;
+  void job.catch(()=>{if(token===worldTransition){mode='title';ui.showFatal('新世界准备失败。请刷新或重试，原有存档未变更。');}}).finally(()=>{if(pendingWorldSwap===job)pendingWorldSwap=null;});
+};
+const simulateJourneyStep = (dt:number):boolean => {
+  if(!flightState||!worldStreamer||journey.phase==='WORLD_SWAP')return false;
+  const event=journey.step(dt);
+  if(event==='swap'){journeyHud.update(journey,true);beginSkySwap();return true;}
+  if((journey.phase==='DIVE'||journey.phase==='RECOVERY'||event==='completed')&&diveStart&&diveEnd){
+    flightState=stepSkyDive(flightState,diveStart,diveEnd,journey.phase==='DIVE'?journey.progress:1,dt);
+  }else flightState={...flightState,velocity:{x:0,y:0,z:0},elapsed:flightState.elapsed+dt};
+  companions.step(flightState,worldStreamer,dt);
+  lastSurfaceHit=worldStreamer.queryNearest(flightState.position,SURFACE_QUERY_RANGE);
+  if(event==='completed'){
+    flightState={...createFlightState({...worldStreamer.getDefaultSpawn(),position:{...flightState.position}}),elapsed:flightState.elapsed};
+    companions.configure(companionSettings);companions.reset(flightState,worldStreamer);journeyHud.completed(journey.crossings,journey.time);
+    proximityFeedback=createProximityFeedback();
+  }
+  return true;
+};
+
 const simulateFixedStep = (dt: number, holdPosition = false): boolean => {
   if (mode !== 'running' || !flightState || !worldStreamer) return false;
+  if(journey.active)return simulateJourneyStep(dt);
   if (!worldStreamer.isCollisionCovered(flightState.position)) {
     neededCoverage = flightState;
     syncWorldStreaming(flightState);
@@ -507,12 +585,17 @@ const simulateFixedStep = (dt: number, holdPosition = false): boolean => {
       if (shieldCooldown === 0) { shieldImpacts++; gamepad.impact(); shieldCooldown = 0.2; }
     }
   }
+  const previousY=flightState.position.y;
   flightState = nextState;
   lastSurfaceHit = worldStreamer.queryNearest(flightState.position, SURFACE_QUERY_RANGE);
   runRules = updateRunRules(runRules, { distance: lastSurfaceHit?.distance ?? null }, dt);
   if (runRules.status === 'running') {
     companions.step(flightState, worldStreamer, dt);
-    runRules = symbiosis.step(flightState, runRules, worldStreamer, seed, dt);
+    runRules = symbiosis.step(flightState, runRules, worldStreamer, worldSettings.seed, dt);
+  }
+  if(journey.observe(previousY,flightState,runRules,dt)){
+    symbiosis.invalidate();companions.clearTargets();
+    for(const agent of companions.agents)companions.setTarget(agent.id,flightState.position,'REGROUP',12);
   }
   proximityFeedback = updateProximityFeedback(
     proximityFeedback,
@@ -529,7 +612,7 @@ const finishRun = (): void => {
   keyboard.setEnabled(false);
   stepRunner.reset();
   audio.fail();
-  const score = submitBest(runRules.elapsed, scoreContextFor(worldSettings, runRules.config));
+  const score = submitBest(runRules.elapsed, runScoreContext());
   best = score.best;
   ui.setBest(best);
 
@@ -557,6 +640,8 @@ const resetFlightState = (): void => {
   runRules = createRunRules({ ...selectedRules, assisted: companionSettings.count > 0 });
   companions.configure(companionSettings); companions.reset(flightState, worldStreamer);
   symbiosis.reset();
+  journey.reset();journeyHud.reset();renderer.setInversion(0);diveStart=null;diveEnd=null;
+  best=loadBest(scoreContextFor(baseWorldSettings,runRules.config));ui.setBest(best);
   shieldGlow = 0; shieldImpacts = 0; shieldCooldown = 0;
   renderer.setCameraAnchor(loadCameraAnchor(aircraftLibrary.getSelectedId()));
   proximityFeedback = createProximityFeedback();
@@ -571,6 +656,7 @@ const resetFlightState = (): void => {
 
 const startRun = async (): Promise<void> => {
   if (!renderer || !worldStreamer) return;
+  runGeneration++;
   const transition = ++worldTransition;
   closeLibrary(false);
   closeWorldPanel(false);
@@ -579,6 +665,7 @@ const startRun = async (): Promise<void> => {
   stepRunner.reset();
   audio.stop();
   ui.showLoading('正在准备出生点区块');
+  if(!await restoreJourneyStart(transition)||transition!==worldTransition)return;
 
   const spawn = worldStreamer.getDefaultSpawn();
   const covered = await waitForCollisionCoverage(
@@ -628,6 +715,7 @@ const debugResume = (): boolean => {
 };
 
 const returnToTitle = async (): Promise<void> => {
+  runGeneration++;
   const transition = ++worldTransition;
   closeLibrary(false);
   closeWorldPanel(false);
@@ -635,6 +723,9 @@ const returnToTitle = async (): Promise<void> => {
   keyboard.setEnabled(false);
   stepRunner.reset();
   audio.stop();
+
+  if(renderer)ui.showLoading('正在返回起点');
+  if(renderer&&worldStreamer&&(!await restoreJourneyStart(transition)||transition!==worldTransition))return;
 
   if (!renderer || !worldStreamer) {
     ui.showTitle();
@@ -724,6 +815,8 @@ const debugSnapshot = (): DebugSnapshot => {
     throw new Error('Game is not ready.');
   }
   return {
+    worldReleases:worldReleases.map(item=>({...item})),
+    journey: {...journey.snapshot(),...journeyHud.snapshot()},
     cooperation: symbiosis.snapshot(),
     ready: true,
     attitude: { ...flightState.attitude },
@@ -752,7 +845,7 @@ const debugSnapshot = (): DebugSnapshot => {
     buffering,
     renderOrigin: worldStreamer?.getRenderOrigin() ?? { x: 0, y: 0, z: 0 },
     render: renderer.getStats(),
-    seed,
+    seed:worldSettings.seed,
     debugInput: debugInputEnabled,
     selectedAircraft: aircraftLibrary.getSelectedId(),
     localModelCount: Math.max(0, aircraftLibrary.options().length - 1),
@@ -779,10 +872,12 @@ const debugAdvance = async (
   if (!flightState || mode !== 'running' || !worldStreamer) return debugSnapshot();
   if (debugAdvancing) return debugSnapshot();
   debugAdvancing = true;
+  const generation=runGeneration;
   try {
     const targetSteps = Math.min(7200, Math.max(0, Math.floor(seconds / FLIGHT.fixedDt)));
     let simulatedSteps = 0;
-    while (simulatedSteps < targetSteps && mode === 'running') {
+    while (simulatedSteps < targetSteps && mode === 'running' && generation===runGeneration) {
+      if(pendingWorldSwap){await pendingWorldSwap;await delay(0);continue;}
       if (simulatedSteps % 120 === 0) {
         const covered = await waitForCollisionCoverage(flightState.position, flightState.velocity);
         if (!covered || mode !== 'running') break;
@@ -856,6 +951,7 @@ bindCompanionSettings(companionSettings, () => mode === 'title' || mode === 'fai
   }
 });
 const updateModelStatus = bindModelSettings(symbiosis);
+const journeyHud = new JourneyHud(()=>journey.skip());
 document.querySelector('#pause-resume')!.addEventListener('click', () => debugResume());
 document.querySelector('#pause-menu')!.addEventListener('click', () => { void returnToTitle(); });
 
@@ -883,8 +979,12 @@ keyboard.onAction(handleAction);
 
 const frame = (now: number): void => {
   if (mode !== 'running') symbiosis.suspend();
-  else if (!debugAdvancing && !buffering) void symbiosis.request();
+  else if (!debugAdvancing && !buffering && !journey.active) void symbiosis.request();
   updateModelStatus();
+  journeyHud.update(journey,mode==='running');
+  const reducedRotation=preferences.visualStimulation==='reduced'||window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const inversion=journey.phase==='INVERSION'?Math.PI*journey.progress:journey.phase==='WORLD_SWAP'?Math.PI:journey.phase==='DIVE'?Math.PI*(1-journey.progress):0;
+  renderer?.setInversion(reducedRotation?0:inversion);
   document.querySelector<HTMLElement>('#pause-panel')!.hidden = mode !== 'paused' || ui.isLibraryOpen() || ui.isWorldOpen() || !document.querySelector<HTMLElement>('#rules-panel')!.hidden;
   gamepad.poll(controls, handleAction);
   document.querySelector('#input-device')!.textContent = gamepad.device;
@@ -936,20 +1036,7 @@ const boot = async (): Promise<void> => {
   const canvas = document.getElementById('game-canvas');
   if (!(canvas instanceof HTMLCanvasElement)) throw new Error('Missing game canvas.');
 
-  const streamer = new WorldStreamer(worldSettings, {
-    renderRadius: 2,
-    collisionRadius: 1,
-    maxLoadedChunks: 41,
-    revisionProvider: revisionHistory
-      ? (chunkX, chunkZ) => revisionHistory.revisionFor(chunkX, chunkZ)
-      : undefined,
-    onChunkActivated: revisionHistory
-      ? ({ chunkX, chunkZ, revision }) => revisionHistory.markActive(chunkX, chunkZ, revision)
-      : undefined,
-    onChunkRetired: revisionHistory
-      ? ({ chunkX, chunkZ, revision }) => revisionHistory.markRetired(chunkX, chunkZ, revision)
-      : undefined,
-  });
+  const streamer = createStreamer(worldSettings);
   worldStreamer = streamer;
   ui.setLoadingCopy('正在准备出生点碰撞区块');
   await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
@@ -986,6 +1073,7 @@ const boot = async (): Promise<void> => {
   requestAnimationFrame(frame);
 
   window.__SKIMMER_SCRAPER__ = {
+    skipJourney:()=>journey.skip(),
     surface: (position, range=90) => worldStreamer?.queryNearest(position,range)??null,
     aiPerception: () => symbiosis.perception(),
     aiRequest: () => symbiosis.request(),

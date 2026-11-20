@@ -136,7 +136,7 @@ export class ChunkGenerator {
 
   public constructor(
     public readonly settings: WorldSettings,
-    materials = createWorldMaterials(),
+    materials = createWorldMaterials(settings.paletteHue ?? 0),
     billboardMaterials = createBillboardMaterialSet(),
   ) {
     this.materials = materials;
