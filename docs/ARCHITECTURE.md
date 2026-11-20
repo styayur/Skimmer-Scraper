@@ -22,6 +22,11 @@ and are safely redeployed before normal flight resumes.
 Arrival selection also sweeps a 180 m cruise corridor with 6.5 m clearance and
 loaded coverage, considering alternate headings, local offsets and heights. This
 prevents a valid vertical column from handing control back facing an imminent bridge.
+Each generator also owns one shared shadow depth material. Real-GPU lifecycle
+instrumentation found a disposed ground map being uploaded again through the
+renderer-shared shadow material; per-world ownership releases that sampler state.
+The repeated-journey browser test and `journey-memory.mjs` normalize the same base
+view after exchanges and verify stable warm texture/geometry/BVH counts.
 
 New world seeds derive from initial seed, ordinal and generator version. World0
 retains the exact v0.2 generator settings; five new palette/grammar profiles are

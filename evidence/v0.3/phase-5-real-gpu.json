@@ -1,12 +1,12 @@
 {
   "gpu": "ANGLE (AMD, AMD Radeon 780M Graphics (0x00001900) Direct3D11 vs_5_0 ps_5_0, D3D11)",
   "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/157.0.0.0 Safari/537.36",
-  "frames": 2128,
-  "averageFps": 88.48380014636417,
+  "frames": 1948,
+  "averageFps": 89.80559025968938,
   "p50Ms": 8.399999999997817,
-  "p95Ms": 16.80000000000291,
+  "p95Ms": 16.799999999999272,
   "p99Ms": 41.69999999999982,
-  "maxFrameMs": 284.09999999999854,
+  "maxFrameMs": 300.2999999999993,
   "stages": [
     "ASCENT",
     "THRESHOLD",
@@ -17,18 +17,18 @@
   ],
   "resources": [
     {
-      "time": 1251.6,
+      "time": 1235.2,
       "world": 0,
       "phase": "ASCENT",
-      "chunks": 15,
-      "bvh": 15,
+      "chunks": 14,
+      "bvh": 14,
       "render": {
-        "calls": 307,
-        "triangles": 186224,
+        "calls": 279,
+        "triangles": 171560,
         "points": 560,
         "lines": 64,
-        "fps": 54.05849007218693,
-        "geometries": 161,
+        "fps": 70.38666824453709,
+        "geometries": 148,
         "textures": 23,
         "inversionAngle": 0
       },
@@ -36,18 +36,18 @@
       "journeyTime": 0
     },
     {
-      "time": 1468.3,
+      "time": 1451.9,
       "world": 0,
       "phase": "THRESHOLD",
-      "chunks": 21,
-      "bvh": 21,
+      "chunks": 20,
+      "bvh": 20,
       "render": {
-        "calls": 180,
-        "triangles": 106952,
+        "calls": 173,
+        "triangles": 104216,
         "points": 560,
         "lines": 64,
-        "fps": 50.3941455527615,
-        "geometries": 195,
+        "fps": 65.77832795485648,
+        "geometries": 178,
         "textures": 23,
         "inversionAngle": 0
       },
@@ -55,7 +55,7 @@
       "journeyTime": 0.11666666666666665
     },
     {
-      "time": 1676.5,
+      "time": 1660.2,
       "world": 0,
       "phase": "THRESHOLD",
       "chunks": 25,
@@ -65,8 +65,8 @@
         "triangles": 112040,
         "points": 560,
         "lines": 64,
-        "fps": 92.20366914767074,
-        "geometries": 200,
+        "fps": 89.38576118902341,
+        "geometries": 190,
         "textures": 23,
         "inversionAngle": 0
       },
@@ -74,7 +74,7 @@
       "journeyTime": 0.11666666666666665
     },
     {
-      "time": 1876.6,
+      "time": 1868.6,
       "world": 0,
       "phase": "INVERSION",
       "chunks": 25,
@@ -84,16 +84,16 @@
         "triangles": 112040,
         "points": 560,
         "lines": 64,
-        "fps": 113.67249517671786,
-        "geometries": 200,
+        "fps": 113.42046760985001,
+        "geometries": 190,
         "textures": 23,
-        "inversionAngle": 0.34906585039886595
+        "inversionAngle": 0.39269908169872414
       },
       "runTime": 0.11666666666666665,
       "journeyTime": 0.5166666666666673
     },
     {
-      "time": 2076.7,
+      "time": 2076.9,
       "world": 0,
       "phase": "INVERSION",
       "chunks": 25,
@@ -103,16 +103,16 @@
         "triangles": 112040,
         "points": 560,
         "lines": 64,
-        "fps": 118.48444306506784,
-        "geometries": 200,
+        "fps": 118.57126033145269,
+        "geometries": 190,
         "textures": 23,
-        "inversionAngle": 0.8726646259971653
+        "inversionAngle": 0.9381144729469529
       },
       "runTime": 0.11666666666666665,
       "journeyTime": 0.5166666666666673
     },
     {
-      "time": 2284.8,
+      "time": 2285.2,
       "world": 0,
       "phase": "INVERSION",
       "chunks": 25,
@@ -122,16 +122,16 @@
         "triangles": 112040,
         "points": 560,
         "lines": 64,
-        "fps": 119.79251037960321,
-        "geometries": 200,
+        "fps": 119.7009858574872,
+        "geometries": 190,
         "textures": 23,
-        "inversionAngle": 1.4180800172453942
+        "inversionAngle": 1.4617132485452522
       },
       "runTime": 0.11666666666666665,
       "journeyTime": 0.5166666666666673
     },
     {
-      "time": 2493.2,
+      "time": 2485.3,
       "world": 0,
       "phase": "INVERSION",
       "chunks": 25,
@@ -141,16 +141,16 @@
         "triangles": 112040,
         "points": 560,
         "lines": 64,
-        "fps": 119.95668306601688,
-        "geometries": 200,
+        "fps": 119.84527188929974,
+        "geometries": 190,
         "textures": 23,
-        "inversionAngle": 1.9634954084936203
+        "inversionAngle": 2.0071286397934784
       },
       "runTime": 0.11666666666666665,
       "journeyTime": 0.5166666666666673
     },
     {
-      "time": 2701.6,
+      "time": 2693.6,
       "world": 0,
       "phase": "INVERSION",
       "chunks": 25,
@@ -160,8 +160,8 @@
         "triangles": 112040,
         "points": 560,
         "lines": 64,
-        "fps": 102.7533576732857,
-        "geometries": 200,
+        "fps": 102.23027993257047,
+        "geometries": 190,
         "textures": 23,
         "inversionAngle": 2.5089107997418463
       },
@@ -169,7 +169,7 @@
       "journeyTime": 0.5166666666666673
     },
     {
-      "time": 2918.2,
+      "time": 2901.9,
       "world": 0,
       "phase": "INVERSION",
       "chunks": 25,
@@ -179,8 +179,8 @@
         "triangles": 112040,
         "points": 560,
         "lines": 64,
-        "fps": 92.17794049218816,
-        "geometries": 200,
+        "fps": 94.83537020251194,
+        "geometries": 190,
         "textures": 23,
         "inversionAngle": 3.0543261909900723
       },
@@ -188,7 +188,7 @@
       "journeyTime": 0.5166666666666673
     },
     {
-      "time": 3134.8,
+      "time": 3118.6,
       "world": 0,
       "phase": "WORLD_SWAP",
       "chunks": 6,
@@ -198,54 +198,54 @@
         "triangles": 181070,
         "points": 560,
         "lines": 64,
-        "fps": 74.4938469091424,
+        "fps": 78.80984222166953,
         "geometries": 86,
-        "textures": 25,
+        "textures": 24,
         "inversionAngle": 3.141592653589793
       },
       "runTime": 0.11666666666666665,
       "journeyTime": 1.716666666666663
     },
     {
-      "time": 3359.9,
+      "time": 3335.2,
       "world": 1,
       "phase": "DIVE",
       "chunks": 11,
       "bvh": 11,
       "render": {
-        "calls": 241,
-        "triangles": 353256,
+        "calls": 239,
+        "triangles": 347376,
         "points": 560,
         "lines": 64,
-        "fps": 66.98608264871469,
+        "fps": 72.79447959269011,
         "geometries": 133,
-        "textures": 25,
-        "inversionAngle": 3.119776037939864
+        "textures": 24,
+        "inversionAngle": 3.141592653589793
       },
       "runTime": 0.11666666666666665,
       "journeyTime": 1.716666666666663
     },
     {
-      "time": 3576.6,
+      "time": 3551.8,
       "world": 1,
       "phase": "DIVE",
       "chunks": 16,
       "bvh": 16,
       "render": {
-        "calls": 299,
-        "triangles": 468568,
+        "calls": 297,
+        "triangles": 457456,
         "points": 560,
         "lines": 64,
-        "fps": 64.90955296093523,
+        "fps": 62.78190245648886,
         "geometries": 174,
-        "textures": 25,
-        "inversionAngle": 2.508910799741849
+        "textures": 24,
+        "inversionAngle": 2.552544031041707
       },
       "runTime": 0.11666666666666665,
       "journeyTime": 1.716666666666663
     },
     {
-      "time": 3818.2,
+      "time": 3777,
       "world": 1,
       "phase": "DIVE",
       "chunks": 21,
@@ -255,73 +255,73 @@
         "triangles": 563044,
         "points": 560,
         "lines": 0,
-        "fps": 63.71663728171356,
+        "fps": 60.05880509370895,
         "geometries": 210,
-        "textures": 25,
-        "inversionAngle": 1.919862177193761
+        "textures": 24,
+        "inversionAngle": 1.9416787928436898
       },
       "runTime": 0.11666666666666665,
       "journeyTime": 1.716666666666663
     },
     {
-      "time": 4026.5,
+      "time": 3993.5,
       "world": 1,
       "phase": "DIVE",
       "chunks": 25,
       "bvh": 25,
       "render": {
-        "calls": 412,
-        "triangles": 716104,
+        "calls": 405,
+        "triangles": 715724,
         "points": 560,
         "lines": 0,
-        "fps": 63.34254256827998,
-        "geometries": 238,
-        "textures": 27,
-        "inversionAngle": 1.3526301702956052
+        "fps": 61.38836090967546,
+        "geometries": 236,
+        "textures": 26,
+        "inversionAngle": 1.374446785945534
       },
       "runTime": 0.11666666666666665,
       "journeyTime": 1.716666666666663
     },
     {
-      "time": 4234.8,
+      "time": 4210.2,
       "world": 1,
       "phase": "DIVE",
       "chunks": 25,
       "bvh": 25,
       "render": {
         "calls": 445,
-        "triangles": 799556,
+        "triangles": 831176,
         "points": 560,
         "lines": 0,
-        "fps": 85.23993185390476,
-        "geometries": 252,
-        "textures": 27,
-        "inversionAngle": 0.763581547747521
+        "fps": 93.23423406267281,
+        "geometries": 251,
+        "textures": 26,
+        "inversionAngle": 0.78539816339745
       },
       "runTime": 0.11666666666666665,
       "journeyTime": 1.716666666666663
     },
     {
-      "time": 4443.1,
+      "time": 4418.6,
       "world": 1,
       "phase": "DIVE",
       "chunks": 25,
       "bvh": 25,
       "render": {
-        "calls": 477,
-        "triangles": 833204,
+        "calls": 473,
+        "triangles": 832724,
         "points": 560,
         "lines": 0,
-        "fps": 101.44691166163778,
-        "geometries": 261,
-        "textures": 27,
+        "fps": 104.68790907352871,
+        "geometries": 260,
+        "textures": 26,
         "inversionAngle": 0.1963495408493659
       },
       "runTime": 0.11666666666666665,
       "journeyTime": 1.716666666666663
     },
     {
-      "time": 4643.2,
+      "time": 4635.2,
       "world": 1,
       "phase": "RECOVERY",
       "chunks": 25,
@@ -331,16 +331,16 @@
         "triangles": 858000,
         "points": 560,
         "lines": 0,
-        "fps": 102.6539944987671,
+        "fps": 101.70474302421117,
         "geometries": 263,
-        "textures": 27,
+        "textures": 26,
         "inversionAngle": 0
       },
       "runTime": 0.11666666666666665,
       "journeyTime": 2.916666666666659
     },
     {
-      "time": 4851.6,
+      "time": 4843.5,
       "world": 1,
       "phase": "RECOVERY",
       "chunks": 25,
@@ -350,16 +350,16 @@
         "triangles": 858000,
         "points": 560,
         "lines": 0,
-        "fps": 107.42251871621458,
+        "fps": 105.83591959464096,
         "geometries": 263,
-        "textures": 27,
+        "textures": 26,
         "inversionAngle": 0
       },
       "runTime": 0.11666666666666665,
       "journeyTime": 2.916666666666659
     },
     {
-      "time": 5068.2,
+      "time": 5051.8,
       "world": 1,
       "phase": "RECOVERY",
       "chunks": 25,
@@ -369,16 +369,16 @@
         "triangles": 858000,
         "points": 560,
         "lines": 0,
-        "fps": 103.34210077635478,
+        "fps": 104.80822885702203,
         "geometries": 263,
-        "textures": 27,
+        "textures": 26,
         "inversionAngle": 0
       },
       "runTime": 0.11666666666666665,
       "journeyTime": 2.916666666666659
     },
     {
-      "time": 5276.6,
+      "time": 5260.1,
       "world": 1,
       "phase": "RECOVERY",
       "chunks": 25,
@@ -388,16 +388,16 @@
         "triangles": 858000,
         "points": 560,
         "lines": 0,
-        "fps": 104.8682541785796,
+        "fps": 103.7178420494853,
         "geometries": 263,
-        "textures": 27,
+        "textures": 26,
         "inversionAngle": 0
       },
       "runTime": 0.11666666666666665,
       "journeyTime": 2.916666666666659
     },
     {
-      "time": 5501.7,
+      "time": 5468.5,
       "world": 1,
       "phase": "ASCENT",
       "chunks": 25,
@@ -407,263 +407,35 @@
         "triangles": 858000,
         "points": 560,
         "lines": 64,
-        "fps": 92.90969957920531,
+        "fps": 98.8005414682693,
         "geometries": 263,
-        "textures": 27,
+        "textures": 26,
         "inversionAngle": 0
       },
-      "runTime": 0.30833333333333346,
+      "runTime": 0.29166666666666674,
       "journeyTime": 3.716666666666656
     },
     {
-      "time": 5793.3,
+      "time": 5785.2,
       "world": 1,
       "phase": "ASCENT",
       "chunks": 25,
       "bvh": 25,
       "render": {
-        "calls": 505,
-        "triangles": 839488,
+        "calls": 501,
+        "triangles": 839480,
         "points": 560,
         "lines": 64,
-        "fps": 93.24419207694919,
+        "fps": 94.47269773693955,
         "geometries": 263,
-        "textures": 27,
+        "textures": 26,
         "inversionAngle": 0
       },
-      "runTime": 0.4416666666666672,
+      "runTime": 0.4666666666666673,
       "journeyTime": 3.716666666666656
     },
     {
-      "time": 6001.5,
-      "world": 1,
-      "phase": "ASCENT",
-      "chunks": 25,
-      "bvh": 25,
-      "render": {
-        "calls": 495,
-        "triangles": 797132,
-        "points": 560,
-        "lines": 64,
-        "fps": 93.11139314252193,
-        "geometries": 263,
-        "textures": 27,
-        "inversionAngle": 0
-      },
-      "runTime": 0.6416666666666668,
-      "journeyTime": 3.716666666666656
-    },
-    {
-      "time": 6209.9,
-      "world": 1,
-      "phase": "ASCENT",
-      "chunks": 25,
-      "bvh": 25,
-      "render": {
-        "calls": 495,
-        "triangles": 797132,
-        "points": 560,
-        "lines": 64,
-        "fps": 98.674246533347,
-        "geometries": 263,
-        "textures": 27,
-        "inversionAngle": 0
-      },
-      "runTime": 0.8583333333333327,
-      "journeyTime": 3.716666666666656
-    },
-    {
-      "time": 6418.2,
-      "world": 1,
-      "phase": "ASCENT",
-      "chunks": 25,
-      "bvh": 25,
-      "render": {
-        "calls": 491,
-        "triangles": 795620,
-        "points": 560,
-        "lines": 64,
-        "fps": 103.26419275850664,
-        "geometries": 263,
-        "textures": 27,
-        "inversionAngle": 0
-      },
-      "runTime": 1.0666666666666653,
-      "journeyTime": 3.716666666666656
-    },
-    {
-      "time": 6618.4,
-      "world": 1,
-      "phase": "ASCENT",
-      "chunks": 25,
-      "bvh": 25,
-      "render": {
-        "calls": 486,
-        "triangles": 795052,
-        "points": 560,
-        "lines": 64,
-        "fps": 100.84732502049053,
-        "geometries": 263,
-        "textures": 27,
-        "inversionAngle": 0
-      },
-      "runTime": 1.2666666666666646,
-      "journeyTime": 3.716666666666656
-    },
-    {
-      "time": 6826.5,
-      "world": 1,
-      "phase": "ASCENT",
-      "chunks": 25,
-      "bvh": 25,
-      "render": {
-        "calls": 478,
-        "triangles": 794324,
-        "points": 560,
-        "lines": 64,
-        "fps": 103.83636788236217,
-        "geometries": 263,
-        "textures": 27,
-        "inversionAngle": 0
-      },
-      "runTime": 1.466666666666664,
-      "journeyTime": 3.716666666666656
-    },
-    {
-      "time": 7026.7,
-      "world": 1,
-      "phase": "ASCENT",
-      "chunks": 25,
-      "bvh": 25,
-      "render": {
-        "calls": 474,
-        "triangles": 790072,
-        "points": 560,
-        "lines": 64,
-        "fps": 102.37808972223178,
-        "geometries": 263,
-        "textures": 27,
-        "inversionAngle": 0
-      },
-      "runTime": 1.6749999999999965,
-      "journeyTime": 3.716666666666656
-    },
-    {
-      "time": 7243.2,
-      "world": 1,
-      "phase": "ASCENT",
-      "chunks": 25,
-      "bvh": 25,
-      "render": {
-        "calls": 469,
-        "triangles": 788028,
-        "points": 560,
-        "lines": 64,
-        "fps": 101.36242312717167,
-        "geometries": 263,
-        "textures": 27,
-        "inversionAngle": 0
-      },
-      "runTime": 1.8916666666666624,
-      "journeyTime": 3.716666666666656
-    },
-    {
-      "time": 7468.2,
-      "world": 1,
-      "phase": "ASCENT",
-      "chunks": 24,
-      "bvh": 24,
-      "render": {
-        "calls": 561,
-        "triangles": 955420,
-        "points": 560,
-        "lines": 64,
-        "fps": 86.23944467801533,
-        "geometries": 299,
-        "textures": 27,
-        "inversionAngle": 0
-      },
-      "runTime": 2.116666666666662,
-      "journeyTime": 3.716666666666656
-    },
-    {
-      "time": 7676.8,
-      "world": 1,
-      "phase": "ASCENT",
-      "chunks": 25,
-      "bvh": 25,
-      "render": {
-        "calls": 572,
-        "triangles": 990384,
-        "points": 560,
-        "lines": 64,
-        "fps": 89.15640944649564,
-        "geometries": 311,
-        "textures": 27,
-        "inversionAngle": 0
-      },
-      "runTime": 2.3249999999999944,
-      "journeyTime": 3.716666666666656
-    },
-    {
-      "time": 7884.8,
-      "world": 1,
-      "phase": "ASCENT",
-      "chunks": 25,
-      "bvh": 25,
-      "render": {
-        "calls": 556,
-        "triangles": 978212,
-        "points": 560,
-        "lines": 64,
-        "fps": 94.1357548347148,
-        "geometries": 311,
-        "textures": 27,
-        "inversionAngle": 0
-      },
-      "runTime": 2.5249999999999937,
-      "journeyTime": 3.716666666666656
-    },
-    {
-      "time": 8093.2,
-      "world": 1,
-      "phase": "ASCENT",
-      "chunks": 25,
-      "bvh": 25,
-      "render": {
-        "calls": 534,
-        "triangles": 962904,
-        "points": 560,
-        "lines": 64,
-        "fps": 94.83811031556392,
-        "geometries": 311,
-        "textures": 27,
-        "inversionAngle": 0
-      },
-      "runTime": 2.7416666666666596,
-      "journeyTime": 3.716666666666656
-    },
-    {
-      "time": 8309.8,
-      "world": 1,
-      "phase": "THRESHOLD",
-      "chunks": 23,
-      "bvh": 23,
-      "render": {
-        "calls": 210,
-        "triangles": 296024,
-        "points": 560,
-        "lines": 64,
-        "fps": 90.69039830527025,
-        "geometries": 261,
-        "textures": 27,
-        "inversionAngle": 0
-      },
-      "runTime": 2.8833333333333258,
-      "journeyTime": 6.483333333333445
-    },
-    {
-      "time": 8518.2,
+      "time": 5993.6,
       "world": 1,
       "phase": "THRESHOLD",
       "chunks": 25,
@@ -673,16 +445,35 @@
         "triangles": 299864,
         "points": 560,
         "lines": 64,
-        "fps": 98.95842162173678,
+        "fps": 102.12878354770305,
         "geometries": 263,
-        "textures": 27,
+        "textures": 26,
         "inversionAngle": 0
       },
-      "runTime": 2.8833333333333258,
-      "journeyTime": 6.483333333333445
+      "runTime": 0.5000000000000007,
+      "journeyTime": 4.099999999999993
     },
     {
-      "time": 8726.4,
+      "time": 6201.8,
+      "world": 1,
+      "phase": "THRESHOLD",
+      "chunks": 25,
+      "bvh": 25,
+      "render": {
+        "calls": 212,
+        "triangles": 299864,
+        "points": 560,
+        "lines": 64,
+        "fps": 116.30819985635252,
+        "geometries": 263,
+        "textures": 26,
+        "inversionAngle": 0
+      },
+      "runTime": 0.5000000000000007,
+      "journeyTime": 4.099999999999993
+    },
+    {
+      "time": 6410.1,
       "world": 1,
       "phase": "INVERSION",
       "chunks": 25,
@@ -692,16 +483,16 @@
         "triangles": 299864,
         "points": 560,
         "lines": 64,
-        "fps": 115.59251291063381,
+        "fps": 119.26685277851848,
         "geometries": 263,
-        "textures": 27,
-        "inversionAngle": 0.17453292519943298
+        "textures": 26,
+        "inversionAngle": 0.4363323129985824
       },
-      "runTime": 2.8833333333333258,
-      "journeyTime": 6.883333333333465
+      "runTime": 0.5000000000000007,
+      "journeyTime": 4.500000000000013
     },
     {
-      "time": 8934.8,
+      "time": 6610.2,
       "world": 1,
       "phase": "INVERSION",
       "chunks": 25,
@@ -711,16 +502,16 @@
         "triangles": 299864,
         "points": 560,
         "lines": 64,
-        "fps": 119.03196848776662,
+        "fps": 119.79026781353994,
         "geometries": 263,
-        "textures": 27,
-        "inversionAngle": 0.719948316447661
+        "textures": 26,
+        "inversionAngle": 0.959931088596882
       },
-      "runTime": 2.8833333333333258,
-      "journeyTime": 6.883333333333465
+      "runTime": 0.5000000000000007,
+      "journeyTime": 4.500000000000013
     },
     {
-      "time": 9143.1,
+      "time": 6818.5,
       "world": 1,
       "phase": "INVERSION",
       "chunks": 25,
@@ -730,16 +521,16 @@
         "triangles": 299864,
         "points": 560,
         "lines": 64,
-        "fps": 119.82670113721798,
+        "fps": 119.95287348357586,
         "geometries": 263,
-        "textures": 27,
-        "inversionAngle": 1.2653637076958906
+        "textures": 26,
+        "inversionAngle": 1.5053464798451104
       },
-      "runTime": 2.8833333333333258,
-      "journeyTime": 6.883333333333465
+      "runTime": 0.5000000000000007,
+      "journeyTime": 4.500000000000013
     },
     {
-      "time": 9343.2,
+      "time": 7026.8,
       "world": 1,
       "phase": "INVERSION",
       "chunks": 25,
@@ -749,16 +540,16 @@
         "triangles": 299864,
         "points": 560,
         "lines": 64,
-        "fps": 119.8977968076652,
+        "fps": 120.00888786138094,
         "geometries": 263,
-        "textures": 27,
-        "inversionAngle": 1.788962483294188
+        "textures": 26,
+        "inversionAngle": 2.0507618710933366
       },
-      "runTime": 2.8833333333333258,
-      "journeyTime": 6.883333333333465
+      "runTime": 0.5000000000000007,
+      "journeyTime": 4.500000000000013
     },
     {
-      "time": 9559.8,
+      "time": 7243.4,
       "world": 1,
       "phase": "INVERSION",
       "chunks": 25,
@@ -768,168 +559,149 @@
         "triangles": 299864,
         "points": 560,
         "lines": 64,
-        "fps": 102.98324347660339,
+        "fps": 98.85595240633832,
         "geometries": 263,
-        "textures": 27,
-        "inversionAngle": 2.334377874542414
+        "textures": 26,
+        "inversionAngle": 2.5961772623415627
       },
-      "runTime": 2.8833333333333258,
-      "journeyTime": 6.883333333333465
+      "runTime": 0.5000000000000007,
+      "journeyTime": 4.500000000000013
     },
     {
-      "time": 9776.5,
-      "world": 1,
-      "phase": "INVERSION",
-      "chunks": 25,
-      "bvh": 25,
-      "render": {
-        "calls": 212,
-        "triangles": 299864,
-        "points": 560,
-        "lines": 64,
-        "fps": 89.02557287217749,
-        "geometries": 263,
-        "textures": 27,
-        "inversionAngle": 2.901609881440569
-      },
-      "runTime": 2.8833333333333258,
-      "journeyTime": 6.883333333333465
-    },
-    {
-      "time": 9984.9,
+      "time": 7451.9,
       "world": 1,
       "phase": "WORLD_SWAP",
-      "chunks": 6,
-      "bvh": 6,
+      "chunks": 1,
+      "bvh": 1,
       "render": {
-        "calls": 153,
-        "triangles": 39710,
+        "calls": 81,
+        "triangles": 13954,
         "points": 560,
         "lines": 64,
-        "fps": 91.72081825039399,
-        "geometries": 66,
-        "textures": 22,
+        "fps": 90.15475123781539,
+        "geometries": 30,
+        "textures": 20,
         "inversionAngle": 3.141592653589793
       },
-      "runTime": 2.8833333333333258,
-      "journeyTime": 8.083333333333515
+      "runTime": 0.5000000000000007,
+      "journeyTime": 5.700000000000073
     },
     {
-      "time": 10193.1,
+      "time": 7660.2,
       "world": 2,
       "phase": "DIVE",
-      "chunks": 22,
-      "bvh": 22,
+      "chunks": 12,
+      "bvh": 12,
       "render": {
-        "calls": 231,
-        "triangles": 73004,
+        "calls": 177,
+        "triangles": 45380,
         "points": 560,
         "lines": 64,
-        "fps": 95.73404460601617,
-        "geometries": 147,
-        "textures": 22,
-        "inversionAngle": 2.705260340591211
+        "fps": 93.05367778869412,
+        "geometries": 111,
+        "textures": 23,
+        "inversionAngle": 3.141592653589793
       },
-      "runTime": 2.8833333333333258,
-      "journeyTime": 8.083333333333515
+      "runTime": 0.5000000000000007,
+      "journeyTime": 5.700000000000073
     },
     {
-      "time": 10409.8,
+      "time": 7868.4,
       "world": 2,
       "phase": "DIVE",
       "chunks": 25,
       "bvh": 25,
       "render": {
-        "calls": 245,
-        "triangles": 88872,
+        "calls": 239,
+        "triangles": 81236,
         "points": 560,
         "lines": 64,
-        "fps": 79.4771189885819,
-        "geometries": 153,
-        "textures": 22,
-        "inversionAngle": 2.181661564992911
+        "fps": 90.71833020094742,
+        "geometries": 156,
+        "textures": 23,
+        "inversionAngle": 2.574360646691636
       },
-      "runTime": 2.8833333333333258,
-      "journeyTime": 8.083333333333515
+      "runTime": 0.5000000000000007,
+      "journeyTime": 5.700000000000073
     },
     {
-      "time": 10610.3,
+      "time": 8076.8,
       "world": 2,
       "phase": "DIVE",
       "chunks": 25,
       "bvh": 25,
       "render": {
-        "calls": 266,
-        "triangles": 97588,
+        "calls": 250,
+        "triangles": 89632,
         "points": 560,
         "lines": 64,
-        "fps": 92.74212588481089,
-        "geometries": 159,
-        "textures": 25,
-        "inversionAngle": 1.6144295580947539
+        "fps": 80.04344034719325,
+        "geometries": 157,
+        "textures": 23,
+        "inversionAngle": 2.0725784867432653
       },
-      "runTime": 2.8833333333333258,
-      "journeyTime": 8.083333333333515
+      "runTime": 0.5000000000000007,
+      "journeyTime": 5.700000000000073
     },
     {
-      "time": 10818.2,
+      "time": 8285.3,
       "world": 2,
       "phase": "DIVE",
       "chunks": 25,
       "bvh": 25,
       "render": {
-        "calls": 311,
-        "triangles": 125608,
+        "calls": 267,
+        "triangles": 100512,
         "points": 560,
         "lines": 0,
-        "fps": 112.95043485960083,
+        "fps": 99.45373276935408,
+        "geometries": 160,
+        "textures": 23,
+        "inversionAngle": 1.4835298641951793
+      },
+      "runTime": 0.5000000000000007,
+      "journeyTime": 5.700000000000073
+    },
+    {
+      "time": 8493.5,
+      "world": 2,
+      "phase": "DIVE",
+      "chunks": 25,
+      "bvh": 25,
+      "render": {
+        "calls": 315,
+        "triangles": 127348,
+        "points": 560,
+        "lines": 0,
+        "fps": 109.19943130299345,
         "geometries": 176,
-        "textures": 25,
-        "inversionAngle": 1.0690141668465276
+        "textures": 23,
+        "inversionAngle": 0.9381144729469533
       },
-      "runTime": 2.8833333333333258,
-      "journeyTime": 8.083333333333515
+      "runTime": 0.5000000000000007,
+      "journeyTime": 5.700000000000073
     },
     {
-      "time": 11026.5,
+      "time": 8710.2,
       "world": 2,
       "phase": "DIVE",
       "chunks": 25,
       "bvh": 25,
       "render": {
-        "calls": 333,
-        "triangles": 135236,
+        "calls": 345,
+        "triangles": 139640,
         "points": 560,
         "lines": 0,
-        "fps": 118.50643787625559,
-        "geometries": 181,
-        "textures": 25,
-        "inversionAngle": 0.5235987755983015
+        "fps": 114.09962257598433,
+        "geometries": 185,
+        "textures": 23,
+        "inversionAngle": 0.3926990816987273
       },
-      "runTime": 2.8833333333333258,
-      "journeyTime": 8.083333333333515
+      "runTime": 0.5000000000000007,
+      "journeyTime": 5.700000000000073
     },
     {
-      "time": 11226.6,
-      "world": 2,
-      "phase": "RECOVERY",
-      "chunks": 25,
-      "bvh": 25,
-      "render": {
-        "calls": 365,
-        "triangles": 145324,
-        "points": 560,
-        "lines": 0,
-        "fps": 116.291429433422,
-        "geometries": 190,
-        "textures": 25,
-        "inversionAngle": 0.021816615649933577
-      },
-      "runTime": 2.8833333333333258,
-      "journeyTime": 9.283333333333447
-    },
-    {
-      "time": 11434.9,
+      "time": 8918.4,
       "world": 2,
       "phase": "RECOVERY",
       "chunks": 25,
@@ -939,16 +711,35 @@
         "triangles": 148644,
         "points": 560,
         "lines": 0,
-        "fps": 118.22879166474581,
+        "fps": 116.70939530716927,
         "geometries": 193,
-        "textures": 25,
+        "textures": 23,
         "inversionAngle": 0
       },
-      "runTime": 2.8833333333333258,
-      "journeyTime": 9.283333333333447
+      "runTime": 0.5000000000000007,
+      "journeyTime": 6.900000000000133
     },
     {
-      "time": 11643,
+      "time": 9118.5,
+      "world": 2,
+      "phase": "RECOVERY",
+      "chunks": 25,
+      "bvh": 25,
+      "render": {
+        "calls": 377,
+        "triangles": 148744,
+        "points": 560,
+        "lines": 0,
+        "fps": 115.66094765940528,
+        "geometries": 195,
+        "textures": 23,
+        "inversionAngle": 0
+      },
+      "runTime": 0.5000000000000007,
+      "journeyTime": 6.900000000000133
+    },
+    {
+      "time": 9318.6,
       "world": 2,
       "phase": "RECOVERY",
       "chunks": 25,
@@ -958,16 +749,16 @@
         "triangles": 148840,
         "points": 560,
         "lines": 0,
-        "fps": 119.73953530126113,
+        "fps": 115.22208393974016,
         "geometries": 195,
-        "textures": 25,
+        "textures": 23,
         "inversionAngle": 0
       },
-      "runTime": 2.8833333333333258,
-      "journeyTime": 9.283333333333447
+      "runTime": 0.5000000000000007,
+      "journeyTime": 6.900000000000133
     },
     {
-      "time": 11843.1,
+      "time": 9526.8,
       "world": 2,
       "phase": "RECOVERY",
       "chunks": 25,
@@ -977,35 +768,35 @@
         "triangles": 148840,
         "points": 560,
         "lines": 0,
-        "fps": 119.90862940964003,
+        "fps": 117.89634628891764,
         "geometries": 195,
-        "textures": 25,
+        "textures": 23,
         "inversionAngle": 0
       },
-      "runTime": 2.8833333333333258,
-      "journeyTime": 9.283333333333447
+      "runTime": 0.5000000000000007,
+      "journeyTime": 6.900000000000133
     },
     {
-      "time": 12051.4,
+      "time": 9735.2,
       "world": 2,
       "phase": "ASCENT",
       "chunks": 25,
       "bvh": 25,
       "render": {
-        "calls": 379,
-        "triangles": 148840,
+        "calls": 378,
+        "triangles": 148744,
         "points": 560,
-        "lines": 0,
-        "fps": 120.01680077358412,
+        "lines": 64,
+        "fps": 113.9644367428702,
         "geometries": 195,
-        "textures": 25,
+        "textures": 23,
         "inversionAngle": 0
       },
-      "runTime": 2.9083333333333257,
-      "journeyTime": 10.083333333333401
+      "runTime": 0.591666666666667,
+      "journeyTime": 7.7000000000001725
     },
     {
-      "time": 12476.4,
+      "time": 10076.8,
       "world": 2,
       "phase": "ASCENT",
       "chunks": 25,
@@ -1015,16 +806,16 @@
         "triangles": 146280,
         "points": 560,
         "lines": 64,
-        "fps": 102.88006637348812,
+        "fps": 103.83528827561065,
         "geometries": 195,
-        "textures": 25,
+        "textures": 23,
         "inversionAngle": 0
       },
-      "runTime": 3.1583333333333248,
-      "journeyTime": 10.083333333333401
+      "runTime": 0.7583333333333331,
+      "journeyTime": 7.7000000000001725
     },
     {
-      "time": 12684.7,
+      "time": 10285.2,
       "world": 2,
       "phase": "THRESHOLD",
       "chunks": 25,
@@ -1034,16 +825,16 @@
         "triangles": 56780,
         "points": 560,
         "lines": 64,
-        "fps": 106.82400694813909,
+        "fps": 107.17901423506908,
         "geometries": 195,
-        "textures": 25,
+        "textures": 23,
         "inversionAngle": 0
       },
-      "runTime": 3.1833333333333247,
-      "journeyTime": 10.383333333333384
+      "runTime": 0.783333333333333,
+      "journeyTime": 7.98333333333352
     },
     {
-      "time": 12893.1,
+      "time": 10493.6,
       "world": 2,
       "phase": "THRESHOLD",
       "chunks": 25,
@@ -1053,16 +844,16 @@
         "triangles": 56780,
         "points": 560,
         "lines": 64,
-        "fps": 117.15448971776333,
+        "fps": 115.6543626485766,
         "geometries": 195,
-        "textures": 25,
+        "textures": 23,
         "inversionAngle": 0
       },
-      "runTime": 3.1833333333333247,
-      "journeyTime": 10.383333333333384
+      "runTime": 0.783333333333333,
+      "journeyTime": 7.98333333333352
     },
     {
-      "time": 13101.4,
+      "time": 10701.9,
       "world": 2,
       "phase": "INVERSION",
       "chunks": 25,
@@ -1072,16 +863,16 @@
         "triangles": 56780,
         "points": 560,
         "lines": 64,
-        "fps": 119.38347930888303,
+        "fps": 119.09880511188553,
         "geometries": 195,
-        "textures": 25,
+        "textures": 23,
         "inversionAngle": 0.47996554429844057
       },
-      "runTime": 3.1833333333333247,
-      "journeyTime": 10.783333333333362
+      "runTime": 0.783333333333333,
+      "journeyTime": 8.383333333333498
     },
     {
-      "time": 13301.5,
+      "time": 10910.2,
       "world": 2,
       "phase": "INVERSION",
       "chunks": 25,
@@ -1091,16 +882,16 @@
         "triangles": 56780,
         "points": 560,
         "lines": 64,
-        "fps": 119.7702008715287,
+        "fps": 118.83432013953252,
         "geometries": 195,
-        "textures": 25,
-        "inversionAngle": 1.0035643198967403
+        "textures": 23,
+        "inversionAngle": 1.0253809355466696
       },
-      "runTime": 3.1833333333333247,
-      "journeyTime": 10.783333333333362
+      "runTime": 0.783333333333333,
+      "journeyTime": 8.383333333333498
     },
     {
-      "time": 13509.7,
+      "time": 11118.6,
       "world": 2,
       "phase": "INVERSION",
       "chunks": 25,
@@ -1110,16 +901,16 @@
         "triangles": 56780,
         "points": 560,
         "lines": 64,
-        "fps": 119.98934509264804,
+        "fps": 119.7157305750683,
         "geometries": 195,
-        "textures": 25,
-        "inversionAngle": 1.5489797111449684
+        "textures": 23,
+        "inversionAngle": 1.5707963267948977
       },
-      "runTime": 3.1833333333333247,
-      "journeyTime": 10.783333333333362
+      "runTime": 0.783333333333333,
+      "journeyTime": 8.383333333333498
     },
     {
-      "time": 13718,
+      "time": 11326.7,
       "world": 2,
       "phase": "INVERSION",
       "chunks": 25,
@@ -1129,16 +920,16 @@
         "triangles": 56780,
         "points": 560,
         "lines": 64,
-        "fps": 120.02627050499477,
+        "fps": 118.21067766141348,
         "geometries": 195,
-        "textures": 25,
-        "inversionAngle": 2.094395102393195
+        "textures": 23,
+        "inversionAngle": 2.1162117180431235
       },
-      "runTime": 3.1833333333333247,
-      "journeyTime": 10.783333333333362
+      "runTime": 0.783333333333333,
+      "journeyTime": 8.383333333333498
     },
     {
-      "time": 13926.3,
+      "time": 11535.1,
       "world": 2,
       "phase": "INVERSION",
       "chunks": 25,
@@ -1148,16 +939,16 @@
         "triangles": 56780,
         "points": 560,
         "lines": 64,
-        "fps": 100.36918762200747,
+        "fps": 98.5079496408916,
         "geometries": 195,
-        "textures": 25,
-        "inversionAngle": 2.6179938779914917
+        "textures": 23,
+        "inversionAngle": 2.639810493641421
       },
-      "runTime": 3.1833333333333247,
-      "journeyTime": 10.783333333333362
+      "runTime": 0.783333333333333,
+      "journeyTime": 8.383333333333498
     },
     {
-      "time": 14159.7,
+      "time": 11785.1,
       "world": 2,
       "phase": "WORLD_SWAP",
       "chunks": 2,
@@ -1167,16 +958,16 @@
         "triangles": 29266,
         "points": 560,
         "lines": 64,
-        "fps": 91.00425846103826,
+        "fps": 84.78488916942499,
         "geometries": 42,
-        "textures": 24,
+        "textures": 21,
         "inversionAngle": 3.141592653589793
       },
-      "runTime": 3.1833333333333247,
-      "journeyTime": 11.983333333333293
+      "runTime": 0.783333333333333,
+      "journeyTime": 9.58333333333343
     },
     {
-      "time": 14368,
+      "time": 11993.5,
       "world": 3,
       "phase": "DIVE",
       "chunks": 13,
@@ -1186,16 +977,16 @@
         "triangles": 77980,
         "points": 560,
         "lines": 64,
-        "fps": 101.44673490175687,
+        "fps": 97.90816602614885,
         "geometries": 124,
-        "textures": 24,
+        "textures": 21,
         "inversionAngle": 3.0106929596902186
       },
-      "runTime": 3.1833333333333247,
-      "journeyTime": 11.983333333333293
+      "runTime": 0.783333333333333,
+      "journeyTime": 9.58333333333343
     },
     {
-      "time": 14576.4,
+      "time": 12201.8,
       "world": 3,
       "phase": "DIVE",
       "chunks": 25,
@@ -1205,92 +996,92 @@
         "triangles": 128292,
         "points": 560,
         "lines": 64,
-        "fps": 95.74922084110726,
-        "geometries": 175,
-        "textures": 24,
+        "fps": 87.54789659916601,
+        "geometries": 176,
+        "textures": 21,
         "inversionAngle": 2.48709418409192
       },
-      "runTime": 3.1833333333333247,
-      "journeyTime": 11.983333333333293
+      "runTime": 0.783333333333333,
+      "journeyTime": 9.58333333333343
     },
     {
-      "time": 14784.7,
+      "time": 12426.7,
       "world": 3,
       "phase": "DIVE",
       "chunks": 25,
       "bvh": 25,
       "render": {
-        "calls": 297,
-        "triangles": 159284,
+        "calls": 304,
+        "triangles": 165300,
         "points": 560,
         "lines": 64,
-        "fps": 88.17784028590977,
-        "geometries": 183,
-        "textures": 25,
-        "inversionAngle": 1.9416787928436898
+        "fps": 81.923206494075,
+        "geometries": 185,
+        "textures": 22,
+        "inversionAngle": 1.8980455615438314
       },
-      "runTime": 3.1833333333333247,
-      "journeyTime": 11.983333333333293
+      "runTime": 0.783333333333333,
+      "journeyTime": 9.58333333333343
     },
     {
-      "time": 14993,
+      "time": 12635,
       "world": 3,
       "phase": "DIVE",
       "chunks": 25,
       "bvh": 25,
       "render": {
-        "calls": 321,
-        "triangles": 166008,
+        "calls": 331,
+        "triangles": 175432,
         "points": 560,
         "lines": 0,
-        "fps": 107.11843366874193,
-        "geometries": 192,
-        "textures": 26,
-        "inversionAngle": 1.374446785945534
+        "fps": 110.07575995836469,
+        "geometries": 197,
+        "textures": 23,
+        "inversionAngle": 1.330813554645676
       },
-      "runTime": 3.1833333333333247,
-      "journeyTime": 11.983333333333293
+      "runTime": 0.783333333333333,
+      "journeyTime": 9.58333333333343
     },
     {
-      "time": 15201.3,
+      "time": 12835.1,
       "world": 3,
       "phase": "DIVE",
       "chunks": 25,
       "bvh": 25,
       "render": {
-        "calls": 375,
-        "triangles": 206604,
+        "calls": 377,
+        "triangles": 206820,
         "points": 560,
         "lines": 0,
-        "fps": 117.30914409231022,
+        "fps": 117.7164045095618,
         "geometries": 208,
-        "textures": 26,
-        "inversionAngle": 0.8290313946973081
+        "textures": 23,
+        "inversionAngle": 0.807214779047379
       },
-      "runTime": 3.1833333333333247,
-      "journeyTime": 11.983333333333293
+      "runTime": 0.783333333333333,
+      "journeyTime": 9.58333333333343
     },
     {
-      "time": 15401.4,
+      "time": 13043.4,
       "world": 3,
       "phase": "DIVE",
       "chunks": 25,
       "bvh": 25,
       "render": {
-        "calls": 406,
-        "triangles": 220016,
+        "calls": 407,
+        "triangles": 220076,
         "points": 560,
         "lines": 0,
-        "fps": 116.69564967695709,
+        "fps": 117.42634065045993,
         "geometries": 212,
-        "textures": 26,
-        "inversionAngle": 0.3054326190990111
+        "textures": 23,
+        "inversionAngle": 0.261799387799153
       },
-      "runTime": 3.1833333333333247,
-      "journeyTime": 11.983333333333293
+      "runTime": 0.783333333333333,
+      "journeyTime": 9.58333333333343
     },
     {
-      "time": 15609.6,
+      "time": 13251.6,
       "world": 3,
       "phase": "RECOVERY",
       "chunks": 25,
@@ -1300,16 +1091,16 @@
         "triangles": 223016,
         "points": 560,
         "lines": 0,
-        "fps": 117.0679364820769,
+        "fps": 116.45301651021313,
         "geometries": 214,
-        "textures": 26,
+        "textures": 23,
         "inversionAngle": 0
       },
-      "runTime": 3.1833333333333247,
-      "journeyTime": 13.183333333333225
+      "runTime": 0.783333333333333,
+      "journeyTime": 10.783333333333362
     },
     {
-      "time": 15809.7,
+      "time": 13451.7,
       "world": 3,
       "phase": "RECOVERY",
       "chunks": 25,
@@ -1319,16 +1110,16 @@
         "triangles": 223016,
         "points": 560,
         "lines": 0,
-        "fps": 115.59344454738132,
+        "fps": 114.54081259920007,
         "geometries": 214,
-        "textures": 26,
+        "textures": 23,
         "inversionAngle": 0
       },
-      "runTime": 3.1833333333333247,
-      "journeyTime": 13.183333333333225
+      "runTime": 0.783333333333333,
+      "journeyTime": 10.783333333333362
     },
     {
-      "time": 16018.1,
+      "time": 13660.1,
       "world": 3,
       "phase": "RECOVERY",
       "chunks": 25,
@@ -1338,16 +1129,16 @@
         "triangles": 223016,
         "points": 560,
         "lines": 0,
-        "fps": 115.73609128144113,
+        "fps": 114.5156105305281,
         "geometries": 214,
-        "textures": 26,
+        "textures": 23,
         "inversionAngle": 0
       },
-      "runTime": 3.1833333333333247,
-      "journeyTime": 13.183333333333225
+      "runTime": 0.783333333333333,
+      "journeyTime": 10.783333333333362
     },
     {
-      "time": 16226.5,
+      "time": 13868.4,
       "world": 3,
       "phase": "RECOVERY",
       "chunks": 25,
@@ -1357,35 +1148,35 @@
         "triangles": 223016,
         "points": 560,
         "lines": 0,
-        "fps": 115.82059328759351,
+        "fps": 115.12025264500224,
         "geometries": 214,
-        "textures": 26,
+        "textures": 23,
         "inversionAngle": 0
       },
-      "runTime": 3.1833333333333247,
-      "journeyTime": 13.183333333333225
+      "runTime": 0.783333333333333,
+      "journeyTime": 10.783333333333362
     },
     {
-      "time": 16434.7,
+      "time": 14076.8,
       "world": 3,
       "phase": "ASCENT",
       "chunks": 25,
       "bvh": 25,
       "render": {
-        "calls": 411,
-        "triangles": 220376,
+        "calls": 408,
+        "triangles": 220100,
         "points": 560,
         "lines": 64,
-        "fps": 112.03973715345026,
+        "fps": 105.43496225332605,
         "geometries": 214,
-        "textures": 26,
+        "textures": 23,
         "inversionAngle": 0
       },
-      "runTime": 3.3083333333333242,
-      "journeyTime": 13.98333333333318
+      "runTime": 0.9333333333333325,
+      "journeyTime": 11.583333333333316
     },
     {
-      "time": 16726.3,
+      "time": 14368.8,
       "world": 3,
       "phase": "ASCENT",
       "chunks": 25,
@@ -1395,16 +1186,16 @@
         "triangles": 219196,
         "points": 560,
         "lines": 64,
-        "fps": 106.37842982355026,
+        "fps": 101.80970927948168,
         "geometries": 214,
-        "textures": 26,
+        "textures": 23,
         "inversionAngle": 0
       },
-      "runTime": 3.433333333333324,
-      "journeyTime": 13.98333333333318
+      "runTime": 1.0499999999999987,
+      "journeyTime": 11.583333333333316
     },
     {
-      "time": 16926.4,
+      "time": 14576.9,
       "world": 3,
       "phase": "THRESHOLD",
       "chunks": 25,
@@ -1414,16 +1205,16 @@
         "triangles": 83532,
         "points": 560,
         "lines": 64,
-        "fps": 110.8071847452806,
+        "fps": 106.29560933559016,
         "geometries": 214,
-        "textures": 26,
+        "textures": 23,
         "inversionAngle": 0
       },
-      "runTime": 3.466666666666657,
-      "journeyTime": 14.266666666666497
+      "runTime": 1.0749999999999986,
+      "journeyTime": 11.874999999999966
     },
     {
-      "time": 17134.6,
+      "time": 14784.9,
       "world": 3,
       "phase": "THRESHOLD",
       "chunks": 25,
@@ -1433,16 +1224,16 @@
         "triangles": 83532,
         "points": 560,
         "lines": 64,
-        "fps": 118.10034028453359,
+        "fps": 117.22264453756868,
         "geometries": 214,
-        "textures": 26,
+        "textures": 23,
         "inversionAngle": 0
       },
-      "runTime": 3.466666666666657,
-      "journeyTime": 14.266666666666497
+      "runTime": 1.0749999999999986,
+      "journeyTime": 11.874999999999966
     },
     {
-      "time": 17334.7,
+      "time": 14985,
       "world": 3,
       "phase": "INVERSION",
       "chunks": 25,
@@ -1452,16 +1243,16 @@
         "triangles": 83532,
         "points": 560,
         "lines": 64,
-        "fps": 119.5262127732246,
+        "fps": 119.3709627014051,
         "geometries": 214,
-        "textures": 26,
-        "inversionAngle": 0.39269908169872414
+        "textures": 23,
+        "inversionAngle": 0.45814892864851153
       },
-      "runTime": 3.466666666666657,
-      "journeyTime": 14.666666666666474
+      "runTime": 1.0749999999999986,
+      "journeyTime": 12.274999999999944
     },
     {
-      "time": 17542.9,
+      "time": 15185.1,
       "world": 3,
       "phase": "INVERSION",
       "chunks": 25,
@@ -1471,16 +1262,16 @@
         "triangles": 83532,
         "points": 560,
         "lines": 64,
-        "fps": 119.97692740950933,
+        "fps": 119.78851020781856,
         "geometries": 214,
-        "textures": 26,
-        "inversionAngle": 0.9381144729469529
+        "textures": 23,
+        "inversionAngle": 0.9817477042468112
       },
-      "runTime": 3.466666666666657,
-      "journeyTime": 14.666666666666474
+      "runTime": 1.0749999999999986,
+      "journeyTime": 12.274999999999944
     },
     {
-      "time": 17743,
+      "time": 15393.3,
       "world": 3,
       "phase": "INVERSION",
       "chunks": 25,
@@ -1490,16 +1281,16 @@
         "triangles": 83532,
         "points": 560,
         "lines": 64,
-        "fps": 119.97536798924486,
+        "fps": 120.03732134662111,
         "geometries": 214,
-        "textures": 26,
-        "inversionAngle": 1.4617132485452522
+        "textures": 23,
+        "inversionAngle": 1.5271630954950393
       },
-      "runTime": 3.466666666666657,
-      "journeyTime": 14.666666666666474
+      "runTime": 1.0749999999999986,
+      "journeyTime": 12.274999999999944
     },
     {
-      "time": 17951.3,
+      "time": 15593.4,
       "world": 3,
       "phase": "INVERSION",
       "chunks": 25,
@@ -1509,16 +1300,16 @@
         "triangles": 83532,
         "points": 560,
         "lines": 64,
-        "fps": 120.01822211256771,
+        "fps": 119.95486527161249,
         "geometries": 214,
-        "textures": 26,
-        "inversionAngle": 2.0071286397934784
+        "textures": 23,
+        "inversionAngle": 2.0507618710933366
       },
-      "runTime": 3.466666666666657,
-      "journeyTime": 14.666666666666474
+      "runTime": 1.0749999999999986,
+      "journeyTime": 12.274999999999944
     },
     {
-      "time": 18159.6,
+      "time": 15810.2,
       "world": 3,
       "phase": "INVERSION",
       "chunks": 25,
@@ -1528,168 +1319,168 @@
         "triangles": 83532,
         "points": 560,
         "lines": 64,
-        "fps": 101.9273424285435,
+        "fps": 100.0582749483914,
         "geometries": 214,
-        "textures": 26,
-        "inversionAngle": 2.5525440310417045
+        "textures": 23,
+        "inversionAngle": 2.5961772623415627
       },
-      "runTime": 3.466666666666657,
-      "journeyTime": 14.666666666666474
+      "runTime": 1.0749999999999986,
+      "journeyTime": 12.274999999999944
     },
     {
-      "time": 18359.7,
-      "world": 3,
-      "phase": "INVERSION",
-      "chunks": 25,
-      "bvh": 25,
-      "render": {
-        "calls": 181,
-        "triangles": 83532,
-        "points": 560,
-        "lines": 64,
-        "fps": 94.82130205705323,
-        "geometries": 214,
-        "textures": 26,
-        "inversionAngle": 3.0761428066400014
-      },
-      "runTime": 3.466666666666657,
-      "journeyTime": 14.666666666666474
-    },
-    {
-      "time": 18567.9,
+      "time": 16059.9,
       "world": 3,
       "phase": "WORLD_SWAP",
-      "chunks": 6,
-      "bvh": 6,
+      "chunks": 2,
+      "bvh": 2,
       "render": {
-        "calls": 171,
-        "triangles": 171610,
+        "calls": 102,
+        "triangles": 35674,
         "points": 560,
         "lines": 64,
-        "fps": 76.57188696360366,
-        "geometries": 77,
-        "textures": 26,
+        "fps": 89.64621410086541,
+        "geometries": 39,
+        "textures": 21,
         "inversionAngle": 3.141592653589793
       },
-      "runTime": 3.466666666666657,
-      "journeyTime": 15.866666666666406
+      "runTime": 1.0749999999999986,
+      "journeyTime": 13.474999999999875
     },
     {
-      "time": 18784.6,
-      "world": 4,
-      "phase": "DIVE",
-      "chunks": 12,
-      "bvh": 12,
+      "time": 16268.3,
+      "world": 3,
+      "phase": "WORLD_SWAP",
+      "chunks": 8,
+      "bvh": 8,
       "render": {
-        "calls": 230,
-        "triangles": 275104,
+        "calls": 207,
+        "triangles": 209190,
         "points": 560,
         "lines": 64,
-        "fps": 74.05666075318761,
-        "geometries": 125,
-        "textures": 26,
-        "inversionAngle": 2.923426497090502
+        "fps": 77.47003466543173,
+        "geometries": 96,
+        "textures": 22,
+        "inversionAngle": 3.141592653589793
       },
-      "runTime": 3.466666666666657,
-      "journeyTime": 15.866666666666406
+      "runTime": 1.0749999999999986,
+      "journeyTime": 13.474999999999875
     },
     {
-      "time": 19009.8,
+      "time": 16468.5,
       "world": 4,
       "phase": "DIVE",
-      "chunks": 20,
-      "bvh": 20,
+      "chunks": 15,
+      "bvh": 15,
       "render": {
-        "calls": 315,
-        "triangles": 394912,
+        "calls": 256,
+        "triangles": 310032,
         "points": 560,
         "lines": 64,
-        "fps": 71.77262536827202,
-        "geometries": 189,
-        "textures": 26,
-        "inversionAngle": 2.3343778745424153
+        "fps": 74.53279196979007,
+        "geometries": 146,
+        "textures": 22,
+        "inversionAngle": 2.72707695624114
       },
-      "runTime": 3.466666666666657,
-      "journeyTime": 15.866666666666406
+      "runTime": 1.0749999999999986,
+      "journeyTime": 13.474999999999875
     },
     {
-      "time": 19234.7,
+      "time": 16685.1,
+      "world": 4,
+      "phase": "DIVE",
+      "chunks": 21,
+      "bvh": 21,
+      "render": {
+        "calls": 328,
+        "triangles": 402544,
+        "points": 560,
+        "lines": 64,
+        "fps": 70.93772602950621,
+        "geometries": 200,
+        "textures": 22,
+        "inversionAngle": 2.2034781806428403
+      },
+      "runTime": 1.0749999999999986,
+      "journeyTime": 13.474999999999875
+    },
+    {
+      "time": 16893.3,
       "world": 4,
       "phase": "DIVE",
       "chunks": 25,
       "bvh": 25,
       "render": {
-        "calls": 405,
-        "triangles": 586088,
+        "calls": 410,
+        "triangles": 617416,
         "points": 560,
         "lines": 0,
-        "fps": 63.44576015425782,
-        "geometries": 231,
-        "textures": 28,
-        "inversionAngle": 1.7671458676442573
+        "fps": 82.25362073783896,
+        "geometries": 236,
+        "textures": 24,
+        "inversionAngle": 1.6144295580947539
       },
-      "runTime": 3.466666666666657,
-      "journeyTime": 15.866666666666406
+      "runTime": 1.0749999999999986,
+      "journeyTime": 13.474999999999875
     },
     {
-      "time": 19442.9,
+      "time": 17093.4,
       "world": 4,
       "phase": "DIVE",
       "chunks": 25,
       "bvh": 25,
       "render": {
         "calls": 431,
-        "triangles": 633384,
+        "triangles": 633528,
         "points": 560,
         "lines": 0,
-        "fps": 92.89247033826184,
+        "fps": 106.40866287084211,
         "geometries": 248,
-        "textures": 28,
-        "inversionAngle": 1.1344640137963147
+        "textures": 24,
+        "inversionAngle": 1.0908307824964567
       },
-      "runTime": 3.466666666666657,
-      "journeyTime": 15.866666666666406
+      "runTime": 1.0749999999999986,
+      "journeyTime": 13.474999999999875
     },
     {
-      "time": 19643,
+      "time": 17301.6,
       "world": 4,
       "phase": "DIVE",
       "chunks": 25,
       "bvh": 25,
       "render": {
-        "calls": 463,
-        "triangles": 688180,
+        "calls": 473,
+        "triangles": 718640,
         "points": 560,
         "lines": 0,
-        "fps": 106.02396142346048,
+        "fps": 107.62891189385309,
         "geometries": 253,
-        "textures": 28,
-        "inversionAngle": 0.6108652381980177
+        "textures": 24,
+        "inversionAngle": 0.5454153912482306
       },
-      "runTime": 3.466666666666657,
-      "journeyTime": 15.866666666666406
+      "runTime": 1.0749999999999986,
+      "journeyTime": 13.474999999999875
     },
     {
-      "time": 19851.3,
+      "time": 17501.7,
       "world": 4,
-      "phase": "DIVE",
+      "phase": "RECOVERY",
       "chunks": 25,
       "bvh": 25,
       "render": {
-        "calls": 518,
-        "triangles": 758048,
+        "calls": 522,
+        "triangles": 758056,
         "points": 560,
         "lines": 0,
-        "fps": 102.99745481037182,
-        "geometries": 261,
-        "textures": 29,
-        "inversionAngle": 0.08726646259972069
+        "fps": 107.15720928885818,
+        "geometries": 263,
+        "textures": 25,
+        "inversionAngle": 0.043633231299862615
       },
-      "runTime": 3.466666666666657,
-      "journeyTime": 15.866666666666406
+      "runTime": 1.0749999999999986,
+      "journeyTime": 14.674999999999807
     },
     {
-      "time": 20059.9,
+      "time": 17710,
       "world": 4,
       "phase": "RECOVERY",
       "chunks": 25,
@@ -1699,16 +1490,16 @@
         "triangles": 780092,
         "points": 560,
         "lines": 0,
-        "fps": 101.90303872315367,
+        "fps": 104.49593882947507,
         "geometries": 265,
-        "textures": 30,
+        "textures": 26,
         "inversionAngle": 0
       },
-      "runTime": 3.466666666666657,
-      "journeyTime": 17.06666666666634
+      "runTime": 1.0749999999999986,
+      "journeyTime": 14.674999999999807
     },
     {
-      "time": 20268.1,
+      "time": 17918.3,
       "world": 4,
       "phase": "RECOVERY",
       "chunks": 25,
@@ -1718,16 +1509,16 @@
         "triangles": 776620,
         "points": 560,
         "lines": 0,
-        "fps": 104.5638998872759,
+        "fps": 107.12745705825853,
         "geometries": 266,
-        "textures": 30,
+        "textures": 26,
         "inversionAngle": 0
       },
-      "runTime": 3.466666666666657,
-      "journeyTime": 17.06666666666634
+      "runTime": 1.0749999999999986,
+      "journeyTime": 14.674999999999807
     },
     {
-      "time": 20476.3,
+      "time": 18126.6,
       "world": 4,
       "phase": "RECOVERY",
       "chunks": 25,
@@ -1737,16 +1528,16 @@
         "triangles": 776620,
         "points": 560,
         "lines": 0,
-        "fps": 105.23963856732315,
+        "fps": 108.2518066822359,
         "geometries": 266,
-        "textures": 30,
+        "textures": 26,
         "inversionAngle": 0
       },
-      "runTime": 3.466666666666657,
-      "journeyTime": 17.06666666666634
+      "runTime": 1.0749999999999986,
+      "journeyTime": 14.674999999999807
     },
     {
-      "time": 20684.7,
+      "time": 18334.9,
       "world": 4,
       "phase": "ASCENT",
       "chunks": 25,
@@ -1756,16 +1547,16 @@
         "triangles": 776620,
         "points": 560,
         "lines": 0,
-        "fps": 104.37642985592502,
+        "fps": 106.03089761497598,
         "geometries": 266,
-        "textures": 30,
+        "textures": 26,
         "inversionAngle": 0
       },
-      "runTime": 3.4833333333333236,
-      "journeyTime": 17.866666666666294
+      "runTime": 1.0999999999999985,
+      "journeyTime": 15.474999999999762
     },
     {
-      "time": 21076.4,
+      "time": 18701.7,
       "world": 4,
       "phase": "ASCENT",
       "chunks": 25,
@@ -1775,16 +1566,16 @@
         "triangles": 749036,
         "points": 560,
         "lines": 64,
-        "fps": 100.5171333090992,
+        "fps": 98.19982603515186,
         "geometries": 266,
-        "textures": 30,
+        "textures": 26,
         "inversionAngle": 0
       },
-      "runTime": 3.741666666666656,
-      "journeyTime": 17.866666666666294
+      "runTime": 1.3499999999999976,
+      "journeyTime": 15.474999999999762
     },
     {
-      "time": 21284.6,
+      "time": 18910,
       "world": 4,
       "phase": "THRESHOLD",
       "chunks": 25,
@@ -1794,16 +1585,16 @@
         "triangles": 199640,
         "points": 560,
         "lines": 64,
-        "fps": 111.17082058994121,
+        "fps": 110.49444210974474,
         "geometries": 266,
-        "textures": 30,
+        "textures": 26,
         "inversionAngle": 0
       },
-      "runTime": 3.7583333333333226,
-      "journeyTime": 18.158333333332944
+      "runTime": 1.3666666666666643,
+      "journeyTime": 15.766666666666412
     },
     {
-      "time": 21492.9,
+      "time": 19118.4,
       "world": 4,
       "phase": "THRESHOLD",
       "chunks": 25,
@@ -1813,16 +1604,16 @@
         "triangles": 199640,
         "points": 560,
         "lines": 64,
-        "fps": 118.15065505195244,
+        "fps": 117.88690476907637,
         "geometries": 266,
-        "textures": 30,
+        "textures": 26,
         "inversionAngle": 0
       },
-      "runTime": 3.7583333333333226,
-      "journeyTime": 18.158333333332944
+      "runTime": 1.3666666666666643,
+      "journeyTime": 15.766666666666412
     },
     {
-      "time": 21693,
+      "time": 19326.6,
       "world": 4,
       "phase": "INVERSION",
       "chunks": 25,
@@ -1832,16 +1623,16 @@
         "triangles": 199640,
         "points": 560,
         "lines": 64,
-        "fps": 119.4998142730333,
+        "fps": 119.58007976223405,
         "geometries": 266,
-        "textures": 30,
-        "inversionAngle": 0.45814892864851153
+        "textures": 26,
+        "inversionAngle": 0.47996554429844057
       },
-      "runTime": 3.7583333333333226,
-      "journeyTime": 18.55833333333292
+      "runTime": 1.3666666666666643,
+      "journeyTime": 16.16666666666639
     },
     {
-      "time": 21901.2,
+      "time": 19535,
       "world": 4,
       "phase": "INVERSION",
       "chunks": 25,
@@ -1851,16 +1642,16 @@
         "triangles": 199640,
         "points": 560,
         "lines": 64,
-        "fps": 119.97087292814088,
+        "fps": 119.86307405463992,
         "geometries": 266,
-        "textures": 30,
-        "inversionAngle": 1.0035643198967403
+        "textures": 26,
+        "inversionAngle": 1.0253809355466696
       },
-      "runTime": 3.7583333333333226,
-      "journeyTime": 18.55833333333292
+      "runTime": 1.3666666666666643,
+      "journeyTime": 16.16666666666639
     },
     {
-      "time": 22109.6,
+      "time": 19743.2,
       "world": 4,
       "phase": "INVERSION",
       "chunks": 25,
@@ -1870,16 +1661,16 @@
         "triangles": 199640,
         "points": 560,
         "lines": 64,
-        "fps": 119.97871116363366,
+        "fps": 120.0531940503306,
         "geometries": 266,
-        "textures": 30,
-        "inversionAngle": 1.5489797111449684
+        "textures": 26,
+        "inversionAngle": 1.5707963267948977
       },
-      "runTime": 3.7583333333333226,
-      "journeyTime": 18.55833333333292
+      "runTime": 1.3666666666666643,
+      "journeyTime": 16.16666666666639
     },
     {
-      "time": 22317.9,
+      "time": 19943.3,
       "world": 4,
       "phase": "INVERSION",
       "chunks": 25,
@@ -1889,16 +1680,16 @@
         "triangles": 199640,
         "points": 560,
         "lines": 64,
-        "fps": 120.01631550473519,
+        "fps": 119.98085981839485,
         "geometries": 266,
-        "textures": 30,
+        "textures": 26,
         "inversionAngle": 2.094395102393195
       },
-      "runTime": 3.7583333333333226,
-      "journeyTime": 18.55833333333292
+      "runTime": 1.3666666666666643,
+      "journeyTime": 16.16666666666639
     },
     {
-      "time": 22534.5,
+      "time": 20151.6,
       "world": 4,
       "phase": "INVERSION",
       "chunks": 25,
@@ -1908,16 +1699,16 @@
         "triangles": 199640,
         "points": 560,
         "lines": 64,
-        "fps": 97.5747185828127,
+        "fps": 98.96500608521544,
         "geometries": 266,
-        "textures": 30,
-        "inversionAngle": 2.639810493641421
+        "textures": 26,
+        "inversionAngle": 2.6179938779914917
       },
-      "runTime": 3.7583333333333226,
-      "journeyTime": 18.55833333333292
+      "runTime": 1.3666666666666643,
+      "journeyTime": 16.16666666666639
     },
     {
-      "time": 22784.5,
+      "time": 20418.2,
       "world": 4,
       "phase": "WORLD_SWAP",
       "chunks": 3,
@@ -1927,16 +1718,16 @@
         "triangles": 29102,
         "points": 560,
         "lines": 64,
-        "fps": 88.62105092266748,
+        "fps": 87.99552283925992,
         "geometries": 55,
-        "textures": 27,
+        "textures": 22,
         "inversionAngle": 3.141592653589793
       },
-      "runTime": 3.7583333333333226,
-      "journeyTime": 19.758333333332853
+      "runTime": 1.3666666666666643,
+      "journeyTime": 17.366666666666323
     },
     {
-      "time": 22992.9,
+      "time": 20626.6,
       "world": 5,
       "phase": "DIVE",
       "chunks": 19,
@@ -1946,16 +1737,16 @@
         "triangles": 66188,
         "points": 560,
         "lines": 64,
-        "fps": 96.36597260595539,
+        "fps": 105.37761881251414,
         "geometries": 145,
-        "textures": 27,
-        "inversionAngle": 2.8143434188408563
+        "textures": 22,
+        "inversionAngle": 2.770710187540998
       },
-      "runTime": 3.7583333333333226,
-      "journeyTime": 19.758333333332853
+      "runTime": 1.3666666666666643,
+      "journeyTime": 17.366666666666323
     },
     {
-      "time": 23209.5,
+      "time": 20834.9,
       "world": 5,
       "phase": "DIVE",
       "chunks": 25,
@@ -1965,16 +1756,16 @@
         "triangles": 91768,
         "points": 560,
         "lines": 64,
-        "fps": 87.13253811358328,
-        "geometries": 170,
-        "textures": 27,
+        "fps": 92.16005291199755,
+        "geometries": 169,
+        "textures": 22,
         "inversionAngle": 2.2471114119426985
       },
-      "runTime": 3.7583333333333226,
-      "journeyTime": 19.758333333332853
+      "runTime": 1.3666666666666643,
+      "journeyTime": 17.366666666666323
     },
     {
-      "time": 23417.9,
+      "time": 21035,
       "world": 5,
       "phase": "DIVE",
       "chunks": 25,
@@ -1984,16 +1775,16 @@
         "triangles": 101864,
         "points": 560,
         "lines": 64,
-        "fps": 100.825193378314,
+        "fps": 99.73792886502095,
         "geometries": 178,
-        "textures": 27,
-        "inversionAngle": 1.6798794050445411
+        "textures": 22,
+        "inversionAngle": 1.70169602069447
       },
-      "runTime": 3.7583333333333226,
-      "journeyTime": 19.758333333332853
+      "runTime": 1.3666666666666643,
+      "journeyTime": 17.366666666666323
     },
     {
-      "time": 23626.2,
+      "time": 21243.2,
       "world": 5,
       "phase": "DIVE",
       "chunks": 25,
@@ -2003,35 +1794,35 @@
         "triangles": 112112,
         "points": 560,
         "lines": 0,
-        "fps": 109.69782163773343,
+        "fps": 109.3987719470584,
         "geometries": 185,
-        "textures": 27,
+        "textures": 22,
         "inversionAngle": 1.1999138607461017
       },
-      "runTime": 3.7583333333333226,
-      "journeyTime": 19.758333333332853
+      "runTime": 1.3666666666666643,
+      "journeyTime": 17.366666666666323
     },
     {
-      "time": 23834.6,
+      "time": 21443.3,
       "world": 5,
       "phase": "DIVE",
       "chunks": 25,
       "bvh": 25,
       "render": {
-        "calls": 355,
-        "triangles": 134860,
+        "calls": 352,
+        "triangles": 134492,
         "points": 560,
         "lines": 0,
-        "fps": 117.79147515077211,
+        "fps": 117.56264414866388,
         "geometries": 192,
-        "textures": 27,
-        "inversionAngle": 0.5890486225480887
+        "textures": 22,
+        "inversionAngle": 0.6326818538479467
       },
-      "runTime": 3.7583333333333226,
-      "journeyTime": 19.758333333332853
+      "runTime": 1.3666666666666643,
+      "journeyTime": 17.366666666666323
     },
     {
-      "time": 24042.9,
+      "time": 21651.6,
       "world": 5,
       "phase": "DIVE",
       "chunks": 25,
@@ -2041,16 +1832,16 @@
         "triangles": 139392,
         "points": 560,
         "lines": 0,
-        "fps": 117.53696017403644,
+        "fps": 116.38478909960489,
         "geometries": 196,
-        "textures": 27,
-        "inversionAngle": 0.043633231299862615
+        "textures": 22,
+        "inversionAngle": 0.08726646259972069
       },
-      "runTime": 3.7583333333333226,
-      "journeyTime": 19.758333333332853
+      "runTime": 1.3666666666666643,
+      "journeyTime": 17.366666666666323
     },
     {
-      "time": 24251.2,
+      "time": 21851.7,
       "world": 5,
       "phase": "RECOVERY",
       "chunks": 25,
@@ -2060,16 +1851,16 @@
         "triangles": 140400,
         "points": 560,
         "lines": 0,
-        "fps": 117.83506450378862,
+        "fps": 119.09909119099899,
         "geometries": 197,
-        "textures": 27,
+        "textures": 22,
         "inversionAngle": 0
       },
-      "runTime": 3.7583333333333226,
-      "journeyTime": 20.958333333332785
+      "runTime": 1.3666666666666643,
+      "journeyTime": 18.566666666666254
     },
     {
-      "time": 24459.6,
+      "time": 22060,
       "world": 5,
       "phase": "RECOVERY",
       "chunks": 25,
@@ -2079,16 +1870,16 @@
         "triangles": 142200,
         "points": 560,
         "lines": 0,
-        "fps": 119.49733872734411,
+        "fps": 118.76990118377151,
         "geometries": 199,
-        "textures": 27,
+        "textures": 22,
         "inversionAngle": 0
       },
-      "runTime": 3.7583333333333226,
-      "journeyTime": 20.958333333332785
+      "runTime": 1.3666666666666643,
+      "journeyTime": 18.566666666666254
     },
     {
-      "time": 24667.8,
+      "time": 22268.3,
       "world": 5,
       "phase": "RECOVERY",
       "chunks": 25,
@@ -2098,16 +1889,16 @@
         "triangles": 142296,
         "points": 560,
         "lines": 0,
-        "fps": 119.96747193526961,
+        "fps": 119.73579539034343,
         "geometries": 199,
-        "textures": 27,
+        "textures": 22,
         "inversionAngle": 0
       },
-      "runTime": 3.7583333333333226,
-      "journeyTime": 20.958333333332785
+      "runTime": 1.3666666666666643,
+      "journeyTime": 18.566666666666254
     },
     {
-      "time": 24867.9,
+      "time": 22476.7,
       "world": 5,
       "phase": "ASCENT",
       "chunks": 25,
@@ -2117,16 +1908,16 @@
         "triangles": 142296,
         "points": 560,
         "lines": 0,
-        "fps": 119.95120360299344,
+        "fps": 119.86515401677265,
         "geometries": 199,
-        "textures": 27,
+        "textures": 22,
         "inversionAngle": 0
       },
-      "runTime": 3.7749999999999893,
-      "journeyTime": 21.75833333333274
+      "runTime": 1.3749999999999976,
+      "journeyTime": 19.36666666666621
     },
     {
-      "time": 25293.6,
+      "time": 22918.5,
       "world": 5,
       "phase": "ASCENT",
       "chunks": 25,
@@ -2136,30 +1927,30 @@
         "triangles": 140136,
         "points": 560,
         "lines": 64,
-        "fps": 103.3594750704285,
+        "fps": 107.84200678767448,
         "geometries": 199,
-        "textures": 27,
+        "textures": 22,
         "inversionAngle": 0
       },
-      "runTime": 4.016666666666656,
-      "journeyTime": 21.75833333333274
+      "runTime": 1.60833333333333,
+      "journeyTime": 19.36666666666621
     }
   ],
   "longTasks": [
     {
-      "start": 3180.2000000029802,
-      "duration": 57
+      "start": 3680.89999999851,
+      "duration": 50
     },
     {
-      "start": 7416.9000000059605,
-      "duration": 56
+      "start": 7455.0999999940395,
+      "duration": 53
     },
     {
-      "start": 9877.70000000298,
-      "duration": 59
+      "start": 11737,
+      "duration": 51
     },
     {
-      "start": 22731.5,
+      "start": 20358.39999999851,
       "duration": 60
     }
   ],
@@ -2177,7 +1968,7 @@
       "journey": {
         "phase": "ASCENT",
         "phaseTime": 0,
-        "time": 3.7333333333333227,
+        "time": 3.741666666666656,
         "progress": 0,
         "worldIndex": 1,
         "crossings": 1,
@@ -2221,7 +2012,7 @@
       },
       "cooperation": {
         "planner": "Local Autonomous Controller",
-        "time": 0.13333333333333333,
+        "time": 0.14166666666666666,
         "epoch": 4,
         "trust": {
           "value": 0.5,
@@ -2294,18 +2085,18 @@
           "callsign": "KITE-1",
           "position": {
             "x": -14,
-            "y": 31.453578735080526,
-            "z": 104.90419696168667
+            "y": 31.442508382620687,
+            "z": 104.35671017260398
           },
           "velocity": {
             "x": 0,
-            "y": -1.2186766685900858,
-            "z": -65.79364979738388
+            "y": -1.3284422951808266,
+            "z": -65.6984146899212
           },
           "target": {
             "x": -14,
-            "y": 29.46717175661704,
-            "z": 104.90167030205106
+            "y": 29.464219057189204,
+            "z": 104.3517039713231
           },
           "task": "FORMATION_FOLLOW",
           "surfaceDistance": 31.4729498445272,
@@ -2319,18 +2110,18 @@
           "callsign": "KITE-2",
           "position": {
             "x": 14,
-            "y": 33.58623528840332,
-            "z": 104.9073265224555
+            "y": 33.57220704284398,
+            "z": 104.36292759473923
           },
           "velocity": {
             "x": 0,
-            "y": -1.457615710515463,
-            "z": -65.5441077948092
+            "y": -1.6833894671212783,
+            "z": -65.32787132595266
           },
           "target": {
             "x": 14,
-            "y": 29.58368919403141,
-            "z": 104.90167030205106
+            "y": 29.571164282282183,
+            "z": 104.3517039713231
           },
           "task": "FORMATION_FOLLOW",
           "surfaceDistance": null,
@@ -2344,18 +2135,18 @@
           "callsign": "KITE-3",
           "position": {
             "x": 0,
-            "y": 36.28677638451205,
-            "z": 120.90868633459164
+            "y": 36.269696622558804,
+            "z": 120.36740097694789
           },
           "velocity": {
             "x": 0,
-            "y": -1.7043516307736608,
-            "z": -65.29223829079133
+            "y": -2.049571434389842,
+            "z": -64.9542429172486
           },
           "target": {
             "x": 0,
-            "y": 30.275925451782626,
-            "z": 120.89987033580081
+            "y": 30.25775855729781,
+            "z": 120.34990400507286
           },
           "task": "FORMATION_FOLLOW",
           "surfaceDistance": null,
@@ -2388,16 +2179,16 @@
       "shieldImpacts": 0,
       "inputDevice": "Keyboard",
       "mode": "running",
-      "runTime": 0.13333333333333333,
+      "runTime": 0.14166666666666666,
       "best": 0,
-      "speed": 66.00226928870572,
-      "altitude": 23.983500192469602,
+      "speed": 66.00338492893424,
+      "altitude": 23.97525007874087,
       "position": {
         "x": 0,
-        "y": 23.983500192469602,
-        "z": 118.9000953315821
+        "y": 23.97525007874087,
+        "z": 118.35012900085414
       },
-      "surfaceDistance": 23.983500192469602,
+      "surfaceDistance": 23.97525007874087,
       "surfaceLocked": true,
       "grace": 5,
       "failureReason": null,
@@ -2435,10 +2226,10 @@
         "bvhCount": 25,
         "renderObjectCount": 377,
         "estimatedCpuGeometryBytes": 76632660,
-        "generationAvgMs": 40.16000000089407,
-        "generationP95Ms": 61.70000000298023,
-        "generationMinMs": 15.899999998509884,
-        "generationMaxMs": 73.60000000149012,
+        "generationAvgMs": 39.72800000011921,
+        "generationP95Ms": 58.19999999552965,
+        "generationMinMs": 16.600000001490116,
+        "generationMaxMs": 68.5,
         "generationSampleCount": 25,
         "maxLoadedChunks": 41,
         "coverageComplete": true,
@@ -2455,9 +2246,9 @@
         "triangles": 858000,
         "points": 560,
         "lines": 0,
-        "fps": 102.08386089377555,
+        "fps": 104.6132424605116,
         "geometries": 263,
-        "textures": 27,
+        "textures": 26,
         "inversionAngle": 0
       },
       "seed": 2292173047,
@@ -2466,8 +2257,8 @@
       "localModelCount": 0,
       "cameraMode": "chase",
       "cameraBlend": 0,
-      "fov": 63.37932648920686,
-      "proximity": 0.016315114569104713,
+      "fov": 63.37934757973086,
+      "proximity": 0.02366687994365709,
       "proximityZone": "near",
       "visualStimulation": "standard",
       "recordingHintVisible": true,
@@ -2643,13 +2434,13 @@
           "bvhBefore": 25,
           "bvhAfter": 0,
           "rootChildrenAfter": 0,
-          "disposedGeometryCount": 562
+          "disposedGeometryCount": 402
         }
       ],
       "journey": {
         "phase": "ASCENT",
         "phaseTime": 0,
-        "time": 10.100000000000067,
+        "time": 7.71666666666684,
         "progress": 0,
         "worldIndex": 2,
         "crossings": 2,
@@ -2689,32 +2480,32 @@
           {
             "phase": "THRESHOLD",
             "world": 1,
-            "time": 6.483333333333445
+            "time": 4.099999999999993
           },
           {
             "phase": "INVERSION",
             "world": 1,
-            "time": 6.883333333333465
+            "time": 4.500000000000013
           },
           {
             "phase": "WORLD_SWAP",
             "world": 1,
-            "time": 8.083333333333515
+            "time": 5.700000000000073
           },
           {
             "phase": "DIVE",
             "world": 2,
-            "time": 8.083333333333515
+            "time": 5.700000000000073
           },
           {
             "phase": "RECOVERY",
             "world": 2,
-            "time": 9.283333333333447
+            "time": 6.900000000000133
           },
           {
             "phase": "ASCENT",
             "world": 2,
-            "time": 10.083333333333401
+            "time": 7.7000000000001725
           }
         ],
         "easterEggUnlocked": false,
@@ -2723,7 +2514,7 @@
       },
       "cooperation": {
         "planner": "Local Autonomous Controller",
-        "time": 2.8999999999999924,
+        "time": 0.5166666666666673,
         "epoch": 6,
         "trust": {
           "value": 0.5,
@@ -2890,7 +2681,7 @@
       "shieldImpacts": 0,
       "inputDevice": "Keyboard",
       "mode": "running",
-      "runTime": 2.8999999999999924,
+      "runTime": 0.5166666666666673,
       "best": 0,
       "speed": 66.00226928870572,
       "altitude": 23.983500192469602,
@@ -2937,10 +2728,10 @@
         "bvhCount": 25,
         "renderObjectCount": 273,
         "estimatedCpuGeometryBytes": 14556432,
-        "generationAvgMs": 14.336000000536442,
-        "generationP95Ms": 23.5,
-        "generationMinMs": 6.299999997019768,
-        "generationMaxMs": 66.39999999850988,
+        "generationAvgMs": 16.2,
+        "generationP95Ms": 45.100000001490116,
+        "generationMinMs": 5.199999995529652,
+        "generationMaxMs": 60.29999999701977,
         "generationSampleCount": 25,
         "maxLoadedChunks": 41,
         "coverageComplete": true,
@@ -2957,9 +2748,9 @@
         "triangles": 148840,
         "points": 560,
         "lines": 0,
-        "fps": 119.98711182014138,
+        "fps": 119.24316637766606,
         "geometries": 195,
-        "textures": 25,
+        "textures": 23,
         "inversionAngle": 0
       },
       "seed": 383910061,
@@ -2968,7 +2759,7 @@
       "localModelCount": 0,
       "cameraMode": "chase",
       "cameraBlend": 0,
-      "fov": 63.37932668101157,
+      "fov": 63.379326553516925,
       "proximity": 0.016315114569104713,
       "proximityZone": "near",
       "visualStimulation": "standard",
@@ -3145,7 +2936,7 @@
           "bvhBefore": 25,
           "bvhAfter": 0,
           "rootChildrenAfter": 0,
-          "disposedGeometryCount": 562
+          "disposedGeometryCount": 402
         },
         {
           "seed": 383910061,
@@ -3158,7 +2949,7 @@
       "journey": {
         "phase": "ASCENT",
         "phaseTime": 0,
-        "time": 13.999999999999845,
+        "time": 11.599999999999982,
         "progress": 0,
         "worldIndex": 3,
         "crossings": 3,
@@ -3198,62 +2989,62 @@
           {
             "phase": "THRESHOLD",
             "world": 1,
-            "time": 6.483333333333445
+            "time": 4.099999999999993
           },
           {
             "phase": "INVERSION",
             "world": 1,
-            "time": 6.883333333333465
+            "time": 4.500000000000013
           },
           {
             "phase": "WORLD_SWAP",
             "world": 1,
-            "time": 8.083333333333515
+            "time": 5.700000000000073
           },
           {
             "phase": "DIVE",
             "world": 2,
-            "time": 8.083333333333515
+            "time": 5.700000000000073
           },
           {
             "phase": "RECOVERY",
             "world": 2,
-            "time": 9.283333333333447
+            "time": 6.900000000000133
           },
           {
             "phase": "ASCENT",
             "world": 2,
-            "time": 10.083333333333401
+            "time": 7.7000000000001725
           },
           {
             "phase": "THRESHOLD",
             "world": 2,
-            "time": 10.383333333333384
+            "time": 7.98333333333352
           },
           {
             "phase": "INVERSION",
             "world": 2,
-            "time": 10.783333333333362
+            "time": 8.383333333333498
           },
           {
             "phase": "WORLD_SWAP",
             "world": 2,
-            "time": 11.983333333333293
+            "time": 9.58333333333343
           },
           {
             "phase": "DIVE",
             "world": 3,
-            "time": 11.983333333333293
+            "time": 9.58333333333343
           },
           {
             "phase": "RECOVERY",
             "world": 3,
-            "time": 13.183333333333225
+            "time": 10.783333333333362
           },
           {
             "phase": "ASCENT",
             "world": 3,
-            "time": 13.98333333333318
+            "time": 11.583333333333316
           }
         ],
         "easterEggUnlocked": false,
@@ -3262,7 +3053,7 @@
       },
       "cooperation": {
         "planner": "Local Autonomous Controller",
-        "time": 3.1999999999999913,
+        "time": 0.7999999999999996,
         "epoch": 8,
         "trust": {
           "value": 0.5,
@@ -3429,7 +3220,7 @@
       "shieldImpacts": 0,
       "inputDevice": "Keyboard",
       "mode": "running",
-      "runTime": 3.1999999999999913,
+      "runTime": 0.7999999999999996,
       "best": 0,
       "speed": 66.00226928870572,
       "altitude": 23.983500192469602,
@@ -3476,10 +3267,10 @@
         "bvhCount": 25,
         "renderObjectCount": 293,
         "estimatedCpuGeometryBytes": 20603324,
-        "generationAvgMs": 18.00800000101328,
-        "generationP95Ms": 25.700000002980232,
-        "generationMinMs": 8.299999997019768,
-        "generationMaxMs": 51.5,
+        "generationAvgMs": 17.65199999988079,
+        "generationP95Ms": 24.399999998509884,
+        "generationMinMs": 8.600000001490116,
+        "generationMaxMs": 62,
         "generationSampleCount": 25,
         "maxLoadedChunks": 41,
         "coverageComplete": true,
@@ -3496,9 +3287,9 @@
         "triangles": 223016,
         "points": 560,
         "lines": 0,
-        "fps": 115.4489610003697,
+        "fps": 113.94676760548292,
         "geometries": 214,
-        "textures": 26,
+        "textures": 23,
         "inversionAngle": 0
       },
       "seed": 925342747,
@@ -3684,7 +3475,7 @@
           "bvhBefore": 25,
           "bvhAfter": 0,
           "rootChildrenAfter": 0,
-          "disposedGeometryCount": 562
+          "disposedGeometryCount": 402
         },
         {
           "seed": 383910061,
@@ -3704,7 +3495,7 @@
       "journey": {
         "phase": "ASCENT",
         "phaseTime": 0,
-        "time": 17.891666666666293,
+        "time": 15.49999999999976,
         "progress": 0,
         "worldIndex": 4,
         "crossings": 4,
@@ -3744,92 +3535,92 @@
           {
             "phase": "THRESHOLD",
             "world": 1,
-            "time": 6.483333333333445
+            "time": 4.099999999999993
           },
           {
             "phase": "INVERSION",
             "world": 1,
-            "time": 6.883333333333465
+            "time": 4.500000000000013
           },
           {
             "phase": "WORLD_SWAP",
             "world": 1,
-            "time": 8.083333333333515
+            "time": 5.700000000000073
           },
           {
             "phase": "DIVE",
             "world": 2,
-            "time": 8.083333333333515
+            "time": 5.700000000000073
           },
           {
             "phase": "RECOVERY",
             "world": 2,
-            "time": 9.283333333333447
+            "time": 6.900000000000133
           },
           {
             "phase": "ASCENT",
             "world": 2,
-            "time": 10.083333333333401
+            "time": 7.7000000000001725
           },
           {
             "phase": "THRESHOLD",
             "world": 2,
-            "time": 10.383333333333384
+            "time": 7.98333333333352
           },
           {
             "phase": "INVERSION",
             "world": 2,
+            "time": 8.383333333333498
+          },
+          {
+            "phase": "WORLD_SWAP",
+            "world": 2,
+            "time": 9.58333333333343
+          },
+          {
+            "phase": "DIVE",
+            "world": 3,
+            "time": 9.58333333333343
+          },
+          {
+            "phase": "RECOVERY",
+            "world": 3,
             "time": 10.783333333333362
           },
           {
-            "phase": "WORLD_SWAP",
-            "world": 2,
-            "time": 11.983333333333293
-          },
-          {
-            "phase": "DIVE",
-            "world": 3,
-            "time": 11.983333333333293
-          },
-          {
-            "phase": "RECOVERY",
-            "world": 3,
-            "time": 13.183333333333225
-          },
-          {
             "phase": "ASCENT",
             "world": 3,
-            "time": 13.98333333333318
+            "time": 11.583333333333316
           },
           {
             "phase": "THRESHOLD",
             "world": 3,
-            "time": 14.266666666666497
+            "time": 11.874999999999966
           },
           {
             "phase": "INVERSION",
             "world": 3,
-            "time": 14.666666666666474
+            "time": 12.274999999999944
           },
           {
             "phase": "WORLD_SWAP",
             "world": 3,
-            "time": 15.866666666666406
+            "time": 13.474999999999875
           },
           {
             "phase": "DIVE",
             "world": 4,
-            "time": 15.866666666666406
+            "time": 13.474999999999875
           },
           {
             "phase": "RECOVERY",
             "world": 4,
-            "time": 17.06666666666634
+            "time": 14.674999999999807
           },
           {
             "phase": "ASCENT",
             "world": 4,
-            "time": 17.866666666666294
+            "time": 15.474999999999762
           }
         ],
         "easterEggUnlocked": false,
@@ -3838,7 +3629,7 @@
       },
       "cooperation": {
         "planner": "Local Autonomous Controller",
-        "time": 3.491666666666657,
+        "time": 1.0999999999999985,
         "epoch": 10,
         "trust": {
           "value": 0.5,
@@ -4005,7 +3796,7 @@
       "shieldImpacts": 0,
       "inputDevice": "Keyboard",
       "mode": "running",
-      "runTime": 3.491666666666657,
+      "runTime": 1.0999999999999985,
       "best": 0,
       "speed": 66.00338492893424,
       "altitude": 23.97525007874087,
@@ -4052,10 +3843,10 @@
         "bvhCount": 25,
         "renderObjectCount": 333,
         "estimatedCpuGeometryBytes": 53891280,
-        "generationAvgMs": 32.04800000101328,
-        "generationP95Ms": 50,
-        "generationMinMs": 8.900000005960464,
-        "generationMaxMs": 50.69999999552965,
+        "generationAvgMs": 32.22799999952316,
+        "generationP95Ms": 51.69999999552965,
+        "generationMinMs": 7.200000002980232,
+        "generationMaxMs": 58.099999994039536,
         "generationSampleCount": 25,
         "maxLoadedChunks": 41,
         "coverageComplete": true,
@@ -4072,9 +3863,9 @@
         "triangles": 776620,
         "points": 560,
         "lines": 0,
-        "fps": 105.43091723530058,
+        "fps": 105.10849143864672,
         "geometries": 266,
-        "textures": 30,
+        "textures": 26,
         "inversionAngle": 0
       },
       "seed": 2903266828,
@@ -4083,7 +3874,7 @@
       "localModelCount": 0,
       "cameraMode": "chase",
       "cameraBlend": 0,
-      "fov": 63.379347516140236,
+      "fov": 63.37934255890274,
       "proximity": 0.02381377647560023,
       "proximityZone": "near",
       "visualStimulation": "standard",
@@ -4260,7 +4051,7 @@
           "bvhBefore": 25,
           "bvhAfter": 0,
           "rootChildrenAfter": 0,
-          "disposedGeometryCount": 562
+          "disposedGeometryCount": 402
         },
         {
           "seed": 383910061,
@@ -4287,7 +4078,7 @@
       "journey": {
         "phase": "ASCENT",
         "phaseTime": 0,
-        "time": 21.774999999999405,
+        "time": 19.37499999999954,
         "progress": 0,
         "worldIndex": 5,
         "crossings": 5,
@@ -4327,122 +4118,122 @@
           {
             "phase": "THRESHOLD",
             "world": 1,
-            "time": 6.483333333333445
+            "time": 4.099999999999993
           },
           {
             "phase": "INVERSION",
             "world": 1,
-            "time": 6.883333333333465
+            "time": 4.500000000000013
           },
           {
             "phase": "WORLD_SWAP",
             "world": 1,
-            "time": 8.083333333333515
+            "time": 5.700000000000073
           },
           {
             "phase": "DIVE",
             "world": 2,
-            "time": 8.083333333333515
+            "time": 5.700000000000073
           },
           {
             "phase": "RECOVERY",
             "world": 2,
-            "time": 9.283333333333447
+            "time": 6.900000000000133
           },
           {
             "phase": "ASCENT",
             "world": 2,
-            "time": 10.083333333333401
+            "time": 7.7000000000001725
           },
           {
             "phase": "THRESHOLD",
             "world": 2,
-            "time": 10.383333333333384
+            "time": 7.98333333333352
           },
           {
             "phase": "INVERSION",
             "world": 2,
+            "time": 8.383333333333498
+          },
+          {
+            "phase": "WORLD_SWAP",
+            "world": 2,
+            "time": 9.58333333333343
+          },
+          {
+            "phase": "DIVE",
+            "world": 3,
+            "time": 9.58333333333343
+          },
+          {
+            "phase": "RECOVERY",
+            "world": 3,
             "time": 10.783333333333362
           },
           {
-            "phase": "WORLD_SWAP",
-            "world": 2,
-            "time": 11.983333333333293
-          },
-          {
-            "phase": "DIVE",
-            "world": 3,
-            "time": 11.983333333333293
-          },
-          {
-            "phase": "RECOVERY",
-            "world": 3,
-            "time": 13.183333333333225
-          },
-          {
             "phase": "ASCENT",
             "world": 3,
-            "time": 13.98333333333318
+            "time": 11.583333333333316
           },
           {
             "phase": "THRESHOLD",
             "world": 3,
-            "time": 14.266666666666497
+            "time": 11.874999999999966
           },
           {
             "phase": "INVERSION",
             "world": 3,
-            "time": 14.666666666666474
+            "time": 12.274999999999944
           },
           {
             "phase": "WORLD_SWAP",
             "world": 3,
-            "time": 15.866666666666406
+            "time": 13.474999999999875
           },
           {
             "phase": "DIVE",
             "world": 4,
-            "time": 15.866666666666406
+            "time": 13.474999999999875
           },
           {
             "phase": "RECOVERY",
             "world": 4,
-            "time": 17.06666666666634
+            "time": 14.674999999999807
           },
           {
             "phase": "ASCENT",
             "world": 4,
-            "time": 17.866666666666294
+            "time": 15.474999999999762
           },
           {
             "phase": "THRESHOLD",
             "world": 4,
-            "time": 18.158333333332944
+            "time": 15.766666666666412
           },
           {
             "phase": "INVERSION",
             "world": 4,
-            "time": 18.55833333333292
+            "time": 16.16666666666639
           },
           {
             "phase": "WORLD_SWAP",
             "world": 4,
-            "time": 19.758333333332853
+            "time": 17.366666666666323
           },
           {
             "phase": "DIVE",
             "world": 5,
-            "time": 19.758333333332853
+            "time": 17.366666666666323
           },
           {
             "phase": "RECOVERY",
             "world": 5,
-            "time": 20.958333333332785
+            "time": 18.566666666666254
           },
           {
             "phase": "ASCENT",
             "world": 5,
-            "time": 21.75833333333274
+            "time": 19.36666666666621
           }
         ],
         "easterEggUnlocked": true,
@@ -4451,7 +4242,7 @@
       },
       "cooperation": {
         "planner": "Local Autonomous Controller",
-        "time": 3.7749999999999893,
+        "time": 1.3749999999999976,
         "epoch": 12,
         "trust": {
           "value": 0.5,
@@ -4524,18 +4315,18 @@
           "callsign": "KITE-1",
           "position": {
             "x": -14,
-            "y": 31.453578735080526,
-            "z": 104.90419696168667
+            "y": 31.463734373985442,
+            "z": 105.45247737666486
           },
           "velocity": {
             "x": 0,
-            "y": -1.2186766685900858,
-            "z": -65.79364979738388
+            "y": -1.1058564650107887,
+            "z": -65.89171125649251
           },
           "target": {
             "x": -14,
-            "y": 29.46717175661704,
-            "z": 104.90167030205106
+            "y": 29.470081975091055,
+            "z": 105.45162733682301
           },
           "task": "FORMATION_FOLLOW",
           "surfaceDistance": 31.4729498445272,
@@ -4549,18 +4340,18 @@
           "callsign": "KITE-2",
           "position": {
             "x": 14,
-            "y": 33.58623528840332,
-            "z": 104.9073265224555
+            "y": 33.59838208599095,
+            "z": 105.45352742074559
           },
           "velocity": {
             "x": 0,
-            "y": -1.457615710515463,
-            "z": -65.5441077948092
+            "y": -1.2264771086192305,
+            "z": -65.76570596680499
           },
           "target": {
             "x": 14,
-            "y": 29.58368919403141,
-            "z": 104.90167030205106
+            "y": 29.59616871189695,
+            "z": 105.45162733682301
           },
           "task": "FORMATION_FOLLOW",
           "surfaceDistance": null,
@@ -4574,18 +4365,18 @@
           "callsign": "KITE-3",
           "position": {
             "x": 0,
-            "y": 36.28677638451205,
-            "z": 120.90868633459164
+            "y": 36.3009793147685,
+            "z": 121.45278832034823
           },
           "velocity": {
             "x": 0,
-            "y": -1.7043516307736608,
-            "z": -65.29223829079133
+            "y": -1.3511491636669328,
+            "z": -65.63840206445757
           },
           "target": {
             "x": 0,
-            "y": 30.275925451782626,
-            "z": 120.89987033580081
+            "y": 30.294085646171705,
+            "z": 121.44982737057276
           },
           "task": "FORMATION_FOLLOW",
           "surfaceDistance": null,
@@ -4618,16 +4409,16 @@
       "shieldImpacts": 0,
       "inputDevice": "Keyboard",
       "mode": "running",
-      "runTime": 3.7749999999999893,
+      "runTime": 1.3749999999999976,
       "best": 0,
-      "speed": 66.00226928870572,
-      "altitude": 23.983500192469602,
+      "speed": 66.00114102666004,
+      "altitude": 23.991750166748535,
       "position": {
         "x": 0,
-        "y": 23.983500192469602,
-        "z": 118.9000953315821
+        "y": 23.991750166748535,
+        "z": 119.45005236635404
       },
-      "surfaceDistance": 23.983500192469602,
+      "surfaceDistance": 23.991750166748535,
       "surfaceLocked": true,
       "grace": 5,
       "failureReason": null,
@@ -4665,10 +4456,10 @@
         "bvhCount": 25,
         "renderObjectCount": 270,
         "estimatedCpuGeometryBytes": 12265812,
-        "generationAvgMs": 13.304000000059604,
-        "generationP95Ms": 23.5,
-        "generationMinMs": 2.600000001490116,
-        "generationMaxMs": 61.19999999552965,
+        "generationAvgMs": 14.372000000774861,
+        "generationP95Ms": 27.100000001490116,
+        "generationMinMs": 3.2000000029802322,
+        "generationMaxMs": 61.399999998509884,
         "generationSampleCount": 25,
         "maxLoadedChunks": 41,
         "coverageComplete": true,
@@ -4685,9 +4476,9 @@
         "triangles": 142296,
         "points": 560,
         "lines": 0,
-        "fps": 119.95120360299344,
+        "fps": 119.99031794649734,
         "geometries": 199,
-        "textures": 27,
+        "textures": 22,
         "inversionAngle": 0
       },
       "seed": 2250268764,
@@ -4696,8 +4487,8 @@
       "localModelCount": 0,
       "cameraMode": "chase",
       "cameraBlend": 0,
-      "fov": 63.37932668101157,
-      "proximity": 0.016315114569104713,
+      "fov": 63.379321140672936,
+      "proximity": 0.008438986225925472,
       "proximityZone": "near",
       "visualStimulation": "standard",
       "recordingHintVisible": true,
@@ -4866,7 +4657,7 @@
     1080
   ],
   "realHardware": true,
-  "testedAsset": "./assets/index-En4_8UV0.js",
-  "assetSha256": "6d306c37d0ee2891cd8591c4875292501d4e9e55895cfd70f456b54ab371a166",
+  "testedAsset": "./assets/index-Cfd4qH7i.js",
+  "assetSha256": "48e9c333f4e5f4f27a7ffd895f49e87558cab1d890f451eaee88f1e940b5e46e",
   "method": "Actual running rAF flight and five transitions on real GPU. Paused fixture approach519m excluded from frame samples; actual climb crosses520m. Long-task capture includes fixture setup. No debug time advance; no model key or inference."
 }

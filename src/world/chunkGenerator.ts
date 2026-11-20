@@ -131,6 +131,10 @@ const inSpawnSafetyCorridor = (worldX: number, worldZ: number): boolean =>
   worldZ > -120 && worldZ < 220 && Math.abs(worldX) < 92;
 
 export class ChunkGenerator {
+  // Keep cached shadow uniforms inside the world's lifetime. A renderer-shared
+  // depth material can re-upload a disposed ground map when the next city casts shadows.
+  private readonly shadowDepthMaterial = new THREE.MeshDepthMaterial();
+  private disposed = false;
   private readonly materials: WorldMaterials;
   private readonly billboardMaterials: BillboardMaterialSet;
 
@@ -144,6 +148,7 @@ export class ChunkGenerator {
   }
 
   public generate(chunkX: number, chunkZ: number, revision = 0): GeneratedChunk {
+    if (this.disposed) throw new Error('Chunk generator is disposed.');
     const key = `chunk:${chunkX}:${chunkZ}:r${revision}`;
     const origin = { x: chunkX * CHUNK_SIZE, y: 0, z: chunkZ * CHUNK_SIZE };
     const work: ChunkWork = {
@@ -473,6 +478,7 @@ export class ChunkGenerator {
       mesh.matrixAutoUpdate = false;
       mesh.updateMatrix();
       mesh.castShadow = !['rose', 'teal', 'windowWarm', 'water'].includes(materialKey);
+      if (mesh.castShadow) mesh.customDepthMaterial = this.shadowDepthMaterial;
       mesh.receiveShadow = ['ground', 'shellCeladon', 'shellPlum', 'shellIvory', 'bridge', 'rock', 'soil'].includes(materialKey);
       group.add(mesh);
       renderTriangles += triangleCount(merged);
@@ -506,6 +512,9 @@ export class ChunkGenerator {
   }
 
   public dispose(): void {
+    if (this.disposed) return;
+    this.disposed = true;
+    this.shadowDepthMaterial.dispose();
     this.materials.dispose();
     this.billboardMaterials.dispose();
   }
