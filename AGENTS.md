@@ -69,7 +69,11 @@ Never claim real-GPU performance from CI/headless Chromium.
 
 ## Git workflow
 
-- Work in one `codex/v0.2-phase-*` branch per v0.2 delivery phase.
+- Work in one `codex/v0.3-phase-*` branch per v0.2 delivery phase.
 - Open and merge one PR per phase after CI passes.
 - Keep generated screenshots and acceptance JSON with the corresponding phase commit.
 - Preserve the `v0.1.0` tag/release and its evidence. Tag `v0.2.0` only after the final release PR is merged.
+
+## v0.3 product revision
+
+The authorized v0.3 upgrade adds configurable grace, Free Flight, shields, three camera views, gamepad controls, local/model companions and Sky Inversion. Keep historical solo scores and seeds compatible. Publish production only after release gates pass; an RC must not replace the current site.

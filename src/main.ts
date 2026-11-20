@@ -1,6 +1,8 @@
 import '@fontsource-variable/syne';
 import '@fontsource-variable/ibm-plex-sans';
 import './styles.css';
+import { loadRules, normalizeRules, saveRules, type RuleConfig } from './game/ruleConfig';
+import { RunSettingsPanel } from './ui/RunSettings';
 
 import type { CameraMode, VisualStimulation } from './config/experience';
 import { EXPERIENCE_CONFIG } from './config/experience';
@@ -42,6 +44,7 @@ import type { SurfaceQuery, WorldStats } from './world/worldTypes';
 type GameMode = 'title' | 'running' | 'paused' | 'failed';
 
 interface DebugSnapshot {
+  rules: RuleConfig;
   ready: boolean;
   mode: GameMode;
   runTime: number;
@@ -110,6 +113,7 @@ declare global {
 }
 
 const params = new URLSearchParams(window.location.search);
+let selectedRules = loadRules();
 const debugInputEnabled = params.has('debug');
 const autoStart = params.get('autostart') === '1';
 const worldSettings = worldSettingsFromSearch(window.location.search);
@@ -129,7 +133,7 @@ let mode: GameMode = 'title';
 let modeBeforeLibrary: GameMode = 'title';
 let modeBeforeWorld: GameMode = 'title';
 let flightState: FlightState | null = null;
-let runRules: RunRulesState = createRunRules();
+let runRules: RunRulesState = createRunRules(selectedRules);
 let lastSurfaceHit: SurfaceQuery | null = null;
 let worldStreamer: WorldStreamer | null = null;
 let buffering = false;
@@ -138,7 +142,7 @@ let streamPreparationCount = 0;
 let lastFrameTime = performance.now();
 let muted = false;
 let qualityName: 'balanced' | 'high' = 'balanced';
-let best = loadBest(scoreContextFor(worldSettings));
+let best = loadBest(scoreContextFor(worldSettings, selectedRules));
 let preferences: GamePreferences = loadPreferences();
 let proximityFeedback: ProximityFeedbackState = createProximityFeedback();
 let renderer: GameRenderer | null = null;
@@ -411,6 +415,8 @@ const syncHud = (): void => {
     boosting: flightState.boosting,
   });
   ui.updateSurface({
+    graceSeconds: runRules.config.graceSeconds,
+    freeFlight: runRules.config.mode === 'free',
     distance: lastSurfaceHit?.distance ?? null,
     grace: runRules.grace,
     locked: runRules.locked,
@@ -461,7 +467,7 @@ const finishRun = (): void => {
   keyboard.setEnabled(false);
   stepRunner.reset();
   audio.fail();
-  const score = submitBest(runRules.elapsed, scoreContextFor(worldSettings));
+  const score = submitBest(runRules.elapsed, scoreContextFor(worldSettings, runRules.config));
   best = score.best;
   ui.setBest(best);
 
@@ -469,7 +475,7 @@ const finishRun = (): void => {
   ui.showFailure({
     title: graceFailure ? '天际线甩掉了你' : '撞上天际线',
     reason: graceFailure
-      ? '你连续 5 秒离开了所有有效表面。回到建筑、屋脊、桥面、地面或悬浮岛附近。'
+      ? `你连续 ${runRules.config.graceSeconds} 秒离开了所有有效表面。回到建筑、屋脊、桥面、地面或悬浮岛附近。`
       : '你触碰了建筑或场景表面。贴近飞行，但别把机翼送进去。',
     runTime: runRules.elapsed,
     best,
@@ -486,7 +492,7 @@ const resetFlightState = (): void => {
     pitch: spawn.pitch,
     speed: spawn.speed,
   });
-  runRules = createRunRules();
+  runRules = createRunRules(selectedRules);
   proximityFeedback = createProximityFeedback();
   buffering = false;
   syncWorldStreaming(flightState);
@@ -650,6 +656,7 @@ const debugSnapshot = (): DebugSnapshot => {
   }
   return {
     ready: true,
+    rules: { ...runRules.config },
     mode,
     runTime: runRules.elapsed,
     best,
@@ -740,6 +747,12 @@ const debugSetPose = async (
   syncHud();
   return debugSnapshot();
 };
+
+new RunSettingsPanel(selectedRules, (next) => {
+  if (mode !== 'title' && mode !== 'failed') return;
+  selectedRules = normalizeRules(next); saveRules(selectedRules);
+  best = loadBest(scoreContextFor(worldSettings, selectedRules)); ui.setBest(best);
+}, () => debugPause(), (resume) => { if (resume) debugResume(); });
 
 keyboard.onAction((action: GameAction) => {
   if (action === 'close') {

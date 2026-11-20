@@ -667,3 +667,8 @@ kbd {
     gap: 0.55rem;
   }
 }
+/* Flight options share the existing local-library visual language. */
+.flight-settings { overflow-y: auto; max-height: calc(100dvh - 90px); }
+.flight-settings label { display: block; margin: 16px 0; color: var(--teal); }
+.flight-settings select, .flight-settings input[type="number"] { display: block; width: 100%; padding: 10px; margin-top: 6px; color: #f7e9df; background: #211a28; border: 1px solid #56746e; }
+.flight-settings p { font-size: 13px; line-height: 1.6; }

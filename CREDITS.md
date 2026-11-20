@@ -2,7 +2,7 @@
 
 ## Project code and generated art
 
-- Skimmer-Scraper source code and original procedural world/aircraft geometry: MIT, © 2026 styayur.
+- Skimmer-Scraper source code and original procedural world/aircraft geometry: AGPL-3.0-only for v0.3 onward; historical MIT grants retained, © 2026 styayur.
 - Sky, facade textures, signage, blossom, particles, aircraft materials, engine sound and wind noise
   are generated at runtime by this repository. Imported GLB files remain user-owned local data and are
   not shipped with the game. 	ests/fixtures/test-aircraft.glb is an original synthetic test fixture.
@@ -52,3 +52,5 @@ meshes, textures, shaders, audio or other assets from them are included here.
   or other assets are copied.
 
 See [docs/RESEARCH.md](docs/RESEARCH.md) for the concrete design conclusions and rejected shortcuts.
+
+Original pre-v0.3 MIT copyright and permission notice: [licenses/PROJECT-MIT-v0.2.0.txt](licenses/PROJECT-MIT-v0.2.0.txt). Third-party package and font licenses remain independent; see licenses/DEPENDENCIES.json.
