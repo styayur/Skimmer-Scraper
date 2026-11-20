@@ -37,6 +37,7 @@
           <button id="quality-button" class="utility-button" type="button">画质 · 平衡</button>
           <button id="camera-button" class="utility-button" type="button">视角 · 追尾 <kbd>C</kbd></button>
           <button id="world-open" class="utility-button" type="button">世界</button>
+          <button id="rules-open" class="utility-button" type="button">飞行设置</button>
           <button id="library-open" class="utility-button" type="button">机库 <kbd>M</kbd></button>
         </div>
       </header>
@@ -96,7 +97,8 @@
           <span>NO ACCOUNT</span>
           <span>LOCAL BEST ONLY</span>
           <span>GLB STAYS ON DEVICE</span>
-          <span class="title-footer__version">v0.2.0</span>
+          <a href="https://github.com/styayur/Skimmer-Scraper" target="_blank" rel="noopener">源码 · AGPL-3.0</a>
+          <span class="title-footer__version">v0.3.0-dev</span>
         </div>
       </section>
 
@@ -172,6 +174,14 @@
         </div>
       </section>
 
+      <aside id="rules-panel" class="library-panel flight-settings" aria-label="飞行设置" hidden>
+        <div class="library-header"><h2>飞行设置</h2><button id="rules-close" class="utility-button" type="button">关闭</button></div>
+        <p id="rules-note"></p>
+        <label>玩法 <select id="run-mode"><option value="challenge">Challenge · 近距挑战</option><option value="free">Free Flight · 自由飞行</option></select></label>
+        <label>宽限秒数（1–15）<input id="run-grace" type="number" min="1" max="15" step="0.1" value="5" /></label>
+        <label><input id="run-shield" type="checkbox" /> 自由模式防护罩</label>
+        <p>标准 5 秒个人挑战、自定义规则和 AI 辅助挑战分别记录；自由模式不计成绩。</p>
+      </aside>
       <aside id="library-panel" class="library-panel" aria-labelledby="library-title" hidden>
         <div class="library-header">
           <div>

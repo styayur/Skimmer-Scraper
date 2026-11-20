@@ -5,6 +5,7 @@ import {
   type WorldPresetId,
   type WorldSettings,
 } from '../world/worldConfig';
+import { normalizeRules, type RuleConfig } from './ruleConfig';
 
 const LEGACY_BEST_KEY = 'skimmer-scraper.best.v1';
 const SCOPED_BEST_PREFIX = 'skimmer-scraper.best.v2';
@@ -14,6 +15,7 @@ export interface ScoreContext {
   preset: WorldPresetId;
   mode: WorldMode;
   generatorVersion: number;
+  rules?: RuleConfig;
 }
 
 export const defaultScoreContext: ScoreContext = Object.freeze({
@@ -23,20 +25,23 @@ export const defaultScoreContext: ScoreContext = Object.freeze({
   generatorVersion: GENERATOR_VERSION,
 });
 
-export const scoreContextFor = (settings: WorldSettings): ScoreContext => ({
+export const scoreContextFor = (settings: WorldSettings, rules?: RuleConfig): ScoreContext => ({
   seedText: settings.seedText,
   preset: settings.preset,
   mode: settings.mode,
   generatorVersion: settings.generatorVersion,
+  ...(rules ? { rules: normalizeRules(rules) } : {}),
 });
 
+const standard = (context: ScoreContext): boolean => !context.rules ||
+  (context.rules.mode === 'challenge' && context.rules.graceSeconds === 5 && !context.rules.assisted);
 export const bestStorageKey = (context: ScoreContext): string => [
   SCOPED_BEST_PREFIX,
   context.mode,
   context.preset,
   `gen${context.generatorVersion}`,
   encodeURIComponent(context.seedText),
-].join(':');
+].join(':') + (standard(context) ? '' : `:${context.rules!.mode}:grace${context.rules!.graceSeconds}:${context.rules!.assisted ? 'assisted' : 'solo'}`);
 
 export const formatTime = (seconds: number): string => {
   const safe = Math.max(0, Number.isFinite(seconds) ? seconds : 0);
@@ -56,6 +61,7 @@ const readPositive = (storage: Storage, key: string): number => {
 };
 
 const isLegacyDefaultContext = (context: ScoreContext): boolean =>
+  standard(context) &&
   context.seedText === defaultScoreContext.seedText &&
   context.preset === defaultScoreContext.preset &&
   context.mode === defaultScoreContext.mode &&
@@ -88,6 +94,7 @@ export const submitBest = (
   context: ScoreContext = defaultScoreContext,
   storage: Storage = window.localStorage,
 ): { best: number; isNewBest: boolean } => {
+  if (context.rules?.mode === 'free') return { best: 0, isNewBest: false };
   const previous = loadBest(context, storage);
   if (!(runTime > previous)) return { best: previous, isNewBest: false };
   try {

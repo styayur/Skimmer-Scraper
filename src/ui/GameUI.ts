@@ -12,6 +12,8 @@ export interface FlightHudSnapshot {
 }
 
 export interface SurfaceHudSnapshot {
+  graceSeconds?: number;
+  freeFlight?: boolean;
   distance: number | null;
   grace: number;
   locked: boolean;
@@ -240,7 +242,8 @@ export class GameUI {
   }
 
   public updateSurface(snapshot: SurfaceHudSnapshot): void {
-    const gracePercent = Math.max(0, Math.min(1, snapshot.grace / 5));
+    const gracePercent = Math.max(0, Math.min(1, snapshot.grace / (snapshot.graceSeconds ?? 5)));
+    this.graceMeter.setAttribute('aria-valuemax', String(snapshot.graceSeconds ?? 5));
     const app = document.getElementById('app');
     this.graceBar.style.transform = `scaleX(${gracePercent})`;
     this.graceValue.textContent = `${snapshot.grace.toFixed(2)}s`;
@@ -258,6 +261,9 @@ export class GameUI {
     if (buffering) {
       this.surfaceState.textContent = 'WORLD STREAM / 区块缓冲';
       this.flightStatus.textContent = '前方城市正在载入 · 生存计时暂停';
+    } else if (snapshot.freeFlight) {
+      this.surfaceState.textContent = 'FREE FLIGHT / 自由飞行';
+      this.flightStatus.textContent = '自由探索 · 无近距失败 · 不计挑战成绩';
     } else if (snapshot.prototype) {
       this.surfaceState.textContent = 'SURFACE MODEL PENDING';
       this.flightStatus.textContent = '原型飞行 · 近距规则将在下一阶段接入';

@@ -11,6 +11,11 @@ This is the only deployment target. v0.2.0 was verified on 2026-11-09 for deploy
 assets, the world-mode selector, share-link parameters and an Ephemeral flight. That result belongs
 to the deployed commit above. It is not evidence that a later commit is live.
 
+For v0.3 onward, only stable `vMAJOR.MINOR.PATCH` tags trigger automatic deployment.
+Phase merges and RC tags leave production untouched. `workflow_dispatch` remains
+an explicit maintainer deployment action. Release gates and player-experience
+issues are recorded in acceptance/v0.3.0.json before a stable tag is created.
+
 Live evidence: `evidence/v0.2.0-live-pages-verification.json` and `evidence/v0.2.0-live-pages-*.png`.
 
 ## Cloudflare Pages

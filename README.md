@@ -2,7 +2,7 @@
 
 [![CI](https://github.com/styayur/Skimmer-Scraper/actions/workflows/ci.yml/badge.svg)](https://github.com/styayur/Skimmer-Scraper/actions/workflows/ci.yml)
 [![WebGL2](https://img.shields.io/badge/renderer-WebGL2-53e5cf)](https://github.com/styayur/Skimmer-Scraper)
-[![License: MIT](https://img.shields.io/badge/code-MIT-ffb58f)](LICENSE)
+[![License: AGPL-3.0-only](https://img.shields.io/badge/code-AGPL--3.0--only-ffb58f)](LICENSE)
 
 A close-surface 3D flight challenge through an original sakura-dusk megacity. Stay within reach of
 the architecture, thread bridges and floating islands, and keep your run alive. No account, no remote
@@ -132,7 +132,7 @@ Full matrix: [docs/ACCEPTANCE.md](docs/ACCEPTANCE.md).
 
 Research notes cover Skyward, Neon Zenith and Sakura Fantasy in [docs/RESEARCH.md](docs/RESEARCH.md).
 No code or assets from those projects are copied. Dependencies, fonts, research references and
-original synthetic assets are documented in [CREDITS.md](CREDITS.md). Project source is MIT licensed.
+original synthetic assets are documented in [CREDITS.md](CREDITS.md). New releases use AGPL-3.0-only. Historical v0.1.0/v0.2.0 remain MIT; their grants are not revoked. See licenses/PROJECT-MIT-v0.2.0.txt.
 
 ## v0.2.0 acceptance
 
@@ -156,3 +156,9 @@ original synthetic assets are documented in [CREDITS.md](CREDITS.md). Project so
 | Infinite World Streaming | merged | `acceptance/v0.2/phase-3.json` |
 | Ephemeral World | merged | `acceptance/v0.2/phase-4.json` |
 | Final QA / v0.2.0 release | verified | `acceptance/v0.2.0.json` |
+
+## v0.3 development
+
+Challenge grace is configurable from 1 to 15 seconds (default 5). Free Flight has no proximity expiry and defaults to a shield. Options lock at takeoff; retry keeps the selection. Custom and assisted scores are separate; historical standard scores retain their keys.
+
+Production deployment is now triggered by a stable version tag; merges and RC tags do not replace the public game. Source: https://github.com/styayur/Skimmer-Scraper. See docs/LICENSE-AUDIT.md.
