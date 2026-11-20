@@ -13,6 +13,34 @@ The renderer consumes impact intensity and owns only the short wireframe effect.
 Nose/Cockpit use separate defaults and optional per-model local position anchors;
 all first-person modes hide the model while preserving physics.
 
+## Local autonomous companions
+
+`CompanionTeam` owns at most three independent plain flight states. Steering and
+swept contact response run at 120 Hz. Staggered 5 Hz perception caches surface
+samples and safe-route choices; formation targets move with simulation input.
+Predictive relative velocity and separation forces avoid other aircraft. Every
+query uses the current shared `WorldStreamer`; agents own no BVH, city generator
+or scene object. Uncovered geometry suspends an agent in RECOVER rather than
+allowing blind traversal. Debug pose relocation translates the whole team; normal
+floating-origin changes affect only rendering.
+
+The player's collision gate remains its original 3×3 ring. Companions check the
+loaded cells covering their 60 m perception envelope in that same streamer.
+Up to three 80 m follower retention hints enter its existing priority queue,
+below player collision coverage and above distant scenery. The 41-chunk cap is
+unchanged. A distant agent regroups through a higher clearance corridor before
+descending back into formation; it does not freeze because its old cells retire.
+Spawn slots require swept path clearance and 11 m separation from the pilot and
+teammates; without a valid slot, deployment waits. Debug fixed-time advancement
+waits for the actual missing forward coverage and yields to generation tasks;
+render frames cannot add extra simulation steps during a scripted advance.
+
+One instanced aircraft mesh shares geometry/material for all three agents. Retry
+replaces the bounded state array and clears targets/events (event capacity 256).
+Pause/failure stop stepping agents. Count is locked at takeoff to keep solo and
+assisted score contexts separate. This controller is explicitly local, not LLM
+inference. A later planner can provide short-lived targets without owning physics.
+
 ```text
 browser input -> FixedStepRunner (120 Hz)
                     |

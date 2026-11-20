@@ -1,0 +1,112 @@
+{
+  "method": "120-second real running boost flight; resource snapshots after retry to identical spawn, settled chunks, pause and explicit CDP GC; paused snapshots are not FPS measurements",
+  "before": {
+    "heap": {
+      "usedSize": 7357004,
+      "totalSize": 8720384,
+      "embedderHeapUsedSize": 2696376,
+      "backingStorageSize": 32075067
+    },
+    "dom": {
+      "documents": 1,
+      "nodes": 1073,
+      "jsEventListeners": 77
+    },
+    "world": {
+      "chunks": 25,
+      "buildings": 141,
+      "bridges": 40,
+      "islands": 3,
+      "collisionTriangles": 134368,
+      "renderTriangles": 248350
+    },
+    "streaming": {
+      "stateCounts": {
+        "UNLOADED": 0,
+        "QUEUED": 0,
+        "GENERATING": 0,
+        "READY": 0,
+        "ACTIVE": 25,
+        "RETIRING": 0,
+        "DISPOSED": 0
+      },
+      "loadedChunks": 25,
+      "activeChunks": 25,
+      "queuedChunks": 0,
+      "generatingChunks": 0,
+      "generatedTotal": 25,
+      "retiredTotal": 0,
+      "disposedGeometryCount": 0,
+      "bvhCount": 25,
+      "renderObjectCount": 298,
+      "estimatedCpuGeometryBytes": 29491636,
+      "generationAvgMs": 52.86400000035763,
+      "generationP95Ms": 149.10000000149012,
+      "generationMinMs": 4.600000001490116,
+      "generationMaxMs": 646.6000000014901,
+      "generationSampleCount": 25,
+      "maxLoadedChunks": 41,
+      "coverageComplete": true,
+      "rebaseCount": 0
+    },
+    "companions": 3
+  },
+  "after": {
+    "heap": {
+      "usedSize": 8628428,
+      "totalSize": 10293248,
+      "embedderHeapUsedSize": 3399104,
+      "backingStorageSize": 32076163
+    },
+    "dom": {
+      "documents": 1,
+      "nodes": 1073,
+      "jsEventListeners": 77
+    },
+    "world": {
+      "chunks": 25,
+      "buildings": 141,
+      "bridges": 40,
+      "islands": 3,
+      "collisionTriangles": 134368,
+      "renderTriangles": 248350
+    },
+    "streaming": {
+      "stateCounts": {
+        "UNLOADED": 0,
+        "QUEUED": 0,
+        "GENERATING": 0,
+        "READY": 0,
+        "ACTIVE": 25,
+        "RETIRING": 0,
+        "DISPOSED": 0
+      },
+      "loadedChunks": 25,
+      "activeChunks": 25,
+      "queuedChunks": 0,
+      "generatingChunks": 0,
+      "generatedTotal": 303,
+      "retiredTotal": 278,
+      "disposedGeometryCount": 3663,
+      "bvhCount": 25,
+      "renderObjectCount": 298,
+      "estimatedCpuGeometryBytes": 29491636,
+      "generationAvgMs": 15.230500000081957,
+      "generationP95Ms": 23,
+      "generationMinMs": 4.4000000059604645,
+      "generationMaxMs": 29.600000001490116,
+      "generationSampleCount": 200,
+      "maxLoadedChunks": 41,
+      "coverageComplete": true,
+      "rebaseCount": 0
+    },
+    "companions": 3
+  },
+  "runningSeconds": 120.20833333337507,
+  "allCompanionsActive": false,
+  "retainedHeapDeltaBytes": 1271424,
+  "backingStorageDeltaBytes": 1096,
+  "errors": [],
+  "sameGeometryFootprint": true,
+  "sourceCommit": "ce9d3a60252fe2cdf7bc88f60c005cf6a11f8780"
+}

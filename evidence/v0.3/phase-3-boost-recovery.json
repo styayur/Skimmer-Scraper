@@ -1,0 +1,1073 @@
+{
+  "method": "120 simulation seconds, deterministic keyboard boost, actual browser and shared streamed BVHs; not a real-time FPS benchmark",
+  "states": [
+    {
+      "ready": true,
+      "rules": {
+        "mode": "free",
+        "graceSeconds": 5,
+        "shield": true,
+        "assisted": true
+      },
+      "companionSettings": {
+        "count": 3,
+        "formation": "wedge",
+        "behavior": "formation"
+      },
+      "companions": [
+        {
+          "id": 1,
+          "callsign": "KITE-1",
+          "position": {
+            "x": -13.999999999999986,
+            "y": 1919.3317926745342,
+            "z": -5410.385027473949
+          },
+          "velocity": {
+            "x": -5.86208729002424e-14,
+            "y": 42.255220229838486,
+            "z": -89.61235334974464
+          },
+          "target": {
+            "x": -14,
+            "y": 1924.1768575874269,
+            "z": -5420.332446522106
+          },
+          "task": "FORMATION_FOLLOW",
+          "surfaceDistance": null,
+          "decisions": 302,
+          "impacts": 1,
+          "uncovered": false,
+          "deployed": true
+        },
+        {
+          "id": 2,
+          "callsign": "KITE-2",
+          "position": {
+            "x": 13.999999999999998,
+            "y": 1920.9292940615117,
+            "z": -5409.699109039463
+          },
+          "velocity": {
+            "x": 7.359550131727145e-15,
+            "y": 42.55277327914837,
+            "z": -89.71375072415739
+          },
+          "target": {
+            "x": 14,
+            "y": 1926.0899816633137,
+            "z": -5420.332446522106
+          },
+          "task": "FORMATION_FOLLOW",
+          "surfaceDistance": null,
+          "decisions": 301,
+          "impacts": 1,
+          "uncovered": false,
+          "deployed": true
+        },
+        {
+          "id": 3,
+          "callsign": "KITE-3",
+          "position": {
+            "x": 6.168062119427423e-29,
+            "y": 1917.5098050648671,
+            "z": -5394.95528490367
+          },
+          "velocity": {
+            "x": -3.344538498037586e-28,
+            "y": 41.90894271926166,
+            "z": -90.11935080432765
+          },
+          "target": {
+            "x": 0,
+            "y": 1922.534046357959,
+            "z": -5405.803299861928
+          },
+          "task": "FORMATION_FOLLOW",
+          "surfaceDistance": null,
+          "decisions": 301,
+          "impacts": 0,
+          "uncovered": false,
+          "deployed": true
+        }
+      ],
+      "companionEvents": [
+        {
+          "time": 8.858333333333471,
+          "agent": 1,
+          "event": "task",
+          "task": "FORMATION_FOLLOW"
+        },
+        {
+          "time": 9.008333333333463,
+          "agent": 1,
+          "event": "task",
+          "task": "AVOID"
+        },
+        {
+          "time": 9.108333333333457,
+          "agent": 3,
+          "event": "task",
+          "task": "AVOID"
+        },
+        {
+          "time": 9.708333333333423,
+          "agent": 2,
+          "event": "task",
+          "task": "FORMATION_FOLLOW"
+        },
+        {
+          "time": 9.75833333333342,
+          "agent": 3,
+          "event": "task",
+          "task": "FORMATION_FOLLOW"
+        },
+        {
+          "time": 10.058333333333403,
+          "agent": 2,
+          "event": "task",
+          "task": "AVOID"
+        },
+        {
+          "time": 10.1083333333334,
+          "agent": 3,
+          "event": "task",
+          "task": "AVOID"
+        },
+        {
+          "time": 10.366666666666719,
+          "agent": 1,
+          "event": "task",
+          "task": "RECOVER"
+        },
+        {
+          "time": 10.366666666666719,
+          "agent": 1,
+          "event": "impact",
+          "task": "RECOVER"
+        },
+        {
+          "time": 10.375000000000052,
+          "agent": 1,
+          "event": "task",
+          "task": "AVOID"
+        },
+        {
+          "time": 10.833333333333359,
+          "agent": 2,
+          "event": "task",
+          "task": "RECOVER"
+        },
+        {
+          "time": 10.833333333333359,
+          "agent": 2,
+          "event": "impact",
+          "task": "RECOVER"
+        },
+        {
+          "time": 10.841666666666692,
+          "agent": 2,
+          "event": "task",
+          "task": "AVOID"
+        },
+        {
+          "time": 11.025000000000015,
+          "agent": 1,
+          "event": "task",
+          "task": "FORMATION_FOLLOW"
+        },
+        {
+          "time": 11.574999999999983,
+          "agent": 1,
+          "event": "task",
+          "task": "REGROUP"
+        },
+        {
+          "time": 11.774999999999972,
+          "agent": 1,
+          "event": "task",
+          "task": "AVOID"
+        },
+        {
+          "time": 12.224999999999946,
+          "agent": 1,
+          "event": "task",
+          "task": "REGROUP"
+        },
+        {
+          "time": 12.691666666666586,
+          "agent": 2,
+          "event": "task",
+          "task": "REGROUP"
+        },
+        {
+          "time": 13.974999999999847,
+          "agent": 1,
+          "event": "task",
+          "task": "RECOVER"
+        },
+        {
+          "time": 14.15833333333317,
+          "agent": 3,
+          "event": "task",
+          "task": "FORMATION_FOLLOW"
+        },
+        {
+          "time": 14.374999999999824,
+          "agent": 1,
+          "event": "task",
+          "task": "AVOID"
+        },
+        {
+          "time": 14.841666666666464,
+          "agent": 2,
+          "event": "task",
+          "task": "AVOID"
+        },
+        {
+          "time": 15.224999999999776,
+          "agent": 1,
+          "event": "task",
+          "task": "FORMATION_FOLLOW"
+        },
+        {
+          "time": 15.491666666666427,
+          "agent": 2,
+          "event": "task",
+          "task": "FORMATION_FOLLOW"
+        },
+        {
+          "time": 15.574999999999756,
+          "agent": 1,
+          "event": "task",
+          "task": "RECOVER"
+        },
+        {
+          "time": 15.774999999999745,
+          "agent": 1,
+          "event": "task",
+          "task": "FORMATION_FOLLOW"
+        },
+        {
+          "time": 15.974999999999733,
+          "agent": 1,
+          "event": "task",
+          "task": "AVOID"
+        },
+        {
+          "time": 16.041666666666398,
+          "agent": 2,
+          "event": "task",
+          "task": "RECOVER"
+        },
+        {
+          "time": 16.624999999999698,
+          "agent": 1,
+          "event": "task",
+          "task": "FORMATION_FOLLOW"
+        },
+        {
+          "time": 16.641666666666364,
+          "agent": 2,
+          "event": "task",
+          "task": "FORMATION_FOLLOW"
+        },
+        {
+          "time": 16.841666666666352,
+          "agent": 2,
+          "event": "task",
+          "task": "AVOID"
+        },
+        {
+          "time": 17.491666666666315,
+          "agent": 2,
+          "event": "task",
+          "task": "FORMATION_FOLLOW"
+        }
+      ],
+      "shieldImpacts": 1,
+      "inputDevice": "Keyboard",
+      "mode": "running",
+      "runTime": 60.21666666666389,
+      "best": 0,
+      "speed": 99.15205926067613,
+      "altitude": 1915.391218374573,
+      "position": {
+        "x": 0,
+        "y": 1915.391218374573,
+        "z": -5407.6194431944505
+      },
+      "surfaceDistance": null,
+      "surfaceLocked": false,
+      "grace": 5,
+      "failureReason": null,
+      "world": {
+        "chunks": 20,
+        "buildings": 120,
+        "bridges": 26,
+        "islands": 2,
+        "collisionTriangles": 112944,
+        "renderTriangles": 212868
+      },
+      "adapter": {
+        "chunks": 20,
+        "bvhCount": 20,
+        "lastBroadPhaseCandidates": 0,
+        "lastQueries": 0
+      },
+      "streaming": {
+        "stateCounts": {
+          "UNLOADED": 0,
+          "QUEUED": 7,
+          "GENERATING": 1,
+          "READY": 0,
+          "ACTIVE": 20,
+          "RETIRING": 0,
+          "DISPOSED": 0
+        },
+        "loadedChunks": 20,
+        "activeChunks": 20,
+        "queuedChunks": 7,
+        "generatingChunks": 1,
+        "generatedTotal": 139,
+        "retiredTotal": 121,
+        "disposedGeometryCount": 1580,
+        "bvhCount": 20,
+        "renderObjectCount": 234,
+        "estimatedCpuGeometryBytes": 25182896,
+        "generationAvgMs": 52.14680851065943,
+        "generationP95Ms": 41.399999998509884,
+        "generationMinMs": 4.100000001490116,
+        "generationMaxMs": 2035.1000000014901,
+        "generationSampleCount": 141,
+        "maxLoadedChunks": 41,
+        "coverageComplete": true,
+        "rebaseCount": 0
+      },
+      "buffering": false,
+      "renderOrigin": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "render": {
+        "calls": 50,
+        "triangles": 6032,
+        "points": 380,
+        "lines": 64,
+        "fps": 41.347660081925255
+      },
+      "seed": 334458,
+      "debugInput": false,
+      "selectedAircraft": "procedural",
+      "localModelCount": 0,
+      "cameraMode": "chase",
+      "cameraBlend": 0,
+      "fov": 74.09518263115106,
+      "proximity": 1.9237886702150855e-80,
+      "proximityZone": "detached",
+      "visualStimulation": "standard",
+      "recordingHintVisible": true,
+      "worldPreset": "sakura",
+      "worldMode": "stable",
+      "generatorVersion": 2,
+      "worldFingerprint": 3887776065,
+      "revisionHistory": null,
+      "chunkStates": [
+        {
+          "key": "0:-23",
+          "state": "ACTIVE",
+          "revision": 0,
+          "fingerprint": 3373921808
+        },
+        {
+          "key": "-1:-23",
+          "state": "ACTIVE",
+          "revision": 0,
+          "fingerprint": 2617818733
+        },
+        {
+          "key": "1:-23",
+          "state": "ACTIVE",
+          "revision": 0,
+          "fingerprint": 2078628577
+        },
+        {
+          "key": "-2:-23",
+          "state": "ACTIVE",
+          "revision": 0,
+          "fingerprint": 56134523
+        },
+        {
+          "key": "2:-23",
+          "state": "ACTIVE",
+          "revision": 0,
+          "fingerprint": 3946483435
+        },
+        {
+          "key": "0:-24",
+          "state": "ACTIVE",
+          "revision": 0,
+          "fingerprint": 3991257110
+        },
+        {
+          "key": "-1:-24",
+          "state": "ACTIVE",
+          "revision": 0,
+          "fingerprint": 3720781571
+        },
+        {
+          "key": "1:-24",
+          "state": "ACTIVE",
+          "revision": 0,
+          "fingerprint": 2548659895
+        },
+        {
+          "key": "-2:-24",
+          "state": "ACTIVE",
+          "revision": 0,
+          "fingerprint": 417917713
+        },
+        {
+          "key": "2:-24",
+          "state": "ACTIVE",
+          "revision": 0,
+          "fingerprint": 2760715954
+        },
+        {
+          "key": "0:-25",
+          "state": "ACTIVE",
+          "revision": 0,
+          "fingerprint": 1242887119
+        },
+        {
+          "key": "-1:-25",
+          "state": "ACTIVE",
+          "revision": 0,
+          "fingerprint": 862293348
+        },
+        {
+          "key": "1:-25",
+          "state": "ACTIVE",
+          "revision": 0,
+          "fingerprint": 970518737
+        },
+        {
+          "key": "-2:-25",
+          "state": "ACTIVE",
+          "revision": 0,
+          "fingerprint": 1591647251
+        },
+        {
+          "key": "2:-25",
+          "state": "ACTIVE",
+          "revision": 0,
+          "fingerprint": 3440876070
+        },
+        {
+          "key": "0:-26",
+          "state": "ACTIVE",
+          "revision": 0,
+          "fingerprint": 133583978
+        },
+        {
+          "key": "-1:-26",
+          "state": "ACTIVE",
+          "revision": 0,
+          "fingerprint": 191916234
+        },
+        {
+          "key": "1:-26",
+          "state": "ACTIVE",
+          "revision": 0,
+          "fingerprint": 181049360
+        },
+        {
+          "key": "-2:-26",
+          "state": "ACTIVE",
+          "revision": 0,
+          "fingerprint": 960215604
+        },
+        {
+          "key": "2:-26",
+          "state": "GENERATING",
+          "revision": 0,
+          "fingerprint": null
+        },
+        {
+          "key": "0:-27",
+          "state": "ACTIVE",
+          "revision": 0,
+          "fingerprint": 1337938321
+        },
+        {
+          "key": "-1:-27",
+          "state": "QUEUED",
+          "revision": 0,
+          "fingerprint": null
+        },
+        {
+          "key": "1:-27",
+          "state": "QUEUED",
+          "revision": 0,
+          "fingerprint": null
+        },
+        {
+          "key": "-2:-27",
+          "state": "QUEUED",
+          "revision": 0,
+          "fingerprint": null
+        },
+        {
+          "key": "2:-27",
+          "state": "QUEUED",
+          "revision": 0,
+          "fingerprint": null
+        },
+        {
+          "key": "0:-28",
+          "state": "QUEUED",
+          "revision": 0,
+          "fingerprint": null
+        },
+        {
+          "key": "-1:-28",
+          "state": "QUEUED",
+          "revision": 0,
+          "fingerprint": null
+        },
+        {
+          "key": "1:-28",
+          "state": "QUEUED",
+          "revision": 0,
+          "fingerprint": null
+        }
+      ]
+    },
+    {
+      "ready": true,
+      "rules": {
+        "mode": "free",
+        "graceSeconds": 5,
+        "shield": true,
+        "assisted": true
+      },
+      "companionSettings": {
+        "count": 3,
+        "formation": "wedge",
+        "behavior": "formation"
+      },
+      "companions": [
+        {
+          "id": 1,
+          "callsign": "KITE-1",
+          "position": {
+            "x": -13.999999999999986,
+            "y": 4411.101791629456,
+            "z": -10813.078092645
+          },
+          "velocity": {
+            "x": -5.847343846377947e-14,
+            "y": 40.690195829085454,
+            "z": -90.20823599057647
+          },
+          "target": {
+            "x": -14,
+            "y": 4415.30271081586,
+            "z": -10822.562986485627
+          },
+          "task": "FORMATION_FOLLOW",
+          "surfaceDistance": null,
+          "decisions": 602,
+          "impacts": 1,
+          "uncovered": false,
+          "deployed": true
+        },
+        {
+          "id": 2,
+          "callsign": "KITE-2",
+          "position": {
+            "x": 13.999999999999998,
+            "y": 4410.418957476004,
+            "z": -10813.019753129336
+          },
+          "velocity": {
+            "x": 7.309993507544491e-15,
+            "y": 41.606170421328926,
+            "z": -89.79829871627358
+          },
+          "target": {
+            "x": 14,
+            "y": 4414.926558683467,
+            "z": -10822.562986485627
+          },
+          "task": "FORMATION_FOLLOW",
+          "surfaceDistance": null,
+          "decisions": 601,
+          "impacts": 1,
+          "uncovered": false,
+          "deployed": true
+        },
+        {
+          "id": 3,
+          "callsign": "KITE-3",
+          "position": {
+            "x": 8.933877466603664e-66,
+            "y": 4406.628504045865,
+            "z": -10797.867031867469
+          },
+          "velocity": {
+            "x": 1.4013948927228e-65,
+            "y": 42.443753766256144,
+            "z": -89.59439184742156
+          },
+          "target": {
+            "x": 0,
+            "y": 4411.604629657878,
+            "z": -10808.03383982545
+          },
+          "task": "FORMATION_FOLLOW",
+          "surfaceDistance": null,
+          "decisions": 601,
+          "impacts": 0,
+          "uncovered": false,
+          "deployed": true
+        }
+      ],
+      "companionEvents": [
+        {
+          "time": 8.858333333333471,
+          "agent": 1,
+          "event": "task",
+          "task": "FORMATION_FOLLOW"
+        },
+        {
+          "time": 9.008333333333463,
+          "agent": 1,
+          "event": "task",
+          "task": "AVOID"
+        },
+        {
+          "time": 9.108333333333457,
+          "agent": 3,
+          "event": "task",
+          "task": "AVOID"
+        },
+        {
+          "time": 9.708333333333423,
+          "agent": 2,
+          "event": "task",
+          "task": "FORMATION_FOLLOW"
+        },
+        {
+          "time": 9.75833333333342,
+          "agent": 3,
+          "event": "task",
+          "task": "FORMATION_FOLLOW"
+        },
+        {
+          "time": 10.058333333333403,
+          "agent": 2,
+          "event": "task",
+          "task": "AVOID"
+        },
+        {
+          "time": 10.1083333333334,
+          "agent": 3,
+          "event": "task",
+          "task": "AVOID"
+        },
+        {
+          "time": 10.366666666666719,
+          "agent": 1,
+          "event": "task",
+          "task": "RECOVER"
+        },
+        {
+          "time": 10.366666666666719,
+          "agent": 1,
+          "event": "impact",
+          "task": "RECOVER"
+        },
+        {
+          "time": 10.375000000000052,
+          "agent": 1,
+          "event": "task",
+          "task": "AVOID"
+        },
+        {
+          "time": 10.833333333333359,
+          "agent": 2,
+          "event": "task",
+          "task": "RECOVER"
+        },
+        {
+          "time": 10.833333333333359,
+          "agent": 2,
+          "event": "impact",
+          "task": "RECOVER"
+        },
+        {
+          "time": 10.841666666666692,
+          "agent": 2,
+          "event": "task",
+          "task": "AVOID"
+        },
+        {
+          "time": 11.025000000000015,
+          "agent": 1,
+          "event": "task",
+          "task": "FORMATION_FOLLOW"
+        },
+        {
+          "time": 11.574999999999983,
+          "agent": 1,
+          "event": "task",
+          "task": "REGROUP"
+        },
+        {
+          "time": 11.774999999999972,
+          "agent": 1,
+          "event": "task",
+          "task": "AVOID"
+        },
+        {
+          "time": 12.224999999999946,
+          "agent": 1,
+          "event": "task",
+          "task": "REGROUP"
+        },
+        {
+          "time": 12.691666666666586,
+          "agent": 2,
+          "event": "task",
+          "task": "REGROUP"
+        },
+        {
+          "time": 13.974999999999847,
+          "agent": 1,
+          "event": "task",
+          "task": "RECOVER"
+        },
+        {
+          "time": 14.15833333333317,
+          "agent": 3,
+          "event": "task",
+          "task": "FORMATION_FOLLOW"
+        },
+        {
+          "time": 14.374999999999824,
+          "agent": 1,
+          "event": "task",
+          "task": "AVOID"
+        },
+        {
+          "time": 14.841666666666464,
+          "agent": 2,
+          "event": "task",
+          "task": "AVOID"
+        },
+        {
+          "time": 15.224999999999776,
+          "agent": 1,
+          "event": "task",
+          "task": "FORMATION_FOLLOW"
+        },
+        {
+          "time": 15.491666666666427,
+          "agent": 2,
+          "event": "task",
+          "task": "FORMATION_FOLLOW"
+        },
+        {
+          "time": 15.574999999999756,
+          "agent": 1,
+          "event": "task",
+          "task": "RECOVER"
+        },
+        {
+          "time": 15.774999999999745,
+          "agent": 1,
+          "event": "task",
+          "task": "FORMATION_FOLLOW"
+        },
+        {
+          "time": 15.974999999999733,
+          "agent": 1,
+          "event": "task",
+          "task": "AVOID"
+        },
+        {
+          "time": 16.041666666666398,
+          "agent": 2,
+          "event": "task",
+          "task": "RECOVER"
+        },
+        {
+          "time": 16.624999999999698,
+          "agent": 1,
+          "event": "task",
+          "task": "FORMATION_FOLLOW"
+        },
+        {
+          "time": 16.641666666666364,
+          "agent": 2,
+          "event": "task",
+          "task": "FORMATION_FOLLOW"
+        },
+        {
+          "time": 16.841666666666352,
+          "agent": 2,
+          "event": "task",
+          "task": "AVOID"
+        },
+        {
+          "time": 17.491666666666315,
+          "agent": 2,
+          "event": "task",
+          "task": "FORMATION_FOLLOW"
+        }
+      ],
+      "shieldImpacts": 1,
+      "inputDevice": "Keyboard",
+      "mode": "running",
+      "runTime": 120.2166666667084,
+      "best": 0,
+      "speed": 99.15205926067613,
+      "altitude": 4406.972297401432,
+      "position": {
+        "x": 0,
+        "y": 4406.972297401432,
+        "z": -10809.849983157972
+      },
+      "surfaceDistance": null,
+      "surfaceLocked": false,
+      "grace": 5,
+      "failureReason": null,
+      "world": {
+        "chunks": 19,
+        "buildings": 115,
+        "bridges": 28,
+        "islands": 2,
+        "collisionTriangles": 107874,
+        "renderTriangles": 189850
+      },
+      "adapter": {
+        "chunks": 19,
+        "bvhCount": 19,
+        "lastBroadPhaseCandidates": 0,
+        "lastQueries": 0
+      },
+      "streaming": {
+        "stateCounts": {
+          "UNLOADED": 0,
+          "QUEUED": 5,
+          "GENERATING": 1,
+          "READY": 0,
+          "ACTIVE": 19,
+          "RETIRING": 0,
+          "DISPOSED": 0
+        },
+        "loadedChunks": 19,
+        "activeChunks": 19,
+        "queuedChunks": 5,
+        "generatingChunks": 1,
+        "generatedTotal": 263,
+        "retiredTotal": 247,
+        "disposedGeometryCount": 3226,
+        "bvhCount": 19,
+        "renderObjectCount": 240,
+        "estimatedCpuGeometryBytes": 22761908,
+        "generationAvgMs": 21.172500000111757,
+        "generationP95Ms": 36.5,
+        "generationMinMs": 7.899999998509884,
+        "generationMaxMs": 45.79999999701977,
+        "generationSampleCount": 200,
+        "maxLoadedChunks": 41,
+        "coverageComplete": true,
+        "rebaseCount": 0
+      },
+      "buffering": false,
+      "renderOrigin": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "render": {
+        "calls": 50,
+        "triangles": 6032,
+        "points": 380,
+        "lines": 64,
+        "fps": 17.374366380085405
+      },
+      "seed": 334458,
+      "debugInput": false,
+      "selectedAircraft": "procedural",
+      "localModelCount": 0,
+      "cameraMode": "chase",
+      "cameraBlend": 0,
+      "fov": 74.09518263115106,
+      "proximity": 6.94940981169409e-190,
+      "proximityZone": "detached",
+      "visualStimulation": "standard",
+      "recordingHintVisible": true,
+      "worldPreset": "sakura",
+      "worldMode": "stable",
+      "generatorVersion": 2,
+      "worldFingerprint": 3887776065,
+      "revisionHistory": null,
+      "chunkStates": [
+        {
+          "key": "0:-48",
+          "state": "ACTIVE",
+          "revision": 0,
+          "fingerprint": 3809647707
+        },
+        {
+          "key": "-1:-48",
+          "state": "ACTIVE",
+          "revision": 0,
+          "fingerprint": 2820519922
+        },
+        {
+          "key": "1:-48",
+          "state": "ACTIVE",
+          "revision": 0,
+          "fingerprint": 1076296445
+        },
+        {
+          "key": "-2:-48",
+          "state": "ACTIVE",
+          "revision": 0,
+          "fingerprint": 2213489217
+        },
+        {
+          "key": "2:-48",
+          "state": "ACTIVE",
+          "revision": 0,
+          "fingerprint": 3622946274
+        },
+        {
+          "key": "0:-49",
+          "state": "ACTIVE",
+          "revision": 0,
+          "fingerprint": 1646952803
+        },
+        {
+          "key": "-1:-49",
+          "state": "ACTIVE",
+          "revision": 0,
+          "fingerprint": 3563220466
+        },
+        {
+          "key": "1:-49",
+          "state": "ACTIVE",
+          "revision": 0,
+          "fingerprint": 374152176
+        },
+        {
+          "key": "-2:-49",
+          "state": "ACTIVE",
+          "revision": 0,
+          "fingerprint": 1178078884
+        },
+        {
+          "key": "2:-49",
+          "state": "ACTIVE",
+          "revision": 0,
+          "fingerprint": 492874650
+        },
+        {
+          "key": "0:-50",
+          "state": "ACTIVE",
+          "revision": 0,
+          "fingerprint": 4098542780
+        },
+        {
+          "key": "-1:-50",
+          "state": "ACTIVE",
+          "revision": 0,
+          "fingerprint": 2580475402
+        },
+        {
+          "key": "1:-50",
+          "state": "ACTIVE",
+          "revision": 0,
+          "fingerprint": 1843625420
+        },
+        {
+          "key": "-2:-50",
+          "state": "ACTIVE",
+          "revision": 0,
+          "fingerprint": 2558495438
+        },
+        {
+          "key": "2:-50",
+          "state": "ACTIVE",
+          "revision": 0,
+          "fingerprint": 4001597064
+        },
+        {
+          "key": "0:-51",
+          "state": "ACTIVE",
+          "revision": 0,
+          "fingerprint": 1205251017
+        },
+        {
+          "key": "-1:-51",
+          "state": "ACTIVE",
+          "revision": 0,
+          "fingerprint": 21483565
+        },
+        {
+          "key": "1:-51",
+          "state": "ACTIVE",
+          "revision": 0,
+          "fingerprint": 4138484250
+        },
+        {
+          "key": "-2:-51",
+          "state": "GENERATING",
+          "revision": 0,
+          "fingerprint": null
+        },
+        {
+          "key": "2:-51",
+          "state": "QUEUED",
+          "revision": 0,
+          "fingerprint": null
+        },
+        {
+          "key": "0:-52",
+          "state": "ACTIVE",
+          "revision": 0,
+          "fingerprint": 582173823
+        },
+        {
+          "key": "-1:-52",
+          "state": "QUEUED",
+          "revision": 0,
+          "fingerprint": null
+        },
+        {
+          "key": "1:-52",
+          "state": "QUEUED",
+          "revision": 0,
+          "fingerprint": null
+        },
+        {
+          "key": "-2:-52",
+          "state": "QUEUED",
+          "revision": 0,
+          "fingerprint": null
+        },
+        {
+          "key": "2:-52",
+          "state": "QUEUED",
+          "revision": 0,
+          "fingerprint": null
+        }
+      ]
+    }
+  ]
+}

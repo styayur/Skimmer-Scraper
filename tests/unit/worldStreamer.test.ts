@@ -148,6 +148,20 @@ const cover = async (
 };
 
 describe('world streamer lifecycle', () => {
+  it('retains follower coverage in the shared budget and retires it after hints clear', async () => {
+    const streamer = new WorldStreamer(settings, { source: new ImmediateSource(), maxLoadedChunks: 41 });
+    const follower = { x: 0, y: 40, z: 900 };
+    streamer.setCompanionPositions([follower, { x: 700, y: 30, z: 900 }, { x: -700, y: 30, z: 900 }]);
+    const pilot = { x: 0, y: 24, z: -1200 };
+    await cover(streamer, pilot, { x: 0, y: 0, z: -102 });
+    expect(streamer.isCompanionCovered(follower)).toBe(true);
+    expect(streamer.isCollisionCovered(pilot)).toBe(true);
+    expect(streamer.getStreamerStats().activeChunks).toBeLessThanOrEqual(41);
+    expect(streamer.getAdapterStats().bvhCount).toBe(streamer.getStreamerStats().activeChunks);
+    streamer.setCompanionPositions([]);await cover(streamer,pilot,{x:0,y:0,z:-102});
+    expect(streamer.isCompanionCovered(follower)).toBe(false);
+    streamer.dispose();
+  });
   it('reports generation p95 as an order statistic below a heavy-tail average', () => {
     const timing = summarizeGenerationTimes([...Array.from({ length: 20 }, () => 1), 10_000]);
     expect(timing.count).toBe(21);

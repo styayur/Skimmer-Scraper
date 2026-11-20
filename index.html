@@ -122,6 +122,7 @@
           </div>
         </div>
 
+        <div id="companion-status" class="companion-status" role="status" aria-label="伴机状态" hidden></div>
         <div id="cockpit-frame" class="cockpit-frame" aria-hidden="true" hidden>
           <span class="cockpit-frame__left"></span>
           <span class="cockpit-frame__right"></span>
@@ -186,6 +187,13 @@
         <label>宽限秒数（1–15）<input id="run-grace" type="number" min="1" max="15" step="0.1" value="5" /></label>
         <label><input id="run-shield" type="checkbox" /> 自由模式防护罩</label>
         <p>标准 5 秒个人挑战、自定义规则和 AI 辅助挑战分别记录；自由模式不计成绩。</p>
+        <details><summary>自主伴机</summary>
+          <p>本地自主伴飞 · Local Autonomous Controller。无需 API；本阶段不使用大模型。</p>
+          <label>伴机数量 <select id="companion-count"><option value="0">关闭</option><option value="1">1 台</option><option value="2">2 台</option><option value="3">3 台</option></select></label>
+          <label>编队 <select id="companion-formation"><option value="wedge">楔形</option><option value="line">纵队</option><option value="spread">展开</option></select></label>
+          <label>自主任务 <select id="companion-behavior"><option value="formation">编队跟随</option><option value="independent">独立跟随</option><option value="lead">1 号领航</option></select></label>
+          <p>数量在起飞前选择，带伴机的挑战单独计分。青色 KITE-1、金色 KITE-2、玫红 KITE-3。</p>
+        </details>
         <details><summary>操控与手柄</summary>
           <p id="input-device">Keyboard</p>
           <label>操控方案 <select data-control="profile"><option value="precision">Precision · 高速精确操控</option><option value="classic">Classic · 经典操控</option></select></label>

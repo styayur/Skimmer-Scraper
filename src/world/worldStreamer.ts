@@ -142,6 +142,7 @@ export class WorldStreamer implements RenderableWorld {
   private readonly renderOrigin = { x: 0, y: 0, z: 0 };
   private lastPosition = { x: 0, y: 24, z: SPAWN_Z };
   private lastVelocity = { x: 0, y: 0, z: -1 };
+  private companionPositions: Array<{ x: number; y: number; z: number }> = [];
   private requestToken = 0;
   private inFlight = 0;
   private retryTimer: ReturnType<typeof setTimeout> | null = null;
@@ -230,6 +231,9 @@ export class WorldStreamer implements RenderableWorld {
       stats: this.getStreamerStats(),
     };
   }
+  public setCompanionPositions(positions: readonly { x: number; y: number; z: number }[]): void {
+    this.companionPositions = positions.filter(position => Object.values(position).every(Number.isFinite)).slice(0, 3).map(position => ({ ...position }));
+  }
 
   public async prime(position = this.defaultSpawn.position, timeoutMs = 30_000): Promise<void> {
     const started = performance.now();
@@ -286,6 +290,16 @@ export class WorldStreamer implements RenderableWorld {
 
   public queryNearest(position: { x: number; y: number; z: number }, maxDistance: number): SurfaceQuery | null {
     return this.adapter.queryNearest(position, maxDistance);
+  }
+  /** Agents require their swept envelope and 35 m prediction horizon, not a second 3x3 world. */
+  public isCompanionCovered(position: { x: number; y: number; z: number }): boolean {
+    const padding = 60;
+    for (let z = Math.floor((position.z - padding) / CHUNK_SIZE); z <= Math.floor((position.z + padding) / CHUNK_SIZE); z++) {
+      for (let x = Math.floor((position.x - padding) / CHUNK_SIZE); x <= Math.floor((position.x + padding) / CHUNK_SIZE); x++) {
+        if (this.chunks.get(chunkKey(x, z))?.state !== 'ACTIVE') return false;
+      }
+    }
+    return true;
   }
 
   public getStats(): WorldStats {
@@ -399,6 +413,14 @@ export class WorldStreamer implements RenderableWorld {
     for (let dz = -this.collisionRadius; dz <= this.collisionRadius; dz += 1) {
       for (let dx = -this.collisionRadius; dx <= this.collisionRadius; dx += 1) {
         add(centerX + dx, centerZ + dz, Math.abs(dx) + Math.abs(dz));
+      }
+    }
+
+    // Keep a small swept/perception envelope for each follower in the same bounded index.
+    // Player collision cells retain the highest priority; the total budget stays unchanged.
+    for (const companion of this.companionPositions) {
+      for (let z = Math.floor((companion.z - 80) / CHUNK_SIZE); z <= Math.floor((companion.z + 80) / CHUNK_SIZE); z++) {
+        for (let x = Math.floor((companion.x - 80) / CHUNK_SIZE); x <= Math.floor((companion.x + 80) / CHUNK_SIZE); x++) add(x, z, 5);
       }
     }
 

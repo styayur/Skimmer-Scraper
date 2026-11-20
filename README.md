@@ -171,3 +171,10 @@ Keyboard input takes priority while held. Esc pauses/resumes. The Free Flight sh
 sweeps the collision sphere, reduces speed and reflects/slides along surfaces; disable
 it before takeoff for ordinary impact failure. First-person aircraft anchors can be
 saved per local model; both first-person views hide the aircraft mesh.
+
+Choose 0–3 companions before takeoff. Local Autonomous Controller is entirely local:
+independent steering/velocity, formation and independent follow, safe-route lead,
+regroup, predictive obstacle/separation avoidance and contact recovery. Formation
+(wedge, line, spread) and leader behavior can change while paused in Flight Settings.
+The aircraft use one instanced mesh and reuse the player's streamed BVHs. Companion
+challenge scores are assisted records; they never replace standard solo records.

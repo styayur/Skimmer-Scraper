@@ -1,0 +1,72 @@
+[
+  {
+    "name": "edge",
+    "headless": false,
+    "gpu": "ANGLE (AMD, AMD Radeon 780M Graphics (0x00001900) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+    "views": [
+      "nose",
+      "cockpit",
+      "chase"
+    ],
+    "paused": "paused",
+    "positionChanged": true,
+    "mode": "running",
+    "companions": [
+      {
+        "id": 1,
+        "deployed": true,
+        "decisions": 4,
+        "uncovered": false
+      },
+      {
+        "id": 2,
+        "deployed": true,
+        "decisions": 4,
+        "uncovered": false
+      },
+      {
+        "id": 3,
+        "deployed": true,
+        "decisions": 3,
+        "uncovered": false
+      }
+    ],
+    "errors": [],
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/157.0.0.0 Safari/537.36 Edg/157.0.0.0"
+  },
+  {
+    "name": "firefox",
+    "headless": true,
+    "gpu": "ANGLE (AMD, Radeon R9 200 Series Direct3D11 vs_5_0 ps_5_0), or similar",
+    "views": [
+      "nose",
+      "cockpit",
+      "chase"
+    ],
+    "paused": "paused",
+    "positionChanged": true,
+    "mode": "running",
+    "companions": [
+      {
+        "id": 1,
+        "deployed": true,
+        "decisions": 3,
+        "uncovered": false
+      },
+      {
+        "id": 2,
+        "deployed": true,
+        "decisions": 2,
+        "uncovered": false
+      },
+      {
+        "id": 3,
+        "deployed": true,
+        "decisions": 2,
+        "uncovered": false
+      }
+    ],
+    "errors": [],
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:159.0) Gecko/20100101 Firefox/159.0"
+  }
+]
