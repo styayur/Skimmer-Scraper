@@ -1,0 +1,77 @@
+{
+  "phase": 3,
+  "controller": "Local Autonomous Controller; no model inference",
+  "typecheck": "passed",
+  "unit": {
+    "passed": 83,
+    "failed": 0,
+    "longFlight": "15-minute deterministic unit simulation with bounded 3 states and 256 events",
+    "retries": 30
+  },
+  "build": "passed",
+  "browser": {
+    "fullRunPassed": 17,
+    "latestCompanionAndStreamingRerunPassed": 4,
+    "initialRun": "interrupted after observing debug forward-coverage starvation; fixed and rerun",
+    "cases": [
+      1,
+      2,
+      3
+    ],
+    "checks": [
+      "independent movement",
+      "decisions",
+      "formation/leader switch",
+      "13 km relocation",
+      "3 rapid retries",
+      "disable companions",
+      "exact scripted time advance"
+    ]
+  },
+  "resourceModel": {
+    "sharedWorld": true,
+    "sharedBVH": true,
+    "instancedAircraftMesh": 1,
+    "maximumAgents": 3,
+    "perceptionHz": 5,
+    "simulationHz": 120,
+    "spawnMinimumSeparationM": 11,
+    "unsafeSpawn": "deferred until a swept-clear slot exists"
+  },
+  "hardware": {
+    "gpu": "AMD Radeon 780M",
+    "browser": "Chrome 157 headed",
+    "viewport": [
+      1920,
+      1080
+    ],
+    "runningSecondsPerCase": 12,
+    "cases": [
+      {
+        "companions": 1,
+        "averageFps": 105.6596,
+        "p95Ms": 16.7
+      },
+      {
+        "companions": 2,
+        "averageFps": 105.0711,
+        "p95Ms": 16.7
+      },
+      {
+        "companions": 3,
+        "averageFps": 106.164,
+        "p95Ms": 16.7
+      }
+    ],
+    "allFramesRunning": true,
+    "softwareRenderer": false
+  },
+  "evidence": [
+    "evidence/v0.3/phase-3-1-companions.json",
+    "evidence/v0.3/phase-3-2-companions.json",
+    "evidence/v0.3/phase-3-3-companions.json",
+    "evidence/v0.3/phase-3-gpu-1.json",
+    "evidence/v0.3/phase-3-gpu-2.json",
+    "evidence/v0.3/phase-3-gpu-3.json"
+  ]
+}

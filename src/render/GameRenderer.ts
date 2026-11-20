@@ -17,6 +17,8 @@ import {
 } from './proceduralAircraft';
 import { createSkyAtmosphere, type SkyAtmosphere } from './sky';
 import { createSpeedRibbons, type SpeedRibbons } from './speedRibbons';
+import { CompanionRenderer } from './companions';
+import type { AgentState } from '../companions/AgentController';
 
 export class WebGL2UnavailableError extends Error {
   public constructor() {
@@ -58,6 +60,7 @@ export class GameRenderer {
   private readonly proceduralAircraft: ProceduralAircraft;
   private readonly aircraftMount = new THREE.Group();
   private readonly aircraftModelMount = new THREE.Group();
+  private readonly companions = new CompanionRenderer();
   private readonly shieldMesh = new THREE.Mesh(new THREE.IcosahedronGeometry(5.2, 1),
     new THREE.MeshBasicMaterial({ color: 0x53e5cf, wireframe: true, transparent: true, opacity: 0, depthWrite: false }));
   private externalAircraft: THREE.Object3D | null = null;
@@ -140,6 +143,7 @@ export class GameRenderer {
     this.speedRibbons = createSpeedRibbons();
     this.aircraftMount.add(this.speedRibbons.object);
     this.scene.add(this.aircraftMount);
+    this.scene.add(this.companions.mesh);
 
     this.petals = createPetalField();
     this.scene.add(this.petals.points);
@@ -197,6 +201,7 @@ export class GameRenderer {
     this.cameraRig.setMode(mode, immediate);
   }
   public setCameraAnchor(anchor: Vec3 | null): void { this.cameraRig.setAnchor(anchor); }
+  public setCompanions(agents: readonly AgentState[], origin: Vec3): void { this.companions.update(agents, origin); }
   public setShieldImpact(intensity: number): void {
     this.shieldMesh.visible = intensity > 0;
     this.shieldMesh.material.opacity = Math.max(0, Math.min(0.65, intensity * 0.6));
@@ -293,6 +298,7 @@ export class GameRenderer {
     this.composer.dispose();
     this.proceduralAircraft.dispose();
     this.shieldMesh.geometry.dispose(); this.shieldMesh.material.dispose();
+    this.companions.dispose();
     this.atmosphere.dispose();
     this.petals.dispose();
     this.speedRibbons.dispose();

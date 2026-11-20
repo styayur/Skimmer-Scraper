@@ -674,3 +674,5 @@ kbd {
 .flight-settings p { font-size: 13px; line-height: 1.6; }
 .pause-panel { position: fixed; z-index: 35; left: 50%; top: 50%; transform: translate(-50%, -50%); display: grid; gap: 18px; width: min(340px, 88vw); padding: 30px; border: 1px solid #56746e; background: #211a28ed; box-shadow: 0 20px 80px #0008; text-align: center; }
 .pause-panel[hidden] { display: none; }
+.companion-status { position: absolute; top: 160px; left: 4vw; max-width: 280px; white-space: pre-line; padding-left: 12px; border-left: 2px solid var(--teal); font-size: 12px; line-height: 1.8; color: #cce8de; text-shadow: 0 1px 6px #000; }
+@media (max-width: 600px) { .companion-status { top: 135px; font-size: 10px; max-width: 230px; } }

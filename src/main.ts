@@ -8,6 +8,10 @@ import { GamepadInputSource } from './flight/gamepad';
 import { bindControlSettings } from './ui/ControlSettings';
 import { resolveShield } from './game/shield';
 import { loadCameraAnchor } from './model/cameraAnchors';
+import { CompanionTeam } from './companions/AgentController';
+import { loadCompanions, type CompanionSettings } from './companions/settings';
+import { bindCompanionSettings } from './ui/CompanionSettings';
+import { updateCompanionHud } from './ui/CompanionHud';
 
 import type { CameraMode, VisualStimulation } from './config/experience';
 import { EXPERIENCE_CONFIG } from './config/experience';
@@ -49,6 +53,11 @@ import type { SurfaceQuery, WorldStats } from './world/worldTypes';
 type GameMode = 'title' | 'running' | 'paused' | 'failed';
 
 interface DebugSnapshot {
+  companionSettings: CompanionSettings;
+  companions: Array<{ id: number; callsign: string; position: { x: number; y: number; z: number };
+    velocity: { x: number; y: number; z: number }; target: { x: number; y: number; z: number }; task: string;
+    surfaceDistance: number | null; decisions: number; impacts: number; uncovered: boolean; deployed: boolean }>;
+  companionEvents: CompanionTeam['events'];
   shieldImpacts: number;
   inputDevice: string;
   rules: RuleConfig;
@@ -121,6 +130,10 @@ declare global {
 
 const params = new URLSearchParams(window.location.search);
 let selectedRules = loadRules();
+let companionSettings = loadCompanions();
+selectedRules = normalizeRules({ ...selectedRules, assisted: companionSettings.count > 0 });
+const companions = new CompanionTeam();
+companions.configure(companionSettings);
 let controls = loadControls();
 const gamepad = new GamepadInputSource();
 let shieldGlow = 0;
@@ -151,6 +164,8 @@ let worldStreamer: WorldStreamer | null = null;
 let buffering = false;
 let worldTransition = 0;
 let streamPreparationCount = 0;
+let neededCoverage: Pick<FlightState, 'position' | 'velocity'> | null = null;
+let debugAdvancing = false;
 let lastFrameTime = performance.now();
 let muted = false;
 let qualityName: 'balanced' | 'high' = 'balanced';
@@ -443,6 +458,7 @@ const syncHud = (): void => {
 const simulateFixedStep = (dt: number, holdPosition = false): boolean => {
   if (mode !== 'running' || !flightState || !worldStreamer) return false;
   if (!worldStreamer.isCollisionCovered(flightState.position)) {
+    neededCoverage = flightState;
     syncWorldStreaming(flightState);
     buffering = true;
     return false;
@@ -460,12 +476,14 @@ const simulateFixedStep = (dt: number, holdPosition = false): boolean => {
     };
   }
   if (!worldStreamer.isCollisionCovered(nextState.position)) {
+    neededCoverage = nextState;
     syncWorldStreaming(nextState);
     buffering = true;
     return false;
   }
 
   buffering = false;
+  neededCoverage = null;
   shieldCooldown = Math.max(0, shieldCooldown - dt);
   shieldGlow = Math.max(0, shieldGlow - dt * 3);
   if (runRules.config.shield) {
@@ -479,6 +497,7 @@ const simulateFixedStep = (dt: number, holdPosition = false): boolean => {
   flightState = nextState;
   lastSurfaceHit = worldStreamer.queryNearest(flightState.position, SURFACE_QUERY_RANGE);
   runRules = updateRunRules(runRules, { distance: lastSurfaceHit?.distance ?? null }, dt);
+  if (runRules.status === 'running') companions.step(flightState, worldStreamer, dt);
   proximityFeedback = updateProximityFeedback(
     proximityFeedback,
     lastSurfaceHit?.distance ?? null,
@@ -519,12 +538,14 @@ const resetFlightState = (): void => {
     pitch: spawn.pitch,
     speed: spawn.speed,
   });
-  runRules = createRunRules(selectedRules);
+  runRules = createRunRules({ ...selectedRules, assisted: companionSettings.count > 0 });
+  companions.configure(companionSettings); companions.reset(flightState, worldStreamer);
   shieldGlow = 0; shieldImpacts = 0; shieldCooldown = 0;
   renderer.setCameraAnchor(loadCameraAnchor(aircraftLibrary.getSelectedId()));
   proximityFeedback = createProximityFeedback();
   buffering = false;
   syncWorldStreaming(flightState);
+  neededCoverage = null;
   lastSurfaceHit = worldStreamer.isCollisionCovered(flightState.position)
     ? worldStreamer.queryNearest(flightState.position, SURFACE_QUERY_RANGE)
     : null;
@@ -688,6 +709,11 @@ const debugSnapshot = (): DebugSnapshot => {
   return {
     ready: true,
     rules: { ...runRules.config },
+    companionSettings: { ...companionSettings },
+    companions: companions.agents.map(agent => ({ id: agent.id, callsign: agent.callsign,
+      position: { ...agent.flight.position }, velocity: { ...agent.flight.velocity }, target: { ...agent.target },
+      task: agent.task, surfaceDistance: agent.surfaceDistance, decisions: agent.decisions, impacts: agent.impacts, uncovered: agent.uncovered, deployed: agent.deployed })),
+    companionEvents: companions.events.slice(-32).map(event => ({ ...event })),
     shieldImpacts,
     inputDevice: gamepad.device,
     mode,
@@ -731,29 +757,39 @@ const debugAdvance = async (
   options: { holdPosition?: boolean } = {},
 ): Promise<DebugSnapshot> => {
   if (!flightState || mode !== 'running' || !worldStreamer) return debugSnapshot();
-  const targetSteps = Math.min(7200, Math.max(0, Math.floor(seconds / FLIGHT.fixedDt)));
-  let simulatedSteps = 0;
-  while (simulatedSteps < targetSteps && mode === 'running') {
-    if (simulatedSteps % 120 === 0) {
-      const covered = await waitForCollisionCoverage(flightState.position, flightState.velocity);
-      if (!covered || mode !== 'running') break;
+  if (debugAdvancing) return debugSnapshot();
+  debugAdvancing = true;
+  try {
+    const targetSteps = Math.min(7200, Math.max(0, Math.floor(seconds / FLIGHT.fixedDt)));
+    let simulatedSteps = 0;
+    while (simulatedSteps < targetSteps && mode === 'running') {
+      if (simulatedSteps % 120 === 0) {
+        const covered = await waitForCollisionCoverage(flightState.position, flightState.velocity);
+        if (!covered || mode !== 'running') break;
+        await delay(0);
+      }
+      if (!simulateFixedStep(FLIGHT.fixedDt, options.holdPosition === true)) {
+        if (mode !== 'running' || runRules.status === 'failed') break;
+        const target = neededCoverage ?? flightState;
+        const covered = await waitForCollisionCoverage(target.position, target.velocity);
+        if (!covered || mode !== 'running') break;
+        await delay(0);
+        continue;
+      }
+      simulatedSteps += 1;
     }
-    if (!simulateFixedStep(FLIGHT.fixedDt, options.holdPosition === true)) {
-      if (mode !== 'running' || runRules.status === 'failed') break;
-      const covered = await waitForCollisionCoverage(flightState.position, flightState.velocity);
-      if (!covered || mode !== 'running') break;
-      continue;
+    if (flightState) {
+      syncWorldStreaming(flightState);
+      renderer?.snapCamera(toRenderFlightState(flightState));
     }
-    simulatedSteps += 1;
+    syncHud();
+    if (runRules.status === 'failed') finishRun();
+    lastFrameTime = performance.now();
+    return debugSnapshot();
+  } finally {
+    debugAdvancing = false;
+    stepRunner.reset(); lastFrameTime = performance.now();
   }
-  if (flightState) {
-    syncWorldStreaming(flightState);
-    renderer?.snapCamera(toRenderFlightState(flightState));
-  }
-  syncHud();
-  if (runRules.status === 'failed') finishRun();
-  lastFrameTime = performance.now();
-  return debugSnapshot();
 };
 
 const debugSetPose = async (
@@ -762,6 +798,7 @@ const debugSetPose = async (
 ): Promise<DebugSnapshot> => {
   if (!flightState || !worldStreamer) return debugSnapshot();
   const covered = await waitForCollisionCoverage(position, flightState.velocity);
+  companions.relocate({ x: position.x - flightState.position.x, y: position.y - flightState.position.y, z: position.z - flightState.position.z });
   flightState = {
     ...flightState,
     position: { x: position.x, y: position.y, z: position.z },
@@ -791,6 +828,13 @@ new RunSettingsPanel(selectedRules, (next) => {
   return mode === 'running' ? debugPause() : false;
 }, (resume) => { if (resume) debugResume(); }, () => mode === 'title' || mode === 'failed');
 bindControlSettings(next => { controls = next; }, () => aircraftLibrary.getSelectedId(), anchor => renderer?.setCameraAnchor(anchor));
+bindCompanionSettings(companionSettings, () => mode === 'title' || mode === 'failed', next => {
+  companionSettings = next; companions.configure(next);
+  if (mode === 'title' || mode === 'failed') {
+    selectedRules = normalizeRules({ ...selectedRules, assisted: next.count > 0 }); saveRules(selectedRules);
+    best = loadBest(scoreContextFor(worldSettings, selectedRules)); ui.setBest(best);
+  }
+});
 document.querySelector('#pause-resume')!.addEventListener('click', () => debugResume());
 document.querySelector('#pause-menu')!.addEventListener('click', () => { void returnToTitle(); });
 
@@ -824,9 +868,13 @@ const frame = (now: number): void => {
   lastFrameTime = now;
 
   if (renderer && flightState && worldStreamer) {
+    renderer.setCompanions(mode === 'title' ? [] : companions.agents, worldStreamer.getRenderOrigin());
+    updateCompanionHud(companions.agents, flightState.position);
     const streaming = streamPreparationCount === 0 ? syncWorldStreaming(flightState) : null;
     if (mode === 'running') {
-      if (streamPreparationCount > 0 || !streaming?.coverageComplete) {
+      if (debugAdvancing) {
+        stepRunner.reset();
+      } else if (streamPreparationCount > 0 || !streaming?.coverageComplete) {
         buffering = true;
         stepRunner.reset();
       } else {
@@ -941,6 +989,7 @@ window.addEventListener('skimmer:webgl-context-lost', () => {
 });
 
 window.addEventListener('beforeunload', () => {
+  companions.dispose();
   audio.dispose();
   if (currentImportedAircraft) disposeObject3D(currentImportedAircraft);
   aircraftLibrary.dispose();

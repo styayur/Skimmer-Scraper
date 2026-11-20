@@ -287,6 +287,16 @@ export class WorldStreamer implements RenderableWorld {
   public queryNearest(position: { x: number; y: number; z: number }, maxDistance: number): SurfaceQuery | null {
     return this.adapter.queryNearest(position, maxDistance);
   }
+  /** Agents require their swept envelope and 35 m prediction horizon, not a second 3x3 world. */
+  public isCompanionCovered(position: { x: number; y: number; z: number }): boolean {
+    const padding = 60;
+    for (let z = Math.floor((position.z - padding) / CHUNK_SIZE); z <= Math.floor((position.z + padding) / CHUNK_SIZE); z++) {
+      for (let x = Math.floor((position.x - padding) / CHUNK_SIZE); x <= Math.floor((position.x + padding) / CHUNK_SIZE); x++) {
+        if (this.chunks.get(chunkKey(x, z))?.state !== 'ACTIVE') return false;
+      }
+    }
+    return true;
+  }
 
   public getStats(): WorldStats {
     let buildings = 0;
