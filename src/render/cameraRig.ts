@@ -47,13 +47,15 @@ export class FlightCameraRig {
   private currentFov: number = EXPERIENCE_CONFIG.camera.chase.minFov;
   private speed = 0;
   private boosting = false;
+  private anchor: Vec3 | null = null;
 
   public constructor(public readonly camera: THREE.PerspectiveCamera) {}
+  public setAnchor(anchor: Vec3 | null): void { this.anchor = anchor; this.initialized = false; }
 
   public setMode(mode: CameraMode, immediate = false): void {
     this.mode = mode;
     if (immediate) {
-      this.modeBlend = mode === 'cockpit' ? 1 : 0;
+      this.modeBlend = mode === 'chase' ? 0 : 1;
       this.initialized = false;
     }
   }
@@ -63,7 +65,7 @@ export class FlightCameraRig {
   }
 
   public toggleMode(): CameraMode {
-    this.setMode(this.mode === 'chase' ? 'cockpit' : 'chase');
+    this.setMode(this.mode === 'chase' ? 'nose' : this.mode === 'nose' ? 'cockpit' : 'chase');
     return this.mode;
   }
 
@@ -73,7 +75,7 @@ export class FlightCameraRig {
 
   public snapTo(state: Pick<FlightState, 'position' | 'attitude' | 'speed' | 'boosting' | 'elapsed'>): void {
     this.updateTargets(state);
-    this.modeBlend = this.mode === 'cockpit' ? 1 : 0;
+    this.modeBlend = this.mode === 'chase' ? 0 : 1;
     const blend = this.smoothBlend();
     this.smoothedChasePosition.copy(this.desiredChasePosition);
     this.smoothedChaseLook.copy(this.desiredChaseLook);
@@ -90,7 +92,7 @@ export class FlightCameraRig {
   public update(dt: number, state: FlightState, proximity = 0, visualScale = 1): void {
     if (!this.initialized) this.snapTo(state);
     this.updateTargets(state);
-    const targetBlend = this.mode === 'cockpit' ? 1 : 0;
+    const targetBlend = this.mode === 'chase' ? 0 : 1;
     this.modeBlend = damp(this.modeBlend, targetBlend, EXPERIENCE_CONFIG.camera.transitionLambda, Math.max(0, dt));
     const blend = this.smoothBlend();
 
@@ -163,10 +165,10 @@ export class FlightCameraRig {
     this.boosting = state.boosting;
     const forward = forwardFromAttitude(state.attitude);
     this.forward.set(forward.x, forward.y, forward.z);
-    this.right.crossVectors(this.forward, this.worldUp).normalize();
+    this.right.set(Math.cos(state.attitude.yaw), 0, -Math.sin(state.attitude.yaw));
     const speedRatio = Math.max(0, state.speed - 60) / 45;
     const chase = EXPERIENCE_CONFIG.camera.chase;
-    const cockpit = EXPERIENCE_CONFIG.camera.cockpit;
+    const cockpit = EXPERIENCE_CONFIG.camera[this.mode === 'nose' ? 'nose' : 'cockpit'];
 
     this.desiredChasePosition
       .set(state.position.x, state.position.y, state.position.z)
@@ -183,8 +185,9 @@ export class FlightCameraRig {
     this.orientedUp.set(0, 1, 0).applyQuaternion(this.aircraftQuaternion).normalize();
     this.cockpitPosition
       .set(state.position.x, state.position.y, state.position.z)
-      .addScaledVector(this.forward, cockpit.forwardOffset)
-      .addScaledVector(this.orientedUp, cockpit.upOffset);
+      .addScaledVector(this.forward, this.anchor ? -this.anchor.z : cockpit.forwardOffset)
+      .addScaledVector(this.orientedUp, this.anchor?.y ?? cockpit.upOffset)
+      .addScaledVector(this.right, this.anchor?.x ?? 0);
     this.cockpitLook
       .copy(this.cockpitPosition)
       .addScaledVector(this.forward, 100)
@@ -197,7 +200,7 @@ export class FlightCameraRig {
   private targetFov(): number {
     const blend = this.smoothBlend();
     const chaseFov = targetFovForMode('chase', this.speed, this.boosting, this.comfortMode);
-    const cockpitFov = targetFovForMode('cockpit', this.speed, this.boosting, this.comfortMode);
+    const cockpitFov = targetFovForMode(this.mode === 'nose' ? 'nose' : 'cockpit', this.speed, this.boosting, this.comfortMode);
     return chaseFov + (cockpitFov - chaseFov) * blend;
   }
 

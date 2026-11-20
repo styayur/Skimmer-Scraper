@@ -1,0 +1,54 @@
+{
+  "phase": 2,
+  "typecheck": "passed",
+  "unit": {
+    "passed": 74,
+    "failed": 0
+  },
+  "build": "passed",
+  "browser": {
+    "total": 13,
+    "passedAfterTargetedFixes": 13,
+    "initialFailures": 2,
+    "fixes": [
+      "legacy GLB camera test now cycles through Nose before Cockpit",
+      "virtual pad presses wait for rendered frame processing"
+    ],
+    "reruns": {
+      "modelAndFlight": 3,
+      "flightAfterReconnectAddition": 2
+    },
+    "renderer": "Chromium software WebGL2"
+  },
+  "controls": [
+    "classic",
+    "precision",
+    "full roll/loop",
+    "coordination",
+    "level assist",
+    "sensitivity",
+    "curve",
+    "inversion",
+    "custom pad mapping"
+  ],
+  "views": [
+    "chase",
+    "nose",
+    "cockpit"
+  ],
+  "gamepad": {
+    "virtualStandardMapping": "passed",
+    "disconnectReconnect": "passed",
+    "physicalHardware": "not tested"
+  },
+  "shield": {
+    "sweptThinWall": "passed",
+    "corridorCorrection": "passed",
+    "realBrowserContact": "passed"
+  },
+  "evidence": [
+    "evidence/v0.3/phase-2-flight.json",
+    "evidence/v0.3/phase-2-shield.png"
+  ],
+  "historicalEvidence": "regressions now write a separate v0.3 directory"
+}

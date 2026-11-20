@@ -143,7 +143,7 @@ test.describe('v0.2 phase 3 infinite world streaming', () => {
     expect(afterTeleport.renderOrigin.x).toBe(10_000);
     expect(afterTeleport.surfaceLocked).toBe(true);
     await page.screenshot({
-      path: 'evidence/v0.2/phase-3-rebased-city.png',
+      path: 'evidence/v0.3/regression/v0.2/phase-3-rebased-city.png',
       fullPage: true,
       animations: 'disabled',
     });
@@ -186,13 +186,13 @@ test.describe('v0.2 phase 3 infinite world streaming', () => {
 
     await expect(page.locator('#surface-state')).not.toContainText('WORLD STREAM');
     await page.screenshot({
-      path: 'evidence/v0.2/phase-3-streaming.png',
+      path: 'evidence/v0.3/regression/v0.2/phase-3-streaming.png',
       fullPage: true,
       animations: 'disabled',
     });
 
     writeFileSync(
-      'evidence/v0.2/phase-3-runtime.json',
+      'evidence/v0.3/regression/v0.2/phase-3-runtime.json',
       `${JSON.stringify({
         generatedAt: new Date().toISOString(),
         world: {

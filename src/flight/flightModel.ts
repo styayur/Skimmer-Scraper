@@ -6,6 +6,7 @@ import {
   type Attitude,
   type Vec3,
 } from '../core/math';
+import type { ControlSettings } from './controlSettings';
 
 export interface FlightInput {
   /** -1 nose down, +1 nose up. */
@@ -61,7 +62,7 @@ export const NEUTRAL_INPUT: FlightInput = Object.freeze({
   boost: false,
 });
 
-const sanitizeAxis = (value: number): number => clamp(value, -1, 1);
+const sanitizeAxis = (value: number): number => Number.isFinite(value) ? clamp(value, -1, 1) : 0;
 
 const normalizeInput = (input: FlightInput): FlightInput => ({
   pitch: sanitizeAxis(input.pitch),
@@ -103,10 +104,13 @@ export const stepFlight = (
   state: FlightState,
   rawInput: FlightInput,
   dt: number,
+  settings?: ControlSettings,
 ): FlightState => {
   if (!(dt > 0)) return state;
 
   const input = normalizeInput(rawInput);
+  const precision = settings?.profile === 'precision';
+  const gain = precision ? clamp(FLIGHT.cruiseSpeed / state.speed, 0.72, 1.05) : 1;
   const controlRate = (current: number, target: number): number =>
     approach(current, target, (target === 0 ? FLIGHT.controlRelease : FLIGHT.controlAttack) * dt);
 
@@ -117,18 +121,18 @@ export const stepFlight = (
     boost: input.boost,
   };
 
-  let roll = state.attitude.roll + control.roll * FLIGHT.rollRate * dt;
+  let roll = state.attitude.roll + control.roll * FLIGHT.rollRate * dt * gain;
   if (Math.abs(input.roll) < 0.01) {
-    roll = approach(roll, 0, FLIGHT.autoLevel * dt * (0.65 + Math.abs(roll)));
+    roll = approach(roll, 0, FLIGHT.autoLevel * dt * (0.65 + Math.abs(roll)) * (precision ? settings!.levelAssist : 1));
   }
-  roll = clamp(roll, -FLIGHT.rollLimit, FLIGHT.rollLimit);
+  roll = precision ? Math.atan2(Math.sin(roll), Math.cos(roll)) : clamp(roll, -FLIGHT.rollLimit, FLIGHT.rollLimit);
 
-  let pitch = state.attitude.pitch + control.pitch * FLIGHT.pitchRate * dt;
-  pitch = clamp(pitch, -FLIGHT.pitchLimit, FLIGHT.pitchLimit);
+  let pitch = state.attitude.pitch + control.pitch * FLIGHT.pitchRate * dt * gain;
+  pitch = precision ? Math.atan2(Math.sin(pitch), Math.cos(pitch)) : clamp(pitch, -FLIGHT.pitchLimit, FLIGHT.pitchLimit);
 
   const speedRatio = state.speed / FLIGHT.cruiseSpeed;
-  const bankTurn = Math.sin(roll) * FLIGHT.bankTurnRate * clamp(speedRatio, 0.45, 1.35);
-  const yaw = state.attitude.yaw + (control.yaw * FLIGHT.yawRate + bankTurn) * dt;
+  const bankTurn = precision && !settings!.autoCoordinate ? 0 : Math.sin(roll) * FLIGHT.bankTurnRate * clamp(speedRatio, 0.45, 1.35);
+  const yaw = state.attitude.yaw + (control.yaw * FLIGHT.yawRate * gain + bankTurn) * dt;
   const attitude: Attitude = { pitch, roll, yaw };
   const forward = forwardFromAttitude(attitude);
 

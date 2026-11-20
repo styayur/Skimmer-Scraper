@@ -7,7 +7,8 @@ export type GameAction =
   | 'library'
   | 'close'
   | 'mute'
-  | 'camera';
+  | 'camera'
+  | 'pause';
 
 export interface InputSource {
   sample(timeSeconds: number): FlightInput;
@@ -66,6 +67,7 @@ export class KeyboardInputSource implements InputSource {
   }
 
   private handleKeyDown = (event: KeyboardEvent): void => {
+    if (event.target instanceof HTMLElement && event.target.closest('input, select, textarea, [contenteditable="true"]')) return;
     if (this.handledCodes.has(event.code)) event.preventDefault();
     if (event.repeat) return;
     this.pressed.add(event.code);

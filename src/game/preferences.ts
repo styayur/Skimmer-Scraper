@@ -21,7 +21,7 @@ export const loadPreferences = (storage: Storage = window.localStorage): GamePre
     if (!raw) return { ...DEFAULT_PREFERENCES };
     const parsed = JSON.parse(raw) as Partial<GamePreferences>;
     return {
-      cameraMode: parsed.cameraMode === 'cockpit' ? 'cockpit' : 'chase',
+      cameraMode: parsed.cameraMode === 'cockpit' || parsed.cameraMode === 'nose' ? parsed.cameraMode : 'chase',
       visualStimulation: parsed.visualStimulation === 'reduced' ? 'reduced' : 'standard',
       recordingHintDismissed: parsed.recordingHintDismissed === true,
     };

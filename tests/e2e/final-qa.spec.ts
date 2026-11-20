@@ -125,7 +125,7 @@ test.describe('v0.2.0 final QA', () => {
     const balancedFrames = await sampleFrames(page, 4_000);
     const balanced = await snapshot(page);
     await page.screenshot({
-      path: 'evidence/v0.2.0-final-flight-balanced.png',
+      path: 'evidence/v0.3/regression/v0.2.0-final-flight-balanced.png',
       fullPage: true,
       animations: 'disabled',
     });
@@ -189,7 +189,7 @@ test.describe('v0.2.0 final QA', () => {
       failedRequests,
       caveat: 'This is Chromium automation evidence. It does not certify real-GPU frame pacing, thermals or GPU memory reclamation.',
     };
-    writeFileSync('evidence/v0.2.0-qa-runtime.json', `${JSON.stringify(runtime, null, 2)}\n`);
+    writeFileSync('evidence/v0.3/regression/v0.2.0-qa-runtime.json', `${JSON.stringify(runtime, null, 2)}\n`);
 
     expect(errors).toEqual([]);
     expect(failedRequests).toEqual([]);

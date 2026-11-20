@@ -3,6 +3,11 @@ import '@fontsource-variable/ibm-plex-sans';
 import './styles.css';
 import { loadRules, normalizeRules, saveRules, type RuleConfig } from './game/ruleConfig';
 import { RunSettingsPanel } from './ui/RunSettings';
+import { loadControls, shapeInput } from './flight/controlSettings';
+import { GamepadInputSource } from './flight/gamepad';
+import { bindControlSettings } from './ui/ControlSettings';
+import { resolveShield } from './game/shield';
+import { loadCameraAnchor } from './model/cameraAnchors';
 
 import type { CameraMode, VisualStimulation } from './config/experience';
 import { EXPERIENCE_CONFIG } from './config/experience';
@@ -44,6 +49,8 @@ import type { SurfaceQuery, WorldStats } from './world/worldTypes';
 type GameMode = 'title' | 'running' | 'paused' | 'failed';
 
 interface DebugSnapshot {
+  shieldImpacts: number;
+  inputDevice: string;
   rules: RuleConfig;
   ready: boolean;
   mode: GameMode;
@@ -114,6 +121,11 @@ declare global {
 
 const params = new URLSearchParams(window.location.search);
 let selectedRules = loadRules();
+let controls = loadControls();
+const gamepad = new GamepadInputSource();
+let shieldGlow = 0;
+let shieldImpacts = 0;
+let shieldCooldown = 0;
 const debugInputEnabled = params.has('debug');
 const autoStart = params.get('autostart') === '1';
 const worldSettings = worldSettingsFromSearch(window.location.search);
@@ -270,7 +282,7 @@ const applyCameraMode = (mode: CameraMode): CameraMode => {
 
 const toggleCameraMode = (): CameraMode => {
   const current = renderer?.getCameraSnapshot().mode ?? preferences.cameraMode;
-  return applyCameraMode(current === 'chase' ? 'cockpit' : 'chase');
+  return applyCameraMode(current === 'chase' ? 'nose' : current === 'nose' ? 'cockpit' : 'chase');
 };
 
 const toggleVisualStimulation = (): boolean => {
@@ -334,6 +346,7 @@ const applyAircraft = (root: Group | null): void => {
   const previous = currentImportedAircraft;
   currentImportedAircraft = root;
   renderer?.setAircraftModel(root);
+  renderer?.setCameraAnchor(loadCameraAnchor(aircraftLibrary.getSelectedId()));
   if (previous) disposeObject3D(previous);
 };
 
@@ -434,7 +447,10 @@ const simulateFixedStep = (dt: number, holdPosition = false): boolean => {
     return false;
   }
 
-  let nextState = stepFlight(flightState, inputSource.sample(flightState.elapsed), dt);
+  const keys = inputSource.sample(flightState.elapsed);
+  const keyboardActive = keys.boost || Math.abs(keys.pitch) + Math.abs(keys.roll) + Math.abs(keys.yaw) > 0;
+  const input = debugInputEnabled ? keys : keyboardActive ? shapeInput(keys, controls) : gamepad.sample(controls);
+  let nextState = stepFlight(flightState, input, dt, controls);
   if (holdPosition) {
     nextState = {
       ...nextState,
@@ -449,6 +465,16 @@ const simulateFixedStep = (dt: number, holdPosition = false): boolean => {
   }
 
   buffering = false;
+  shieldCooldown = Math.max(0, shieldCooldown - dt);
+  shieldGlow = Math.max(0, shieldGlow - dt * 3);
+  if (runRules.config.shield) {
+    const contact = resolveShield(flightState, nextState, worldStreamer);
+    nextState = contact.flight;
+    if (contact.impact) {
+      shieldGlow = 1;
+      if (shieldCooldown === 0) { shieldImpacts++; gamepad.impact(); shieldCooldown = 0.2; }
+    }
+  }
   flightState = nextState;
   lastSurfaceHit = worldStreamer.queryNearest(flightState.position, SURFACE_QUERY_RANGE);
   runRules = updateRunRules(runRules, { distance: lastSurfaceHit?.distance ?? null }, dt);
@@ -493,6 +519,8 @@ const resetFlightState = (): void => {
     speed: spawn.speed,
   });
   runRules = createRunRules(selectedRules);
+  shieldGlow = 0; shieldImpacts = 0; shieldCooldown = 0;
+  renderer.setCameraAnchor(loadCameraAnchor(aircraftLibrary.getSelectedId()));
   proximityFeedback = createProximityFeedback();
   buffering = false;
   syncWorldStreaming(flightState);
@@ -600,6 +628,7 @@ const returnToTitle = async (): Promise<void> => {
 };
 
 const openLibrary = (): void => {
+  if (!document.querySelector<HTMLElement>('#rules-panel')!.hidden) (document.querySelector('#rules-close') as HTMLButtonElement).click();
   if (ui.isLibraryOpen()) return;
   if (ui.isWorldOpen()) closeWorldPanel();
   modeBeforeLibrary = mode;
@@ -627,6 +656,7 @@ const closeLibrary = (resume = true): void => {
 
 
 const openWorldPanel = (): void => {
+  if (!document.querySelector<HTMLElement>('#rules-panel')!.hidden) (document.querySelector('#rules-close') as HTMLButtonElement).click();
   if (ui.isWorldOpen()) return;
   if (ui.isLibraryOpen()) closeLibrary();
   modeBeforeWorld = mode;
@@ -657,6 +687,8 @@ const debugSnapshot = (): DebugSnapshot => {
   return {
     ready: true,
     rules: { ...runRules.config },
+    shieldImpacts,
+    inputDevice: gamepad.device,
     mode,
     runTime: runRules.elapsed,
     best,
@@ -752,25 +784,37 @@ new RunSettingsPanel(selectedRules, (next) => {
   if (mode !== 'title' && mode !== 'failed') return;
   selectedRules = normalizeRules(next); saveRules(selectedRules);
   best = loadBest(scoreContextFor(worldSettings, selectedRules)); ui.setBest(best);
-}, () => debugPause(), (resume) => { if (resume) debugResume(); });
+}, () => {
+  closeLibrary(); closeWorldPanel();
+  return mode === 'running' ? debugPause() : false;
+}, (resume) => { if (resume) debugResume(); }, () => mode === 'title' || mode === 'failed');
+bindControlSettings(next => { controls = next; }, () => aircraftLibrary.getSelectedId(), anchor => renderer?.setCameraAnchor(anchor));
 
-keyboard.onAction((action: GameAction) => {
+const handleAction = (action: GameAction): void => {
   if (action === 'close') {
-    closeLibrary();
+    if (ui.isLibraryOpen()) closeLibrary();
+    else if (ui.isWorldOpen()) closeWorldPanel();
+    else if (!document.querySelector<HTMLElement>('#rules-panel')!.hidden) (document.querySelector('#rules-close') as HTMLButtonElement).click();
+    else if (mode === 'running') debugPause();
+    else if (mode === 'paused') debugResume();
     return;
   }
+  if (action === 'pause') { if (mode === 'running') debugPause(); else if (mode === 'paused') debugResume(); return; }
   if (action === 'library') {
     if (ui.isLibraryOpen()) closeLibrary();
     else openLibrary();
     return;
   }
-  if (ui.isLibraryOpen()) return;
+  if (ui.isLibraryOpen() || ui.isWorldOpen() || !document.querySelector<HTMLElement>('#rules-panel')!.hidden) return;
   if (action === 'camera' && mode !== 'title') toggleCameraMode();
   if (action === 'start' && mode === 'title') void startRun();
   if (action === 'retry' && mode !== 'title') void startRun();
-});
+};
+keyboard.onAction(handleAction);
 
 const frame = (now: number): void => {
+  gamepad.poll(controls, handleAction);
+  document.querySelector('#input-device')!.textContent = gamepad.device;
   const delta = Math.min(0.1, Math.max(0, (now - lastFrameTime) / 1000));
   lastFrameTime = now;
 
@@ -794,6 +838,7 @@ const frame = (now: number): void => {
         now,
         proximityFeedback.intensity,
       );
+      renderer.setShieldImpact(shieldGlow);
     } else if (mode === 'title') {
       renderer.renderTitle(now);
     } else {

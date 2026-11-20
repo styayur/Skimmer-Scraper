@@ -58,6 +58,8 @@ export class GameRenderer {
   private readonly proceduralAircraft: ProceduralAircraft;
   private readonly aircraftMount = new THREE.Group();
   private readonly aircraftModelMount = new THREE.Group();
+  private readonly shieldMesh = new THREE.Mesh(new THREE.IcosahedronGeometry(5.2, 1),
+    new THREE.MeshBasicMaterial({ color: 0x53e5cf, wireframe: true, transparent: true, opacity: 0, depthWrite: false }));
   private externalAircraft: THREE.Object3D | null = null;
   private readonly world: RenderableWorld;
   private readonly resizeObserver: ResizeObserver;
@@ -132,6 +134,8 @@ export class GameRenderer {
     this.aircraftMount.name = 'aircraft-mount';
     this.aircraftModelMount.name = 'aircraft-model-mount';
     this.aircraftMount.add(this.aircraftModelMount);
+    this.aircraftMount.add(this.shieldMesh);
+    this.shieldMesh.visible = false;
     this.aircraftModelMount.add(this.proceduralAircraft.group);
     this.speedRibbons = createSpeedRibbons();
     this.aircraftMount.add(this.speedRibbons.object);
@@ -192,6 +196,11 @@ export class GameRenderer {
   public setCameraMode(mode: CameraMode, immediate = false): void {
     this.cameraRig.setMode(mode, immediate);
   }
+  public setCameraAnchor(anchor: Vec3 | null): void { this.cameraRig.setAnchor(anchor); }
+  public setShieldImpact(intensity: number): void {
+    this.shieldMesh.visible = intensity > 0;
+    this.shieldMesh.material.opacity = Math.max(0, Math.min(0.65, intensity * 0.6));
+  }
 
   public setVisualStimulation(level: VisualStimulation): void {
     const reduced = level === 'reduced';
@@ -232,7 +241,7 @@ export class GameRenderer {
   }
 
   public renderFlight(state: FlightState, dt: number, now: number, proximity = 0): void {
-    this.aircraftModelMount.visible = this.cameraRig.getMode() !== 'cockpit' && this.cameraRig.getSnapshot().blend < 0.96;
+    this.aircraftModelMount.visible = this.cameraRig.getMode() === 'chase' && this.cameraRig.getSnapshot().blend < 0.96;
     this.atmosphere.update(now);
     this.cameraRig.update(dt, state, proximity, this.visualScale);
     this.setAircraftTransform(state.position, state.attitude, state.boosting);
@@ -283,6 +292,7 @@ export class GameRenderer {
     this.canvas.removeEventListener('webglcontextlost', this.handleContextLost);
     this.composer.dispose();
     this.proceduralAircraft.dispose();
+    this.shieldMesh.geometry.dispose(); this.shieldMesh.material.dispose();
     this.atmosphere.dispose();
     this.petals.dispose();
     this.speedRibbons.dispose();

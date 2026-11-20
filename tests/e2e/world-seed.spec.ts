@@ -47,7 +47,7 @@ test.describe('v0.2 phase 2 seeded city', () => {
     expect(alpha.worldMode).toBe('stable');
     expect(alpha.generatorVersion).toBe(2);
     expect(alpha.world.buildings).toBeGreaterThan(30);
-    await page.screenshot({ path: 'evidence/v0.2/phase-2-shared-seed.png', fullPage: true });
+    await page.screenshot({ path: 'evidence/v0.3/regression/v0.2/phase-2-shared-seed.png', fullPage: true });
 
     await page.reload();
     await waitReady(page);
@@ -74,7 +74,7 @@ test.describe('v0.2 phase 2 seeded city', () => {
     expect(beta.worldPreset).toBe('archipelago');
     expect(beta.worldFingerprint).not.toBe(alpha.worldFingerprint);
     await expect(page.locator('#title-world-meta')).toContainText('seed-beta');
-    await page.screenshot({ path: 'evidence/v0.2/phase-2-seed-variation.png', fullPage: true });
+    await page.screenshot({ path: 'evidence/v0.3/regression/v0.2/phase-2-seed-variation.png', fullPage: true });
 
     await page.locator('#world-open').click();
     const beforeRandom = await page.locator('#world-seed-input').inputValue();
@@ -86,10 +86,10 @@ test.describe('v0.2 phase 2 seeded city', () => {
     await page.locator('#world-reset').click();
     await expect(page.locator('#world-seed-input')).toHaveValue('334458');
     await expect(page.locator('#world-preset-select')).toHaveValue('sakura');
-    await page.screenshot({ path: 'evidence/v0.2/phase-2-world-panel.png', fullPage: true, animations: 'disabled' });
+    await page.screenshot({ path: 'evidence/v0.3/regression/v0.2/phase-2-world-panel.png', fullPage: true, animations: 'disabled' });
 
     writeFileSync(
-      'evidence/v0.2/phase-2-runtime.json',
+      'evidence/v0.3/regression/v0.2/phase-2-runtime.json',
       `${JSON.stringify({
         generatedAt: new Date().toISOString(),
         generatorVersion: alpha.generatorVersion,

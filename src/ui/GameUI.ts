@@ -289,8 +289,9 @@ export class GameUI {
 
   public setCameraMode(mode: CameraMode): void {
     const cockpit = mode === 'cockpit';
-    this.cameraButton.innerHTML = cockpit ? '视角 · 机头 <kbd>C</kbd>' : '视角 · 追尾 <kbd>C</kbd>';
-    this.hudView.textContent = cockpit ? 'NOSE / 机头' : 'CHASE / 追尾';
+    const label = mode === 'chase' ? '追尾' : cockpit ? '驾驶舱' : '机头';
+    this.cameraButton.innerHTML = `视角 · ${label} <kbd>C</kbd>`;
+    this.hudView.textContent = mode === 'chase' ? 'CHASE / 追尾' : cockpit ? 'COCKPIT / 驾驶舱' : 'NOSE / 机头';
     this.cockpitFrame.hidden = !cockpit;
     document.getElementById('app')?.classList.toggle('is-cockpit', cockpit);
   }
