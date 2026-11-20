@@ -1,0 +1,116 @@
+{
+  "status": "passed",
+  "method": "Two full production builds at the same clean commit with the same lockfile and local toolchain; every distribution file has identical SHA256. Final merged-release verification is attached separately.",
+  "sourceCommit": "008dafbf5ee00e63bed1534c27d2ebcf80ee377d",
+  "node": "v26.7.0",
+  "platform": "win32",
+  "lockfileSha256": "eb88b7ad02facd72004e1230ea8ba91d93908cd7f538122286af388200eec117",
+  "files": [
+    {
+      "path": "_headers",
+      "bytes": 265,
+      "sha256": "0bc210241376472d93712c8f8f216e6dbb732b6d98905fa1849150fe35fd7aa5"
+    },
+    {
+      "path": "assets/ibm-plex-sans-cyrillic-ext-wght-normal-d45eAU9y.woff2",
+      "bytes": 23568,
+      "sha256": "7d0037a170882a49e65a45c38ef195237bb07b1cc791d078379f0ac0d7ae1935"
+    },
+    {
+      "path": "assets/ibm-plex-sans-cyrillic-wght-normal-BAAhND-U.woff2",
+      "bytes": 29512,
+      "sha256": "9409ee21811f0f5272b7e1d828fe8838005b0573481ef906e7e55b63f6610ab0"
+    },
+    {
+      "path": "assets/ibm-plex-sans-greek-wght-normal-CmyJS8uq.woff2",
+      "bytes": 19500,
+      "sha256": "f598dd0700f155e2facfaa8ecfacace397d4c2c153e9ce37ab7ad310e8505bc2"
+    },
+    {
+      "path": "assets/ibm-plex-sans-latin-ext-wght-normal-CIII54If.woff2",
+      "bytes": 30964,
+      "sha256": "d160e20920ae4d6556518d352d3af27a74e9b0de3d8fe17b1c1044fc75aa2f81"
+    },
+    {
+      "path": "assets/ibm-plex-sans-latin-wght-normal-IvpUvPa2.woff2",
+      "bytes": 45712,
+      "sha256": "e2291e842cf5af167122a22881a740c7f2dda7716f1e8cd76680264f4a859470"
+    },
+    {
+      "path": "assets/ibm-plex-sans-vietnamese-wght-normal-Dg1JeJN0.woff2",
+      "bytes": 13160,
+      "sha256": "73e7f7b1c980416ae0c2461268b14c7cfcce0668e683dc43fbb11a82a227b9f2"
+    },
+    {
+      "path": "assets/index-CSCx9fNQ.css",
+      "bytes": 26904,
+      "sha256": "32069ee23dd1df13bf1a3ec475993b9648387c596412dfd4fb1f68ad72a05644"
+    },
+    {
+      "path": "assets/index-PmyGQfSS.js",
+      "bytes": 874153,
+      "sha256": "e5011f32f0ec70145da462e2e117f7cf58304f2d4a7d545926cf4aab76e85e6f"
+    },
+    {
+      "path": "assets/index-PmyGQfSS.js.map",
+      "bytes": 4115936,
+      "sha256": "0e1c7092ac1b2e6c2e3d04187d686917855c3672e78a5d09b859723f0b972a19"
+    },
+    {
+      "path": "assets/syne-greek-wght-normal-5tOOQDeJ.woff2",
+      "bytes": 11200,
+      "sha256": "b9ade823e28b34c3a9c038ae698e659f64b66dabeed6c979e0bc347bfcc891a7"
+    },
+    {
+      "path": "assets/syne-latin-ext-wght-normal-JjI8ZrW1.woff2",
+      "bytes": 14724,
+      "sha256": "83885b130cf2a67bc2fd6175d6f3c2875833552c1762b5943b51335038ae01f2"
+    },
+    {
+      "path": "assets/syne-latin-wght-normal-BVsvWWA4.woff2",
+      "bytes": 34608,
+      "sha256": "68b623f0e45b905041b2edb9b2e4f563a505f13db1cd06b5f1946eb2e1f47048"
+    },
+    {
+      "path": "build-info.json",
+      "bytes": 268,
+      "sha256": "5f2fb86c48d91e4e8aa7c766147859b606702ba71055382b1aae4e94397cba36"
+    },
+    {
+      "path": "CREDITS.md",
+      "bytes": 5315,
+      "sha256": "876d0548a0570620b48b9797df3af73e0bd5aed04aa8688f9c395a854c558c5b"
+    },
+    {
+      "path": "favicon.svg",
+      "bytes": 502,
+      "sha256": "087d0bc38d9eaee79e4b14b31d24f84fb70c36bb4d56584f395c95721e5bdbc6"
+    },
+    {
+      "path": "index.html",
+      "bytes": 18677,
+      "sha256": "c1395a58255001c2b21d90a837a30ce4c0a52bcdac9c9895171ee1b6363f988c"
+    },
+    {
+      "path": "LICENSE",
+      "bytes": 35184,
+      "sha256": "e0eedba615d5cd1b986afb6c5b3a4b1ae33713e7e9dc74d19daec5e3221f9d2e"
+    },
+    {
+      "path": "licenses/DEPENDENCIES.json",
+      "bytes": 15700,
+      "sha256": "e10a1e3298517cc884adb20c7134c696128543ec9fadd54937eff6dbc2e2383e"
+    },
+    {
+      "path": "licenses/PROJECT-MIT-v0.2.0.txt",
+      "bytes": 1085,
+      "sha256": "c5743682264336e52b2b8cf88445925e88005a95b63110eaed92e2028fd1df3d"
+    },
+    {
+      "path": "licenses/THIRD-PARTY-NOTICES.txt",
+      "bytes": 11397,
+      "sha256": "93347078996f26e20c49d9042d9b0ca6ea6b83eef05e6bbc7e26c59a27432fd7"
+    }
+  ],
+  "crossPlatformIdentityClaimed": false
+}

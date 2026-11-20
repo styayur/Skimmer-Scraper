@@ -1,3 +1,16 @@
+# v0.3 candidate acceptance
+
+The final candidate report is [acceptance/v0.3.0.json](../acceptance/v0.3.0.json).
+Local verification passed132 unit tests and26 Playwright tests. Actual moving
+Radeon780M measurements, five-world resource checks, three-browser v0.2 migration,
+genuine model inference and the explicitly recorded-plan Relay experiment are
+documented in [V030-QA.md](V030-QA.md). Required GitHub checks still control merging
+and tagging; the attached release manifest binds their final IDs and source SHA.
+
+Stable publication is withheld: final WORLD_SWAP peak275.1ms remains for experience
+review, and no human flight/art/AI teamwork or physical gamepad acceptance is
+invented. The candidate does not replace v0.2.0 production.
+
 # v0.1.0 acceptance
 
 Status: **release candidate accepted for source/GitHub Pages preview** on 2026-11-08. Cloudflare Pages
