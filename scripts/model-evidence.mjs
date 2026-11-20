@@ -21,12 +21,13 @@ try{
   try{await page.locator('#ai-key').fill(secret);}catch{throw Error('Could not enter memory credential');}
   await page.locator('#ai-connect').click();await page.locator('#rules-close').click();
   stage='inference';await page.waitForFunction(()=>window.__SKIMMER_SCRAPER__.snapshot().cooperation.model.requests>=2&&!window.__SKIMMER_SCRAPER__.snapshot().cooperation.model.pending,null,{timeout:80000});
-  const result=await page.evaluate(async()=>{const g=window.__SKIMMER_SCRAPER__;const before=g.snapshot();const after=await g.advance(3);g.pause();const gl=document.querySelector('canvas').getContext('webgl2');const ext=gl.getExtension('WEBGL_debug_renderer_info');return{before,after,gpu:gl.getParameter(ext.UNMASKED_RENDERER_WEBGL),userAgent:navigator.userAgent};});
+  const result=await page.evaluate(async()=>{const g=window.__SKIMMER_SCRAPER__;const before=g.snapshot();const after=await g.advance(3);const gl=document.querySelector('canvas').getContext('webgl2');const ext=gl.getExtension('WEBGL_debug_renderer_info');return{before,after,gpu:gl.getParameter(ext.UNMASKED_RENDERER_WEBGL),userAgent:navigator.userAgent};});
   result.model=model;result.errors=errors;result.kind='genuine browser HTTPS model inference and actual local physics, no mocked responses';
   const script=await page.locator('script[type="module"]').getAttribute('src');result.testedAsset=script;
   if(script?.startsWith('./assets/'))result.assetSha256=createHash('sha256').update(readFileSync(`dist/${script.slice(2)}`)).digest('hex');
   if(JSON.stringify(result).includes(secret))throw Error('Sensitive evidence refused');
   writeFileSync(`evidence/v0.3/${prefix}-real-${model}.json`,JSON.stringify(result,null,2));await page.screenshot({path:`evidence/v0.3/${prefix}-real-${model}.png`});
+  await page.evaluate(()=>window.__SKIMMER_SCRAPER__.pause());
   console.log(JSON.stringify({model,requests:result.after.cooperation.model.requests,successes:result.after.cooperation.model.successes,decisions:result.after.cooperation.trace.filter(t=>t.event==='decision').map(t=>({validation:t.data.validation,decision:t.data.decision,latencyMs:t.data.latencyMs,usage:t.data.usage})),trust:result.after.cooperation.trust.value,errors}));runs.push(result);await context.close();
  }
  if(!runs.every(r=>r.after.cooperation.trace.some(t=>t.event==='execution')&&r.after.cooperation.trace.some(t=>t.event==='outcome')))process.exitCode=2;
