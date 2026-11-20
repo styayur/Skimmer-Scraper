@@ -3,7 +3,7 @@
   "product": "Skimmer-Scraper",
   "version": "0.3.0-rc.1",
   "targetStableVersion": "0.3.0",
-  "generatedAt": "2026-11-20T19:34:34.745Z",
+  "generatedAt": "2026-11-20T19:41:13.661Z",
   "status": "candidate_automated_acceptance_passed_experience_review_pending",
   "stablePublishEligible": false,
   "provenance": {
@@ -590,11 +590,19 @@
       "shieldImpacts": 31
     },
     "fiveWorldTransitions": {
-      "averageFps": 89.26228449801941,
+      "averageFps": 95.48579816135762,
       "p95Ms": 16.799999999999272,
-      "p99Ms": 41.90000000000009,
-      "maxFrameMs": 275.09999999999854,
-      "longTasks": 3
+      "p99Ms": 41.600000000000364,
+      "maxFrameMs": 58.29999999999973,
+      "longTasks": 4,
+      "method": "Explicit capture windows measure actual rAF climb across520m and five full transitions. Fixture setup and PNG screenshot/readback are outside FPS windows, with last-frame reset. Long tasks filtered to capture windows; slow frames record phase/world. Includes debug snapshot sampling, no debug advance, model key or inference.",
+      "peakSample": {
+        "startMs": 3358.8,
+        "durationMs": 58.29999999999973,
+        "fromPhase": "WORLD_SWAP",
+        "toPhase": "WORLD_SWAP",
+        "world": 0
+      }
     },
     "resources": {
       "method": "Three accelerated five-world journeys with actual browser/WebGL resources, normalized to the same base seed/spawn/settled chunks and forced CDP GC. Not an FPS benchmark or a guarantee of indefinite leak freedom.",
@@ -840,7 +848,7 @@
       "DEEPSEEK_API_KEY",
       "OPENAI_API_KEY"
     ],
-    "filesScanned": 210,
+    "filesScanned": 211,
     "matches": 0,
     "filesWithMatches": [],
     "status": "passed"
@@ -1011,16 +1019,18 @@
     "humanFunOrFlightFeelAccepted": false,
     "issues": [
       {
-        "id": "WORLD-SWAP-FRAME",
-        "observedMaxFrameMs": 275.09999999999854,
+        "id": "TRANSITION-PACING-REVIEW",
+        "observedMaxFrameMs": 58.29999999999973,
         "reproduce": "npm run preview -- --port4174; EVIDENCE_PREFIX=phase-6 node scripts/journey-evidence.mjs. Valid520m upward crossing; inspect WORLD_SWAP.",
-        "next": "Profile observed main-thread resource-exchange work and review visible transition pacing before stable promotion."
+        "next": "Review visible transition pacing and camera comfort; further profiling depends on observed experience.",
+        "classification": "measured observation; hands-on pacing judgment pending"
       },
       {
         "id": "HUMAN-REVIEW",
         "scope": "Keyboard/physical gamepad controls, haptics, camera comfort, five-world art/transitions and AI teamwork need hands-on player judgment."
       }
-    ]
+    ],
+    "measurementCorrection": "Earlier phase5/early-phase6 PNG-inclusive captures are retained historically; their275–300ms peaks do not establish gameplay-only stalls. Explicit-window data excludes fixture/readback work and is the release performance authority."
   },
   "evidence": [
     {
@@ -1093,7 +1103,7 @@
     },
     {
       "path": "evidence/v0.3/phase-6-privacy.json",
-      "sha256": "517137d29fbefc9f17933e8da7f650fe36974bef5c5b1cbfe1994f991db59dcb"
+      "sha256": "5784a71d889c804b848125d43bef1d1f6e19fcac2b73bd8291dffe0a62d59a2c"
     },
     {
       "path": "evidence/v0.3/phase-6-production-preserved.json",
@@ -1116,28 +1126,32 @@
       "sha256": "aad1b106193c36c5dc1286089ef4396527012913a86d2a01025356714ece068f"
     },
     {
-      "path": "evidence/v0.3/phase-6-real-gpu.json",
+      "path": "evidence/v0.3/phase-6-real-gpu-including-screenshots.json",
       "sha256": "051b9a7ef71702169503e93cb956da4c459bf45bb065c822c02ac12a35a98934"
     },
     {
+      "path": "evidence/v0.3/phase-6-real-gpu.json",
+      "sha256": "88dda2671df18a0311e64cf8fef353ca1f787096e7701cbe5368df34c707008c"
+    },
+    {
       "path": "evidence/v0.3/phase-6-real-world-1.png",
-      "sha256": "7e4305c005d3b583ac51411d2d56e23a0493fce16fa1dd3d139086c9ceaf80da"
+      "sha256": "735d6b7975d0a715fbed4bae436b417f6d8263be0f551a7a1d7faadb4e329742"
     },
     {
       "path": "evidence/v0.3/phase-6-real-world-2.png",
-      "sha256": "7470d0274e3abd308990e770a34755ff9db10b573300f47c2af8b8d8269fe574"
+      "sha256": "7fde18ce6fe58d4d801c34240e71358de062f56470a04c29bae4ae138392f657"
     },
     {
       "path": "evidence/v0.3/phase-6-real-world-3.png",
-      "sha256": "d783abb1ff0221e1954a1962fa8d389c4f9988dd43995ca91b623ee32e1200fc"
+      "sha256": "42e547e0d0736e567acbbb007756cac76889e159b13d0ac98f7a99ac1ab5a076"
     },
     {
       "path": "evidence/v0.3/phase-6-real-world-4.png",
-      "sha256": "fe9d3ad040251f2626bf0fe854eb126727ec8aa06e46d0a5ce6516459620835e"
+      "sha256": "e8254fbe6ab9f83ac9a6ac667ab625fd088f76578ec5d73a33cef139da546074"
     },
     {
       "path": "evidence/v0.3/phase-6-real-world-5.png",
-      "sha256": "39580f7691aef17724d8162298baa341d852fc975e2596379f6d7d6fd381a3a9"
+      "sha256": "b17d8b856d48d97da4ed427786ab5ee50431e14e6e5f7b9b6ea42caad7d8f969"
     },
     {
       "path": "evidence/v0.3/phase-6-relay-browser.json",

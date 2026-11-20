@@ -7,9 +7,10 @@ genuine model inference and the explicitly recorded-plan Relay experiment are
 documented in [V030-QA.md](V030-QA.md). Required GitHub checks still control merging
 and tagging; the attached release manifest binds their final IDs and source SHA.
 
-Stable publication is withheld: final WORLD_SWAP peak275.1ms remains for experience
-review, and no human flight/art/AI teamwork or physical gamepad acceptance is
-invented. The candidate does not replace v0.2.0 production.
+Stable publication awaits human controls/art/AI teamwork and transition-pacing
+review. The explicit-window WORLD_SWAP maximum is58.3ms; older captures containing
+PNG readback do not establish gameplay-only stalls. Physical gamepad acceptance
+is unverified. The candidate does not replace v0.2.0 production.
 
 # v0.1.0 acceptance
 

@@ -11,8 +11,8 @@ profile, no model upload.
 **v0.3.0-rc.1** adds configurable Challenge/Free Flight, shields, three views,
 gamepad/Precision controls, 1–3 local or model-planned companions, Trust/Surface
 Relay and five-world Sky Inversion. This is a candidate for experience review;
-the public site remains v0.2.0. A measured world-exchange frame spike and unverified
-human flight feel prevent automatic stable promotion.
+the public site remains v0.2.0. Hands-on controls, art, transition pacing and AI
+teamwork await review. Explicit capture windows recorded a58.3ms transition maximum.
 
 Try the candidate locally: `npm ci`, `npm run build`, then `npm run preview`.
 The release static ZIP can also be served over HTTP without Node or a backend.

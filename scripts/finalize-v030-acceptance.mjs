@@ -44,6 +44,12 @@ const report={
  experience:{humanFunOrFlightFeelAccepted:false,issues:[{id:'WORLD-SWAP-FRAME',observedMaxFrameMs:journey.maxFrameMs,reproduce:'npm run preview -- --port4174; EVIDENCE_PREFIX=phase-6 node scripts/journey-evidence.mjs. Valid520m upward crossing; inspect WORLD_SWAP.',next:'Profile observed main-thread resource-exchange work and review visible transition pacing before stable promotion.'},{id:'HUMAN-REVIEW',scope:'Keyboard/physical gamepad controls, haptics, camera comfort, five-world art/transitions and AI teamwork need hands-on player judgment.'}]},
  evidence:readdirSync(base).filter(name=>name.startsWith('phase-6-')&&/\.(json|png)$/.test(name)).sort().map(name=>({path:`${base}${name}`,sha256:sha(`${base}${name}`)}))
 };
+report.performance.fiveWorldTransitions.method=journey.method;
+report.performance.fiveWorldTransitions.peakSample=[...journey.frameSpikes].sort((a,b)=>b.durationMs-a.durationMs)[0];
+report.experience.issues[0].id='TRANSITION-PACING-REVIEW';
+report.experience.issues[0].classification='measured observation; hands-on pacing judgment pending';
+report.experience.issues[0].next='Review visible transition pacing and camera comfort; further profiling depends on observed experience.';
+report.experience.measurementCorrection='Earlier phase5/early-phase6 PNG-inclusive captures are retained historically; their275–300ms peaks do not establish gameplay-only stalls. Explicit-window data excludes fixture/readback work and is the release performance authority.';
 report.tests.ciBoundaryRegression=evidence('ci-regression');
 assert(report.tests.ciBoundaryRegression.passed===6&&report.tests.ciBoundaryRegression.failed===0);
 report.reproducibility.sourceArchiveRebuild=evidence('package-rehearsal');

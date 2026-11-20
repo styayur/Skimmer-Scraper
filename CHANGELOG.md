@@ -34,8 +34,9 @@
 
 ### Candidate limits
 
-- A measured world-exchange frame spike remains for profiling/experience review.
-  Physical gamepad and human flight/art/AI collaboration judgments are not claimed.
+- Human controls/art/AI teamwork and transition pacing await review. Explicit
+  capture windows measured58.3ms max; earlier PNG-inclusive peaks are not used
+  to infer gameplay-only stalls. Physical gamepad judgment is not claimed.
 - OpenAI live authentication was unavailable; actual model evidence uses DeepSeek
   Flash/V4 Pro. No hosted inference service or bundled key is provided.
 
