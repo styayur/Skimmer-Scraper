@@ -1,5 +1,42 @@
 # Architecture
 
+## Sky Journey
+
+`SkyJourney` is a fixed-time ASCENT → THRESHOLD → INVERSION → WORLD_SWAP →
+DIVE → RECOVERY state machine. A live upward crossing of 520 m is required;
+teleporting above it, falling, or exhausting grace in the crossing step cannot
+start a transition. Only confirmed transition phases freeze survival time/grace.
+The normal animation lasts 3.6 seconds plus asynchronous city preparation. Skip
+retains the resource exchange and safe entry; reduced-motion preference or reduced
+visual mode removes the extra camera roll.
+
+The composition root releases the renderer's old world reference, disposes the
+streamer/BVHs and then constructs exactly one new city. A bounded numeric release
+ledger records zero old BVHs/root children before replacement. A cancellation token
+guards pending loads; separate run generations stop an older debug advance from
+stepping a retried run. Camera, imported player model, companion instancing and
+atmosphere survive; world materials, textures and chunks belong to the exchanged
+streamer. `chooseSkyEntry` sweeps the entire protected spawn column before the pure
+`stepSkyDive` animation. Local agents keep collision authority during regroup/dive
+and are safely redeployed before normal flight resumes.
+Arrival selection also sweeps a 180 m cruise corridor with 6.5 m clearance and
+loaded coverage, considering alternate headings, local offsets and heights. This
+prevents a valid vertical column from handing control back facing an imminent bridge.
+Each generator also owns one shared shadow depth material. Real-GPU lifecycle
+instrumentation found a disposed ground map being uploaded again through the
+renderer-shared shadow material; per-world ownership releases that sampler state.
+The repeated-journey browser test and `journey-memory.mjs` normalize the same base
+view after exchanges and verify stable warm texture/geometry/BVH counts.
+
+New world seeds derive from initial seed, ordinal and generator version. World0
+retains the exact v0.2 generator settings; five new palette/grammar profiles are
+in `journeyWorlds.ts`. New-world plans are invalidated by epoch, while Trust event
+history, spent Relay resources and cooldown survive. Cross-world scores use a
+separate `sky-journey-v3` suffix. Retry/menu restore the initial world and refresh
+starts at world0; a separate optional local unlock records the fifth valid arrival.
+The original non-solid light sculpture marks world5. Its small dismissible signature
+expires after eight simulation seconds and does not pause flight or require an account.
+
 ## Model cooperation boundary
 
 `SymbiosisRuntime` composes plain numeric perception → one shared team request →

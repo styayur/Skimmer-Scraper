@@ -41,6 +41,15 @@ const disposeChunk = (chunk: ReturnType<ChunkGenerator['generate']>): void => {
 };
 
 describe('deterministic chunk generation', () => {
+  it('owns one shadow material per world and releases it with its generator', () => {
+    const settings=resolveWorldSettings({seed:'shadow-lifetime'});
+    const a=new ChunkGenerator(settings,fakeMaterials(),fakeBillboards());const b=new ChunkGenerator(settings,fakeMaterials(),fakeBillboards());
+    const chunks=[a.generate(0,0),a.generate(1,0),b.generate(0,0)];
+    const depths=chunks.map(chunk=>{const found=new Set<THREE.Material>();chunk.group.traverse(o=>{if(o instanceof THREE.Mesh&&o.castShadow)found.add(o.customDepthMaterial!);});expect(found.size).toBe(1);return [...found][0];});
+    expect(depths[0]).toBe(depths[1]);expect(depths[0]).not.toBe(depths[2]);
+    let disposed=0;depths[0].addEventListener('dispose',()=>disposed++);a.dispose();a.dispose();expect(disposed).toBe(1);expect(()=>a.generate(0,0)).toThrow('disposed');
+    for(const chunk of chunks)disposeChunk(chunk);b.dispose();
+  });
   it('repeats the same fingerprint and geometry for the same seed and coordinate', () => {
     const settings = resolveWorldSettings({ seed: 'phase-2-stable', preset: 'sakura' });
     const a = new ChunkGenerator(settings, fakeMaterials(), fakeBillboards());

@@ -1,0 +1,143 @@
+{
+  "phase": 5,
+  "typecheck": "passed",
+  "build": "passed",
+  "unit": {
+    "passed": 131,
+    "failed": 0
+  },
+  "browser": {
+    "fullSuitePassed": 23,
+    "latestPresentationRerun": "4 passed, including repeated GPU texture regression",
+    "reducedMotionAndStandardRotation": "verified",
+    "finalFiveWorldSuite": "3 passed; five-world case now uses default challenge with3 companions",
+    "edge": "1 companion, default5s challenge, five worlds passed",
+    "firefox": "2 companions, free flight, five worlds passed",
+    "fullFinalHeadSuite": "pending CI;24 cases"
+  },
+  "worlds": {
+    "initialSeed": 334458,
+    "newSeeds": [
+      2292173047,
+      383910061,
+      925342747,
+      2903266828,
+      2250268764
+    ],
+    "validCrossings": 5,
+    "profiles": [
+      "cobalt neon",
+      "jade archipelago",
+      "lilac bridge garden",
+      "amber high city",
+      "golden sky"
+    ],
+    "generatorVersion": 2,
+    "initialSettingsUnchanged": true
+  },
+  "rules": {
+    "height": 520,
+    "animationSeconds": 3.6,
+    "asyncSwapWaitExcluded": true,
+    "freezeOnlyAfterValidLiveUpwardCrossing": true,
+    "failedCrossingRejected": true,
+    "skip": true,
+    "reducedRotation": true,
+    "journeyScoreIsolation": true,
+    "safeCruiseCorridorMeters": 180,
+    "safeCorridorClearanceMeters": 6.5
+  },
+  "companions": {
+    "counts": [
+      1,
+      2,
+      3
+    ],
+    "sharedGeometry": true,
+    "trustHistoryPreserved": true,
+    "spentRelayResourceAndCooldownPreservation": "unit-tested with non-default values",
+    "oldPlansCancelledByEpoch": true,
+    "actualTrustBeforeAndAfterFiveCrossings": 0.58
+  },
+  "resources": {
+    "oldBvhAfterRelease": 0,
+    "oldRootChildrenAfterRelease": 0,
+    "maxLoadedChunks": 41,
+    "releaseLedgerBound": 16,
+    "historyBound": 128,
+    "shadowDepthOwnership": "one shared material per world, disposed with generator",
+    "fifteenExchangeTextures": [
+      23,
+      23,
+      23,
+      23
+    ],
+    "fifteenExchangeGeometries": [
+      215,
+      215,
+      215,
+      215
+    ],
+    "fifteenExchangeBvh": [
+      25,
+      25,
+      25,
+      25
+    ],
+    "listeners": [
+      82,
+      82,
+      82,
+      82
+    ]
+  },
+  "easterEgg": {
+    "trigger": "fifth completed recovery, not merely crossing height",
+    "localUnlock": true,
+    "dismissible": true,
+    "signatureSeconds": 8,
+    "originalNonSolidLightSculpture": true,
+    "retryAndRefresh": true
+  },
+  "evidence": [
+    "evidence/v0.3/phase-5-five-worlds.json",
+    "evidence/v0.3/phase-5-1-companions.json",
+    "evidence/v0.3/phase-5-2-companions.json",
+    "evidence/v0.3/phase-5-cross-browser.json",
+    "evidence/v0.3/phase-5-arrival-regression.json",
+    "evidence/v0.3/phase-5-memory.json",
+    "evidence/v0.3/phase-5-texture-regression.json",
+    "evidence/v0.3/phase-5-resource-regression.json"
+  ],
+  "performance": {
+    "isolatedCapture": "evidence/v0.3/phase-5-real-gpu.json",
+    "concurrentStressCapture": "evidence/v0.3/phase-5-real-gpu-concurrent-load.json",
+    "gpu": "ANGLE (AMD, AMD Radeon 780M Graphics (0x00001900) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+    "viewport": [
+      1920,
+      1080
+    ],
+    "averageFps": 89.80559025968938,
+    "p95Ms": 16.799999999999272,
+    "p99Ms": 41.69999999999982,
+    "maxFrameMs": 300.2999999999993,
+    "peakChunks": 25,
+    "peakBvh": 25,
+    "peakDrawCalls": 530,
+    "peakTriangles": 858000,
+    "peakGeometries": 266,
+    "peakTextures": 26,
+    "longTasks": 4,
+    "testedAsset": "./assets/index-Cfd4qH7i.js",
+    "assetSha256": "48e9c333f4e5f4f27a7ffd895f49e87558cab1d890f451eaee88f1e940b5e46e",
+    "method": "Actual running rAF flight and five transitions on real GPU. Paused fixture approach519m excluded from frame samples; actual climb crosses520m. Long-task capture includes fixture setup. No debug time advance; no model key or inference."
+  },
+  "production": "unchanged v0.2.0; no tag or deployment in this phase",
+  "experience": {
+    "manualFlightFeel": "not asserted",
+    "knownIssue": "Resource-exchange frame peak 300.3ms in isolated real-GPU capture; needs experience review/profiling before stable promotion",
+    "reproduction": "npm run preview -- --port 4174, then node scripts/journey-evidence.mjs; approach fixture519m, actual climbing crosses520m"
+  },
+  "resolvedRegression": "Third world vertical entry was clear but faced a bridge; now selects a covered180m safe cruise path. Regression case and Edge challenge verified.",
+  "resolvedTextureLeak": "Ground maps were re-uploaded after dispose through renderer-shared shadow sampler state; world-owned shadow depth material fixes growth."
+}

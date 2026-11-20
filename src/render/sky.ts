@@ -4,6 +4,7 @@ export interface SkyAtmosphere {
   group: THREE.Group;
   sunDirection: THREE.Vector3;
   update(time: number): void;
+  palette(top:number,mid:number,horizon:number):void;
   dispose(): void;
 }
 
@@ -108,6 +109,11 @@ export const createSkyAtmosphere = (): SkyAtmosphere => {
   return {
     group,
     sunDirection,
+    palette:(top,mid,horizon)=>{
+      (skyMaterial.uniforms.uTop!.value as THREE.Color).setHex(top);
+      (skyMaterial.uniforms.uMid!.value as THREE.Color).setHex(mid);
+      (skyMaterial.uniforms.uHorizon!.value as THREE.Color).setHex(horizon);
+    },
     update: (time) => {
       skyMaterial.uniforms.uTime!.value = time;
       cloudLayer.rotation.y = time * 0.0018;

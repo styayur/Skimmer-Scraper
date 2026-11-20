@@ -2,6 +2,10 @@
 
 ## Project code and generated art
 
+The five Sky Journey palettes/parameter profiles, inversion choreography and fifth-sky
+light sculpture/signature are original procedural work. No third-party models, world
+generation service, textures or runtime dependencies were added for this feature.
+
 - Skimmer-Scraper source code and original procedural world/aircraft geometry: AGPL-3.0-only for v0.3 onward; historical MIT grants retained, © 2026 styayur.
 - Sky, facade textures, signage, blossom, particles, aircraft materials, engine sound and wind noise
   are generated at runtime by this repository. Imported GLB files remain user-owned local data and are

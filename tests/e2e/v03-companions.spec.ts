@@ -14,7 +14,10 @@ test('three companions retain shared geometry and recover during 120 seconds of 
   for (let i = 0; i < 2; i++) states.push(await page.evaluate(() => window.__SKIMMER_SCRAPER__!.advance(60)));
   await page.keyboard.up('Shift');
   const final = states[1];
-  expect(final.mode).toBe('running');expect(final.runTime).toBeGreaterThanOrEqual(119.99);
+  // Boost/shield rebounds can now reach the sky. Journey time includes the legitimate
+  // transition freezes; survival time intentionally excludes those cinematics.
+  expect(final.mode).toBe('running');expect(final.journey.time).toBeGreaterThanOrEqual(119.99);
+  expect(final.runTime).toBeLessThanOrEqual(final.journey.time+0.01);
   expect(final.companions.every(agent => agent.deployed && !agent.uncovered)).toBe(true);
   expect(final.streaming!.activeChunks).toBeLessThanOrEqual(41);
   for (const agent of final.companions) expect(Math.hypot(agent.position.x-final.position.x,agent.position.y-final.position.y,agent.position.z-final.position.z)).toBeLessThan(250);

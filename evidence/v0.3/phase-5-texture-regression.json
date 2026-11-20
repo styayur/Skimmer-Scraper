@@ -1,0 +1,68 @@
+{
+  "before": {
+    "sourceCommit": "b7901f488c615568bf7e1ac36d4f43a0d533fd70",
+    "asset": "index-En4_8UV0.js",
+    "method": "Observed same normalized base view after forced GC, recorded in local diagnostic tool output before correction",
+    "worldExchanges": [
+      0,
+      5,
+      10,
+      15
+    ],
+    "gpuTextures": [
+      23,
+      26,
+      31,
+      36
+    ],
+    "gpuGeometries": [
+      215,
+      215,
+      215,
+      215
+    ],
+    "listeners": [
+      82,
+      82,
+      82,
+      82
+    ]
+  },
+  "cause": "Ground texture dispose was followed by re-upload of the same Texture UUID through WebGLShadowMap.renderObject. Renderer-shared depth material retained sampler state across world lifetimes.",
+  "correction": "One shared MeshDepthMaterial owned and disposed per ChunkGenerator/world. No patch to third-party code; reject generation after disposal and make disposal idempotent.",
+  "after": {
+    "asset": "./assets/index-Cfd4qH7i.js",
+    "gpuTextures": [
+      23,
+      23,
+      23,
+      23
+    ],
+    "gpuGeometries": [
+      215,
+      215,
+      215,
+      215
+    ],
+    "bvh": [
+      25,
+      25,
+      25,
+      25
+    ],
+    "listeners": [
+      82,
+      82,
+      82,
+      82
+    ],
+    "backingStorageBytes": [
+      32137283,
+      32137350,
+      32137350,
+      32137350
+    ]
+  },
+  "reproduction": "node scripts/journey-memory.mjs",
+  "scope": "15 actual browser world exchanges and3 base restores, accelerated fixed steps; not an indefinite no-leak guarantee or an FPS benchmark"
+}

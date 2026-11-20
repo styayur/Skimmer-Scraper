@@ -1,0 +1,22 @@
+{
+  "before": {
+    "sourceCommit": "643240540ffc102387bcc6ea7c9572417463ecc1",
+    "worldIndex": 3,
+    "seed": 925342747,
+    "mode": "challenge",
+    "failure": "impact",
+    "position": {
+      "x": 0,
+      "y": 23.083672820142855,
+      "z": 58.91610304748158
+    },
+    "note": "Vertical-only entry was clear, but default forward path faced a bridge less than one second after recovery."
+  },
+  "correction": "Choose a covered 180m cruise corridor with6.5m clearance using alternate heading/offset/height, then sweep its dive column. Original world0 generation and spawn stay unchanged.",
+  "after": {
+    "chromeThreeCompanionFiveWorldChallenge": "passed",
+    "edgeOneCompanionFiveWorldChallenge": "passed",
+    "firefoxTwoCompanionFiveWorldFreeFlight": "passed"
+  },
+  "test": "tests/unit/skyJourney.test.ts: arrival turns away from blocking bridge; tests/e2e/v03-journey.spec.ts: five challenge worlds"
+}
