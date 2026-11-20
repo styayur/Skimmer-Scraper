@@ -789,6 +789,8 @@ new RunSettingsPanel(selectedRules, (next) => {
   return mode === 'running' ? debugPause() : false;
 }, (resume) => { if (resume) debugResume(); }, () => mode === 'title' || mode === 'failed');
 bindControlSettings(next => { controls = next; }, () => aircraftLibrary.getSelectedId(), anchor => renderer?.setCameraAnchor(anchor));
+document.querySelector('#pause-resume')!.addEventListener('click', () => debugResume());
+document.querySelector('#pause-menu')!.addEventListener('click', () => { void returnToTitle(); });
 
 const handleAction = (action: GameAction): void => {
   if (action === 'close') {
@@ -813,6 +815,7 @@ const handleAction = (action: GameAction): void => {
 keyboard.onAction(handleAction);
 
 const frame = (now: number): void => {
+  document.querySelector<HTMLElement>('#pause-panel')!.hidden = mode !== 'paused' || ui.isLibraryOpen() || ui.isWorldOpen() || !document.querySelector<HTMLElement>('#rules-panel')!.hidden;
   gamepad.poll(controls, handleAction);
   document.querySelector('#input-device')!.textContent = gamepad.device;
   const delta = Math.min(0.1, Math.max(0, (now - lastFrameTime) / 1000));

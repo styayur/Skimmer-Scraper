@@ -27,6 +27,9 @@ test('three views and a real shield contact keep free flight playable', async ({
   expect(await page.evaluate(() => window.__SKIMMER_SCRAPER__!.snapshot().mode)).toBe('paused');
   await page.keyboard.press('Escape');
   expect(await page.evaluate(() => window.__SKIMMER_SCRAPER__!.snapshot().mode)).toBe('running');
+  await page.keyboard.press('Escape');
+  await page.locator('#pause-menu').click();
+  await expect(page.locator('#title-screen')).toBeVisible();
   expect(errors).toEqual([]);
 });
 

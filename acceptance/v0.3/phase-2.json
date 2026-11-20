@@ -48,7 +48,33 @@
   },
   "evidence": [
     "evidence/v0.3/phase-2-flight.json",
-    "evidence/v0.3/phase-2-shield.png"
+    "evidence/v0.3/phase-2-shield.png",
+    "evidence/v0.3/phase-2-gpu.json",
+    "evidence/v0.3/phase-2-soak.json",
+    "evidence/v0.3/phase-2-cross-browser.json",
+    "evidence/v0.3/v020-running-gpu-baseline.json"
   ],
-  "historicalEvidence": "regressions now write a separate v0.3 directory"
+  "historicalEvidence": "regressions now write a separate v0.3 directory",
+  "pauseMenu": "visible resume/title entry added and browser tested",
+  "crossBrowser": {
+    "edge": "headed passed",
+    "firefox": "headless compatibility passed; not GPU certification"
+  },
+  "hardware": {
+    "gpu": "AMD Radeon 780M",
+    "driver": "32.0.32029.2010",
+    "browser": "Chrome 157 headed",
+    "viewport": [
+      1920,
+      1080
+    ],
+    "shortRunAverageFps": 104.1094,
+    "shortRunP95Ms": 16.7,
+    "soakSeconds": 120,
+    "soakP95Ms": 8.5,
+    "soakP99Ms": 16.7,
+    "soakShieldImpacts": 2,
+    "soakPeakChunks": 28,
+    "soakPeakBvh": 28
+  }
 }

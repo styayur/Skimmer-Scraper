@@ -1,0 +1,498 @@
+{
+  "gpu": "ANGLE (AMD, AMD Radeon 780M Graphics (0x00001900) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+  "browser": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/157.0.0.0 Safari/537.36",
+  "viewport": [
+    1920,
+    1080
+  ],
+  "before": {
+    "ready": true,
+    "mode": "running",
+    "runTime": 0,
+    "best": 0,
+    "speed": 66,
+    "altitude": 24,
+    "position": {
+      "x": 0,
+      "y": 24,
+      "z": 120
+    },
+    "surfaceDistance": 24,
+    "surfaceLocked": true,
+    "grace": 5,
+    "failureReason": null,
+    "world": {
+      "chunks": 15,
+      "buildings": 81,
+      "bridges": 22,
+      "islands": 1,
+      "collisionTriangles": 77284,
+      "renderTriangles": 140924
+    },
+    "adapter": {
+      "chunks": 15,
+      "bvhCount": 15,
+      "lastBroadPhaseCandidates": 2,
+      "lastQueries": 2
+    },
+    "streaming": {
+      "stateCounts": {
+        "UNLOADED": 0,
+        "QUEUED": 9,
+        "GENERATING": 1,
+        "READY": 0,
+        "ACTIVE": 15,
+        "RETIRING": 0,
+        "DISPOSED": 0
+      },
+      "loadedChunks": 15,
+      "activeChunks": 15,
+      "queuedChunks": 9,
+      "generatingChunks": 1,
+      "generatedTotal": 15,
+      "retiredTotal": 0,
+      "disposedGeometryCount": 0,
+      "bvhCount": 15,
+      "renderObjectCount": 174,
+      "estimatedCpuGeometryBytes": 16778132,
+      "generationAvgMs": 79.7933333342274,
+      "generationP95Ms": 753.8999999985099,
+      "maxLoadedChunks": 41,
+      "coverageComplete": true,
+      "rebaseCount": 0
+    },
+    "buffering": false,
+    "renderOrigin": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "render": {
+      "calls": 276,
+      "triangles": 171506,
+      "points": 560,
+      "lines": 0,
+      "fps": 55.00606116208227
+    },
+    "seed": 334458,
+    "debugInput": false,
+    "selectedAircraft": "procedural",
+    "localModelCount": 0,
+    "cameraMode": "chase",
+    "cameraBlend": 0,
+    "fov": 63.37931034482759,
+    "proximity": 0,
+    "proximityZone": "detached",
+    "visualStimulation": "standard",
+    "recordingHintVisible": true,
+    "worldPreset": "sakura",
+    "worldMode": "stable",
+    "generatorVersion": 2,
+    "worldFingerprint": 3887776065,
+    "revisionHistory": null,
+    "chunkStates": [
+      {
+        "key": "0:0",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 1198553786
+      },
+      {
+        "key": "0:-1",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 4076409833
+      },
+      {
+        "key": "-1:0",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 285374269
+      },
+      {
+        "key": "1:0",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 1192692585
+      },
+      {
+        "key": "0:1",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 759607647
+      },
+      {
+        "key": "-1:-1",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 362762849
+      },
+      {
+        "key": "1:-1",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 113359827
+      },
+      {
+        "key": "-1:1",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 2745740256
+      },
+      {
+        "key": "1:1",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 3484269599
+      },
+      {
+        "key": "0:-2",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 2998100976
+      },
+      {
+        "key": "-2:0",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 3637142482
+      },
+      {
+        "key": "2:0",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 655365684
+      },
+      {
+        "key": "0:2",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 214738670
+      },
+      {
+        "key": "-1:-2",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 3788906424
+      },
+      {
+        "key": "1:-2",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 3842934674
+      },
+      {
+        "key": "-2:-1",
+        "state": "GENERATING",
+        "revision": 0,
+        "fingerprint": null
+      },
+      {
+        "key": "2:-1",
+        "state": "QUEUED",
+        "revision": 0,
+        "fingerprint": null
+      },
+      {
+        "key": "-2:1",
+        "state": "QUEUED",
+        "revision": 0,
+        "fingerprint": null
+      },
+      {
+        "key": "2:1",
+        "state": "QUEUED",
+        "revision": 0,
+        "fingerprint": null
+      },
+      {
+        "key": "-1:2",
+        "state": "QUEUED",
+        "revision": 0,
+        "fingerprint": null
+      },
+      {
+        "key": "1:2",
+        "state": "QUEUED",
+        "revision": 0,
+        "fingerprint": null
+      },
+      {
+        "key": "-2:-2",
+        "state": "QUEUED",
+        "revision": 0,
+        "fingerprint": null
+      },
+      {
+        "key": "2:-2",
+        "state": "QUEUED",
+        "revision": 0,
+        "fingerprint": null
+      },
+      {
+        "key": "-2:2",
+        "state": "QUEUED",
+        "revision": 0,
+        "fingerprint": null
+      },
+      {
+        "key": "2:2",
+        "state": "QUEUED",
+        "revision": 0,
+        "fingerprint": null
+      }
+    ]
+  },
+  "after": {
+    "ready": true,
+    "mode": "running",
+    "runTime": 12.133333333333285,
+    "best": 0,
+    "speed": 66.10199616719358,
+    "altitude": 11.971014722870187,
+    "position": {
+      "x": 0,
+      "y": 11.971014722870187,
+      "z": -681.8722059800757
+    },
+    "surfaceDistance": 11.971014722870187,
+    "surfaceLocked": true,
+    "grace": 5,
+    "failureReason": null,
+    "world": {
+      "chunks": 25,
+      "buildings": 150,
+      "bridges": 30,
+      "islands": 3,
+      "collisionTriangles": 129836,
+      "renderTriangles": 250954
+    },
+    "adapter": {
+      "chunks": 25,
+      "bvhCount": 25,
+      "lastBroadPhaseCandidates": 4,
+      "lastQueries": 4
+    },
+    "streaming": {
+      "stateCounts": {
+        "UNLOADED": 0,
+        "QUEUED": 0,
+        "GENERATING": 0,
+        "READY": 0,
+        "ACTIVE": 25,
+        "RETIRING": 0,
+        "DISPOSED": 0
+      },
+      "loadedChunks": 25,
+      "activeChunks": 25,
+      "queuedChunks": 0,
+      "generatingChunks": 0,
+      "generatedTotal": 45,
+      "retiredTotal": 20,
+      "disposedGeometryCount": 263,
+      "bvhCount": 25,
+      "renderObjectCount": 298,
+      "estimatedCpuGeometryBytes": 29550576,
+      "generationAvgMs": 42.31111111210452,
+      "generationP95Ms": 95.20000000298023,
+      "maxLoadedChunks": 41,
+      "coverageComplete": true,
+      "rebaseCount": 0
+    },
+    "buffering": false,
+    "renderOrigin": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "render": {
+      "calls": 369,
+      "triangles": 317054,
+      "points": 560,
+      "lines": 64,
+      "fps": 108.10054874045787
+    },
+    "seed": 334458,
+    "debugInput": false,
+    "selectedAircraft": "procedural",
+    "localModelCount": 0,
+    "cameraMode": "chase",
+    "cameraBlend": 0,
+    "fov": 63.396895890022215,
+    "proximity": 0.3499493336093039,
+    "proximityZone": "strong",
+    "visualStimulation": "standard",
+    "recordingHintVisible": true,
+    "worldPreset": "sakura",
+    "worldMode": "stable",
+    "generatorVersion": 2,
+    "worldFingerprint": 3887776065,
+    "revisionHistory": null,
+    "chunkStates": [
+      {
+        "key": "0:-2",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 2998100976
+      },
+      {
+        "key": "-1:-2",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 3788906424
+      },
+      {
+        "key": "1:-2",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 3842934674
+      },
+      {
+        "key": "-2:-2",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 2390288180
+      },
+      {
+        "key": "2:-2",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 3532469619
+      },
+      {
+        "key": "0:-3",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 4259250541
+      },
+      {
+        "key": "-1:-3",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 3384088076
+      },
+      {
+        "key": "1:-3",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 3958356505
+      },
+      {
+        "key": "-2:-3",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 1603925851
+      },
+      {
+        "key": "2:-3",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 4257140480
+      },
+      {
+        "key": "0:-4",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 3611753261
+      },
+      {
+        "key": "-1:-4",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 259319073
+      },
+      {
+        "key": "1:-4",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 1673086011
+      },
+      {
+        "key": "-2:-4",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 3458200411
+      },
+      {
+        "key": "2:-4",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 4080022983
+      },
+      {
+        "key": "0:-5",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 1106841686
+      },
+      {
+        "key": "-1:-5",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 2135938274
+      },
+      {
+        "key": "1:-5",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 2130914651
+      },
+      {
+        "key": "-2:-5",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 2115812146
+      },
+      {
+        "key": "2:-5",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 1655594211
+      },
+      {
+        "key": "0:-6",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 550936775
+      },
+      {
+        "key": "-1:-6",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 2762778498
+      },
+      {
+        "key": "1:-6",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 1518688075
+      },
+      {
+        "key": "-2:-6",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 3017963740
+      },
+      {
+        "key": "2:-6",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 2088807157
+      }
+    ]
+  },
+  "frameCount": 1209,
+  "averageFps": 100.67114093957233,
+  "p50Ms": 8.399999999999636,
+  "p95Ms": 16.700000000000728,
+  "p99Ms": 16.900000000001455,
+  "longTasks": 1,
+  "maxLongTaskMs": 62,
+  "allFramesRunning": true,
+  "peakChunks": 25,
+  "peakBvh": 25,
+  "realHardware": true,
+  "errors": [],
+  "baselineTag": "v0.2.0",
+  "simulationSeconds": 12.133333333333285
+}
