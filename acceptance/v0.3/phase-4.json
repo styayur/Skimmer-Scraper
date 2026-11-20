@@ -1,0 +1,59 @@
+{
+  "phase": 4,
+  "typecheck": "passed",
+  "unitTests": {
+    "passed": 119,
+    "newAIAndCooperation": 35
+  },
+  "liveInference": {
+    "provider": "DeepSeek official HTTPS, genuine browser calls, environment-only key",
+    "models": [
+      "deepseek-flash",
+      "deepseek-v4-pro"
+    ],
+    "requests": 4,
+    "successfulResponses": 4,
+    "validatedPlans": 4,
+    "flashStrategy": "Moves from forward LEAD corridor to left LEAD corridor in denser geometry",
+    "proStrategy": "Maintains forward LEAD in open high-altitude geometry",
+    "latencyMs": [
+      810.8999999985099,
+      1236.6000000014901,
+      2840.60000000149,
+      2312.89999999851
+    ],
+    "totalTokens": 4511,
+    "evidence": [
+      "evidence/v0.3/phase-4-real-deepseek-flash.json",
+      "evidence/v0.3/phase-4-real-deepseek-v4-pro.json"
+    ],
+    "closedLoop": "perception, genuine decision, validation, target execution, moving aircraft, outcome, Trust and bounded memory recorded",
+    "cost": {
+      "currency": "USD",
+      "estimatedPeakUpperBound": 0.004398168,
+      "notBillingInvoice": true,
+      "source": "https://api-docs.deepseek.com/quick_start/pricing/",
+      "method": "Actual input/output/cache-hit tokens at published peak rates; off-peak may cost less"
+    }
+  },
+  "comparison": {
+    "seed": 334458,
+    "simulationSeconds": 18,
+    "groups": [
+      "none",
+      "fixed-script FOLLOW",
+      "recorded genuine Flash plan replay"
+    ],
+    "evidence": "evidence/v0.3/phase-4-comparison.json",
+    "conclusion": "Trajectories and impacts differ; zero rescues in these free-flight samples. No model superiority claim. Replay IDs are remapped and still validated."
+  },
+  "privacy": "Key is page-memory-only, no default persistence or GLB upload. Same-page script access remains possible. Disconnect cancels; lifetime budgets are not reset by retry.",
+  "relay": "2 charges, 20 second cooldown, <=70m partner, <=32m surface, line of sight, Trust threshold, max1.25s grace bonus; unit survival counterfactual passed",
+  "publication": "development only; v0.2.0 public site unchanged",
+  "browser": {
+    "fullRun": "18 passed, 1 failed before fetch-binding fix; corrected synthetic adapter and new real-geometry Relay tests both passed",
+    "verifiedCases": 20,
+    "relayEvidence": "evidence/v0.3/phase-4-relay-browser.json"
+  },
+  "flightCorrection": "Observed stale network LEAD targets behind the player; now selects a live safe corridor, with a regression test."
+}

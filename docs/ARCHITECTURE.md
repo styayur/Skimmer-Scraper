@@ -1,5 +1,41 @@
 # Architecture
 
+## Model cooperation boundary
+
+`SymbiosisRuntime` composes plain numeric perception → one shared team request →
+strict schema/epoch/TTL/geometry validator → short-lived local steering targets →
+flight outcome → bounded memory. Seven declarative actions are supported. No model
+output is evaluated as code. Local collision and 120 Hz motion never await a network
+request. Cancellation invalidates the world epoch; expired/invalid plans fall back
+to the explicitly named local controller. Recorded plans are labelled as replay.
+LEAD selects a published directional corridor and refreshes its safe forward route
+locally as the pilot moves; SCOUT/HOLD retain bounded fixed waypoints. This avoids
+turning a leader back toward an already-passed waypoint after network latency.
+
+Trust starts at 0.5 and changes only through observed lead progress, separation,
+regrouping, impacts and verified Relay outcomes. It changes formation spacing,
+clearance, allowable planner risk and automatic rescue willingness. Surface Relay
+requires an actually covered, deployed partner within 70 m and within 32 m of a
+surface, clear line of sight, sufficient Trust, two finite charges and a 20 s
+cooldown. Challenge rescue adds at most 1.25 s, capped by configured grace; Free
+Flight uses a resource-consuming training effect. Assisted scores stay isolated.
+
+`ModelClient` holds BYOK only in a private runtime field. No key storage, URLs,
+telemetry, request/response console logging or GLB data. Disconnect drops the key
+and aborts in-flight work. Same-page scripts remain a browser trust boundary.
+Official endpoints are pinned; custom HTTPS (or explicit loopback HTTP) endpoints
+require a trust checkbox. Redirects fail, credentials/referrers are omitted,
+requests are single-flight with timeout/backoff and lifetime call/token limits.
+The token reservation is conservative request UTF-8 bytes + 768 per request, not a
+billing estimate. Providers may prohibit CORS; there is no implicit key proxy.
+
+Reproduce paid live evidence with `node scripts/model-evidence.mjs` and an
+environment-only `DEEPSEEK_API_KEY`. The script disables traces/videos and writes
+sanitized numeric traces, usage, latency and decisions. `cooperation-evidence.mjs`
+compares no companion, a fixed FOLLOW policy and clearly labelled replay of a real
+model decision under the same seed and scripted input. These small samples do not
+establish model superiority. Synthetic browser responses only test boundaries.
+
 ## v0.3 flight adapters
 
 `RuleConfig` is normalized before takeoff and copied into the pure rule state.

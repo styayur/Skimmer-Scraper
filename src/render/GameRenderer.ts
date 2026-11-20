@@ -33,6 +33,8 @@ export interface RenderStats {
   points: number;
   lines: number;
   fps: number;
+  geometries: number;
+  textures: number;
 }
 
 export interface RenderQuality {
@@ -61,6 +63,7 @@ export class GameRenderer {
   private readonly aircraftMount = new THREE.Group();
   private readonly aircraftModelMount = new THREE.Group();
   private readonly companions = new CompanionRenderer();
+  private readonly relayLine = new THREE.Line(new THREE.BufferGeometry().setAttribute('position', new THREE.BufferAttribute(new Float32Array(6),3)), new THREE.LineBasicMaterial({color:0xffe397,transparent:true,depthWrite:false}));
   private readonly shieldMesh = new THREE.Mesh(new THREE.IcosahedronGeometry(5.2, 1),
     new THREE.MeshBasicMaterial({ color: 0x53e5cf, wireframe: true, transparent: true, opacity: 0, depthWrite: false }));
   private externalAircraft: THREE.Object3D | null = null;
@@ -107,6 +110,7 @@ export class GameRenderer {
     this.scene.fog = new THREE.FogExp2(0x6f4152, world.settings.config.fogDensity);
     this.scene.background = new THREE.Color(0x241723);
     this.scene.add(world.root);
+    this.scene.add(this.relayLine); this.relayLine.visible=false; this.relayLine.frustumCulled=false;
     const spawn = world.getSpawn();
 
     this.camera = new THREE.PerspectiveCamera(64, 1, 0.25, 2300);
@@ -202,6 +206,14 @@ export class GameRenderer {
   }
   public setCameraAnchor(anchor: Vec3 | null): void { this.cameraRig.setAnchor(anchor); }
   public setCompanions(agents: readonly AgentState[], origin: Vec3): void { this.companions.update(agents, origin); }
+  public setRelay(flash:{from:Vec3;to:Vec3;until:number}|null,time:number,origin:Vec3):void {
+    this.relayLine.visible=!!flash&&flash.until>time;
+    if(!flash||!this.relayLine.visible)return;
+    const attribute=this.relayLine.geometry.getAttribute('position');
+    attribute.setXYZ(0,flash.from.x-origin.x,flash.from.y-origin.y,flash.from.z-origin.z);
+    attribute.setXYZ(1,flash.to.x-origin.x,flash.to.y-origin.y,flash.to.z-origin.z);attribute.needsUpdate=true;
+    this.relayLine.material.opacity=Math.min(1,flash.until-time);
+  }
   public setShieldImpact(intensity: number): void {
     this.shieldMesh.visible = intensity > 0;
     this.shieldMesh.material.opacity = Math.max(0, Math.min(0.65, intensity * 0.6));
@@ -262,6 +274,8 @@ export class GameRenderer {
       points: this.drawnPoints,
       lines: this.drawnLines,
       fps: this.smoothedFps,
+      geometries: this.renderer.info.memory.geometries,
+      textures: this.renderer.info.memory.textures,
     };
   }
 
@@ -299,6 +313,7 @@ export class GameRenderer {
     this.proceduralAircraft.dispose();
     this.shieldMesh.geometry.dispose(); this.shieldMesh.material.dispose();
     this.companions.dispose();
+    this.relayLine.geometry.dispose();this.relayLine.material.dispose();
     this.atmosphere.dispose();
     this.petals.dispose();
     this.speedRibbons.dispose();
