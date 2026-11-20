@@ -1,6 +1,7 @@
 import {test,expect} from '@playwright/test';
 import {writeFileSync} from 'node:fs';
-import {version} from '../../package.json' with {type:'json'};
+import packageInfo from '../../package.json' with {type:'json'};
+const {version}=packageInfo;
 
 test('static distribution includes full licenses, exact source provenance and the candidate version',async({page,request})=>{
  const metadata=await request.get('/build-info.json');expect(metadata.ok()).toBe(true);const info=await metadata.json();

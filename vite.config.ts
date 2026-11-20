@@ -1,7 +1,8 @@
 import { defineConfig } from 'vite';
 import { execFileSync, spawnSync } from 'node:child_process';
 import { existsSync, readFileSync, readdirSync } from 'node:fs';
-import { version } from './package.json' with { type: 'json' };
+import packageInfo from './package.json' with { type: 'json' };
+const { version } = packageInfo;
 
 // Build provenance is a separate asset: documentation/evidence commits do not
 // alter the flight bundle. Never import or spread process.env into client code.
