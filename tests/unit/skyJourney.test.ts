@@ -5,9 +5,18 @@ import {createRunRules,updateRunRules} from '../../src/game/runRules';
 import {journeyWorld,JOURNEY_PROFILES} from '../../src/world/journeyWorlds';
 import {resolveWorldSettings} from '../../src/world/worldConfig';
 import {bestStorageKey,defaultScoreContext} from '../../src/game/storage';
-import {chooseSkyEntry,stepSkyDive} from '../../src/game/skyFlight';
+import {chooseSkyArrival,chooseSkyEntry,stepSkyDive} from '../../src/game/skyFlight';
 const rising=()=>createFlightState({position:{x:0,y:SKY_HEIGHT+.1,z:0},yaw:0,pitch:1,speed:100});
 describe('Sky Inversion sequence',()=>{
+ it('turns the arrival away from a bridge blocking the first seconds of restored control',()=>{
+  const spawn={position:{x:0,y:24,z:120},yaw:0,pitch:-.015,speed:66};
+  const world={queryNearest:(p:{x:number;y:number;z:number},r:number)=>{
+    const wall=Math.abs(p.z-60);const ground=Math.abs(p.y);const d=Math.min(wall,ground);
+    return d<=r?{distance:d,point:wall<ground?{...p,z:60}:{...p,y:0},chunkId:'city',surfaceId:'bridge'}:null;
+  }};
+  const arrival=chooseSkyArrival(spawn,world)!;expect(arrival.yaw).toBeCloseTo(Math.PI);expect(arrival.position).toEqual(spawn.position);
+  expect(chooseSkyEntry(arrival.position,world)).not.toBeNull();
+ });
  it('checks the whole dive column, chooses a lower entry under a bridge and rejects a blocked spawn',()=>{
   const spawn={x:0,y:24,z:120};const bridge={queryNearest:(p:typeof spawn,r:number)=>Math.abs(p.y-60)<=r?{distance:Math.abs(p.y-60),point:{...p,y:60},chunkId:'bridge',surfaceId:'bridge'}:null};
   expect(chooseSkyEntry(spawn,bridge)?.y).toBe(48);

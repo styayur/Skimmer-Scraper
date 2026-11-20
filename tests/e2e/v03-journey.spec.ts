@@ -2,7 +2,7 @@ import {test,expect} from '@playwright/test';
 import {writeFileSync} from 'node:fs';
 test('five valid sky crossings exchange worlds, preserve the team and unlock the original fifth-sky signature',async({page})=>{
  test.setTimeout(300000);const errors:string[]=[];page.on('pageerror',e=>errors.push(e.message));
- await page.addInitScript(()=>{localStorage.setItem('skimmer-scraper.rules.v3',JSON.stringify({mode:'free'}));localStorage.setItem('skimmer-scraper.companions.v3',JSON.stringify({count:3,behavior:'lead'}));});
+ await page.addInitScript(()=>{localStorage.setItem('skimmer-scraper.rules.v3',JSON.stringify({mode:'challenge'}));localStorage.setItem('skimmer-scraper.companions.v3',JSON.stringify({count:3,behavior:'lead'}));});
  await page.goto('/?autostart=1&seed=334458');await page.waitForFunction(()=>window.__SKIMMER_SCRAPER__?.snapshot().mode==='running');
  const initial=await page.evaluate(()=>window.__SKIMMER_SCRAPER__!.advance(2.2));const worlds=[];
  expect(initial.cooperation.trust.events.some(e=>e.event==='accepted-lead')).toBe(true);

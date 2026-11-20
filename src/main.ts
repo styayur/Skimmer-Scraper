@@ -16,7 +16,7 @@ import { SymbiosisRuntime } from './ai/SymbiosisRuntime';
 import { bindModelSettings } from './ui/ModelSettings';
 import type { Perception } from './ai/contracts';
 import { SkyJourney } from './game/skyJourney';
-import { chooseSkyEntry,stepSkyDive } from './game/skyFlight';
+import { chooseSkyArrival,chooseSkyEntry,stepSkyDive } from './game/skyFlight';
 import { journeyWorld } from './world/journeyWorlds';
 import { JourneyHud } from './ui/JourneyHud';
 
@@ -184,6 +184,7 @@ const journey = new SkyJourney();
 let pendingWorldSwap: Promise<void> | null = null;
 let diveStart: FlightState['position'] | null = null;
 let diveEnd: FlightState['position'] | null = null;
+let journeyArrival:ReturnType<typeof chooseSkyArrival>=null;
 let worldReleases:DebugSnapshot['worldReleases']=[];
 let buffering = false;
 let worldTransition = 0;
@@ -508,7 +509,7 @@ const loadJourneyWorld = async (index:number,token:number):Promise<boolean> => {
 };
 const restoreJourneyStart = async (token:number):Promise<boolean> => {
   const replace=journey.worldIndex>0||journey.active||worldSettings.seed!==baseWorldSettings.seed;
-  journey.reset();journeyHud.reset();diveStart=null;diveEnd=null;renderer?.setInversion(0);
+  journey.reset();journeyHud.reset();diveStart=null;diveEnd=null;journeyArrival=null;renderer?.setInversion(0);
   return !replace||await loadJourneyWorld(0,token);
 };
 const beginSkySwap = ():void => {
@@ -517,7 +518,9 @@ const beginSkySwap = ():void => {
     const ready=await loadJourneyWorld(index,token);
     if(token!==worldTransition)return;
     if(!ready||!worldStreamer||!flightState)throw Error('Unable to prepare new sky');
-    const spawn=worldStreamer.getDefaultSpawn();diveEnd={...spawn.position};diveStart=chooseSkyEntry(spawn.position,worldStreamer);
+    const spawn=chooseSkyArrival(worldStreamer.getDefaultSpawn(),worldStreamer);
+    if(!spawn)throw Error('No safe exit corridor');journeyArrival=spawn;
+    diveEnd={...spawn.position};diveStart=chooseSkyEntry(spawn.position,worldStreamer);
     if(!diveStart)throw Error('No safe entry corridor');
     flightState=createFlightState({...spawn,position:{...diveStart},pitch:-1});
     companions.configure(companionSettings);companions.reset(flightState,worldStreamer);
@@ -533,12 +536,12 @@ const simulateJourneyStep = (dt:number):boolean => {
   const event=journey.step(dt);
   if(event==='swap'){journeyHud.update(journey,true);beginSkySwap();return true;}
   if((journey.phase==='DIVE'||journey.phase==='RECOVERY'||event==='completed')&&diveStart&&diveEnd){
-    flightState=stepSkyDive(flightState,diveStart,diveEnd,journey.phase==='DIVE'?journey.progress:1,dt);
+    flightState=stepSkyDive(flightState,diveStart,diveEnd,journey.phase==='DIVE'?journey.progress:1,dt,journeyArrival?.yaw??0);
   }else flightState={...flightState,velocity:{x:0,y:0,z:0},elapsed:flightState.elapsed+dt};
   companions.step(flightState,worldStreamer,dt);
   lastSurfaceHit=worldStreamer.queryNearest(flightState.position,SURFACE_QUERY_RANGE);
   if(event==='completed'){
-    flightState={...createFlightState({...worldStreamer.getDefaultSpawn(),position:{...flightState.position}}),elapsed:flightState.elapsed};
+    flightState={...createFlightState({... (journeyArrival??worldStreamer.getDefaultSpawn()),position:{...flightState.position}}),elapsed:flightState.elapsed};
     companions.configure(companionSettings);companions.reset(flightState,worldStreamer);journeyHud.completed(journey.crossings,journey.time);
     proximityFeedback=createProximityFeedback();
   }

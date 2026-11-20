@@ -19,6 +19,9 @@ atmosphere survive; world materials, textures and chunks belong to the exchanged
 streamer. `chooseSkyEntry` sweeps the entire protected spawn column before the pure
 `stepSkyDive` animation. Local agents keep collision authority during regroup/dive
 and are safely redeployed before normal flight resumes.
+Arrival selection also sweeps a 180 m cruise corridor with 6.5 m clearance and
+loaded coverage, considering alternate headings, local offsets and heights. This
+prevents a valid vertical column from handing control back facing an imminent bridge.
 
 New world seeds derive from initial seed, ordinal and generator version. World0
 retains the exact v0.2 generator settings; five new palette/grammar profiles are

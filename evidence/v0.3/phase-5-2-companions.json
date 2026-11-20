@@ -191,44 +191,44 @@
       "grace": 4.9833333333333325,
       "failureReason": null,
       "world": {
-        "chunks": 13,
-        "buildings": 73,
-        "bridges": 20,
+        "chunks": 14,
+        "buildings": 77,
+        "bridges": 21,
         "islands": 1,
-        "collisionTriangles": 70286,
-        "renderTriangles": 128232
+        "collisionTriangles": 72572,
+        "renderTriangles": 134088
       },
       "adapter": {
-        "chunks": 13,
-        "bvhCount": 13,
+        "chunks": 14,
+        "bvhCount": 14,
         "lastBroadPhaseCandidates": 0,
         "lastQueries": 0
       },
       "streaming": {
         "stateCounts": {
           "UNLOADED": 0,
-          "QUEUED": 11,
+          "QUEUED": 10,
           "GENERATING": 1,
           "READY": 0,
-          "ACTIVE": 13,
+          "ACTIVE": 14,
           "RETIRING": 0,
           "DISPOSED": 0
         },
-        "loadedChunks": 13,
-        "activeChunks": 13,
-        "queuedChunks": 11,
+        "loadedChunks": 14,
+        "activeChunks": 14,
+        "queuedChunks": 10,
         "generatingChunks": 1,
-        "generatedTotal": 13,
+        "generatedTotal": 14,
         "retiredTotal": 0,
         "disposedGeometryCount": 0,
-        "bvhCount": 13,
-        "renderObjectCount": 150,
-        "estimatedCpuGeometryBytes": 15265084,
-        "generationAvgMs": 236.72307692410854,
-        "generationP95Ms": 1430.3999999985099,
-        "generationMinMs": 15.300000004470348,
-        "generationMaxMs": 1430.3999999985099,
-        "generationSampleCount": 13,
+        "bvhCount": 14,
+        "renderObjectCount": 161,
+        "estimatedCpuGeometryBytes": 15923692,
+        "generationAvgMs": 214.528571428465,
+        "generationP95Ms": 1328.5,
+        "generationMinMs": 13.799999997019768,
+        "generationMaxMs": 1328.5,
+        "generationSampleCount": 14,
         "maxLoadedChunks": 41,
         "coverageComplete": true,
         "rebaseCount": 0
@@ -240,12 +240,12 @@
         "z": 0
       },
       "render": {
-        "calls": 246,
-        "triangles": 151066,
+        "calls": 251,
+        "triangles": 157150,
         "points": 560,
         "lines": 64,
-        "fps": 52.89211647834781,
-        "geometries": 130,
+        "fps": 100.51231841557045,
+        "geometries": 137,
         "textures": 22,
         "inversionAngle": 0
       },
@@ -346,13 +346,13 @@
         },
         {
           "key": "-1:-2",
-          "state": "GENERATING",
+          "state": "ACTIVE",
           "revision": 0,
-          "fingerprint": null
+          "fingerprint": 3788906424
         },
         {
           "key": "1:-2",
-          "state": "QUEUED",
+          "state": "GENERATING",
           "revision": 0,
           "fingerprint": null
         },
@@ -423,10 +423,10 @@
       "worldReleases": [
         {
           "seed": 334458,
-          "bvhBefore": 23,
+          "bvhBefore": 25,
           "bvhAfter": 0,
           "rootChildrenAfter": 0,
-          "disposedGeometryCount": 298
+          "disposedGeometryCount": 323
         }
       ],
       "journey": {
@@ -659,10 +659,10 @@
         "bvhCount": 12,
         "renderObjectCount": 176,
         "estimatedCpuGeometryBytes": 32638204,
-        "generationAvgMs": 80.74166666716337,
-        "generationP95Ms": 418.20000000298023,
-        "generationMinMs": 18.899999998509884,
-        "generationMaxMs": 418.20000000298023,
+        "generationAvgMs": 108.29999999888241,
+        "generationP95Ms": 663.3999999985099,
+        "generationMinMs": 16.19999999552965,
+        "generationMaxMs": 663.3999999985099,
         "generationSampleCount": 12,
         "maxLoadedChunks": 41,
         "coverageComplete": true,
@@ -675,12 +675,12 @@
         "z": 0
       },
       "render": {
-        "calls": 246,
-        "triangles": 381774,
+        "calls": 250,
+        "triangles": 395098,
         "points": 560,
         "lines": 0,
-        "fps": 41.946365426319225,
-        "geometries": 136,
+        "fps": 56.01800497091438,
+        "geometries": 138,
         "textures": 25,
         "inversionAngle": 0.5454153912482306
       },
@@ -858,10 +858,10 @@
     "worldReleases": [
       {
         "seed": 334458,
-        "bvhBefore": 23,
+        "bvhBefore": 25,
         "bvhAfter": 0,
         "rootChildrenAfter": 0,
-        "disposedGeometryCount": 298
+        "disposedGeometryCount": 323
       },
       {
         "seed": 2292173047,
@@ -1070,10 +1070,10 @@
       "bvhCount": 9,
       "renderObjectCount": 104,
       "estimatedCpuGeometryBytes": 9813840,
-      "generationAvgMs": 14.844444443782171,
-      "generationP95Ms": 24.5,
-      "generationMinMs": 2.399999998509884,
-      "generationMaxMs": 24.5,
+      "generationAvgMs": 17.033333332174355,
+      "generationP95Ms": 30.5,
+      "generationMinMs": 3.100000001490116,
+      "generationMaxMs": 30.5,
       "generationSampleCount": 9,
       "maxLoadedChunks": 41,
       "coverageComplete": true,
@@ -1086,11 +1086,11 @@
       "z": 0
     },
     "render": {
-      "calls": 246,
-      "triangles": 381774,
+      "calls": 250,
+      "triangles": 395098,
       "points": 560,
       "lines": 0,
-      "fps": 41.946365426319225,
+      "fps": 56.01800497091438,
       "geometries": 22,
       "textures": 20,
       "inversionAngle": 0
