@@ -14,6 +14,16 @@ and score model.
 
 **Public site:** [https://styayur.github.io/Skimmer-Scraper/](https://styayur.github.io/Skimmer-Scraper/)
 
+v0.3 development adds optional model cooperation under **飞行设置 → 模型协作**.
+Select 1–3 companions before takeoff, then connect a browser-compatible provider
+using your own key. DeepSeek and OpenAI official endpoints and explicitly trusted
+compatible endpoints are supported. Keys remain in page memory and can be deleted
+by disconnecting; same-page scripts can still access runtime credentials. Nothing
+is uploaded by default; local GLB bytes never enter model perception. No official
+hosted inference service is active. Without a key or on API failure, the complete
+local companion controller remains available. Budgets persist across run retries.
+See [architecture](docs/ARCHITECTURE.md) and sanitized [AI evidence](evidence/v0.3/).
+
 GitHub Pages is the only deployment target. Cloudflare Pages deployment is cancelled; see
 [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md). No Cloudflare deployment success is claimed.
 

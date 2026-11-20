@@ -4,7 +4,7 @@ import { resolveShield } from '../game/shield';
 import type { SurfaceProvider } from '../world/worldTypes';
 import { normalizeCompanions, type CompanionSettings } from './settings';
 
-export type AgentTask = 'FORMATION_FOLLOW' | 'INDEPENDENT_FOLLOW' | 'LEAD' | 'REGROUP' | 'AVOID' | 'RECOVER';
+export type AgentTask = 'FORMATION_FOLLOW' | 'INDEPENDENT_FOLLOW' | 'LEAD' | 'REGROUP' | 'AVOID' | 'RECOVER' | 'SCOUT' | 'PROTECT' | 'RELAY' | 'HOLD';
 export interface CompanionWorld extends SurfaceProvider {
   isCollisionCovered?(position: Vec3): boolean;
   isCompanionCovered?(position: Vec3): boolean;
@@ -40,6 +40,7 @@ export class CompanionTeam {
   public elapsed = 0;
   public events: CompanionEvent[] = [];
   public settings: CompanionSettings = normalizeCompanions();
+  public cooperation = { trust: 0.5, risk: 0.3 };
   private overrides = new Map<number, { target: Vec3; task: AgentTask; expires: number }>();
   public configure(settings: CompanionSettings): void {
     this.settings = normalizeCompanions(settings);
@@ -103,7 +104,14 @@ export class CompanionTeam {
       if (perceiveNow) {
         target = this.formationTarget(player, agent.id);
         if (this.settings.behavior === 'lead' && agent.id === 1) { task = 'LEAD'; target = this.safeRoute(player, world, agent.id); }
-        if (override && override.expires > this.elapsed) { task = override.task; target = { ...override.target }; }
+        if (override && override.expires > this.elapsed) {
+          task = override.task;
+          target = ['FORMATION_FOLLOW', 'REGROUP', 'PROTECT'].includes(task) ? this.formationTarget(player, agent.id) : { ...override.target };
+          if (task === 'HOLD' || task === 'RELAY') {
+            target.x += Math.cos(this.elapsed * 0.7 + agent.id) * 9;
+            target.z += Math.sin(this.elapsed * 0.7 + agent.id) * 9;
+          }
+        }
         if (distance(agent.flight.position, player.position) > 135) {
           task = 'REGROUP'; target = add(player.position, scale(forwardFromAttitude(player.attitude), -18));
           const horizontalGap = Math.hypot(agent.flight.position.x - player.position.x, agent.flight.position.z - player.position.z);
@@ -171,7 +179,8 @@ export class CompanionTeam {
     const predicted = add(agent.flight.position, scale(agent.flight.velocity, horizon));
     const hazard = world.queryNearest(predicted, 20);
     agent.avoidance = { x: 0, y: 0, z: 0 };
-    if (hazard && hazard.distance < 16) {
+    const clearance = clamp(16 + (0.5 - this.cooperation.trust) * 4 + (0.3 - this.cooperation.risk) * 2, 12, 20);
+    if (hazard && hazard.distance < clearance) {
       let normal = unit(sub(predicted, hazard.point));
       const fromSurface = sub(agent.flight.position, hazard.point);
       if (normal.x * fromSurface.x + normal.y * fromSurface.y + normal.z * fromSurface.z < 0) normal = scale(normal, -1);
@@ -188,7 +197,7 @@ export class CompanionTeam {
   private formationTarget(player: FlightState, id: number): Vec3 {
     const forward = forwardFromAttitude(player.attitude);
     const right = { x: Math.cos(player.attitude.yaw), y: 0, z: -Math.sin(player.attitude.yaw) };
-    const spread = this.settings.formation === 'spread' ? 1.65 : 1;
+    const spread = (this.settings.formation === 'spread' ? 1.65 : 1) * (1.25 - this.cooperation.trust * 0.5);
     const side = this.settings.formation === 'line' ? 0 : id === 3 ? 0 : id === 1 ? -1 : 1;
     const ahead = this.settings.formation === 'line' ? 8 + id * 15 : id === 3 ? -2 : 14;
     const independent = this.settings.behavior === 'independent' ? Math.sin(this.elapsed * 0.25 + id * 2) * 12 : 0;

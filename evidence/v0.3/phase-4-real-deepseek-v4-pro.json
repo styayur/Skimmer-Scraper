@@ -1,0 +1,3669 @@
+{
+  "before": {
+    "cooperation": {
+      "planner": "Model Planner · deepseek-v4-pro",
+      "time": 10.566666666666707,
+      "epoch": 3,
+      "trust": {
+        "value": 0.5299999999999999,
+        "events": [
+          {
+            "time": 1.7749999999999961,
+            "event": "accepted-lead",
+            "delta": 0.07999999999999996,
+            "value": 0.58
+          },
+          {
+            "time": 5.208333333333382,
+            "event": "lost-coordination",
+            "delta": -0.050000000000000044,
+            "value": 0.5299999999999999
+          }
+        ]
+      },
+      "relay": {
+        "charges": 2,
+        "cooldownUntil": 0,
+        "attempts": 0,
+        "successes": 0,
+        "failures": 0
+      },
+      "model": {
+        "connected": true,
+        "pending": false,
+        "requests": 2,
+        "successes": 2,
+        "failures": 0,
+        "cancellations": 0,
+        "reservedTokens": 7930,
+        "usage": {
+          "input": 1793,
+          "output": 248,
+          "total": 2041,
+          "cached": 0
+        },
+        "lastLatencyMs": 2182.4000000059605,
+        "error": "request-budget"
+      },
+      "config": {
+        "provider": "deepseek",
+        "model": "deepseek-v4-pro",
+        "trusted": false,
+        "intervalSeconds": 8,
+        "maxRequests": 2,
+        "tokenBudget": 50000,
+        "timeoutMs": 20000,
+        "origin": "https://api.deepseek.com"
+      },
+      "lastPlan": {
+        "requestId": "3-2",
+        "epoch": 3,
+        "ttl": 10,
+        "risk": 0.3,
+        "formation": "wedge",
+        "orders": [
+          {
+            "agents": [
+              1
+            ],
+            "action": "LEAD",
+            "targetId": "route-ahead"
+          },
+          {
+            "agents": [
+              2,
+              3
+            ],
+            "action": "FOLLOW",
+            "targetId": null
+          }
+        ],
+        "reason": "保持编队，沿前方航线飞行",
+        "resolved": [
+          {
+            "agents": [
+              1
+            ],
+            "action": "LEAD",
+            "targetId": "route-ahead",
+            "target": {
+              "x": 0,
+              "y": 448.34742562572035,
+              "z": -523.456694689487
+            }
+          },
+          {
+            "agents": [
+              2,
+              3
+            ],
+            "action": "FOLLOW",
+            "targetId": null,
+            "target": {
+              "x": 0,
+              "y": 439.53261582028745,
+              "z": -577.7732742749074
+            }
+          }
+        ]
+      },
+      "trace": [
+        {
+          "time": 0.3583333333333336,
+          "event": "perception",
+          "data": {
+            "requestId": "3-1",
+            "epoch": 3,
+            "time": 0.3583333333333336,
+            "seed": 334458,
+            "player": {
+              "position": {
+                "x": 0,
+                "y": 449.6451472916338,
+                "z": 96.34492706575307
+              },
+              "velocity": {
+                "x": 0,
+                "y": -0.990549636440401,
+                "z": -66.03168960688505
+              },
+              "grace": 5,
+              "graceLimit": 5,
+              "surfaceDistance": null,
+              "mode": "free"
+            },
+            "trust": 0.5,
+            "riskLimit": 0.475,
+            "charges": 2,
+            "relayReady": false,
+            "agents": [
+              {
+                "id": 1,
+                "position": {
+                  "x": -11.581197795917351,
+                  "y": 456.76705953340996,
+                  "z": 78.32860010567984
+                },
+                "velocity": {
+                  "x": 11.325644481971302,
+                  "y": -2.636619411425635,
+                  "z": -85.00443041913503
+                },
+                "task": "LEAD",
+                "surfaceDistance": null,
+                "deployed": true
+              },
+              {
+                "id": 2,
+                "position": {
+                  "x": 14,
+                  "y": 457.95142510088124,
+                  "z": 83.52454793665575
+                },
+                "velocity": {
+                  "x": 0,
+                  "y": -6.688848363128426,
+                  "z": -61.23101003862424
+                },
+                "task": "FORMATION_FOLLOW",
+                "surfaceDistance": null,
+                "deployed": true
+              },
+              {
+                "id": 3,
+                "position": {
+                  "x": 0,
+                  "y": 459.95730956929026,
+                  "z": 100.18765928406688
+                },
+                "velocity": {
+                  "x": 0,
+                  "y": -9.757205175252226,
+                  "z": -58.52465031221246
+                },
+                "task": "FORMATION_FOLLOW",
+                "surfaceDistance": null,
+                "deployed": true
+              }
+            ],
+            "targets": [
+              {
+                "id": "route-ahead",
+                "kind": "route",
+                "position": {
+                  "x": 0,
+                  "y": 456.2951979160643,
+                  "z": 6.355051875910746
+                },
+                "clearance": null
+              },
+              {
+                "id": "route-left",
+                "kind": "route",
+                "position": {
+                  "x": -38,
+                  "y": 468.2951979160643,
+                  "z": 6.355051875910746
+                },
+                "clearance": null
+              },
+              {
+                "id": "route-right",
+                "kind": "route",
+                "position": {
+                  "x": 38,
+                  "y": 468.2951979160643,
+                  "z": 6.355051875910746
+                },
+                "clearance": null
+              }
+            ],
+            "memory": []
+          }
+        },
+        {
+          "time": 1.7749999999999961,
+          "event": "trust",
+          "data": {
+            "time": 1.7749999999999961,
+            "event": "accepted-lead",
+            "delta": 0.07999999999999996,
+            "value": 0.58
+          }
+        },
+        {
+          "time": 2.233333333333328,
+          "event": "decision",
+          "data": {
+            "decision": {
+              "requestId": "3-1",
+              "epoch": 3,
+              "ttl": 10,
+              "risk": 0.3,
+              "formation": "wedge",
+              "orders": [
+                {
+                  "agents": [
+                    1
+                  ],
+                  "action": "LEAD",
+                  "targetId": "route-ahead"
+                },
+                {
+                  "agents": [
+                    2,
+                    3
+                  ],
+                  "action": "FOLLOW",
+                  "targetId": null
+                }
+              ],
+              "reason": "保持楔形编队，领航沿前方航线飞行"
+            },
+            "usage": {
+              "input": 818,
+              "output": 126,
+              "total": 944,
+              "cached": 0
+            },
+            "latencyMs": 1866.3999999985099,
+            "provider": "deepseek",
+            "model": "deepseek-v4-pro",
+            "validation": "accepted"
+          }
+        },
+        {
+          "time": 2.233333333333328,
+          "event": "execution",
+          "data": {
+            "plan": {
+              "requestId": "3-1",
+              "epoch": 3,
+              "ttl": 10,
+              "risk": 0.3,
+              "formation": "wedge",
+              "orders": [
+                {
+                  "agents": [
+                    1
+                  ],
+                  "action": "LEAD",
+                  "targetId": "route-ahead"
+                },
+                {
+                  "agents": [
+                    2,
+                    3
+                  ],
+                  "action": "FOLLOW",
+                  "targetId": null
+                }
+              ],
+              "reason": "保持楔形编队，领航沿前方航线飞行",
+              "resolved": [
+                {
+                  "agents": [
+                    1
+                  ],
+                  "action": "LEAD",
+                  "targetId": "route-ahead",
+                  "target": {
+                    "x": 0,
+                    "y": 456.2951979160643,
+                    "z": 6.355051875910746
+                  }
+                },
+                {
+                  "agents": [
+                    2,
+                    3
+                  ],
+                  "action": "FOLLOW",
+                  "targetId": null,
+                  "target": {
+                    "x": 0,
+                    "y": 447.78673778454674,
+                    "z": -27.539747886467996
+                  }
+                }
+              ]
+            },
+            "agents": [
+              {
+                "id": 1,
+                "task": "LEAD",
+                "position": {
+                  "x": 0.680714550718752,
+                  "y": 452.87895854037924,
+                  "z": -82.5989815561248
+                },
+                "target": {
+                  "x": 0,
+                  "y": 452.51114447693055,
+                  "z": -112.57292366534269
+                },
+                "impacts": 0
+              },
+              {
+                "id": 2,
+                "task": "FORMATION_FOLLOW",
+                "position": {
+                  "x": 13.742740844150914,
+                  "y": 451.6945511087537,
+                  "z": -36.74632606224631
+                },
+                "target": {
+                  "x": 13.44,
+                  "y": 451.1825293135888,
+                  "z": -41.53817291599903
+                },
+                "impacts": 0
+              },
+              {
+                "id": 3,
+                "task": "FORMATION_FOLLOW",
+                "position": {
+                  "x": 0,
+                  "y": 452.1800676607945,
+                  "z": -16.918038948355463
+                },
+                "target": {
+                  "x": 0,
+                  "y": 451.9538150720529,
+                  "z": -25.539972882249277
+                },
+                "impacts": 0
+              }
+            ]
+          }
+        },
+        {
+          "time": 2.2416666666666614,
+          "event": "outcome",
+          "data": {
+            "agents": [
+              {
+                "id": 1,
+                "task": "LEAD",
+                "position": {
+                  "x": 0.6728695986426093,
+                  "y": 452.8702396997371,
+                  "z": -83.2481844232089
+                },
+                "target": {
+                  "x": 0,
+                  "y": 456.2951979160643,
+                  "z": 6.355051875910746
+                },
+                "impacts": 0
+              },
+              {
+                "id": 2,
+                "task": "FORMATION_FOLLOW",
+                "position": {
+                  "x": 13.735970718586216,
+                  "y": 451.68002792377484,
+                  "z": -37.28948648850966
+                },
+                "target": {
+                  "x": 13.44,
+                  "y": 451.16446864329083,
+                  "z": -42.08891969826039
+                },
+                "impacts": 0
+              },
+              {
+                "id": 3,
+                "task": "FORMATION_FOLLOW",
+                "position": {
+                  "x": 0,
+                  "y": 452.16796842179275,
+                  "z": -17.461955928276247
+                },
+                "target": {
+                  "x": 0,
+                  "y": 451.9419381352077,
+                  "z": -26.090719664510644
+                },
+                "impacts": 0
+              }
+            ],
+            "player": {
+              "x": 0,
+              "y": 447.7784759631669,
+              "z": -28.090494668729363
+            },
+            "grace": 5,
+            "trust": 0.58,
+            "relay": {
+              "charges": 2,
+              "cooldownUntil": 0,
+              "attempts": 0,
+              "successes": 0,
+              "failures": 0
+            }
+          }
+        },
+        {
+          "time": 3.249999999999991,
+          "event": "outcome",
+          "data": {
+            "agents": [
+              {
+                "id": 1,
+                "task": "LEAD",
+                "position": {
+                  "x": -0.40794061923529623,
+                  "y": 453.1185472048893,
+                  "z": -122.22124700147477
+                },
+                "target": {
+                  "x": 0,
+                  "y": 456.2951979160643,
+                  "z": 6.355051875910746
+                },
+                "impacts": 0
+              },
+              {
+                "id": 2,
+                "task": "FORMATION_FOLLOW",
+                "position": {
+                  "x": 13.362065052504478,
+                  "y": 449.75315335516154,
+                  "z": -98.86018661012065
+                },
+                "target": {
+                  "x": 13.44,
+                  "y": 449.137579874172,
+                  "z": -108.18078086833066
+                },
+                "impacts": 0
+              },
+              {
+                "id": 3,
+                "task": "FORMATION_FOLLOW",
+                "position": {
+                  "x": 0,
+                  "y": 450.95529636248534,
+                  "z": -82.31057640240887
+                },
+                "target": {
+                  "x": 0,
+                  "y": 450.8708869146928,
+                  "z": -92.1825808345809
+                },
+                "impacts": 0
+              }
+            ],
+            "player": {
+              "x": 0,
+              "y": 446.77876140440054,
+              "z": -94.73313327204613
+            },
+            "grace": 5,
+            "trust": 0.58,
+            "relay": {
+              "charges": 2,
+              "cooldownUntil": 0,
+              "attempts": 0,
+              "successes": 0,
+              "failures": 0
+            }
+          }
+        },
+        {
+          "time": 4.250000000000001,
+          "event": "outcome",
+          "data": {
+            "agents": [
+              {
+                "id": 1,
+                "task": "LEAD",
+                "position": {
+                  "x": -7.981654043577225,
+                  "y": 463.3781955646623,
+                  "z": -116.55626027743737
+                },
+                "target": {
+                  "x": 0,
+                  "y": 456.2951979160643,
+                  "z": 6.355051875910746
+                },
+                "impacts": 0
+              },
+              {
+                "id": 2,
+                "task": "FORMATION_FOLLOW",
+                "position": {
+                  "x": 13.448475267162324,
+                  "y": 447.91189626858494,
+                  "z": -162.93766464674323
+                },
+                "target": {
+                  "x": 13.44,
+                  "y": 447.6135030041308,
+                  "z": -174.27464110436514
+                },
+                "impacts": 0
+              },
+              {
+                "id": 3,
+                "task": "FORMATION_FOLLOW",
+                "position": {
+                  "x": 0.45743079480405974,
+                  "y": 449.44911363689545,
+                  "z": -146.01739864178018
+                },
+                "target": {
+                  "x": 0,
+                  "y": 450.47964687772605,
+                  "z": -158.2764410706154
+                },
+                "impacts": 0
+              }
+            ],
+            "player": {
+              "x": 0,
+              "y": 445.7872790211693,
+              "z": -160.82700133451792
+            },
+            "grace": 5,
+            "trust": 0.58,
+            "relay": {
+              "charges": 2,
+              "cooldownUntil": 0,
+              "attempts": 0,
+              "successes": 0,
+              "failures": 0
+            }
+          }
+        },
+        {
+          "time": 5.208333333333382,
+          "event": "trust",
+          "data": {
+            "time": 5.208333333333382,
+            "event": "lost-coordination",
+            "delta": -0.050000000000000044,
+            "value": 0.5299999999999999
+          }
+        },
+        {
+          "time": 5.250000000000051,
+          "event": "outcome",
+          "data": {
+            "agents": [
+              {
+                "id": 1,
+                "task": "REGROUP",
+                "position": {
+                  "x": -5.381598107307249,
+                  "y": 462.23527620487584,
+                  "z": -40.81059322004162
+                },
+                "target": {
+                  "x": 0,
+                  "y": 462.80405137976913,
+                  "z": -208.37261951128178
+                },
+                "impacts": 0
+              },
+              {
+                "id": 2,
+                "task": "FORMATION_FOLLOW",
+                "position": {
+                  "x": 13.442270360281116,
+                  "y": 446.7529932725867,
+                  "z": -228.3954541776783
+                },
+                "target": {
+                  "x": 13.790000000000001,
+                  "y": 446.7783108653426,
+                  "z": -240.3690195787813
+                },
+                "impacts": 0
+              },
+              {
+                "id": 3,
+                "task": "FORMATION_FOLLOW",
+                "position": {
+                  "x": -0.06429988567629562,
+                  "y": 450.320256366298,
+                  "z": -211.23998023168264
+                },
+                "target": {
+                  "x": 0,
+                  "y": 450.5585583587696,
+                  "z": -224.37081954503154
+                },
+                "impacts": 0
+              }
+            ],
+            "player": {
+              "x": 0,
+              "y": 444.7957889507485,
+              "z": -226.9213818378617
+            },
+            "grace": 5,
+            "trust": 0.5299999999999999,
+            "relay": {
+              "charges": 2,
+              "cooldownUntil": 0,
+              "attempts": 0,
+              "successes": 0,
+              "failures": 0
+            }
+          }
+        },
+        {
+          "time": 6.2500000000001,
+          "event": "outcome",
+          "data": {
+            "agents": [
+              {
+                "id": 1,
+                "task": "REGROUP",
+                "position": {
+                  "x": 1.9188235611331996,
+                  "y": 456.6678927666085,
+                  "z": -5.5921042783229105
+                },
+                "target": {
+                  "x": 0,
+                  "y": 461.8125593244098,
+                  "z": -274.46713233395076
+                },
+                "impacts": 0
+              },
+              {
+                "id": 2,
+                "task": "FORMATION_FOLLOW",
+                "position": {
+                  "x": 13.815119781901517,
+                  "y": 446.2979964337822,
+                  "z": -293.9869131483514
+                },
+                "target": {
+                  "x": 13.790000000000001,
+                  "y": 446.5774098629846,
+                  "z": -306.4635324014502
+                },
+                "impacts": 0
+              },
+              {
+                "id": 3,
+                "task": "FORMATION_FOLLOW",
+                "position": {
+                  "x": -0.004783062666110096,
+                  "y": 450.4259201157413,
+                  "z": -276.88886738097284
+                },
+                "target": {
+                  "x": 0,
+                  "y": 450.73370506966705,
+                  "z": -290.4653323677005
+                },
+                "impacts": 0
+              }
+            ],
+            "player": {
+              "x": 0,
+              "y": 443.8042968874989,
+              "z": -293.0158951865104
+            },
+            "grace": 5,
+            "trust": 0.5299999999999999,
+            "relay": {
+              "charges": 2,
+              "cooldownUntil": 0,
+              "attempts": 0,
+              "successes": 0,
+              "failures": 0
+            }
+          }
+        },
+        {
+          "time": 7.25000000000015,
+          "event": "outcome",
+          "data": {
+            "agents": [
+              {
+                "id": 1,
+                "task": "REGROUP",
+                "position": {
+                  "x": 11.349860376714233,
+                  "y": 450.7138184927017,
+                  "z": -41.69244234717365
+                },
+                "target": {
+                  "x": 0,
+                  "y": 460.8210667465838,
+                  "z": -340.56167998509613
+                },
+                "impacts": 0
+              },
+              {
+                "id": 2,
+                "task": "FORMATION_FOLLOW",
+                "position": {
+                  "x": 13.801802149433614,
+                  "y": 446.36313644333217,
+                  "z": -359.6052516990624
+                },
+                "target": {
+                  "x": 13.790000000000001,
+                  "y": 446.7346252897042,
+                  "z": -372.5580800525956
+                },
+                "impacts": 0
+              },
+              {
+                "id": 3,
+                "task": "FORMATION_FOLLOW",
+                "position": {
+                  "x": 0.005389624076893667,
+                  "y": 450.4933159328818,
+                  "z": -342.60949726802306
+                },
+                "target": {
+                  "x": 0,
+                  "y": 450.59754801786505,
+                  "z": -356.5598800188459
+                },
+                "impacts": 0
+              }
+            ],
+            "player": {
+              "x": 0,
+              "y": 442.8128043076274,
+              "z": -359.1104429740109
+            },
+            "grace": 5,
+            "trust": 0.5299999999999999,
+            "relay": {
+              "charges": 2,
+              "cooldownUntil": 0,
+              "attempts": 0,
+              "successes": 0,
+              "failures": 0
+            }
+          }
+        },
+        {
+          "time": 8.250000000000172,
+          "event": "outcome",
+          "data": {
+            "agents": [
+              {
+                "id": 1,
+                "task": "REGROUP",
+                "position": {
+                  "x": 9.21846718014478,
+                  "y": 452.90885903719965,
+                  "z": -144.42362227313865
+                },
+                "target": {
+                  "x": 0,
+                  "y": 459.82957403331335,
+                  "z": -406.6562366651846
+                },
+                "impacts": 0
+              },
+              {
+                "id": 2,
+                "task": "FORMATION_FOLLOW",
+                "position": {
+                  "x": 13.784532923361954,
+                  "y": 446.58358126180696,
+                  "z": -425.25688265838494
+                },
+                "target": {
+                  "x": 13.790000000000001,
+                  "y": 446.84868077799877,
+                  "z": -438.6526367326841
+                },
+                "impacts": 0
+              },
+              {
+                "id": 3,
+                "task": "FORMATION_FOLLOW",
+                "position": {
+                  "x": -0.0015754703254576572,
+                  "y": 450.0840583648502,
+                  "z": -408.3858498947097
+                },
+                "target": {
+                  "x": 0,
+                  "y": 449.8512942829878,
+                  "z": -422.6544366989344
+                },
+                "impacts": 0
+              }
+            ],
+            "player": {
+              "x": 0,
+              "y": 441.8213115938267,
+              "z": -425.20499968944813
+            },
+            "grace": 5,
+            "trust": 0.5299999999999999,
+            "relay": {
+              "charges": 2,
+              "cooldownUntil": 0,
+              "attempts": 0,
+              "successes": 0,
+              "failures": 0
+            }
+          }
+        },
+        {
+          "time": 8.375000000000165,
+          "event": "perception",
+          "data": {
+            "requestId": "3-2",
+            "epoch": 3,
+            "time": 8.375000000000165,
+            "seed": 334458,
+            "player": {
+              "position": {
+                "x": 0,
+                "y": 441.69737500128986,
+                "z": -433.46681949964466
+              },
+              "velocity": {
+                "x": 0,
+                "y": -0.9914927418598808,
+                "z": -66.0945585859192
+              },
+              "grace": 5,
+              "graceLimit": 5,
+              "surfaceDistance": null,
+              "mode": "free"
+            },
+            "trust": 0.5299999999999999,
+            "riskLimit": 0.49449999999999994,
+            "charges": 2,
+            "relayReady": false,
+            "agents": [
+              {
+                "id": 1,
+                "position": {
+                  "x": 8.720061714644972,
+                  "y": 453.30950620579364,
+                  "z": -158.66149818769355
+                },
+                "velocity": {
+                  "x": -4.000931168767325,
+                  "y": 3.1809534242657995,
+                  "z": -114.21415475180733
+                },
+                "task": "REGROUP",
+                "surfaceDistance": null,
+                "deployed": true
+              },
+              {
+                "id": 2,
+                "position": {
+                  "x": 13.785959852943824,
+                  "y": 446.6014246847307,
+                  "z": -433.4701041548668
+                },
+                "velocity": {
+                  "x": 0.011523023223583046,
+                  "y": 0.12265744048746052,
+                  "z": -65.66299890925565
+                },
+                "task": "FORMATION_FOLLOW",
+                "surfaceDistance": null,
+                "deployed": true
+              },
+              {
+                "id": 3,
+                "position": {
+                  "x": -0.0013250748945772685,
+                  "y": 449.98267622394934,
+                  "z": -416.61513926069773
+                },
+                "velocity": {
+                  "x": 0.0022863417456275774,
+                  "y": -0.8523565522234218,
+                  "z": -65.78775693241799
+                },
+                "task": "FORMATION_FOLLOW",
+                "surfaceDistance": null,
+                "deployed": true
+              }
+            ],
+            "targets": [
+              {
+                "id": "route-ahead",
+                "kind": "route",
+                "position": {
+                  "x": 0,
+                  "y": 448.34742562572035,
+                  "z": -523.456694689487
+                },
+                "clearance": null
+              },
+              {
+                "id": "route-left",
+                "kind": "route",
+                "position": {
+                  "x": -38,
+                  "y": 460.34742562572035,
+                  "z": -523.456694689487
+                },
+                "clearance": null
+              },
+              {
+                "id": "route-right",
+                "kind": "route",
+                "position": {
+                  "x": 38,
+                  "y": 460.34742562572035,
+                  "z": -523.456694689487
+                },
+                "clearance": null
+              }
+            ],
+            "memory": [
+              {
+                "event": "flight",
+                "action": "LEAD/FOLLOW",
+                "progress": 66
+              },
+              {
+                "event": "flight",
+                "action": "LEAD/FOLLOW",
+                "progress": 66
+              },
+              {
+                "event": "flight",
+                "action": "LEAD/FOLLOW",
+                "progress": 66
+              },
+              {
+                "event": "flight",
+                "action": "LEAD/FOLLOW",
+                "progress": 66
+              },
+              {
+                "event": "flight",
+                "action": "LEAD/FOLLOW",
+                "progress": 66
+              },
+              {
+                "event": "flight",
+                "action": "LEAD/FOLLOW",
+                "progress": 66
+              },
+              {
+                "event": "flight",
+                "action": "LEAD/FOLLOW",
+                "progress": 66
+              }
+            ]
+          }
+        },
+        {
+          "time": 9.258333333333448,
+          "event": "outcome",
+          "data": {
+            "agents": [
+              {
+                "id": 1,
+                "task": "REGROUP",
+                "position": {
+                  "x": 5.388008674670482,
+                  "y": 455.747278865589,
+                  "z": -260.5082007207056
+                },
+                "target": {
+                  "x": 0,
+                  "y": 458.8380812849306,
+                  "z": -472.75079568593884
+                },
+                "impacts": 0
+              },
+              {
+                "id": 2,
+                "task": "FORMATION_FOLLOW",
+                "position": {
+                  "x": 13.791177066704861,
+                  "y": 446.532980491604,
+                  "z": -491.51040463250746
+                },
+                "target": {
+                  "x": 13.790000000000001,
+                  "y": 446.53337663457245,
+                  "z": -504.7471957534383
+                },
+                "impacts": 0
+              },
+              {
+                "id": 3,
+                "task": "FORMATION_FOLLOW",
+                "position": {
+                  "x": 0.00023295517170942957,
+                  "y": 448.94356543373135,
+                  "z": -474.7495104956517
+                },
+                "target": {
+                  "x": 0,
+                  "y": 448.4092749346452,
+                  "z": -488.7489957196886
+                },
+                "impacts": 0
+              }
+            ],
+            "player": {
+              "x": 0,
+              "y": 440.82155640568175,
+              "z": -491.85034671486085
+            },
+            "grace": 5,
+            "trust": 0.5299999999999999,
+            "relay": {
+              "charges": 2,
+              "cooldownUntil": 0,
+              "attempts": 0,
+              "successes": 0,
+              "failures": 0
+            }
+          }
+        },
+        {
+          "time": 10.266666666666724,
+          "event": "outcome",
+          "data": {
+            "agents": [
+              {
+                "id": 1,
+                "task": "REGROUP",
+                "position": {
+                  "x": 2.5377113822658637,
+                  "y": 457.31980315861915,
+                  "z": -377.38191030041054
+                },
+                "target": {
+                  "x": 0,
+                  "y": 457.84658852744553,
+                  "z": -538.8453553134876
+                },
+                "impacts": 0
+              },
+              {
+                "id": 2,
+                "task": "FORMATION_FOLLOW",
+                "position": {
+                  "x": 13.78990475924076,
+                  "y": 445.8743356421809,
+                  "z": -557.8169127546953
+                },
+                "target": {
+                  "x": 13.790000000000001,
+                  "y": 445.55250075165577,
+                  "z": -570.8417553809871
+                },
+                "impacts": 0
+              },
+              {
+                "id": 3,
+                "task": "FORMATION_FOLLOW",
+                "position": {
+                  "x": 0.00000856019412483934,
+                  "y": 447.14288823849927,
+                  "z": -541.1339020232568
+                },
+                "target": {
+                  "x": 0,
+                  "y": 446.42887190194494,
+                  "z": -554.8435553472374
+                },
+                "impacts": 0
+              }
+            ],
+            "player": {
+              "x": 0,
+              "y": 439.82180120846573,
+              "z": -558.4956943449874
+            },
+            "grace": 5,
+            "trust": 0.5299999999999999,
+            "relay": {
+              "charges": 2,
+              "cooldownUntil": 0,
+              "attempts": 0,
+              "successes": 0,
+              "failures": 0
+            }
+          }
+        },
+        {
+          "time": 10.358333333333386,
+          "event": "expired",
+          "data": {
+            "requestId": "3-1"
+          }
+        },
+        {
+          "time": 10.558333333333374,
+          "event": "decision",
+          "data": {
+            "decision": {
+              "requestId": "3-2",
+              "epoch": 3,
+              "ttl": 10,
+              "risk": 0.3,
+              "formation": "wedge",
+              "orders": [
+                {
+                  "agents": [
+                    1
+                  ],
+                  "action": "LEAD",
+                  "targetId": "route-ahead"
+                },
+                {
+                  "agents": [
+                    2,
+                    3
+                  ],
+                  "action": "FOLLOW",
+                  "targetId": null
+                }
+              ],
+              "reason": "保持编队，沿前方航线飞行"
+            },
+            "usage": {
+              "input": 975,
+              "output": 122,
+              "total": 1097,
+              "cached": 0
+            },
+            "latencyMs": 2182.4000000059605,
+            "provider": "deepseek",
+            "model": "deepseek-v4-pro",
+            "validation": "accepted"
+          }
+        },
+        {
+          "time": 10.558333333333374,
+          "event": "execution",
+          "data": {
+            "plan": {
+              "requestId": "3-2",
+              "epoch": 3,
+              "ttl": 10,
+              "risk": 0.3,
+              "formation": "wedge",
+              "orders": [
+                {
+                  "agents": [
+                    1
+                  ],
+                  "action": "LEAD",
+                  "targetId": "route-ahead"
+                },
+                {
+                  "agents": [
+                    2,
+                    3
+                  ],
+                  "action": "FOLLOW",
+                  "targetId": null
+                }
+              ],
+              "reason": "保持编队，沿前方航线飞行",
+              "resolved": [
+                {
+                  "agents": [
+                    1
+                  ],
+                  "action": "LEAD",
+                  "targetId": "route-ahead",
+                  "target": {
+                    "x": 0,
+                    "y": 448.34742562572035,
+                    "z": -523.456694689487
+                  }
+                },
+                {
+                  "agents": [
+                    2,
+                    3
+                  ],
+                  "action": "FOLLOW",
+                  "targetId": null,
+                  "target": {
+                    "x": 0,
+                    "y": 439.53261582028745,
+                    "z": -577.7732742749074
+                  }
+                }
+              ]
+            },
+            "agents": [
+              {
+                "id": 1,
+                "task": "REGROUP",
+                "position": {
+                  "x": 1.9262488852430322,
+                  "y": 457.5235330397558,
+                  "z": -411.20706252852847
+                },
+                "target": {
+                  "x": 0,
+                  "y": 457.72265193253475,
+                  "z": -547.107175281936
+                },
+                "impacts": 0
+              },
+              {
+                "id": 2,
+                "task": "FORMATION_FOLLOW",
+                "position": {
+                  "x": 13.7898225939731,
+                  "y": 445.53766054388944,
+                  "z": -577.0855685480692
+                },
+                "target": {
+                  "x": 13.790000000000001,
+                  "y": 445.0956721005974,
+                  "z": -591.7716993044385
+                },
+                "impacts": 0
+              },
+              {
+                "id": 3,
+                "task": "FORMATION_FOLLOW",
+                "position": {
+                  "x": -0.000034011331866698513,
+                  "y": 446.51017374890074,
+                  "z": -560.4341669241829
+                },
+                "target": {
+                  "x": 0,
+                  "y": 445.7419295081114,
+                  "z": -575.7734992706887
+                },
+                "impacts": 0
+              }
+            ]
+          }
+        }
+      ],
+      "memory": [
+        {
+          "event": "flight",
+          "action": "LEAD/FOLLOW",
+          "progress": 66
+        },
+        {
+          "event": "flight",
+          "action": "LEAD/FOLLOW",
+          "progress": 66
+        },
+        {
+          "event": "flight",
+          "action": "LEAD/FOLLOW",
+          "progress": 66
+        },
+        {
+          "event": "flight",
+          "action": "LEAD/FOLLOW",
+          "progress": 66
+        },
+        {
+          "event": "flight",
+          "action": "LEAD/FOLLOW",
+          "progress": 66
+        },
+        {
+          "event": "flight",
+          "action": "LEAD/FOLLOW",
+          "progress": 66
+        },
+        {
+          "event": "flight",
+          "action": "LEAD/FOLLOW",
+          "progress": 66
+        },
+        {
+          "event": "flight",
+          "action": "LEAD/FOLLOW",
+          "progress": 66
+        },
+        {
+          "event": "flight",
+          "action": "LEAD/FOLLOW",
+          "progress": 66
+        }
+      ]
+    },
+    "ready": true,
+    "attitude": {
+      "pitch": -0.015,
+      "roll": 0,
+      "yaw": 0
+    },
+    "control": {
+      "pitch": 0,
+      "roll": 0,
+      "yaw": 0,
+      "boost": false
+    },
+    "rules": {
+      "mode": "free",
+      "graceSeconds": 5,
+      "shield": true,
+      "assisted": true
+    },
+    "companionSettings": {
+      "count": 3,
+      "formation": "wedge",
+      "behavior": "lead"
+    },
+    "companions": [
+      {
+        "id": 1,
+        "callsign": "KITE-1",
+        "position": {
+          "x": 1.9100867838931712,
+          "y": 457.52782552361214,
+          "z": -412.1735437113721
+        },
+        "velocity": {
+          "x": -1.9394521619833214,
+          "y": 0.5150980627595966,
+          "z": -115.9777419412298
+        },
+        "target": {
+          "x": 0,
+          "y": 457.5243533806233,
+          "z": -560.3260872350627
+        },
+        "task": "REGROUP",
+        "surfaceDistance": null,
+        "decisions": 55,
+        "impacts": 0,
+        "uncovered": false,
+        "deployed": true
+      },
+      {
+        "id": 2,
+        "callsign": "KITE-2",
+        "position": {
+          "x": 13.789822524424665,
+          "y": 445.52677108146446,
+          "z": -577.6393311818952
+        },
+        "velocity": {
+          "x": -0.000008345812081433566,
+          "y": -1.3067354909961497,
+          "z": -66.45151605911798
+        },
+        "target": {
+          "x": 13.790000000000001,
+          "y": 445.08276069493854,
+          "z": -592.3224873025622
+        },
+        "task": "FORMATION_FOLLOW",
+        "surfaceDistance": null,
+        "decisions": 55,
+        "impacts": 0,
+        "uncovered": false,
+        "deployed": true
+      },
+      {
+        "id": 3,
+        "callsign": "KITE-3",
+        "position": {
+          "x": -0.000034569223019737925,
+          "y": 446.49089367800644,
+          "z": -560.9892618533898
+        },
+        "velocity": {
+          "x": -0.00006694693836472932,
+          "y": -2.3136085073180137,
+          "z": -66.61139150483072
+        },
+        "target": {
+          "x": 0,
+          "y": 445.72370514186537,
+          "z": -576.3242872688124
+        },
+        "task": "FORMATION_FOLLOW",
+        "surfaceDistance": null,
+        "decisions": 55,
+        "impacts": 0,
+        "uncovered": false,
+        "deployed": true
+      }
+    ],
+    "companionEvents": [
+      {
+        "time": 0,
+        "agent": 1,
+        "event": "spawn",
+        "task": "FORMATION_FOLLOW"
+      },
+      {
+        "time": 0,
+        "agent": 2,
+        "event": "spawn",
+        "task": "FORMATION_FOLLOW"
+      },
+      {
+        "time": 0,
+        "agent": 3,
+        "event": "spawn",
+        "task": "FORMATION_FOLLOW"
+      },
+      {
+        "time": 0.008333333333333333,
+        "agent": 1,
+        "event": "task",
+        "task": "LEAD"
+      },
+      {
+        "time": 5.041666666666707,
+        "agent": 1,
+        "event": "task",
+        "task": "REGROUP"
+      }
+    ],
+    "shieldImpacts": 0,
+    "inputDevice": "Keyboard",
+    "mode": "running",
+    "runTime": 10.566666666666707,
+    "best": 0,
+    "speed": 66.10199610997422,
+    "altitude": 439.5243533806233,
+    "position": {
+      "x": 0,
+      "y": 439.5243533806233,
+      "z": -578.3240622730311
+    },
+    "surfaceDistance": null,
+    "surfaceLocked": false,
+    "grace": 5,
+    "failureReason": null,
+    "world": {
+      "chunks": 25,
+      "buildings": 142,
+      "bridges": 30,
+      "islands": 2,
+      "collisionTriangles": 125606,
+      "renderTriangles": 239302
+    },
+    "adapter": {
+      "chunks": 25,
+      "bvhCount": 25,
+      "lastBroadPhaseCandidates": 0,
+      "lastQueries": 0
+    },
+    "streaming": {
+      "stateCounts": {
+        "UNLOADED": 0,
+        "QUEUED": 0,
+        "GENERATING": 0,
+        "READY": 0,
+        "ACTIVE": 25,
+        "RETIRING": 0,
+        "DISPOSED": 0
+      },
+      "loadedChunks": 25,
+      "activeChunks": 25,
+      "queuedChunks": 0,
+      "generatingChunks": 0,
+      "generatedTotal": 40,
+      "retiredTotal": 15,
+      "disposedGeometryCount": 202,
+      "bvhCount": 25,
+      "renderObjectCount": 286,
+      "estimatedCpuGeometryBytes": 28253764,
+      "generationAvgMs": 45.1300000006333,
+      "generationP95Ms": 254.60000000149012,
+      "generationMinMs": 7.899999998509884,
+      "generationMaxMs": 402.3999999985099,
+      "generationSampleCount": 40,
+      "maxLoadedChunks": 41,
+      "coverageComplete": true,
+      "rebaseCount": 0
+    },
+    "buffering": false,
+    "renderOrigin": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "render": {
+      "calls": 212,
+      "triangles": 156804,
+      "points": 560,
+      "lines": 0,
+      "fps": 115.00413044200145,
+      "geometries": 278,
+      "textures": 23
+    },
+    "seed": 334458,
+    "debugInput": false,
+    "selectedAircraft": "procedural",
+    "localModelCount": 0,
+    "cameraMode": "chase",
+    "cameraBlend": 0,
+    "fov": 63.39689587376633,
+    "proximity": 0,
+    "proximityZone": "detached",
+    "visualStimulation": "standard",
+    "recordingHintVisible": true,
+    "worldPreset": "sakura",
+    "worldMode": "stable",
+    "generatorVersion": 2,
+    "worldFingerprint": 3887776065,
+    "revisionHistory": null,
+    "chunkStates": [
+      {
+        "key": "0:-1",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 4076409833
+      },
+      {
+        "key": "-1:-1",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 362762849
+      },
+      {
+        "key": "1:-1",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 113359827
+      },
+      {
+        "key": "0:-2",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 2998100976
+      },
+      {
+        "key": "-1:-2",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 3788906424
+      },
+      {
+        "key": "1:-2",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 3842934674
+      },
+      {
+        "key": "-2:-1",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 691181459
+      },
+      {
+        "key": "2:-1",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 4155033499
+      },
+      {
+        "key": "-2:-2",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 2390288180
+      },
+      {
+        "key": "2:-2",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 3532469619
+      },
+      {
+        "key": "0:-3",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 4259250541
+      },
+      {
+        "key": "-1:-3",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 3384088076
+      },
+      {
+        "key": "1:-3",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 3958356505
+      },
+      {
+        "key": "-2:-3",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 1603925851
+      },
+      {
+        "key": "2:-3",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 4257140480
+      },
+      {
+        "key": "0:-4",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 3611753261
+      },
+      {
+        "key": "-1:-4",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 259319073
+      },
+      {
+        "key": "1:-4",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 1673086011
+      },
+      {
+        "key": "-2:-4",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 3458200411
+      },
+      {
+        "key": "2:-4",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 4080022983
+      },
+      {
+        "key": "0:-5",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 1106841686
+      },
+      {
+        "key": "-1:-5",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 2135938274
+      },
+      {
+        "key": "1:-5",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 2130914651
+      },
+      {
+        "key": "-2:-5",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 2115812146
+      },
+      {
+        "key": "2:-5",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 1655594211
+      }
+    ]
+  },
+  "after": {
+    "cooperation": {
+      "planner": "Model Planner · deepseek-v4-pro",
+      "time": 13.566666666666537,
+      "epoch": 3,
+      "trust": {
+        "value": 0.5299999999999999,
+        "events": [
+          {
+            "time": 1.7749999999999961,
+            "event": "accepted-lead",
+            "delta": 0.07999999999999996,
+            "value": 0.58
+          },
+          {
+            "time": 5.208333333333382,
+            "event": "lost-coordination",
+            "delta": -0.050000000000000044,
+            "value": 0.5299999999999999
+          }
+        ]
+      },
+      "relay": {
+        "charges": 2,
+        "cooldownUntil": 0,
+        "attempts": 0,
+        "successes": 0,
+        "failures": 0
+      },
+      "model": {
+        "connected": true,
+        "pending": false,
+        "requests": 2,
+        "successes": 2,
+        "failures": 0,
+        "cancellations": 0,
+        "reservedTokens": 7930,
+        "usage": {
+          "input": 1793,
+          "output": 248,
+          "total": 2041,
+          "cached": 0
+        },
+        "lastLatencyMs": 2182.4000000059605,
+        "error": "request-budget"
+      },
+      "config": {
+        "provider": "deepseek",
+        "model": "deepseek-v4-pro",
+        "trusted": false,
+        "intervalSeconds": 8,
+        "maxRequests": 2,
+        "tokenBudget": 50000,
+        "timeoutMs": 20000,
+        "origin": "https://api.deepseek.com"
+      },
+      "lastPlan": {
+        "requestId": "3-2",
+        "epoch": 3,
+        "ttl": 10,
+        "risk": 0.3,
+        "formation": "wedge",
+        "orders": [
+          {
+            "agents": [
+              1
+            ],
+            "action": "LEAD",
+            "targetId": "route-ahead"
+          },
+          {
+            "agents": [
+              2,
+              3
+            ],
+            "action": "FOLLOW",
+            "targetId": null
+          }
+        ],
+        "reason": "保持编队，沿前方航线飞行",
+        "resolved": [
+          {
+            "agents": [
+              1
+            ],
+            "action": "LEAD",
+            "targetId": "route-ahead",
+            "target": {
+              "x": 0,
+              "y": 448.34742562572035,
+              "z": -523.456694689487
+            }
+          },
+          {
+            "agents": [
+              2,
+              3
+            ],
+            "action": "FOLLOW",
+            "targetId": null,
+            "target": {
+              "x": 0,
+              "y": 439.53261582028745,
+              "z": -577.7732742749074
+            }
+          }
+        ]
+      },
+      "trace": [
+        {
+          "time": 0.3583333333333336,
+          "event": "perception",
+          "data": {
+            "requestId": "3-1",
+            "epoch": 3,
+            "time": 0.3583333333333336,
+            "seed": 334458,
+            "player": {
+              "position": {
+                "x": 0,
+                "y": 449.6451472916338,
+                "z": 96.34492706575307
+              },
+              "velocity": {
+                "x": 0,
+                "y": -0.990549636440401,
+                "z": -66.03168960688505
+              },
+              "grace": 5,
+              "graceLimit": 5,
+              "surfaceDistance": null,
+              "mode": "free"
+            },
+            "trust": 0.5,
+            "riskLimit": 0.475,
+            "charges": 2,
+            "relayReady": false,
+            "agents": [
+              {
+                "id": 1,
+                "position": {
+                  "x": -11.581197795917351,
+                  "y": 456.76705953340996,
+                  "z": 78.32860010567984
+                },
+                "velocity": {
+                  "x": 11.325644481971302,
+                  "y": -2.636619411425635,
+                  "z": -85.00443041913503
+                },
+                "task": "LEAD",
+                "surfaceDistance": null,
+                "deployed": true
+              },
+              {
+                "id": 2,
+                "position": {
+                  "x": 14,
+                  "y": 457.95142510088124,
+                  "z": 83.52454793665575
+                },
+                "velocity": {
+                  "x": 0,
+                  "y": -6.688848363128426,
+                  "z": -61.23101003862424
+                },
+                "task": "FORMATION_FOLLOW",
+                "surfaceDistance": null,
+                "deployed": true
+              },
+              {
+                "id": 3,
+                "position": {
+                  "x": 0,
+                  "y": 459.95730956929026,
+                  "z": 100.18765928406688
+                },
+                "velocity": {
+                  "x": 0,
+                  "y": -9.757205175252226,
+                  "z": -58.52465031221246
+                },
+                "task": "FORMATION_FOLLOW",
+                "surfaceDistance": null,
+                "deployed": true
+              }
+            ],
+            "targets": [
+              {
+                "id": "route-ahead",
+                "kind": "route",
+                "position": {
+                  "x": 0,
+                  "y": 456.2951979160643,
+                  "z": 6.355051875910746
+                },
+                "clearance": null
+              },
+              {
+                "id": "route-left",
+                "kind": "route",
+                "position": {
+                  "x": -38,
+                  "y": 468.2951979160643,
+                  "z": 6.355051875910746
+                },
+                "clearance": null
+              },
+              {
+                "id": "route-right",
+                "kind": "route",
+                "position": {
+                  "x": 38,
+                  "y": 468.2951979160643,
+                  "z": 6.355051875910746
+                },
+                "clearance": null
+              }
+            ],
+            "memory": []
+          }
+        },
+        {
+          "time": 1.7749999999999961,
+          "event": "trust",
+          "data": {
+            "time": 1.7749999999999961,
+            "event": "accepted-lead",
+            "delta": 0.07999999999999996,
+            "value": 0.58
+          }
+        },
+        {
+          "time": 2.233333333333328,
+          "event": "decision",
+          "data": {
+            "decision": {
+              "requestId": "3-1",
+              "epoch": 3,
+              "ttl": 10,
+              "risk": 0.3,
+              "formation": "wedge",
+              "orders": [
+                {
+                  "agents": [
+                    1
+                  ],
+                  "action": "LEAD",
+                  "targetId": "route-ahead"
+                },
+                {
+                  "agents": [
+                    2,
+                    3
+                  ],
+                  "action": "FOLLOW",
+                  "targetId": null
+                }
+              ],
+              "reason": "保持楔形编队，领航沿前方航线飞行"
+            },
+            "usage": {
+              "input": 818,
+              "output": 126,
+              "total": 944,
+              "cached": 0
+            },
+            "latencyMs": 1866.3999999985099,
+            "provider": "deepseek",
+            "model": "deepseek-v4-pro",
+            "validation": "accepted"
+          }
+        },
+        {
+          "time": 2.233333333333328,
+          "event": "execution",
+          "data": {
+            "plan": {
+              "requestId": "3-1",
+              "epoch": 3,
+              "ttl": 10,
+              "risk": 0.3,
+              "formation": "wedge",
+              "orders": [
+                {
+                  "agents": [
+                    1
+                  ],
+                  "action": "LEAD",
+                  "targetId": "route-ahead"
+                },
+                {
+                  "agents": [
+                    2,
+                    3
+                  ],
+                  "action": "FOLLOW",
+                  "targetId": null
+                }
+              ],
+              "reason": "保持楔形编队，领航沿前方航线飞行",
+              "resolved": [
+                {
+                  "agents": [
+                    1
+                  ],
+                  "action": "LEAD",
+                  "targetId": "route-ahead",
+                  "target": {
+                    "x": 0,
+                    "y": 456.2951979160643,
+                    "z": 6.355051875910746
+                  }
+                },
+                {
+                  "agents": [
+                    2,
+                    3
+                  ],
+                  "action": "FOLLOW",
+                  "targetId": null,
+                  "target": {
+                    "x": 0,
+                    "y": 447.78673778454674,
+                    "z": -27.539747886467996
+                  }
+                }
+              ]
+            },
+            "agents": [
+              {
+                "id": 1,
+                "task": "LEAD",
+                "position": {
+                  "x": 0.680714550718752,
+                  "y": 452.87895854037924,
+                  "z": -82.5989815561248
+                },
+                "target": {
+                  "x": 0,
+                  "y": 452.51114447693055,
+                  "z": -112.57292366534269
+                },
+                "impacts": 0
+              },
+              {
+                "id": 2,
+                "task": "FORMATION_FOLLOW",
+                "position": {
+                  "x": 13.742740844150914,
+                  "y": 451.6945511087537,
+                  "z": -36.74632606224631
+                },
+                "target": {
+                  "x": 13.44,
+                  "y": 451.1825293135888,
+                  "z": -41.53817291599903
+                },
+                "impacts": 0
+              },
+              {
+                "id": 3,
+                "task": "FORMATION_FOLLOW",
+                "position": {
+                  "x": 0,
+                  "y": 452.1800676607945,
+                  "z": -16.918038948355463
+                },
+                "target": {
+                  "x": 0,
+                  "y": 451.9538150720529,
+                  "z": -25.539972882249277
+                },
+                "impacts": 0
+              }
+            ]
+          }
+        },
+        {
+          "time": 2.2416666666666614,
+          "event": "outcome",
+          "data": {
+            "agents": [
+              {
+                "id": 1,
+                "task": "LEAD",
+                "position": {
+                  "x": 0.6728695986426093,
+                  "y": 452.8702396997371,
+                  "z": -83.2481844232089
+                },
+                "target": {
+                  "x": 0,
+                  "y": 456.2951979160643,
+                  "z": 6.355051875910746
+                },
+                "impacts": 0
+              },
+              {
+                "id": 2,
+                "task": "FORMATION_FOLLOW",
+                "position": {
+                  "x": 13.735970718586216,
+                  "y": 451.68002792377484,
+                  "z": -37.28948648850966
+                },
+                "target": {
+                  "x": 13.44,
+                  "y": 451.16446864329083,
+                  "z": -42.08891969826039
+                },
+                "impacts": 0
+              },
+              {
+                "id": 3,
+                "task": "FORMATION_FOLLOW",
+                "position": {
+                  "x": 0,
+                  "y": 452.16796842179275,
+                  "z": -17.461955928276247
+                },
+                "target": {
+                  "x": 0,
+                  "y": 451.9419381352077,
+                  "z": -26.090719664510644
+                },
+                "impacts": 0
+              }
+            ],
+            "player": {
+              "x": 0,
+              "y": 447.7784759631669,
+              "z": -28.090494668729363
+            },
+            "grace": 5,
+            "trust": 0.58,
+            "relay": {
+              "charges": 2,
+              "cooldownUntil": 0,
+              "attempts": 0,
+              "successes": 0,
+              "failures": 0
+            }
+          }
+        },
+        {
+          "time": 3.249999999999991,
+          "event": "outcome",
+          "data": {
+            "agents": [
+              {
+                "id": 1,
+                "task": "LEAD",
+                "position": {
+                  "x": -0.40794061923529623,
+                  "y": 453.1185472048893,
+                  "z": -122.22124700147477
+                },
+                "target": {
+                  "x": 0,
+                  "y": 456.2951979160643,
+                  "z": 6.355051875910746
+                },
+                "impacts": 0
+              },
+              {
+                "id": 2,
+                "task": "FORMATION_FOLLOW",
+                "position": {
+                  "x": 13.362065052504478,
+                  "y": 449.75315335516154,
+                  "z": -98.86018661012065
+                },
+                "target": {
+                  "x": 13.44,
+                  "y": 449.137579874172,
+                  "z": -108.18078086833066
+                },
+                "impacts": 0
+              },
+              {
+                "id": 3,
+                "task": "FORMATION_FOLLOW",
+                "position": {
+                  "x": 0,
+                  "y": 450.95529636248534,
+                  "z": -82.31057640240887
+                },
+                "target": {
+                  "x": 0,
+                  "y": 450.8708869146928,
+                  "z": -92.1825808345809
+                },
+                "impacts": 0
+              }
+            ],
+            "player": {
+              "x": 0,
+              "y": 446.77876140440054,
+              "z": -94.73313327204613
+            },
+            "grace": 5,
+            "trust": 0.58,
+            "relay": {
+              "charges": 2,
+              "cooldownUntil": 0,
+              "attempts": 0,
+              "successes": 0,
+              "failures": 0
+            }
+          }
+        },
+        {
+          "time": 4.250000000000001,
+          "event": "outcome",
+          "data": {
+            "agents": [
+              {
+                "id": 1,
+                "task": "LEAD",
+                "position": {
+                  "x": -7.981654043577225,
+                  "y": 463.3781955646623,
+                  "z": -116.55626027743737
+                },
+                "target": {
+                  "x": 0,
+                  "y": 456.2951979160643,
+                  "z": 6.355051875910746
+                },
+                "impacts": 0
+              },
+              {
+                "id": 2,
+                "task": "FORMATION_FOLLOW",
+                "position": {
+                  "x": 13.448475267162324,
+                  "y": 447.91189626858494,
+                  "z": -162.93766464674323
+                },
+                "target": {
+                  "x": 13.44,
+                  "y": 447.6135030041308,
+                  "z": -174.27464110436514
+                },
+                "impacts": 0
+              },
+              {
+                "id": 3,
+                "task": "FORMATION_FOLLOW",
+                "position": {
+                  "x": 0.45743079480405974,
+                  "y": 449.44911363689545,
+                  "z": -146.01739864178018
+                },
+                "target": {
+                  "x": 0,
+                  "y": 450.47964687772605,
+                  "z": -158.2764410706154
+                },
+                "impacts": 0
+              }
+            ],
+            "player": {
+              "x": 0,
+              "y": 445.7872790211693,
+              "z": -160.82700133451792
+            },
+            "grace": 5,
+            "trust": 0.58,
+            "relay": {
+              "charges": 2,
+              "cooldownUntil": 0,
+              "attempts": 0,
+              "successes": 0,
+              "failures": 0
+            }
+          }
+        },
+        {
+          "time": 5.208333333333382,
+          "event": "trust",
+          "data": {
+            "time": 5.208333333333382,
+            "event": "lost-coordination",
+            "delta": -0.050000000000000044,
+            "value": 0.5299999999999999
+          }
+        },
+        {
+          "time": 5.250000000000051,
+          "event": "outcome",
+          "data": {
+            "agents": [
+              {
+                "id": 1,
+                "task": "REGROUP",
+                "position": {
+                  "x": -5.381598107307249,
+                  "y": 462.23527620487584,
+                  "z": -40.81059322004162
+                },
+                "target": {
+                  "x": 0,
+                  "y": 462.80405137976913,
+                  "z": -208.37261951128178
+                },
+                "impacts": 0
+              },
+              {
+                "id": 2,
+                "task": "FORMATION_FOLLOW",
+                "position": {
+                  "x": 13.442270360281116,
+                  "y": 446.7529932725867,
+                  "z": -228.3954541776783
+                },
+                "target": {
+                  "x": 13.790000000000001,
+                  "y": 446.7783108653426,
+                  "z": -240.3690195787813
+                },
+                "impacts": 0
+              },
+              {
+                "id": 3,
+                "task": "FORMATION_FOLLOW",
+                "position": {
+                  "x": -0.06429988567629562,
+                  "y": 450.320256366298,
+                  "z": -211.23998023168264
+                },
+                "target": {
+                  "x": 0,
+                  "y": 450.5585583587696,
+                  "z": -224.37081954503154
+                },
+                "impacts": 0
+              }
+            ],
+            "player": {
+              "x": 0,
+              "y": 444.7957889507485,
+              "z": -226.9213818378617
+            },
+            "grace": 5,
+            "trust": 0.5299999999999999,
+            "relay": {
+              "charges": 2,
+              "cooldownUntil": 0,
+              "attempts": 0,
+              "successes": 0,
+              "failures": 0
+            }
+          }
+        },
+        {
+          "time": 6.2500000000001,
+          "event": "outcome",
+          "data": {
+            "agents": [
+              {
+                "id": 1,
+                "task": "REGROUP",
+                "position": {
+                  "x": 1.9188235611331996,
+                  "y": 456.6678927666085,
+                  "z": -5.5921042783229105
+                },
+                "target": {
+                  "x": 0,
+                  "y": 461.8125593244098,
+                  "z": -274.46713233395076
+                },
+                "impacts": 0
+              },
+              {
+                "id": 2,
+                "task": "FORMATION_FOLLOW",
+                "position": {
+                  "x": 13.815119781901517,
+                  "y": 446.2979964337822,
+                  "z": -293.9869131483514
+                },
+                "target": {
+                  "x": 13.790000000000001,
+                  "y": 446.5774098629846,
+                  "z": -306.4635324014502
+                },
+                "impacts": 0
+              },
+              {
+                "id": 3,
+                "task": "FORMATION_FOLLOW",
+                "position": {
+                  "x": -0.004783062666110096,
+                  "y": 450.4259201157413,
+                  "z": -276.88886738097284
+                },
+                "target": {
+                  "x": 0,
+                  "y": 450.73370506966705,
+                  "z": -290.4653323677005
+                },
+                "impacts": 0
+              }
+            ],
+            "player": {
+              "x": 0,
+              "y": 443.8042968874989,
+              "z": -293.0158951865104
+            },
+            "grace": 5,
+            "trust": 0.5299999999999999,
+            "relay": {
+              "charges": 2,
+              "cooldownUntil": 0,
+              "attempts": 0,
+              "successes": 0,
+              "failures": 0
+            }
+          }
+        },
+        {
+          "time": 7.25000000000015,
+          "event": "outcome",
+          "data": {
+            "agents": [
+              {
+                "id": 1,
+                "task": "REGROUP",
+                "position": {
+                  "x": 11.349860376714233,
+                  "y": 450.7138184927017,
+                  "z": -41.69244234717365
+                },
+                "target": {
+                  "x": 0,
+                  "y": 460.8210667465838,
+                  "z": -340.56167998509613
+                },
+                "impacts": 0
+              },
+              {
+                "id": 2,
+                "task": "FORMATION_FOLLOW",
+                "position": {
+                  "x": 13.801802149433614,
+                  "y": 446.36313644333217,
+                  "z": -359.6052516990624
+                },
+                "target": {
+                  "x": 13.790000000000001,
+                  "y": 446.7346252897042,
+                  "z": -372.5580800525956
+                },
+                "impacts": 0
+              },
+              {
+                "id": 3,
+                "task": "FORMATION_FOLLOW",
+                "position": {
+                  "x": 0.005389624076893667,
+                  "y": 450.4933159328818,
+                  "z": -342.60949726802306
+                },
+                "target": {
+                  "x": 0,
+                  "y": 450.59754801786505,
+                  "z": -356.5598800188459
+                },
+                "impacts": 0
+              }
+            ],
+            "player": {
+              "x": 0,
+              "y": 442.8128043076274,
+              "z": -359.1104429740109
+            },
+            "grace": 5,
+            "trust": 0.5299999999999999,
+            "relay": {
+              "charges": 2,
+              "cooldownUntil": 0,
+              "attempts": 0,
+              "successes": 0,
+              "failures": 0
+            }
+          }
+        },
+        {
+          "time": 8.250000000000172,
+          "event": "outcome",
+          "data": {
+            "agents": [
+              {
+                "id": 1,
+                "task": "REGROUP",
+                "position": {
+                  "x": 9.21846718014478,
+                  "y": 452.90885903719965,
+                  "z": -144.42362227313865
+                },
+                "target": {
+                  "x": 0,
+                  "y": 459.82957403331335,
+                  "z": -406.6562366651846
+                },
+                "impacts": 0
+              },
+              {
+                "id": 2,
+                "task": "FORMATION_FOLLOW",
+                "position": {
+                  "x": 13.784532923361954,
+                  "y": 446.58358126180696,
+                  "z": -425.25688265838494
+                },
+                "target": {
+                  "x": 13.790000000000001,
+                  "y": 446.84868077799877,
+                  "z": -438.6526367326841
+                },
+                "impacts": 0
+              },
+              {
+                "id": 3,
+                "task": "FORMATION_FOLLOW",
+                "position": {
+                  "x": -0.0015754703254576572,
+                  "y": 450.0840583648502,
+                  "z": -408.3858498947097
+                },
+                "target": {
+                  "x": 0,
+                  "y": 449.8512942829878,
+                  "z": -422.6544366989344
+                },
+                "impacts": 0
+              }
+            ],
+            "player": {
+              "x": 0,
+              "y": 441.8213115938267,
+              "z": -425.20499968944813
+            },
+            "grace": 5,
+            "trust": 0.5299999999999999,
+            "relay": {
+              "charges": 2,
+              "cooldownUntil": 0,
+              "attempts": 0,
+              "successes": 0,
+              "failures": 0
+            }
+          }
+        },
+        {
+          "time": 8.375000000000165,
+          "event": "perception",
+          "data": {
+            "requestId": "3-2",
+            "epoch": 3,
+            "time": 8.375000000000165,
+            "seed": 334458,
+            "player": {
+              "position": {
+                "x": 0,
+                "y": 441.69737500128986,
+                "z": -433.46681949964466
+              },
+              "velocity": {
+                "x": 0,
+                "y": -0.9914927418598808,
+                "z": -66.0945585859192
+              },
+              "grace": 5,
+              "graceLimit": 5,
+              "surfaceDistance": null,
+              "mode": "free"
+            },
+            "trust": 0.5299999999999999,
+            "riskLimit": 0.49449999999999994,
+            "charges": 2,
+            "relayReady": false,
+            "agents": [
+              {
+                "id": 1,
+                "position": {
+                  "x": 8.720061714644972,
+                  "y": 453.30950620579364,
+                  "z": -158.66149818769355
+                },
+                "velocity": {
+                  "x": -4.000931168767325,
+                  "y": 3.1809534242657995,
+                  "z": -114.21415475180733
+                },
+                "task": "REGROUP",
+                "surfaceDistance": null,
+                "deployed": true
+              },
+              {
+                "id": 2,
+                "position": {
+                  "x": 13.785959852943824,
+                  "y": 446.6014246847307,
+                  "z": -433.4701041548668
+                },
+                "velocity": {
+                  "x": 0.011523023223583046,
+                  "y": 0.12265744048746052,
+                  "z": -65.66299890925565
+                },
+                "task": "FORMATION_FOLLOW",
+                "surfaceDistance": null,
+                "deployed": true
+              },
+              {
+                "id": 3,
+                "position": {
+                  "x": -0.0013250748945772685,
+                  "y": 449.98267622394934,
+                  "z": -416.61513926069773
+                },
+                "velocity": {
+                  "x": 0.0022863417456275774,
+                  "y": -0.8523565522234218,
+                  "z": -65.78775693241799
+                },
+                "task": "FORMATION_FOLLOW",
+                "surfaceDistance": null,
+                "deployed": true
+              }
+            ],
+            "targets": [
+              {
+                "id": "route-ahead",
+                "kind": "route",
+                "position": {
+                  "x": 0,
+                  "y": 448.34742562572035,
+                  "z": -523.456694689487
+                },
+                "clearance": null
+              },
+              {
+                "id": "route-left",
+                "kind": "route",
+                "position": {
+                  "x": -38,
+                  "y": 460.34742562572035,
+                  "z": -523.456694689487
+                },
+                "clearance": null
+              },
+              {
+                "id": "route-right",
+                "kind": "route",
+                "position": {
+                  "x": 38,
+                  "y": 460.34742562572035,
+                  "z": -523.456694689487
+                },
+                "clearance": null
+              }
+            ],
+            "memory": [
+              {
+                "event": "flight",
+                "action": "LEAD/FOLLOW",
+                "progress": 66
+              },
+              {
+                "event": "flight",
+                "action": "LEAD/FOLLOW",
+                "progress": 66
+              },
+              {
+                "event": "flight",
+                "action": "LEAD/FOLLOW",
+                "progress": 66
+              },
+              {
+                "event": "flight",
+                "action": "LEAD/FOLLOW",
+                "progress": 66
+              },
+              {
+                "event": "flight",
+                "action": "LEAD/FOLLOW",
+                "progress": 66
+              },
+              {
+                "event": "flight",
+                "action": "LEAD/FOLLOW",
+                "progress": 66
+              },
+              {
+                "event": "flight",
+                "action": "LEAD/FOLLOW",
+                "progress": 66
+              }
+            ]
+          }
+        },
+        {
+          "time": 9.258333333333448,
+          "event": "outcome",
+          "data": {
+            "agents": [
+              {
+                "id": 1,
+                "task": "REGROUP",
+                "position": {
+                  "x": 5.388008674670482,
+                  "y": 455.747278865589,
+                  "z": -260.5082007207056
+                },
+                "target": {
+                  "x": 0,
+                  "y": 458.8380812849306,
+                  "z": -472.75079568593884
+                },
+                "impacts": 0
+              },
+              {
+                "id": 2,
+                "task": "FORMATION_FOLLOW",
+                "position": {
+                  "x": 13.791177066704861,
+                  "y": 446.532980491604,
+                  "z": -491.51040463250746
+                },
+                "target": {
+                  "x": 13.790000000000001,
+                  "y": 446.53337663457245,
+                  "z": -504.7471957534383
+                },
+                "impacts": 0
+              },
+              {
+                "id": 3,
+                "task": "FORMATION_FOLLOW",
+                "position": {
+                  "x": 0.00023295517170942957,
+                  "y": 448.94356543373135,
+                  "z": -474.7495104956517
+                },
+                "target": {
+                  "x": 0,
+                  "y": 448.4092749346452,
+                  "z": -488.7489957196886
+                },
+                "impacts": 0
+              }
+            ],
+            "player": {
+              "x": 0,
+              "y": 440.82155640568175,
+              "z": -491.85034671486085
+            },
+            "grace": 5,
+            "trust": 0.5299999999999999,
+            "relay": {
+              "charges": 2,
+              "cooldownUntil": 0,
+              "attempts": 0,
+              "successes": 0,
+              "failures": 0
+            }
+          }
+        },
+        {
+          "time": 10.266666666666724,
+          "event": "outcome",
+          "data": {
+            "agents": [
+              {
+                "id": 1,
+                "task": "REGROUP",
+                "position": {
+                  "x": 2.5377113822658637,
+                  "y": 457.31980315861915,
+                  "z": -377.38191030041054
+                },
+                "target": {
+                  "x": 0,
+                  "y": 457.84658852744553,
+                  "z": -538.8453553134876
+                },
+                "impacts": 0
+              },
+              {
+                "id": 2,
+                "task": "FORMATION_FOLLOW",
+                "position": {
+                  "x": 13.78990475924076,
+                  "y": 445.8743356421809,
+                  "z": -557.8169127546953
+                },
+                "target": {
+                  "x": 13.790000000000001,
+                  "y": 445.55250075165577,
+                  "z": -570.8417553809871
+                },
+                "impacts": 0
+              },
+              {
+                "id": 3,
+                "task": "FORMATION_FOLLOW",
+                "position": {
+                  "x": 0.00000856019412483934,
+                  "y": 447.14288823849927,
+                  "z": -541.1339020232568
+                },
+                "target": {
+                  "x": 0,
+                  "y": 446.42887190194494,
+                  "z": -554.8435553472374
+                },
+                "impacts": 0
+              }
+            ],
+            "player": {
+              "x": 0,
+              "y": 439.82180120846573,
+              "z": -558.4956943449874
+            },
+            "grace": 5,
+            "trust": 0.5299999999999999,
+            "relay": {
+              "charges": 2,
+              "cooldownUntil": 0,
+              "attempts": 0,
+              "successes": 0,
+              "failures": 0
+            }
+          }
+        },
+        {
+          "time": 10.358333333333386,
+          "event": "expired",
+          "data": {
+            "requestId": "3-1"
+          }
+        },
+        {
+          "time": 10.558333333333374,
+          "event": "decision",
+          "data": {
+            "decision": {
+              "requestId": "3-2",
+              "epoch": 3,
+              "ttl": 10,
+              "risk": 0.3,
+              "formation": "wedge",
+              "orders": [
+                {
+                  "agents": [
+                    1
+                  ],
+                  "action": "LEAD",
+                  "targetId": "route-ahead"
+                },
+                {
+                  "agents": [
+                    2,
+                    3
+                  ],
+                  "action": "FOLLOW",
+                  "targetId": null
+                }
+              ],
+              "reason": "保持编队，沿前方航线飞行"
+            },
+            "usage": {
+              "input": 975,
+              "output": 122,
+              "total": 1097,
+              "cached": 0
+            },
+            "latencyMs": 2182.4000000059605,
+            "provider": "deepseek",
+            "model": "deepseek-v4-pro",
+            "validation": "accepted"
+          }
+        },
+        {
+          "time": 10.558333333333374,
+          "event": "execution",
+          "data": {
+            "plan": {
+              "requestId": "3-2",
+              "epoch": 3,
+              "ttl": 10,
+              "risk": 0.3,
+              "formation": "wedge",
+              "orders": [
+                {
+                  "agents": [
+                    1
+                  ],
+                  "action": "LEAD",
+                  "targetId": "route-ahead"
+                },
+                {
+                  "agents": [
+                    2,
+                    3
+                  ],
+                  "action": "FOLLOW",
+                  "targetId": null
+                }
+              ],
+              "reason": "保持编队，沿前方航线飞行",
+              "resolved": [
+                {
+                  "agents": [
+                    1
+                  ],
+                  "action": "LEAD",
+                  "targetId": "route-ahead",
+                  "target": {
+                    "x": 0,
+                    "y": 448.34742562572035,
+                    "z": -523.456694689487
+                  }
+                },
+                {
+                  "agents": [
+                    2,
+                    3
+                  ],
+                  "action": "FOLLOW",
+                  "targetId": null,
+                  "target": {
+                    "x": 0,
+                    "y": 439.53261582028745,
+                    "z": -577.7732742749074
+                  }
+                }
+              ]
+            },
+            "agents": [
+              {
+                "id": 1,
+                "task": "REGROUP",
+                "position": {
+                  "x": 1.9262488852430322,
+                  "y": 457.5235330397558,
+                  "z": -411.20706252852847
+                },
+                "target": {
+                  "x": 0,
+                  "y": 457.72265193253475,
+                  "z": -547.107175281936
+                },
+                "impacts": 0
+              },
+              {
+                "id": 2,
+                "task": "FORMATION_FOLLOW",
+                "position": {
+                  "x": 13.7898225939731,
+                  "y": 445.53766054388944,
+                  "z": -577.0855685480692
+                },
+                "target": {
+                  "x": 13.790000000000001,
+                  "y": 445.0956721005974,
+                  "z": -591.7716993044385
+                },
+                "impacts": 0
+              },
+              {
+                "id": 3,
+                "task": "FORMATION_FOLLOW",
+                "position": {
+                  "x": -0.000034011331866698513,
+                  "y": 446.51017374890074,
+                  "z": -560.4341669241829
+                },
+                "target": {
+                  "x": 0,
+                  "y": 445.7419295081114,
+                  "z": -575.7734992706887
+                },
+                "impacts": 0
+              }
+            ]
+          }
+        },
+        {
+          "time": 11.275,
+          "event": "outcome",
+          "data": {
+            "agents": [
+              {
+                "id": 1,
+                "task": "REGROUP",
+                "position": {
+                  "x": 0.8016868189503349,
+                  "y": 457.67384991550455,
+                  "z": -494.3305380065267
+                },
+                "target": {
+                  "x": 0,
+                  "y": 457.66607834082845,
+                  "z": -599.9828231124023
+                },
+                "impacts": 0
+              },
+              {
+                "id": 2,
+                "task": "FORMATION_FOLLOW",
+                "position": {
+                  "x": 13.789967913538494,
+                  "y": 444.47078767998875,
+                  "z": -624.4505578854528
+                },
+                "target": {
+                  "x": 13.790000000000001,
+                  "y": 444.0454040596954,
+                  "z": -631.9792231799019
+                },
+                "impacts": 0
+              },
+              {
+                "id": 3,
+                "task": "FORMATION_FOLLOW",
+                "position": {
+                  "x": -0.000016051384434716827,
+                  "y": 444.92504784326667,
+                  "z": -607.8806537721973
+                },
+                "target": {
+                  "x": 0,
+                  "y": 444.4159353468104,
+                  "z": -615.9810231461521
+                },
+                "impacts": 0
+              }
+            ],
+            "player": {
+              "x": 0,
+              "y": 438.82204600892373,
+              "z": -625.1410421301267
+            },
+            "grace": 5,
+            "trust": 0.5299999999999999,
+            "relay": {
+              "charges": 2,
+              "cooldownUntil": 0,
+              "attempts": 0,
+              "successes": 0,
+              "failures": 0
+            }
+          }
+        },
+        {
+          "time": 12.283333333333276,
+          "event": "outcome",
+          "data": {
+            "agents": [
+              {
+                "id": 1,
+                "task": "LEAD",
+                "position": {
+                  "x": -0.34131441199343493,
+                  "y": 450.2286617767998,
+                  "z": -575.6650041344863
+                },
+                "target": {
+                  "x": 0,
+                  "y": 448.34742562572035,
+                  "z": -523.456694689487
+                },
+                "impacts": 0
+              },
+              {
+                "id": 2,
+                "task": "FORMATION_FOLLOW",
+                "position": {
+                  "x": 13.790016870348515,
+                  "y": 442.5136796617973,
+                  "z": -690.8013658096553
+                },
+                "target": {
+                  "x": 13.790000000000001,
+                  "y": 441.976881686111,
+                  "z": -698.0737830040159
+                },
+                "impacts": 0
+              },
+              {
+                "id": 3,
+                "task": "FORMATION_FOLLOW",
+                "position": {
+                  "x": 0.0000051845373492601695,
+                  "y": 442.83212687957484,
+                  "z": -674.3167260696395
+                },
+                "target": {
+                  "x": 0,
+                  "y": 442.432592219671,
+                  "z": -682.0755829702662
+                },
+                "impacts": 0
+              }
+            ],
+            "player": {
+              "x": 0,
+              "y": 437.82229080878585,
+              "z": -691.7863899550018
+            },
+            "grace": 5,
+            "trust": 0.5299999999999999,
+            "relay": {
+              "charges": 2,
+              "cooldownUntil": 0,
+              "attempts": 0,
+              "successes": 0,
+              "failures": 0
+            }
+          }
+        },
+        {
+          "time": 13.291666666666552,
+          "event": "outcome",
+          "data": {
+            "agents": [
+              {
+                "id": 1,
+                "task": "REGROUP",
+                "position": {
+                  "x": -0.979407659594315,
+                  "y": 440.5071530422636,
+                  "z": -602.9015178064808
+                },
+                "target": {
+                  "x": 0,
+                  "y": 454.9464722035756,
+                  "z": -732.1719427723283
+                },
+                "impacts": 0
+              },
+              {
+                "id": 2,
+                "task": "FORMATION_FOLLOW",
+                "position": {
+                  "x": 13.789995943578504,
+                  "y": 440.29741307752744,
+                  "z": -757.1494688793691
+                },
+                "target": {
+                  "x": 13.790000000000001,
+                  "y": 439.82140829093646,
+                  "z": -764.1683428398278
+                },
+                "impacts": 0
+              },
+              {
+                "id": 3,
+                "task": "FORMATION_FOLLOW",
+                "position": {
+                  "x": -9.042855204721705e-7,
+                  "y": 441.13544072316546,
+                  "z": -740.768282400953
+                },
+                "target": {
+                  "x": 0,
+                  "y": 440.9855985719755,
+                  "z": -748.170142806078
+                },
+                "impacts": 0
+              }
+            ],
+            "player": {
+              "x": 0,
+              "y": 436.8225356084952,
+              "z": -758.4317377900625
+            },
+            "grace": 5,
+            "trust": 0.5299999999999999,
+            "relay": {
+              "charges": 2,
+              "cooldownUntil": 0,
+              "attempts": 0,
+              "successes": 0,
+              "failures": 0
+            }
+          }
+        }
+      ],
+      "memory": [
+        {
+          "event": "flight",
+          "action": "LEAD/FOLLOW",
+          "progress": 66
+        },
+        {
+          "event": "flight",
+          "action": "LEAD/FOLLOW",
+          "progress": 66
+        },
+        {
+          "event": "flight",
+          "action": "LEAD/FOLLOW",
+          "progress": 66
+        },
+        {
+          "event": "flight",
+          "action": "LEAD/FOLLOW",
+          "progress": 66
+        },
+        {
+          "event": "flight",
+          "action": "LEAD/FOLLOW",
+          "progress": 66
+        },
+        {
+          "event": "flight",
+          "action": "LEAD/FOLLOW",
+          "progress": 66
+        },
+        {
+          "event": "flight",
+          "action": "LEAD/FOLLOW",
+          "progress": 66
+        },
+        {
+          "event": "flight",
+          "action": "LEAD/FOLLOW",
+          "progress": 66
+        },
+        {
+          "event": "flight",
+          "action": "LEAD/FOLLOW",
+          "progress": 66
+        },
+        {
+          "event": "flight",
+          "action": "LEAD/FOLLOW",
+          "progress": 66
+        },
+        {
+          "event": "flight",
+          "action": "LEAD/FOLLOW",
+          "progress": 66
+        },
+        {
+          "event": "flight",
+          "action": "LEAD/FOLLOW",
+          "progress": 66
+        }
+      ]
+    },
+    "ready": true,
+    "attitude": {
+      "pitch": -0.015,
+      "roll": 0,
+      "yaw": 0
+    },
+    "control": {
+      "pitch": 0,
+      "roll": 0,
+      "yaw": 0,
+      "boost": false
+    },
+    "rules": {
+      "mode": "free",
+      "graceSeconds": 5,
+      "shield": true,
+      "assisted": true
+    },
+    "companionSettings": {
+      "count": 3,
+      "formation": "wedge",
+      "behavior": "lead"
+    },
+    "companions": [
+      {
+        "id": 1,
+        "callsign": "KITE-1",
+        "position": {
+          "x": -0.9776798909883846,
+          "y": 440.3154164423576,
+          "z": -620.9017250510517
+        },
+        "velocity": {
+          "x": 0.19569419176645328,
+          "y": 2.2596969521754433,
+          "z": -76.39399640385231
+        },
+        "target": {
+          "x": 0,
+          "y": 454.5498750993162,
+          "z": -758.609766707693
+        },
+        "task": "REGROUP",
+        "surfaceDistance": null,
+        "decisions": 70,
+        "impacts": 0,
+        "uncovered": false,
+        "deployed": true
+      },
+      {
+        "id": 2,
+        "callsign": "KITE-2",
+        "position": {
+          "x": 13.789997170118268,
+          "y": 439.71030630776283,
+          "z": -775.2487173043531
+        },
+        "velocity": {
+          "x": 0.0000059146207005127465,
+          "y": -2.0791599808768906,
+          "z": -65.7814986328874
+        },
+        "target": {
+          "x": 13.790000000000001,
+          "y": 439.0283128525144,
+          "z": -790.6061667751925
+        },
+        "task": "FORMATION_FOLLOW",
+        "surfaceDistance": null,
+        "decisions": 70,
+        "impacts": 0,
+        "uncovered": false,
+        "deployed": true
+      },
+      {
+        "id": 3,
+        "callsign": "KITE-3",
+        "position": {
+          "x": -8.372601362594785e-7,
+          "y": 440.79018486053286,
+          "z": -758.8958991587616
+        },
+        "velocity": {
+          "x": 9.599455562384836e-7,
+          "y": -1.1587859572625694,
+          "z": -65.87665481305373
+        },
+        "target": {
+          "x": 0,
+          "y": 440.6006965285273,
+          "z": -774.6079667414427
+        },
+        "task": "FORMATION_FOLLOW",
+        "surfaceDistance": null,
+        "decisions": 70,
+        "impacts": 0,
+        "uncovered": false,
+        "deployed": true
+      }
+    ],
+    "companionEvents": [
+      {
+        "time": 0,
+        "agent": 1,
+        "event": "spawn",
+        "task": "FORMATION_FOLLOW"
+      },
+      {
+        "time": 0,
+        "agent": 2,
+        "event": "spawn",
+        "task": "FORMATION_FOLLOW"
+      },
+      {
+        "time": 0,
+        "agent": 3,
+        "event": "spawn",
+        "task": "FORMATION_FOLLOW"
+      },
+      {
+        "time": 0.008333333333333333,
+        "agent": 1,
+        "event": "task",
+        "task": "LEAD"
+      },
+      {
+        "time": 5.041666666666707,
+        "agent": 1,
+        "event": "task",
+        "task": "REGROUP"
+      },
+      {
+        "time": 11.366666666666662,
+        "agent": 1,
+        "event": "task",
+        "task": "LEAD"
+      },
+      {
+        "time": 12.766666666666582,
+        "agent": 1,
+        "event": "task",
+        "task": "REGROUP"
+      }
+    ],
+    "shieldImpacts": 0,
+    "inputDevice": "Keyboard",
+    "mode": "running",
+    "runTime": 13.566666666666537,
+    "best": 0,
+    "speed": 66.10199617390938,
+    "altitude": 436.5498750993162,
+    "position": {
+      "x": 0,
+      "y": 436.5498750993162,
+      "z": -776.6077417456614
+    },
+    "surfaceDistance": null,
+    "surfaceLocked": false,
+    "grace": 5,
+    "failureReason": null,
+    "world": {
+      "chunks": 21,
+      "buildings": 124,
+      "bridges": 23,
+      "islands": 3,
+      "collisionTriangles": 109260,
+      "renderTriangles": 208088
+    },
+    "adapter": {
+      "chunks": 21,
+      "bvhCount": 21,
+      "lastBroadPhaseCandidates": 0,
+      "lastQueries": 0
+    },
+    "streaming": {
+      "stateCounts": {
+        "UNLOADED": 0,
+        "QUEUED": 3,
+        "GENERATING": 1,
+        "READY": 0,
+        "ACTIVE": 21,
+        "RETIRING": 0,
+        "DISPOSED": 0
+      },
+      "loadedChunks": 21,
+      "activeChunks": 21,
+      "queuedChunks": 3,
+      "generatingChunks": 1,
+      "generatedTotal": 41,
+      "retiredTotal": 20,
+      "disposedGeometryCount": 263,
+      "bvhCount": 21,
+      "renderObjectCount": 245,
+      "estimatedCpuGeometryBytes": 24569988,
+      "generationAvgMs": 44.80731707375224,
+      "generationP95Ms": 66.89999999850988,
+      "generationMinMs": 7.899999998509884,
+      "generationMaxMs": 402.3999999985099,
+      "generationSampleCount": 41,
+      "maxLoadedChunks": 41,
+      "coverageComplete": true,
+      "rebaseCount": 0
+    },
+    "buffering": false,
+    "renderOrigin": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "render": {
+      "calls": 177,
+      "triangles": 134696,
+      "points": 560,
+      "lines": 0,
+      "fps": 115.47479251569447,
+      "geometries": 234,
+      "textures": 23
+    },
+    "seed": 334458,
+    "debugInput": false,
+    "selectedAircraft": "procedural",
+    "localModelCount": 0,
+    "cameraMode": "chase",
+    "cameraBlend": 0,
+    "fov": 63.396895892053344,
+    "proximity": 0,
+    "proximityZone": "detached",
+    "visualStimulation": "standard",
+    "recordingHintVisible": true,
+    "worldPreset": "sakura",
+    "worldMode": "stable",
+    "generatorVersion": 2,
+    "worldFingerprint": 3887776065,
+    "revisionHistory": null,
+    "chunkStates": [
+      {
+        "key": "0:-2",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 2998100976
+      },
+      {
+        "key": "-1:-2",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 3788906424
+      },
+      {
+        "key": "1:-2",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 3842934674
+      },
+      {
+        "key": "-2:-2",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 2390288180
+      },
+      {
+        "key": "2:-2",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 3532469619
+      },
+      {
+        "key": "0:-3",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 4259250541
+      },
+      {
+        "key": "-1:-3",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 3384088076
+      },
+      {
+        "key": "1:-3",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 3958356505
+      },
+      {
+        "key": "-2:-3",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 1603925851
+      },
+      {
+        "key": "2:-3",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 4257140480
+      },
+      {
+        "key": "0:-4",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 3611753261
+      },
+      {
+        "key": "-1:-4",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 259319073
+      },
+      {
+        "key": "1:-4",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 1673086011
+      },
+      {
+        "key": "-2:-4",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 3458200411
+      },
+      {
+        "key": "2:-4",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 4080022983
+      },
+      {
+        "key": "0:-5",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 1106841686
+      },
+      {
+        "key": "-1:-5",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 2135938274
+      },
+      {
+        "key": "1:-5",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 2130914651
+      },
+      {
+        "key": "-2:-5",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 2115812146
+      },
+      {
+        "key": "2:-5",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 1655594211
+      },
+      {
+        "key": "0:-6",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 550936775
+      },
+      {
+        "key": "-1:-6",
+        "state": "GENERATING",
+        "revision": 0,
+        "fingerprint": null
+      },
+      {
+        "key": "1:-6",
+        "state": "QUEUED",
+        "revision": 0,
+        "fingerprint": null
+      },
+      {
+        "key": "-2:-6",
+        "state": "QUEUED",
+        "revision": 0,
+        "fingerprint": null
+      },
+      {
+        "key": "2:-6",
+        "state": "QUEUED",
+        "revision": 0,
+        "fingerprint": null
+      }
+    ]
+  },
+  "gpu": "ANGLE (AMD, AMD Radeon 780M Graphics (0x00001900) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/157.0.0.0 Safari/537.36",
+  "model": "deepseek-v4-pro",
+  "errors": [],
+  "kind": "genuine browser HTTPS model inference and actual local physics, no mocked responses"
+}

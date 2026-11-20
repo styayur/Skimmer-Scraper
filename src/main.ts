@@ -12,6 +12,9 @@ import { CompanionTeam } from './companions/AgentController';
 import { loadCompanions, type CompanionSettings } from './companions/settings';
 import { bindCompanionSettings } from './ui/CompanionSettings';
 import { updateCompanionHud } from './ui/CompanionHud';
+import { SymbiosisRuntime } from './ai/SymbiosisRuntime';
+import { bindModelSettings } from './ui/ModelSettings';
+import type { Perception } from './ai/contracts';
 
 import type { CameraMode, VisualStimulation } from './config/experience';
 import { EXPERIENCE_CONFIG } from './config/experience';
@@ -53,6 +56,7 @@ import type { SurfaceQuery, WorldStats } from './world/worldTypes';
 type GameMode = 'title' | 'running' | 'paused' | 'failed';
 
 interface DebugSnapshot {
+  cooperation: ReturnType<SymbiosisRuntime['snapshot']>;
   attitude: FlightState['attitude'];
   control: FlightState['control'];
   companionSettings: CompanionSettings;
@@ -105,6 +109,11 @@ interface DebugSnapshot {
 }
 
 interface SkimmerDebugBridge {
+  surface(position: {x:number;y:number;z:number}, range?:number): SurfaceQuery | null;
+  aiPerception(): Perception | null;
+  aiRequest(): Promise<boolean>;
+  aiReplay(decision: unknown, perception: Perception): boolean;
+  relay(id: number): DebugSnapshot;
   readonly version: string;
   toggleCamera(): CameraMode;
   setCameraMode(mode: CameraMode): CameraMode;
@@ -116,7 +125,7 @@ interface SkimmerDebugBridge {
   resume(): boolean;
   setPose(
     position: { x: number; y: number; z: number },
-    options?: { pitch?: number },
+    options?: { pitch?: number; preserveCompanions?: boolean },
   ): Promise<DebugSnapshot>;
   advance(
     seconds: number,
@@ -135,6 +144,7 @@ let selectedRules = loadRules();
 let companionSettings = loadCompanions();
 selectedRules = normalizeRules({ ...selectedRules, assisted: companionSettings.count > 0 });
 const companions = new CompanionTeam();
+const symbiosis = new SymbiosisRuntime(companions);
 companions.configure(companionSettings);
 let controls = loadControls();
 const gamepad = new GamepadInputSource();
@@ -500,7 +510,10 @@ const simulateFixedStep = (dt: number, holdPosition = false): boolean => {
   flightState = nextState;
   lastSurfaceHit = worldStreamer.queryNearest(flightState.position, SURFACE_QUERY_RANGE);
   runRules = updateRunRules(runRules, { distance: lastSurfaceHit?.distance ?? null }, dt);
-  if (runRules.status === 'running') companions.step(flightState, worldStreamer, dt);
+  if (runRules.status === 'running') {
+    companions.step(flightState, worldStreamer, dt);
+    runRules = symbiosis.step(flightState, runRules, worldStreamer, seed, dt);
+  }
   proximityFeedback = updateProximityFeedback(
     proximityFeedback,
     lastSurfaceHit?.distance ?? null,
@@ -543,6 +556,7 @@ const resetFlightState = (): void => {
   });
   runRules = createRunRules({ ...selectedRules, assisted: companionSettings.count > 0 });
   companions.configure(companionSettings); companions.reset(flightState, worldStreamer);
+  symbiosis.reset();
   shieldGlow = 0; shieldImpacts = 0; shieldCooldown = 0;
   renderer.setCameraAnchor(loadCameraAnchor(aircraftLibrary.getSelectedId()));
   proximityFeedback = createProximityFeedback();
@@ -710,6 +724,7 @@ const debugSnapshot = (): DebugSnapshot => {
     throw new Error('Game is not ready.');
   }
   return {
+    cooperation: symbiosis.snapshot(),
     ready: true,
     attitude: { ...flightState.attitude },
     control: { ...flightState.control },
@@ -799,11 +814,11 @@ const debugAdvance = async (
 
 const debugSetPose = async (
   position: { x: number; y: number; z: number },
-  options: { pitch?: number } = {},
+  options: { pitch?: number; preserveCompanions?: boolean } = {},
 ): Promise<DebugSnapshot> => {
   if (!flightState || !worldStreamer) return debugSnapshot();
   const covered = await waitForCollisionCoverage(position, flightState.velocity);
-  companions.relocate({ x: position.x - flightState.position.x, y: position.y - flightState.position.y, z: position.z - flightState.position.z });
+  if (!options.preserveCompanions) companions.relocate({ x: position.x - flightState.position.x, y: position.y - flightState.position.y, z: position.z - flightState.position.z });
   flightState = {
     ...flightState,
     position: { x: position.x, y: position.y, z: position.z },
@@ -840,6 +855,7 @@ bindCompanionSettings(companionSettings, () => mode === 'title' || mode === 'fai
     best = loadBest(scoreContextFor(worldSettings, selectedRules)); ui.setBest(best);
   }
 });
+const updateModelStatus = bindModelSettings(symbiosis);
 document.querySelector('#pause-resume')!.addEventListener('click', () => debugResume());
 document.querySelector('#pause-menu')!.addEventListener('click', () => { void returnToTitle(); });
 
@@ -866,6 +882,9 @@ const handleAction = (action: GameAction): void => {
 keyboard.onAction(handleAction);
 
 const frame = (now: number): void => {
+  if (mode !== 'running') symbiosis.suspend();
+  else if (!debugAdvancing && !buffering) void symbiosis.request();
+  updateModelStatus();
   document.querySelector<HTMLElement>('#pause-panel')!.hidden = mode !== 'paused' || ui.isLibraryOpen() || ui.isWorldOpen() || !document.querySelector<HTMLElement>('#rules-panel')!.hidden;
   gamepad.poll(controls, handleAction);
   document.querySelector('#input-device')!.textContent = gamepad.device;
@@ -874,7 +893,8 @@ const frame = (now: number): void => {
 
   if (renderer && flightState && worldStreamer) {
     renderer.setCompanions(mode === 'title' ? [] : companions.agents, worldStreamer.getRenderOrigin());
-    updateCompanionHud(companions.agents, flightState.position);
+    renderer.setRelay(symbiosis.relayFlash,symbiosis.time,worldStreamer.getRenderOrigin());
+    updateCompanionHud(companions.agents, flightState.position, symbiosis.planner);
     const streaming = streamPreparationCount === 0 ? syncWorldStreaming(flightState) : null;
     if (mode === 'running') {
       if (debugAdvancing) {
@@ -966,6 +986,11 @@ const boot = async (): Promise<void> => {
   requestAnimationFrame(frame);
 
   window.__SKIMMER_SCRAPER__ = {
+    surface: (position, range=90) => worldStreamer?.queryNearest(position,range)??null,
+    aiPerception: () => symbiosis.perception(),
+    aiRequest: () => symbiosis.request(),
+    aiReplay: (decision, perception) => symbiosis.replay(decision, perception),
+    relay: (id) => { if (mode === 'running') runRules = symbiosis.relayAttempt(id); return debugSnapshot(); },
     version: '0.2.0',
     toggleCamera: toggleCameraMode,
     setCameraMode: applyCameraMode,
@@ -994,6 +1019,7 @@ window.addEventListener('skimmer:webgl-context-lost', () => {
 });
 
 window.addEventListener('beforeunload', () => {
+  symbiosis.client.disconnect();
   companions.dispose();
   audio.dispose();
   if (currentImportedAircraft) disposeObject3D(currentImportedAircraft);
