@@ -53,6 +53,8 @@ import type { SurfaceQuery, WorldStats } from './world/worldTypes';
 type GameMode = 'title' | 'running' | 'paused' | 'failed';
 
 interface DebugSnapshot {
+  attitude: FlightState['attitude'];
+  control: FlightState['control'];
   companionSettings: CompanionSettings;
   companions: Array<{ id: number; callsign: string; position: { x: number; y: number; z: number };
     velocity: { x: number; y: number; z: number }; target: { x: number; y: number; z: number }; task: string;
@@ -709,6 +711,8 @@ const debugSnapshot = (): DebugSnapshot => {
   }
   return {
     ready: true,
+    attitude: { ...flightState.attitude },
+    control: { ...flightState.control },
     rules: { ...runRules.config },
     companionSettings: { ...companionSettings },
     companions: companions.agents.map(agent => ({ id: agent.id, callsign: agent.callsign,

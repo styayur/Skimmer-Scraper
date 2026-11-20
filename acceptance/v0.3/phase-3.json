@@ -98,5 +98,12 @@
     "domNodesBefore": 1073,
     "domNodesAfter": 1074,
     "caveat": "single bounded-duration observation, not an indefinite leak guarantee"
+  },
+  "ciFailureAndFix": {
+    "runId": 44766403030,
+    "result": "17 passed, 1 failed",
+    "cause": "virtual gamepad keyboard fallback assertion used a fixed 400 ms delay; CI rendered no new simulation frame in that window",
+    "fix": "poll actual control.roll >0.3 and position change while holding keyboard, then release; assertions strengthened",
+    "localTargetedRerun": "3 flight/gamepad/audio cases passed"
   }
 }

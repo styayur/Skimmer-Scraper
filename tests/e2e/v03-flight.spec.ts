@@ -63,8 +63,11 @@ test('browser Gamepad API input hotplug, camera, pause, retry and keyboard fallb
   await page.evaluate(() => { (window as unknown as { testPad: unknown }).testPad = null; });
   await expect.poll(() => page.evaluate(() => window.__SKIMMER_SCRAPER__!.snapshot().inputDevice)).toBe('Keyboard');
   const before = await page.evaluate(() => window.__SKIMMER_SCRAPER__!.snapshot().position);
-  await page.keyboard.down('a'); await page.waitForTimeout(400); await page.keyboard.up('a');
-  expect(await page.evaluate(() => window.__SKIMMER_SCRAPER__!.snapshot().position)).not.toEqual(before);
+  await page.keyboard.down('a');
+  try {
+    await expect.poll(() => page.evaluate(() => window.__SKIMMER_SCRAPER__!.snapshot().control.roll), { timeout: 20_000 }).toBeGreaterThan(0.3);
+    await expect.poll(() => page.evaluate(() => window.__SKIMMER_SCRAPER__!.snapshot().position), { timeout: 20_000 }).not.toEqual(before);
+  } finally { await page.keyboard.up('a'); }
   await page.evaluate(() => {
     const win = window as unknown as { testPad: unknown; testPadBackup: unknown };
     win.testPad = win.testPadBackup;
