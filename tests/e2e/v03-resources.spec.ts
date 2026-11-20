@@ -15,9 +15,12 @@ test('repeated journeys release shadow-map texture references at the same normal
   await page.evaluate(()=>new Promise<void>(r=>requestAnimationFrame(()=>requestAnimationFrame(()=>r()))));
   samples.push(await page.evaluate(()=>window.__SKIMMER_SCRAPER__!.snapshot()));
  }
+ writeFileSync('evidence/v0.3/phase-5-resource-regression.json',JSON.stringify({method:'Two five-world journeys, same base seed/spawn/camera and settled owned chunks. Texture retention is checked exactly; GPU geometry uploads also depend on attract-camera history while restoring, so compare owned geometry bytes/object counts and record GPU counts. Software-browser correctness, not FPS.',samples},null,2));
  expect(samples[1].render.textures).toBe(samples[0].render.textures);
- expect(samples[1].render.geometries).toBe(samples[0].render.geometries);
+ expect(samples[1].streaming!.estimatedCpuGeometryBytes).toBe(samples[0].streaming!.estimatedCpuGeometryBytes);
+ expect(samples[1].streaming!.renderObjectCount).toBe(samples[0].streaming!.renderObjectCount);
+ expect(samples[1].chunkStates.filter(c=>c.state==='ACTIVE').map(c=>c.key).sort()).toEqual(samples[0].chunkStates.filter(c=>c.state==='ACTIVE').map(c=>c.key).sort());
  expect(samples[1].streaming!.bvhCount).toBe(samples[0].streaming!.bvhCount);
  expect(samples[1].worldReleases.every(r=>r.bvhAfter===0&&r.rootChildrenAfter===0)).toBe(true);
- writeFileSync('evidence/v0.3/phase-5-resource-regression.json',JSON.stringify({method:'Two five-world journeys, same base seed/spawn/camera and settled chunks; compare warm GPU allocations. Software-browser correctness, not a real-GPU FPS claim.',samples},null,2));
+ expect(samples[1].worldReleases.every(r=>r.disposedGeometryCount>0)).toBe(true);
 });

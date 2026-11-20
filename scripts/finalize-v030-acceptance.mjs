@@ -44,5 +44,9 @@ const report={
  experience:{humanFunOrFlightFeelAccepted:false,issues:[{id:'WORLD-SWAP-FRAME',observedMaxFrameMs:journey.maxFrameMs,reproduce:'npm run preview -- --port4174; EVIDENCE_PREFIX=phase-6 node scripts/journey-evidence.mjs. Valid520m upward crossing; inspect WORLD_SWAP.',next:'Profile observed main-thread resource-exchange work and review visible transition pacing before stable promotion.'},{id:'HUMAN-REVIEW',scope:'Keyboard/physical gamepad controls, haptics, camera comfort, five-world art/transitions and AI teamwork need hands-on player judgment.'}]},
  evidence:readdirSync(base).filter(name=>name.startsWith('phase-6-')&&/\.(json|png)$/.test(name)).sort().map(name=>({path:`${base}${name}`,sha256:sha(`${base}${name}`)}))
 };
+report.tests.ciBoundaryRegression=evidence('ci-regression');
+assert(report.tests.ciBoundaryRegression.passed===6&&report.tests.ciBoundaryRegression.failed===0);
+report.reproducibility.sourceArchiveRebuild=evidence('package-rehearsal');
+assert(report.reproducibility.sourceArchiveRebuild.sourceRebuild.status==='passed');
 writeFileSync('acceptance/v0.3.0.json',`${JSON.stringify(report,null,2)}\n`);
 console.log(JSON.stringify({status:report.status,unit:report.tests.unit,playwright:report.tests.playwright,stablePublishEligible:report.stablePublishEligible,evidenceFiles:report.evidence.length}));

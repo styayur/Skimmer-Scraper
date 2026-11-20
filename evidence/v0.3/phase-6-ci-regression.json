@@ -1,0 +1,9 @@
+{
+  "command": "npx playwright test tests/e2e/final-qa.spec.ts tests/e2e/v03-resources.spec.ts --repeat-each=3",
+  "exitCode": 0,
+  "passed": 6,
+  "failed": 0,
+  "method": "Observed targeted repeat execution after actual main-run failures; full26-case PR/main CI is separately required.",
+  "diagnostic": "evidence/v0.3/phase-6-ci-sampling-diagnostic.json",
+  "sampledGpuGeometryCountsAreNotOwnershipCounts": true
+}

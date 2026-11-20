@@ -37,13 +37,13 @@ const snapshot = (page: Page): Promise<FinalSnapshot> =>
     return bridge.snapshot();
   });
 
-const waitReady = async (page: Page): Promise<void> => {
+const waitReadyPaused = async (page: Page): Promise<void> => {
   await page.waitForFunction(() => {
     const bridge = (window as unknown as {
-      __SKIMMER_SCRAPER__?: { snapshot(): { ready: boolean; mode: string } };
+      __SKIMMER_SCRAPER__?: FinalBridge;
     }).__SKIMMER_SCRAPER__;
-    return bridge?.snapshot().ready === true && bridge.snapshot().mode === 'running';
-  }, { timeout: 90_000 });
+    return bridge?.snapshot().ready === true && bridge.snapshot().mode === 'running' && bridge.pause();
+  }, null, { timeout: 90_000 });
 };
 
 const waitSettled = async (page: Page): Promise<void> => {
@@ -53,7 +53,7 @@ const waitSettled = async (page: Page): Promise<void> => {
     const streaming = bridge?.snapshot().streaming;
     return streaming !== null && streaming !== undefined &&
       streaming.queuedChunks === 0 && streaming.generatingChunks === 0;
-  }, { timeout: 90_000 });
+  }, null, { timeout: 90_000 });
 };
 
 const sampleFrames = (page: Page, durationMs: number): Promise<number[]> =>
@@ -113,7 +113,9 @@ test.describe('v0.2.0 final QA', () => {
 
     await page.setViewportSize({ width: 1280, height: 720 });
     await page.goto('/?autostart=1&seed=v020-final-qa&preset=neon&world=stable');
-    await waitReady(page);
+    // This legacy suite measures a paused software proxy. Pause atomically on
+    // readiness, before slow CI chunk settling can run the challenge to failure.
+    await waitReadyPaused(page);
     await waitSettled(page);
     await page.evaluate(() => {
       const bridge = (window as unknown as { __SKIMMER_SCRAPER__?: FinalBridge })

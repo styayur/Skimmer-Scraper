@@ -3,7 +3,7 @@
   "product": "Skimmer-Scraper",
   "version": "0.3.0-rc.1",
   "targetStableVersion": "0.3.0",
-  "generatedAt": "2026-11-20T19:23:26.899Z",
+  "generatedAt": "2026-11-20T19:34:34.745Z",
   "status": "candidate_automated_acceptance_passed_experience_review_pending",
   "stablePublishEligible": false,
   "provenance": {
@@ -46,6 +46,15 @@
         "passed": 24
       },
       "finalStatusAuthority": "GitHub PR6/main checks and attached release manifest"
+    },
+    "ciBoundaryRegression": {
+      "command": "npx playwright test tests/e2e/final-qa.spec.ts tests/e2e/v03-resources.spec.ts --repeat-each=3",
+      "exitCode": 0,
+      "passed": 6,
+      "failed": 0,
+      "method": "Observed targeted repeat execution after actual main-run failures; full26-case PR/main CI is separately required.",
+      "diagnostic": "evidence/v0.3/phase-6-ci-sampling-diagnostic.json",
+      "sampledGpuGeometryCountsAreNotOwnershipCounts": true
     }
   },
   "features": {
@@ -831,7 +840,7 @@
       "DEEPSEEK_API_KEY",
       "OPENAI_API_KEY"
     ],
-    "filesScanned": 207,
+    "filesScanned": 210,
     "matches": 0,
     "filesWithMatches": [],
     "status": "passed"
@@ -958,7 +967,34 @@
         "sha256": "93347078996f26e20c49d9042d9b0ca6ea6b83eef05e6bbc7e26c59a27432fd7"
       }
     ],
-    "crossPlatformIdentityClaimed": false
+    "crossPlatformIdentityClaimed": false,
+    "sourceArchiveRebuild": {
+      "sourceCommit": "96c20a8ea45bf8b47d58760f2465f6fc299d9e1b",
+      "purpose": "Non-published packaging rehearsal; final merged SHA is verified in release-manifest.json",
+      "sourceRebuild": {
+        "status": "passed",
+        "files": 21,
+        "different": [],
+        "method": "Unzip corresponding source, fresh npm ci, production build outside Git, same Windows Node26.7/npm11.19 toolchain."
+      },
+      "archives": {
+        "status": "passed",
+        "archives": [
+          {
+            "name": "skimmer-scraper-v0.3.0-rc.1-source.zip",
+            "files": 203,
+            "credentialMatches": 0,
+            "sha256": "7ef85c1fbaf3cc0533fc405ad286df8a0f2faddb7d3ea96eb6f8ecc7f3188816"
+          },
+          {
+            "name": "skimmer-scraper-v0.3.0-rc.1-static.zip",
+            "files": 21,
+            "credentialMatches": 0,
+            "sha256": "bbd549e7309a9b77329161f6c7b5aeb8fce04855155a18dfe45f61b6d06774fb"
+          }
+        ]
+      }
+    }
   },
   "release": {
     "status": "candidate only; stable promotion withheld",
@@ -994,6 +1030,14 @@
     {
       "path": "evidence/v0.3/phase-6-challenge-five-worlds.json",
       "sha256": "af509c156549492b2b81cc35f5048ccdd202661b634243b63c06e85c82fa583b"
+    },
+    {
+      "path": "evidence/v0.3/phase-6-ci-regression.json",
+      "sha256": "73a6ae853b7d6fe271a1e4417fa44aefbdf09275b95205929129b5ca8e8f2150"
+    },
+    {
+      "path": "evidence/v0.3/phase-6-ci-sampling-diagnostic.json",
+      "sha256": "d6c57e5a834e810a421009e42da1fac51d091738b55e900c4d508715871aa688"
     },
     {
       "path": "evidence/v0.3/phase-6-comparison.json",
@@ -1040,12 +1084,16 @@
       "sha256": "13b5e3b6d3e3212dff36597e4888a83255b6f46510643386749b48f77a652c30"
     },
     {
+      "path": "evidence/v0.3/phase-6-package-rehearsal.json",
+      "sha256": "b886839efe14d8079066217c07b3562e40e6554f72a874d041e98f174c125e72"
+    },
+    {
       "path": "evidence/v0.3/phase-6-playwright.json",
       "sha256": "ff10a041b4c7c8df5769e05c63d14845d77a62af1fd46c62435c837ec0559379"
     },
     {
       "path": "evidence/v0.3/phase-6-privacy.json",
-      "sha256": "9dc42365dcb75ed61f22a4eeb92487b2aaf1a9597007d16b276843ac85071d34"
+      "sha256": "517137d29fbefc9f17933e8da7f650fe36974bef5c5b1cbfe1994f991db59dcb"
     },
     {
       "path": "evidence/v0.3/phase-6-production-preserved.json",
