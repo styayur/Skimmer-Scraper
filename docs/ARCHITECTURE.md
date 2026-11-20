@@ -1,5 +1,19 @@
 # Architecture
 
+## Candidate distribution
+
+The package version supplies the visible footer and debug bridge. Build provenance
+is emitted separately as `build-info.json`, keeping documentation/evidence changes
+out of the game JS hash. Static artifacts include the full AGPL text, historical
+MIT grant, dependency inventory, runtime/font notices and exact source link.
+Source packages retain build provenance when rebuilt outside Git. Packaging never
+reads environment variables or private player storage.
+
+Leaving live flight synchronously suspends model work and changes the validation
+epoch before the next animation frame. Late replies cannot affect a paused,
+failed or replaced session. Gamepad Menu follows the same panel-close/pause path
+as Escape, so a hidden running game cannot remain behind an open modal.
+
 ## Sky Journey
 
 `SkyJourney` is a fixed-time ASCENT → THRESHOLD → INVERSION → WORLD_SWAP →

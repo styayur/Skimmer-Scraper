@@ -1,0 +1,3159 @@
+{
+  "method": "Controlled browser fixture using actual streamed geometry, earned leading Trust, real agent motion, finite challenge grace; HOLD is explicitly synthetic and no real-model rescue or human gameplay superiority is claimed.",
+  "earned": {
+    "worldReleases": [],
+    "journey": {
+      "phase": "ASCENT",
+      "phaseTime": 0,
+      "time": 2.199999999999995,
+      "progress": 0,
+      "worldIndex": 0,
+      "crossings": 0,
+      "active": false,
+      "height": 520,
+      "history": [],
+      "easterEggUnlocked": false,
+      "easterEggTriggers": 0,
+      "easterEggVisible": false
+    },
+    "cooperation": {
+      "planner": "Local Autonomous Controller",
+      "time": 2.199999999999995,
+      "epoch": 4,
+      "trust": {
+        "value": 0.58,
+        "events": [
+          {
+            "time": 1.7666666666666628,
+            "event": "accepted-lead",
+            "delta": 0.07999999999999996,
+            "value": 0.58
+          }
+        ]
+      },
+      "relay": {
+        "charges": 2,
+        "cooldownUntil": 0,
+        "attempts": 0,
+        "successes": 0,
+        "failures": 0
+      },
+      "model": {
+        "connected": false,
+        "pending": false,
+        "requests": 0,
+        "successes": 0,
+        "failures": 0,
+        "cancellations": 0,
+        "reservedTokens": 0,
+        "usage": {
+          "input": 0,
+          "output": 0,
+          "total": 0,
+          "cached": 0
+        },
+        "lastLatencyMs": null,
+        "error": null
+      },
+      "config": {
+        "provider": "deepseek",
+        "model": "deepseek-flash",
+        "trusted": false,
+        "intervalSeconds": 8,
+        "maxRequests": 20,
+        "tokenBudget": 50000,
+        "timeoutMs": 8000,
+        "origin": "https://api.deepseek.com"
+      },
+      "lastPlan": null,
+      "trace": [
+        {
+          "time": 1.7666666666666628,
+          "event": "trust",
+          "data": {
+            "time": 1.7666666666666628,
+            "event": "accepted-lead",
+            "delta": 0.07999999999999996,
+            "value": 0.58
+          }
+        }
+      ],
+      "memory": []
+    },
+    "ready": true,
+    "attitude": {
+      "pitch": -0.015,
+      "roll": 0,
+      "yaw": 0
+    },
+    "control": {
+      "pitch": 0,
+      "roll": 0,
+      "yaw": 0,
+      "boost": false
+    },
+    "rules": {
+      "mode": "challenge",
+      "graceSeconds": 10,
+      "shield": false,
+      "assisted": true
+    },
+    "companionSettings": {
+      "count": 1,
+      "formation": "wedge",
+      "behavior": "lead"
+    },
+    "companions": [
+      {
+        "id": 1,
+        "callsign": "KITE-1",
+        "position": {
+          "x": 0.7102130417107172,
+          "y": 26.915706561816073,
+          "z": -79.91291375008366
+        },
+        "velocity": {
+          "x": -0.9007105325584241,
+          "y": -1.068145160482714,
+          "z": -78.42209783457761
+        },
+        "target": {
+          "x": 0,
+          "y": 26.65985466346747,
+          "z": -102.6596547916361
+        },
+        "task": "LEAD",
+        "surfaceDistance": 27.141909708350546,
+        "decisions": 11,
+        "impacts": 0,
+        "uncovered": false,
+        "deployed": true
+      }
+    ],
+    "companionEvents": [
+      {
+        "time": 0,
+        "agent": 1,
+        "event": "spawn",
+        "task": "FORMATION_FOLLOW"
+      },
+      {
+        "time": 0.008333333333333333,
+        "agent": 1,
+        "event": "task",
+        "task": "LEAD"
+      }
+    ],
+    "shieldImpacts": 0,
+    "inputDevice": "Keyboard",
+    "mode": "running",
+    "runTime": 2.199999999999995,
+    "best": 0,
+    "speed": 66.09676343362214,
+    "altitude": 21.8197849993196,
+    "position": {
+      "x": 0,
+      "y": 21.8197849993196,
+      "z": -25.3367654735027
+    },
+    "surfaceDistance": 21.8197849993196,
+    "surfaceLocked": true,
+    "grace": 10,
+    "failureReason": null,
+    "world": {
+      "chunks": 14,
+      "buildings": 75,
+      "bridges": 20,
+      "islands": 1,
+      "collisionTriangles": 71160,
+      "renderTriangles": 130756
+    },
+    "adapter": {
+      "chunks": 14,
+      "bvhCount": 14,
+      "lastBroadPhaseCandidates": 2,
+      "lastQueries": 2
+    },
+    "streaming": {
+      "stateCounts": {
+        "UNLOADED": 0,
+        "QUEUED": 10,
+        "GENERATING": 1,
+        "READY": 0,
+        "ACTIVE": 14,
+        "RETIRING": 0,
+        "DISPOSED": 0
+      },
+      "loadedChunks": 14,
+      "activeChunks": 14,
+      "queuedChunks": 10,
+      "generatingChunks": 1,
+      "generatedTotal": 15,
+      "retiredTotal": 1,
+      "disposedGeometryCount": 14,
+      "bvhCount": 14,
+      "renderObjectCount": 161,
+      "estimatedCpuGeometryBytes": 15544376,
+      "generationAvgMs": 200.18000000019867,
+      "generationP95Ms": 1347,
+      "generationMinMs": 12.699999988079071,
+      "generationMaxMs": 1347,
+      "generationSampleCount": 15,
+      "maxLoadedChunks": 41,
+      "coverageComplete": true,
+      "rebaseCount": 0
+    },
+    "buffering": false,
+    "renderOrigin": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "render": {
+      "calls": 246,
+      "triangles": 151048,
+      "points": 560,
+      "lines": 64,
+      "fps": 57.04152564348165,
+      "geometries": 130,
+      "textures": 22,
+      "inversionAngle": 0
+    },
+    "seed": 334458,
+    "debugInput": false,
+    "selectedAircraft": "procedural",
+    "localModelCount": 0,
+    "cameraMode": "chase",
+    "cameraBlend": 0,
+    "fov": 63.39599369545209,
+    "proximity": 0.17677612985074911,
+    "proximityZone": "near",
+    "visualStimulation": "standard",
+    "recordingHintVisible": true,
+    "worldPreset": "sakura",
+    "worldMode": "stable",
+    "generatorVersion": 2,
+    "worldFingerprint": 3887776065,
+    "revisionHistory": null,
+    "chunkStates": [
+      {
+        "key": "0:0",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 1198553786
+      },
+      {
+        "key": "0:-1",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 4076409833
+      },
+      {
+        "key": "-1:0",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 285374269
+      },
+      {
+        "key": "1:0",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 1192692585
+      },
+      {
+        "key": "0:1",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 759607647
+      },
+      {
+        "key": "-1:-1",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 362762849
+      },
+      {
+        "key": "1:-1",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 113359827
+      },
+      {
+        "key": "-1:1",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 2745740256
+      },
+      {
+        "key": "1:1",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 3484269599
+      },
+      {
+        "key": "0:-2",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 2998100976
+      },
+      {
+        "key": "-2:0",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 3637142482
+      },
+      {
+        "key": "2:0",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 655365684
+      },
+      {
+        "key": "-1:-2",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 3788906424
+      },
+      {
+        "key": "1:-2",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 3842934674
+      },
+      {
+        "key": "-2:-1",
+        "state": "GENERATING",
+        "revision": 0,
+        "fingerprint": null
+      },
+      {
+        "key": "2:-1",
+        "state": "QUEUED",
+        "revision": 0,
+        "fingerprint": null
+      },
+      {
+        "key": "-2:1",
+        "state": "QUEUED",
+        "revision": 0,
+        "fingerprint": null
+      },
+      {
+        "key": "2:1",
+        "state": "QUEUED",
+        "revision": 0,
+        "fingerprint": null
+      },
+      {
+        "key": "-2:-2",
+        "state": "QUEUED",
+        "revision": 0,
+        "fingerprint": null
+      },
+      {
+        "key": "2:-2",
+        "state": "QUEUED",
+        "revision": 0,
+        "fingerprint": null
+      },
+      {
+        "key": "0:-3",
+        "state": "QUEUED",
+        "revision": 0,
+        "fingerprint": null
+      },
+      {
+        "key": "-1:-3",
+        "state": "QUEUED",
+        "revision": 0,
+        "fingerprint": null
+      },
+      {
+        "key": "1:-3",
+        "state": "QUEUED",
+        "revision": 0,
+        "fingerprint": null
+      },
+      {
+        "key": "-2:-3",
+        "state": "QUEUED",
+        "revision": 0,
+        "fingerprint": null
+      },
+      {
+        "key": "2:-3",
+        "state": "QUEUED",
+        "revision": 0,
+        "fingerprint": null
+      }
+    ]
+  },
+  "before": {
+    "worldReleases": [],
+    "journey": {
+      "phase": "ASCENT",
+      "phaseTime": 0,
+      "time": 10.608333333333372,
+      "progress": 0,
+      "worldIndex": 0,
+      "crossings": 0,
+      "active": false,
+      "height": 520,
+      "history": [],
+      "easterEggUnlocked": false,
+      "easterEggTriggers": 0,
+      "easterEggVisible": false
+    },
+    "cooperation": {
+      "planner": "Recorded Model Plan · recorded",
+      "time": 10.608333333333372,
+      "epoch": 5,
+      "trust": {
+        "value": 0.58,
+        "events": [
+          {
+            "time": 1.7666666666666628,
+            "event": "accepted-lead",
+            "delta": 0.07999999999999996,
+            "value": 0.58
+          }
+        ]
+      },
+      "relay": {
+        "charges": 2,
+        "cooldownUntil": 0,
+        "attempts": 0,
+        "successes": 0,
+        "failures": 0
+      },
+      "model": {
+        "connected": false,
+        "pending": false,
+        "requests": 0,
+        "successes": 0,
+        "failures": 0,
+        "cancellations": 0,
+        "reservedTokens": 0,
+        "usage": {
+          "input": 0,
+          "output": 0,
+          "total": 0,
+          "cached": 0
+        },
+        "lastLatencyMs": null,
+        "error": null
+      },
+      "config": {
+        "provider": "deepseek",
+        "model": "deepseek-flash",
+        "trusted": false,
+        "intervalSeconds": 8,
+        "maxRequests": 20,
+        "tokenBudget": 50000,
+        "timeoutMs": 8000,
+        "origin": "https://api.deepseek.com"
+      },
+      "lastPlan": {
+        "requestId": "5-1",
+        "epoch": 5,
+        "ttl": 12,
+        "risk": 0.2,
+        "formation": "wedge",
+        "orders": [
+          {
+            "agents": [
+              1
+            ],
+            "action": "HOLD",
+            "targetId": "surface-1"
+          }
+        ],
+        "reason": "可重复救援几何夹具",
+        "resolved": [
+          {
+            "agents": [
+              1
+            ],
+            "action": "HOLD",
+            "targetId": "surface-1",
+            "target": {
+              "x": 0.7027536460962509,
+              "y": 29.091313531778553,
+              "z": 64.77438507290384
+            }
+          }
+        ]
+      },
+      "trace": [
+        {
+          "time": 1.7666666666666628,
+          "event": "trust",
+          "data": {
+            "time": 1.7666666666666628,
+            "event": "accepted-lead",
+            "delta": 0.07999999999999996,
+            "value": 0.58
+          }
+        },
+        {
+          "time": 2.208333333333328,
+          "event": "decision",
+          "data": {
+            "decision": {
+              "requestId": "5-1",
+              "epoch": 5,
+              "ttl": 12,
+              "risk": 0.2,
+              "formation": "wedge",
+              "orders": [
+                {
+                  "agents": [
+                    1
+                  ],
+                  "action": "HOLD",
+                  "targetId": "surface-1"
+                }
+              ],
+              "reason": "可重复救援几何夹具"
+            },
+            "usage": {
+              "input": 0,
+              "output": 0,
+              "total": 0,
+              "cached": 0
+            },
+            "latencyMs": 0,
+            "provider": "recording",
+            "model": "recorded",
+            "validation": "accepted"
+          }
+        },
+        {
+          "time": 2.208333333333328,
+          "event": "execution",
+          "data": {
+            "plan": {
+              "requestId": "5-1",
+              "epoch": 5,
+              "ttl": 12,
+              "risk": 0.2,
+              "formation": "wedge",
+              "orders": [
+                {
+                  "agents": [
+                    1
+                  ],
+                  "action": "HOLD",
+                  "targetId": "surface-1"
+                }
+              ],
+              "reason": "可重复救援几何夹具",
+              "resolved": [
+                {
+                  "agents": [
+                    1
+                  ],
+                  "action": "HOLD",
+                  "targetId": "surface-1",
+                  "target": {
+                    "x": 0.7027536460962509,
+                    "y": 29.091313531778553,
+                    "z": 64.77438507290384
+                  }
+                }
+              ]
+            },
+            "agents": [
+              {
+                "id": 1,
+                "task": "LEAD",
+                "position": {
+                  "x": 0.7027536460962509,
+                  "y": 29.091313531778553,
+                  "z": 64.77438507290384
+                },
+                "target": {
+                  "x": 0.7102130417107172,
+                  "y": 70.09592156249647,
+                  "z": 65.42385172341905
+                },
+                "impacts": 0
+              }
+            ]
+          }
+        },
+        {
+          "time": 2.2166666666666615,
+          "event": "outcome",
+          "data": {
+            "agents": [
+              {
+                "id": 1,
+                "task": "HOLD",
+                "position": {
+                  "x": 0.6940813187907994,
+                  "y": 29.08674045742045,
+                  "z": 64.13069513081642
+                },
+                "target": {
+                  "x": -6.776083047242012,
+                  "y": 29.091313531778553,
+                  "z": 69.7810807611175
+                },
+                "impacts": 0
+              }
+            ],
+            "player": {
+              "x": 0.7102130417107172,
+              "y": 64.09592156249647,
+              "z": 65.42385172341905
+            },
+            "grace": 9.983333333333334,
+            "trust": 0.58,
+            "relay": {
+              "charges": 2,
+              "cooldownUntil": 0,
+              "attempts": 0,
+              "successes": 0,
+              "failures": 0
+            }
+          }
+        },
+        {
+          "time": 3.224999999999991,
+          "event": "outcome",
+          "data": {
+            "agents": [
+              {
+                "id": 1,
+                "task": "HOLD",
+                "position": {
+                  "x": -7.049837472897254,
+                  "y": 28.80580107299653,
+                  "z": 27.444124816085456
+                },
+                "target": {
+                  "x": -8.242778085744,
+                  "y": 29.091313531778553,
+                  "z": 63.78571827633426
+                },
+                "impacts": 0
+              }
+            ],
+            "player": {
+              "x": 0.7102130417107172,
+              "y": 64.09592156249647,
+              "z": 65.42385172341905
+            },
+            "grace": 8.975000000000058,
+            "trust": 0.58,
+            "relay": {
+              "charges": 2,
+              "cooldownUntil": 0,
+              "attempts": 0,
+              "successes": 0,
+              "failures": 0
+            }
+          }
+        },
+        {
+          "time": 4.225,
+          "event": "outcome",
+          "data": {
+            "agents": [
+              {
+                "id": 1,
+                "task": "HOLD",
+                "position": {
+                  "x": -10.738476339162329,
+                  "y": 29.051725756968025,
+                  "z": 56.96054727171221
+                },
+                "target": {
+                  "x": -5.5022497729724575,
+                  "y": 29.091313531778553,
+                  "z": 58.25534123432247
+                },
+                "impacts": 0
+              }
+            ],
+            "player": {
+              "x": 0.7102130417107172,
+              "y": 64.09592156249647,
+              "z": 65.42385172341905
+            },
+            "grace": 7.975000000000112,
+            "trust": 0.58,
+            "relay": {
+              "charges": 2,
+              "cooldownUntil": 0,
+              "attempts": 0,
+              "successes": 0,
+              "failures": 0
+            }
+          }
+        },
+        {
+          "time": 5.225000000000049,
+          "event": "outcome",
+          "data": {
+            "agents": [
+              {
+                "id": 1,
+                "task": "HOLD",
+                "position": {
+                  "x": 2.5971816677007014,
+                  "y": 29.146109956291145,
+                  "z": 59.613557208689066
+                },
+                "target": {
+                  "x": 0.15658860364033433,
+                  "y": 29.091313531778553,
+                  "z": 55.790972372465376
+                },
+                "impacts": 0
+              }
+            ],
+            "player": {
+              "x": 0.7102130417107172,
+              "y": 64.09592156249647,
+              "z": 65.42385172341905
+            },
+            "grace": 6.975000000000063,
+            "trust": 0.58,
+            "relay": {
+              "charges": 2,
+              "cooldownUntil": 0,
+              "attempts": 0,
+              "successes": 0,
+              "failures": 0
+            }
+          }
+        },
+        {
+          "time": 6.225000000000099,
+          "event": "outcome",
+          "data": {
+            "agents": [
+              {
+                "id": 1,
+                "task": "HOLD",
+                "position": {
+                  "x": 1.9448897381473684,
+                  "y": 28.90793053530866,
+                  "z": 41.805281239405886
+                },
+                "target": {
+                  "x": 6.072296933784362,
+                  "y": 29.091313531778553,
+                  "z": 57.55164287332039
+                },
+                "impacts": 0
+              }
+            ],
+            "player": {
+              "x": 0.7102130417107172,
+              "y": 64.09592156249647,
+              "z": 65.42385172341905
+            },
+            "grace": 5.975000000000013,
+            "trust": 0.58,
+            "relay": {
+              "charges": 2,
+              "cooldownUntil": 0,
+              "attempts": 0,
+              "successes": 0,
+              "failures": 0
+            }
+          }
+        },
+        {
+          "time": 7.225000000000149,
+          "event": "outcome",
+          "data": {
+            "agents": [
+              {
+                "id": 1,
+                "task": "HOLD",
+                "position": {
+                  "x": 11.015576896388046,
+                  "y": 27.991641781080943,
+                  "z": 33.538568810020564
+                },
+                "target": {
+                  "x": 9.462625154300165,
+                  "y": 29.091313531778553,
+                  "z": 62.70928188909987
+                },
+                "impacts": 0
+              }
+            ],
+            "player": {
+              "x": 0.7102130417107172,
+              "y": 64.09592156249647,
+              "z": 65.42385172341905
+            },
+            "grace": 4.974999999999963,
+            "trust": 0.58,
+            "relay": {
+              "charges": 2,
+              "cooldownUntil": 0,
+              "attempts": 0,
+              "successes": 0,
+              "failures": 0
+            }
+          }
+        },
+        {
+          "time": 8.225000000000174,
+          "event": "outcome",
+          "data": {
+            "agents": [
+              {
+                "id": 1,
+                "task": "HOLD",
+                "position": {
+                  "x": 10.698866475747298,
+                  "y": 29.122595461566203,
+                  "z": 68.73479145501194
+                },
+                "target": {
+                  "x": 8.733048927739318,
+                  "y": 29.091313531778553,
+                  "z": 68.83817120034966
+                },
+                "impacts": 0
+              }
+            ],
+            "player": {
+              "x": 0.7102130417107172,
+              "y": 64.09592156249647,
+              "z": 65.42385172341905
+            },
+            "grace": 3.9749999999999153,
+            "trust": 0.58,
+            "relay": {
+              "charges": 2,
+              "cooldownUntil": 0,
+              "attempts": 0,
+              "successes": 0,
+              "failures": 0
+            }
+          }
+        },
+        {
+          "time": 9.23333333333345,
+          "event": "outcome",
+          "data": {
+            "agents": [
+              {
+                "id": 1,
+                "task": "HOLD",
+                "position": {
+                  "x": -1.8457569389237318,
+                  "y": 29.235762305637074,
+                  "z": 79.79566393183535
+                },
+                "target": {
+                  "x": 4.22669935339701,
+                  "y": 29.091313531778553,
+                  "z": 73.05579839745155
+                },
+                "impacts": 0
+              }
+            ],
+            "player": {
+              "x": 0.7102130417107172,
+              "y": 64.09592156249647,
+              "z": 65.42385172341905
+            },
+            "grace": 2.9666666666665855,
+            "trust": 0.58,
+            "relay": {
+              "charges": 2,
+              "cooldownUntil": 0,
+              "attempts": 0,
+              "successes": 0,
+              "failures": 0
+            }
+          }
+        },
+        {
+          "time": 10.241666666666726,
+          "event": "outcome",
+          "data": {
+            "agents": [
+              {
+                "id": 1,
+                "task": "HOLD",
+                "position": {
+                  "x": 0.6223390424030423,
+                  "y": 28.754844283212357,
+                  "z": 68.24859737641488
+                },
+                "target": {
+                  "x": -1.9370169502592345,
+                  "y": 29.091313531778553,
+                  "z": 73.37854750736642
+                },
+                "impacts": 0
+              }
+            ],
+            "player": {
+              "x": 0.7102130417107172,
+              "y": 64.09592156249647,
+              "z": 65.42385172341905
+            },
+            "grace": 1.9583333333332558,
+            "trust": 0.58,
+            "relay": {
+              "charges": 2,
+              "cooldownUntil": 0,
+              "attempts": 0,
+              "successes": 0,
+              "failures": 0
+            }
+          }
+        }
+      ],
+      "memory": [
+        {
+          "event": "flight",
+          "action": "HOLD",
+          "progress": 66
+        },
+        {
+          "event": "flight",
+          "action": "HOLD",
+          "progress": 66
+        },
+        {
+          "event": "flight",
+          "action": "HOLD",
+          "progress": 66
+        },
+        {
+          "event": "flight",
+          "action": "HOLD",
+          "progress": 66
+        },
+        {
+          "event": "flight",
+          "action": "HOLD",
+          "progress": 66
+        },
+        {
+          "event": "flight",
+          "action": "HOLD",
+          "progress": 66
+        },
+        {
+          "event": "flight",
+          "action": "HOLD",
+          "progress": 66
+        },
+        {
+          "event": "flight",
+          "action": "HOLD",
+          "progress": 66
+        },
+        {
+          "event": "flight",
+          "action": "HOLD",
+          "progress": 66
+        }
+      ]
+    },
+    "ready": true,
+    "attitude": {
+      "pitch": 0,
+      "roll": 0,
+      "yaw": 0
+    },
+    "control": {
+      "pitch": 0,
+      "roll": 0,
+      "yaw": 0,
+      "boost": false
+    },
+    "rules": {
+      "mode": "challenge",
+      "graceSeconds": 10,
+      "shield": false,
+      "assisted": true
+    },
+    "companionSettings": {
+      "count": 1,
+      "formation": "wedge",
+      "behavior": "lead"
+    },
+    "companions": [
+      {
+        "id": 1,
+        "callsign": "KITE-1",
+        "position": {
+          "x": 6.592056375210768,
+          "y": 29.45460536674057,
+          "z": 70.40844411760034
+        },
+        "velocity": {
+          "x": 12.346827104580543,
+          "y": 2.472396238122097,
+          "z": 12.862469331015529
+        },
+        "target": {
+          "x": -3.1118410497565003,
+          "y": 29.091313531778553,
+          "z": 72.92600253855886
+        },
+        "task": "HOLD",
+        "surfaceDistance": 29.01350014458328,
+        "decisions": 54,
+        "impacts": 0,
+        "uncovered": false,
+        "deployed": true
+      }
+    ],
+    "companionEvents": [
+      {
+        "time": 0,
+        "agent": 1,
+        "event": "spawn",
+        "task": "FORMATION_FOLLOW"
+      },
+      {
+        "time": 0.008333333333333333,
+        "agent": 1,
+        "event": "task",
+        "task": "LEAD"
+      },
+      {
+        "time": 2.2166666666666615,
+        "agent": 1,
+        "event": "task",
+        "task": "HOLD"
+      }
+    ],
+    "shieldImpacts": 0,
+    "inputDevice": "Keyboard",
+    "mode": "running",
+    "runTime": 10.608333333333372,
+    "best": 0,
+    "speed": 66.00000113743357,
+    "altitude": 64.09592156249647,
+    "position": {
+      "x": 0.7102130417107172,
+      "y": 64.09592156249647,
+      "z": 65.42385172341905
+    },
+    "surfaceDistance": 51.44830954481708,
+    "surfaceLocked": false,
+    "grace": 1.5916666666665904,
+    "failureReason": null,
+    "world": {
+      "chunks": 24,
+      "buildings": 134,
+      "bridges": 37,
+      "islands": 3,
+      "collisionTriangles": 127622,
+      "renderTriangles": 232202
+    },
+    "adapter": {
+      "chunks": 24,
+      "bvhCount": 24,
+      "lastBroadPhaseCandidates": 1,
+      "lastQueries": 1
+    },
+    "streaming": {
+      "stateCounts": {
+        "UNLOADED": 0,
+        "QUEUED": 0,
+        "GENERATING": 1,
+        "READY": 0,
+        "ACTIVE": 24,
+        "RETIRING": 0,
+        "DISPOSED": 0
+      },
+      "loadedChunks": 24,
+      "activeChunks": 24,
+      "queuedChunks": 0,
+      "generatingChunks": 1,
+      "generatedTotal": 25,
+      "retiredTotal": 1,
+      "disposedGeometryCount": 14,
+      "bvhCount": 24,
+      "renderObjectCount": 285,
+      "estimatedCpuGeometryBytes": 27657816,
+      "generationAvgMs": 128.29199999928474,
+      "generationP95Ms": 1281.4000000059605,
+      "generationMinMs": 12.699999988079071,
+      "generationMaxMs": 1347,
+      "generationSampleCount": 25,
+      "maxLoadedChunks": 41,
+      "coverageComplete": true,
+      "rebaseCount": 0
+    },
+    "buffering": false,
+    "renderOrigin": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "render": {
+      "calls": 246,
+      "triangles": 151048,
+      "points": 560,
+      "lines": 64,
+      "fps": 57.04152564348165,
+      "geometries": 130,
+      "textures": 22,
+      "inversionAngle": 0
+    },
+    "seed": 334458,
+    "debugInput": false,
+    "selectedAircraft": "procedural",
+    "localModelCount": 0,
+    "cameraMode": "chase",
+    "cameraBlend": 0,
+    "fov": 63.37931054093682,
+    "proximity": 8.556322750004849e-19,
+    "proximityZone": "detached",
+    "visualStimulation": "standard",
+    "recordingHintVisible": true,
+    "worldPreset": "sakura",
+    "worldMode": "stable",
+    "generatorVersion": 2,
+    "worldFingerprint": 3887776065,
+    "revisionHistory": null,
+    "chunkStates": [
+      {
+        "key": "0:0",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 1198553786
+      },
+      {
+        "key": "0:-1",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 4076409833
+      },
+      {
+        "key": "-1:0",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 285374269
+      },
+      {
+        "key": "1:0",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 1192692585
+      },
+      {
+        "key": "0:1",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 759607647
+      },
+      {
+        "key": "-1:-1",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 362762849
+      },
+      {
+        "key": "1:-1",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 113359827
+      },
+      {
+        "key": "-1:1",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 2745740256
+      },
+      {
+        "key": "1:1",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 3484269599
+      },
+      {
+        "key": "0:-2",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 2998100976
+      },
+      {
+        "key": "-2:0",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 3637142482
+      },
+      {
+        "key": "2:0",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 655365684
+      },
+      {
+        "key": "-1:-2",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 3788906424
+      },
+      {
+        "key": "1:-2",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 3842934674
+      },
+      {
+        "key": "-2:-1",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 691181459
+      },
+      {
+        "key": "2:-1",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 4155033499
+      },
+      {
+        "key": "-2:1",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 1725067464
+      },
+      {
+        "key": "2:1",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 558625995
+      },
+      {
+        "key": "-2:-2",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 2390288180
+      },
+      {
+        "key": "2:-2",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 3532469619
+      },
+      {
+        "key": "0:2",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 214738670
+      },
+      {
+        "key": "-1:2",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 296841731
+      },
+      {
+        "key": "1:2",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 570805431
+      },
+      {
+        "key": "-2:2",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 2467931847
+      },
+      {
+        "key": "2:2",
+        "state": "GENERATING",
+        "revision": 0,
+        "fingerprint": null
+      }
+    ]
+  },
+  "attempted": {
+    "worldReleases": [],
+    "journey": {
+      "phase": "ASCENT",
+      "phaseTime": 0,
+      "time": 10.608333333333372,
+      "progress": 0,
+      "worldIndex": 0,
+      "crossings": 0,
+      "active": false,
+      "height": 520,
+      "history": [],
+      "easterEggUnlocked": false,
+      "easterEggTriggers": 0,
+      "easterEggVisible": false
+    },
+    "cooperation": {
+      "planner": "Recorded Model Plan · recorded",
+      "time": 10.608333333333372,
+      "epoch": 5,
+      "trust": {
+        "value": 0.7,
+        "events": [
+          {
+            "time": 1.7666666666666628,
+            "event": "accepted-lead",
+            "delta": 0.07999999999999996,
+            "value": 0.58
+          },
+          {
+            "time": 10.608333333333372,
+            "event": "relay-success",
+            "delta": 0.12,
+            "value": 0.7
+          }
+        ]
+      },
+      "relay": {
+        "charges": 1,
+        "cooldownUntil": 30.60833333333337,
+        "attempts": 1,
+        "successes": 1,
+        "failures": 0
+      },
+      "model": {
+        "connected": false,
+        "pending": false,
+        "requests": 0,
+        "successes": 0,
+        "failures": 0,
+        "cancellations": 0,
+        "reservedTokens": 0,
+        "usage": {
+          "input": 0,
+          "output": 0,
+          "total": 0,
+          "cached": 0
+        },
+        "lastLatencyMs": null,
+        "error": null
+      },
+      "config": {
+        "provider": "deepseek",
+        "model": "deepseek-flash",
+        "trusted": false,
+        "intervalSeconds": 8,
+        "maxRequests": 20,
+        "tokenBudget": 50000,
+        "timeoutMs": 8000,
+        "origin": "https://api.deepseek.com"
+      },
+      "lastPlan": {
+        "requestId": "5-1",
+        "epoch": 5,
+        "ttl": 12,
+        "risk": 0.2,
+        "formation": "wedge",
+        "orders": [
+          {
+            "agents": [
+              1
+            ],
+            "action": "HOLD",
+            "targetId": "surface-1"
+          }
+        ],
+        "reason": "可重复救援几何夹具",
+        "resolved": [
+          {
+            "agents": [
+              1
+            ],
+            "action": "HOLD",
+            "targetId": "surface-1",
+            "target": {
+              "x": 0.7027536460962509,
+              "y": 29.091313531778553,
+              "z": 64.77438507290384
+            }
+          }
+        ]
+      },
+      "trace": [
+        {
+          "time": 1.7666666666666628,
+          "event": "trust",
+          "data": {
+            "time": 1.7666666666666628,
+            "event": "accepted-lead",
+            "delta": 0.07999999999999996,
+            "value": 0.58
+          }
+        },
+        {
+          "time": 2.208333333333328,
+          "event": "decision",
+          "data": {
+            "decision": {
+              "requestId": "5-1",
+              "epoch": 5,
+              "ttl": 12,
+              "risk": 0.2,
+              "formation": "wedge",
+              "orders": [
+                {
+                  "agents": [
+                    1
+                  ],
+                  "action": "HOLD",
+                  "targetId": "surface-1"
+                }
+              ],
+              "reason": "可重复救援几何夹具"
+            },
+            "usage": {
+              "input": 0,
+              "output": 0,
+              "total": 0,
+              "cached": 0
+            },
+            "latencyMs": 0,
+            "provider": "recording",
+            "model": "recorded",
+            "validation": "accepted"
+          }
+        },
+        {
+          "time": 2.208333333333328,
+          "event": "execution",
+          "data": {
+            "plan": {
+              "requestId": "5-1",
+              "epoch": 5,
+              "ttl": 12,
+              "risk": 0.2,
+              "formation": "wedge",
+              "orders": [
+                {
+                  "agents": [
+                    1
+                  ],
+                  "action": "HOLD",
+                  "targetId": "surface-1"
+                }
+              ],
+              "reason": "可重复救援几何夹具",
+              "resolved": [
+                {
+                  "agents": [
+                    1
+                  ],
+                  "action": "HOLD",
+                  "targetId": "surface-1",
+                  "target": {
+                    "x": 0.7027536460962509,
+                    "y": 29.091313531778553,
+                    "z": 64.77438507290384
+                  }
+                }
+              ]
+            },
+            "agents": [
+              {
+                "id": 1,
+                "task": "LEAD",
+                "position": {
+                  "x": 0.7027536460962509,
+                  "y": 29.091313531778553,
+                  "z": 64.77438507290384
+                },
+                "target": {
+                  "x": 0.7102130417107172,
+                  "y": 70.09592156249647,
+                  "z": 65.42385172341905
+                },
+                "impacts": 0
+              }
+            ]
+          }
+        },
+        {
+          "time": 2.2166666666666615,
+          "event": "outcome",
+          "data": {
+            "agents": [
+              {
+                "id": 1,
+                "task": "HOLD",
+                "position": {
+                  "x": 0.6940813187907994,
+                  "y": 29.08674045742045,
+                  "z": 64.13069513081642
+                },
+                "target": {
+                  "x": -6.776083047242012,
+                  "y": 29.091313531778553,
+                  "z": 69.7810807611175
+                },
+                "impacts": 0
+              }
+            ],
+            "player": {
+              "x": 0.7102130417107172,
+              "y": 64.09592156249647,
+              "z": 65.42385172341905
+            },
+            "grace": 9.983333333333334,
+            "trust": 0.58,
+            "relay": {
+              "charges": 2,
+              "cooldownUntil": 0,
+              "attempts": 0,
+              "successes": 0,
+              "failures": 0
+            }
+          }
+        },
+        {
+          "time": 3.224999999999991,
+          "event": "outcome",
+          "data": {
+            "agents": [
+              {
+                "id": 1,
+                "task": "HOLD",
+                "position": {
+                  "x": -7.049837472897254,
+                  "y": 28.80580107299653,
+                  "z": 27.444124816085456
+                },
+                "target": {
+                  "x": -8.242778085744,
+                  "y": 29.091313531778553,
+                  "z": 63.78571827633426
+                },
+                "impacts": 0
+              }
+            ],
+            "player": {
+              "x": 0.7102130417107172,
+              "y": 64.09592156249647,
+              "z": 65.42385172341905
+            },
+            "grace": 8.975000000000058,
+            "trust": 0.58,
+            "relay": {
+              "charges": 2,
+              "cooldownUntil": 0,
+              "attempts": 0,
+              "successes": 0,
+              "failures": 0
+            }
+          }
+        },
+        {
+          "time": 4.225,
+          "event": "outcome",
+          "data": {
+            "agents": [
+              {
+                "id": 1,
+                "task": "HOLD",
+                "position": {
+                  "x": -10.738476339162329,
+                  "y": 29.051725756968025,
+                  "z": 56.96054727171221
+                },
+                "target": {
+                  "x": -5.5022497729724575,
+                  "y": 29.091313531778553,
+                  "z": 58.25534123432247
+                },
+                "impacts": 0
+              }
+            ],
+            "player": {
+              "x": 0.7102130417107172,
+              "y": 64.09592156249647,
+              "z": 65.42385172341905
+            },
+            "grace": 7.975000000000112,
+            "trust": 0.58,
+            "relay": {
+              "charges": 2,
+              "cooldownUntil": 0,
+              "attempts": 0,
+              "successes": 0,
+              "failures": 0
+            }
+          }
+        },
+        {
+          "time": 5.225000000000049,
+          "event": "outcome",
+          "data": {
+            "agents": [
+              {
+                "id": 1,
+                "task": "HOLD",
+                "position": {
+                  "x": 2.5971816677007014,
+                  "y": 29.146109956291145,
+                  "z": 59.613557208689066
+                },
+                "target": {
+                  "x": 0.15658860364033433,
+                  "y": 29.091313531778553,
+                  "z": 55.790972372465376
+                },
+                "impacts": 0
+              }
+            ],
+            "player": {
+              "x": 0.7102130417107172,
+              "y": 64.09592156249647,
+              "z": 65.42385172341905
+            },
+            "grace": 6.975000000000063,
+            "trust": 0.58,
+            "relay": {
+              "charges": 2,
+              "cooldownUntil": 0,
+              "attempts": 0,
+              "successes": 0,
+              "failures": 0
+            }
+          }
+        },
+        {
+          "time": 6.225000000000099,
+          "event": "outcome",
+          "data": {
+            "agents": [
+              {
+                "id": 1,
+                "task": "HOLD",
+                "position": {
+                  "x": 1.9448897381473684,
+                  "y": 28.90793053530866,
+                  "z": 41.805281239405886
+                },
+                "target": {
+                  "x": 6.072296933784362,
+                  "y": 29.091313531778553,
+                  "z": 57.55164287332039
+                },
+                "impacts": 0
+              }
+            ],
+            "player": {
+              "x": 0.7102130417107172,
+              "y": 64.09592156249647,
+              "z": 65.42385172341905
+            },
+            "grace": 5.975000000000013,
+            "trust": 0.58,
+            "relay": {
+              "charges": 2,
+              "cooldownUntil": 0,
+              "attempts": 0,
+              "successes": 0,
+              "failures": 0
+            }
+          }
+        },
+        {
+          "time": 7.225000000000149,
+          "event": "outcome",
+          "data": {
+            "agents": [
+              {
+                "id": 1,
+                "task": "HOLD",
+                "position": {
+                  "x": 11.015576896388046,
+                  "y": 27.991641781080943,
+                  "z": 33.538568810020564
+                },
+                "target": {
+                  "x": 9.462625154300165,
+                  "y": 29.091313531778553,
+                  "z": 62.70928188909987
+                },
+                "impacts": 0
+              }
+            ],
+            "player": {
+              "x": 0.7102130417107172,
+              "y": 64.09592156249647,
+              "z": 65.42385172341905
+            },
+            "grace": 4.974999999999963,
+            "trust": 0.58,
+            "relay": {
+              "charges": 2,
+              "cooldownUntil": 0,
+              "attempts": 0,
+              "successes": 0,
+              "failures": 0
+            }
+          }
+        },
+        {
+          "time": 8.225000000000174,
+          "event": "outcome",
+          "data": {
+            "agents": [
+              {
+                "id": 1,
+                "task": "HOLD",
+                "position": {
+                  "x": 10.698866475747298,
+                  "y": 29.122595461566203,
+                  "z": 68.73479145501194
+                },
+                "target": {
+                  "x": 8.733048927739318,
+                  "y": 29.091313531778553,
+                  "z": 68.83817120034966
+                },
+                "impacts": 0
+              }
+            ],
+            "player": {
+              "x": 0.7102130417107172,
+              "y": 64.09592156249647,
+              "z": 65.42385172341905
+            },
+            "grace": 3.9749999999999153,
+            "trust": 0.58,
+            "relay": {
+              "charges": 2,
+              "cooldownUntil": 0,
+              "attempts": 0,
+              "successes": 0,
+              "failures": 0
+            }
+          }
+        },
+        {
+          "time": 9.23333333333345,
+          "event": "outcome",
+          "data": {
+            "agents": [
+              {
+                "id": 1,
+                "task": "HOLD",
+                "position": {
+                  "x": -1.8457569389237318,
+                  "y": 29.235762305637074,
+                  "z": 79.79566393183535
+                },
+                "target": {
+                  "x": 4.22669935339701,
+                  "y": 29.091313531778553,
+                  "z": 73.05579839745155
+                },
+                "impacts": 0
+              }
+            ],
+            "player": {
+              "x": 0.7102130417107172,
+              "y": 64.09592156249647,
+              "z": 65.42385172341905
+            },
+            "grace": 2.9666666666665855,
+            "trust": 0.58,
+            "relay": {
+              "charges": 2,
+              "cooldownUntil": 0,
+              "attempts": 0,
+              "successes": 0,
+              "failures": 0
+            }
+          }
+        },
+        {
+          "time": 10.241666666666726,
+          "event": "outcome",
+          "data": {
+            "agents": [
+              {
+                "id": 1,
+                "task": "HOLD",
+                "position": {
+                  "x": 0.6223390424030423,
+                  "y": 28.754844283212357,
+                  "z": 68.24859737641488
+                },
+                "target": {
+                  "x": -1.9370169502592345,
+                  "y": 29.091313531778553,
+                  "z": 73.37854750736642
+                },
+                "impacts": 0
+              }
+            ],
+            "player": {
+              "x": 0.7102130417107172,
+              "y": 64.09592156249647,
+              "z": 65.42385172341905
+            },
+            "grace": 1.9583333333332558,
+            "trust": 0.58,
+            "relay": {
+              "charges": 2,
+              "cooldownUntil": 0,
+              "attempts": 0,
+              "successes": 0,
+              "failures": 0
+            }
+          }
+        },
+        {
+          "time": 10.608333333333372,
+          "event": "trust",
+          "data": {
+            "time": 10.608333333333372,
+            "event": "relay-success",
+            "delta": 0.12,
+            "value": 0.7
+          }
+        },
+        {
+          "time": 10.608333333333372,
+          "event": "relay",
+          "data": {
+            "agent": 1,
+            "success": true,
+            "reason": "survival-rescue",
+            "bonus": 1.25,
+            "charges": 1,
+            "player": {
+              "x": 0.7102130417107172,
+              "y": 64.09592156249647,
+              "z": 65.42385172341905
+            },
+            "partner": {
+              "x": 6.592056375210768,
+              "y": 29.45460536674057,
+              "z": 70.40844411760034
+            },
+            "surface": 29.45460536674057
+          }
+        }
+      ],
+      "memory": [
+        {
+          "event": "flight",
+          "action": "HOLD",
+          "progress": 66
+        },
+        {
+          "event": "flight",
+          "action": "HOLD",
+          "progress": 66
+        },
+        {
+          "event": "flight",
+          "action": "HOLD",
+          "progress": 66
+        },
+        {
+          "event": "flight",
+          "action": "HOLD",
+          "progress": 66
+        },
+        {
+          "event": "flight",
+          "action": "HOLD",
+          "progress": 66
+        },
+        {
+          "event": "flight",
+          "action": "HOLD",
+          "progress": 66
+        },
+        {
+          "event": "flight",
+          "action": "HOLD",
+          "progress": 66
+        },
+        {
+          "event": "flight",
+          "action": "HOLD",
+          "progress": 66
+        },
+        {
+          "event": "flight",
+          "action": "HOLD",
+          "progress": 66
+        }
+      ]
+    },
+    "ready": true,
+    "attitude": {
+      "pitch": 0,
+      "roll": 0,
+      "yaw": 0
+    },
+    "control": {
+      "pitch": 0,
+      "roll": 0,
+      "yaw": 0,
+      "boost": false
+    },
+    "rules": {
+      "mode": "challenge",
+      "graceSeconds": 10,
+      "shield": false,
+      "assisted": true
+    },
+    "companionSettings": {
+      "count": 1,
+      "formation": "wedge",
+      "behavior": "lead"
+    },
+    "companions": [
+      {
+        "id": 1,
+        "callsign": "KITE-1",
+        "position": {
+          "x": 6.592056375210768,
+          "y": 29.45460536674057,
+          "z": 70.40844411760034
+        },
+        "velocity": {
+          "x": 12.346827104580543,
+          "y": 2.472396238122097,
+          "z": 12.862469331015529
+        },
+        "target": {
+          "x": -3.1118410497565003,
+          "y": 29.091313531778553,
+          "z": 72.92600253855886
+        },
+        "task": "HOLD",
+        "surfaceDistance": 29.01350014458328,
+        "decisions": 54,
+        "impacts": 0,
+        "uncovered": false,
+        "deployed": true
+      }
+    ],
+    "companionEvents": [
+      {
+        "time": 0,
+        "agent": 1,
+        "event": "spawn",
+        "task": "FORMATION_FOLLOW"
+      },
+      {
+        "time": 0.008333333333333333,
+        "agent": 1,
+        "event": "task",
+        "task": "LEAD"
+      },
+      {
+        "time": 2.2166666666666615,
+        "agent": 1,
+        "event": "task",
+        "task": "HOLD"
+      }
+    ],
+    "shieldImpacts": 0,
+    "inputDevice": "Keyboard",
+    "mode": "running",
+    "runTime": 10.608333333333372,
+    "best": 0,
+    "speed": 66.00000113743357,
+    "altitude": 64.09592156249647,
+    "position": {
+      "x": 0.7102130417107172,
+      "y": 64.09592156249647,
+      "z": 65.42385172341905
+    },
+    "surfaceDistance": 51.44830954481708,
+    "surfaceLocked": false,
+    "grace": 2.8416666666665904,
+    "failureReason": null,
+    "world": {
+      "chunks": 24,
+      "buildings": 134,
+      "bridges": 37,
+      "islands": 3,
+      "collisionTriangles": 127622,
+      "renderTriangles": 232202
+    },
+    "adapter": {
+      "chunks": 24,
+      "bvhCount": 24,
+      "lastBroadPhaseCandidates": 2,
+      "lastQueries": 2
+    },
+    "streaming": {
+      "stateCounts": {
+        "UNLOADED": 0,
+        "QUEUED": 0,
+        "GENERATING": 1,
+        "READY": 0,
+        "ACTIVE": 24,
+        "RETIRING": 0,
+        "DISPOSED": 0
+      },
+      "loadedChunks": 24,
+      "activeChunks": 24,
+      "queuedChunks": 0,
+      "generatingChunks": 1,
+      "generatedTotal": 25,
+      "retiredTotal": 1,
+      "disposedGeometryCount": 14,
+      "bvhCount": 24,
+      "renderObjectCount": 285,
+      "estimatedCpuGeometryBytes": 27657816,
+      "generationAvgMs": 128.29199999928474,
+      "generationP95Ms": 1281.4000000059605,
+      "generationMinMs": 12.699999988079071,
+      "generationMaxMs": 1347,
+      "generationSampleCount": 25,
+      "maxLoadedChunks": 41,
+      "coverageComplete": true,
+      "rebaseCount": 0
+    },
+    "buffering": false,
+    "renderOrigin": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "render": {
+      "calls": 246,
+      "triangles": 151048,
+      "points": 560,
+      "lines": 64,
+      "fps": 57.04152564348165,
+      "geometries": 130,
+      "textures": 22,
+      "inversionAngle": 0
+    },
+    "seed": 334458,
+    "debugInput": false,
+    "selectedAircraft": "procedural",
+    "localModelCount": 0,
+    "cameraMode": "chase",
+    "cameraBlend": 0,
+    "fov": 63.37931054093682,
+    "proximity": 8.556322750004849e-19,
+    "proximityZone": "detached",
+    "visualStimulation": "standard",
+    "recordingHintVisible": true,
+    "worldPreset": "sakura",
+    "worldMode": "stable",
+    "generatorVersion": 2,
+    "worldFingerprint": 3887776065,
+    "revisionHistory": null,
+    "chunkStates": [
+      {
+        "key": "0:0",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 1198553786
+      },
+      {
+        "key": "0:-1",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 4076409833
+      },
+      {
+        "key": "-1:0",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 285374269
+      },
+      {
+        "key": "1:0",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 1192692585
+      },
+      {
+        "key": "0:1",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 759607647
+      },
+      {
+        "key": "-1:-1",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 362762849
+      },
+      {
+        "key": "1:-1",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 113359827
+      },
+      {
+        "key": "-1:1",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 2745740256
+      },
+      {
+        "key": "1:1",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 3484269599
+      },
+      {
+        "key": "0:-2",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 2998100976
+      },
+      {
+        "key": "-2:0",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 3637142482
+      },
+      {
+        "key": "2:0",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 655365684
+      },
+      {
+        "key": "-1:-2",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 3788906424
+      },
+      {
+        "key": "1:-2",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 3842934674
+      },
+      {
+        "key": "-2:-1",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 691181459
+      },
+      {
+        "key": "2:-1",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 4155033499
+      },
+      {
+        "key": "-2:1",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 1725067464
+      },
+      {
+        "key": "2:1",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 558625995
+      },
+      {
+        "key": "-2:-2",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 2390288180
+      },
+      {
+        "key": "2:-2",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 3532469619
+      },
+      {
+        "key": "0:2",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 214738670
+      },
+      {
+        "key": "-1:2",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 296841731
+      },
+      {
+        "key": "1:2",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 570805431
+      },
+      {
+        "key": "-2:2",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 2467931847
+      },
+      {
+        "key": "2:2",
+        "state": "GENERATING",
+        "revision": 0,
+        "fingerprint": null
+      }
+    ]
+  },
+  "repeated": {
+    "worldReleases": [],
+    "journey": {
+      "phase": "ASCENT",
+      "phaseTime": 0,
+      "time": 10.608333333333372,
+      "progress": 0,
+      "worldIndex": 0,
+      "crossings": 0,
+      "active": false,
+      "height": 520,
+      "history": [],
+      "easterEggUnlocked": false,
+      "easterEggTriggers": 0,
+      "easterEggVisible": false
+    },
+    "cooperation": {
+      "planner": "Recorded Model Plan · recorded",
+      "time": 10.608333333333372,
+      "epoch": 5,
+      "trust": {
+        "value": 0.7,
+        "events": [
+          {
+            "time": 1.7666666666666628,
+            "event": "accepted-lead",
+            "delta": 0.07999999999999996,
+            "value": 0.58
+          },
+          {
+            "time": 10.608333333333372,
+            "event": "relay-success",
+            "delta": 0.12,
+            "value": 0.7
+          }
+        ]
+      },
+      "relay": {
+        "charges": 1,
+        "cooldownUntil": 30.60833333333337,
+        "attempts": 2,
+        "successes": 1,
+        "failures": 1
+      },
+      "model": {
+        "connected": false,
+        "pending": false,
+        "requests": 0,
+        "successes": 0,
+        "failures": 0,
+        "cancellations": 0,
+        "reservedTokens": 0,
+        "usage": {
+          "input": 0,
+          "output": 0,
+          "total": 0,
+          "cached": 0
+        },
+        "lastLatencyMs": null,
+        "error": null
+      },
+      "config": {
+        "provider": "deepseek",
+        "model": "deepseek-flash",
+        "trusted": false,
+        "intervalSeconds": 8,
+        "maxRequests": 20,
+        "tokenBudget": 50000,
+        "timeoutMs": 8000,
+        "origin": "https://api.deepseek.com"
+      },
+      "lastPlan": {
+        "requestId": "5-1",
+        "epoch": 5,
+        "ttl": 12,
+        "risk": 0.2,
+        "formation": "wedge",
+        "orders": [
+          {
+            "agents": [
+              1
+            ],
+            "action": "HOLD",
+            "targetId": "surface-1"
+          }
+        ],
+        "reason": "可重复救援几何夹具",
+        "resolved": [
+          {
+            "agents": [
+              1
+            ],
+            "action": "HOLD",
+            "targetId": "surface-1",
+            "target": {
+              "x": 0.7027536460962509,
+              "y": 29.091313531778553,
+              "z": 64.77438507290384
+            }
+          }
+        ]
+      },
+      "trace": [
+        {
+          "time": 1.7666666666666628,
+          "event": "trust",
+          "data": {
+            "time": 1.7666666666666628,
+            "event": "accepted-lead",
+            "delta": 0.07999999999999996,
+            "value": 0.58
+          }
+        },
+        {
+          "time": 2.208333333333328,
+          "event": "decision",
+          "data": {
+            "decision": {
+              "requestId": "5-1",
+              "epoch": 5,
+              "ttl": 12,
+              "risk": 0.2,
+              "formation": "wedge",
+              "orders": [
+                {
+                  "agents": [
+                    1
+                  ],
+                  "action": "HOLD",
+                  "targetId": "surface-1"
+                }
+              ],
+              "reason": "可重复救援几何夹具"
+            },
+            "usage": {
+              "input": 0,
+              "output": 0,
+              "total": 0,
+              "cached": 0
+            },
+            "latencyMs": 0,
+            "provider": "recording",
+            "model": "recorded",
+            "validation": "accepted"
+          }
+        },
+        {
+          "time": 2.208333333333328,
+          "event": "execution",
+          "data": {
+            "plan": {
+              "requestId": "5-1",
+              "epoch": 5,
+              "ttl": 12,
+              "risk": 0.2,
+              "formation": "wedge",
+              "orders": [
+                {
+                  "agents": [
+                    1
+                  ],
+                  "action": "HOLD",
+                  "targetId": "surface-1"
+                }
+              ],
+              "reason": "可重复救援几何夹具",
+              "resolved": [
+                {
+                  "agents": [
+                    1
+                  ],
+                  "action": "HOLD",
+                  "targetId": "surface-1",
+                  "target": {
+                    "x": 0.7027536460962509,
+                    "y": 29.091313531778553,
+                    "z": 64.77438507290384
+                  }
+                }
+              ]
+            },
+            "agents": [
+              {
+                "id": 1,
+                "task": "LEAD",
+                "position": {
+                  "x": 0.7027536460962509,
+                  "y": 29.091313531778553,
+                  "z": 64.77438507290384
+                },
+                "target": {
+                  "x": 0.7102130417107172,
+                  "y": 70.09592156249647,
+                  "z": 65.42385172341905
+                },
+                "impacts": 0
+              }
+            ]
+          }
+        },
+        {
+          "time": 2.2166666666666615,
+          "event": "outcome",
+          "data": {
+            "agents": [
+              {
+                "id": 1,
+                "task": "HOLD",
+                "position": {
+                  "x": 0.6940813187907994,
+                  "y": 29.08674045742045,
+                  "z": 64.13069513081642
+                },
+                "target": {
+                  "x": -6.776083047242012,
+                  "y": 29.091313531778553,
+                  "z": 69.7810807611175
+                },
+                "impacts": 0
+              }
+            ],
+            "player": {
+              "x": 0.7102130417107172,
+              "y": 64.09592156249647,
+              "z": 65.42385172341905
+            },
+            "grace": 9.983333333333334,
+            "trust": 0.58,
+            "relay": {
+              "charges": 2,
+              "cooldownUntil": 0,
+              "attempts": 0,
+              "successes": 0,
+              "failures": 0
+            }
+          }
+        },
+        {
+          "time": 3.224999999999991,
+          "event": "outcome",
+          "data": {
+            "agents": [
+              {
+                "id": 1,
+                "task": "HOLD",
+                "position": {
+                  "x": -7.049837472897254,
+                  "y": 28.80580107299653,
+                  "z": 27.444124816085456
+                },
+                "target": {
+                  "x": -8.242778085744,
+                  "y": 29.091313531778553,
+                  "z": 63.78571827633426
+                },
+                "impacts": 0
+              }
+            ],
+            "player": {
+              "x": 0.7102130417107172,
+              "y": 64.09592156249647,
+              "z": 65.42385172341905
+            },
+            "grace": 8.975000000000058,
+            "trust": 0.58,
+            "relay": {
+              "charges": 2,
+              "cooldownUntil": 0,
+              "attempts": 0,
+              "successes": 0,
+              "failures": 0
+            }
+          }
+        },
+        {
+          "time": 4.225,
+          "event": "outcome",
+          "data": {
+            "agents": [
+              {
+                "id": 1,
+                "task": "HOLD",
+                "position": {
+                  "x": -10.738476339162329,
+                  "y": 29.051725756968025,
+                  "z": 56.96054727171221
+                },
+                "target": {
+                  "x": -5.5022497729724575,
+                  "y": 29.091313531778553,
+                  "z": 58.25534123432247
+                },
+                "impacts": 0
+              }
+            ],
+            "player": {
+              "x": 0.7102130417107172,
+              "y": 64.09592156249647,
+              "z": 65.42385172341905
+            },
+            "grace": 7.975000000000112,
+            "trust": 0.58,
+            "relay": {
+              "charges": 2,
+              "cooldownUntil": 0,
+              "attempts": 0,
+              "successes": 0,
+              "failures": 0
+            }
+          }
+        },
+        {
+          "time": 5.225000000000049,
+          "event": "outcome",
+          "data": {
+            "agents": [
+              {
+                "id": 1,
+                "task": "HOLD",
+                "position": {
+                  "x": 2.5971816677007014,
+                  "y": 29.146109956291145,
+                  "z": 59.613557208689066
+                },
+                "target": {
+                  "x": 0.15658860364033433,
+                  "y": 29.091313531778553,
+                  "z": 55.790972372465376
+                },
+                "impacts": 0
+              }
+            ],
+            "player": {
+              "x": 0.7102130417107172,
+              "y": 64.09592156249647,
+              "z": 65.42385172341905
+            },
+            "grace": 6.975000000000063,
+            "trust": 0.58,
+            "relay": {
+              "charges": 2,
+              "cooldownUntil": 0,
+              "attempts": 0,
+              "successes": 0,
+              "failures": 0
+            }
+          }
+        },
+        {
+          "time": 6.225000000000099,
+          "event": "outcome",
+          "data": {
+            "agents": [
+              {
+                "id": 1,
+                "task": "HOLD",
+                "position": {
+                  "x": 1.9448897381473684,
+                  "y": 28.90793053530866,
+                  "z": 41.805281239405886
+                },
+                "target": {
+                  "x": 6.072296933784362,
+                  "y": 29.091313531778553,
+                  "z": 57.55164287332039
+                },
+                "impacts": 0
+              }
+            ],
+            "player": {
+              "x": 0.7102130417107172,
+              "y": 64.09592156249647,
+              "z": 65.42385172341905
+            },
+            "grace": 5.975000000000013,
+            "trust": 0.58,
+            "relay": {
+              "charges": 2,
+              "cooldownUntil": 0,
+              "attempts": 0,
+              "successes": 0,
+              "failures": 0
+            }
+          }
+        },
+        {
+          "time": 7.225000000000149,
+          "event": "outcome",
+          "data": {
+            "agents": [
+              {
+                "id": 1,
+                "task": "HOLD",
+                "position": {
+                  "x": 11.015576896388046,
+                  "y": 27.991641781080943,
+                  "z": 33.538568810020564
+                },
+                "target": {
+                  "x": 9.462625154300165,
+                  "y": 29.091313531778553,
+                  "z": 62.70928188909987
+                },
+                "impacts": 0
+              }
+            ],
+            "player": {
+              "x": 0.7102130417107172,
+              "y": 64.09592156249647,
+              "z": 65.42385172341905
+            },
+            "grace": 4.974999999999963,
+            "trust": 0.58,
+            "relay": {
+              "charges": 2,
+              "cooldownUntil": 0,
+              "attempts": 0,
+              "successes": 0,
+              "failures": 0
+            }
+          }
+        },
+        {
+          "time": 8.225000000000174,
+          "event": "outcome",
+          "data": {
+            "agents": [
+              {
+                "id": 1,
+                "task": "HOLD",
+                "position": {
+                  "x": 10.698866475747298,
+                  "y": 29.122595461566203,
+                  "z": 68.73479145501194
+                },
+                "target": {
+                  "x": 8.733048927739318,
+                  "y": 29.091313531778553,
+                  "z": 68.83817120034966
+                },
+                "impacts": 0
+              }
+            ],
+            "player": {
+              "x": 0.7102130417107172,
+              "y": 64.09592156249647,
+              "z": 65.42385172341905
+            },
+            "grace": 3.9749999999999153,
+            "trust": 0.58,
+            "relay": {
+              "charges": 2,
+              "cooldownUntil": 0,
+              "attempts": 0,
+              "successes": 0,
+              "failures": 0
+            }
+          }
+        },
+        {
+          "time": 9.23333333333345,
+          "event": "outcome",
+          "data": {
+            "agents": [
+              {
+                "id": 1,
+                "task": "HOLD",
+                "position": {
+                  "x": -1.8457569389237318,
+                  "y": 29.235762305637074,
+                  "z": 79.79566393183535
+                },
+                "target": {
+                  "x": 4.22669935339701,
+                  "y": 29.091313531778553,
+                  "z": 73.05579839745155
+                },
+                "impacts": 0
+              }
+            ],
+            "player": {
+              "x": 0.7102130417107172,
+              "y": 64.09592156249647,
+              "z": 65.42385172341905
+            },
+            "grace": 2.9666666666665855,
+            "trust": 0.58,
+            "relay": {
+              "charges": 2,
+              "cooldownUntil": 0,
+              "attempts": 0,
+              "successes": 0,
+              "failures": 0
+            }
+          }
+        },
+        {
+          "time": 10.241666666666726,
+          "event": "outcome",
+          "data": {
+            "agents": [
+              {
+                "id": 1,
+                "task": "HOLD",
+                "position": {
+                  "x": 0.6223390424030423,
+                  "y": 28.754844283212357,
+                  "z": 68.24859737641488
+                },
+                "target": {
+                  "x": -1.9370169502592345,
+                  "y": 29.091313531778553,
+                  "z": 73.37854750736642
+                },
+                "impacts": 0
+              }
+            ],
+            "player": {
+              "x": 0.7102130417107172,
+              "y": 64.09592156249647,
+              "z": 65.42385172341905
+            },
+            "grace": 1.9583333333332558,
+            "trust": 0.58,
+            "relay": {
+              "charges": 2,
+              "cooldownUntil": 0,
+              "attempts": 0,
+              "successes": 0,
+              "failures": 0
+            }
+          }
+        },
+        {
+          "time": 10.608333333333372,
+          "event": "trust",
+          "data": {
+            "time": 10.608333333333372,
+            "event": "relay-success",
+            "delta": 0.12,
+            "value": 0.7
+          }
+        },
+        {
+          "time": 10.608333333333372,
+          "event": "relay",
+          "data": {
+            "agent": 1,
+            "success": true,
+            "reason": "survival-rescue",
+            "bonus": 1.25,
+            "charges": 1,
+            "player": {
+              "x": 0.7102130417107172,
+              "y": 64.09592156249647,
+              "z": 65.42385172341905
+            },
+            "partner": {
+              "x": 6.592056375210768,
+              "y": 29.45460536674057,
+              "z": 70.40844411760034
+            },
+            "surface": 29.45460536674057
+          }
+        },
+        {
+          "time": 10.608333333333372,
+          "event": "relay",
+          "data": {
+            "agent": 1,
+            "success": false,
+            "reason": "cooldown",
+            "bonus": 0,
+            "charges": 1,
+            "player": {
+              "x": 0.7102130417107172,
+              "y": 64.09592156249647,
+              "z": 65.42385172341905
+            },
+            "partner": {
+              "x": 6.592056375210768,
+              "y": 29.45460536674057,
+              "z": 70.40844411760034
+            },
+            "surface": 29.45460536674057
+          }
+        }
+      ],
+      "memory": [
+        {
+          "event": "flight",
+          "action": "HOLD",
+          "progress": 66
+        },
+        {
+          "event": "flight",
+          "action": "HOLD",
+          "progress": 66
+        },
+        {
+          "event": "flight",
+          "action": "HOLD",
+          "progress": 66
+        },
+        {
+          "event": "flight",
+          "action": "HOLD",
+          "progress": 66
+        },
+        {
+          "event": "flight",
+          "action": "HOLD",
+          "progress": 66
+        },
+        {
+          "event": "flight",
+          "action": "HOLD",
+          "progress": 66
+        },
+        {
+          "event": "flight",
+          "action": "HOLD",
+          "progress": 66
+        },
+        {
+          "event": "flight",
+          "action": "HOLD",
+          "progress": 66
+        },
+        {
+          "event": "flight",
+          "action": "HOLD",
+          "progress": 66
+        }
+      ]
+    },
+    "ready": true,
+    "attitude": {
+      "pitch": 0,
+      "roll": 0,
+      "yaw": 0
+    },
+    "control": {
+      "pitch": 0,
+      "roll": 0,
+      "yaw": 0,
+      "boost": false
+    },
+    "rules": {
+      "mode": "challenge",
+      "graceSeconds": 10,
+      "shield": false,
+      "assisted": true
+    },
+    "companionSettings": {
+      "count": 1,
+      "formation": "wedge",
+      "behavior": "lead"
+    },
+    "companions": [
+      {
+        "id": 1,
+        "callsign": "KITE-1",
+        "position": {
+          "x": 6.592056375210768,
+          "y": 29.45460536674057,
+          "z": 70.40844411760034
+        },
+        "velocity": {
+          "x": 12.346827104580543,
+          "y": 2.472396238122097,
+          "z": 12.862469331015529
+        },
+        "target": {
+          "x": -3.1118410497565003,
+          "y": 29.091313531778553,
+          "z": 72.92600253855886
+        },
+        "task": "HOLD",
+        "surfaceDistance": 29.01350014458328,
+        "decisions": 54,
+        "impacts": 0,
+        "uncovered": false,
+        "deployed": true
+      }
+    ],
+    "companionEvents": [
+      {
+        "time": 0,
+        "agent": 1,
+        "event": "spawn",
+        "task": "FORMATION_FOLLOW"
+      },
+      {
+        "time": 0.008333333333333333,
+        "agent": 1,
+        "event": "task",
+        "task": "LEAD"
+      },
+      {
+        "time": 2.2166666666666615,
+        "agent": 1,
+        "event": "task",
+        "task": "HOLD"
+      }
+    ],
+    "shieldImpacts": 0,
+    "inputDevice": "Keyboard",
+    "mode": "running",
+    "runTime": 10.608333333333372,
+    "best": 0,
+    "speed": 66.00000113743357,
+    "altitude": 64.09592156249647,
+    "position": {
+      "x": 0.7102130417107172,
+      "y": 64.09592156249647,
+      "z": 65.42385172341905
+    },
+    "surfaceDistance": 51.44830954481708,
+    "surfaceLocked": false,
+    "grace": 2.8416666666665904,
+    "failureReason": null,
+    "world": {
+      "chunks": 24,
+      "buildings": 134,
+      "bridges": 37,
+      "islands": 3,
+      "collisionTriangles": 127622,
+      "renderTriangles": 232202
+    },
+    "adapter": {
+      "chunks": 24,
+      "bvhCount": 24,
+      "lastBroadPhaseCandidates": 2,
+      "lastQueries": 2
+    },
+    "streaming": {
+      "stateCounts": {
+        "UNLOADED": 0,
+        "QUEUED": 0,
+        "GENERATING": 1,
+        "READY": 0,
+        "ACTIVE": 24,
+        "RETIRING": 0,
+        "DISPOSED": 0
+      },
+      "loadedChunks": 24,
+      "activeChunks": 24,
+      "queuedChunks": 0,
+      "generatingChunks": 1,
+      "generatedTotal": 25,
+      "retiredTotal": 1,
+      "disposedGeometryCount": 14,
+      "bvhCount": 24,
+      "renderObjectCount": 285,
+      "estimatedCpuGeometryBytes": 27657816,
+      "generationAvgMs": 128.29199999928474,
+      "generationP95Ms": 1281.4000000059605,
+      "generationMinMs": 12.699999988079071,
+      "generationMaxMs": 1347,
+      "generationSampleCount": 25,
+      "maxLoadedChunks": 41,
+      "coverageComplete": true,
+      "rebaseCount": 0
+    },
+    "buffering": false,
+    "renderOrigin": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "render": {
+      "calls": 246,
+      "triangles": 151048,
+      "points": 560,
+      "lines": 64,
+      "fps": 57.04152564348165,
+      "geometries": 130,
+      "textures": 22,
+      "inversionAngle": 0
+    },
+    "seed": 334458,
+    "debugInput": false,
+    "selectedAircraft": "procedural",
+    "localModelCount": 0,
+    "cameraMode": "chase",
+    "cameraBlend": 0,
+    "fov": 63.37931054093682,
+    "proximity": 8.556322750004849e-19,
+    "proximityZone": "detached",
+    "visualStimulation": "standard",
+    "recordingHintVisible": true,
+    "worldPreset": "sakura",
+    "worldMode": "stable",
+    "generatorVersion": 2,
+    "worldFingerprint": 3887776065,
+    "revisionHistory": null,
+    "chunkStates": [
+      {
+        "key": "0:0",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 1198553786
+      },
+      {
+        "key": "0:-1",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 4076409833
+      },
+      {
+        "key": "-1:0",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 285374269
+      },
+      {
+        "key": "1:0",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 1192692585
+      },
+      {
+        "key": "0:1",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 759607647
+      },
+      {
+        "key": "-1:-1",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 362762849
+      },
+      {
+        "key": "1:-1",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 113359827
+      },
+      {
+        "key": "-1:1",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 2745740256
+      },
+      {
+        "key": "1:1",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 3484269599
+      },
+      {
+        "key": "0:-2",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 2998100976
+      },
+      {
+        "key": "-2:0",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 3637142482
+      },
+      {
+        "key": "2:0",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 655365684
+      },
+      {
+        "key": "-1:-2",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 3788906424
+      },
+      {
+        "key": "1:-2",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 3842934674
+      },
+      {
+        "key": "-2:-1",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 691181459
+      },
+      {
+        "key": "2:-1",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 4155033499
+      },
+      {
+        "key": "-2:1",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 1725067464
+      },
+      {
+        "key": "2:1",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 558625995
+      },
+      {
+        "key": "-2:-2",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 2390288180
+      },
+      {
+        "key": "2:-2",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 3532469619
+      },
+      {
+        "key": "0:2",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 214738670
+      },
+      {
+        "key": "-1:2",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 296841731
+      },
+      {
+        "key": "1:2",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 570805431
+      },
+      {
+        "key": "-2:2",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 2467931847
+      },
+      {
+        "key": "2:2",
+        "state": "GENERATING",
+        "revision": 0,
+        "fingerprint": null
+      }
+    ]
+  }
+}

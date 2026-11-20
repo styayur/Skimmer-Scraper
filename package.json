@@ -1,6 +1,6 @@
 {
   "name": "skimmer-scraper",
-  "version": "0.2.0",
+  "version": "0.3.0-rc.1",
   "description": "A close-surface 3D flight challenge through a sakura-dusk megacity.",
   "scripts": {
     "test": "vitest run",
@@ -15,7 +15,11 @@
     "acceptance:v020": "node scripts/run-v02-acceptance.mjs --phase 5",
     "benchmark:gpu": "node scripts/run-real-gpu-benchmark.mjs",
     "verify:live": "node scripts/verify-live-pages.mjs",
-    "finalize:live": "node scripts/finalize-v020-live.mjs"
+    "finalize:live": "node scripts/finalize-v020-live.mjs",
+    "benchmark:v030": "node scripts/final-gpu-evidence.mjs",
+    "evidence:model": "node scripts/model-evidence.mjs",
+    "release:privacy": "node scripts/release-privacy.mjs",
+    "release:package": "python scripts/package-release.py"
   },
   "repository": {
     "type": "git",

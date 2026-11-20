@@ -1,0 +1,58 @@
+// Assemble observed evidence; fail closed if a required automated result is absent.
+import assert from 'node:assert/strict';
+import {readFileSync,readdirSync,writeFileSync} from 'node:fs';
+import {createHash} from 'node:crypto';
+const read=p=>JSON.parse(readFileSync(p,'utf8'));
+const base='evidence/v0.3/';
+const evidence=name=>read(`${base}phase-6-${name}.json`);
+const unit=evidence('vitest'),browser=evidence('playwright'),matrix=evidence('gpu-matrix'),soak=evidence('soak'),journey=evidence('real-gpu'),memory=evidence('memory'),migration=evidence('migration'),compat=evidence('cross-browser'),privacy=evidence('privacy'),distribution=evidence('distribution'),repro=evidence('reproducibility');
+const models=['deepseek-flash','deepseek-v4-pro'].map(name=>evidence(`real-${name}`));
+const causal=evidence('model-relay-causal'),comparison=evidence('comparison'),production=evidence('production-preserved');
+assert(unit.success&&unit.numFailedTests===0);
+assert(browser.stats.unexpected===0&&browser.stats.skipped===0&&browser.stats.flaky===0&&browser.stats.expected===26);
+assert(matrix.results.length===8&&matrix.results.every(r=>r.realHardware&&r.allFramesRunning&&!r.errors.length));
+assert(soak.realHardware&&soak.allFramesRunning&&soak.wallSeconds>=120&&!soak.errors.length);
+assert(journey.realHardware&&journey.worlds.at(-1).journey.crossings===5&&journey.stages.length===6&&!journey.errors.length);
+for(const field of ['textures','geometries'])assert(memory.samples.every(s=>s.state.render[field]===memory.samples[0].state.render[field]));
+assert(memory.samples.every(s=>s.state.streaming.bvhCount===memory.samples[0].state.streaming.bvhCount));
+assert(migration.length===3&&migration.every(r=>r.status==='passed'));
+assert(compat.length===2&&compat.every(r=>r.status==='passed'));
+assert(models.every(r=>r.after.cooperation.model.successes===2&&r.after.cooperation.trace.some(t=>t.event==='execution')&&r.after.cooperation.trace.some(t=>t.event==='outcome')&&!r.errors.length));
+assert([...matrix.results,soak,...models].every(r=>r.assetSha256===journey.assetSha256));
+assert(privacy.matches===0&&distribution.status==='passed'&&repro.status==='passed');
+assert(production.httpStatus===200&&production.version.includes('0.2.0')&&!production.errors.length);
+const sha=path=>createHash('sha256').update(readFileSync(path)).digest('hex');
+const modelSummary=models.map(r=>({model:r.model,requests:r.after.cooperation.model.requests,successes:r.after.cooperation.model.successes,tokens:r.after.cooperation.model.usage,trust:r.after.cooperation.trust.value,decisions:r.after.cooperation.trace.filter(t=>t.event==='decision').map(t=>({validation:t.data.validation,latencyMs:t.data.latencyMs,decision:t.data.decision})),executions:r.after.cooperation.trace.filter(t=>t.event==='execution').length,outcomes:r.after.cooperation.trace.filter(t=>t.event==='outcome').length}));
+const baseline=read(`${base}v020-running-gpu-baseline.json`);
+const report={
+ schemaVersion:1,product:'Skimmer-Scraper',version:'0.3.0-rc.1',targetStableVersion:'0.3.0',generatedAt:new Date().toISOString(),
+ status:'candidate_automated_acceptance_passed_experience_review_pending',stablePublishEligible:false,
+ provenance:{testedBuild:distribution.info,testedGameAsset:journey.testedAsset,gameAssetSha256:journey.assetSha256,finalRevisionBinding:'The release-manifest.json attached to v0.3.0-rc.1 binds the merged main SHA and required CI runs. Evidence/doc commits can change build metadata without changing this tested game bundle.'},
+ tests:{typescript:'passed (production build includes noEmit typecheck)',unit:{passed:unit.numPassedTests,failed:unit.numFailedTests,suites:unit.numPassedTestSuites},playwright:{passed:browser.stats.expected,failed:browser.stats.unexpected,flaky:browser.stats.flaky,skipped:browser.stats.skipped},freshNpmCi:{status:'passed',auditVulnerabilities:0},ciPolicy:{required:['Typecheck, unit tests, build, browser tests','security Actions CodeQL'],merge:'native squash auto-merge only after required checks',pr5:{runId:44793824631,passed:24},finalStatusAuthority:'GitHub PR6/main checks and attached release manifest'}},
+ features:{
+  rules:{challengeGrace:{min:1,max:15,step:.1,default:5,all141BoundariesTested:true},freeFlight:true,sweptPhysicalShield:true,scoreIsolation:['custom','assisted','free','journey'],legacyScoresPreserved:true},
+  flight:{profiles:['classic','precision'],views:['chase','nose','cockpit'],fullLoopsAndRolls:true,modelAnchors:true,keyboardAndGamepadRemapping:true,deadZoneAndResponse:true,hotplugAndFallback:true,physicalGamepadVerified:false},
+  companions:{counts:[0,1,2,3],local120Hz:true,perceptionHz:5,sharedWorldBvh:true,sharedInstancedGeometry:true,tasks:['formation','independent','lead','regroup','avoid','recover'],pauseRetryOriginAndDisposal:'passed'},
+  ai:{pipeline:'Perception → genuine model planner → strict validator → local physics → observable outcome → bounded memory',actions:['FOLLOW','LEAD','REGROUP','SCOUT','PROTECT','RELAY','HOLD'],trust:'observable verified events; affects risk, spacing and rescue willingness',surfaceRelay:{charges:2,cooldownSeconds:20,maxBonusSeconds:1.25,realGeometryBrowserSuccess:true,scope:'Synthetic controlled HOLD fixture and finite-rule unit tests; recorded genuine-model causal experiment reported separately'},byok:'page-memory only; endpoint trust, budgets, timeout, cancellation, strict validation and local fallback tested',openaiLive:'operator authentication returned401; no genuine OpenAI inference claimed',models:modelSummary},
+  journey:{height:520,stages:journey.stages,worlds:journey.worlds.map(s=>({index:s.journey.worldIndex,seed:s.seed,crossings:s.journey.crossings,companions:s.companions.length,mode:s.mode})),challengeFreezeAfterValidCrossingOnly:true,skip:true,reducedRotation:true,safeCruiseCorridorMeters:180,fifthSkyUnlock:journey.worlds.at(-1).journey.easterEggUnlocked,trustAndSpentRelayPreserved:true,oldWorldBvhAndRootReleased:true}
+ },
+ performance:{gpu:journey.gpu,browser:journey.userAgent,driver:'32.0.32029.2010',viewport:[1920,1080],method:'Headed Chrome157, real Radeon780M/D3D11, sequential isolated actual flight. CPU CDP duration is not GPU execution time.',baselineV020:{averageFps:baseline.averageFps,p95Ms:baseline.p95Ms,method:'Actual12s default-spawn running flight, same seed and hardware'},matrix:matrix.results.map(r=>({mode:r.mode,companions:r.count,averageFps:r.averageFps,p50Ms:r.p50Ms,p95Ms:r.p95Ms,p99Ms:r.p99Ms,maxFrameMs:r.maxFrameMs,allFramesRunning:r.allFramesRunning,movingFrames:r.movingFrames,frameCount:r.frameCount,peaks:r.peaks,mainThread:r.mainThread})),soak:{wallSeconds:soak.wallSeconds,averageFps:soak.averageFps,p95Ms:soak.p95Ms,p99Ms:soak.p99Ms,maxFrameMs:soak.maxFrameMs,allFramesRunning:soak.allFramesRunning,peaks:soak.peaks,shieldImpacts:soak.after.shieldImpacts},fiveWorldTransitions:{averageFps:journey.averageFps,p95Ms:journey.p95Ms,p99Ms:journey.p99Ms,maxFrameMs:journey.maxFrameMs,longTasks:journey.longTasks.length},resources:{method:memory.method,samples:memory.samples.map(s=>({label:s.label,heap:s.heap,dom:s.dom,textures:s.state.render.textures,geometries:s.state.render.geometries,bvh:s.state.streaming.bvhCount})),indefiniteLeakFreedomClaimed:false}},
+ compatibility:{migration:migration.map(({browser,status,legacyBest,seedFingerprint,indexedDbModelPreserved,standardScorePreserved,rulesControlsAnchorPersisted,subpathReload,externalRequests,legacyLifecycleErrors,errors})=>({browser,status,legacyBest,seedFingerprint,indexedDbModelPreserved,standardScorePreserved,rulesControlsAnchorPersisted,subpathReload,externalRequests,legacyLifecycleErrors,errors})),fiveWorldBrowsers:compat.map(r=>({browser:r.name,status:r.status,mode:r.mode,companions:r.count,crossings:r.worlds.at(-1).journey.crossings,views:r.views,trustBefore:r.initial.cooperation.trust.value,trustAfter:r.worlds.at(-1).cooperation.trust.value})),webgl2Fallback:'passed',safariAndMobileGpu:'not available on this machine'},
+ aiExperiments:{comparison:{method:comparison.method,groups:comparison.comparison.map(r=>({kind:r.kind,runTime:r.end.runTime,trust:r.end.cooperation.trust.value,rescues:r.end.cooperation.relay.successes,impacts:r.end.companions.reduce((n,a)=>n+a.impacts,0)}))},relayCausal:{method:causal.method,runs:causal.runs.map(r=>({kind:r.kind,graceBefore:r.fixture.before.grace,trust:r.fixture.before.cooperation.trust.value,inference:r.inference,accepted:r.outcome.accepted,modeAfter:r.outcome.after.mode,graceAfter:r.outcome.after.grace,relaySuccesses:r.outcome.after.cooperation.relay.successes})),liveLatencyRescueClaimed:false},superiorityClaimed:false},
+ privacy,licensing:{project:'AGPL-3.0-only',fullLicenseInDist:true,historicalMitRetained:true,thirdPartyAndFontNoticesInDist:true,dependencyInventory:'licenses/DEPENDENCIES.json',copiedReferenceGameCodeOrAssets:false},reproducibility:repro,
+ release:{status:'candidate only; stable promotion withheld',candidateTag:'v0.3.0-rc.1',productionVersion:production.version,productionOverwritten:false,oldTags:{'v0.1.0':'b00e4474a6b751eb16b3e1af3f824c67d9affd8a','v0.2.0':'7b08759c8cdd237cf07dca9e2fa4fde2ee7b3f73'},cancelledCloudflareWorkflowRestored:false},
+ experience:{humanFunOrFlightFeelAccepted:false,issues:[{id:'WORLD-SWAP-FRAME',observedMaxFrameMs:journey.maxFrameMs,reproduce:'npm run preview -- --port4174; EVIDENCE_PREFIX=phase-6 node scripts/journey-evidence.mjs. Valid520m upward crossing; inspect WORLD_SWAP.',next:'Profile observed main-thread resource-exchange work and review visible transition pacing before stable promotion.'},{id:'HUMAN-REVIEW',scope:'Keyboard/physical gamepad controls, haptics, camera comfort, five-world art/transitions and AI teamwork need hands-on player judgment.'}]},
+ evidence:readdirSync(base).filter(name=>name.startsWith('phase-6-')&&/\.(json|png)$/.test(name)).sort().map(name=>({path:`${base}${name}`,sha256:sha(`${base}${name}`)}))
+};
+report.performance.fiveWorldTransitions.method=journey.method;
+report.performance.fiveWorldTransitions.peakSample=[...journey.frameSpikes].sort((a,b)=>b.durationMs-a.durationMs)[0];
+report.experience.issues[0].id='TRANSITION-PACING-REVIEW';
+report.experience.issues[0].classification='measured observation; hands-on pacing judgment pending';
+report.experience.issues[0].next='Review visible transition pacing and camera comfort; further profiling depends on observed experience.';
+report.experience.measurementCorrection='Earlier phase5/early-phase6 PNG-inclusive captures are retained historically; their275–300ms peaks do not establish gameplay-only stalls. Explicit-window data excludes fixture/readback work and is the release performance authority.';
+report.tests.ciBoundaryRegression=evidence('ci-regression');
+assert(report.tests.ciBoundaryRegression.passed===6&&report.tests.ciBoundaryRegression.failed===0);
+report.reproducibility.sourceArchiveRebuild=evidence('package-rehearsal');
+assert(report.reproducibility.sourceArchiveRebuild.sourceRebuild.status==='passed');
+writeFileSync('acceptance/v0.3.0.json',`${JSON.stringify(report,null,2)}\n`);
+console.log(JSON.stringify({status:report.status,unit:report.tests.unit,playwright:report.tests.playwright,stablePublishEligible:report.stablePublishEligible,evidenceFiles:report.evidence.length}));

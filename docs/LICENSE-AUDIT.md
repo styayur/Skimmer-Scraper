@@ -21,3 +21,8 @@ packages. Player-imported GLBs are local user data, not relicensed project asset
 The live UI links the complete corresponding source repository. Modified network
 deployments must satisfy AGPL section 13. Contributors must have authority to
 submit their work under AGPL-3.0-only and preserve third-party notices.
+
+The v0.3 candidate static build now emits the full LICENSE, CREDITS and all
+licenses/ notices/inventory, and pins its source link to the exact build commit.
+Both project license texts and runtime/font notices are verified through HTTP
+by the distribution browser test. No reference-game code or assets were copied.

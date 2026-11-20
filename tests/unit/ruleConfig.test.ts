@@ -4,6 +4,16 @@ import { createRunRules, updateRunRules } from '../../src/game/runRules';
 import { bestStorageKey, defaultScoreContext } from '../../src/game/storage';
 
 describe('v0.3 rule configurations', () => {
+  it('honors every selectable tenth-second boundary at120Hz', () => {
+    for (let tenth = 10; tenth <= 150; tenth++) {
+      const graceSeconds = tenth / 10;
+      let state = createRunRules({ graceSeconds });
+      const frames = Math.round(graceSeconds * 120);
+      for (let frame = 0; frame < frames - 1; frame++) state = updateRunRules(state, { distance: null }, 1 / 120);
+      expect(state.status, `before${graceSeconds}s`).toBe('running');
+      expect(updateRunRules(state, { distance: null }, 1 / 120).status, `at${graceSeconds}s`).toBe('failed');
+    }
+  });
   it('clamps untrusted settings and keeps standard defaults', () => {
     expect(normalizeRules().graceSeconds).toBe(5);
     expect(normalizeRules({ graceSeconds: NaN }).graceSeconds).toBe(5);

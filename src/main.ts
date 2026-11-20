@@ -1,6 +1,7 @@
 import '@fontsource-variable/syne';
 import '@fontsource-variable/ibm-plex-sans';
 import './styles.css';
+import { version } from '../package.json';
 import { loadRules, normalizeRules, saveRules, type RuleConfig } from './game/ruleConfig';
 import { RunSettingsPanel } from './ui/RunSettings';
 import { loadControls, shapeInput } from './flight/controlSettings';
@@ -612,6 +613,7 @@ const simulateFixedStep = (dt: number, holdPosition = false): boolean => {
 const finishRun = (): void => {
   if (!flightState || runRules.status !== 'failed' || mode === 'failed') return;
   mode = 'failed';
+  symbiosis.suspend();
   keyboard.setEnabled(false);
   stepRunner.reset();
   audio.fail();
@@ -664,6 +666,7 @@ const startRun = async (): Promise<void> => {
   closeLibrary(false);
   closeWorldPanel(false);
   mode = 'title';
+  symbiosis.suspend();
   keyboard.setEnabled(false);
   stepRunner.reset();
   audio.stop();
@@ -701,6 +704,7 @@ const startRun = async (): Promise<void> => {
 const debugPause = (): boolean => {
   if (mode !== 'running') return mode === 'paused';
   mode = 'paused';
+  symbiosis.suspend();
   keyboard.setEnabled(false);
   stepRunner.reset();
   audio.pause();
@@ -723,6 +727,7 @@ const returnToTitle = async (): Promise<void> => {
   closeLibrary(false);
   closeWorldPanel(false);
   mode = 'title';
+  symbiosis.suspend();
   keyboard.setEnabled(false);
   stepRunner.reset();
   audio.stop();
@@ -767,6 +772,7 @@ const openLibrary = (): void => {
   modeBeforeLibrary = mode;
   if (mode === 'running') {
     mode = 'paused';
+    symbiosis.suspend();
     keyboard.setEnabled(false);
     stepRunner.reset();
     audio.pause();
@@ -795,6 +801,7 @@ const openWorldPanel = (): void => {
   modeBeforeWorld = mode;
   if (mode === 'running') {
     mode = 'paused';
+    symbiosis.suspend();
     keyboard.setEnabled(false);
     stepRunner.reset();
     audio.pause();
@@ -967,7 +974,7 @@ const handleAction = (action: GameAction): void => {
     else if (mode === 'paused') debugResume();
     return;
   }
-  if (action === 'pause') { if (mode === 'running') debugPause(); else if (mode === 'paused') debugResume(); return; }
+  if (action === 'pause') { handleAction('close'); return; }
   if (action === 'library') {
     if (ui.isLibraryOpen()) closeLibrary();
     else openLibrary();
@@ -1082,7 +1089,7 @@ const boot = async (): Promise<void> => {
     aiRequest: () => symbiosis.request(),
     aiReplay: (decision, perception) => symbiosis.replay(decision, perception),
     relay: (id) => { if (mode === 'running') runRules = symbiosis.relayAttempt(id); return debugSnapshot(); },
-    version: '0.2.0',
+    version,
     toggleCamera: toggleCameraMode,
     setCameraMode: applyCameraMode,
     snapshot: debugSnapshot,

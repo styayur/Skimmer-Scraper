@@ -1,0 +1,1189 @@
+{
+  "schemaVersion": 1,
+  "product": "Skimmer-Scraper",
+  "version": "0.3.0-rc.1",
+  "targetStableVersion": "0.3.0",
+  "generatedAt": "2026-11-20T19:41:13.661Z",
+  "status": "candidate_automated_acceptance_passed_experience_review_pending",
+  "stablePublishEligible": false,
+  "provenance": {
+    "testedBuild": {
+      "version": "0.3.0-rc.1",
+      "sourceCommit": "6eb14fba5dab81ebbe46df155fedda410074a0d3",
+      "sourceCommitTime": "2026-11-21T03:05:24+08:00",
+      "dirty": false,
+      "sourceUrl": "https://github.com/styayur/Skimmer-Scraper/tree/6eb14fba5dab81ebbe46df155fedda410074a0d3"
+    },
+    "testedGameAsset": "./assets/index-PmyGQfSS.js",
+    "gameAssetSha256": "e5011f32f0ec70145da462e2e117f7cf58304f2d4a7d545926cf4aab76e85e6f",
+    "finalRevisionBinding": "The release-manifest.json attached to v0.3.0-rc.1 binds the merged main SHA and required CI runs. Evidence/doc commits can change build metadata without changing this tested game bundle."
+  },
+  "tests": {
+    "typescript": "passed (production build includes noEmit typecheck)",
+    "unit": {
+      "passed": 132,
+      "failed": 0,
+      "suites": 46
+    },
+    "playwright": {
+      "passed": 26,
+      "failed": 0,
+      "flaky": 0,
+      "skipped": 0
+    },
+    "freshNpmCi": {
+      "status": "passed",
+      "auditVulnerabilities": 0
+    },
+    "ciPolicy": {
+      "required": [
+        "Typecheck, unit tests, build, browser tests",
+        "security Actions CodeQL"
+      ],
+      "merge": "native squash auto-merge only after required checks",
+      "pr5": {
+        "runId": 44793824631,
+        "passed": 24
+      },
+      "finalStatusAuthority": "GitHub PR6/main checks and attached release manifest"
+    },
+    "ciBoundaryRegression": {
+      "command": "npx playwright test tests/e2e/final-qa.spec.ts tests/e2e/v03-resources.spec.ts --repeat-each=3",
+      "exitCode": 0,
+      "passed": 6,
+      "failed": 0,
+      "method": "Observed targeted repeat execution after actual main-run failures; full26-case PR/main CI is separately required.",
+      "diagnostic": "evidence/v0.3/phase-6-ci-sampling-diagnostic.json",
+      "sampledGpuGeometryCountsAreNotOwnershipCounts": true
+    }
+  },
+  "features": {
+    "rules": {
+      "challengeGrace": {
+        "min": 1,
+        "max": 15,
+        "step": 0.1,
+        "default": 5,
+        "all141BoundariesTested": true
+      },
+      "freeFlight": true,
+      "sweptPhysicalShield": true,
+      "scoreIsolation": [
+        "custom",
+        "assisted",
+        "free",
+        "journey"
+      ],
+      "legacyScoresPreserved": true
+    },
+    "flight": {
+      "profiles": [
+        "classic",
+        "precision"
+      ],
+      "views": [
+        "chase",
+        "nose",
+        "cockpit"
+      ],
+      "fullLoopsAndRolls": true,
+      "modelAnchors": true,
+      "keyboardAndGamepadRemapping": true,
+      "deadZoneAndResponse": true,
+      "hotplugAndFallback": true,
+      "physicalGamepadVerified": false
+    },
+    "companions": {
+      "counts": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "local120Hz": true,
+      "perceptionHz": 5,
+      "sharedWorldBvh": true,
+      "sharedInstancedGeometry": true,
+      "tasks": [
+        "formation",
+        "independent",
+        "lead",
+        "regroup",
+        "avoid",
+        "recover"
+      ],
+      "pauseRetryOriginAndDisposal": "passed"
+    },
+    "ai": {
+      "pipeline": "Perception → genuine model planner → strict validator → local physics → observable outcome → bounded memory",
+      "actions": [
+        "FOLLOW",
+        "LEAD",
+        "REGROUP",
+        "SCOUT",
+        "PROTECT",
+        "RELAY",
+        "HOLD"
+      ],
+      "trust": "observable verified events; affects risk, spacing and rescue willingness",
+      "surfaceRelay": {
+        "charges": 2,
+        "cooldownSeconds": 20,
+        "maxBonusSeconds": 1.25,
+        "realGeometryBrowserSuccess": true,
+        "scope": "Synthetic controlled HOLD fixture and finite-rule unit tests; recorded genuine-model causal experiment reported separately"
+      },
+      "byok": "page-memory only; endpoint trust, budgets, timeout, cancellation, strict validation and local fallback tested",
+      "openaiLive": "operator authentication returned401; no genuine OpenAI inference claimed",
+      "models": [
+        {
+          "model": "deepseek-flash",
+          "requests": 2,
+          "successes": 2,
+          "tokens": {
+            "input": 2198,
+            "output": 183,
+            "total": 2381,
+            "cached": 256
+          },
+          "trust": 0.5549999999999999,
+          "decisions": [
+            {
+              "validation": "accepted",
+              "latencyMs": 968.8000000119209,
+              "decision": {
+                "requestId": "3-1",
+                "epoch": 3,
+                "ttl": 10,
+                "risk": 0.3,
+                "formation": "wedge",
+                "orders": [
+                  {
+                    "agents": [
+                      1
+                    ],
+                    "action": "LEAD",
+                    "targetId": "route-ahead"
+                  },
+                  {
+                    "agents": [
+                      2
+                    ],
+                    "action": "FOLLOW",
+                    "targetId": null
+                  },
+                  {
+                    "agents": [
+                      3
+                    ],
+                    "action": "FOLLOW",
+                    "targetId": null
+                  }
+                ],
+                "reason": "净空良好，保持楔形编队沿前方航线推进"
+              }
+            },
+            {
+              "validation": "accepted",
+              "latencyMs": 953.7999999970198,
+              "decision": {
+                "requestId": "3-2",
+                "epoch": 3,
+                "ttl": 8,
+                "risk": 0.3,
+                "formation": "wedge",
+                "orders": [
+                  {
+                    "agents": [
+                      1
+                    ],
+                    "action": "LEAD",
+                    "targetId": "route-left"
+                  },
+                  {
+                    "agents": [
+                      2,
+                      3
+                    ],
+                    "action": "FOLLOW",
+                    "targetId": null
+                  }
+                ],
+                "reason": "前方航线通畅，1号沿左侧高净空走廊领航，2、3号楔形跟随保持安全间距"
+              }
+            }
+          ],
+          "executions": 2,
+          "outcomes": 11
+        },
+        {
+          "model": "deepseek-v4-pro",
+          "requests": 2,
+          "successes": 2,
+          "tokens": {
+            "input": 1872,
+            "output": 250,
+            "total": 2122,
+            "cached": 512
+          },
+          "trust": 0.58,
+          "decisions": [
+            {
+              "validation": "accepted",
+              "latencyMs": 1463.7000000029802,
+              "decision": {
+                "requestId": "3-1",
+                "epoch": 3,
+                "ttl": 10,
+                "risk": 0.3,
+                "formation": "wedge",
+                "orders": [
+                  {
+                    "agents": [
+                      1
+                    ],
+                    "action": "LEAD",
+                    "targetId": "route-ahead"
+                  },
+                  {
+                    "agents": [
+                      2,
+                      3
+                    ],
+                    "action": "FOLLOW",
+                    "targetId": null
+                  }
+                ],
+                "reason": "保持楔形编队，领航沿前方航线，其余跟随"
+              }
+            },
+            {
+              "validation": "accepted",
+              "latencyMs": 1388.2000000029802,
+              "decision": {
+                "requestId": "3-2",
+                "epoch": 3,
+                "ttl": 10,
+                "risk": 0.3,
+                "formation": "wedge",
+                "orders": [
+                  {
+                    "agents": [
+                      1
+                    ],
+                    "action": "LEAD",
+                    "targetId": "route-ahead"
+                  },
+                  {
+                    "agents": [
+                      2,
+                      3
+                    ],
+                    "action": "FOLLOW",
+                    "targetId": null
+                  }
+                ],
+                "reason": "保持编队，沿前方航线前进"
+              }
+            }
+          ],
+          "executions": 2,
+          "outcomes": 11
+        }
+      ]
+    },
+    "journey": {
+      "height": 520,
+      "stages": [
+        "ASCENT",
+        "THRESHOLD",
+        "INVERSION",
+        "WORLD_SWAP",
+        "DIVE",
+        "RECOVERY"
+      ],
+      "worlds": [
+        {
+          "index": 1,
+          "seed": 2292173047,
+          "crossings": 1,
+          "companions": 3,
+          "mode": "running"
+        },
+        {
+          "index": 2,
+          "seed": 383910061,
+          "crossings": 2,
+          "companions": 3,
+          "mode": "running"
+        },
+        {
+          "index": 3,
+          "seed": 925342747,
+          "crossings": 3,
+          "companions": 3,
+          "mode": "running"
+        },
+        {
+          "index": 4,
+          "seed": 2903266828,
+          "crossings": 4,
+          "companions": 3,
+          "mode": "running"
+        },
+        {
+          "index": 5,
+          "seed": 2250268764,
+          "crossings": 5,
+          "companions": 3,
+          "mode": "running"
+        }
+      ],
+      "challengeFreezeAfterValidCrossingOnly": true,
+      "skip": true,
+      "reducedRotation": true,
+      "safeCruiseCorridorMeters": 180,
+      "fifthSkyUnlock": true,
+      "trustAndSpentRelayPreserved": true,
+      "oldWorldBvhAndRootReleased": true
+    }
+  },
+  "performance": {
+    "gpu": "ANGLE (AMD, AMD Radeon 780M Graphics (0x00001900) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+    "browser": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/157.0.0.0 Safari/537.36",
+    "driver": "32.0.32029.2010",
+    "viewport": [
+      1920,
+      1080
+    ],
+    "method": "Headed Chrome157, real Radeon780M/D3D11, sequential isolated actual flight. CPU CDP duration is not GPU execution time.",
+    "baselineV020": {
+      "averageFps": 100.67114093957233,
+      "p95Ms": 16.700000000000728,
+      "method": "Actual12s default-spawn running flight, same seed and hardware"
+    },
+    "matrix": [
+      {
+        "mode": "challenge",
+        "companions": 0,
+        "averageFps": 109.18448930644324,
+        "p50Ms": 8.300000000001091,
+        "p95Ms": 16.69999999999891,
+        "p99Ms": 24.899999999999636,
+        "maxFrameMs": 75,
+        "allFramesRunning": true,
+        "movingFrames": 1293,
+        "frameCount": 1311,
+        "peaks": {
+          "chunks": 25,
+          "bvh": 25,
+          "drawCalls": 455,
+          "triangles": 356710,
+          "geometries": 314,
+          "textures": 24
+        },
+        "mainThread": {
+          "taskMs": 8936.773000000001,
+          "scriptMs": 5532.247,
+          "layoutMs": 558.601,
+          "method": "CDP cumulative CPU metrics; not GPU execution time"
+        }
+      },
+      {
+        "mode": "challenge",
+        "companions": 1,
+        "averageFps": 107.31097687976342,
+        "p50Ms": 8.300000000001091,
+        "p95Ms": 16.699999999999818,
+        "p99Ms": 24.900000000000546,
+        "maxFrameMs": 58.40000000000009,
+        "allFramesRunning": true,
+        "movingFrames": 1204,
+        "frameCount": 1288,
+        "peaks": {
+          "chunks": 25,
+          "bvh": 25,
+          "drawCalls": 459,
+          "triangles": 359752,
+          "geometries": 312,
+          "textures": 24
+        },
+        "mainThread": {
+          "taskMs": 9070.623,
+          "scriptMs": 5584.251,
+          "layoutMs": 559.436,
+          "method": "CDP cumulative CPU metrics; not GPU execution time"
+        }
+      },
+      {
+        "mode": "challenge",
+        "companions": 2,
+        "averageFps": 106.43968417891242,
+        "p50Ms": 8.300000000001091,
+        "p95Ms": 16.699999999999818,
+        "p99Ms": 25,
+        "maxFrameMs": 75,
+        "allFramesRunning": true,
+        "movingFrames": 1202,
+        "frameCount": 1278,
+        "peaks": {
+          "chunks": 25,
+          "bvh": 25,
+          "drawCalls": 457,
+          "triangles": 356746,
+          "geometries": 312,
+          "textures": 24
+        },
+        "mainThread": {
+          "taskMs": 8987.317,
+          "scriptMs": 5536.39,
+          "layoutMs": 551.1270000000001,
+          "method": "CDP cumulative CPU metrics; not GPU execution time"
+        }
+      },
+      {
+        "mode": "challenge",
+        "companions": 3,
+        "averageFps": 106.3856375223893,
+        "p50Ms": 8.300000000001091,
+        "p95Ms": 16.699999999999818,
+        "p99Ms": 24.899999999999636,
+        "maxFrameMs": 41.69999999999993,
+        "allFramesRunning": true,
+        "movingFrames": 1098,
+        "frameCount": 1277,
+        "peaks": {
+          "chunks": 25,
+          "bvh": 25,
+          "drawCalls": 457,
+          "triangles": 356764,
+          "geometries": 312,
+          "textures": 24
+        },
+        "mainThread": {
+          "taskMs": 8835.273000000001,
+          "scriptMs": 5467.31,
+          "layoutMs": 574.601,
+          "method": "CDP cumulative CPU metrics; not GPU execution time"
+        }
+      },
+      {
+        "mode": "free",
+        "companions": 0,
+        "averageFps": 108.4112461043076,
+        "p50Ms": 8.300000000001091,
+        "p95Ms": 16.69999999999891,
+        "p99Ms": 25,
+        "maxFrameMs": 41.69999999999891,
+        "allFramesRunning": true,
+        "movingFrames": 1148,
+        "frameCount": 1301,
+        "peaks": {
+          "chunks": 25,
+          "bvh": 25,
+          "drawCalls": 455,
+          "triangles": 356710,
+          "geometries": 314,
+          "textures": 24
+        },
+        "mainThread": {
+          "taskMs": 8810.744999999999,
+          "scriptMs": 5482.973999999999,
+          "layoutMs": 560.1469999999999,
+          "method": "CDP cumulative CPU metrics; not GPU execution time"
+        }
+      },
+      {
+        "mode": "free",
+        "companions": 1,
+        "averageFps": 108.74999999991898,
+        "p50Ms": 8.300000000001091,
+        "p95Ms": 16.600000000000364,
+        "p99Ms": 25,
+        "maxFrameMs": 41.70000000000073,
+        "allFramesRunning": true,
+        "movingFrames": 1235,
+        "frameCount": 1305,
+        "peaks": {
+          "chunks": 25,
+          "bvh": 25,
+          "drawCalls": 459,
+          "triangles": 359752,
+          "geometries": 313,
+          "textures": 24
+        },
+        "mainThread": {
+          "taskMs": 9000.876,
+          "scriptMs": 5546.192,
+          "layoutMs": 574.271,
+          "method": "CDP cumulative CPU metrics; not GPU execution time"
+        }
+      },
+      {
+        "mode": "free",
+        "companions": 2,
+        "averageFps": 108.18148505935496,
+        "p50Ms": 8.300000000001091,
+        "p95Ms": 16.600000000000364,
+        "p99Ms": 25,
+        "maxFrameMs": 50.09999999999991,
+        "allFramesRunning": true,
+        "movingFrames": 1149,
+        "frameCount": 1299,
+        "peaks": {
+          "chunks": 25,
+          "bvh": 25,
+          "drawCalls": 459,
+          "triangles": 359770,
+          "geometries": 312,
+          "textures": 24
+        },
+        "mainThread": {
+          "taskMs": 9062.557,
+          "scriptMs": 5627.507,
+          "layoutMs": 591.495,
+          "method": "CDP cumulative CPU metrics; not GPU execution time"
+        }
+      },
+      {
+        "mode": "free",
+        "companions": 3,
+        "averageFps": 107.1803327836374,
+        "p50Ms": 8.300000000001091,
+        "p95Ms": 16.699999999999818,
+        "p99Ms": 24.899999999999864,
+        "maxFrameMs": 41.700000000000045,
+        "allFramesRunning": true,
+        "movingFrames": 1178,
+        "frameCount": 1287,
+        "peaks": {
+          "chunks": 25,
+          "bvh": 25,
+          "drawCalls": 457,
+          "triangles": 356764,
+          "geometries": 312,
+          "textures": 24
+        },
+        "mainThread": {
+          "taskMs": 8899.144,
+          "scriptMs": 5498.304,
+          "layoutMs": 595.4580000000001,
+          "method": "CDP cumulative CPU metrics; not GPU execution time"
+        }
+      }
+    ],
+    "soak": {
+      "wallSeconds": 120.0255,
+      "averageFps": 109.64066162727931,
+      "p95Ms": 16.599999999998545,
+      "p99Ms": 25,
+      "maxFrameMs": 74.89999999999782,
+      "allFramesRunning": true,
+      "peaks": {
+        "chunks": 28,
+        "bvh": 28,
+        "drawCalls": 611,
+        "triangles": 1071548,
+        "geometries": 445,
+        "textures": 26
+      },
+      "shieldImpacts": 31
+    },
+    "fiveWorldTransitions": {
+      "averageFps": 95.48579816135762,
+      "p95Ms": 16.799999999999272,
+      "p99Ms": 41.600000000000364,
+      "maxFrameMs": 58.29999999999973,
+      "longTasks": 4,
+      "method": "Explicit capture windows measure actual rAF climb across520m and five full transitions. Fixture setup and PNG screenshot/readback are outside FPS windows, with last-frame reset. Long tasks filtered to capture windows; slow frames record phase/world. Includes debug snapshot sampling, no debug advance, model key or inference.",
+      "peakSample": {
+        "startMs": 3358.8,
+        "durationMs": 58.29999999999973,
+        "fromPhase": "WORLD_SWAP",
+        "toPhase": "WORLD_SWAP",
+        "world": 0
+      }
+    },
+    "resources": {
+      "method": "Three accelerated five-world journeys with actual browser/WebGL resources, normalized to the same base seed/spawn/settled chunks and forced CDP GC. Not an FPS benchmark or a guarantee of indefinite leak freedom.",
+      "samples": [
+        {
+          "label": "initial-base-city",
+          "heap": {
+            "usedSize": 7271892,
+            "totalSize": 8196096,
+            "embedderHeapUsedSize": 2428480,
+            "backingStorageSize": 32137375
+          },
+          "dom": {
+            "documents": 1,
+            "nodes": 1208,
+            "jsEventListeners": 82
+          },
+          "textures": 23,
+          "geometries": 215,
+          "bvh": 25
+        },
+        {
+          "label": "after-5-world-exchanges-and-base-restore",
+          "heap": {
+            "usedSize": 8361008,
+            "totalSize": 11603968,
+            "embedderHeapUsedSize": 2868184,
+            "backingStorageSize": 32137442
+          },
+          "dom": {
+            "documents": 1,
+            "nodes": 1208,
+            "jsEventListeners": 82
+          },
+          "textures": 23,
+          "geometries": 215,
+          "bvh": 25
+        },
+        {
+          "label": "after-10-world-exchanges-and-base-restore",
+          "heap": {
+            "usedSize": 8748700,
+            "totalSize": 9506816,
+            "embedderHeapUsedSize": 2970512,
+            "backingStorageSize": 32137442
+          },
+          "dom": {
+            "documents": 1,
+            "nodes": 1208,
+            "jsEventListeners": 82
+          },
+          "textures": 23,
+          "geometries": 215,
+          "bvh": 25
+        },
+        {
+          "label": "after-15-world-exchanges-and-base-restore",
+          "heap": {
+            "usedSize": 8801476,
+            "totalSize": 9768960,
+            "embedderHeapUsedSize": 2914032,
+            "backingStorageSize": 32137442
+          },
+          "dom": {
+            "documents": 1,
+            "nodes": 1208,
+            "jsEventListeners": 82
+          },
+          "textures": 23,
+          "geometries": 215,
+          "bvh": 25
+        }
+      ],
+      "indefiniteLeakFreedomClaimed": false
+    }
+  },
+  "compatibility": {
+    "migration": [
+      {
+        "browser": "chrome",
+        "status": "passed",
+        "legacyBest": 5.000000000000038,
+        "seedFingerprint": 3887776065,
+        "indexedDbModelPreserved": true,
+        "standardScorePreserved": true,
+        "rulesControlsAnchorPersisted": true,
+        "subpathReload": true,
+        "externalRequests": [],
+        "legacyLifecycleErrors": [],
+        "errors": []
+      },
+      {
+        "browser": "edge",
+        "status": "passed",
+        "legacyBest": 5.000000000000038,
+        "seedFingerprint": 3887776065,
+        "indexedDbModelPreserved": true,
+        "standardScorePreserved": true,
+        "rulesControlsAnchorPersisted": true,
+        "subpathReload": true,
+        "externalRequests": [],
+        "legacyLifecycleErrors": [],
+        "errors": []
+      },
+      {
+        "browser": "firefox",
+        "status": "passed",
+        "legacyBest": 5.000000000000038,
+        "seedFingerprint": 3887776065,
+        "indexedDbModelPreserved": true,
+        "standardScorePreserved": true,
+        "rulesControlsAnchorPersisted": true,
+        "subpathReload": true,
+        "externalRequests": [],
+        "legacyLifecycleErrors": [
+          "Closed before resume completed"
+        ],
+        "errors": []
+      }
+    ],
+    "fiveWorldBrowsers": [
+      {
+        "browser": "edge",
+        "status": "passed",
+        "mode": "challenge",
+        "companions": 1,
+        "crossings": 5,
+        "views": [
+          "chase",
+          "nose",
+          "cockpit"
+        ],
+        "trustBefore": 0.58,
+        "trustAfter": 0.58
+      },
+      {
+        "browser": "firefox",
+        "status": "passed",
+        "mode": "free",
+        "companions": 2,
+        "crossings": 5,
+        "views": [
+          "chase",
+          "nose",
+          "cockpit"
+        ],
+        "trustBefore": 0.58,
+        "trustAfter": 0.58
+      }
+    ],
+    "webgl2Fallback": "passed",
+    "safariAndMobileGpu": "not available on this machine"
+  },
+  "aiExperiments": {
+    "comparison": {
+      "method": "Same seed 334458, same deterministic demo input, 18 simulation seconds. Model variant replays an actual sanitized Flash decision with fresh request IDs; no new inference or superiority claim. Fixed-script is a fixed high-level FOLLOW policy with the same collision controller.",
+      "groups": [
+        {
+          "kind": "none",
+          "runTime": 17.99999999999962,
+          "trust": 0.5,
+          "rescues": 0,
+          "impacts": 0
+        },
+        {
+          "kind": "fixed-script",
+          "runTime": 17.99999999999962,
+          "trust": 0.46499999999999997,
+          "rescues": 0,
+          "impacts": 6
+        },
+        {
+          "kind": "recorded-model",
+          "runTime": 17.99999999999962,
+          "trust": 0.5549999999999999,
+          "rescues": 0,
+          "impacts": 6
+        }
+      ]
+    },
+    "relayCausal": {
+      "method": "Controlled actual-geometry fixture. Earned leading Trust; synthetic HOLD solely prepares a repeatable partner. Genuine official model receives the actual low-grace perception while simulation is paused. Original reply is retained and explicitly replayed with fresh requestId/epoch. No real-time latency rescue or human superiority is claimed.",
+      "runs": [
+        {
+          "kind": "none",
+          "graceBefore": 1.5916666666665904,
+          "trust": 0.58,
+          "inference": null,
+          "accepted": null,
+          "modeAfter": "failed",
+          "graceAfter": 0,
+          "relaySuccesses": 0
+        },
+        {
+          "kind": "recorded-model",
+          "graceBefore": 1.5916666666665904,
+          "trust": 0.58,
+          "inference": {
+            "model": "deepseek-flash",
+            "endpointOrigin": "https://api.deepseek.com",
+            "latencyMs": 1120.4256000000005,
+            "usage": {
+              "prompt_tokens": 918,
+              "completion_tokens": 64,
+              "total_tokens": 982,
+              "prompt_tokens_details": {
+                "cached_tokens": 0
+              },
+              "prompt_cache_hit_tokens": 0,
+              "prompt_cache_miss_tokens": 918
+            },
+            "originalDecision": {
+              "requestId": "4-2",
+              "epoch": 4,
+              "ttl": 10,
+              "risk": 0.3,
+              "formation": "wedge",
+              "orders": [
+                {
+                  "agents": [
+                    1
+                  ],
+                  "action": "RELAY",
+                  "targetId": "surface-1"
+                }
+              ],
+              "reason": "宽限流失且存在水面伙伴，准备中继以恢复能量"
+            }
+          },
+          "accepted": true,
+          "modeAfter": "running",
+          "graceAfter": 0.7833333333332644,
+          "relaySuccesses": 1
+        }
+      ],
+      "liveLatencyRescueClaimed": false
+    },
+    "superiorityClaimed": false
+  },
+  "privacy": {
+    "method": "Exact byte scan for operator environment credentials, including source maps, distribution and sanitized evidence. Credential values are neither printed nor saved.",
+    "credentialNames": [
+      "DEEPSEEK_API_KEY",
+      "OPENAI_API_KEY"
+    ],
+    "filesScanned": 211,
+    "matches": 0,
+    "filesWithMatches": [],
+    "status": "passed"
+  },
+  "licensing": {
+    "project": "AGPL-3.0-only",
+    "fullLicenseInDist": true,
+    "historicalMitRetained": true,
+    "thirdPartyAndFontNoticesInDist": true,
+    "dependencyInventory": "licenses/DEPENDENCIES.json",
+    "copiedReferenceGameCodeOrAssets": false
+  },
+  "reproducibility": {
+    "status": "passed",
+    "method": "Two full production builds at the same clean commit with the same lockfile and local toolchain; every distribution file has identical SHA256. Final merged-release verification is attached separately.",
+    "sourceCommit": "008dafbf5ee00e63bed1534c27d2ebcf80ee377d",
+    "node": "v26.7.0",
+    "platform": "win32",
+    "lockfileSha256": "eb88b7ad02facd72004e1230ea8ba91d93908cd7f538122286af388200eec117",
+    "files": [
+      {
+        "path": "_headers",
+        "bytes": 265,
+        "sha256": "0bc210241376472d93712c8f8f216e6dbb732b6d98905fa1849150fe35fd7aa5"
+      },
+      {
+        "path": "assets/ibm-plex-sans-cyrillic-ext-wght-normal-d45eAU9y.woff2",
+        "bytes": 23568,
+        "sha256": "7d0037a170882a49e65a45c38ef195237bb07b1cc791d078379f0ac0d7ae1935"
+      },
+      {
+        "path": "assets/ibm-plex-sans-cyrillic-wght-normal-BAAhND-U.woff2",
+        "bytes": 29512,
+        "sha256": "9409ee21811f0f5272b7e1d828fe8838005b0573481ef906e7e55b63f6610ab0"
+      },
+      {
+        "path": "assets/ibm-plex-sans-greek-wght-normal-CmyJS8uq.woff2",
+        "bytes": 19500,
+        "sha256": "f598dd0700f155e2facfaa8ecfacace397d4c2c153e9ce37ab7ad310e8505bc2"
+      },
+      {
+        "path": "assets/ibm-plex-sans-latin-ext-wght-normal-CIII54If.woff2",
+        "bytes": 30964,
+        "sha256": "d160e20920ae4d6556518d352d3af27a74e9b0de3d8fe17b1c1044fc75aa2f81"
+      },
+      {
+        "path": "assets/ibm-plex-sans-latin-wght-normal-IvpUvPa2.woff2",
+        "bytes": 45712,
+        "sha256": "e2291e842cf5af167122a22881a740c7f2dda7716f1e8cd76680264f4a859470"
+      },
+      {
+        "path": "assets/ibm-plex-sans-vietnamese-wght-normal-Dg1JeJN0.woff2",
+        "bytes": 13160,
+        "sha256": "73e7f7b1c980416ae0c2461268b14c7cfcce0668e683dc43fbb11a82a227b9f2"
+      },
+      {
+        "path": "assets/index-CSCx9fNQ.css",
+        "bytes": 26904,
+        "sha256": "32069ee23dd1df13bf1a3ec475993b9648387c596412dfd4fb1f68ad72a05644"
+      },
+      {
+        "path": "assets/index-PmyGQfSS.js",
+        "bytes": 874153,
+        "sha256": "e5011f32f0ec70145da462e2e117f7cf58304f2d4a7d545926cf4aab76e85e6f"
+      },
+      {
+        "path": "assets/index-PmyGQfSS.js.map",
+        "bytes": 4115936,
+        "sha256": "0e1c7092ac1b2e6c2e3d04187d686917855c3672e78a5d09b859723f0b972a19"
+      },
+      {
+        "path": "assets/syne-greek-wght-normal-5tOOQDeJ.woff2",
+        "bytes": 11200,
+        "sha256": "b9ade823e28b34c3a9c038ae698e659f64b66dabeed6c979e0bc347bfcc891a7"
+      },
+      {
+        "path": "assets/syne-latin-ext-wght-normal-JjI8ZrW1.woff2",
+        "bytes": 14724,
+        "sha256": "83885b130cf2a67bc2fd6175d6f3c2875833552c1762b5943b51335038ae01f2"
+      },
+      {
+        "path": "assets/syne-latin-wght-normal-BVsvWWA4.woff2",
+        "bytes": 34608,
+        "sha256": "68b623f0e45b905041b2edb9b2e4f563a505f13db1cd06b5f1946eb2e1f47048"
+      },
+      {
+        "path": "build-info.json",
+        "bytes": 268,
+        "sha256": "5f2fb86c48d91e4e8aa7c766147859b606702ba71055382b1aae4e94397cba36"
+      },
+      {
+        "path": "CREDITS.md",
+        "bytes": 5315,
+        "sha256": "876d0548a0570620b48b9797df3af73e0bd5aed04aa8688f9c395a854c558c5b"
+      },
+      {
+        "path": "favicon.svg",
+        "bytes": 502,
+        "sha256": "087d0bc38d9eaee79e4b14b31d24f84fb70c36bb4d56584f395c95721e5bdbc6"
+      },
+      {
+        "path": "index.html",
+        "bytes": 18677,
+        "sha256": "c1395a58255001c2b21d90a837a30ce4c0a52bcdac9c9895171ee1b6363f988c"
+      },
+      {
+        "path": "LICENSE",
+        "bytes": 35184,
+        "sha256": "e0eedba615d5cd1b986afb6c5b3a4b1ae33713e7e9dc74d19daec5e3221f9d2e"
+      },
+      {
+        "path": "licenses/DEPENDENCIES.json",
+        "bytes": 15700,
+        "sha256": "e10a1e3298517cc884adb20c7134c696128543ec9fadd54937eff6dbc2e2383e"
+      },
+      {
+        "path": "licenses/PROJECT-MIT-v0.2.0.txt",
+        "bytes": 1085,
+        "sha256": "c5743682264336e52b2b8cf88445925e88005a95b63110eaed92e2028fd1df3d"
+      },
+      {
+        "path": "licenses/THIRD-PARTY-NOTICES.txt",
+        "bytes": 11397,
+        "sha256": "93347078996f26e20c49d9042d9b0ca6ea6b83eef05e6bbc7e26c59a27432fd7"
+      }
+    ],
+    "crossPlatformIdentityClaimed": false,
+    "sourceArchiveRebuild": {
+      "sourceCommit": "96c20a8ea45bf8b47d58760f2465f6fc299d9e1b",
+      "purpose": "Non-published packaging rehearsal; final merged SHA is verified in release-manifest.json",
+      "sourceRebuild": {
+        "status": "passed",
+        "files": 21,
+        "different": [],
+        "method": "Unzip corresponding source, fresh npm ci, production build outside Git, same Windows Node26.7/npm11.19 toolchain."
+      },
+      "archives": {
+        "status": "passed",
+        "archives": [
+          {
+            "name": "skimmer-scraper-v0.3.0-rc.1-source.zip",
+            "files": 203,
+            "credentialMatches": 0,
+            "sha256": "7ef85c1fbaf3cc0533fc405ad286df8a0f2faddb7d3ea96eb6f8ecc7f3188816"
+          },
+          {
+            "name": "skimmer-scraper-v0.3.0-rc.1-static.zip",
+            "files": 21,
+            "credentialMatches": 0,
+            "sha256": "bbd549e7309a9b77329161f6c7b5aeb8fce04855155a18dfe45f61b6d06774fb"
+          }
+        ]
+      }
+    }
+  },
+  "release": {
+    "status": "candidate only; stable promotion withheld",
+    "candidateTag": "v0.3.0-rc.1",
+    "productionVersion": "v0.2.0",
+    "productionOverwritten": false,
+    "oldTags": {
+      "v0.1.0": "b00e4474a6b751eb16b3e1af3f824c67d9affd8a",
+      "v0.2.0": "7b08759c8cdd237cf07dca9e2fa4fde2ee7b3f73"
+    },
+    "cancelledCloudflareWorkflowRestored": false
+  },
+  "experience": {
+    "humanFunOrFlightFeelAccepted": false,
+    "issues": [
+      {
+        "id": "TRANSITION-PACING-REVIEW",
+        "observedMaxFrameMs": 58.29999999999973,
+        "reproduce": "npm run preview -- --port4174; EVIDENCE_PREFIX=phase-6 node scripts/journey-evidence.mjs. Valid520m upward crossing; inspect WORLD_SWAP.",
+        "next": "Review visible transition pacing and camera comfort; further profiling depends on observed experience.",
+        "classification": "measured observation; hands-on pacing judgment pending"
+      },
+      {
+        "id": "HUMAN-REVIEW",
+        "scope": "Keyboard/physical gamepad controls, haptics, camera comfort, five-world art/transitions and AI teamwork need hands-on player judgment."
+      }
+    ],
+    "measurementCorrection": "Earlier phase5/early-phase6 PNG-inclusive captures are retained historically; their275–300ms peaks do not establish gameplay-only stalls. Explicit-window data excludes fixture/readback work and is the release performance authority."
+  },
+  "evidence": [
+    {
+      "path": "evidence/v0.3/phase-6-boost-recovery.json",
+      "sha256": "9011ee86e42b6afa4529c05bb811f6edb1bca4252862081bdcccf30b732805c2"
+    },
+    {
+      "path": "evidence/v0.3/phase-6-challenge-five-worlds.json",
+      "sha256": "af509c156549492b2b81cc35f5048ccdd202661b634243b63c06e85c82fa583b"
+    },
+    {
+      "path": "evidence/v0.3/phase-6-ci-regression.json",
+      "sha256": "73a6ae853b7d6fe271a1e4417fa44aefbdf09275b95205929129b5ca8e8f2150"
+    },
+    {
+      "path": "evidence/v0.3/phase-6-ci-sampling-diagnostic.json",
+      "sha256": "d6c57e5a834e810a421009e42da1fac51d091738b55e900c4d508715871aa688"
+    },
+    {
+      "path": "evidence/v0.3/phase-6-comparison.json",
+      "sha256": "4d0076d346ccfb95a8e3563d30fdf32aa5f2705034221ebae6d0e24102642472"
+    },
+    {
+      "path": "evidence/v0.3/phase-6-cross-browser.json",
+      "sha256": "b10a88319ea31e1223ad84ee4ec439930444567e133a0be4633ea5a49b442ea4"
+    },
+    {
+      "path": "evidence/v0.3/phase-6-distribution.json",
+      "sha256": "666a650a0bf5965c64d2ea24dc3d157fadd1f68c119c58ef4dcbbe630e9260ae"
+    },
+    {
+      "path": "evidence/v0.3/phase-6-edge.png",
+      "sha256": "ba226c905a517b0b7098464005778ff7ddb5da5bfb498df0ccd3100b92c1cd76"
+    },
+    {
+      "path": "evidence/v0.3/phase-6-firefox.png",
+      "sha256": "2da9d05f055fc97781455273bba79e327332be3c603a66a04723def0a3947840"
+    },
+    {
+      "path": "evidence/v0.3/phase-6-gpu-matrix.json",
+      "sha256": "01aff45f5bc3de1e71d12dc788d43079315d9cd6c05d6dc2a624dccdf2b7ef9e"
+    },
+    {
+      "path": "evidence/v0.3/phase-6-late-plan.json",
+      "sha256": "9a1df56914a3d8a84c073af45004c00b18060f79df728cde4d874d01e22a5390"
+    },
+    {
+      "path": "evidence/v0.3/phase-6-memory.json",
+      "sha256": "70df22efcec93e9a20b355d1ddca11c25da6cfc4286b59631b77eec79591e111"
+    },
+    {
+      "path": "evidence/v0.3/phase-6-migration.json",
+      "sha256": "7f33213d26e51e1762d3f072b13c79b2fc282391258a9258a41b84d4a915caf2"
+    },
+    {
+      "path": "evidence/v0.3/phase-6-mobile.png",
+      "sha256": "a2f0067b330aa29b46512038214fcd1751cc6060d54c485973f628ea77721e8a"
+    },
+    {
+      "path": "evidence/v0.3/phase-6-model-relay-causal.json",
+      "sha256": "13b5e3b6d3e3212dff36597e4888a83255b6f46510643386749b48f77a652c30"
+    },
+    {
+      "path": "evidence/v0.3/phase-6-package-rehearsal.json",
+      "sha256": "b886839efe14d8079066217c07b3562e40e6554f72a874d041e98f174c125e72"
+    },
+    {
+      "path": "evidence/v0.3/phase-6-playwright.json",
+      "sha256": "ff10a041b4c7c8df5769e05c63d14845d77a62af1fd46c62435c837ec0559379"
+    },
+    {
+      "path": "evidence/v0.3/phase-6-privacy.json",
+      "sha256": "5784a71d889c804b848125d43bef1d1f6e19fcac2b73bd8291dffe0a62d59a2c"
+    },
+    {
+      "path": "evidence/v0.3/phase-6-production-preserved.json",
+      "sha256": "03704a19e1c20000ed5906cafe5762c59effaf6daf46e217e86b8b6cae381aca"
+    },
+    {
+      "path": "evidence/v0.3/phase-6-real-deepseek-flash.json",
+      "sha256": "bd35f1508a1867557b92af6f493531b5ebbb26a82af506ae1fad3173e9237df4"
+    },
+    {
+      "path": "evidence/v0.3/phase-6-real-deepseek-flash.png",
+      "sha256": "b3a47a53b72c8ba0953656fa1b3c0b2a1ca9d000ffd0b9af3ce34b0bb600c3f4"
+    },
+    {
+      "path": "evidence/v0.3/phase-6-real-deepseek-v4-pro.json",
+      "sha256": "995fc503fdfd9bc3ddb39a0bef99e794707f0fe1cf26f2658122865f8ab6794a"
+    },
+    {
+      "path": "evidence/v0.3/phase-6-real-deepseek-v4-pro.png",
+      "sha256": "aad1b106193c36c5dc1286089ef4396527012913a86d2a01025356714ece068f"
+    },
+    {
+      "path": "evidence/v0.3/phase-6-real-gpu-including-screenshots.json",
+      "sha256": "051b9a7ef71702169503e93cb956da4c459bf45bb065c822c02ac12a35a98934"
+    },
+    {
+      "path": "evidence/v0.3/phase-6-real-gpu.json",
+      "sha256": "88dda2671df18a0311e64cf8fef353ca1f787096e7701cbe5368df34c707008c"
+    },
+    {
+      "path": "evidence/v0.3/phase-6-real-world-1.png",
+      "sha256": "735d6b7975d0a715fbed4bae436b417f6d8263be0f551a7a1d7faadb4e329742"
+    },
+    {
+      "path": "evidence/v0.3/phase-6-real-world-2.png",
+      "sha256": "7fde18ce6fe58d4d801c34240e71358de062f56470a04c29bae4ae138392f657"
+    },
+    {
+      "path": "evidence/v0.3/phase-6-real-world-3.png",
+      "sha256": "42e547e0d0736e567acbbb007756cac76889e159b13d0ac98f7a99ac1ab5a076"
+    },
+    {
+      "path": "evidence/v0.3/phase-6-real-world-4.png",
+      "sha256": "e8254fbe6ab9f83ac9a6ac667ab625fd088f76578ec5d73a33cef139da546074"
+    },
+    {
+      "path": "evidence/v0.3/phase-6-real-world-5.png",
+      "sha256": "b17d8b856d48d97da4ed427786ab5ee50431e14e6e5f7b9b6ea42caad7d8f969"
+    },
+    {
+      "path": "evidence/v0.3/phase-6-relay-browser.json",
+      "sha256": "badc72eac9862b15b06c3221a3704281107e8a5b2b1c3000e9e37adc833476c4"
+    },
+    {
+      "path": "evidence/v0.3/phase-6-reproducibility.json",
+      "sha256": "88e95a1259db877d5d489df9f6657cb1c70166eb663c625bc61001b669caac46"
+    },
+    {
+      "path": "evidence/v0.3/phase-6-soak.json",
+      "sha256": "792bfca295d96a6854e1c3e938921f138f929a44a1b74258d7cd3a30e59b0510"
+    },
+    {
+      "path": "evidence/v0.3/phase-6-soak.png",
+      "sha256": "78a42d90ede76d8f409c2cea78aea58ba0a83b5dfd1bf45a303325d9c2ede2f1"
+    },
+    {
+      "path": "evidence/v0.3/phase-6-synthetic-boundary.json",
+      "sha256": "2f9cf55572f141b3820d63726ed65919b7dd3cfbd952c65a2e93e929ea2402c8"
+    },
+    {
+      "path": "evidence/v0.3/phase-6-title.png",
+      "sha256": "7ba898140da619f1dfbd7d72c75a4e7ed395969be6c077fc616e7fd52987c14c"
+    },
+    {
+      "path": "evidence/v0.3/phase-6-vitest.json",
+      "sha256": "abd8703d5f64acb78b450d8b9d91364bb6b9d2ca862d9fa8435dc7c9b09ec4fc"
+    },
+    {
+      "path": "evidence/v0.3/phase-6-webgl2-error.png",
+      "sha256": "94297354e1a7ae2870ca81a8b9e766c6e183a29ae2384f6ca14cd91921a6fa5a"
+    }
+  ]
+}

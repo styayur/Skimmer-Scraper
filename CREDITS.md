@@ -1,5 +1,10 @@
 # Credits and licenses
 
+Candidate static distributions include the complete project AGPL license,
+historical MIT notice, the runtime/font notices and lockfile dependency inventory.
+The source link is pinned to the actual build commit; third-party notices and
+player-owned local models retain their original terms.
+
 ## Project code and generated art
 
 The five Sky Journey palettes/parameter profiles, inversion choreography and fifth-sky
@@ -19,11 +24,11 @@ generation service, textures or runtime dependencies were added for this feature
 | --- | --- | --- | --- |
 | [three](https://github.com/mrdoob/three.js) | 0.187.0 | MIT | WebGL2 scene graph and rendering |
 | [three-mesh-bvh](https://github.com/gkjohnson/three-mesh-bvh) | 0.9.18 | MIT | exact closest-surface queries |
-| [Vite](https://github.com/vitejs/vite) | 8.3.6 | MIT | development server and static build |
+| [Vite](https://github.com/vitejs/vite) | 8.3.8 | MIT | development server and static build |
 | [Vitest](https://github.com/vitest-dev/vitest) | 5.1.0 | MIT | unit/integration tests |
-| [Playwright](https://github.com/microsoft/playwright) | 1.65.0 | Apache-2.0 | browser interaction and screenshot tests |
+| [Playwright](https://github.com/microsoft/playwright) | 1.65.1 | Apache-2.0 | browser interaction and screenshot tests |
 | [TypeScript](https://github.com/microsoft/TypeScript) | 7.0.2 | Apache-2.0 | type checking |
-| [fake-indexeddb](https://github.com/dumbmatter/fakeIndexedDB) | 6.2.7 | Apache-2.0 | IndexedDB tests |
+| [fake-indexeddb](https://github.com/dumbmatter/fakeIndexedDB) | 6.2.8 | Apache-2.0 | IndexedDB tests |
 | [Syne](https://fontsource.org/fonts/syne) | 5.3.0 | SIL OFL 1.1 | display typography |
 | [IBM Plex Sans](https://fontsource.org/fonts/ibm-plex-sans) | 5.3.0 | SIL OFL 1.1 | interface typography |
 

@@ -2,6 +2,44 @@
 
 ## Unreleased
 
+## 0.3.0-rc.1 — 2026-11-21
+
+### Added
+
+- Challenge grace from1–15 seconds in0.1s steps, Free Flight, swept physical shield,
+  isolated custom/assisted/journey scores and preserved historical solo records.
+- Precision/Classic flight, three camera views, per-model first-person anchors,
+  configurable keyboard/gamepad response, mappings, hotplug and optional haptics.
+- Up to three independent local companions sharing the streamed collision world,
+  with formation, leading, regrouping, avoidance and recovery.
+- Optional structured model planning, bounded outcome memory, observable Trust,
+  finite geometry-checked Surface Relay and memory-only BYOK with validation,
+  timeouts, budgets, cancellation and local fallback. Genuine API evidence is
+  separate from synthetic fixtures and recorded-plan experiments.
+- Sky Inversion, five reproducible world profiles, safe formation entries,
+  skip/reduced rotation and a local fifth-sky signature with continued flight.
+- Automated/browser/real-GPU evidence, license/source provenance in distributions
+  and deterministic candidate packaging.
+
+### Changed
+
+- New releases use AGPL-3.0-only. Historical MIT grants, notices and both old
+  releases remain available; dependency/font licenses remain independent.
+- Stable version tags control Pages. Phase merges and RC tags preserve production.
+
+### Fixed
+
+- Bridge collisions after arrival, shadow texture retention, stale world/model
+  plans, retry cancellation, rejected audio resume and gamepad Menu over panels.
+
+### Candidate limits
+
+- Human controls/art/AI teamwork and transition pacing await review. Explicit
+  capture windows measured58.3ms max; earlier PNG-inclusive peaks are not used
+  to infer gameplay-only stalls. Physical gamepad judgment is not claimed.
+- OpenAI live authentication was unavailable; actual model evidence uses DeepSeek
+  Flash/V4 Pro. No hosted inference service or bundled key is provided.
+
 ### Removed
 
 - Cloudflare Pages deployment. The dedicated workflow, Wrangler config, and deploy script are removed.

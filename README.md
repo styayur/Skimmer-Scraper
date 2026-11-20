@@ -8,13 +8,21 @@ A close-surface 3D flight challenge through an original sakura-dusk megacity. St
 the architecture, thread bridges and floating islands, and keep your run alive. No account, no remote
 profile, no model upload.
 
-**v0.2.0** adds reproducible seeded cities, cockpit/chase views, continuous proximity feedback,
-on-demand world streaming and Stable/Ephemeral world modes while preserving the local-only aircraft
-and score model.
+**v0.3.0-rc.1** adds configurable Challenge/Free Flight, shields, three views,
+gamepad/Precision controls, 1–3 local or model-planned companions, Trust/Surface
+Relay and five-world Sky Inversion. This is a candidate for experience review;
+the public site remains v0.2.0. Hands-on controls, art, transition pacing and AI
+teamwork await review. Explicit capture windows recorded a58.3ms transition maximum.
+
+Try the candidate locally: `npm ci`, `npm run build`, then `npm run preview`.
+The release static ZIP can also be served over HTTP without Node or a backend.
+Choose Free Flight, shield and companion count in **飞行设置** before takeoff;
+cycle Chase/Nose/Cockpit with **C**, pause with **Esc** or gamepad Menu.
+See [candidate QA and reproduction](docs/V030-QA.md).
 
 **Public site:** [https://styayur.github.io/Skimmer-Scraper/](https://styayur.github.io/Skimmer-Scraper/)
 
-v0.3 development adds optional model cooperation under **飞行设置 → 模型协作**.
+Optional model cooperation is under **飞行设置 → 模型协作**.
 Select 1–3 companions before takeoff, then connect a browser-compatible provider
 using your own key. DeepSeek and OpenAI official endpoints and explicitly trusted
 compatible endpoints are supported. Keys remain in page memory and can be deleted
@@ -175,7 +183,7 @@ original synthetic assets are documented in [CREDITS.md](CREDITS.md). New releas
 | Ephemeral World | merged | `acceptance/v0.2/phase-4.json` |
 | Final QA / v0.2.0 release | verified | `acceptance/v0.2.0.json` |
 
-## v0.3 development
+## v0.3 candidate
 
 Challenge grace is configurable from 1 to 15 seconds (default 5). Free Flight has no proximity expiry and defaults to a shield. Options lock at takeoff; retry keeps the selection. Custom and assisted scores are separate; historical standard scores retain their keys.
 

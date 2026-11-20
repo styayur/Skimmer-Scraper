@@ -1,0 +1,27 @@
+{
+  "sourceCommit": "96c20a8ea45bf8b47d58760f2465f6fc299d9e1b",
+  "purpose": "Non-published packaging rehearsal; final merged SHA is verified in release-manifest.json",
+  "sourceRebuild": {
+    "status": "passed",
+    "files": 21,
+    "different": [],
+    "method": "Unzip corresponding source, fresh npm ci, production build outside Git, same Windows Node26.7/npm11.19 toolchain."
+  },
+  "archives": {
+    "status": "passed",
+    "archives": [
+      {
+        "name": "skimmer-scraper-v0.3.0-rc.1-source.zip",
+        "files": 203,
+        "credentialMatches": 0,
+        "sha256": "7ef85c1fbaf3cc0533fc405ad286df8a0f2faddb7d3ea96eb6f8ecc7f3188816"
+      },
+      {
+        "name": "skimmer-scraper-v0.3.0-rc.1-static.zip",
+        "files": 21,
+        "credentialMatches": 0,
+        "sha256": "bbd549e7309a9b77329161f6c7b5aeb8fce04855155a18dfe45f61b6d06774fb"
+      }
+    ]
+  }
+}
