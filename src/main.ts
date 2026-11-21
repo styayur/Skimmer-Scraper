@@ -1,6 +1,8 @@
 import { ActionRouter } from './ui/ActionRouter';
 import { OverlayManager } from './ui/OverlayManager';
 import { RadioPanel } from './ui/RadioPanel';
+import { bindVoicePanel, showVoiceStatus } from './ui/VoicePanel';
+import { VoiceRadio } from './voice/VoiceRadio';
 import { radioText } from './ai/radioDialogue';
 import '@fontsource-variable/syne';
 import '@fontsource-variable/ibm-plex-sans';
@@ -78,6 +80,7 @@ interface DebugSnapshot {
   dynamicStructures: ReturnType<WorldStreamer['getDynamicSnapshot']> | ReturnType<ImportedWorldAdapter['getDynamicSnapshot']>;
   journey: ReturnType<SkyJourney['snapshot']> & ReturnType<JourneyHud['snapshot']>;
   cooperation: ReturnType<SymbiosisRuntime['snapshot']>;
+  voice: ReturnType<VoiceRadio['snapshot']>;
   attitude: FlightState['attitude'];
   control: FlightState['control'];
   companionSettings: CompanionSettings;
@@ -216,7 +219,7 @@ let renderer: GameRenderer | null = null;
 let currentImportedAircraft: Group | null = null;
 let cockpitPreview = false;
 let motionPreview = false;
-let pendingRadio: { message: string; until: number } | null = null;
+let pendingRadio: { message: string; useModel: boolean; until: number } | null = null;
 let modelLoadVersion = 0;
 
 const stepRunner = new FixedStepRunner(FLIGHT.fixedDt, 12);
@@ -876,6 +879,7 @@ const debugSnapshot = (): DebugSnapshot => {
     worldReleases:worldReleases.map(item=>({...item})),
     journey: {...journey.snapshot(),...journeyHud.snapshot()},
     cooperation: symbiosis.snapshot(),
+    voice: voiceRadio.snapshot(),
     ready: true,
     attitude: { ...flightState.attitude },
     control: { ...flightState.control },
@@ -1035,6 +1039,7 @@ const overlays = new OverlayManager({
   radio: document.getElementById('radio-panel')!,
 });
 const radioAvailable = () => companionSettings.count > 0 && !journey.active;
+const voiceAvailable = () => mode === 'running' && ui.canInteract && radioAvailable() && !document.hidden;
 const actionRouter = new ActionRouter(overlays, {
   mode: () => mode,
   available: () => ui.canInteract,
@@ -1044,18 +1049,27 @@ const actionRouter = new ActionRouter(overlays, {
   title: () => { void returnToTitle(); },
   camera: toggleCameraMode,
   radioAvailable,
+  voice: (action, source) => {
+    if (action === 'start') return voiceRadio.begin(source);
+    if (action === 'stop') return voiceRadio.release(source);
+    return voiceRadio.cancel(action === 'cancel-all', action === 'cancel-all' ? undefined : source);
+  },
 });
 
-const queueRadioDialogue = (raw: string): boolean => {
-  if ((mode !== 'running' && mode !== 'paused') || !radioAvailable() || symbiosis.client.containsCredential(raw)) return false;
+const queueRadioDialogue = (raw: string, useModel = true): boolean => {
+  if ((mode !== 'running' && mode !== 'paused') || !radioAvailable() || pendingRadio || symbiosis.client.containsCredential(raw)) return false;
   const message = radioText(raw);
   if (!message) return false;
-  pendingRadio = { message, until: performance.now() + 6_000 };
-  actionRouter.clear();
-  debugResume();
+  pendingRadio = { message, useModel, until: performance.now() + 6_000 };
+  if (mode === 'paused') {
+    actionRouter.clear();
+    debugResume();
+  }
   return true;
 };
-const radioPanel = new RadioPanel(symbiosis.radio, queueRadioDialogue);
+const voiceRadio = new VoiceRadio(symbiosis.client, { available: voiceAvailable, send: queueRadioDialogue, status: showVoiceStatus });
+const updateVoicePanel = bindVoicePanel(voiceRadio, action => actionRouter.route(action, false, 'touch'));
+const radioPanel = new RadioPanel(symbiosis.radio, queueRadioDialogue, () => voiceRadio.silence());
 
 const activateWorld = (world: ImportedWorldAdapter | WorldStreamer, history: ChunkRevisionHistory | null): void => {
   if (!renderer) throw new Error('游戏尚未准备好。');
@@ -1112,22 +1126,25 @@ const frame = (now: number): void => {
   else if (!debugAdvancing && !buffering && !journey.active) {
     if (!pendingRadio) void symbiosis.request();
     else if (symbiosis.canSendDialogue()) {
-      const { message } = pendingRadio;
+      const { message, useModel } = pendingRadio;
       pendingRadio = null;
-      void symbiosis.sendDialogue(message);
+      void symbiosis.sendDialogue(message, useModel);
     } else if (now > pendingRadio.until) {
       pendingRadio = null;
       ui.showToast('伴机电台暂不可用。', true);
     }
   }
   radioPanel.update(mode === 'running' && !journey.active);
+  const voiceInFlight = voiceAvailable();
+  voiceRadio.update(voiceInFlight, symbiosis.radio.current());
+  updateVoicePanel(voiceInFlight);
   updateModelStatus();
   journeyHud.update(journey, mode === 'running' && activeWorld instanceof WorldStreamer, runRules.config.mode === 'challenge' || (flightState?.position.y ?? 0) > 420);
   const reducedRotation=preferences.visualStimulation==='reduced'||window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const inversion=journey.phase==='INVERSION'?Math.PI*journey.progress:journey.phase==='WORLD_SWAP'?Math.PI:journey.phase==='DIVE'?Math.PI*(1-journey.progress):0;
   renderer?.setInversion(reducedRotation?0:inversion);
   const menuInput = ui.canInteract && (mode === 'title' || mode === 'failed' || Boolean(overlays.current));
-  gamepad.poll(controls, actionRouter.route, menuInput, now);
+  gamepad.poll(controls, action => actionRouter.route(action, false, 'gamepad'), menuInput, now);
   document.querySelector('#input-device')!.textContent = gamepad.device;
   const delta = Math.min(0.1, Math.max(0, (now - lastFrameTime) / 1000));
   lastFrameTime = now;
@@ -1262,8 +1279,13 @@ document.addEventListener('visibilitychange', () => {
   if (document.visibilityState === 'visible') {
     lastFrameTime = performance.now();
     stepRunner.reset();
-  }
+  } else voiceRadio.update(false, null);
 });
+
+window.addEventListener('blur', () => voiceRadio.update(false, null));
+window.addEventListener('pointerdown', event => { if (event.isTrusted) voiceRadio.unlock(); });
+window.addEventListener('keydown', event => { if (event.isTrusted && !event.repeat) voiceRadio.unlock(); });
+window.addEventListener('pagehide', () => voiceRadio.dispose());
 
 window.addEventListener('skimmer:webgl-context-lost', () => {
   actionRouter.clear();
@@ -1272,6 +1294,7 @@ window.addEventListener('skimmer:webgl-context-lost', () => {
 });
 
 window.addEventListener('beforeunload', () => {
+  voiceRadio.dispose();
   symbiosis.client.disconnect();
   companions.dispose();
   audio.dispose();

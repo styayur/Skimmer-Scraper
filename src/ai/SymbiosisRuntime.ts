@@ -107,7 +107,7 @@ export class SymbiosisRuntime {
   }
 
   /** Typed and transcribed commands share the existing plan validator and team controller. */
-  public async sendDialogue(raw: string): Promise<boolean> {
+  public async sendDialogue(raw: string, useModel = true): Promise<boolean> {
     if(!this.canSendDialogue())return false;
     if(this.client.containsCredential(raw))return false;
     const message = radioText(raw.slice(0, 2000));
@@ -123,7 +123,7 @@ export class SymbiosisRuntime {
       if(generation!==this.radioGeneration)return false;
       const perception=this.perception();if(!perception)return false;
       const intent=localRadioIntent(message,perception,this.team.settings.formation);
-      const model=this.client.canRequest(true) ? await this.client.request(perception,message) : null;
+      const model=useModel&&this.client.canRequest(true) ? await this.client.request(perception,message) : null;
       if(generation!==this.radioGeneration||!this.context?.active)return false;
       const response=model&&readRadioReply(model.decision);
       if(model&&response&&this.radioAgent(response.agent)===response.agent){
@@ -142,7 +142,7 @@ export class SymbiosisRuntime {
         provider:'local',model:'local radio'},perception,'Local Radio');
       this.radio.report(agent,localRadioReply(message,perception,intent,applied,agent),'local','reply',this.time);
       this.record('radio-interpretation',{source:'local',intent:intent?.kind??null,requestId:perception.requestId,agent,
-        action:applied?this.lastPlan?.orders:null,modelFallback:!!model||this.client.snapshot().connected});
+        action:applied?this.lastPlan?.orders:null,modelFallback:useModel&&(!!model||this.client.snapshot().connected)});
       if(applied)this.trackRadioOutcome(perception,agent,message);
       return true;
     } finally {

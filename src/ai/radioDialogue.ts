@@ -58,6 +58,8 @@ export class RadioDialogue {
 
   public reset(): void { this.interrupt(); this.history = []; }
 
+  public current(): RadioLine | null { return this.active; }
+
   public snapshot() { return { active: this.active, history: this.history.slice(), queued: this.queue.length, muted: this.muted }; }
 
   private remember(agent: number | null, raw: string, source: RadioSource, kind: RadioPriority): RadioLine | null {

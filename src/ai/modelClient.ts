@@ -39,6 +39,7 @@ const readUsage=(value:unknown):TokenUsage=>{
 /** BYOK stays in a private runtime field. This adapter never logs request/response bodies. */
 export class ModelClient {
   #key='';#generation=0;#controller:AbortController|null=null;
+  #voiceSession=new AbortController();
   #idle:Promise<void>=Promise.resolve();
   #config:PublicModelConfig={...DEFAULT_MODEL_CONFIG};#lastRequest=-Infinity;#blockedUntil=0;
   #stats:ModelStats={connected:false,pending:false,requests:0,successes:0,failures:0,cancellations:0,reservedTokens:0,usage:{input:0,output:0,total:0,cached:0},lastLatencyMs:null,error:null};
@@ -46,12 +47,28 @@ export class ModelClient {
   public connect(config:PublicModelConfig,key:string):void{
     const next=validateModelConfig(config);
     if(!/^[^\s\x00-\x1f\x7f]{8,4096}$/.test(key)||next.endpoint.includes(key)||next.model.includes(key))throw Error('Invalid API key.');
-    this.cancel();this.#generation++;this.#config=next;this.#key=key;this.#stats.connected=true;this.#stats.error=null;
+    this.cancel();this.#voiceSession.abort();this.#voiceSession=new AbortController();
+    this.#generation++;this.#config=next;this.#key=key;this.#stats.connected=true;this.#stats.error=null;
   }
-  public disconnect():void{this.#generation++;this.#key='';this.#stats.connected=false;this.cancel();}
+  public disconnect():void{this.#generation++;this.#key='';this.#stats.connected=false;this.#voiceSession.abort();this.cancel();}
   public cancel():void{this.#controller?.abort();}
   public idle(): Promise<void> { return this.#idle; }
   public containsCredential(text: string): boolean { return !!this.#key && text.includes(this.#key); }
+  public get voiceConnected(): boolean { return this.#stats.connected && this.#config.provider==='deepseek'; }
+  public async requestVoice(kind: 'asr'|'tts', body: FormData|string, signal: AbortSignal): Promise<Response> {
+    if(!this.voiceConnected)throw new Error('voice-disconnected');
+    if(typeof body==='string'&&this.containsCredential(body))throw new Error('sensitive-response');
+    const session=this.#voiceSession;
+    const response=await this.transport(`https://api.deepseek.com/v1/tools/${kind}`,{
+      method:'POST',headers:{Authorization:`Bearer ${this.#key}`,...(kind==='tts'?{'Content-Type':'application/json'}:{})},
+      body,signal:AbortSignal.any([signal,session.signal]),redirect:'error',credentials:'omit',referrerPolicy:'no-referrer',cache:'no-store',
+    });
+    if((response.status===401||response.status===403)&&this.#voiceSession===session){
+      this.disconnect();
+      this.#stats.error=`http-${response.status}`;
+    }
+    return response;
+  }
   public snapshot():ModelStats{return{...this.#stats,usage:{...this.#stats.usage}};}
   public publicConfig():Omit<PublicModelConfig,'endpoint'>&{origin:string}{const{endpoint,...rest}=this.#config;return{...rest,origin:new URL(endpoint).origin};}
   public canRequest(manual = false):boolean{
@@ -66,7 +83,7 @@ export class ModelClient {
     const input = message === undefined ? perception : { perception, message, profiles: COMPANION_PROFILES };
     const body={model:this.#config.model,messages:[{role:'system',content:message === undefined ? PLAN_PROMPT : RADIO_PROMPT},{role:'user',content:JSON.stringify(input)}],
       response_format:{type:'json_object'},max_tokens:512,temperature:0.2,stream:false,
-      ...(this.#config.provider==='deepseek'?{thinking:{type:'disabled'}}:{})};
+      ...(this.#config.provider==='deepseek'?{thinking:{type:'disabled'},safety_check:{level:'high'}}:{})};
     const serialized=JSON.stringify(body);const bytes=new TextEncoder().encode(serialized).length;
     if(bytes>12000){this.#stats.error='request-size';return null;}
     const reserve=bytes+768;
@@ -82,7 +99,7 @@ export class ModelClient {
       if(generation!==this.#generation||controller.signal.aborted)throw Error('cancelled');
       if(!response.ok){
         if(response.status===429)this.#blockedUntil=this.clock()+Math.max(10000,Math.min(120000,Number(response.headers.get('retry-after')??10)*1000||10000));
-        if(response.status===401||response.status===403){this.#key='';this.#stats.connected=false;}
+        if(response.status===401||response.status===403){this.#key='';this.#stats.connected=false;this.#voiceSession.abort();}
         await response.body?.cancel().catch(()=>{});
         throw Error(`http-${response.status}`);
       }
@@ -91,19 +108,21 @@ export class ModelClient {
       while(true){const chunk=await reader.read();if(chunk.done)break;size+=chunk.value.byteLength;if(size>65536){await reader.cancel();throw Error('response-size');}chunks.push(chunk.value);}
       const data=new Uint8Array(size);let offset=0;for(const chunk of chunks){data.set(chunk,offset);offset+=chunk.byteLength;}
       const text=new TextDecoder().decode(data);
-      const parsed=JSON.parse(text) as {choices?:Array<{message?:{content?:unknown}}> ;usage?:unknown};
+      const parsed=JSON.parse(text) as {choices?:Array<{finish_reason?:string;message?:{content?:unknown}}> ;usage?:unknown};
       if(JSON.stringify(parsed).includes(JSON.stringify(key).slice(1,-1)))throw Error('sensitive-response');
+      const usage=readUsage(parsed.usage);
+      for(const field of ['input','output','total','cached']as const)this.#stats.usage[field]+=usage[field];
+      if(parsed.choices?.[0]?.finish_reason==='content_filter')throw Error('filtered-response');
       const content=parsed.choices?.[0]?.message?.content;
       if(typeof content!=='string'||!content.trim())throw Error('empty-decision');
-      const decision:unknown=JSON.parse(content);const usage=readUsage(parsed.usage);
+      const decision:unknown=JSON.parse(content);
       if(generation!==this.#generation||controller.signal.aborted)throw Error('cancelled');
-      for(const field of ['input','output','total','cached']as const)this.#stats.usage[field]+=usage[field];
       this.#stats.successes++;this.#stats.error=null;this.#stats.lastLatencyMs=Math.max(0,this.clock()-started);
       return{decision,usage,latencyMs:this.#stats.lastLatencyMs,provider:this.#config.provider,model:this.#config.model};
     }catch(error){
       if(generation!==this.#generation||controller.signal.aborted&&!timedOut){this.#stats.cancellations++;return null;}
       const known=error instanceof Error?error.message:'';
-      this.#stats.error=timedOut?'timeout':/^(http-\d{3}|response-size|sensitive-response|empty-response|empty-decision)$/.test(known)?known:'invalid-or-network-response';
+      this.#stats.error=timedOut?'timeout':/^(http-\d{3}|response-size|sensitive-response|filtered-response|empty-response|empty-decision)$/.test(known)?known:'invalid-or-network-response';
       this.#stats.failures++;this.#blockedUntil=Math.max(this.#blockedUntil,this.clock()+Math.min(60000,2000*2**Math.min(4,this.#stats.failures)));
       return null;
     }finally{clearTimeout(timeout);if(this.#controller===controller){this.#controller=null;this.#stats.pending=false;}finished();}

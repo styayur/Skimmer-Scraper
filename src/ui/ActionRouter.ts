@@ -12,6 +12,7 @@ interface Actions {
   title(): void;
   camera(): void;
   radioAvailable(): boolean;
+  voice(action: 'start' | 'stop' | 'cancel' | 'cancel-all', source: 'keyboard' | 'gamepad' | 'touch'): boolean;
 }
 
 const focusable = 'button:not(:disabled), a[href], summary, select:not(:disabled), input:not([type=file]):not(:disabled), textarea:not(:disabled)';
@@ -39,10 +40,13 @@ export class ActionRouter {
     this.overlays.clear();
   }
 
-  public route = (action: GameAction, fromPanel = false): boolean => {
+  public route = (action: GameAction, fromPanel = false, source: 'keyboard' | 'gamepad' | 'touch' = 'keyboard'): boolean => {
+    if (action === 'voice-stop' || action === 'voice-cancel') return this.actions.voice(action === 'voice-stop' ? 'stop' : 'cancel', source);
     if (!this.actions.available()) return false;
     const mode = this.actions.mode();
     const current = this.overlays.current;
+    if (action === 'voice-start') return !current && mode === 'running' && this.actions.voice('start', source);
+    if (action === 'close' && !current && mode === 'running' && this.actions.voice('cancel-all', source)) return true;
     if (action === 'close' || action === 'pause' || action === 'back') {
       if (current) {
         this.overlays.close();

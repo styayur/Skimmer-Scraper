@@ -14,6 +14,9 @@ export type GameAction =
   | 'world'
   | 'help'
   | 'radio'
+  | 'voice-start'
+  | 'voice-stop'
+  | 'voice-cancel'
   | 'confirm'
   | 'back'
   | 'navigate-up'
@@ -44,6 +47,7 @@ const keyAxis = (pressed: Set<string>, positive: string[], negative: string[]): 
 export class KeyboardInputSource implements InputSource {
   private readonly pressed = new Set<string>();
   private enabled = true;
+  private voiceHeld = false;
   private actionListener?: (action: GameAction) => boolean;
 
   public constructor(target: Window = window) {
@@ -59,6 +63,10 @@ export class KeyboardInputSource implements InputSource {
 
   public reset = (): void => {
     this.pressed.clear();
+    if (this.voiceHeld) {
+      this.voiceHeld = false;
+      this.actionListener?.('voice-cancel');
+    }
   };
 
   public sample(): FlightInput {
@@ -81,6 +89,11 @@ export class KeyboardInputSource implements InputSource {
     const target = event.target instanceof Element ? event.target : null;
     if (event.code !== 'Escape' && target?.closest('input, select, textarea, [contenteditable], [role="textbox"]')) return;
     if (event.code === 'Enter' && target?.closest('button, summary, a[href]')) return;
+    if (event.code === 'KeyV' && this.enabled) {
+      if (!event.repeat) this.voiceHeld = this.actionListener?.('voice-start') ?? false;
+      if (this.voiceHeld) event.preventDefault();
+      return;
+    }
     const action = shortcuts.get(event.code);
     if (action && !event.repeat && this.actionListener?.(action)) {
       event.preventDefault();
@@ -92,6 +105,10 @@ export class KeyboardInputSource implements InputSource {
 
   private handleKeyUp = (event: KeyboardEvent): void => {
     this.pressed.delete(event.code);
+    if (event.code === 'KeyV' && this.voiceHeld) {
+      this.voiceHeld = false;
+      this.actionListener?.('voice-stop');
+    }
   };
 }
 

@@ -646,6 +646,13 @@ kbd {
 .companion-status [data-wing="3"] { --wing: var(--rose); }
 .radio-subtitle { position: absolute; left: 50%; bottom: max(5rem, 12vh); width: max-content; max-width: min(38rem, 88vw); transform: translateX(-50%); display: grid; gap: 0.2rem; padding: 0.48rem 0.7rem; color: var(--paper); background: #140e18db; border-left: 2px solid var(--teal); font-size: clamp(0.75rem, 1.75vw, 0.9rem); pointer-events: none; }
 .radio-subtitle[data-priority="risk"] { border-color: var(--rose); }
+.voice-hud { position: absolute; bottom: max(2rem, env(safe-area-inset-bottom)); right: max(1.5rem, env(safe-area-inset-right)); display: grid; justify-items: end; gap: 0.45rem; pointer-events: none; }
+.voice-hud p { max-width: min(19rem, 65vw); margin: 0; padding: 0.4rem 0.6rem; background: #140e18e8; color: var(--paper); font-size: 0.78rem; text-align: right; }
+#voice-status[data-phase="recording"] { color: var(--rose); border-right: 2px solid var(--rose); }
+#voice-ptt { pointer-events: auto; touch-action: none; user-select: none; }
+.voice-settings { display: grid; gap: 0.65rem; }
+.voice-settings[open] > * + * { margin-top: 0.55rem; }
+.voice-settings p { color: var(--paper-muted); font-size: 0.8rem; }
 .radio-speaker { color: var(--teal); font-size: 0.72rem; font-weight: 700; }
 .radio-panel { overflow-y: auto; }
 .radio-history { display: grid; gap: 0.6rem; max-height: min(34vh, 18rem); overflow-y: auto; padding: 0; margin: 0.65rem 0; list-style: none; }
@@ -658,8 +665,8 @@ kbd {
 .cooperation-status { white-space: pre-line; color: #b9f4df; }
 #advanced-flight-settings { margin-top: 0.75rem; }
 #advanced-flight-settings > details { margin: 0.9rem 0; }
-.model-settings { margin-top: 20px; border-top: 1px solid #92b5ae; padding-top: 12px; }
-.model-settings label { display: flex; gap: 10px; margin: 10px 0; justify-content: space-between; }
+.model-settings, .voice-settings { margin-top: 20px; border-top: 1px solid #92b5ae; padding-top: 12px; }
+.model-settings label, .voice-settings label { display: flex; gap: 10px; margin: 10px 0; justify-content: space-between; }
 .model-settings input:not([type=checkbox]) { min-width: 0; width: 65%; }
 .journey-status { position:fixed; left:50%; top:150px; transform:translateX(-50%); display:flex; gap:16px; align-items:center; padding:8px 14px; background:#191d2cbb; color:#eee0cb; font-size:12px; border:1px solid #c7ba8e55; z-index:20; max-width:90vw; }
 .journey-status[hidden], .journey-egg[hidden] { display:none; }

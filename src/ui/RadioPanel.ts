@@ -21,7 +21,7 @@ export class RadioPanel {
   private subtitleId: number | undefined;
   private historyId: number | undefined;
 
-  public constructor(private readonly radio: RadioDialogue, private readonly send: (message: string) => boolean) {
+  public constructor(private readonly radio: RadioDialogue, private readonly send: (message: string) => boolean, silence: () => void) {
     const form = get<HTMLFormElement>('form');
     this.panel.addEventListener('skimmer:open', () => {
       this.mute.checked = radio.muted;
@@ -40,8 +40,8 @@ export class RadioPanel {
         form.requestSubmit();
       });
     });
-    this.mute.addEventListener('change', () => { radio.setMuted(this.mute.checked); this.update(false); });
-    get('interrupt').addEventListener('click', () => { radio.interrupt(); this.update(false); });
+    this.mute.addEventListener('change', () => { radio.setMuted(this.mute.checked); if (this.mute.checked) silence(); this.update(false); });
+    get('interrupt').addEventListener('click', () => { radio.interrupt(); silence(); this.update(false); });
   }
 
   public update(inFlight: boolean): void {
