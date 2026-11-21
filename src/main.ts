@@ -9,7 +9,7 @@ import { RunSettingsPanel } from './ui/RunSettings';
 import { loadControls, shapeInput } from './flight/controlSettings';
 import { GamepadInputSource } from './flight/gamepad';
 import { bindControlSettings } from './ui/ControlSettings';
-import { resolveShield } from './game/shield';
+import { flightWouldCollide, resolveShield } from './game/shield';
 import { loadCameraAnchor, recommendCameraAnchor, type CameraAnchorSetting, type RecommendedAnchorPreset } from './model/cameraAnchors';
 import { bindCameraAnchorSettings } from './ui/CameraAnchorSettings';
 import { loadFlightSetup } from './game/flightSetup';
@@ -72,7 +72,8 @@ type GameMode = 'title' | 'running' | 'paused' | 'failed';
 
 interface DebugSnapshot {
   localWorld: { manifest: WorldManifest; spawn: Vec3; collisionVisible: boolean } | null;
-  worldReleases: Array<{seed:number;bvhBefore:number;bvhAfter:number;rootChildrenAfter:number;disposedGeometryCount:number}>;
+  worldReleases: Array<{seed:number;bvhBefore:number;bvhAfter:number;dynamicBvhBefore:number;dynamicBvhAfter:number;rootChildrenAfter:number;disposedGeometryCount:number}>;
+  dynamicStructures: ReturnType<WorldStreamer['getDynamicSnapshot']> | ReturnType<ImportedWorldAdapter['getDynamicSnapshot']>;
   journey: ReturnType<SkyJourney['snapshot']> & ReturnType<JourneyHud['snapshot']>;
   cooperation: ReturnType<SymbiosisRuntime['snapshot']>;
   attitude: FlightState['attitude'];
@@ -212,6 +213,7 @@ let proximityFeedback: ProximityFeedbackState = createProximityFeedback();
 let renderer: GameRenderer | null = null;
 let currentImportedAircraft: Group | null = null;
 let cockpitPreview = false;
+let motionPreview = false;
 let modelLoadVersion = 0;
 
 const stepRunner = new FixedStepRunner(FLIGHT.fixedDt, 12);
@@ -530,11 +532,13 @@ const releaseActiveWorld = (): void => {
   renderer?.releaseWorld();
   if (!activeWorld) return;
   const before = activeWorld.getAdapterStats().bvhCount;
+  const dynamicBvhBefore = activeWorld.getDynamicSnapshot().length;
   activeWorld.dispose();
   const disposedGeometryCount = activeWorld instanceof WorldStreamer
     ? activeWorld.getStreamerStats().disposedGeometryCount : activeWorld.disposedGeometryCount;
   worldReleases.push({ seed: activeWorld.settings.seed, bvhBefore: before, bvhAfter: activeWorld.getAdapterStats().bvhCount,
-    rootChildrenAfter: activeWorld.root.children.length, disposedGeometryCount });
+    dynamicBvhBefore, dynamicBvhAfter: activeWorld.getDynamicSnapshot().length, rootChildrenAfter: activeWorld.root.children.length,
+    disposedGeometryCount });
   if (worldReleases.length > 16) worldReleases.shift();
   activeWorld = null;
 };
@@ -603,6 +607,7 @@ const simulateJourneyStep = (dt: number): boolean => {
     beginSkySwap();
     return true;
   }
+  activeWorld.stepMotion(dt);
   if (previousPhase === 'DIVE' && skyPassage) {
     const next = stepSkyDive(flightState, skyPassage, journey.phase === 'DIVE' ? journey.progress : 1, dt);
     if (distance(next.position, flightState.position) > 4) {
@@ -658,6 +663,7 @@ const simulateFixedStep = (dt: number, holdPosition = false): boolean => {
 
   buffering = false;
   neededCoverage = null;
+  activeWorld.stepMotion(dt);
   shieldCooldown = Math.max(0, shieldCooldown - dt);
   shieldGlow = Math.max(0, shieldGlow - dt * 3);
   if (runRules.config.shield) {
@@ -668,11 +674,12 @@ const simulateFixedStep = (dt: number, holdPosition = false): boolean => {
       if (shieldCooldown === 0) { shieldImpacts++; gamepad.impact(); shieldCooldown = 0.2; }
     }
   }
+  const collisionDistance = !runRules.config.shield
+    && (activeWorld instanceof ImportedWorldAdapter || worldSettings.generatorVersion === GENERATOR_VERSION)
+    ? flightWouldCollide(flightState, nextState, activeWorld) ? COLLISION_RADIUS : null : undefined;
   const previousY=flightState.position.y;
   flightState = nextState;
   lastSurfaceHit = queryFlightSurface(activeWorld, flightState.position, SURFACE_QUERY_RANGE);
-  const collisionDistance = activeWorld instanceof ImportedWorldAdapter && !runRules.config.shield
-    ? activeWorld.queryNearest(flightState.position, COLLISION_RADIUS + 0.01)?.distance ?? null : undefined;
   runRules = updateRunRules(runRules, { distance: lastSurfaceHit?.distance ?? null, collisionDistance }, dt);
   if (runRules.status === 'running') {
     companions.step(flightState, activeWorld, dt);
@@ -716,6 +723,8 @@ const finishRun = (): void => {
 
 const resetFlightState = (): void => {
   if (!renderer || !activeWorld) return;
+  motionPreview = false;
+  activeWorld.resetMotion();
   const spawn = activeWorld.getDefaultSpawn();
   flightState = createFlightState({
     position: { ...spawn.position },
@@ -853,6 +862,7 @@ const debugSnapshot = (): DebugSnapshot => {
     localWorld: activeWorld instanceof ImportedWorldAdapter ? {
       manifest: activeWorld.manifest, spawn: activeWorld.getDefaultSpawn().position, collisionVisible: activeWorld.isCollisionVisible(),
     } : null,
+    dynamicStructures: activeWorld?.getDynamicSnapshot() ?? [],
     worldReleases:worldReleases.map(item=>({...item})),
     journey: {...journey.snapshot(),...journeyHud.snapshot()},
     cooperation: symbiosis.snapshot(),
@@ -1053,6 +1063,9 @@ const worldPanel = new WorldImportPanel(worldResources, {
   }),
   apply: world => activateWorld(world, null),
   collision: visible => { if (activeWorld instanceof ImportedWorldAdapter) activeWorld.setCollisionVisible(visible); },
+  motion: running => { if (activeWorld instanceof ImportedWorldAdapter) activeWorld.setMotionRunning(running); },
+  preview: enabled => { motionPreview = enabled && mode === 'title'; },
+  previewState: () => ({ available: mode === 'title', enabled: motionPreview }),
   builtIn: async current => {
     if (!(activeWorld instanceof ImportedWorldAdapter)) return;
     const settings = journeyWorld(baseWorldSettings, 0);
@@ -1117,6 +1130,7 @@ const frame = (now: number): void => {
       );
       renderer.setShieldImpact(shieldGlow);
     } else if (mode === 'title' && !cockpitPreview) {
+      if (motionPreview && activeWorld instanceof ImportedWorldAdapter) activeWorld.stepMotion(delta);
       renderer.renderTitle(now);
     } else {
       renderer.renderFlight(toRenderFlightState(flightState), 0, now);

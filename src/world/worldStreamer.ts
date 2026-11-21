@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { CHUNK_SIZE, type WorldSettings } from './worldConfig';
+import { CHUNK_SIZE, GENERATOR_VERSION, type WorldSettings } from './worldConfig';
 import { chunkKey, type ChunkSource } from './chunkSource';
 import { InlineChunkSource } from './chunkSource';
 import { ChunkedWorldAdapter, type WorldAdapterStats } from './chunkedWorldAdapter';
@@ -7,6 +7,9 @@ import { fingerprintValues } from './deterministic';
 import { terrainHeightAt } from './terrain';
 import type { RenderableWorld, SpawnState } from './renderWorld';
 import type { CollisionChunk, GeneratedChunk, SurfaceQuery, WorldStats } from './worldTypes';
+import type { Vec3 } from '../core/math';
+import { ProceduralArchitecture } from './proceduralArchitecture';
+import { UnifiedSurfaceQuery } from './unifiedSurfaceQuery';
 
 export type ChunkLifecycleState =
   | 'UNLOADED'
@@ -39,6 +42,7 @@ export interface StreamerStats {
   retiredTotal: number;
   disposedGeometryCount: number;
   bvhCount: number;
+  dynamicBvhCount: number;
   renderObjectCount: number;
   estimatedCpuGeometryBytes: number;
   generationAvgMs: number;
@@ -126,6 +130,8 @@ const isActive = (record: ManagedChunk): boolean => record.state === 'ACTIVE';
 export class WorldStreamer implements RenderableWorld {
   public readonly root = new THREE.Group();
   public readonly adapter = new ChunkedWorldAdapter();
+  private readonly surfaces = new UnifiedSurfaceQuery(this.adapter);
+  private readonly architecture: ProceduralArchitecture | null;
   public readonly source: ChunkSource;
   public readonly settings: WorldSettings;
   public readonly fingerprint: number;
@@ -162,6 +168,9 @@ export class WorldStreamer implements RenderableWorld {
     this.onChunkActivated = options.onChunkActivated ?? (() => {});
     this.onChunkRetired = options.onChunkRetired ?? (() => {});
     this.root.name = `world-stream-${settings.seed}`;
+    this.architecture = settings.generatorVersion === GENERATOR_VERSION
+      ? new ProceduralArchitecture(settings, this.surfaces.dynamic) : null;
+    if (this.architecture) this.root.add(this.architecture.group);
     const ground = terrainHeightAt(SPAWN_X, SPAWN_Z, settings);
     this.defaultSpawn = {
       position: { x: SPAWN_X, y: ground + 24, z: SPAWN_Z },
@@ -192,6 +201,7 @@ export class WorldStreamer implements RenderableWorld {
     this.lastPosition = { ...position };
     this.lastVelocity = { ...velocity };
     const rebaseDelta = this.maybeRebase(position);
+    this.architecture?.cover(position, this.companionPositions);
     const desired = this.buildDesiredChunks(position, velocity);
     const now = performance.now();
 
@@ -289,8 +299,14 @@ export class WorldStreamer implements RenderableWorld {
   }
 
   public queryNearest(position: { x: number; y: number; z: number }, maxDistance: number): SurfaceQuery | null {
-    return this.adapter.queryNearest(position, maxDistance);
+    return this.surfaces.queryNearest(position, maxDistance);
   }
+  public queryProximity(position: Vec3, range: number) { return this.surfaces.queryProximity(position, range); }
+  public queryStatic(position: Vec3, range: number) { return this.surfaces.queryStatic(position, range); }
+  public sweepDynamic(from: Vec3, to: Vec3, radius: number) { return this.surfaces.sweepDynamic(from, to, radius); }
+  public stepMotion(dt: number): void { this.architecture?.step(dt); }
+  public resetMotion(): void { this.architecture?.reset(); }
+  public getDynamicSnapshot() { return this.architecture?.snapshot() ?? []; }
   /** Agents require their swept envelope and 35 m prediction horizon, not a second 3x3 world. */
   public isCompanionCovered(position: { x: number; y: number; z: number }): boolean {
     const padding = 60;
@@ -356,6 +372,7 @@ export class WorldStreamer implements RenderableWorld {
       retiredTotal: this.retiredTotal,
       disposedGeometryCount: this.disposedGeometryCount,
       bvhCount: this.adapter.getStats().bvhCount,
+      dynamicBvhCount: this.surfaces.dynamic.count,
       renderObjectCount,
       estimatedCpuGeometryBytes: geometryBytesTotal,
       generationAvgMs: timing.average,
@@ -393,6 +410,7 @@ export class WorldStreamer implements RenderableWorld {
     for (const record of [...this.chunks.values()]) this.retireChunk(record);
     this.chunks.clear();
     this.adapter.dispose();
+    this.architecture?.dispose();
     this.source.dispose();
     this.root.clear();
   }
@@ -590,6 +608,7 @@ export class WorldStreamer implements RenderableWorld {
     const delta = { x: nextX - this.renderOrigin.x, y: 0, z: nextZ - this.renderOrigin.z };
     this.renderOrigin.x = nextX;
     this.renderOrigin.z = nextZ;
+    this.architecture?.shiftOrigin(this.renderOrigin);
     this.rebaseCount += 1;
     for (const record of this.chunks.values()) {
       if (!record.generated) continue;

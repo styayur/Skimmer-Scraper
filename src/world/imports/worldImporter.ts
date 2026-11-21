@@ -1,5 +1,6 @@
 import { Vector3 } from 'three';
 import { ImportedWorldAdapter } from './importedWorldAdapter';
+import { ImportedMotion } from './importedMotion';
 import { analyzeWorldScene, disposeWorldScenes, type AnalyzedWorldScene } from './sceneAnalyzer';
 import type { ConfigureWorldTextures } from './worldCodecs';
 import { inspectWorldGlb } from './worldGlbPreflight';
@@ -18,8 +19,10 @@ export class WorldImporter {
     const { parseWorldGlb } = await import('./worldCodecs');
     const gltf = await parseWorldGlb(data, inspected.extensions, configureTextures);
     let analyzed: AnalyzedWorldScene | null = null;
+    let motion: ImportedMotion | null = null;
     try {
-      analyzed = analyzeWorldScene(gltf.scene, options);
+      motion = new ImportedMotion(gltf.scene, gltf.animations, options.motion);
+      analyzed = analyzeWorldScene(gltf.scene, options, motion);
       const digest = new Uint8Array(await crypto.subtle.digest('SHA-256', data));
       const id = Array.from(digest, byte => byte.toString(16).padStart(2, '0')).join('');
       const { x, y, z } = analyzed.bounds.getSize(new Vector3());
@@ -29,19 +32,21 @@ export class WorldImporter {
         bytes: data.byteLength,
         nodes: analyzed.nodes,
         triangles: analyzed.triangles,
-        collisionTriangles: ((analyzed.surfaces?.getAttribute('position').count ?? 0) + (analyzed.obstacles?.getAttribute('position').count ?? 0)) / 3,
+        collisionTriangles: analyzed.collisionTriangles,
         materials: analyzed.materials,
         textures: analyzed.textures,
         texturePixels: inspected.texturePixels,
         bounds: { x, y, z },
-        animations: gltf.animations.map(clip => ({ name: clip.name, seconds: clip.duration })),
+        animations: motion.clips,
         meshRoles: analyzed.meshRoles,
         options: structuredClone(options),
       };
-      return new ImportedWorldAdapter(manifest, analyzed, gltf.scenes);
+      return new ImportedWorldAdapter(manifest, analyzed, gltf.scenes, motion);
     } catch (error) {
+      motion?.dispose();
       analyzed?.surfaces?.dispose();
       analyzed?.obstacles?.dispose();
+      for (const mesh of analyzed?.dynamic ?? []) mesh.geometry.dispose();
       disposeWorldScenes(gltf.scenes);
       throw error;
     }

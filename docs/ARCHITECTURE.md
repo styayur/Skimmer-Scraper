@@ -55,6 +55,26 @@ surface and obstacle geometry. Flight, shields and companions query both, while
 proximity and Surface Relay query the surface index. `WorldResourceManager`
 keeps the binary and display metadata in separate IndexedDB stores and updates
 both in one transaction. See [Local GLB worlds](WORLD-IMPORT.md).
+
+## Moving architecture
+
+`UnifiedSurfaceQuery` combines stationary chunk or imported geometry with
+`DynamicColliderRegistry`. Each moving structure owns a local triangle BVH and
+keeps previous and current world transforms. Bounds reject distant candidates.
+Nearest points for nonuniform scale are measured on transformed triangles in
+world coordinates. The shield and unshielded flight sweep relative to the moving
+surface. Conservative advancement uses a bound on object motion within the fixed
+step. Rigid rotation follows a quaternion arc and sheared affine transforms
+interpolate their matrices. The same query serves the player, three companion
+controllers, proximity and Surface Relay.
+
+`ProceduralArchitecture` owns eight nearby airspace regions independently of
+static chunk retirement. A region's seed and simulation time determine its garden,
+shuttle, lift or ring. Floating-origin changes move render objects while spatial
+queries keep world coordinates. `ImportedMotion` updates GLB tracks and local
+routes at the simulation timestep. Each moving mesh is omitted from the static
+index. Skin and morph rendering use the original clip and collisions use the
+documented reference shape. The import preview runs only at the title screen.
 Each generator also owns one shared shadow depth material. Real-GPU lifecycle
 instrumentation found a disposed ground map being uploaded again through the
 renderer-shared shadow material; per-world ownership releases that sampler state.

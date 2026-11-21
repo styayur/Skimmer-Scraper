@@ -5,6 +5,8 @@ import { fingerprintValues } from '../deterministic';
 import type { RenderableWorld, SpawnState } from '../renderWorld';
 import { resolveWorldSettings } from '../worldConfig';
 import type { SurfaceProvider, WorldStats } from '../worldTypes';
+import { UnifiedSurfaceQuery } from '../unifiedSurfaceQuery';
+import type { ImportedMotion } from './importedMotion';
 import { disposeWorldScenes, type AnalyzedWorldScene } from './sceneAnalyzer';
 import type { WorldManifest } from './worldManifest';
 
@@ -13,6 +15,10 @@ export class ImportedWorldAdapter implements RenderableWorld, SurfaceProvider {
   public readonly settings;
   public readonly root: THREE.Group;
   private readonly adapter = new ChunkedWorldAdapter();
+  private readonly surfaces = new UnifiedSurfaceQuery({
+    queryNearest: (position, range) => this.adapter.queryNearest(position, range),
+    queryProximity: (position, range) => this.adapter.queryNearest(position, range, this.surfaceId),
+  });
   private readonly spawn: SpawnState;
   private readonly collisionView = new THREE.Group();
   private readonly surfaceId: string;
@@ -23,6 +29,7 @@ export class ImportedWorldAdapter implements RenderableWorld, SurfaceProvider {
     public readonly manifest: WorldManifest,
     private readonly scene: AnalyzedWorldScene,
     private readonly sourceScenes: readonly THREE.Group[],
+    private readonly motion?: ImportedMotion,
   ) {
     this.settings = resolveWorldSettings({ seed: String(Number.parseInt(manifest.id.slice(0, 8), 16)) });
     const origin = { x: 0, y: 0, z: 0 };
@@ -34,6 +41,7 @@ export class ImportedWorldAdapter implements RenderableWorld, SurfaceProvider {
       if (!geometry) continue;
       this.adapter.addChunk({ id, chunkX: 0, chunkZ: 0, origin, bounds: geometry.boundingBox!, geometry });
     }
+    motion?.attach(this.surfaces.dynamic, scene.dynamic, this.collisionView);
     this.spawn = this.chooseSpawn();
     for (const [geometry, color] of [[scene.surfaces, 0x62ffd6], [scene.obstacles, 0xffa178]] as const) {
       if (!geometry) continue;
@@ -71,8 +79,15 @@ export class ImportedWorldAdapter implements RenderableWorld, SurfaceProvider {
   }
   public isCompanionCovered(position: Vec3): boolean { return this.isCollisionCovered(position); }
   public getAdapterStats() { return this.adapter.getStats(); }
-  public queryNearest(position: Vec3, maxDistance: number) { return this.adapter.queryNearest(position, maxDistance); }
-  public queryProximity(position: Vec3, maxDistance: number) { return this.adapter.queryNearest(position, maxDistance, this.surfaceId); }
+  public queryNearest(position: Vec3, maxDistance: number) { return this.surfaces.queryNearest(position, maxDistance); }
+  public queryProximity(position: Vec3, maxDistance: number) { return this.surfaces.queryProximity(position, maxDistance); }
+  public queryStatic(position: Vec3, range: number) { return this.surfaces.queryStatic(position, range); }
+  public sweepDynamic(from: Vec3, to: Vec3, radius: number) { return this.surfaces.sweepDynamic(from, to, radius); }
+  public stepMotion(dt: number): void { this.motion?.step(dt); }
+  public resetMotion(): void { this.motion?.reset(); }
+  public setMotionRunning(running: boolean): void { this.motion?.setRunning(running); }
+  public isMotionRunning(): boolean { return this.motion?.isRunning ?? false; }
+  public getDynamicSnapshot() { return this.motion?.snapshot() ?? []; }
 
   public getFingerprint(): number {
     return fingerprintValues(this.manifest.id, JSON.stringify(this.manifest.options));
@@ -88,7 +103,10 @@ export class ImportedWorldAdapter implements RenderableWorld, SurfaceProvider {
     if (this.disposed) return;
     this.disposed = true;
     this.adapter.dispose();
-    this.disposedGeometryCount = disposeWorldScenes([...this.sourceScenes, this.collisionView]);
+    const moving = this.surfaces.dynamic.count;
+    this.motion?.dispose();
+    this.surfaces.dynamic.dispose();
+    this.disposedGeometryCount = moving + disposeWorldScenes([...this.sourceScenes, this.collisionView]);
     this.root.clear();
   }
 

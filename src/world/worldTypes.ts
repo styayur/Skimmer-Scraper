@@ -48,9 +48,17 @@ export interface SurfaceQuery {
   surfaceId: string;
 }
 
+export interface SweptSurfaceContact {
+  fraction: number;
+  hit: SurfaceQuery;
+  velocity: Vec3;
+}
+
 export interface SurfaceProvider {
   queryNearest(position: Vec3, maxDistance: number): SurfaceQuery | null;
   queryProximity?(position: Vec3, maxDistance: number): SurfaceQuery | null;
+  queryStatic?(position: Vec3, maxDistance: number): SurfaceQuery | null;
+  sweepDynamic?(from: Vec3, to: Vec3, radius: number): SweptSurfaceContact | null;
 }
 
 export const queryFlightSurface = (world: SurfaceProvider, position: Vec3, maxDistance: number): SurfaceQuery | null =>

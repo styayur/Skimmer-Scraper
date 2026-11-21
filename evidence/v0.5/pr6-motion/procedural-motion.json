@@ -1,0 +1,1665 @@
+{
+  "initial": {
+    "localWorld": null,
+    "dynamicStructures": [
+      {
+        "id": "moving:0:0:garden",
+        "type": "garden",
+        "position": {
+          "x": 220,
+          "y": 266.32075162890345,
+          "z": 220.858248420991
+        },
+        "yaw": 1.9934191183876773
+      },
+      {
+        "id": "moving:-1:0:lift",
+        "type": "lift",
+        "position": {
+          "x": -220,
+          "y": 288.666245832137,
+          "z": 248.84038747288287
+        },
+        "yaw": 3.003966625233294
+      },
+      {
+        "id": "moving:0:-1:shuttle",
+        "type": "shuttle",
+        "position": {
+          "x": 229.6735331939222,
+          "y": 297.5318429764845,
+          "z": -237.59041735456782
+        },
+        "yaw": 1.981767008070512
+      },
+      {
+        "id": "moving:0:1:lift",
+        "type": "lift",
+        "position": {
+          "x": 220,
+          "y": 305.2154837804357,
+          "z": 649.5707504823804
+        },
+        "yaw": 2.6435844923166325
+      },
+      {
+        "id": "moving:1:0:shuttle",
+        "type": "shuttle",
+        "position": {
+          "x": 607.1438197086732,
+          "y": 279.05965206834463,
+          "z": 275.4346732772744
+        },
+        "yaw": 2.6741076987249826
+      },
+      {
+        "id": "moving:-1:-1:garden",
+        "type": "garden",
+        "position": {
+          "x": -220,
+          "y": 253.89963014902838,
+          "z": -240.27496435679495
+        },
+        "yaw": 1.39214172515935
+      },
+      {
+        "id": "moving:-1:1:ring",
+        "type": "ring",
+        "position": {
+          "x": -220,
+          "y": 291.1034770867956,
+          "z": 694.5249325083569
+        },
+        "yaw": 4.549272608058763
+      },
+      {
+        "id": "moving:-2:0:ring",
+        "type": "ring",
+        "position": {
+          "x": -660,
+          "y": 285.9219183729408,
+          "z": 224.52800353057683
+        },
+        "yaw": 4.554756793891402
+      }
+    ],
+    "worldReleases": [],
+    "journey": {
+      "phase": "ASCENT",
+      "phaseTime": 0,
+      "time": 0,
+      "progress": 0,
+      "worldIndex": 0,
+      "crossings": 0,
+      "active": false,
+      "height": 520,
+      "history": [],
+      "easterEggUnlocked": false,
+      "easterEggTriggers": 0,
+      "easterEggVisible": false
+    },
+    "cooperation": {
+      "planner": "Local Autonomous Controller",
+      "time": 0,
+      "epoch": 1,
+      "trust": {
+        "value": 0.5,
+        "events": []
+      },
+      "relay": {
+        "charges": 2,
+        "cooldownUntil": 0,
+        "attempts": 0,
+        "successes": 0,
+        "failures": 0
+      },
+      "model": {
+        "connected": false,
+        "pending": false,
+        "requests": 0,
+        "successes": 0,
+        "failures": 0,
+        "cancellations": 0,
+        "reservedTokens": 0,
+        "usage": {
+          "input": 0,
+          "output": 0,
+          "total": 0,
+          "cached": 0
+        },
+        "lastLatencyMs": null,
+        "error": null
+      },
+      "config": {
+        "provider": "deepseek",
+        "model": "deepseek-flash",
+        "trusted": false,
+        "intervalSeconds": 8,
+        "maxRequests": 20,
+        "tokenBudget": 50000,
+        "timeoutMs": 8000,
+        "origin": "https://api.deepseek.com"
+      },
+      "lastPlan": null,
+      "trace": [],
+      "memory": []
+    },
+    "ready": true,
+    "attitude": {
+      "pitch": -0.015,
+      "roll": 0,
+      "yaw": 0
+    },
+    "control": {
+      "pitch": 0,
+      "roll": 0,
+      "yaw": 0,
+      "boost": false
+    },
+    "rules": {
+      "mode": "free",
+      "graceSeconds": 5,
+      "shield": true,
+      "assisted": true
+    },
+    "companionSettings": {
+      "count": 3,
+      "formation": "wedge",
+      "behavior": "formation"
+    },
+    "companions": [
+      {
+        "id": 1,
+        "callsign": "KITE-1",
+        "position": {
+          "x": -14,
+          "y": 31.4729498445272,
+          "z": 106.00157497046897
+        },
+        "velocity": {
+          "x": 0,
+          "y": -0.9899628754176539,
+          "z": -65.9925751392177
+        },
+        "target": {
+          "x": -14,
+          "y": 31.4729498445272,
+          "z": 106.00157497046897
+        },
+        "task": "FORMATION_FOLLOW",
+        "surfaceDistance": null,
+        "decisions": 0,
+        "impacts": 0,
+        "uncovered": false,
+        "deployed": true
+      },
+      {
+        "id": 2,
+        "callsign": "KITE-2",
+        "position": {
+          "x": 14,
+          "y": 33.60860272856277,
+          "z": 106.00157497046897
+        },
+        "velocity": {
+          "x": 0,
+          "y": -0.9899628754176539,
+          "z": -65.9925751392177
+        },
+        "target": {
+          "x": 14,
+          "y": 33.60860272856277,
+          "z": 106.00157497046897
+        },
+        "task": "FORMATION_FOLLOW",
+        "surfaceDistance": null,
+        "decisions": 0,
+        "impacts": 0,
+        "uncovered": false,
+        "deployed": true
+      },
+      {
+        "id": 3,
+        "callsign": "KITE-3",
+        "position": {
+          "x": 0,
+          "y": 36.31223889113239,
+          "z": 121.99977500421872
+        },
+        "velocity": {
+          "x": 0,
+          "y": -0.9899628754176539,
+          "z": -65.9925751392177
+        },
+        "target": {
+          "x": 0,
+          "y": 36.31223889113239,
+          "z": 121.99977500421872
+        },
+        "task": "FORMATION_FOLLOW",
+        "surfaceDistance": null,
+        "decisions": 0,
+        "impacts": 0,
+        "uncovered": false,
+        "deployed": true
+      }
+    ],
+    "companionEvents": [
+      {
+        "time": 0,
+        "agent": 1,
+        "event": "spawn",
+        "task": "FORMATION_FOLLOW"
+      },
+      {
+        "time": 0,
+        "agent": 2,
+        "event": "spawn",
+        "task": "FORMATION_FOLLOW"
+      },
+      {
+        "time": 0,
+        "agent": 3,
+        "event": "spawn",
+        "task": "FORMATION_FOLLOW"
+      }
+    ],
+    "shieldImpacts": 0,
+    "inputDevice": "Gamepad · custom",
+    "mode": "title",
+    "runTime": 0,
+    "best": 0,
+    "speed": 66,
+    "altitude": 24,
+    "position": {
+      "x": 0,
+      "y": 24,
+      "z": 120
+    },
+    "velocity": {
+      "x": 0,
+      "y": -0.9899628754176539,
+      "z": -65.9925751392177
+    },
+    "surfaceDistance": 24,
+    "surfaceLocked": true,
+    "grace": 5,
+    "failureReason": null,
+    "world": {
+      "chunks": 13,
+      "buildings": 91,
+      "bridges": 23,
+      "islands": 3,
+      "collisionTriangles": 35538,
+      "renderTriangles": 96906
+    },
+    "adapter": {
+      "chunks": 13,
+      "bvhCount": 13,
+      "lastBroadPhaseCandidates": 2,
+      "lastQueries": 2
+    },
+    "streaming": {
+      "stateCounts": {
+        "UNLOADED": 0,
+        "QUEUED": 11,
+        "GENERATING": 1,
+        "READY": 0,
+        "ACTIVE": 13,
+        "RETIRING": 0,
+        "DISPOSED": 0
+      },
+      "loadedChunks": 13,
+      "activeChunks": 13,
+      "queuedChunks": 11,
+      "generatingChunks": 1,
+      "generatedTotal": 13,
+      "retiredTotal": 0,
+      "disposedGeometryCount": 0,
+      "bvhCount": 13,
+      "dynamicBvhCount": 8,
+      "renderObjectCount": 194,
+      "estimatedCpuGeometryBytes": 11965284,
+      "generationAvgMs": 130.5538461546485,
+      "generationP95Ms": 1474.8999999985099,
+      "generationMinMs": 6.700000002980232,
+      "generationMaxMs": 1474.8999999985099,
+      "generationSampleCount": 13,
+      "maxLoadedChunks": 41,
+      "coverageComplete": true,
+      "rebaseCount": 0
+    },
+    "buffering": false,
+    "renderOrigin": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "render": {
+      "calls": 260,
+      "triangles": 150700,
+      "points": 560,
+      "lines": 0,
+      "fps": 104.62668395154355,
+      "geometries": 133,
+      "textures": 25,
+      "inversionAngle": 0,
+      "mirrorSky": {
+        "seed": 334458,
+        "triangles": 2640,
+        "cameraOffset": 0
+      }
+    },
+    "seed": 334458,
+    "debugInput": false,
+    "selectedAircraft": "procedural",
+    "localModelCount": 0,
+    "cameraMode": "chase",
+    "cameraBlend": 0,
+    "cameraAnchor": {
+      "x": 0,
+      "y": 2.36,
+      "z": -1.57
+    },
+    "cameraOrientation": [
+      0.049219858113003584,
+      0.0907066410613458,
+      -0.004488579781573435,
+      0.994650473023689
+    ],
+    "cameraPosition": {
+      "x": 44.92865876238484,
+      "y": 46.969549290418826,
+      "z": 187.78318693551606
+    },
+    "fov": 60.91238451846789,
+    "proximity": 0,
+    "proximityZone": "detached",
+    "visualStimulation": "standard",
+    "recordingHintVisible": true,
+    "worldPreset": "city",
+    "worldMode": "stable",
+    "generatorVersion": 3,
+    "worldFingerprint": 1706816904,
+    "revisionHistory": null,
+    "chunkStates": [
+      {
+        "key": "0:0",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 2976136981
+      },
+      {
+        "key": "0:-1",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 236117941
+      },
+      {
+        "key": "-1:0",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 2210267245
+      },
+      {
+        "key": "1:0",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 515821614
+      },
+      {
+        "key": "0:1",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 1889626214
+      },
+      {
+        "key": "-1:-1",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 304380887
+      },
+      {
+        "key": "1:-1",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 3080867534
+      },
+      {
+        "key": "-1:1",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 1793584451
+      },
+      {
+        "key": "1:1",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 1038989808
+      },
+      {
+        "key": "0:-2",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 3184639020
+      },
+      {
+        "key": "-2:0",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 83920537
+      },
+      {
+        "key": "2:0",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 702567328
+      },
+      {
+        "key": "0:2",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 809447038
+      },
+      {
+        "key": "-1:-2",
+        "state": "GENERATING",
+        "revision": 0,
+        "fingerprint": null
+      },
+      {
+        "key": "1:-2",
+        "state": "QUEUED",
+        "revision": 0,
+        "fingerprint": null
+      },
+      {
+        "key": "-2:-1",
+        "state": "QUEUED",
+        "revision": 0,
+        "fingerprint": null
+      },
+      {
+        "key": "2:-1",
+        "state": "QUEUED",
+        "revision": 0,
+        "fingerprint": null
+      },
+      {
+        "key": "-2:1",
+        "state": "QUEUED",
+        "revision": 0,
+        "fingerprint": null
+      },
+      {
+        "key": "2:1",
+        "state": "QUEUED",
+        "revision": 0,
+        "fingerprint": null
+      },
+      {
+        "key": "-1:2",
+        "state": "QUEUED",
+        "revision": 0,
+        "fingerprint": null
+      },
+      {
+        "key": "1:2",
+        "state": "QUEUED",
+        "revision": 0,
+        "fingerprint": null
+      },
+      {
+        "key": "-2:-2",
+        "state": "QUEUED",
+        "revision": 0,
+        "fingerprint": null
+      },
+      {
+        "key": "2:-2",
+        "state": "QUEUED",
+        "revision": 0,
+        "fingerprint": null
+      },
+      {
+        "key": "-2:2",
+        "state": "QUEUED",
+        "revision": 0,
+        "fingerprint": null
+      },
+      {
+        "key": "2:2",
+        "state": "QUEUED",
+        "revision": 0,
+        "fingerprint": null
+      }
+    ]
+  },
+  "flight": {
+    "start": {
+      "id": "moving:0:0:garden",
+      "type": "garden",
+      "position": {
+        "x": 220,
+        "y": 265.6692835970519,
+        "z": 220.858248420991
+      },
+      "yaw": 1.9934191183876773
+    },
+    "middle": {
+      "id": "moving:0:0:garden",
+      "type": "garden",
+      "position": {
+        "x": 220,
+        "y": 265.3016903389049,
+        "z": 220.858248420991
+      },
+      "yaw": 1.9934191183876773
+    },
+    "end": {
+      "id": "moving:0:0:garden",
+      "type": "garden",
+      "position": {
+        "x": 220,
+        "y": 265.6013579774818,
+        "z": 220.858248420991
+      },
+      "yaw": 1.9934191183876773
+    },
+    "near": {
+      "localWorld": null,
+      "dynamicStructures": [
+        {
+          "id": "moving:0:0:garden",
+          "type": "garden",
+          "position": {
+            "x": 220,
+            "y": 265.6013579774818,
+            "z": 220.858248420991
+          },
+          "yaw": 1.9934191183876773
+        },
+        {
+          "id": "moving:-1:0:lift",
+          "type": "lift",
+          "position": {
+            "x": -220,
+            "y": 296.92432007069755,
+            "z": 248.84038747288287
+          },
+          "yaw": 3.003966625233294
+        },
+        {
+          "id": "moving:0:-1:shuttle",
+          "type": "shuttle",
+          "position": {
+            "x": 237.7899426850425,
+            "y": 299.9542198940079,
+            "z": -256.21518811118005
+          },
+          "yaw": 1.981767008070512
+        },
+        {
+          "id": "moving:0:1:lift",
+          "type": "lift",
+          "position": {
+            "x": 220,
+            "y": 296.5529960143731,
+            "z": 649.5707504823804
+          },
+          "yaw": 2.6435844923166325
+        },
+        {
+          "id": "moving:1:0:shuttle",
+          "type": "shuttle",
+          "position": {
+            "x": 615.0698591989253,
+            "y": 274.870983050819,
+            "z": 271.4335615655822
+          },
+          "yaw": 2.6741076987249826
+        },
+        {
+          "id": "moving:-1:-1:garden",
+          "type": "garden",
+          "position": {
+            "x": -220,
+            "y": 251.45344219183107,
+            "z": -240.27496435679495
+          },
+          "yaw": 1.39214172515935
+        },
+        {
+          "id": "moving:-1:1:ring",
+          "type": "ring",
+          "position": {
+            "x": -220,
+            "y": 298.58478764544026,
+            "z": 694.5249325083569
+          },
+          "yaw": 4.907605941392096
+        },
+        {
+          "id": "moving:1:-1:ring",
+          "type": "ring",
+          "position": {
+            "x": 660,
+            "y": 297.54783718516023,
+            "z": -201.7183748469688
+          },
+          "yaw": 3.1692958436505405
+        }
+      ],
+      "worldReleases": [],
+      "journey": {
+        "phase": "ASCENT",
+        "phaseTime": 0,
+        "time": 0.8333333333333328,
+        "progress": 0,
+        "worldIndex": 0,
+        "crossings": 0,
+        "active": false,
+        "height": 520,
+        "history": [],
+        "easterEggUnlocked": false,
+        "easterEggTriggers": 0,
+        "easterEggVisible": false
+      },
+      "cooperation": {
+        "planner": "Local Autonomous Controller",
+        "time": 0.8333333333333328,
+        "epoch": 3,
+        "trust": {
+          "value": 0.5,
+          "events": []
+        },
+        "relay": {
+          "charges": 2,
+          "cooldownUntil": 0,
+          "attempts": 0,
+          "successes": 0,
+          "failures": 0
+        },
+        "model": {
+          "connected": false,
+          "pending": false,
+          "requests": 0,
+          "successes": 0,
+          "failures": 0,
+          "cancellations": 0,
+          "reservedTokens": 0,
+          "usage": {
+            "input": 0,
+            "output": 0,
+            "total": 0,
+            "cached": 0
+          },
+          "lastLatencyMs": null,
+          "error": null
+        },
+        "config": {
+          "provider": "deepseek",
+          "model": "deepseek-flash",
+          "trusted": false,
+          "intervalSeconds": 8,
+          "maxRequests": 20,
+          "tokenBudget": 50000,
+          "timeoutMs": 8000,
+          "origin": "https://api.deepseek.com"
+        },
+        "lastPlan": null,
+        "trace": [],
+        "memory": []
+      },
+      "ready": true,
+      "attitude": {
+        "pitch": 0,
+        "roll": 0,
+        "yaw": 0
+      },
+      "control": {
+        "pitch": 0,
+        "roll": 0,
+        "yaw": 0,
+        "boost": false
+      },
+      "rules": {
+        "mode": "free",
+        "graceSeconds": 5,
+        "shield": true,
+        "assisted": true
+      },
+      "companionSettings": {
+        "count": 3,
+        "formation": "wedge",
+        "behavior": "formation"
+      },
+      "companions": [
+        {
+          "id": 1,
+          "callsign": "KITE-1",
+          "position": {
+            "x": 206,
+            "y": 293.4509746919596,
+            "z": 200.20224969709992
+          },
+          "velocity": {
+            "x": 0,
+            "y": -1.029497233333143,
+            "z": -65.22627400671733
+          },
+          "target": {
+            "x": 206,
+            "y": 293.66427357026004,
+            "z": 199.14748275001756
+          },
+          "task": "FORMATION_FOLLOW",
+          "surfaceDistance": 22.797142287325755,
+          "decisions": 6,
+          "impacts": 0,
+          "uncovered": false,
+          "deployed": true
+        },
+        {
+          "id": 2,
+          "callsign": "KITE-2",
+          "position": {
+            "x": 236.22600090342232,
+            "y": 294.5217310283236,
+            "z": 206.40540942713824
+          },
+          "velocity": {
+            "x": -3.66471605956606,
+            "y": -6.0414172540454105,
+            "z": -60.43068856137342
+          },
+          "target": {
+            "x": 234,
+            "y": 292.86622788525983,
+            "z": 199.14748275001756
+          },
+          "task": "FORMATION_FOLLOW",
+          "surfaceDistance": 23.574976448321795,
+          "decisions": 6,
+          "impacts": 0,
+          "uncovered": false,
+          "deployed": true
+        },
+        {
+          "id": 3,
+          "callsign": "KITE-3",
+          "position": {
+            "x": 220,
+            "y": 294.2552566238376,
+            "z": 220.1752157844004
+          },
+          "velocity": {
+            "x": 0,
+            "y": -4.504957089478103,
+            "z": -60.059180669837474
+          },
+          "target": {
+            "x": 220,
+            "y": 292.96771714167267,
+            "z": 215.14748275001756
+          },
+          "task": "FORMATION_FOLLOW",
+          "surfaceDistance": 23.246663745516173,
+          "decisions": 6,
+          "impacts": 0,
+          "uncovered": false,
+          "deployed": true
+        }
+      ],
+      "companionEvents": [
+        {
+          "time": 0,
+          "agent": 1,
+          "event": "spawn",
+          "task": "FORMATION_FOLLOW"
+        },
+        {
+          "time": 0,
+          "agent": 2,
+          "event": "spawn",
+          "task": "FORMATION_FOLLOW"
+        },
+        {
+          "time": 0,
+          "agent": 3,
+          "event": "spawn",
+          "task": "FORMATION_FOLLOW"
+        },
+        {
+          "time": 0.008333333333333333,
+          "agent": 2,
+          "event": "task",
+          "task": "AVOID"
+        },
+        {
+          "time": 0.6583333333333334,
+          "agent": 2,
+          "event": "task",
+          "task": "FORMATION_FOLLOW"
+        }
+      ],
+      "shieldImpacts": 0,
+      "inputDevice": "Gamepad · custom",
+      "mode": "running",
+      "runTime": 0.8333333333333328,
+      "best": 0,
+      "speed": 66.01125099991762,
+      "altitude": 287.6692835970519,
+      "position": {
+        "x": 220,
+        "y": 287.6692835970519,
+        "z": 213.14748275001756
+      },
+      "velocity": {
+        "x": 0,
+        "y": 0,
+        "z": -66.01125099991762
+      },
+      "surfaceDistance": 16.567925619570076,
+      "surfaceLocked": true,
+      "grace": 5,
+      "failureReason": null,
+      "world": {
+        "chunks": 17,
+        "buildings": 125,
+        "bridges": 28,
+        "islands": 6,
+        "collisionTriangles": 46682,
+        "renderTriangles": 134946
+      },
+      "adapter": {
+        "chunks": 17,
+        "bvhCount": 17,
+        "lastBroadPhaseCandidates": 1,
+        "lastQueries": 1
+      },
+      "streaming": {
+        "stateCounts": {
+          "UNLOADED": 0,
+          "QUEUED": 7,
+          "GENERATING": 1,
+          "READY": 0,
+          "ACTIVE": 17,
+          "RETIRING": 0,
+          "DISPOSED": 0
+        },
+        "loadedChunks": 17,
+        "activeChunks": 17,
+        "queuedChunks": 7,
+        "generatingChunks": 1,
+        "generatedTotal": 27,
+        "retiredTotal": 10,
+        "disposedGeometryCount": 159,
+        "bvhCount": 17,
+        "dynamicBvhCount": 8,
+        "renderObjectCount": 261,
+        "estimatedCpuGeometryBytes": 16424092,
+        "generationAvgMs": 73.37407407468116,
+        "generationP95Ms": 37.70000000298023,
+        "generationMinMs": 6.700000002980232,
+        "generationMaxMs": 1474.8999999985099,
+        "generationSampleCount": 27,
+        "maxLoadedChunks": 41,
+        "coverageComplete": true,
+        "rebaseCount": 0
+      },
+      "buffering": false,
+      "renderOrigin": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "render": {
+        "calls": 369,
+        "triangles": 243000,
+        "points": 560,
+        "lines": 64,
+        "fps": 79.00805691202483,
+        "geometries": 121,
+        "textures": 25,
+        "inversionAngle": 0,
+        "mirrorSky": {
+          "seed": 334458,
+          "triangles": 2640,
+          "cameraOffset": 358.1882569210502
+        }
+      },
+      "seed": 334458,
+      "debugInput": false,
+      "selectedAircraft": "procedural",
+      "localModelCount": 0,
+      "cameraMode": "chase",
+      "cameraBlend": 0,
+      "cameraAnchor": {
+        "x": 0,
+        "y": 2.36,
+        "z": -1.57
+      },
+      "cameraOrientation": [
+        -0.026592012154327733,
+        0,
+        0,
+        0.9996463699176744
+      ],
+      "cameraPosition": {
+        "x": 220,
+        "y": 291.3692835970519,
+        "z": 226.32151614556798
+      },
+      "fov": 63.38125017239959,
+      "proximity": 0.3000443825372297,
+      "proximityZone": "near",
+      "visualStimulation": "standard",
+      "recordingHintVisible": true,
+      "worldPreset": "city",
+      "worldMode": "stable",
+      "generatorVersion": 3,
+      "worldFingerprint": 1706816904,
+      "revisionHistory": null,
+      "chunkStates": [
+        {
+          "key": "0:0",
+          "state": "ACTIVE",
+          "revision": 0,
+          "fingerprint": 2976136981
+        },
+        {
+          "key": "0:-1",
+          "state": "ACTIVE",
+          "revision": 0,
+          "fingerprint": 236117941
+        },
+        {
+          "key": "-1:0",
+          "state": "ACTIVE",
+          "revision": 0,
+          "fingerprint": 2210267245
+        },
+        {
+          "key": "1:0",
+          "state": "ACTIVE",
+          "revision": 0,
+          "fingerprint": 515821614
+        },
+        {
+          "key": "0:1",
+          "state": "ACTIVE",
+          "revision": 0,
+          "fingerprint": 1889626214
+        },
+        {
+          "key": "-1:-1",
+          "state": "ACTIVE",
+          "revision": 0,
+          "fingerprint": 304380887
+        },
+        {
+          "key": "1:-1",
+          "state": "ACTIVE",
+          "revision": 0,
+          "fingerprint": 3080867534
+        },
+        {
+          "key": "-1:1",
+          "state": "ACTIVE",
+          "revision": 0,
+          "fingerprint": 1793584451
+        },
+        {
+          "key": "1:1",
+          "state": "ACTIVE",
+          "revision": 0,
+          "fingerprint": 1038989808
+        },
+        {
+          "key": "2:0",
+          "state": "ACTIVE",
+          "revision": 0,
+          "fingerprint": 702567328
+        },
+        {
+          "key": "0:2",
+          "state": "ACTIVE",
+          "revision": 0,
+          "fingerprint": 809447038
+        },
+        {
+          "key": "2:-1",
+          "state": "ACTIVE",
+          "revision": 0,
+          "fingerprint": 244545475
+        },
+        {
+          "key": "2:1",
+          "state": "ACTIVE",
+          "revision": 0,
+          "fingerprint": 3827152885
+        },
+        {
+          "key": "-1:2",
+          "state": "ACTIVE",
+          "revision": 0,
+          "fingerprint": 3581977414
+        },
+        {
+          "key": "1:2",
+          "state": "ACTIVE",
+          "revision": 0,
+          "fingerprint": 2830557235
+        },
+        {
+          "key": "2:2",
+          "state": "ACTIVE",
+          "revision": 0,
+          "fingerprint": 1479943213
+        },
+        {
+          "key": "3:1",
+          "state": "ACTIVE",
+          "revision": 0,
+          "fingerprint": 1859134972
+        },
+        {
+          "key": "3:0",
+          "state": "GENERATING",
+          "revision": 0,
+          "fingerprint": null
+        },
+        {
+          "key": "3:2",
+          "state": "QUEUED",
+          "revision": 0,
+          "fingerprint": null
+        },
+        {
+          "key": "3:-1",
+          "state": "QUEUED",
+          "revision": 0,
+          "fingerprint": null
+        },
+        {
+          "key": "1:-2",
+          "state": "QUEUED",
+          "revision": 0,
+          "fingerprint": null
+        },
+        {
+          "key": "0:-2",
+          "state": "QUEUED",
+          "revision": 0,
+          "fingerprint": null
+        },
+        {
+          "key": "2:-2",
+          "state": "QUEUED",
+          "revision": 0,
+          "fingerprint": null
+        },
+        {
+          "key": "-1:-2",
+          "state": "QUEUED",
+          "revision": 0,
+          "fingerprint": null
+        },
+        {
+          "key": "3:-2",
+          "state": "QUEUED",
+          "revision": 0,
+          "fingerprint": null
+        }
+      ]
+    },
+    "proximity": {
+      "distance": 2.5,
+      "point": {
+        "x": 220,
+        "y": 271.1013579774818,
+        "z": 220.858248420991
+      },
+      "chunkId": "0:0",
+      "surfaceId": "moving:0:0:garden"
+    }
+  },
+  "retry": {
+    "localWorld": null,
+    "dynamicStructures": [
+      {
+        "id": "moving:0:0:garden",
+        "type": "garden",
+        "position": {
+          "x": 220,
+          "y": 266.32075162890345,
+          "z": 220.858248420991
+        },
+        "yaw": 1.9934191183876773
+      },
+      {
+        "id": "moving:-1:0:lift",
+        "type": "lift",
+        "position": {
+          "x": -220,
+          "y": 288.666245832137,
+          "z": 248.84038747288287
+        },
+        "yaw": 3.003966625233294
+      },
+      {
+        "id": "moving:0:-1:shuttle",
+        "type": "shuttle",
+        "position": {
+          "x": 229.6735331939222,
+          "y": 297.5318429764845,
+          "z": -237.59041735456782
+        },
+        "yaw": 1.981767008070512
+      },
+      {
+        "id": "moving:0:1:lift",
+        "type": "lift",
+        "position": {
+          "x": 220,
+          "y": 305.2154837804357,
+          "z": 649.5707504823804
+        },
+        "yaw": 2.6435844923166325
+      },
+      {
+        "id": "moving:1:0:shuttle",
+        "type": "shuttle",
+        "position": {
+          "x": 607.1438197086732,
+          "y": 279.05965206834463,
+          "z": 275.4346732772744
+        },
+        "yaw": 2.6741076987249826
+      },
+      {
+        "id": "moving:-1:-1:garden",
+        "type": "garden",
+        "position": {
+          "x": -220,
+          "y": 253.89963014902838,
+          "z": -240.27496435679495
+        },
+        "yaw": 1.39214172515935
+      },
+      {
+        "id": "moving:-1:1:ring",
+        "type": "ring",
+        "position": {
+          "x": -220,
+          "y": 291.1034770867956,
+          "z": 694.5249325083569
+        },
+        "yaw": 4.549272608058763
+      },
+      {
+        "id": "moving:-2:0:ring",
+        "type": "ring",
+        "position": {
+          "x": -660,
+          "y": 285.9219183729408,
+          "z": 224.52800353057683
+        },
+        "yaw": 4.554756793891402
+      }
+    ],
+    "worldReleases": [],
+    "journey": {
+      "phase": "ASCENT",
+      "phaseTime": 0,
+      "time": 0,
+      "progress": 0,
+      "worldIndex": 0,
+      "crossings": 0,
+      "active": false,
+      "height": 520,
+      "history": [],
+      "easterEggUnlocked": false,
+      "easterEggTriggers": 0,
+      "easterEggVisible": false
+    },
+    "cooperation": {
+      "planner": "Local Autonomous Controller",
+      "time": 0,
+      "epoch": 5,
+      "trust": {
+        "value": 0.5,
+        "events": []
+      },
+      "relay": {
+        "charges": 2,
+        "cooldownUntil": 0,
+        "attempts": 0,
+        "successes": 0,
+        "failures": 0
+      },
+      "model": {
+        "connected": false,
+        "pending": false,
+        "requests": 0,
+        "successes": 0,
+        "failures": 0,
+        "cancellations": 0,
+        "reservedTokens": 0,
+        "usage": {
+          "input": 0,
+          "output": 0,
+          "total": 0,
+          "cached": 0
+        },
+        "lastLatencyMs": null,
+        "error": null
+      },
+      "config": {
+        "provider": "deepseek",
+        "model": "deepseek-flash",
+        "trusted": false,
+        "intervalSeconds": 8,
+        "maxRequests": 20,
+        "tokenBudget": 50000,
+        "timeoutMs": 8000,
+        "origin": "https://api.deepseek.com"
+      },
+      "lastPlan": null,
+      "trace": [],
+      "memory": []
+    },
+    "ready": true,
+    "attitude": {
+      "pitch": -0.015,
+      "roll": 0,
+      "yaw": 0
+    },
+    "control": {
+      "pitch": 0,
+      "roll": 0,
+      "yaw": 0,
+      "boost": false
+    },
+    "rules": {
+      "mode": "free",
+      "graceSeconds": 5,
+      "shield": true,
+      "assisted": true
+    },
+    "companionSettings": {
+      "count": 3,
+      "formation": "wedge",
+      "behavior": "formation"
+    },
+    "companions": [
+      {
+        "id": 1,
+        "callsign": "KITE-1",
+        "position": {
+          "x": -14,
+          "y": 31.4729498445272,
+          "z": 106.00157497046897
+        },
+        "velocity": {
+          "x": 0,
+          "y": -0.9899628754176539,
+          "z": -65.9925751392177
+        },
+        "target": {
+          "x": -14,
+          "y": 31.4729498445272,
+          "z": 106.00157497046897
+        },
+        "task": "FORMATION_FOLLOW",
+        "surfaceDistance": null,
+        "decisions": 0,
+        "impacts": 0,
+        "uncovered": false,
+        "deployed": true
+      },
+      {
+        "id": 2,
+        "callsign": "KITE-2",
+        "position": {
+          "x": 14,
+          "y": 33.60860272856277,
+          "z": 106.00157497046897
+        },
+        "velocity": {
+          "x": 0,
+          "y": -0.9899628754176539,
+          "z": -65.9925751392177
+        },
+        "target": {
+          "x": 14,
+          "y": 33.60860272856277,
+          "z": 106.00157497046897
+        },
+        "task": "FORMATION_FOLLOW",
+        "surfaceDistance": null,
+        "decisions": 0,
+        "impacts": 0,
+        "uncovered": false,
+        "deployed": true
+      },
+      {
+        "id": 3,
+        "callsign": "KITE-3",
+        "position": {
+          "x": 0,
+          "y": 36.31223889113239,
+          "z": 121.99977500421872
+        },
+        "velocity": {
+          "x": 0,
+          "y": -0.9899628754176539,
+          "z": -65.9925751392177
+        },
+        "target": {
+          "x": 0,
+          "y": 36.31223889113239,
+          "z": 121.99977500421872
+        },
+        "task": "FORMATION_FOLLOW",
+        "surfaceDistance": null,
+        "decisions": 0,
+        "impacts": 0,
+        "uncovered": false,
+        "deployed": true
+      }
+    ],
+    "companionEvents": [
+      {
+        "time": 0,
+        "agent": 1,
+        "event": "spawn",
+        "task": "FORMATION_FOLLOW"
+      },
+      {
+        "time": 0,
+        "agent": 2,
+        "event": "spawn",
+        "task": "FORMATION_FOLLOW"
+      },
+      {
+        "time": 0,
+        "agent": 3,
+        "event": "spawn",
+        "task": "FORMATION_FOLLOW"
+      }
+    ],
+    "shieldImpacts": 0,
+    "inputDevice": "Gamepad · custom",
+    "mode": "running",
+    "runTime": 0,
+    "best": 0,
+    "speed": 66,
+    "altitude": 24,
+    "position": {
+      "x": 0,
+      "y": 24,
+      "z": 120
+    },
+    "velocity": {
+      "x": 0,
+      "y": -0.9899628754176539,
+      "z": -65.9925751392177
+    },
+    "surfaceDistance": 24,
+    "surfaceLocked": true,
+    "grace": 5,
+    "failureReason": null,
+    "world": {
+      "chunks": 20,
+      "buildings": 156,
+      "bridges": 33,
+      "islands": 6,
+      "collisionTriangles": 57982,
+      "renderTriangles": 166726
+    },
+    "adapter": {
+      "chunks": 20,
+      "bvhCount": 20,
+      "lastBroadPhaseCandidates": 2,
+      "lastQueries": 2
+    },
+    "streaming": {
+      "stateCounts": {
+        "UNLOADED": 0,
+        "QUEUED": 4,
+        "GENERATING": 1,
+        "READY": 0,
+        "ACTIVE": 20,
+        "RETIRING": 0,
+        "DISPOSED": 0
+      },
+      "loadedChunks": 20,
+      "activeChunks": 20,
+      "queuedChunks": 4,
+      "generatingChunks": 1,
+      "generatedTotal": 35,
+      "retiredTotal": 15,
+      "disposedGeometryCount": 238,
+      "bvhCount": 20,
+      "dynamicBvhCount": 8,
+      "renderObjectCount": 309,
+      "estimatedCpuGeometryBytes": 20321208,
+      "generationAvgMs": 64.26571428616133,
+      "generationP95Ms": 46.900000002235174,
+      "generationMinMs": 6.700000002980232,
+      "generationMaxMs": 1474.8999999985099,
+      "generationSampleCount": 35,
+      "maxLoadedChunks": 41,
+      "coverageComplete": true,
+      "rebaseCount": 0
+    },
+    "buffering": false,
+    "renderOrigin": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "render": {
+      "calls": 410,
+      "triangles": 281844,
+      "points": 560,
+      "lines": 64,
+      "fps": 55.03777690731758,
+      "geometries": 211,
+      "textures": 25,
+      "inversionAngle": 0,
+      "mirrorSky": {
+        "seed": 334458,
+        "triangles": 2640,
+        "cameraOffset": 355.6750675164746
+      }
+    },
+    "seed": 334458,
+    "debugInput": false,
+    "selectedAircraft": "procedural",
+    "localModelCount": 0,
+    "cameraMode": "chase",
+    "cameraBlend": 0,
+    "cameraAnchor": {
+      "x": 0,
+      "y": 2.36,
+      "z": -1.57
+    },
+    "cameraOrientation": [
+      -0.03408920096210881,
+      0,
+      0,
+      0.9994187942888432
+    ],
+    "cameraPosition": {
+      "x": 0,
+      "y": 27.897176347887992,
+      "z": 133.1163534423472
+    },
+    "fov": 63.37931034482759,
+    "proximity": 0,
+    "proximityZone": "detached",
+    "visualStimulation": "standard",
+    "recordingHintVisible": true,
+    "worldPreset": "city",
+    "worldMode": "stable",
+    "generatorVersion": 3,
+    "worldFingerprint": 1706816904,
+    "revisionHistory": null,
+    "chunkStates": [
+      {
+        "key": "0:0",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 2976136981
+      },
+      {
+        "key": "0:-1",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 236117941
+      },
+      {
+        "key": "-1:0",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 2210267245
+      },
+      {
+        "key": "1:0",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 515821614
+      },
+      {
+        "key": "0:1",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 1889626214
+      },
+      {
+        "key": "-1:-1",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 304380887
+      },
+      {
+        "key": "1:-1",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 3080867534
+      },
+      {
+        "key": "-1:1",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 1793584451
+      },
+      {
+        "key": "1:1",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 1038989808
+      },
+      {
+        "key": "2:0",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 702567328
+      },
+      {
+        "key": "0:2",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 809447038
+      },
+      {
+        "key": "2:-1",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 244545475
+      },
+      {
+        "key": "2:1",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 3827152885
+      },
+      {
+        "key": "-1:2",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 3581977414
+      },
+      {
+        "key": "1:2",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 2830557235
+      },
+      {
+        "key": "2:2",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 1479943213
+      },
+      {
+        "key": "1:-2",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 3236760595
+      },
+      {
+        "key": "0:-2",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 3184639020
+      },
+      {
+        "key": "2:-2",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 3281832707
+      },
+      {
+        "key": "-1:-2",
+        "state": "ACTIVE",
+        "revision": 0,
+        "fingerprint": 1402184332
+      },
+      {
+        "key": "-2:0",
+        "state": "GENERATING",
+        "revision": 0,
+        "fingerprint": null
+      },
+      {
+        "key": "-2:-1",
+        "state": "QUEUED",
+        "revision": 0,
+        "fingerprint": null
+      },
+      {
+        "key": "-2:1",
+        "state": "QUEUED",
+        "revision": 0,
+        "fingerprint": null
+      },
+      {
+        "key": "-2:-2",
+        "state": "QUEUED",
+        "revision": 0,
+        "fingerprint": null
+      },
+      {
+        "key": "-2:2",
+        "state": "QUEUED",
+        "revision": 0,
+        "fingerprint": null
+      }
+    ]
+  },
+  "errors": []
+}

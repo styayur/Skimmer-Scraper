@@ -1,6 +1,7 @@
 import type { ImportedWorldAdapter } from '../world/imports/importedWorldAdapter';
 import type { WorldImporter } from '../world/imports/worldImporter';
 import type { WorldResourceManager } from '../world/imports/worldResourceManager';
+import { WorldMotionSettings } from './WorldMotionSettings';
 import {
   defaultWorldImportOptions, isWorldRole, WORLD_IMPORT_LIMITS, type WorldImportOptions, type WorldRole,
 } from '../world/imports/worldManifest';
@@ -11,6 +12,9 @@ interface Hooks {
   apply: (world: ImportedWorldAdapter) => void;
   builtIn: (current: () => boolean) => Promise<void>;
   collision: (visible: boolean) => void;
+  motion: (running: boolean) => void;
+  preview: (enabled: boolean) => void;
+  previewState: () => { available: boolean; enabled: boolean };
 }
 
 const get = <T extends HTMLElement = HTMLElement>(name: string) => document.getElementById(`local-world-${name}`) as T;
@@ -31,6 +35,7 @@ export class WorldImportPanel {
   private readonly meshes = get<HTMLSelectElement>('mesh');
   private readonly role = get<HTMLSelectElement>('role');
   private readonly save = get<HTMLInputElement>('save');
+  private readonly motionSettings = new WorldMotionSettings();
   private currentFile: File | null = null;
   private draft: { data: ArrayBuffer; world: ImportedWorldAdapter } | null = null;
   private roles: Record<string, WorldRole> = {};
@@ -47,7 +52,12 @@ export class WorldImportPanel {
       delete drop.dataset.dragging;
       this.selectFile(event.dataTransfer?.files[0]);
     });
-    this.panel.addEventListener('skimmer:open', () => { void this.refresh(); });
+    this.panel.addEventListener('skimmer:open', () => {
+      void this.refresh();
+      const preview = hooks.previewState();
+      get('motion-preview-label').hidden = !preview.available;
+      get<HTMLInputElement>('motion-preview').checked = preview.enabled;
+    });
     this.panel.addEventListener('skimmer:close', () => this.discard());
     this.cancel.addEventListener('click', () => { this.discard(); this.status.textContent = '已取消导入。'; });
     this.manual.addEventListener('change', () => { this.position.disabled = !this.manual.checked; });
@@ -56,6 +66,8 @@ export class WorldImportPanel {
       if (isWorldRole(this.role.value)) this.roles[this.meshes.value] = this.role.value;
     });
     get<HTMLInputElement>('collision').addEventListener('change', event => this.hooks.collision((event.target as HTMLInputElement).checked));
+    get<HTMLInputElement>('motion-running').addEventListener('change', event => this.hooks.motion((event.target as HTMLInputElement).checked));
+    get<HTMLInputElement>('motion-preview').addEventListener('change', event => this.hooks.preview((event.target as HTMLInputElement).checked));
     get('builtin').addEventListener('click', () => {
       void this.run('正在准备程序城市…', current => this.hooks.builtIn(current));
     });
@@ -90,6 +102,8 @@ export class WorldImportPanel {
     get('active').hidden = world === null;
     get('name').textContent = world ? `当前世界 · ${world.manifest.name}` : '';
     get<HTMLInputElement>('collision').checked = world?.isCollisionVisible() ?? false;
+    get('motion-controls').hidden = !world || !(world.manifest.animations.length || world.manifest.meshRoles.some(mesh => mesh.motion));
+    get<HTMLInputElement>('motion-running').checked = world?.isMotionRunning() ?? false;
   }
 
   private selectFile(file?: File): void {
@@ -166,11 +180,12 @@ export class WorldImportPanel {
     const { x, y, z } = world.getDefaultSpawn().position;
     const lengths = Object.values(manifest.bounds).map(value => value.toFixed(1)).join(' × ');
     const textureMiB = Math.ceil(manifest.texturePixels * 4 / (1024 * 1024));
-    get('summary').textContent = `${manifest.name} · ${lengths} 米 · ${manifest.nodes} 节点 · ${manifest.triangles.toLocaleString()} 三角面 · ${manifest.materials} 材质 · ${manifest.textures} 纹理（解码约 ${textureMiB} MB） · ${manifest.animations.length} 个动画片段（静态载入）`;
+    get('summary').textContent = `${manifest.name} · ${lengths} 米 · ${manifest.nodes} 节点 · ${manifest.triangles.toLocaleString()} 三角面 · ${manifest.materials} 材质 · ${manifest.textures} 纹理（解码约 ${textureMiB} MB） · ${manifest.animations.length} 个动画片段`;
     this.status.textContent = manifest.triangles > 450_000 || textureMiB > 80 ? '场景较大，可能降低帧率。可取消导入。' : '';
     this.roles = { ...options.roles };
     this.meshes.replaceChildren(...manifest.meshRoles.map(mesh => new Option(mesh.name, mesh.id)));
     this.updateRole();
+    this.motionSettings.show(manifest);
     this.manual.checked = options.spawn !== null;
     this.position.disabled = !this.manual.checked;
     for (const [key, value] of Object.entries({ ...options, x, y, z })) {
@@ -188,11 +203,13 @@ export class WorldImportPanel {
     const draft = this.draft;
     if (!draft) return;
     const fields = new FormData(this.form);
+    const motion = this.motionSettings.options();
     const options: WorldImportOptions = {
       scale: Number(fields.get('scale')), yaw: Number(fields.get('yaw')),
       up: fields.get('up') as WorldImportOptions['up'], spawnYaw: Number(fields.get('spawnYaw')),
       spawn: this.manual.checked ? { x: Number(fields.get('x')), y: Number(fields.get('y')), z: Number(fields.get('z')) } : null,
       ...(Object.keys(this.roles).length ? { roles: { ...this.roles } } : {}),
+      ...(motion ? { motion } : {}),
     };
     const shouldSave = this.save.checked;
     await this.run('正在准备世界…', async current => {
