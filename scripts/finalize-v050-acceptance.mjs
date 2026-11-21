@@ -6,7 +6,8 @@ import { join } from 'node:path';
 const [destination, finalPr] = process.argv.slice(2);
 assert(destination && /^[0-9]+$/.test(finalPr), 'Provide the release artifact directory and final PR number.');
 const read = file => JSON.parse(readFileSync(file, 'utf8'));
-const gh = args => JSON.parse(execFileSync('gh', args, { encoding: 'utf8' }));
+const ghText = args => execFileSync('gh', args, { encoding: 'utf8', maxBuffer: 16 * 1024 * 1024 });
+const gh = args => JSON.parse(ghText(args));
 const manifest = read(join(destination, 'release-manifest.json'));
 assert(['0.5.0', '0.5.0-rc.1'].includes(manifest.version));
 const tag = `v${manifest.version}`;
@@ -36,9 +37,13 @@ assert(manifest.assets.every(asset => release.assets.some(published => published
 const runs = (workflow, selector) => gh(['run', 'list', '--workflow', workflow, '--commit', commit,
   '--limit', '12', '--json', 'databaseId,url,status,conclusion,event,headBranch']).find(run =>
   run.status === 'completed' && run.conclusion === 'success' && selector(run));
-const main = runs('ci.yml', run => run.headBranch === 'main' && run.event === 'push');
+const main = runs('ci.yml', run => run.headBranch === 'main' && ['push', 'workflow_dispatch'].includes(run.event));
 const pages = runs('deploy-github-pages.yml', run => run.headBranch === tag && run.event === 'push');
 assert(main, 'Merged main CI must succeed');
+const mainLog = ghText(['run', 'view', String(main.databaseId), '--log']).replace(/\u001b\[[0-9;]*m/g, '');
+const unitCount = mainLog.match(/\bTests\s+(\d+)\s+passed\b/)?.[1];
+const browserCount = mainLog.match(/Browser integration tests[^\n]*?\b(\d+) passed \(/)?.[1];
+assert(unitCount && browserCount, 'Missing actual unit/browser pass counts in the merged main CI log');
 const publicUrl = 'https://styayur.github.io/Skimmer-Scraper/';
 let production;
 if (candidate) {
@@ -63,12 +68,13 @@ const report = {
   generatedAt: new Date().toISOString(),
   status: candidate ? 'VERIFIED RELEASE CANDIDATE' : 'VERIFIED LIVE',
   pullRequests: prs,
-  tests: integrated.tests,
+  tests: { ...integrated.tests, mergedMain: { unitPassed: Number(unitCount), chromiumPassed: Number(browserCount), run: main.url } },
   browsers: integrated.browsers,
   hardware: integrated.hardware,
   resourceStability: integrated.resourceStability,
   worldImport: integrated.worldImport,
   skyInversion: integrated.skyInversion,
+  humanControls: integrated.humanControls,
   city: read('acceptance/v0.5/pr3-city.json'),
   motionCollision: read('acceptance/v0.5/pr6-motion.json'),
   dialogue: read('acceptance/v0.5/pr7-radio.json'),

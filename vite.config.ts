@@ -29,5 +29,7 @@ export default defineConfig({
       this.emitFile({ type: 'asset', fileName: 'build-info.json', source: `${JSON.stringify(buildInfo, null, 2)}\n` });
     },
   }],
-  build: { target: 'es2022', sourcemap: true },
+  // The complete source is linked above. Asset modules can emit different
+  // synthetic references in their source maps across identical builds.
+  build: { target: 'es2022', sourcemap: false },
 });

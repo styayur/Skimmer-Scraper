@@ -40,6 +40,9 @@ retain `SOURCE_REVISION.json` for a build without `.git`. The release's
 `v0.5.0.json` is generated beside the archives so it can include their hashes
 and the verified production SHA. Run `python scripts/verify-release-package.py
 <output>` to check both archives and their embedded revision data.
+The distribution links to its complete corresponding source. It omits
+bundler source maps because their synthetic asset references can differ
+between builds from the same files.
 
 After Pages reports a successful deployment, verify the public project URL with
 `node scripts/verify-v050.mjs` and the expected version and commit. The smoke
