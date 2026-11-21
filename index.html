@@ -61,6 +61,10 @@
 
         <div id="companion-status" class="companion-status" role="status" aria-label="伴机状态" hidden></div>
         <div id="radio-subtitle" class="radio-subtitle" role="status" aria-live="polite" aria-atomic="true" hidden></div>
+        <div class="voice-hud">
+          <p id="voice-status" role="status" aria-live="polite" hidden></p>
+          <button id="voice-ptt" class="utility-button" type="button" aria-label="按住使用语音电台" hidden>按住讲话 <kbd>V</kbd></button>
+        </div>
         <div id="cockpit-frame" class="cockpit-frame" aria-hidden="true" hidden>
           <span class="cockpit-frame__left"></span>
           <span class="cockpit-frame__right"></span>
@@ -112,7 +116,7 @@
         <ol id="radio-history" class="radio-history" aria-label="本次飞行对话"></ol>
         <p id="radio-empty" class="world-description">给伴机下令，或询问当前飞行情况。</p>
         <div class="radio-controls">
-          <label><input id="radio-mute" type="checkbox" /> 静音字幕</label>
+          <label><input id="radio-mute" type="checkbox" /> 静音电台</label>
           <button id="radio-interrupt" type="button" class="text-button">清除播报</button>
         </div>
         <div class="radio-commands" aria-label="常用指令">
@@ -170,7 +174,8 @@
         </section>
         <section>
           <h3 id="guide-ai" tabindex="-1">AI 伴机与语音</h3>
-          <p>按 T 打开伴机电台。可请求跟随、领航、侦察左侧、集合、保持队形、寻找安全路线或准备地表接力。未连接模型时，常用指令由本地伴机执行。模型协作需要自带 Key，服务商可能收费。</p>
+          <p>按 T 打开伴机电台。可请求跟随、领航、侦察左侧、集合、保持队形、寻找安全路线或准备地表接力。未连接模型时，常用指令由本地伴机执行。</p>
+          <p>在飞行设置的高级选项中启用语音后，按住 V 讲话，松开发送，Esc 取消。手柄可分配独立按钮。本机语音由设备处理，DeepSeek 模式使用你连接的 Key，服务商可能收费。</p>
         </section>
         <section>
           <h3 id="guide-advanced" tabindex="-1">高级设置</h3>
@@ -253,6 +258,8 @@
             <label>菜单确认按钮 <input data-control="confirmButton" type="number" min="0" max="31" /></label>
             <label>菜单返回按钮 <input data-control="backButton" type="number" min="0" max="31" /></label>
             <label>游戏菜单按钮 <input data-control="menuButton" type="number" min="0" max="31" /></label>
+            <label>按住讲话按钮 <input id="voice-gamepad-button" data-control="voiceButton" type="number" min="-1" max="31" /></label>
+            <p class="world-description">选择一个未分配的按钮编号。−1 关闭手柄语音快捷键。</p>
           </details>
           <details id="camera-anchor-settings"><summary>当前机型座舱位置</summary>
             <label>座舱预设 <select id="anchor-preset">

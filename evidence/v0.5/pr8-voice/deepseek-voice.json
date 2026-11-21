@@ -1,0 +1,434 @@
+{
+  "auth": [
+    {
+      "path": "/chat/completions",
+      "status": 200
+    },
+    {
+      "path": "/v1/tools/asr",
+      "status": 200
+    },
+    {
+      "path": "/chat/completions",
+      "status": 200
+    },
+    {
+      "path": "/v1/tools/tts",
+      "status": 200
+    },
+    {
+      "path": "/v1/tools/tts",
+      "network": "net::ERR_ABORTED"
+    }
+  ],
+  "captures": [
+    {
+      "stage": "before",
+      "mode": "running",
+      "position": {
+        "x": 0,
+        "y": 340,
+        "z": 119.44999999564853
+      },
+      "elapsed": 8.458333333333494,
+      "voice": {
+        "input": "deepseek",
+        "output": "deepseek",
+        "language": "en-US",
+        "localFallback": false,
+        "phase": "idle",
+        "played": 0,
+        "completed": 0,
+        "speaking": null,
+        "captures": 0,
+        "commands": 0,
+        "lastError": null,
+        "lastCompleted": null,
+        "playbackHistory": [],
+        "cloud": {
+          "asrRequests": 0,
+          "asrSeconds": 0,
+          "lastAsrMs": null,
+          "lastAudioMs": null,
+          "ttsRequests": 0,
+          "ttsCharacters": 0,
+          "lastTtsFirstByteMs": null,
+          "lastTtsMs": null,
+          "lastTtsBytes": 0
+        },
+        "limits": {
+          "asrRequests": 10,
+          "asrSeconds": 60,
+          "ttsRequests": 18,
+          "ttsCharacters": 1200
+        }
+      },
+      "model": {
+        "connected": true,
+        "pending": false,
+        "requests": 0,
+        "successes": 0,
+        "failures": 0,
+        "cancellations": 0,
+        "reservedTokens": 0,
+        "usage": {
+          "input": 0,
+          "output": 0,
+          "total": 0,
+          "cached": 0
+        },
+        "lastLatencyMs": null,
+        "error": null
+      },
+      "agents": [
+        {
+          "id": 1,
+          "position": {
+            "x": -14,
+            "y": 343.1329343564043,
+            "z": 112.17372651740115
+          },
+          "task": "FORMATION_FOLLOW"
+        },
+        {
+          "id": 2,
+          "position": {
+            "x": 14.000059426474264,
+            "y": 345.10648864115484,
+            "z": 116.9167220847734
+          },
+          "task": "FORMATION_FOLLOW"
+        },
+        {
+          "id": 3,
+          "position": {
+            "x": 0,
+            "y": 348.0441240206608,
+            "z": 132.42580377376675
+          },
+          "task": "FORMATION_FOLLOW"
+        }
+      ]
+    },
+    {
+      "stage": "transcription",
+      "mode": "running",
+      "position": {
+        "x": 0,
+        "y": 340,
+        "z": -291.9500003888932
+      },
+      "elapsed": 14.691666666666473,
+      "voice": {
+        "input": "deepseek",
+        "output": "deepseek",
+        "language": "en-US",
+        "localFallback": false,
+        "phase": "idle",
+        "played": 0,
+        "completed": 0,
+        "speaking": null,
+        "captures": 1,
+        "commands": 1,
+        "lastError": null,
+        "lastCompleted": null,
+        "playbackHistory": [],
+        "cloud": {
+          "asrRequests": 1,
+          "asrSeconds": 6,
+          "lastAsrMs": 747.3999999985099,
+          "lastAudioMs": 5738,
+          "ttsRequests": 0,
+          "ttsCharacters": 0,
+          "lastTtsFirstByteMs": null,
+          "lastTtsMs": null,
+          "lastTtsBytes": 0
+        },
+        "limits": {
+          "asrRequests": 10,
+          "asrSeconds": 60,
+          "ttsRequests": 18,
+          "ttsCharacters": 1200
+        }
+      },
+      "model": {
+        "connected": true,
+        "pending": true,
+        "requests": 2,
+        "successes": 1,
+        "failures": 0,
+        "cancellations": 0,
+        "reservedTokens": 10805,
+        "usage": {
+          "input": 831,
+          "output": 97,
+          "total": 928,
+          "cached": 256
+        },
+        "lastLatencyMs": 909.3999999985099,
+        "error": null
+      },
+      "agents": [
+        {
+          "id": 1,
+          "position": {
+            "x": -14.349885506208357,
+            "y": 343.6581366772913,
+            "z": -295.58199165664394
+          },
+          "task": "FORMATION_FOLLOW"
+        },
+        {
+          "id": 2,
+          "position": {
+            "x": 14.349897934805877,
+            "y": 342.11755734605816,
+            "z": -294.4598988857278
+          },
+          "task": "FORMATION_FOLLOW"
+        },
+        {
+          "id": 3,
+          "position": {
+            "x": 0,
+            "y": 344.31229357182644,
+            "z": -278.5465634228263
+          },
+          "task": "FORMATION_FOLLOW"
+        }
+      ]
+    },
+    {
+      "stage": "speech playback",
+      "mode": "running",
+      "position": {
+        "x": 0,
+        "y": 340,
+        "z": -608.2000003889689
+      },
+      "elapsed": 19.48333333333287,
+      "voice": {
+        "input": "deepseek",
+        "output": "deepseek",
+        "language": "en-US",
+        "localFallback": false,
+        "phase": "idle",
+        "played": 1,
+        "completed": 1,
+        "speaking": 2,
+        "captures": 1,
+        "commands": 1,
+        "lastError": null,
+        "lastCompleted": {
+          "id": 2,
+          "agent": 2,
+          "provider": "deepseek",
+          "stream": {
+            "firstByteMs": 913.6999999992549,
+            "streamMs": 3108.60000000149,
+            "audioBytes": 132480
+          }
+        },
+        "playbackHistory": [
+          {
+            "id": 2,
+            "agent": 2,
+            "provider": "deepseek",
+            "stream": {
+              "firstByteMs": 913.6999999992549,
+              "streamMs": 3108.60000000149,
+              "audioBytes": 132480
+            }
+          }
+        ],
+        "cloud": {
+          "asrRequests": 1,
+          "asrSeconds": 6,
+          "lastAsrMs": 747.3999999985099,
+          "lastAudioMs": 5738,
+          "ttsRequests": 2,
+          "ttsCharacters": 61,
+          "lastTtsFirstByteMs": null,
+          "lastTtsMs": null,
+          "lastTtsBytes": 0
+        },
+        "limits": {
+          "asrRequests": 10,
+          "asrSeconds": 60,
+          "ttsRequests": 18,
+          "ttsCharacters": 1200
+        }
+      },
+      "model": {
+        "connected": true,
+        "pending": false,
+        "requests": 2,
+        "successes": 2,
+        "failures": 0,
+        "cancellations": 0,
+        "reservedTokens": 10805,
+        "usage": {
+          "input": 2319,
+          "output": 180,
+          "total": 2499,
+          "cached": 896
+        },
+        "lastLatencyMs": 1012.8999999985099,
+        "error": null
+      },
+      "agents": [
+        {
+          "id": 1,
+          "position": {
+            "x": -14.34999988833257,
+            "y": 343.80251265336176,
+            "z": -610.9887560458254
+          },
+          "task": "FORMATION_FOLLOW"
+        },
+        {
+          "id": 2,
+          "position": {
+            "x": -14.499501822085964,
+            "y": 354.42415049221495,
+            "z": -462.2382196516058
+          },
+          "task": "REGROUP"
+        },
+        {
+          "id": 3,
+          "position": {
+            "x": 0.0256321403524733,
+            "y": 347.89860431472664,
+            "z": -591.9107414140295
+          },
+          "task": "FORMATION_FOLLOW"
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "physical": false,
+  "build": {
+    "provenance": {
+      "version": "0.3.0-rc.1",
+      "sourceCommit": "a977a8b9a246ef22b3e124587b56a76af7551a0a",
+      "sourceCommitTime": "2026-11-21T23:27:48+08:00",
+      "dirty": false,
+      "sourceUrl": "https://github.com/styayur/Skimmer-Scraper/tree/a977a8b9a246ef22b3e124587b56a76af7551a0a"
+    },
+    "renderer": "ANGLE (AMD, AMD Radeon 780M Graphics (0x00001900) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+    "agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/157.0.0.0 Safari/537.36",
+    "permissionBefore": "granted"
+  },
+  "microphone": {
+    "permission": "granted",
+    "liveTracks": 1,
+    "attempts": 1
+  },
+  "interpretation": {
+    "source": "model",
+    "intent": "scout-left",
+    "requestId": "4-2",
+    "agent": 2,
+    "action": [
+      {
+        "agents": [
+          2
+        ],
+        "action": "SCOUT",
+        "targetId": "route-left"
+      }
+    ],
+    "latencyMs": 1012.8999999985099,
+    "usage": {
+      "input": 1488,
+      "output": 83,
+      "total": 1571,
+      "cached": 640
+    }
+  },
+  "dialogue": [
+    {
+      "id": 1,
+      "agent": null,
+      "text": "Scout left. Please scout left.",
+      "source": "player",
+      "priority": "reply"
+    },
+    {
+      "id": 2,
+      "agent": 2,
+      "text": "KITE-2 scouting left route now.",
+      "source": "model",
+      "priority": "reply"
+    }
+  ],
+  "validation": [
+    {
+      "provider": "deepseek",
+      "validation": "accepted",
+      "orders": [
+        {
+          "agents": [
+            2
+          ],
+          "action": "SCOUT",
+          "targetId": "route-left"
+        }
+      ]
+    }
+  ],
+  "outcome": {
+    "requestId": "4-2",
+    "positions": [
+      {
+        "id": 2,
+        "action": "SCOUT",
+        "task": "SCOUT",
+        "position": {
+          "x": -36.42103371228711,
+          "y": 361.2190780786149,
+          "z": -398.6160296634421
+        },
+        "meters": 66.35069262450712
+      }
+    ]
+  },
+  "modelReplyPlayback": {
+    "id": 2,
+    "agent": 2,
+    "provider": "deepseek",
+    "stream": {
+      "firstByteMs": 913.6999999992549,
+      "streamMs": 3108.60000000149,
+      "audioBytes": 132480
+    }
+  },
+  "flightFrames": {
+    "baseline": {
+      "frames": 956,
+      "p50Ms": 8.300000000001091,
+      "p95Ms": 8.5,
+      "p99Ms": 16.700000000000045,
+      "fps": 117.32076675747982
+    },
+    "playback": {
+      "frames": 325,
+      "p50Ms": 8.30000000000291,
+      "p95Ms": 8.5,
+      "p99Ms": 16.700000000000728,
+      "fps": 117.60448706350641
+    },
+    "movementMeters": {
+      "baseline": 536.8230864406577,
+      "duringReply": 249.15000000001214
+    },
+    "pcmScheduled": 28
+  },
+  "disconnect": {
+    "connected": false,
+    "action": "REGROUP",
+    "source": "local"
+  }
+}

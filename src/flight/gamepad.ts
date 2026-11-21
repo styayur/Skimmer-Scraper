@@ -16,11 +16,15 @@ export class GamepadInputSource {
   private nextDirectionAt = 0;
   private current: Gamepad | null = null;
   private buttonSlots: readonly number[] | undefined;
+  private voiceButton = -1;
   public device = 'Keyboard';
   public constructor(private readonly readPads: () => readonly (Gamepad | null)[] = () => navigator.getGamepads?.() ?? []) {}
   public poll(settings: ControlSettings, action: (action: GameAction) => void, navigating = false, now = 0): void {
     const pad = Array.from(this.readPads()).find(value => value?.connected) ?? null;
-    if (pad?.index !== this.current?.index || pad?.id !== this.current?.id) {
+    const changed = pad?.index !== this.current?.index || pad?.id !== this.current?.id;
+    if (changed) {
+      if (this.voiceButton >= 0) action('voice-cancel');
+      this.voiceButton = -1;
       this.pressed.clear();
       this.direction = undefined;
       this.buttonSlots = pad && !pad.mapping && /Vendor: 2563 Product: 0526/i.test(pad.id)
@@ -33,6 +37,17 @@ export class GamepadInputSource {
     const actions: Array<[number, GameAction]> = [[settings.pauseButton, 'pause']];
     if (navigating) actions.push([settings.confirmButton, 'confirm'], [settings.backButton, 'back']);
     actions.push([settings.cameraButton, 'camera'], [settings.retryButton, 'retry'], [settings.menuButton, 'menu']);
+    const selected = this.buttonIndex(settings.voiceButton);
+    const canTalk = !navigating && selected >= 0 && selected !== this.buttonIndex(settings.boostButton)
+      && !actions.some(([slot]) => this.buttonIndex(slot) === selected);
+    if (this.voiceButton >= 0 && (!canTalk || this.voiceButton !== selected || !pad.buttons[selected]?.pressed)) {
+      action(canTalk && this.voiceButton === selected ? 'voice-stop' : 'voice-cancel');
+      this.voiceButton = -1;
+    }
+    if (!changed && canTalk && pad.buttons[selected]?.pressed && !this.pressed.has(selected)) {
+      this.voiceButton = selected;
+      action('voice-start');
+    }
     for (const [slot, name] of actions) {
       const button = this.buttonIndex(slot);
       if (pad.buttons[button]?.pressed && !this.pressed.has(button)) {

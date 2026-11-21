@@ -6,6 +6,8 @@ export const COMPANION_PROFILES = [
 
 export type RadioSource = 'player' | 'local' | 'model';
 export type RadioPriority = 'notice' | 'reply' | 'risk';
+export type RadioLanguage = 'zh-CN' | 'en-US';
+export const radioLanguageOf = (text: string): RadioLanguage => /[\u3400-\u9fff]/.test(text) ? 'zh-CN' : 'en-US';
 
 export interface RadioLine {
   id: number;
@@ -57,6 +59,8 @@ export class RadioDialogue {
   }
 
   public reset(): void { this.interrupt(); this.history = []; }
+
+  public current(): RadioLine | null { return this.active; }
 
   public snapshot() { return { active: this.active, history: this.history.slice(), queued: this.queue.length, muted: this.muted }; }
 
