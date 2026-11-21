@@ -46,12 +46,14 @@ export class CompanionTeam {
     this.settings = normalizeCompanions(settings);
     for (const agent of this.agents) agent.perceptionIn = 0;
   }
-  public reset(player: FlightState, world: CompanionWorld): void {
+  public reset(player: FlightState, world: CompanionWorld, transferred?: ReadonlyMap<number, FlightState>): void {
     this.agents = []; this.elapsed = 0; this.events = []; this.overrides.clear();
     for (let index = 0; index < this.settings.count; index++) {
       const id = index + 1;
-      const position = this.safeSpawn(player, id, world);
-      const flight = createFlightState({ position: position ?? { ...player.position }, yaw: player.attitude.yaw, pitch: player.attitude.pitch, speed: player.speed });
+      const prior = transferred?.get(id);
+      const position = this.safeSpawn(player, id, world, prior?.position);
+      const flight = prior && position === prior.position ? prior
+        : createFlightState({ position: position ?? { ...player.position }, yaw: player.attitude.yaw, pitch: player.attitude.pitch, speed: player.speed });
       const agent: AgentState = { id, callsign: `KITE-${id}`, flight, task: position ? 'FORMATION_FOLLOW' : 'RECOVER', navigationTask: 'FORMATION_FOLLOW', target: { ...flight.position },
         surfaceDistance: null, avoidance: { x: 0, y: 0, z: 0 }, perceptionIn: index * 0.05,
         avoidanceFor: 0, impacts: 0, decisions: 0, uncovered: !position || !covered(world, position), deployed: position !== null };
@@ -223,7 +225,7 @@ export class CompanionTeam {
     }
     return best;
   }
-  private safeSpawn(player: FlightState, id: number, world: CompanionWorld): Vec3 | null {
+  private safeSpawn(player: FlightState, id: number, world: CompanionWorld, retained?: Vec3): Vec3 | null {
     const target = this.formationTarget(player, id);
     const safe = (candidate: Vec3): boolean => {
       if (!covered(world, candidate) || distance(candidate, player.position) < 11 ||
@@ -236,6 +238,7 @@ export class CompanionTeam {
       }
       return true;
     };
+    if (retained && safe(retained)) return retained;
     for (const height of [0, 10, 22, 40]) {
       for (const ratio of [1, 0.5, 0]) {
         const candidate = add(player.position, scale(sub(target, player.position), ratio)); candidate.y += height + id * 2;

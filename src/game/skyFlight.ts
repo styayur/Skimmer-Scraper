@@ -1,40 +1,143 @@
-import type { Vec3 } from '../core/math';
+import { Euler, Quaternion, Vector3 } from 'three';
+import { clamp, distance, forwardFromAttitude, type Attitude, type Vec3 } from '../core/math';
 import type { FlightState } from '../flight/flightModel';
 import type { SpawnState } from '../world/renderWorld';
 import type { SurfaceProvider } from '../world/worldTypes';
-export const chooseSkyEntry=(spawn:Vec3,world:SurfaceProvider):Vec3|null=>{
- for(const height of [60,40,24,12]){
-  let safe=true;
-  for(let y=0;y<=height;y++){
-   const hit=world.queryNearest({...spawn,y:spawn.y+y},7);
-   if(hit&&hit.distance<6.5){safe=false;break;}
+import { SKY_DIVE_SECONDS } from './skyJourney';
+
+type SkyWorld = SurfaceProvider & { isCompanionCovered?(position: Vec3): boolean };
+const clearance = 6.5;
+
+const clearAt = (world: SkyWorld, position: Vec3): boolean =>
+  world.isCompanionCovered?.(position) !== false && !world.queryNearest(position, clearance);
+
+/** Candidates are ordered by the pilot's approach direction and then the city grid. */
+function* skyArrivals(spawn: SpawnState, world: SkyWorld, preferredYaw: number): Generator<SpawnState> {
+  const headings = [preferredYaw, spawn.yaw, spawn.yaw + Math.PI, spawn.yaw + Math.PI / 2, spawn.yaw - Math.PI / 2];
+  for (const height of [0, -8, 4]) {
+    for (const [dx, dz] of [[0, 0], [0, 40], [0, -40], [40, 0], [-40, 0]]) {
+      const position = { x: spawn.position.x + dx, y: spawn.position.y + height, z: spawn.position.z + dz };
+      const nearest = world.queryNearest(position, 33);
+      if (!nearest || nearest.distance < 10 || nearest.distance > 32) continue;
+      for (const yaw of headings) {
+        const pitch = -0.015;
+        const forward = forwardFromAttitude({ yaw, pitch, roll: 0 });
+        let safe = true;
+        for (let along = 0; along <= 180; along += 2) {
+          if (!clearAt(world, {
+            x: position.x + forward.x * along,
+            y: position.y + forward.y * along,
+            z: position.z + forward.z * along,
+          })) {
+            safe = false;
+            break;
+          }
+        }
+        if (safe) yield { ...spawn, position, yaw, pitch };
+      }
+    }
   }
-  if(safe)return{...spawn,y:spawn.y+height};
- }
- return null;
+}
+
+const orientation = (attitude: Attitude): Quaternion =>
+  new Quaternion().setFromEuler(new Euler(attitude.pitch, attitude.yaw, attitude.roll, 'YXZ'));
+
+const attitudeOf = (rotation: Quaternion): Attitude => {
+  const angles = new Euler().setFromQuaternion(rotation, 'YXZ');
+  return { pitch: angles.x, yaw: angles.y, roll: angles.z };
 };
-/** Check a reaction corridor as well as the vertical dive: a safe point alone can face a bridge. */
-export const chooseSkyArrival=(spawn:SpawnState,world:SurfaceProvider & {isCompanionCovered?(position:Vec3):boolean}):SpawnState|null=>{
- for(const height of [0,-8,4])for(const [dx,dz] of [[0,0],[0,40],[0,-40],[40,0],[-40,0]]){
-  const position={x:spawn.position.x+dx,y:spawn.position.y+height,z:spawn.position.z+dz};
-  const nearest=world.queryNearest(position,33);if(!nearest||nearest.distance<10||nearest.distance>32||!chooseSkyEntry(position,world))continue;
-  for(const yaw of [spawn.yaw,spawn.yaw+Math.PI,spawn.yaw+Math.PI/2,spawn.yaw-Math.PI/2]){
-   let safe=true;
-   for(let along=0;along<=180;along+=3){
-    const p={x:position.x-Math.sin(yaw)*along,y:position.y-.015*along,z:position.z-Math.cos(yaw)*along};
-    if(world.isCompanionCovered?.(p)===false){safe=false;break;}
-    const hit=world.queryNearest(p,7);if(hit&&hit.distance<6.5){safe=false;break;}
-   }
-   if(safe)return{...spawn,position,yaw,pitch:-.015};
+
+const vector = (value: Vec3): Vector3 => new Vector3(value.x, value.y, value.z);
+const angleBetween = (from: number, to: number): number => Math.atan2(Math.sin(to - from), Math.cos(to - from));
+
+export interface SkyPassage {
+  entry: FlightState;
+  start: Vec3;
+  end: Vec3;
+  exitVelocity: Vec3;
+  exitAttitude: Attitude;
+  adjustedHeading: boolean;
+}
+
+const pathValue = (a: number, b: number, va: number, vb: number, t: number): number => {
+  const t2 = t * t;
+  const t3 = t2 * t;
+  return (2 * t3 - 3 * t2 + 1) * a + (t3 - 2 * t2 + t) * va * SKY_DIVE_SECONDS
+    + (-2 * t3 + 3 * t2) * b + (t3 - t2) * vb * SKY_DIVE_SECONDS;
+};
+
+const pathRate = (a: number, b: number, va: number, vb: number, t: number): number => {
+  const t2 = t * t;
+  return (6 * t2 - 6 * t) * (a - b) / SKY_DIVE_SECONDS + (3 * t2 - 4 * t + 1) * va + (3 * t2 - 2 * t) * vb;
+};
+
+const pathPoint = ({ entry, start, end, exitVelocity }: SkyPassage, t: number): Vec3 => ({
+  x: pathValue(start.x, end.x, entry.velocity.x, exitVelocity.x, t),
+  y: pathValue(start.y, end.y, entry.velocity.y, exitVelocity.y, t),
+  z: pathValue(start.z, end.z, entry.velocity.z, exitVelocity.z, t),
+});
+
+export const planSkyPassage = (entry: FlightState, spawn: SpawnState, world: SkyWorld): SkyPassage | null => {
+  const entranceFrame = orientation({ ...entry.attitude, roll: 0 });
+  for (const arrival of skyArrivals(spawn, world, entry.attitude.yaw)) {
+    const destination = { yaw: arrival.yaw, pitch: arrival.pitch ?? 0, roll: 0 };
+    const worldRotation = orientation(destination).multiply(entranceFrame.clone().invert());
+    const exitAttitude = attitudeOf(worldRotation.multiply(orientation(entry.attitude)));
+    const [x, y, z] = vector(forwardFromAttitude(exitAttitude)).multiplyScalar(entry.speed).toArray();
+    const adjustedHeading = Math.abs(angleBetween(entry.attitude.yaw, arrival.yaw)) > 0.1;
+    for (const height of [48, 30, 14]) {
+      for (const retreat of [0.24, 0.12, 0]) {
+        const end = arrival.position;
+        const start = { x: end.x - x * retreat, y: end.y + height, z: end.z - z * retreat };
+        const passage: SkyPassage = {
+          entry, start, end, exitVelocity: { x, y, z }, exitAttitude, adjustedHeading,
+        };
+        const samples = Math.ceil(distance(start, end) * 2 + entry.speed * SKY_DIVE_SECONDS * 2);
+        let safe = true;
+        for (let step = 0; step <= samples; step++) {
+          if (!clearAt(world, pathPoint(passage, step / samples))) {
+            safe = false;
+            break;
+          }
+        }
+        if (safe) return passage;
+      }
+    }
   }
- }
- return null;
+  return null;
 };
-/** A cinematic follows only the already swept, stationary-column entry corridor. */
-export const stepSkyDive=(flight:FlightState,start:Vec3,end:Vec3,progress:number,dt:number,yaw=0):FlightState=>{
- if(!(dt>0)||!Number.isFinite(dt)||!Number.isFinite(progress))return flight;
- const t=Math.min(1,Math.max(0,progress));const blend=t*t*(3-2*t);
- const position={x:start.x+(end.x-start.x)*blend,y:start.y+(end.y-start.y)*blend,z:start.z+(end.z-start.z)*blend};
- return{...flight,position,velocity:{x:0,y:(position.y-flight.position.y)/dt,z:0},elapsed:flight.elapsed+dt,
-  attitude:{yaw,pitch:-(1-blend),roll:0},boosting:false};
+
+export const stepSkyDive = (flight: FlightState, passage: SkyPassage, progress: number, dt: number): FlightState => {
+  if (!Number.isFinite(progress) || !(dt > 0) || !Number.isFinite(dt)) return flight;
+  const t = clamp(progress, 0, 1);
+  const { entry, start, end, exitVelocity, exitAttitude } = passage;
+  const turn = t * t * (3 - 2 * t);
+  // Turn the unbanked flight frame. Applying bank last keeps it continuous through vertical.
+  const attitude = {
+    pitch: entry.attitude.pitch + angleBetween(entry.attitude.pitch, exitAttitude.pitch) * turn,
+    yaw: entry.attitude.yaw + angleBetween(entry.attitude.yaw, exitAttitude.yaw) * turn,
+    roll: entry.attitude.roll,
+  };
+  return {
+    ...flight,
+    position: pathPoint(passage, t),
+    velocity: {
+      x: pathRate(start.x, end.x, entry.velocity.x, exitVelocity.x, t),
+      y: pathRate(start.y, end.y, entry.velocity.y, exitVelocity.y, t),
+      z: pathRate(start.z, end.z, entry.velocity.z, exitVelocity.z, t),
+    },
+    attitude,
+    elapsed: flight.elapsed + dt,
+  };
+};
+
+/** Wing offsets stay in the same local frame as the player when the path opens. */
+export const translateWingForSky = (wing: FlightState, passage: SkyPassage): FlightState => {
+  const [x, y, z] = vector(wing.position).sub(vector(passage.entry.position)).add(vector(passage.start)).toArray();
+  return {
+    ...wing,
+    position: { x, y, z },
+    attitude: { ...wing.attitude },
+    velocity: { ...wing.velocity },
+  };
 };

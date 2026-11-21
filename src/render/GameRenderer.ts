@@ -16,6 +16,7 @@ import {
   type ProceduralAircraft,
 } from './proceduralAircraft';
 import { createSkyAtmosphere, type SkyAtmosphere } from './sky';
+import { MirrorSky } from './mirrorSky';
 import { createSpeedRibbons, type SpeedRibbons } from './speedRibbons';
 import { CompanionRenderer } from './companions';
 import type { AgentState } from '../companions/AgentController';
@@ -39,6 +40,7 @@ export interface RenderStats {
   geometries: number;
   textures: number;
   inversionAngle: number;
+  mirrorSky: ReturnType<MirrorSky['snapshot']>;
 }
 
 export interface RenderQuality {
@@ -61,6 +63,7 @@ export class GameRenderer {
   private readonly bloomPass: UnrealBloomPass;
   private readonly cameraRig: FlightCameraRig;
   private readonly atmosphere: SkyAtmosphere;
+  private readonly mirrorSky = new MirrorSky();
   private readonly petals: PetalField;
   private readonly speedRibbons: SpeedRibbons;
   private readonly proceduralAircraft: ProceduralAircraft;
@@ -126,7 +129,8 @@ export class GameRenderer {
     this.cameraRig = new FlightCameraRig(this.camera);
 
     this.atmosphere = createSkyAtmosphere();
-    this.scene.add(this.atmosphere.group);
+    this.mirrorSky.setWorld(world.settings, 0x21152e, 0x9f4f66);
+    this.scene.add(this.atmosphere.group, this.mirrorSky.group);
 
     const hemisphere = new THREE.HemisphereLight(0xffc1a1, 0x17131f, 1.45);
     this.scene.add(hemisphere);
@@ -223,11 +227,17 @@ export class GameRenderer {
     this.cameraRig.setMode(mode, immediate);
   }
   public setCameraAnchor(anchor: Vec3 | null): void { this.cameraRig.setAnchor(anchor); }
-  public releaseWorld():void {if(this.world)this.scene.remove(this.world.root);this.world=null;this.journeyGate.group.visible=false;}
+  public releaseWorld(): void {
+    if (this.world) this.scene.remove(this.world.root);
+    this.world = null;
+    this.mirrorSky.clear();
+    this.journeyGate.group.visible = false;
+  }
   public setWorld(world:RenderableWorld,index:number):void {
     this.releaseWorld();this.world=world;this.scene.add(world.root);
     const profile=index>0?journeyProfile(index):null;
     this.atmosphere.palette(profile?.top??0x21152e,profile?.mid??0x9f4f66,profile?.horizon??0xffb58f);
+    this.mirrorSky.setWorld(world.settings, profile?.top ?? 0x21152e, profile?.mid ?? 0x9f4f66);
     this.scene.fog=new THREE.FogExp2(profile?.mid??0x6f4152,world.settings.config.fogDensity);
     this.journeyGate.group.visible=index===5;
     const spawn=world.getSpawn();this.journeyGate.group.position.set(spawn.position.x,spawn.position.y+30,spawn.position.z-260);
@@ -307,6 +317,7 @@ export class GameRenderer {
       geometries: this.renderer.info.memory.geometries,
       textures: this.renderer.info.memory.textures,
       inversionAngle:this.inversion,
+      mirrorSky: this.mirrorSky.snapshot(this.camera),
     };
   }
 
@@ -346,6 +357,7 @@ export class GameRenderer {
     this.companions.dispose();
     this.relayLine.geometry.dispose();this.relayLine.material.dispose();
     this.atmosphere.dispose();
+    this.mirrorSky.dispose();
     this.petals.dispose();
     this.speedRibbons.dispose();
     this.world?.dispose();
@@ -367,6 +379,7 @@ export class GameRenderer {
   }
 
   private draw(now: number): void {
+    this.mirrorSky.follow(this.camera);
     const instantFps = 1000 / Math.max(1, now - this.lastFrameTime);
     this.lastFrameTime = now;
     this.smoothedFps = this.smoothedFps * 0.94 + instantFps * 0.06;

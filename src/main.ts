@@ -13,7 +13,7 @@ import { resolveShield } from './game/shield';
 import { loadCameraAnchor, recommendCameraAnchor, type CameraAnchorSetting, type RecommendedAnchorPreset } from './model/cameraAnchors';
 import { bindCameraAnchorSettings } from './ui/CameraAnchorSettings';
 import { loadFlightSetup } from './game/flightSetup';
-import type { Vec3 } from './core/math';
+import { distance, type Vec3 } from './core/math';
 import { CompanionTeam } from './companions/AgentController';
 import { saveCompanions, type CompanionSettings } from './companions/settings';
 import { bindCompanionSettings } from './ui/CompanionSettings';
@@ -22,7 +22,7 @@ import { SymbiosisRuntime } from './ai/SymbiosisRuntime';
 import { bindModelSettings } from './ui/ModelSettings';
 import type { Perception } from './ai/contracts';
 import { SkyJourney } from './game/skyJourney';
-import { chooseSkyArrival,chooseSkyEntry,stepSkyDive } from './game/skyFlight';
+import { planSkyPassage, stepSkyDive, translateWingForSky, type SkyPassage } from './game/skyFlight';
 import { journeyWorld } from './world/journeyWorlds';
 import { JourneyHud } from './ui/JourneyHud';
 
@@ -85,6 +85,7 @@ interface DebugSnapshot {
   speed: number;
   altitude: number;
   position: { x: number; y: number; z: number };
+  velocity: Vec3;
   surfaceDistance: number | null;
   surfaceLocked: boolean;
   grace: number;
@@ -99,6 +100,8 @@ interface DebugSnapshot {
   cameraMode: CameraMode;
   cameraBlend: number;
   cameraAnchor: Vec3 | null;
+  cameraOrientation: ReturnType<GameRenderer['getCameraSnapshot']>['orientation'];
+  cameraPosition: Vec3;
   fov: number;
   proximity: number;
   proximityZone: string;
@@ -138,7 +141,7 @@ interface SkimmerDebugBridge {
   resume(): boolean;
   setPose(
     position: { x: number; y: number; z: number },
-    options?: { pitch?: number; preserveCompanions?: boolean },
+    options?: { pitch?: number; yaw?: number; roll?: number; preserveCompanions?: boolean },
   ): Promise<DebugSnapshot>;
   advance(
     seconds: number,
@@ -185,9 +188,7 @@ let lastSurfaceHit: SurfaceQuery | null = null;
 let worldStreamer: WorldStreamer | null = null;
 const journey = new SkyJourney();
 let pendingWorldSwap: Promise<void> | null = null;
-let diveStart: FlightState['position'] | null = null;
-let diveEnd: FlightState['position'] | null = null;
-let journeyArrival:ReturnType<typeof chooseSkyArrival>=null;
+let skyPassage: SkyPassage | null = null;
 let worldReleases:DebugSnapshot['worldReleases']=[];
 let buffering = false;
 let worldTransition = 0;
@@ -217,9 +218,11 @@ const delay = (milliseconds: number): Promise<void> => new Promise((resolve) => 
 
 const syncWorldStreaming = (
   state: Pick<FlightState, 'position' | 'velocity'>,
+  includeCompanions = true,
 ): StreamerUpdate | null => {
   if (!worldStreamer) return null;
-  worldStreamer.setCompanionPositions(companions.agents.filter(agent => agent.deployed).map(agent => agent.flight.position));
+  worldStreamer.setCompanionPositions(includeCompanions
+    ? companions.agents.filter(agent => agent.deployed).map(agent => agent.flight.position) : []);
   const update = worldStreamer.update(state.position, state.velocity);
   if (update.rebaseDelta) renderer?.shiftRenderOrigin(update.rebaseDelta);
   return update;
@@ -238,13 +241,14 @@ const waitForCollisionCoverage = async (
   velocity: { x: number; y: number; z: number },
   timeoutMs = 30_000,
   shouldContinue: () => boolean = () => true,
+  includeCompanions = true,
 ): Promise<boolean> => {
   if (!worldStreamer) return false;
   const started = performance.now();
   streamPreparationCount += 1;
   try {
     while (shouldContinue() && performance.now() - started <= timeoutMs) {
-      const update = syncWorldStreaming({ position, velocity });
+      const update = syncWorldStreaming({ position, velocity }, includeCompanions);
       if (update?.coverageComplete) {
         buffering = false;
         return true;
@@ -525,47 +529,86 @@ const loadJourneyWorld = async (index:number,token:number):Promise<boolean> => {
   worldSettings=journeyWorld(baseWorldSettings,index);
   revisionHistory=worldSettings.mode==='ephemeral'?new ChunkRevisionHistory(DEFAULT_REVISION_HISTORY_SIZE):null;
   const next=createStreamer(worldSettings);worldStreamer=next;
-  const spawn=next.getDefaultSpawn();flightState=createFlightState(spawn);renderer?.setWorld(next,index);
-  renderer?.snapCamera(toRenderFlightState(flightState));
-  return await waitForCollisionCoverage(spawn.position,{x:0,y:0,z:-spawn.speed},30000,()=>token===worldTransition&&worldStreamer===next);
+  const spawn = next.getDefaultSpawn();
+  renderer?.setWorld(next, index);
+  return await waitForCollisionCoverage(spawn.position,{x:0,y:0,z:-spawn.speed},30000,()=>token===worldTransition&&worldStreamer===next,false);
 };
 const restoreJourneyStart = async (token:number):Promise<boolean> => {
   const replace=journey.worldIndex>0||journey.active||worldSettings.seed!==baseWorldSettings.seed;
-  journey.reset();journeyHud.reset();diveStart=null;diveEnd=null;journeyArrival=null;renderer?.setInversion(0);
+  journey.reset();journeyHud.reset();skyPassage = null;renderer?.setInversion(0);
   return !replace||await loadJourneyWorld(0,token);
 };
-const beginSkySwap = ():void => {
-  const token=++worldTransition;const index=journey.worldIndex+1;
-  const job=(async()=>{
-    const ready=await loadJourneyWorld(index,token);
-    if(token!==worldTransition)return;
-    if(!ready||!worldStreamer||!flightState)throw Error('Unable to prepare new sky');
-    const spawn=chooseSkyArrival(worldStreamer.getDefaultSpawn(),worldStreamer);
-    if(!spawn)throw Error('No safe exit corridor');journeyArrival=spawn;
-    diveEnd={...spawn.position};diveStart=chooseSkyEntry(spawn.position,worldStreamer);
-    if(!diveStart)throw Error('No safe entry corridor');
-    flightState=createFlightState({...spawn,position:{...diveStart},pitch:-1});
-    companions.configure(companionSettings);companions.reset(flightState,worldStreamer);
-    renderer?.snapCamera(toRenderFlightState(flightState));journey.worldReady();
-    best=loadBest(runScoreContext());ui.setBest(best);lastSurfaceHit=worldStreamer.queryNearest(flightState.position,SURFACE_QUERY_RANGE);
-    buffering=false;neededCoverage=null;stepRunner.reset();lastFrameTime=performance.now();
-  })();
-  pendingWorldSwap=job;
-  void job.catch(()=>{if(token===worldTransition){mode='title';ui.showFatal('新世界准备失败。请刷新或重试，原有存档未变更。');}}).finally(()=>{if(pendingWorldSwap===job)pendingWorldSwap=null;});
+const carryCameraAcross = (from: Vec3, to: Vec3): void => {
+  renderer?.shiftRenderOrigin({ x: from.x - to.x, y: from.y - to.y, z: from.z - to.z });
 };
-const simulateJourneyStep = (dt:number):boolean => {
-  if(!flightState||!worldStreamer||journey.phase==='WORLD_SWAP')return false;
-  const event=journey.step(dt);
-  if(event==='swap'){journeyHud.update(journey,true);beginSkySwap();return true;}
-  if((journey.phase==='DIVE'||journey.phase==='RECOVERY'||event==='completed')&&diveStart&&diveEnd){
-    flightState=stepSkyDive(flightState,diveStart,diveEnd,journey.phase==='DIVE'?journey.progress:1,dt,journeyArrival?.yaw??0);
-  }else flightState={...flightState,velocity:{x:0,y:0,z:0},elapsed:flightState.elapsed+dt};
-  companions.step(flightState,worldStreamer,dt);
-  lastSurfaceHit=worldStreamer.queryNearest(flightState.position,SURFACE_QUERY_RANGE);
-  if(event==='completed'){
-    flightState={...createFlightState({... (journeyArrival??worldStreamer.getDefaultSpawn()),position:{...flightState.position}}),elapsed:flightState.elapsed};
-    companions.configure(companionSettings);companions.reset(flightState,worldStreamer);journeyHud.completed(journey.crossings,journey.time);
-    proximityFeedback=createProximityFeedback();
+
+const beginSkySwap = (): void => {
+  if (!flightState) return;
+  const entry = flightState;
+  const previousLocal = toRenderFlightState(entry).position;
+  const wings = companions.agents.filter(agent => agent.deployed).map(agent => [agent.id, agent.flight] as const);
+  const token = ++worldTransition;
+  const index = journey.worldIndex + 1;
+  const job = (async () => {
+    const ready = await loadJourneyWorld(index, token);
+    if (token !== worldTransition) return;
+    if (!ready || !worldStreamer) throw new Error('Unable to prepare new sky');
+    const passage = planSkyPassage(entry, worldStreamer.getDefaultSpawn(), worldStreamer);
+    if (!passage) throw new Error('No safe entry and exit corridor');
+    skyPassage = passage;
+    flightState = { ...entry, position: passage.start };
+    carryCameraAcross(previousLocal, toRenderFlightState(flightState).position);
+    const transferred = new Map(wings.map(([id, flight]) => [id, translateWingForSky(flight, passage)] as const));
+    companions.reset(flightState, worldStreamer, transferred);
+    journey.worldReady();
+    if (passage.adjustedHeading) ui.showToast('已绕开出口障碍并调整航向。', false, 2400);
+    best = loadBest(runScoreContext());
+    ui.setBest(best);
+    lastSurfaceHit = worldStreamer.queryNearest(flightState.position, SURFACE_QUERY_RANGE);
+    buffering = false;
+    neededCoverage = null;
+    stepRunner.reset();
+    lastFrameTime = performance.now();
+  })();
+  pendingWorldSwap = job;
+  void job.catch(() => {
+    if (token === worldTransition) {
+      mode = 'title';
+      ui.showFatal('新世界准备失败。请刷新页面后重试。');
+    }
+  }).finally(() => { if (pendingWorldSwap === job) pendingWorldSwap = null; });
+};
+
+const simulateJourneyStep = (dt: number): boolean => {
+  if (!flightState || !worldStreamer || journey.phase === 'WORLD_SWAP') return false;
+  const previousPhase = journey.phase;
+  const event = journey.step(dt);
+  if (event === 'swap') {
+    journeyHud.update(journey, true);
+    beginSkySwap();
+    return true;
+  }
+  if (previousPhase === 'DIVE' && skyPassage) {
+    const next = stepSkyDive(flightState, skyPassage, journey.phase === 'DIVE' ? journey.progress : 1, dt);
+    if (distance(next.position, flightState.position) > 4) {
+      // Skipping the dive can move the ship past the remaining path in one step.
+      carryCameraAcross(toRenderFlightState(flightState).position, toRenderFlightState(next).position);
+    }
+    flightState = next;
+  } else {
+    const { position, velocity } = flightState;
+    flightState = {
+      ...flightState,
+      position: { x: position.x + velocity.x * dt, y: position.y + velocity.y * dt, z: position.z + velocity.z * dt },
+      elapsed: flightState.elapsed + dt,
+    };
+  }
+  companions.step(flightState, worldStreamer, dt);
+  lastSurfaceHit = worldStreamer.queryNearest(flightState.position, SURFACE_QUERY_RANGE);
+  if (event === 'completed') {
+    skyPassage = null;
+    journeyHud.completed(journey.crossings, journey.time);
+    proximityFeedback = createProximityFeedback();
   }
   return true;
 };
@@ -666,7 +709,7 @@ const resetFlightState = (): void => {
   runRules = createRunRules({ ...selectedRules, assisted: companionSettings.count > 0 });
   companions.configure(companionSettings); companions.reset(flightState, worldStreamer);
   symbiosis.reset();
-  journey.reset();journeyHud.reset();renderer.setInversion(0);diveStart=null;diveEnd=null;
+  journey.reset();journeyHud.reset();renderer.setInversion(0);skyPassage = null;
   best=loadBest(scoreContextFor(baseWorldSettings,runRules.config));ui.setBest(best);
   shieldGlow = 0; shieldImpacts = 0; shieldCooldown = 0;
   renderer.setCameraAnchor(currentAnchor().anchor);
@@ -810,6 +853,7 @@ const debugSnapshot = (): DebugSnapshot => {
     speed: flightState.speed,
     altitude: flightState.position.y,
     position: { ...flightState.position },
+    velocity: { ...flightState.velocity },
     surfaceDistance: lastSurfaceHit?.distance ?? null,
     surfaceLocked: runRules.locked,
     grace: runRules.grace,
@@ -827,6 +871,8 @@ const debugSnapshot = (): DebugSnapshot => {
     cameraMode: camera.mode,
     cameraBlend: camera.blend,
     cameraAnchor: camera.anchor,
+    cameraOrientation: camera.orientation,
+    cameraPosition: camera.position,
     fov: camera.fov,
     proximity: proximityFeedback.intensity,
     proximityZone: proximityFeedback.zone,
@@ -871,7 +917,7 @@ const debugAdvance = async (
     }
     if (flightState) {
       syncWorldStreaming(flightState);
-      renderer?.snapCamera(toRenderFlightState(flightState));
+      if (!journey.active) renderer?.snapCamera(toRenderFlightState(flightState));
     }
     syncHud();
     if (runRules.status === 'failed') finishRun();
@@ -885,7 +931,7 @@ const debugAdvance = async (
 
 const debugSetPose = async (
   position: { x: number; y: number; z: number },
-  options: { pitch?: number; preserveCompanions?: boolean } = {},
+  options: { pitch?: number; yaw?: number; roll?: number; preserveCompanions?: boolean } = {},
 ): Promise<DebugSnapshot> => {
   if (!flightState || !worldStreamer) return debugSnapshot();
   const covered = await waitForCollisionCoverage(position, flightState.velocity);
@@ -896,6 +942,8 @@ const debugSetPose = async (
     attitude: {
       ...flightState.attitude,
       pitch: options.pitch ?? flightState.attitude.pitch,
+      yaw: options.yaw ?? flightState.attitude.yaw,
+      roll: options.roll ?? flightState.attitude.roll,
     },
   };
   buffering = !covered;
@@ -971,6 +1019,12 @@ const frame = (now: number): void => {
   const delta = Math.min(0.1, Math.max(0, (now - lastFrameTime) / 1000));
   lastFrameTime = now;
 
+  // The veil holds the last rendered view while the old world is being replaced.
+  if (journey.phase === 'WORLD_SWAP') {
+    requestAnimationFrame(frame);
+    return;
+  }
+
   if (renderer && flightState && worldStreamer) {
     renderer.setCompanions(mode === 'title' ? [] : companions.agents, worldStreamer.getRenderOrigin());
     renderer.setRelay(symbiosis.relayFlash,symbiosis.time,worldStreamer.getRenderOrigin());
@@ -985,12 +1039,12 @@ const frame = (now: number): void => {
       } else {
         buffering = false;
         stepRunner.advance(delta, simulateFixedStep);
-        if (flightState) syncWorldStreaming(flightState);
+        if (flightState && !pendingWorldSwap) syncWorldStreaming(flightState);
       }
       syncHud();
       if (runRules.status === 'failed') finishRun();
       audio.update(flightState.speed, flightState.boosting, proximityFeedback.intensity);
-      renderer.renderFlight(
+      if (!pendingWorldSwap) renderer.renderFlight(
         toRenderFlightState(flightState),
         delta,
         now,
