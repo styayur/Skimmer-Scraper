@@ -1,6 +1,6 @@
 import {
   DEFAULT_WORLD_SEED,
-  GENERATOR_VERSION,
+  LEGACY_GENERATOR_VERSION,
   type WorldMode,
   type WorldPresetId,
   type WorldSettings,
@@ -23,7 +23,7 @@ export const defaultScoreContext: ScoreContext = Object.freeze({
   seedText: String(DEFAULT_WORLD_SEED),
   preset: 'sakura',
   mode: 'stable',
-  generatorVersion: GENERATOR_VERSION,
+  generatorVersion: LEGACY_GENERATOR_VERSION,
 });
 
 export const scoreContextFor = (settings: WorldSettings, rules?: RuleConfig): ScoreContext => ({

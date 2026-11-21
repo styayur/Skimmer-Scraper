@@ -9,17 +9,24 @@
 ## URL parameters
 
 ```text
-?seed=334458&preset=sakura&world=stable&gen=2
+?seed=334458&world=stable&gen=3
 ```
 
 - `seed` — numeric or textual world seed.
-- `preset` — `sakura`, `neon`, `archipelago` or `randomized`.
 - `world` — `stable` or `ephemeral`. Stable is the default and remains reproducible.
-- `gen` — generator version in shared links. The runtime currently resolves generator version 2.
+- `gen` — generator version. New games and shares use the unified city in version 3.
 
 The world panel can randomize a seed, copy the raw seed, copy a complete share URL and restore the
 default seed. Applying a world reloads the static app with the same URL parameters, which keeps GitHub
 Pages project paths intact.
+
+Version 2 links keep their original seed, preset and mode. Links with seed, preset or
+world parameters and no generator version also open version 2. The world panel shows the
+legacy preset and can use the same seed in version 3. Legacy shares continue to include
+`preset`. Player records are scoped by generator version, so a version 2 record remains
+available on the corresponding legacy link. To open the old default city, use
+`?seed=334458&preset=sakura&world=stable&gen=2`. Older release tags retain their original
+runtime and resources.
 
 ## Generation identity
 
@@ -29,7 +36,7 @@ Every chunk is generated from:
 - chunk X and Z;
 - generator version;
 - optional chunk revision;
-- resolved preset configuration.
+- resolved city configuration.
 
 No generator path relies on global `Math.random()` or on the order in which chunks are requested.
 
@@ -37,16 +44,19 @@ No generator path relies on global `Math.random()` or on the order in which chun
 
 `CityGenerationConfig` exposes building density, building-height range, street spacing, bridge frequency,
 floating-island frequency, suspended-structure heights, terrain amplitude, architectural variation, fog
-density and far-detail density. Presets reuse the same geometry language so all seeds retain the
-Skimmer-Scraper visual identity.
+density and far-detail density. Version 3 samples independent continuous fields for towers, bridges,
+and gardens. Dense canyons, layered bridge districts, floating gardens and open terraces share the
+global street grid. Each of the five Sky Inversion worlds adds its own seed, palette and architectural
+emphasis while keeping urban density.
 
 ## Continuity
 
 - Terrain samples use global coordinates; adjacent ground tiles share exact edge heights.
 - Streets are anchored to a global spacing grid.
-- Cross-chunk bridges use a line index, direction and seed to derive the same deck height on both sides.
+- Cross-chunk bridges use a line index, direction and seed to derive the same deck heights on both sides.
+  Overhead decks use separated height bands, and offset supports leave a clear route along the street center.
 - Buildings are contained within global lots and the spawn corridor is deterministic and clear.
-- Floating islands are kept inside their producing chunk and above the preset's maximum building height.
+- Version 3 floating islands stay inside their producing chunk and above its actual solid structures.
 - Generation tests compare repeated fingerprints, reversed generation order and adjacent terrain edges.
 
 ## Streaming

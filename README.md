@@ -24,6 +24,9 @@ New pilots start in Free Flight with the shield on, the Chase view, Precision co
 and three local companions in a wedge. Existing pilot settings and scores carry forward.
 The flight settings panel offers play mode, view and companion count. Open its advanced
 section for per-aircraft cockpit presets, controls, visuals, audio and model budgets.
+The default city combines tower canyons, stacked bridges and floating districts in one
+seeded generator. Legacy links still reproduce their version 2 layouts and scores.
+See [seed compatibility and generation](docs/WORLD.md).
 
 **Public site:** [https://styayur.github.io/Skimmer-Scraper/](https://styayur.github.io/Skimmer-Scraper/)
 

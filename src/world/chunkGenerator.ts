@@ -6,14 +6,17 @@ import { createWorldMaterials, type WorldMaterialKey, type WorldMaterials } from
 import { chance, pick, range, type Random } from './rng';
 import {
   createBillboardMaterialSet,
+  createBillboardBatches,
   createBillboardMesh,
   type BillboardMaterialSet,
   type BillboardPlacement,
 } from './signage';
 import { terrainHeightAt } from './terrain';
-import { bridgeLineAt } from './stableBoundary';
+import { bridgeTiersAt, type BridgeLineDefinition } from './stableBoundary';
+import { cityDistrictAt } from './cityDistricts';
 import {
   CHUNK_SIZE,
+  CITY_SHADOW_LAYER,
   GENERATOR_VERSION,
   type WorldSettings,
 } from './worldConfig';
@@ -66,8 +69,8 @@ const prepareGeometry = (source: THREE.BufferGeometry): THREE.BufferGeometry => 
 const triangleCount = (geometry: THREE.BufferGeometry): number =>
   (geometry.index?.count ?? geometry.getAttribute('position').count) / 3;
 
-const makeRoundedBox = (width: number, height: number, depth: number): THREE.BufferGeometry =>
-  new RoundedBoxGeometry(width, height, depth, 2, Math.min(0.5, width * 0.1, depth * 0.1));
+const makeRoundedBox = (width: number, height: number, depth: number, segments: number): THREE.BufferGeometry =>
+  new RoundedBoxGeometry(width, height, depth, segments, Math.min(0.5, width * 0.1, depth * 0.1));
 
 const createIslandGeometry = (random: Random, radius: number, height: number): THREE.BufferGeometry => {
   const geometry = new THREE.CylinderGeometry(radius * 0.9, radius * 0.32, height, 12, 4, false);
@@ -145,12 +148,18 @@ export class ChunkGenerator {
   ) {
     this.materials = materials;
     this.billboardMaterials = billboardMaterials;
+    if (settings.generatorVersion === GENERATOR_VERSION) {
+      // The illuminated windows are individual flat planes with no volume.
+      this.materials.byKey.windowWarm.forceSinglePass = true;
+    }
   }
 
   public generate(chunkX: number, chunkZ: number, revision = 0): GeneratedChunk {
     if (this.disposed) throw new Error('Chunk generator is disposed.');
     const key = `chunk:${chunkX}:${chunkZ}:r${revision}`;
     const origin = { x: chunkX * CHUNK_SIZE, y: 0, z: chunkZ * CHUNK_SIZE };
+    const denseCity = this.settings.generatorVersion === GENERATOR_VERSION;
+    const bevelSegments = denseCity ? 1 : 2;
     const work: ChunkWork = {
       render: new Map(),
       collision: [],
@@ -202,7 +211,7 @@ export class ChunkGenerator {
     addPiece('ground', createGroundTile(this.settings, chunkX, chunkZ), matrixAt(0, 0, 0), true);
 
     if (this.settings.config.terrainAmplitude <= 0.001) {
-      const lineRandom = seededRandom(this.settings.seed, GENERATOR_VERSION, 'lane', chunkX, chunkZ);
+      const lineRandom = seededRandom(this.settings.seed, this.settings.generatorVersion, 'lane', chunkX, chunkZ);
       const x0 = chunkX * CHUNK_SIZE;
       const z0 = chunkZ * CHUNK_SIZE;
       for (const [axis, color] of [['x', 'teal'], ['z', 'rose']] as const) {
@@ -211,12 +220,13 @@ export class ChunkGenerator {
         const end = Math.ceil(((axis === 'x' ? x0 : z0) + CHUNK_SIZE) / spacing) + 1;
         for (let line = start; line <= end; line += 1) {
           const worldPosition = line * spacing;
+          const markings = denseCity ? seededRandom(this.settings.seed, GENERATOR_VERSION, 'lane', axis, line) : lineRandom;
           if (axis === 'x' && worldPosition >= x0 && worldPosition < x0 + CHUNK_SIZE) {
-            if (chance(lineRandom, 0.72)) {
+            if (chance(markings, 0.72)) {
               addBox(color, 0.12, 0.06, CHUNK_SIZE + 1.2, worldPosition - x0, terrainHeightAt(worldPosition, z0 + CHUNK_SIZE * 0.5, this.settings) + 0.06, CHUNK_SIZE * 0.5, 0, false);
             }
           } else if (axis === 'z' && worldPosition >= z0 && worldPosition < z0 + CHUNK_SIZE) {
-            if (chance(lineRandom, 0.72)) {
+            if (chance(markings, 0.72)) {
               addBox(color, CHUNK_SIZE + 1.2, 0.06, 0.12, CHUNK_SIZE * 0.5, terrainHeightAt(x0 + CHUNK_SIZE * 0.5, worldPosition, this.settings) + 0.07, worldPosition - z0, 0, false);
             }
           }
@@ -237,7 +247,7 @@ export class ChunkGenerator {
       topY: number,
       random: Random,
     ): void => {
-      const floorStep = range(random, 5.1, 7.4);
+      const floorStep = denseCity ? range(random, 6.6, 9.5) : range(random, 5.1, 7.4);
       const face = pick(random, [0, 1, 2, 3]);
       const faces = [face, (face + 2) % 4];
       for (const side of faces) {
@@ -272,6 +282,7 @@ export class ChunkGenerator {
       lotSize: number,
       random: Random,
       lotSignature: number,
+      district?: ReturnType<typeof cityDistrictAt>,
     ): void => {
       const localX = worldX - origin.x;
       const localZ = worldZ - origin.z;
@@ -285,8 +296,10 @@ export class ChunkGenerator {
       const foundationDepth = baseY - Math.min(...groundValues) + 5;
       const materialKey = pick(random, ['shellCeladon', 'shellPlum', 'shellIvory'] as const);
       const accent: WorldMaterialKey = chance(random, 0.5) ? 'rose' : 'teal';
-      const style = pick(random, ['setback', 'setback', 'faceted', 'lantern'] as const);
-      const rotationY = chance(random, 0.55) ? range(random, -0.16, 0.16) : 0;
+      const dominant = this.settings.config.architecture;
+      const style = denseCity && dominant && chance(random, 0.58)
+        ? dominant : pick(random, ['setback', 'setback', 'faceted', 'lantern'] as const);
+      const rotationY = !denseCity && chance(random, 0.55) ? range(random, -0.16, 0.16) : 0;
       work.buildings += 1;
       work.signature.push('b', lotSignature, Math.round(worldX), Math.round(worldZ), Math.round(height), materialKey, style);
 
@@ -296,13 +309,13 @@ export class ChunkGenerator {
 
       if (style === 'faceted') {
         const radius = width * 0.46;
-        addPiece(materialKey, new THREE.CylinderGeometry(radius * 0.76, radius, height, 8, 5, false), matrixAt(localX, baseY + height * 0.5, localZ, 0, rotationY), true);
+        addPiece(materialKey, new THREE.CylinderGeometry(radius * 0.76, radius, height, 8, denseCity ? 2 : 5, false), matrixAt(localX, baseY + height * 0.5, localZ, 0, rotationY), true);
         addPiece('glass', new THREE.CylinderGeometry(radius * 0.42, radius * 0.62, height * 0.22, 8, 2, false), matrixAt(localX, baseY + height * 0.87, localZ, 0, rotationY), true);
         const bands = Math.max(3, Math.floor(height / 20));
         for (let band = 1; band <= bands; band += 1) {
           const y = baseY + (height / (bands + 1)) * band;
           const ringRadius = radius * (1 - (band / bands) * 0.18) + 0.08;
-          addPiece(band % 3 === 0 ? accent : 'teal', new THREE.TorusGeometry(ringRadius, 0.13, 4, 30), matrixAt(localX, y, localZ, Math.PI * 0.5), false);
+          addPiece(band % 3 === 0 ? accent : 'teal', new THREE.TorusGeometry(ringRadius, 0.13, 4, denseCity ? 20 : 30), matrixAt(localX, y, localZ, Math.PI * 0.5), false);
         }
         const spireHeight = range(random, 7, 22);
         addPiece(accent, new THREE.ConeGeometry(radius * 0.22, spireHeight, 5), matrixAt(localX, baseY + height + spireHeight * 0.5, localZ, 0, rotationY), true);
@@ -313,7 +326,7 @@ export class ChunkGenerator {
       const podiumHeight = range(random, 8, 14);
       const podiumWidth = Math.min(lotSize * 0.96, width + range(random, 4, 10));
       const podiumDepth = Math.min(lotSize * 0.96, depth + range(random, 4, 9));
-      addPiece(materialKey, makeRoundedBox(podiumWidth, podiumHeight, podiumDepth), matrixAt(localX, baseY + podiumHeight * 0.5, localZ, 0, rotationY), true);
+      addPiece(materialKey, makeRoundedBox(podiumWidth, podiumHeight, podiumDepth, bevelSegments), matrixAt(localX, baseY + podiumHeight * 0.5, localZ, 0, rotationY), true);
       let cursorY = baseY + podiumHeight;
       let sectionWidth = width;
       let sectionDepth = depth;
@@ -324,7 +337,7 @@ export class ChunkGenerator {
         const sectionHeight = (baseY + height - cursorY) / (sections - section) * range(random, 0.84, 1.1);
         const sectionX = localX + range(random, -1.4, 1.4);
         const sectionZ = localZ + range(random, -1.4, 1.4);
-        addPiece(materialKey, makeRoundedBox(sectionWidth, sectionHeight, sectionDepth), matrixAt(sectionX, cursorY + sectionHeight * 0.5, sectionZ, 0, rotationY), true);
+        addPiece(materialKey, makeRoundedBox(sectionWidth, sectionHeight, sectionDepth, bevelSegments), matrixAt(sectionX, cursorY + sectionHeight * 0.5, sectionZ, 0, rotationY), true);
         addFacadeWindows(sectionX, sectionZ, sectionWidth, sectionDepth, cursorY, cursorY + sectionHeight, random);
         if (chance(random, 0.48)) {
           addPiece(accent, new THREE.BoxGeometry(0.14, sectionHeight * 0.86, 0.14), matrixAt(sectionX + sectionWidth * 0.5 + 0.08, cursorY + sectionHeight * 0.48, sectionZ + sectionDepth * 0.3), false);
@@ -344,7 +357,7 @@ export class ChunkGenerator {
       }
 
       addPiece(accent, new THREE.TorusGeometry(Math.max(2.5, Math.min(sectionWidth, sectionDepth) * 0.5), 0.2, 5, 32), matrixAt(localX, roofY + 0.25, localZ, Math.PI * 0.5), false);
-      if (chance(random, 0.33)) {
+      if (chance(random, district ? 0.32 + district.gardens * 0.38 : 0.33)) {
         addBox('wood', Math.max(4, sectionWidth * 0.5), 1, 4, localX, roofY + 0.5, localZ + sectionDepth * 0.18, rotationY, false);
         for (let bloom = 0; bloom < 3; bloom += 1) {
           addPiece('blossom', new THREE.IcosahedronGeometry(range(random, 1.2, 2.2), 1), matrixAt(localX + range(random, -2.5, 2.5), roofY + range(random, 1.4, 2.8), localZ + range(random, -1.5, 2.5), 0, 0, 0, 1.05, 0.8, 1.05), false);
@@ -373,49 +386,70 @@ export class ChunkGenerator {
         for (let subX = 0; subX < 2; subX += 1) {
           for (let subZ = 0; subZ < 2; subZ += 1) {
             const lotRandom = seededRandom(this.settings.seed, this.settings.generatorVersion, revision, 'lot', blockX, blockZ, subX, subZ);
-            const effectiveDensity = Math.min(0.78, this.settings.config.buildingDensity * (0.78 + this.settings.config.farDensity * 0.28));
-            if (!chance(lotRandom, effectiveDensity)) continue;
             const centerX = blockX * spacing + streetWidth * 0.5 + lotSize * (subX + 0.5);
             const centerZ = blockZ * spacing + streetWidth * 0.5 + lotSize * (subZ + 0.5);
-            const maxWidth = lotSize * range(lotRandom, 0.56, 0.82) * Math.min(1.18, this.settings.config.buildingVariation);
-            const maxDepth = lotSize * range(lotRandom, 0.56, 0.82) * Math.min(1.18, this.settings.config.buildingVariation);
+            if (denseCity && (centerX < x0 || centerX >= x0 + CHUNK_SIZE || centerZ < z0 || centerZ >= z0 + CHUNK_SIZE)) continue;
+            const district = denseCity ? cityDistrictAt(this.settings.seed, centerX, centerZ) : undefined;
+            const effectiveDensity = district
+              ? Math.min(0.79, Math.max(0.38, this.settings.config.buildingDensity + (district.towers - 0.5) * 0.32))
+              : Math.min(0.78, this.settings.config.buildingDensity * (0.78 + this.settings.config.farDensity * 0.28));
+            if (!chance(lotRandom, effectiveDensity)) {
+              if (district && district.gardens > 0.57 && !inSpawnSafetyCorridor(centerX, centerZ)
+                && centerX > x0 + 14 && centerX < x0 + CHUNK_SIZE - 14
+                && centerZ > z0 + 14 && centerZ < z0 + CHUNK_SIZE - 14) {
+                const x = centerX - x0;
+                const z = centerZ - z0;
+                addBox('soil', 24, 0.45, 19, x, 0.22, z);
+                addBox('wood', 24, 0.26, 3, x, 0.55, z);
+                for (const offset of [-7, 7]) {
+                  addPiece('blossom', new THREE.IcosahedronGeometry(3.3, 1), matrixAt(x + offset, 3.8, z - 4), false);
+                }
+              }
+              continue;
+            }
+            const variation = Math.min(denseCity ? 1.05 : 1.18, this.settings.config.buildingVariation);
+            const maxWidth = lotSize * range(lotRandom, 0.56, denseCity ? 0.76 : 0.82) * variation;
+            const maxDepth = lotSize * range(lotRandom, 0.56, denseCity ? 0.76 : 0.82) * variation;
             if (centerX - maxWidth * 0.5 < x0 + 2 || centerX + maxWidth * 0.5 > x0 + CHUNK_SIZE - 2) continue;
             if (centerZ - maxDepth * 0.5 < z0 + 2 || centerZ + maxDepth * 0.5 > z0 + CHUNK_SIZE - 2) continue;
             if (inSpawnSafetyCorridor(centerX, centerZ)) continue;
             const heightVariation = 0.72 + lotRandom() * 0.56 * this.settings.config.buildingVariation;
-            const height = range(lotRandom, this.settings.config.buildingHeightMin, this.settings.config.buildingHeightMax) * heightVariation;
-            addTower(centerX, centerZ, maxWidth, maxDepth, height, lotSize, lotRandom, hashNumbers(blockX, blockZ, subX, subZ));
+            const districtHeight = district ? 0.77 + district.towers * 0.43 : 1;
+            const height = range(lotRandom, this.settings.config.buildingHeightMin, this.settings.config.buildingHeightMax) * heightVariation * districtHeight;
+            addTower(centerX, centerZ, maxWidth, maxDepth, height, lotSize, lotRandom, hashNumbers(blockX, blockZ, subX, subZ), district);
           }
         }
       }
     }
 
-    const addBridgeSegment = (axis: 'x' | 'z', lineIndex: number): void => {
-      const line = bridgeLineAt(this.settings, axis, lineIndex);
-      if (!line.enabled) return;
+    const addBridgeSegment = ({ axis, lineIndex, enabled, height: y, supportBase }: BridgeLineDefinition): void => {
+      if (!enabled) return;
       const lineWorld = lineIndex * spacing;
       const localLine = lineWorld - (axis === 'x' ? z0 : x0);
       const centerLocal = CHUNK_SIZE * 0.5;
       const length = CHUNK_SIZE + 4;
-      const y = line.height;
+      // Keep deck continuity while leaving the street center open below it.
+      const offset = denseCity ? 8.2 : 0;
       if (axis === 'x') {
         addBox('bridge', length, 1.7, 7.5, centerLocal, y, localLine, 0, true);
         addBox('teal', length, 0.12, 0.18, centerLocal, y + 0.95, localLine + 3.6, 0, false);
         addBox('rose', length, 0.12, 0.18, centerLocal, y + 0.95, localLine - 3.6, 0, false);
         for (const supportX of [CHUNK_SIZE * 0.25, CHUNK_SIZE * 0.75]) {
-          const ground = terrainHeightAt(x0 + supportX, lineWorld, this.settings);
-          addBox('bridge', 2.1, Math.max(4, y - ground), 2.1, supportX, ground + (y - ground) * 0.5, localLine, 0, true);
+          const ground = supportBase ?? terrainHeightAt(x0 + supportX, lineWorld, this.settings);
+          addBox('bridge', 2.1, Math.max(4, y - ground), 2.1, supportX, ground + (y - ground) * 0.5, localLine + offset, 0, true);
+          if (denseCity) addBox('bridge', 2.8, 1, 6.2, supportX, y - 0.4, localLine + 5.9);
         }
       } else {
         addBox('bridge', 7.5, 1.7, length, localLine, y, centerLocal, 0, true);
         addBox('teal', 0.18, 0.12, length, localLine + 3.6, y + 0.95, centerLocal, 0, false);
         addBox('rose', 0.18, 0.12, length, localLine - 3.6, y + 0.95, centerLocal, 0, false);
         for (const supportZ of [CHUNK_SIZE * 0.25, CHUNK_SIZE * 0.75]) {
-          const ground = terrainHeightAt(lineWorld, z0 + supportZ, this.settings);
-          addBox('bridge', 2.1, Math.max(4, y - ground), 2.1, localLine, ground + (y - ground) * 0.5, supportZ, 0, true);
+          const ground = supportBase ?? terrainHeightAt(lineWorld, z0 + supportZ, this.settings);
+          addBox('bridge', 2.1, Math.max(4, y - ground), 2.1, localLine + offset, ground + (y - ground) * 0.5, supportZ, 0, true);
+          if (denseCity) addBox('bridge', 6.2, 1, 2.8, localLine + 5.9, y - 0.4, supportZ);
         }
       }
-      if (lineIndex % 4 === 0 && chance(seededRandom(this.settings.seed, revision, 'bridge-sign', axis, lineIndex), 0.35)) {
+      if (supportBase === undefined && lineIndex % 4 === 0 && chance(seededRandom(this.settings.seed, revision, 'bridge-sign', axis, lineIndex), 0.35)) {
         addBillboard(axis === 'x' ? centerLocal : localLine, y + 7, axis === 'x' ? localLine + 4 : centerLocal, axis === 'x' ? 0 : Math.PI * 0.5, 22, 7);
       }
       work.bridges += 1;
@@ -423,14 +457,16 @@ export class ChunkGenerator {
     };
 
     for (let line = Math.floor(z0 / spacing) - 1; line <= Math.ceil((z0 + CHUNK_SIZE) / spacing) + 1; line += 1) {
-      if (line * spacing >= z0 && line * spacing < z0 + CHUNK_SIZE) addBridgeSegment('x', line);
+      if (line * spacing >= z0 && line * spacing < z0 + CHUNK_SIZE) bridgeTiersAt(this.settings, 'x', line).forEach(addBridgeSegment);
     }
     for (let line = Math.floor(x0 / spacing) - 1; line <= Math.ceil((x0 + CHUNK_SIZE) / spacing) + 1; line += 1) {
-      if (line * spacing >= x0 && line * spacing < x0 + CHUNK_SIZE) addBridgeSegment('z', line);
+      if (line * spacing >= x0 && line * spacing < x0 + CHUNK_SIZE) bridgeTiersAt(this.settings, 'z', line).forEach(addBridgeSegment);
     }
 
     const islandRandom = seededRandom(this.settings.seed, this.settings.generatorVersion, revision, 'island', chunkX, chunkZ);
-    if (chance(islandRandom, this.settings.config.islandFrequency)) {
+    const islandDistrict = denseCity ? cityDistrictAt(this.settings.seed, x0 + CHUNK_SIZE / 2, z0 + CHUNK_SIZE / 2) : null;
+    const islandFrequency = this.settings.config.islandFrequency + (islandDistrict ? (islandDistrict.gardens - 0.5) * 0.25 : 0);
+    if (chance(islandRandom, islandFrequency)) {
       const radius = Math.min(CHUNK_SIZE * 0.22, range(islandRandom, 24, 44));
       const margin = radius + 8;
       if (margin * 2 < CHUNK_SIZE) {
@@ -440,7 +476,8 @@ export class ChunkGenerator {
         const worldZ = z0 + localZ;
         if (!inSpawnSafetyCorridor(worldX, worldZ)) {
           const height = range(islandRandom, 26, 50);
-          const minimumY = Math.max(this.settings.config.suspendedHeightMin, this.settings.config.buildingHeightMax + height * 0.5 + 15);
+          const floor = denseCity ? work.bounds.max.y : this.settings.config.buildingHeightMax;
+          const minimumY = Math.max(this.settings.config.suspendedHeightMin, floor + height * 0.5 + 15);
           if (minimumY <= this.settings.config.suspendedHeightMax) {
             const y = range(islandRandom, minimumY, this.settings.config.suspendedHeightMax);
             addPiece('rock', createIslandGeometry(islandRandom, radius, height), matrixAt(localX, y, localZ), true);
@@ -458,6 +495,15 @@ export class ChunkGenerator {
                 addPiece('blossom', new THREE.IcosahedronGeometry(range(islandRandom, 1.4, 3), 1), matrixAt(treeX + range(islandRandom, -1.8, 1.8), y + height * 0.5 + treeHeight + range(islandRandom, 1, 3), treeZ + range(islandRandom, -1.8, 1.8), 0, 0, 0, 1.1, 0.75, 1.1), false);
               }
             }
+            if (islandDistrict && islandDistrict.crossings > 0.46) {
+              const deckHeight = y + height * 0.5 + 14;
+              const platformWidth = radius * 0.92;
+              addBox('bridge', platformWidth, 1.6, 12, localX, deckHeight, localZ);
+              addBox('rose', platformWidth, 0.15, 0.32, localX, deckHeight + 0.86, localZ - 5.8, 0, false);
+              for (const offset of [-platformWidth * 0.32, platformWidth * 0.32]) {
+                addBox('bridge', 1.8, 13, 1.8, localX + offset, deckHeight - 6.5, localZ);
+              }
+            }
             work.islands += 1;
             work.signature.push('island', Math.round(localX), Math.round(localZ), Math.round(y), Math.round(radius));
           }
@@ -465,9 +511,14 @@ export class ChunkGenerator {
       }
     }
 
-    for (const placement of work.billboards) group.add(createBillboardMesh(placement, this.billboardMaterials.materials));
+    if (denseCity) {
+      for (const batch of createBillboardBatches(work.billboards, this.billboardMaterials.materials)) group.add(batch);
+    } else {
+      for (const placement of work.billboards) group.add(createBillboardMesh(placement, this.billboardMaterials.materials));
+    }
 
     let renderTriangles = 0;
+    const shadowSurfaces: THREE.BufferGeometry[] = [];
     for (const [materialKey, geometries] of work.render) {
       const merged = mergeGeometries(geometries, false);
       for (const geometry of geometries) geometry.dispose();
@@ -477,11 +528,27 @@ export class ChunkGenerator {
       mesh.name = `${key}-${materialKey}`;
       mesh.matrixAutoUpdate = false;
       mesh.updateMatrix();
-      mesh.castShadow = !['rose', 'teal', 'windowWarm', 'water'].includes(materialKey);
+      mesh.castShadow = !['rose', 'teal', 'windowWarm', 'water'].includes(materialKey)
+        && (!denseCity || !['wood', 'blossom', 'soil'].includes(materialKey));
+      if (denseCity && ['shellCeladon', 'shellPlum', 'shellIvory', 'bridge', 'rock'].includes(materialKey)) {
+        const surface = new THREE.BufferGeometry();
+        surface.setAttribute('position', merged.getAttribute('position'));
+        shadowSurfaces.push(surface);
+        mesh.castShadow = false;
+      }
       if (mesh.castShadow) mesh.customDepthMaterial = this.shadowDepthMaterial;
       mesh.receiveShadow = ['ground', 'shellCeladon', 'shellPlum', 'shellIvory', 'bridge', 'rock', 'soil'].includes(materialKey);
       group.add(mesh);
       renderTriangles += triangleCount(merged);
+    }
+    if (shadowSurfaces.length) {
+      const geometry = mergeGeometries(shadowSurfaces, false)!;
+      const shadow = new THREE.Mesh(geometry, this.materials.byKey.bridge);
+      shadow.name = `${key}-structural-shadows`;
+      shadow.layers.set(CITY_SHADOW_LAYER);
+      shadow.castShadow = true;
+      shadow.customDepthMaterial = this.shadowDepthMaterial;
+      group.add(shadow);
     }
 
     const mergedCollision = mergeGeometries(work.collision, false);
