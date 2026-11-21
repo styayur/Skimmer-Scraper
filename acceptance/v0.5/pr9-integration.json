@@ -34,6 +34,15 @@
       "observed": "Both CI traces showed one successful autonomous model request, then the local SCOUT fallback when the spoken command arrived within the manual request interval. The test assumed one model reply existed and dereferenced it.",
       "change": "Wait for the first autonomous model response before recording. Verify the matching model reply and DeepSeek PCM playback together."
     },
+    "githubCancelledAfterVoiceFix": {
+      "sourceCommit": "0958961901b1c4f295a0ae41723acd874c81e2f3",
+      "url": "https://github.com/styayur/Skimmer-Scraper/actions/runs/44937339146",
+      "voiceModelAndPlaybackTest": "passed",
+      "chromiumPassedBeforeJobLimit": 40,
+      "chromiumTotal": 41,
+      "jobLimitMinutes": 40,
+      "change": "Record trace and video on the configured first retry in CI. Take a screenshot after every failure and keep all tests and assertions."
+    },
     "github": "Required suite and merged-main results are recorded against their actual runs in the release report."
   },
   "browsers": {
