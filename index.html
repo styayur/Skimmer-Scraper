@@ -138,8 +138,9 @@
         </section>
         <section>
           <h3 id="guide-world" tabindex="-1">世界与模型</h3>
-          <p>城市的街谷、空中高架和浮岛随种子排布。稳定世界可重现，短暂世界的区块卸载后会变化。旧链接会打开对应的旧版城市。在机库可导入自包含 GLB 飞机，或切回内置机型。</p>
-          <p>天空中的倒置城市是远景。向上爬升穿过 520 米会触发天穹翻转，进入新世界。</p>
+          <p>城市的街谷、空中高架和浮岛随种子排布。稳定世界可重现，短暂世界的区块卸载后会变化。旧链接会打开对应的旧版城市。</p>
+          <p>在程序城市中，天空里的倒置城市是远景。向上爬升穿过 520 米会触发天穹翻转，进入新世界。</p>
+          <p>在世界设置可导入自包含 GLB 城市，调整比例、出生点并标记可贴近表面。GLB 保存在此浏览器。机库单独管理 GLB 飞机。</p>
           <p><a href="?seed=334458&amp;preset=sakura&amp;world=stable&amp;gen=2">打开旧版默认城市</a></p>
         </section>
         <section>
@@ -280,11 +281,60 @@
       <aside id="world-panel" role="dialog" aria-modal="true" class="world-panel" aria-labelledby="world-title" hidden>
         <div class="library-header">
           <div>
-            <p class="kicker">WORLD GENERATOR</p>
-            <h2 id="world-title">世界种子</h2>
+            <h2 id="world-title">世界</h2>
           </div>
           <button id="world-close" data-action="close" data-panel-focus class="icon-button" type="button" aria-label="关闭世界设置">关闭</button>
         </div>
+        <section class="local-world" aria-label="本地 GLB 世界">
+          <div id="local-world-active" hidden>
+            <p id="local-world-name" class="world-description"></p>
+            <div class="world-inline-actions">
+              <label><input id="local-world-collision" type="checkbox" /> 显示碰撞层</label>
+              <button id="local-world-builtin" class="secondary-button" type="button">返回程序城市</button>
+            </div>
+          </div>
+          <details id="local-world-library">
+            <summary>本地 GLB 世界</summary>
+            <div id="local-world-drop" class="world-drop">
+              <label class="world-field">选择或拖放自包含 GLB<input id="local-world-file" type="file" accept=".glb,model/gltf-binary" /></label>
+            </div>
+            <div id="local-world-saved" hidden>
+              <label class="world-field">已保存的世界<select id="local-world-select"></select></label>
+              <div class="world-inline-actions">
+                <button id="local-world-load" type="button" class="text-button">打开</button>
+                <button id="local-world-remove" type="button" class="text-button">从本机移除</button>
+              </div>
+            </div>
+            <p id="local-world-status" class="world-description" role="status"></p>
+            <button id="local-world-analyze" class="secondary-button" type="button" hidden>分析场景</button>
+            <form id="local-world-config" class="world-form" hidden>
+              <p id="local-world-summary" class="world-description"></p>
+              <details class="world-import-transform">
+                <summary>比例、方向与出生点</summary>
+                <div class="world-import-coordinates">
+                  <label class="world-field">比例<input name="scale" type="number" step="any" min="0.001" max="1000" required /></label>
+                  <label class="world-field">场景旋转（°）<input name="yaw" type="number" step="any" required /></label>
+                  <label class="world-field">向上轴<select name="up"><option value="y">Y</option><option value="z">Z</option><option value="-z">−Z</option></select></label>
+                  <label class="world-field">起飞朝向（°）<input name="spawnYaw" type="number" step="any" required /></label>
+                </div>
+                <label><input id="local-world-manual" type="checkbox" /> 手动指定出生点</label>
+                <fieldset id="local-world-position" class="world-import-coordinates">
+                  <label class="world-field">X（米）<input name="x" type="number" step="any" required /></label>
+                  <label class="world-field">Y（米）<input name="y" type="number" step="any" required /></label>
+                  <label class="world-field">Z（米）<input name="z" type="number" step="any" required /></label>
+                </fieldset>
+              </details>
+              <details class="world-import-transform">
+                <summary>网格语义</summary>
+                <label class="world-field">网格<select id="local-world-mesh"></select></label>
+                <label class="world-field">类型<select id="local-world-role"><option value="SURFACE">可贴近表面</option><option value="OBSTACLE">仅碰撞障碍</option><option value="DECORATION">装饰</option></select></label>
+              </details>
+              <label><input id="local-world-save" type="checkbox" checked /> 保存到此浏览器</label>
+              <button id="local-world-apply" class="secondary-button" type="submit">启用世界</button>
+            </form>
+            <button id="local-world-cancel" class="text-button" type="button" hidden>取消导入</button>
+          </details>
+        </section>
         <p class="library-copy">
           使用种子重新生成城市。分享链接会保留原有种子、世界模式和生成器版本。
         </p>

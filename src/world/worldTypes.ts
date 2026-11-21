@@ -50,7 +50,11 @@ export interface SurfaceQuery {
 
 export interface SurfaceProvider {
   queryNearest(position: Vec3, maxDistance: number): SurfaceQuery | null;
+  queryProximity?(position: Vec3, maxDistance: number): SurfaceQuery | null;
 }
+
+export const queryFlightSurface = (world: SurfaceProvider, position: Vec3, maxDistance: number): SurfaceQuery | null =>
+  world.queryProximity ? world.queryProximity(position, maxDistance) : world.queryNearest(position, maxDistance);
 
 export interface WorldData {
   seed: number;

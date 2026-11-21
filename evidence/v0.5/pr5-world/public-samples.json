@@ -1,0 +1,100 @@
+{
+  "sources": {
+    "sourceCommit": "e124e8d8d7330a5372bc2b4d00d39a4a9d7997ea",
+    "files": {
+      "BoxVertexColors.glb": {
+        "bytes": 1924,
+        "sha256": "9c48227f33b0ba2fbcf23b98ebf60d1c8ae0c6e6c5281e0aa3cc58affee10382"
+      },
+      "MeshoptCubeTest.glb": {
+        "bytes": 70560,
+        "sha256": "b82f1ef35a48c72e15e727c0ee5402758f20e0b15bf9b8994634fde64d782f70"
+      },
+      "CarConcept-Draco-KTX2.glb": {
+        "bytes": 3467512,
+        "sha256": "2ff630c8229f975eeb0cb856d0a20840659f05f3e5f4e8702192f084ec9342b7"
+      }
+    }
+  },
+  "browser": "157.0.8103.79",
+  "build": {
+    "version": "0.3.0-rc.1",
+    "sourceCommit": "8ddcb927bd6458cf3cca612c96d9d773fbb905a3",
+    "sourceCommitTime": "2026-11-21T20:22:21+08:00",
+    "dirty": false,
+    "sourceUrl": "https://github.com/styayur/Skimmer-Scraper/tree/8ddcb927bd6458cf3cca612c96d9d773fbb905a3"
+  },
+  "results": [
+    {
+      "name": "BoxVertexColors.glb",
+      "nodes": 2,
+      "triangles": 12,
+      "textures": 0,
+      "materials": 1,
+      "animations": [],
+      "texturePixels": 0,
+      "flight": true,
+      "activeBVHs": 1,
+      "companions": 3
+    },
+    {
+      "name": "MeshoptCubeTest.glb",
+      "nodes": 36,
+      "triangles": 320,
+      "textures": 10,
+      "materials": 12,
+      "animations": [
+        {
+          "name": "RotateCubes",
+          "seconds": 2
+        }
+      ],
+      "texturePixels": 327680,
+      "flight": true,
+      "activeBVHs": 1,
+      "companions": 3
+    },
+    {
+      "name": "CarConcept-Draco-KTX2.glb",
+      "nodes": 126,
+      "triangles": 213347,
+      "textures": 35,
+      "materials": 23,
+      "animations": [],
+      "texturePixels": 7523328,
+      "flight": true,
+      "activeBVHs": 1,
+      "companions": 3
+    }
+  ],
+  "assets": [
+    "http://127.0.0.1:4175/Skimmer-Scraper/assets/worldCodecs-DSqQMu4f.js",
+    "http://127.0.0.1:4175/Skimmer-Scraper/assets/draco_wasm_wrapper-fZCQGLGb.js",
+    "http://127.0.0.1:4175/Skimmer-Scraper/assets/draco_decoder-Z1_iN-Ht.wasm",
+    "http://127.0.0.1:4175/Skimmer-Scraper/assets/basis_transcoder-o4Hde_L7.js",
+    "http://127.0.0.1:4175/Skimmer-Scraper/assets/basis_transcoder-VXdx5NbI.wasm"
+  ],
+  "external": [],
+  "errors": [],
+  "fixtureLicenses": [
+    {
+      "sample": "Box Vertex Colors",
+      "source": "https://github.com/KhronosGroup/glTF-Sample-Assets/blob/e124e8d8d7330a5372bc2b4d00d39a4a9d7997ea/Models/BoxVertexColors/LICENSE.md",
+      "license": "CC0-1.0"
+    },
+    {
+      "sample": "Meshopt Cube Test",
+      "source": "https://github.com/KhronosGroup/glTF-Sample-Assets/blob/e124e8d8d7330a5372bc2b4d00d39a4a9d7997ea/Models/MeshoptCubeTest/LICENSE.md",
+      "license": "CC0-1.0",
+      "preparation": "Embedded existing buffer and PNG references into GLB"
+    },
+    {
+      "sample": "Car Concept",
+      "source": "https://github.com/KhronosGroup/glTF-Sample-Assets/blob/e124e8d8d7330a5372bc2b4d00d39a4a9d7997ea/Models/CarConcept/LICENSE.md",
+      "credit": "Darmstadt Graphics Group GmbH / Eric Chadwick",
+      "license": "CC-BY-4.0, marks excluded",
+      "preparation": "Embedded existing Draco buffer and KTX2 image data into GLB"
+    }
+  ],
+  "modelFilesBundled": false
+}

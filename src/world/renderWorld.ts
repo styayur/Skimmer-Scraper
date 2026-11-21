@@ -10,6 +10,7 @@ export interface SpawnState {
 }
 
 export interface RenderableWorld {
+  kind?: 'imported';
   root: Group;
   settings: WorldSettings;
   getSpawn(): SpawnState;

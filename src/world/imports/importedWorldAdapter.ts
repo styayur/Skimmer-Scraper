@@ -1,0 +1,123 @@
+import * as THREE from 'three';
+import { forwardFromAttitude, type Vec3 } from '../../core/math';
+import { ChunkedWorldAdapter } from '../chunkedWorldAdapter';
+import { fingerprintValues } from '../deterministic';
+import type { RenderableWorld, SpawnState } from '../renderWorld';
+import { resolveWorldSettings } from '../worldConfig';
+import type { SurfaceProvider, WorldStats } from '../worldTypes';
+import { disposeWorldScenes, type AnalyzedWorldScene } from './sceneAnalyzer';
+import type { WorldManifest } from './worldManifest';
+
+export class ImportedWorldAdapter implements RenderableWorld, SurfaceProvider {
+  public readonly kind = 'imported';
+  public readonly settings;
+  public readonly root: THREE.Group;
+  private readonly adapter = new ChunkedWorldAdapter();
+  private readonly spawn: SpawnState;
+  private readonly collisionView = new THREE.Group();
+  private readonly surfaceId: string;
+  private disposed = false;
+  public disposedGeometryCount = 0;
+
+  public constructor(
+    public readonly manifest: WorldManifest,
+    private readonly scene: AnalyzedWorldScene,
+    private readonly sourceScenes: readonly THREE.Group[],
+  ) {
+    this.settings = resolveWorldSettings({ seed: String(Number.parseInt(manifest.id.slice(0, 8), 16)) });
+    const origin = { x: 0, y: 0, z: 0 };
+    this.surfaceId = `local-${manifest.id}-surface`;
+    for (const [geometry, id] of [
+      [scene.surfaces, this.surfaceId],
+      [scene.obstacles, `local-${manifest.id}-obstacle`],
+    ] as const) {
+      if (!geometry) continue;
+      this.adapter.addChunk({ id, chunkX: 0, chunkZ: 0, origin, bounds: geometry.boundingBox!, geometry });
+    }
+    this.spawn = this.chooseSpawn();
+    for (const [geometry, color] of [[scene.surfaces, 0x62ffd6], [scene.obstacles, 0xffa178]] as const) {
+      if (!geometry) continue;
+      this.collisionView.add(new THREE.Mesh(geometry, new THREE.MeshBasicMaterial({
+        color, transparent: true, opacity: 0.62, depthWrite: false,
+        wireframe: true, polygonOffset: true, polygonOffsetFactor: -2, polygonOffsetUnits: -2,
+      })));
+    }
+    // The collision vertices already include the imported scene's transform.
+    const group = new THREE.Group();
+    group.name = 'imported-world';
+    group.add(scene.root, this.collisionView);
+    this.root = group;
+    this.setCollisionVisible(false);
+  }
+
+  public setCollisionVisible(visible: boolean): void {
+    this.collisionView.visible = visible;
+  }
+
+  public isCollisionVisible(): boolean { return this.collisionView.visible; }
+
+  public getSpawn(): SpawnState {
+    return this.getDefaultSpawn();
+  }
+
+  public getDefaultSpawn(): SpawnState {
+    return { ...this.spawn, position: { ...this.spawn.position } };
+  }
+
+  public getRenderOrigin(): Vec3 { return { x: 0, y: 0, z: 0 }; }
+  public getLocalPosition(position: Vec3): Vec3 { return { ...position }; }
+  public isCollisionCovered(position: Vec3): boolean {
+    return !this.disposed && Number.isFinite(position.x + position.y + position.z);
+  }
+  public isCompanionCovered(position: Vec3): boolean { return this.isCollisionCovered(position); }
+  public getAdapterStats() { return this.adapter.getStats(); }
+  public queryNearest(position: Vec3, maxDistance: number) { return this.adapter.queryNearest(position, maxDistance); }
+  public queryProximity(position: Vec3, maxDistance: number) { return this.adapter.queryNearest(position, maxDistance, this.surfaceId); }
+
+  public getFingerprint(): number {
+    return fingerprintValues(this.manifest.id, JSON.stringify(this.manifest.options));
+  }
+
+  public getStats(): WorldStats {
+    const triangles = this.disposed ? 0 : this.scene.triangles;
+    return { chunks: 0, buildings: 0, bridges: 0, islands: 0,
+      collisionTriangles: this.disposed ? 0 : this.manifest.collisionTriangles, renderTriangles: triangles };
+  }
+
+  public dispose(): void {
+    if (this.disposed) return;
+    this.disposed = true;
+    this.adapter.dispose();
+    this.disposedGeometryCount = disposeWorldScenes([...this.sourceScenes, this.collisionView]);
+    this.root.clear();
+  }
+
+  private chooseSpawn(): SpawnState {
+    const { options } = this.manifest;
+    const yaw = THREE.MathUtils.degToRad(options.spawnYaw);
+    const pitch = 0;
+    const speed = 66;
+    const direction = forwardFromAttitude({ yaw, pitch, roll: 0 });
+    const safe = (position: Vec3) => {
+      for (let distance = 0; distance <= 22; distance += 2) {
+        const point = { x: position.x + distance * direction.x, y: position.y, z: position.z + distance * direction.z };
+        if (this.queryNearest(point, 6.5)) return false;
+      }
+      return true;
+    };
+    if (options.spawn) {
+      if (!safe(options.spawn)) throw new Error('出生点或前方航线太靠近碰撞面，请调整坐标或使用自动出生点。');
+      return { position: { ...options.spawn }, yaw, pitch, speed };
+    }
+
+    const { max } = this.scene.bounds;
+    const edge = Math.abs(direction.x) * max.x + Math.abs(direction.z) * max.z;
+    const y = max.y + 14;
+    const approach = { x: -(edge + 10) * direction.x, y, z: -(edge + 10) * direction.z };
+    for (const position of [approach, { x: 0, y, z: 0 },
+      { x: max.x * 0.65, y, z: max.z * 0.65 }, { x: -max.x * 0.65, y, z: -max.z * 0.65 }]) {
+      if (safe(position) && (this.queryProximity(position, 32) || this.queryNearest(position, 32))) return { position, yaw, pitch, speed };
+    }
+    return { position: approach, yaw, pitch, speed };
+  }
+}

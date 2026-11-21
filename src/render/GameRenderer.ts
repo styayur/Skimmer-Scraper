@@ -3,6 +3,7 @@ import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer
 import { OutputPass } from 'three/examples/jsm/postprocessing/OutputPass.js';
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
 import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js';
+import type { KTX2Loader } from 'three/addons/loaders/KTX2Loader.js';
 import type { Attitude, Vec3 } from '../core/math';
 import type { FlightState } from '../flight/flightModel';
 import type { RenderableWorld, SpawnState } from '../world/renderWorld';
@@ -129,7 +130,7 @@ export class GameRenderer {
     this.cameraRig = new FlightCameraRig(this.camera);
 
     this.atmosphere = createSkyAtmosphere();
-    this.mirrorSky.setWorld(world.settings, 0x21152e, 0x9f4f66);
+    if (!world.kind) this.mirrorSky.setWorld(world.settings, 0x21152e, 0x9f4f66);
     this.scene.add(this.atmosphere.group, this.mirrorSky.group);
 
     const hemisphere = new THREE.HemisphereLight(0xffc1a1, 0x17131f, 1.45);
@@ -237,12 +238,13 @@ export class GameRenderer {
     this.releaseWorld();this.world=world;this.scene.add(world.root);
     const profile=index>0?journeyProfile(index):null;
     this.atmosphere.palette(profile?.top??0x21152e,profile?.mid??0x9f4f66,profile?.horizon??0xffb58f);
-    this.mirrorSky.setWorld(world.settings, profile?.top ?? 0x21152e, profile?.mid ?? 0x9f4f66);
+    if (!world.kind) this.mirrorSky.setWorld(world.settings, profile?.top ?? 0x21152e, profile?.mid ?? 0x9f4f66);
     this.scene.fog=new THREE.FogExp2(profile?.mid??0x6f4152,world.settings.config.fogDensity);
     this.journeyGate.group.visible=index===5;
     const spawn=world.getSpawn();this.journeyGate.group.position.set(spawn.position.x,spawn.position.y+30,spawn.position.z-260);
   }
   public setInversion(angle:number):void {this.inversion=angle;}
+  public configureWorldTextures(loader: KTX2Loader): void { loader.detectSupport(this.renderer); }
   public setCompanions(agents: readonly AgentState[], origin: Vec3): void { this.companions.update(agents, origin); }
   public setRelay(flash:{from:Vec3;to:Vec3;until:number}|null,time:number,origin:Vec3):void {
     this.relayLine.visible=!!flash&&flash.until>time;

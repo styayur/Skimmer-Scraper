@@ -1,6 +1,7 @@
 import { clamp, distance, type Vec3 } from '../core/math';
 import type { AgentState, CompanionWorld } from '../companions/AgentController';
 import type { RunRulesState } from './runRules';
+import { queryFlightSurface } from '../world/worldTypes';
 
 export type TrustEvent = 'accepted-lead' | 'regroup-benefit' | 'relay-success' | 'relay-failure' | 'bad-plan' | 'lost-coordination' | 'impact';
 export interface TrustState { value: number; events: Array<{time:number;event:TrustEvent;delta:number;value:number}> }
@@ -20,9 +21,9 @@ export const relayEligibility=(state:RelayState,context:RelayContext):string|nul
   if(context.trust<(context.requested?0.55:0.7))return'trust';
   if(state.charges<=0)return'no-charges';if(context.time<state.cooldownUntil)return'cooldown';
   if(distance(context.player,context.partner.flight.position)>70)return'distance';
-  const hit=context.world.queryNearest(context.partner.flight.position,32.01);
+  const hit=queryFlightSurface(context.world,context.partner.flight.position,32.01);
   if(!hit||hit.distance>32||hit.distance<=3.2)return'partner-surface';
-  const surface=context.world.queryNearest(context.player,32.01);
+  const surface=queryFlightSurface(context.world,context.player,32.01);
   if(context.rules.config.mode==='challenge'&&(surface&&surface.distance<=32))return'player-safe';
   if(context.rules.config.mode==='challenge'&&context.rules.grace>Math.min(2,context.rules.config.graceSeconds*0.4))return'not-needed';
   for(let index=1;index<10;index++){

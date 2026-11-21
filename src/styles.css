@@ -571,6 +571,18 @@ kbd {
 }
 /* Flight options share the existing local-library visual language. */
 .flight-settings, .world-panel { overflow-y: auto; }
+.world-panel > * { flex-shrink: 0; }
+.world-panel > .library-header { position: sticky; top: 0; z-index: 1; padding-block: 0.35rem; background: #1b111c; }
+.local-world { margin-top: 1rem; padding: 0.8rem 0; border-top: 1px solid var(--line-strong); border-bottom: 1px solid var(--line-strong); }
+.local-world details > summary { cursor: pointer; }
+.local-world details[open] > summary { margin-bottom: 0.65rem; }
+.local-world label { font-size: 0.86rem; }
+.world-drop { padding: 0.7rem; border: 1px dashed var(--line-strong); margin-block: 0.65rem; }
+.world-drop[data-dragging] { border-color: #62ffd6; }
+.world-drop input { max-width: 100%; }
+.world-import-transform { border-top: 1px solid var(--line-strong); padding-top: 0.65rem; }
+.world-import-coordinates { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.5rem; margin-block: 0.5rem; padding: 0; border: 0; }
+.world-import-coordinates input { min-width: 0; }
 .flight-settings > .library-header { position: sticky; top: -2rem; z-index: 1; padding: 0.5rem 0; background: #1a101d; }
 .is-cockpit-preview #title-screen { visibility: hidden; }
 @media (max-width: 640px) {
