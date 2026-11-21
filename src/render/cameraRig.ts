@@ -8,6 +8,8 @@ export interface CameraRigSnapshot {
   fov: number;
   blend: number;
   anchor: Vec3 | null;
+  orientation: [number, number, number, number];
+  position: Vec3;
 }
 
 const speedFactor = (speed: number): number => clamp((speed - 58) / 58, 0, 1);
@@ -33,11 +35,7 @@ export class FlightCameraRig {
   private readonly cockpitPosition = new THREE.Vector3();
   private readonly cockpitLook = new THREE.Vector3();
   private readonly blendedLook = new THREE.Vector3();
-  private readonly chaseUp = new THREE.Vector3();
-  private readonly cockpitUp = new THREE.Vector3();
-  private readonly worldUp = new THREE.Vector3(0, 1, 0);
   private readonly forward = new THREE.Vector3();
-  private readonly right = new THREE.Vector3();
   private readonly orientedRight = new THREE.Vector3();
   private readonly orientedUp = new THREE.Vector3();
   private readonly aircraftQuaternion = new THREE.Quaternion();
@@ -83,7 +81,7 @@ export class FlightCameraRig {
     this.smoothedChaseLook.copy(this.desiredChaseLook);
     this.camera.position.lerpVectors(this.smoothedChasePosition, this.cockpitPosition, blend);
     this.blendedLook.lerpVectors(this.smoothedChaseLook, this.cockpitLook, blend);
-    this.camera.up.lerpVectors(this.chaseUp, this.cockpitUp, blend).normalize();
+    this.camera.up.copy(this.orientedUp);
     this.camera.lookAt(this.blendedLook);
     this.currentFov = this.targetFov();
     this.camera.fov = this.currentFov;
@@ -105,7 +103,7 @@ export class FlightCameraRig {
 
     this.camera.position.lerpVectors(this.smoothedChasePosition, this.cockpitPosition, blend);
     this.blendedLook.lerpVectors(this.smoothedChaseLook, this.cockpitLook, blend);
-    this.camera.up.lerpVectors(this.chaseUp, this.cockpitUp, blend).normalize();
+    this.camera.up.copy(this.orientedUp);
 
     const shakeScale = clamp(visualScale, 0, 1) *
       (this.comfortMode ? EXPERIENCE_CONFIG.camera.reducedShake : EXPERIENCE_CONFIG.camera.standardShake);
@@ -159,7 +157,11 @@ export class FlightCameraRig {
   }
 
   public getSnapshot(): CameraRigSnapshot {
-    return { mode: this.mode, fov: this.camera.fov, blend: this.modeBlend, anchor: this.anchor && { ...this.anchor } };
+    return {
+      mode: this.mode, fov: this.camera.fov, blend: this.modeBlend, anchor: this.anchor && { ...this.anchor },
+      orientation: this.camera.quaternion.toArray(),
+      position: { x: this.camera.position.x, y: this.camera.position.y, z: this.camera.position.z },
+    };
   }
 
   private updateTargets(state: Pick<FlightState, 'position' | 'attitude' | 'speed' | 'boosting' | 'elapsed'>): void {
@@ -167,25 +169,21 @@ export class FlightCameraRig {
     this.boosting = state.boosting;
     const forward = forwardFromAttitude(state.attitude);
     this.forward.set(forward.x, forward.y, forward.z);
-    this.right.set(Math.cos(state.attitude.yaw), 0, -Math.sin(state.attitude.yaw));
     const speedRatio = Math.max(0, state.speed - 60) / 45;
     const chase = EXPERIENCE_CONFIG.camera.chase;
     const cockpit = EXPERIENCE_CONFIG.camera.cockpit;
-
+    this.aircraftEuler.set(state.attitude.pitch, state.attitude.yaw, state.attitude.roll, 'YXZ');
+    this.aircraftQuaternion.setFromEuler(this.aircraftEuler);
+    this.orientedUp.set(0, 1, 0).applyQuaternion(this.aircraftQuaternion);
+    this.orientedRight.set(1, 0, 0).applyQuaternion(this.aircraftQuaternion);
     this.desiredChasePosition
       .set(state.position.x, state.position.y, state.position.z)
       .addScaledVector(this.forward, -(chase.distance + speedRatio * chase.distanceSpeedGain))
-      .addScaledVector(this.worldUp, chase.height + Math.abs(state.attitude.roll) * 0.16)
-      .addScaledVector(this.right, -state.attitude.roll * 0.7);
+      .addScaledVector(this.orientedUp, chase.height);
     this.desiredChaseLook
       .set(state.position.x, state.position.y, state.position.z)
       .addScaledVector(this.forward, 15)
-      .addScaledVector(this.worldUp, 2.2);
-
-    this.aircraftEuler.set(state.attitude.pitch, state.attitude.yaw, state.attitude.roll, 'YXZ');
-    this.aircraftQuaternion.setFromEuler(this.aircraftEuler);
-    this.orientedUp.set(0, 1, 0).applyQuaternion(this.aircraftQuaternion).normalize();
-    this.orientedRight.set(1, 0, 0).applyQuaternion(this.aircraftQuaternion);
+      .addScaledVector(this.orientedUp, 2.2);
     this.cockpitPosition
       .set(state.position.x, state.position.y, state.position.z)
       .addScaledVector(this.forward, this.anchor ? -this.anchor.z : cockpit.forwardOffset)
@@ -196,8 +194,6 @@ export class FlightCameraRig {
       .addScaledVector(this.forward, 100)
       .addScaledVector(this.orientedUp, 0.1);
 
-    this.chaseUp.copy(this.worldUp).applyAxisAngle(this.forward, -state.attitude.roll * 0.2);
-    this.cockpitUp.copy(this.orientedUp);
   }
 
   private targetFov(): number {

@@ -1,29 +1,65 @@
 import {describe,it,expect} from 'vitest';
+import {Euler,Quaternion} from 'three';
 import {SkyJourney,SKY_HEIGHT} from '../../src/game/skyJourney';
 import {createFlightState} from '../../src/flight/flightModel';
 import {createRunRules,updateRunRules} from '../../src/game/runRules';
 import {journeyWorld,JOURNEY_PROFILES} from '../../src/world/journeyWorlds';
 import {resolveWorldSettings} from '../../src/world/worldConfig';
 import {bestStorageKey,defaultScoreContext} from '../../src/game/storage';
-import {chooseSkyArrival,chooseSkyEntry,stepSkyDive} from '../../src/game/skyFlight';
+import {planSkyPassage,stepSkyDive,translateWingForSky} from '../../src/game/skyFlight';
+import type {Attitude,Vec3} from '../../src/core/math';
 const rising=()=>createFlightState({position:{x:0,y:SKY_HEIGHT+.1,z:0},yaw:0,pitch:1,speed:100});
+const spawn={position:{x:0,y:24,z:120},yaw:0,pitch:-.015,speed:66};
+const ground={queryNearest:(point:Vec3,range:number)=>point.y<=range
+  ?{distance:point.y,point:{...point,y:0},chunkId:'city',surfaceId:'ground'}:null};
+const rotation=({pitch,yaw,roll}:Attitude)=>new Quaternion().setFromEuler(new Euler(pitch,yaw,roll,'YXZ'));
 describe('Sky Inversion sequence',()=>{
  it('turns the arrival away from a bridge blocking the first seconds of restored control',()=>{
-  const spawn={position:{x:0,y:24,z:120},yaw:0,pitch:-.015,speed:66};
   const world={queryNearest:(p:{x:number;y:number;z:number},r:number)=>{
     const wall=Math.abs(p.z-60);const ground=Math.abs(p.y);const d=Math.min(wall,ground);
     return d<=r?{distance:d,point:wall<ground?{...p,z:60}:{...p,y:0},chunkId:'city',surfaceId:'bridge'}:null;
   }};
-  const arrival=chooseSkyArrival(spawn,world)!;expect(arrival.yaw).toBeCloseTo(Math.PI);expect(arrival.position).toEqual(spawn.position);
-  expect(chooseSkyEntry(arrival.position,world)).not.toBeNull();
+  const passage=planSkyPassage(rising(),spawn,world)!;
+  expect(passage.exitAttitude.yaw).toBeCloseTo(Math.PI);
+  expect(passage.end).toEqual(spawn.position);
+  expect(passage.adjustedHeading).toBe(true);
  });
- it('checks the whole dive column, chooses a lower entry under a bridge and rejects a blocked spawn',()=>{
-  const spawn={x:0,y:24,z:120};const bridge={queryNearest:(p:typeof spawn,r:number)=>Math.abs(p.y-60)<=r?{distance:Math.abs(p.y-60),point:{...p,y:60},chunkId:'bridge',surfaceId:'bridge'}:null};
-  expect(chooseSkyEntry(spawn,bridge)?.y).toBe(48);
-  const blocked={queryNearest:()=>({distance:0,point:spawn,chunkId:'wall',surfaceId:'wall'})};expect(chooseSkyEntry(spawn,blocked)).toBeNull();
-  const start={...spawn,y:48};let flight=createFlightState({position:start,yaw:0});
-  for(let i=1;i<=144;i++){flight=stepSkyDive(flight,start,spawn,i/144,1/120);expect(flight.position.y).toBeGreaterThanOrEqual(24);expect(flight.position.y).toBeLessThanOrEqual(48);}
-  expect(flight.position).toEqual(spawn);expect(flight.attitude.pitch).toBeCloseTo(0);
+ it('selects a lower curve under a bridge and rejects unloaded or blocked routes',()=>{
+  const bridge={queryNearest:(p:Vec3,r:number)=>Math.abs(p.y-60)<=r
+    ?{distance:Math.abs(p.y-60),point:{...p,y:60},chunkId:'city',surfaceId:'bridge'}:ground.queryNearest(p,r)};
+  const entry=rising();
+  const passage=planSkyPassage(entry,spawn,bridge)!;
+  expect(passage.start.y).toBeLessThan(54);
+  for(let i=0;i<=144;i++){
+    const point=stepSkyDive(entry,passage,i/144,1/120).position;
+    expect(bridge.queryNearest(point,6.5)).toBeNull();
+  }
+  expect(planSkyPassage(entry,spawn,{...ground,isCompanionCovered:()=>false})).toBeNull();
+ });
+ it.each([
+  {pitch:0.4,yaw:-0.6,roll:0.2}, {pitch:1.15,yaw:2.4,roll:Math.PI-0.02},
+  {pitch:1.75,yaw:-2.1,roll:-Math.PI/2},
+ ])('carries attitude, speed, velocity and wing offsets from $pitch/$yaw/$roll',attitude=>{
+  const approach=createFlightState({position:rising().position,speed:91,...attitude});
+  const entry={...approach,attitude,throttle:.84,boosting:true};
+  const passage=planSkyPassage(entry,spawn,ground)!;
+  const first=stepSkyDive(entry,passage,0,1/120);
+  const last=stepSkyDive(entry,passage,1,1/120);
+  expect(first.attitude).toEqual(entry.attitude);
+  expect(first.velocity).toEqual(entry.velocity);
+  expect(last.velocity).toEqual(passage.exitVelocity);
+  expect(last.attitude.roll).toBeCloseTo(attitude.roll);
+  expect(last.speed).toBe(91);
+  expect(last.throttle).toBe(.84);
+  expect(last.boosting).toBe(true);
+  let previous=rotation(first.attitude);
+  for(let step=1;step<=144;step++){
+    const next=rotation(stepSkyDive(entry,passage,step/144,1/120).attitude);
+    expect(previous.angleTo(next)).toBeLessThan(.045);
+    previous=next;
+  }
+  const wing={...entry,position:{x:entry.position.x+8,y:entry.position.y-4,z:entry.position.z+15}};
+  expect(translateWingForSky(wing,passage)).toEqual({...wing,position:{x:passage.start.x+8,y:passage.start.y-4,z:passage.start.z+15}});
  });
  it('does not freeze rules below threshold, while falling, when teleported above it or after grace failure',()=>{
   const sky=new SkyJourney();const rules=createRunRules();

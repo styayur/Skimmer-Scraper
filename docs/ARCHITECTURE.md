@@ -33,12 +33,18 @@ ledger records zero old BVHs/root children before replacement. A cancellation to
 guards pending loads; separate run generations stop an older debug advance from
 stepping a retried run. Camera, imported player model, companion instancing and
 atmosphere survive; world materials, textures and chunks belong to the exchanged
-streamer. `chooseSkyEntry` sweeps the entire protected spawn column before the pure
-`stepSkyDive` animation. Local agents keep collision authority during regroup/dive
-and are safely redeployed before normal flight resumes.
-Arrival selection also sweeps a 180 m cruise corridor with 6.5 m clearance and
-loaded coverage, considering alternate headings, local offsets and heights. This
-prevents a valid vertical column from handing control back facing an imminent bridge.
+streamer. `planSkyPassage` validates a curved descent and 180 m recovery corridor
+with 6.5 m clearance and loaded coverage. It tries the incoming heading first,
+then alternate headings, offsets and entry heights. A quaternion maps the
+incoming attitude to the exit frame. During the turn the bank stays relative to
+the current flight frame, and the curve matches the incoming and
+outgoing velocities. The camera rig translates its spring state across the seam.
+Local agents keep safe translated offsets or choose nearby covered positions,
+then use their usual avoidance during descent and recovery.
+
+`MirrorSky` derives an inverted skyline from the active world seed and palette.
+It follows the camera at a fixed offset, uses one batched mesh and frees that
+mesh on every world exchange. The world streamer and surface queries never see it.
 Each generator also owns one shared shadow depth material. Real-GPU lifecycle
 instrumentation found a disposed ground map being uploaded again through the
 renderer-shared shadow material; per-world ownership releases that sampler state.

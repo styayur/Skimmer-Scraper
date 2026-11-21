@@ -2,8 +2,9 @@ import { clamp } from '../core/math';
 import type { FlightState } from '../flight/flightModel';
 import type { RunRulesState } from './runRules';
 export const SKY_HEIGHT=520;
+export const SKY_DIVE_SECONDS=1.2;
 export type SkyPhase='ASCENT'|'THRESHOLD'|'INVERSION'|'WORLD_SWAP'|'DIVE'|'RECOVERY';
-const durations={THRESHOLD:.4,INVERSION:1.2,DIVE:1.2,RECOVERY:.8};
+const durations={THRESHOLD:.4,INVERSION:1.2,DIVE:SKY_DIVE_SECONDS,RECOVERY:.8};
 /** Fixed-time sequence. Resource exchange is an explicitly acknowledged async boundary. */
 export class SkyJourney {
  public phase:SkyPhase='ASCENT';public phaseTime=0;public time=0;public worldIndex=0;public crossings=0;
