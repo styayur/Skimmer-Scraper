@@ -4,15 +4,18 @@ import '@fontsource-variable/syne';
 import '@fontsource-variable/ibm-plex-sans';
 import './styles.css';
 import { version } from '../package.json';
-import { loadRules, normalizeRules, saveRules, type RuleConfig } from './game/ruleConfig';
+import { normalizeRules, saveRules, type RuleConfig } from './game/ruleConfig';
 import { RunSettingsPanel } from './ui/RunSettings';
 import { loadControls, shapeInput } from './flight/controlSettings';
 import { GamepadInputSource } from './flight/gamepad';
 import { bindControlSettings } from './ui/ControlSettings';
 import { resolveShield } from './game/shield';
-import { loadCameraAnchor } from './model/cameraAnchors';
+import { loadCameraAnchor, recommendCameraAnchor, type CameraAnchorSetting, type RecommendedAnchorPreset } from './model/cameraAnchors';
+import { bindCameraAnchorSettings } from './ui/CameraAnchorSettings';
+import { loadFlightSetup } from './game/flightSetup';
+import type { Vec3 } from './core/math';
 import { CompanionTeam } from './companions/AgentController';
-import { loadCompanions, type CompanionSettings } from './companions/settings';
+import { saveCompanions, type CompanionSettings } from './companions/settings';
 import { bindCompanionSettings } from './ui/CompanionSettings';
 import { updateCompanionHud } from './ui/CompanionHud';
 import { SymbiosisRuntime } from './ai/SymbiosisRuntime';
@@ -95,6 +98,7 @@ interface DebugSnapshot {
   localModelCount: number;
   cameraMode: CameraMode;
   cameraBlend: number;
+  cameraAnchor: Vec3 | null;
   fov: number;
   proximity: number;
   proximityZone: string;
@@ -149,12 +153,11 @@ declare global {
 }
 
 const params = new URLSearchParams(window.location.search);
-let selectedRules = loadRules();
-let companionSettings = loadCompanions();
-selectedRules = normalizeRules({ ...selectedRules, assisted: companionSettings.count > 0 });
+const initialSetup = loadFlightSetup(window.localStorage, false);
+let selectedRules = initialSetup.rules;
+let companionSettings = initialSetup.companions;
 const companions = new CompanionTeam();
 const symbiosis = new SymbiosisRuntime(companions);
-companions.configure(companionSettings);
 let controls = loadControls();
 const gamepad = new GamepadInputSource();
 let shieldGlow = 0;
@@ -200,6 +203,7 @@ let preferences: GamePreferences = loadPreferences();
 let proximityFeedback: ProximityFeedbackState = createProximityFeedback();
 let renderer: GameRenderer | null = null;
 let currentImportedAircraft: Group | null = null;
+let cockpitPreview = false;
 let modelLoadVersion = 0;
 
 const stepRunner = new FixedStepRunner(FLIGHT.fixedDt, 12);
@@ -287,6 +291,7 @@ const ui: GameUI = new GameUI({
     void rotateSelectedAircraft();
   },
   onVisualStimulationToggle: () => toggleVisualStimulation(),
+  onCameraSelect: (view) => applyCameraMode(view),
   onRecordingHintDismiss: () => dismissRecordingHint(),
   onWorldApply: (seedValue, preset, worldMode) => applyWorldSettings(seedValue, preset, worldMode),
   onWorldRandom: () => createRandomSeed(),
@@ -307,16 +312,15 @@ const persistPreferences = (next: Partial<GamePreferences>): void => {
   savePreferences(preferences);
 };
 
-const applyCameraMode = (mode: CameraMode): CameraMode => {
-  persistPreferences({ cameraMode: mode });
-  renderer?.setCameraMode(mode);
-  ui.setCameraMode(mode);
-  return mode;
+const applyCameraMode = (view: CameraMode): CameraMode => {
+  persistPreferences({ cameraMode: view });
+  if (!cockpitPreview) renderer?.setCameraMode(view, mode !== 'running');
+  ui.setCameraMode(view);
+  return view;
 };
 
 const toggleCameraMode = (): CameraMode => {
-  const current = renderer?.getCameraSnapshot().mode ?? preferences.cameraMode;
-  return applyCameraMode(current === 'chase' ? 'nose' : current === 'nose' ? 'cockpit' : 'chase');
+  return applyCameraMode(preferences.cameraMode === 'chase' ? 'cockpit' : 'chase');
 };
 
 const toggleVisualStimulation = (): boolean => {
@@ -376,11 +380,32 @@ const refreshModelOptions = (): void => {
   ui.setModels(aircraftLibrary.options(), aircraftLibrary.getSelectedId());
 };
 
+const recommendAnchor = (preset: RecommendedAnchorPreset): Vec3 => {
+  const bounds = renderer?.getAircraftBounds();
+  return bounds ? recommendCameraAnchor(bounds, preset) : { x: 0, y: 0.72, z: -2.35 };
+};
+
+const currentAnchor = (): CameraAnchorSetting => {
+  const saved = loadCameraAnchor(aircraftLibrary.getSelectedId());
+  if (saved?.preset === 'custom') return saved;
+  const preset = saved?.preset ?? 'standard';
+  return { preset, anchor: recommendAnchor(preset) };
+};
+
+const previewCockpit = (anchor: Vec3 | null): void => {
+  if (!anchor && !cockpitPreview) return;
+  const wasPreviewing = cockpitPreview;
+  cockpitPreview = anchor !== null;
+  document.getElementById('app')?.classList.toggle('is-cockpit-preview', cockpitPreview);
+  renderer?.setCameraAnchor(anchor ?? currentAnchor().anchor);
+  if (cockpitPreview !== wasPreviewing) renderer?.setCameraMode(cockpitPreview ? 'cockpit' : preferences.cameraMode, true);
+};
+
 const applyAircraft = (root: Group | null): void => {
   const previous = currentImportedAircraft;
   currentImportedAircraft = root;
   renderer?.setAircraftModel(root);
-  renderer?.setCameraAnchor(loadCameraAnchor(aircraftLibrary.getSelectedId()));
+  renderer?.setCameraAnchor(currentAnchor().anchor);
   if (previous) disposeObject3D(previous);
 };
 
@@ -464,6 +489,7 @@ const syncHud = (): void => {
   ui.updateSurface({
     graceSeconds: runRules.config.graceSeconds,
     freeFlight: runRules.config.mode === 'free',
+    shieldContact: shieldGlow > 0,
     distance: lastSurfaceHit?.distance ?? null,
     grace: runRules.grace,
     locked: runRules.locked,
@@ -638,7 +664,7 @@ const resetFlightState = (): void => {
   journey.reset();journeyHud.reset();renderer.setInversion(0);diveStart=null;diveEnd=null;
   best=loadBest(scoreContextFor(baseWorldSettings,runRules.config));ui.setBest(best);
   shieldGlow = 0; shieldImpacts = 0; shieldCooldown = 0;
-  renderer.setCameraAnchor(loadCameraAnchor(aircraftLibrary.getSelectedId()));
+  renderer.setCameraAnchor(currentAnchor().anchor);
   proximityFeedback = createProximityFeedback();
   buffering = false;
   syncWorldStreaming(flightState);
@@ -757,6 +783,7 @@ const debugSnapshot = (): DebugSnapshot => {
   if (!renderer || !flightState) {
     throw new Error('Game is not ready.');
   }
+  const camera = renderer.getCameraSnapshot();
   return {
     worldReleases:worldReleases.map(item=>({...item})),
     journey: {...journey.snapshot(),...journeyHud.snapshot()},
@@ -792,9 +819,10 @@ const debugSnapshot = (): DebugSnapshot => {
     debugInput: debugInputEnabled,
     selectedAircraft: aircraftLibrary.getSelectedId(),
     localModelCount: Math.max(0, aircraftLibrary.options().length - 1),
-    cameraMode: renderer.getCameraSnapshot().mode,
-    cameraBlend: renderer.getCameraSnapshot().blend,
-    fov: renderer.getCameraSnapshot().fov,
+    cameraMode: camera.mode,
+    cameraBlend: camera.blend,
+    cameraAnchor: camera.anchor,
+    fov: camera.fov,
     proximity: proximityFeedback.intensity,
     proximityZone: proximityFeedback.zone,
     visualStimulation: preferences.visualStimulation,
@@ -876,20 +904,34 @@ const debugSetPose = async (
   return debugSnapshot();
 };
 
-new RunSettingsPanel(selectedRules, (next) => {
-  if (mode !== 'title' && mode !== 'failed') return;
-  selectedRules = normalizeRules(next); saveRules(selectedRules);
-  best = loadBest(scoreContextFor(worldSettings, selectedRules)); ui.setBest(best);
-}, () => mode === 'title' || mode === 'failed');
-bindControlSettings(next => { controls = next; }, () => aircraftLibrary.getSelectedId(), anchor => renderer?.setCameraAnchor(anchor));
-bindCompanionSettings(companionSettings, () => mode === 'title' || mode === 'failed', next => {
-  companionSettings = next; companions.configure(next);
-  if (mode === 'title' || mode === 'failed') {
-    selectedRules = normalizeRules({ ...selectedRules, assisted: next.count > 0 }); saveRules(selectedRules);
-    best = loadBest(scoreContextFor(worldSettings, selectedRules)); ui.setBest(best);
-  }
-});
-const updateModelStatus = bindModelSettings(symbiosis);
+const bindFlightOptions = (): void => {
+  new RunSettingsPanel(selectedRules, (next) => {
+    if (mode !== 'title' && mode !== 'failed') return;
+    selectedRules = normalizeRules({ ...next, assisted: companionSettings.count > 0 });
+    saveRules(selectedRules);
+    best = loadBest(scoreContextFor(worldSettings, selectedRules));
+    ui.setBest(best);
+  }, () => mode === 'title' || mode === 'failed');
+  bindControlSettings(next => { controls = next; });
+  bindCameraAnchorSettings({
+    aircraft: () => aircraftLibrary.getSelectedId(),
+    current: currentAnchor,
+    recommend: recommendAnchor,
+    preview: previewCockpit,
+    apply: () => renderer?.setCameraAnchor(currentAnchor().anchor),
+  });
+  bindCompanionSettings(companionSettings, () => mode === 'title' || mode === 'failed', next => {
+    companionSettings = next;
+    companions.configure(next);
+    if (mode === 'title' || mode === 'failed') {
+      selectedRules = normalizeRules({ ...selectedRules, assisted: next.count > 0 });
+      saveRules(selectedRules);
+      best = loadBest(scoreContextFor(worldSettings, selectedRules));
+      ui.setBest(best);
+    }
+  });
+};
+const updateModelStatus = bindModelSettings(symbiosis, error => ui.showToast(error, true));
 const journeyHud = new JourneyHud(()=>journey.skip());
 const overlays = new OverlayManager({
   menu: document.getElementById('pause-panel')!,
@@ -914,7 +956,7 @@ const frame = (now: number): void => {
   if (mode !== 'running') symbiosis.suspend();
   else if (!debugAdvancing && !buffering && !journey.active) void symbiosis.request();
   updateModelStatus();
-  journeyHud.update(journey,mode==='running');
+  journeyHud.update(journey, mode === 'running', runRules.config.mode === 'challenge' || (flightState?.position.y ?? 0) > 420);
   const reducedRotation=preferences.visualStimulation==='reduced'||window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const inversion=journey.phase==='INVERSION'?Math.PI*journey.progress:journey.phase==='WORLD_SWAP'?Math.PI:journey.phase==='DIVE'?Math.PI*(1-journey.progress):0;
   renderer?.setInversion(reducedRotation?0:inversion);
@@ -927,7 +969,7 @@ const frame = (now: number): void => {
   if (renderer && flightState && worldStreamer) {
     renderer.setCompanions(mode === 'title' ? [] : companions.agents, worldStreamer.getRenderOrigin());
     renderer.setRelay(symbiosis.relayFlash,symbiosis.time,worldStreamer.getRenderOrigin());
-    updateCompanionHud(companions.agents, flightState.position, symbiosis.planner);
+    updateCompanionHud(companions.agents, symbiosis.planner);
     const streaming = streamPreparationCount === 0 ? syncWorldStreaming(flightState) : null;
     if (mode === 'running') {
       if (debugAdvancing) {
@@ -950,7 +992,7 @@ const frame = (now: number): void => {
         proximityFeedback.intensity,
       );
       renderer.setShieldImpact(shieldGlow);
-    } else if (mode === 'title') {
+    } else if (mode === 'title' && !cockpitPreview) {
       renderer.renderTitle(now);
     } else {
       renderer.renderFlight(toRenderFlightState(flightState), 0, now);
@@ -986,8 +1028,10 @@ const boot = async (): Promise<void> => {
   renderer.setCameraMode(preferences.cameraMode, true);
   renderer.setVisualStimulation(preferences.visualStimulation);
   ui.setLoadingCopy('正在载入本机机库');
+  let hasLocalAircraft = false;
   try {
     const options = await aircraftLibrary.initialize();
+    hasLocalAircraft = options.length > 1;
     ui.setModels(options, aircraftLibrary.getSelectedId());
     const selected = aircraftLibrary.getSelectedId();
     const loaded = await aircraftLibrary.load(selected);
@@ -998,6 +1042,18 @@ const boot = async (): Promise<void> => {
     const message = error instanceof Error ? error.message : String(error);
     setTimeout(() => ui.showToast(`本机模型库不可用，已使用内置机型：${message}`, true, 6200), 0);
   }
+  const setup = !initialSetup.returning && hasLocalAircraft
+    ? loadFlightSetup(window.localStorage, true)
+    : initialSetup;
+  selectedRules = setup.rules;
+  companionSettings = setup.companions;
+  if (!setup.returning) {
+    saveRules(selectedRules);
+    saveCompanions(companionSettings);
+  }
+  best = loadBest(scoreContextFor(worldSettings, selectedRules));
+  ui.setBest(best);
+  bindFlightOptions();
   resetFlightState();
   if (flightState) syncWorldStreaming(flightState);
   ui.finishLoading();

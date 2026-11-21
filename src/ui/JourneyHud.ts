@@ -25,11 +25,11 @@ export class JourneyHud {
   this.egg.hidden=this.unlocked;this.unlocked=true;this.eggUntil=time+8;
   try{localStorage.setItem(KEY,JSON.stringify({version:1,fifthUnlocked:true}));}catch{/* optional */}
  }
- public update(journey:SkyJourney,running:boolean):void{
+ public update(journey:SkyJourney,running:boolean,showIdle=true):void{
   const p=journey.progress;
   const opacity=journey.phase==='WORLD_SWAP'?1:journey.phase==='INVERSION'?Math.max(0,(p-.65)/.35):journey.phase==='DIVE'?Math.max(0,1-p/.35):0;
   this.veil.style.opacity=String(running?opacity:0);
-  this.panel.hidden=!running;this.skip.hidden=!journey.active;
+  this.panel.hidden=!running||(!showIdle&&!journey.active);this.skip.hidden=!journey.active;
   this.skip.disabled=journey.phase==='WORLD_SWAP';
   this.label.textContent=`${journey.worldIndex?`${journey.worldIndex} · ${journeyProfile(journey.worldIndex).name}`:'樱色起航'} · ${labels[journey.phase]}${journey.active?'':` ${520} m`}`;
   if(!running)this.egg.hidden=true;

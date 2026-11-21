@@ -1,13 +1,13 @@
 import { expect, test } from '@playwright/test';
 import { writeFileSync } from 'node:fs';
 
-test('three views and a real shield contact keep free flight playable', async ({ page }) => {
+test('two views and a real shield contact keep free flight playable', async ({ page }) => {
   test.setTimeout(120_000);
   const errors: string[] = []; page.on('pageerror', error => errors.push(error.message));
   await page.addInitScript(() => localStorage.setItem('skimmer-scraper.rules.v3', JSON.stringify({ mode: 'free' })));
   await page.goto('/?debug=1&seed=334458');
   await page.waitForFunction(() => window.__SKIMMER_SCRAPER__?.snapshot().mode === 'running');
-  for (const mode of ['nose','cockpit','chase']) {
+  for (const mode of ['cockpit', 'chase']) {
     await page.keyboard.press('c');
     await expect.poll(() => page.evaluate(() => window.__SKIMMER_SCRAPER__!.snapshot().cameraMode)).toBe(mode);
     if (mode === 'cockpit') await expect(page.locator('#cockpit-frame')).toBeVisible();
@@ -54,7 +54,7 @@ test('browser Gamepad API input hotplug, camera, pause, retry and keyboard fallb
     await page.evaluate(() => new Promise<void>(resolve => requestAnimationFrame(() => requestAnimationFrame(() => resolve()))));
   };
   await press(3);
-  expect(await page.evaluate(() => window.__SKIMMER_SCRAPER__!.snapshot().cameraMode)).toBe('nose');
+  expect(await page.evaluate(() => window.__SKIMMER_SCRAPER__!.snapshot().cameraMode)).toBe('cockpit');
   await press(9);
   expect(await page.evaluate(() => window.__SKIMMER_SCRAPER__!.snapshot().mode)).toBe('paused');
   await press(9);

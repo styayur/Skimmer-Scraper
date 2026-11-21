@@ -34,7 +34,7 @@ for (const count of [1,2,3]) {
     }, count);
     await page.goto('/?debug=1&seed=334458');
     await page.waitForFunction(() => window.__SKIMMER_SCRAPER__?.snapshot().mode === 'running');
-    await expect(page.locator('#companion-status')).toContainText('Local Autonomous Controller');
+    await expect(page.locator('#companion-status')).toHaveAttribute('title', 'Local Autonomous Controller');
     const { start, after } = await page.evaluate(async () => {
       const game = window.__SKIMMER_SCRAPER__!;
       const start = game.snapshot();return { start, after: await game.advance(8) };
@@ -46,7 +46,8 @@ for (const count of [1,2,3]) {
       expect(Object.values(agent.position).every(Number.isFinite)).toBe(true);
     }
     await page.keyboard.press('f');
-    await page.locator('#rules-panel summary').filter({ hasText: '自主伴机' }).click();
+    await page.locator('#advanced-flight-settings > summary').click();
+    await page.locator('#advanced-flight-settings > details > summary').filter({ hasText: '自主伴机' }).click();
     await page.locator('#companion-formation').selectOption('spread');
     await page.locator('#companion-behavior').selectOption('lead');
     await expect(page.locator('#companion-count')).toBeDisabled();

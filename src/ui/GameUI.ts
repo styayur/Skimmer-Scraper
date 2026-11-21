@@ -14,6 +14,7 @@ export interface FlightHudSnapshot {
 export interface SurfaceHudSnapshot {
   graceSeconds?: number;
   freeFlight?: boolean;
+  shieldContact?: boolean;
   distance: number | null;
   grace: number;
   locked: boolean;
@@ -46,6 +47,7 @@ export interface GameUIHooks {
   onRemoveModel(): void;
   onRotateModel(): void;
   onVisualStimulationToggle(): boolean;
+  onCameraSelect(view: CameraMode): void;
   onRecordingHintDismiss(): void;
   onWorldApply(seed: string, preset: WorldPresetId, mode: WorldMode): void;
   onWorldRandom(): string;
@@ -93,6 +95,7 @@ export class GameUI {
   private readonly qualityButton = required<HTMLButtonElement>('quality-button');
   private readonly effectsButton = required<HTMLButtonElement>('effects-button');
   private readonly cameraButton = required<HTMLButtonElement>('camera-button');
+  private readonly cameraSelect = required<HTMLSelectElement>('camera-mode');
   private readonly hudView = required<HTMLElement>('hud-view');
   private readonly cockpitFrame = required<HTMLElement>('cockpit-frame');
   private readonly recordHint = required<HTMLElement>('record-hint');
@@ -127,6 +130,9 @@ export class GameUI {
       const reduced = hooks.onVisualStimulationToggle();
       this.setVisualStimulation(reduced);
     });
+    this.cameraSelect.addEventListener('change', () => hooks.onCameraSelect(
+      this.cameraSelect.value === 'cockpit' ? 'cockpit' : 'chase',
+    ));
     required<HTMLButtonElement>('record-hint-close').addEventListener('click', () => {
       hooks.onRecordingHintDismiss();
       this.setRecordingHintVisible(false);
@@ -225,6 +231,7 @@ export class GameUI {
     const gracePercent = Math.max(0, Math.min(1, snapshot.grace / (snapshot.graceSeconds ?? 5)));
     this.graceMeter.setAttribute('aria-valuemax', String(snapshot.graceSeconds ?? 5));
     const app = document.getElementById('app');
+    app?.classList.toggle('is-free-flight', Boolean(snapshot.freeFlight));
     this.graceBar.style.transform = `scaleX(${gracePercent})`;
     this.graceValue.textContent = `${snapshot.grace.toFixed(2)}s`;
     this.graceMeter.setAttribute('aria-valuenow', snapshot.grace.toFixed(2));
@@ -232,18 +239,18 @@ export class GameUI {
     app?.style.setProperty('--proximity-intensity', Math.max(0, Math.min(1, snapshot.proximity)).toFixed(4));
     const buffering = Boolean(snapshot.buffering);
     this.surfaceStatus.classList.toggle('is-locked', snapshot.locked && !buffering);
-    this.surfaceStatus.classList.toggle('is-warning', !snapshot.locked && !snapshot.prototype && !buffering);
+    this.surfaceStatus.classList.toggle('is-warning', !snapshot.freeFlight && !snapshot.locked && !snapshot.prototype && !buffering);
     this.surfaceStatus.classList.toggle('is-strong', snapshot.zone === 'strong' && !buffering);
     this.surfaceStatus.classList.toggle('is-extreme', snapshot.zone === 'extreme' && !buffering);
     this.surfaceStatus.classList.toggle('is-buffering', buffering);
-    app?.classList.toggle('is-danger', !buffering && !snapshot.locked && !snapshot.prototype && snapshot.grace < 2.4);
+    app?.classList.toggle('is-danger', !snapshot.freeFlight && !buffering && !snapshot.locked && !snapshot.prototype && snapshot.grace < 2.4);
     app?.classList.toggle('is-buffering', buffering);
     if (buffering) {
       this.surfaceState.textContent = 'WORLD STREAM / 区块缓冲';
       this.flightStatus.textContent = '前方城市正在载入 · 生存计时暂停';
     } else if (snapshot.freeFlight) {
       this.surfaceState.textContent = 'FREE FLIGHT / 自由飞行';
-      this.flightStatus.textContent = '自由探索 · 无近距失败 · 不计挑战成绩';
+      this.flightStatus.textContent = snapshot.shieldContact ? '防护罩已吸收撞击' : '';
     } else if (snapshot.prototype) {
       this.surfaceState.textContent = 'SURFACE MODEL PENDING';
       this.flightStatus.textContent = '原型飞行 · 近距规则将在下一阶段接入';
@@ -269,9 +276,10 @@ export class GameUI {
 
   public setCameraMode(mode: CameraMode): void {
     const cockpit = mode === 'cockpit';
-    const label = mode === 'chase' ? '追尾' : cockpit ? '驾驶舱' : '机头';
+    const label = cockpit ? '驾驶舱' : '追尾';
     this.cameraButton.innerHTML = `视角 · ${label} <kbd>C</kbd>`;
-    this.hudView.textContent = mode === 'chase' ? 'CHASE / 追尾' : cockpit ? 'COCKPIT / 驾驶舱' : 'NOSE / 机头';
+    this.hudView.textContent = cockpit ? 'COCKPIT / 驾驶舱' : 'CHASE / 追尾';
+    this.cameraSelect.value = mode;
     this.cockpitFrame.hidden = !cockpit;
     document.getElementById('app')?.classList.toggle('is-cockpit', cockpit);
   }

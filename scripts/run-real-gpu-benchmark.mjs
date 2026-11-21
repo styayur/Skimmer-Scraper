@@ -99,9 +99,14 @@ try {
   await page.screenshot({ path: 'evidence/v0.2.0-real-gpu-balanced.png', fullPage: true, animations: 'disabled' });
   const menu = page.locator('.flight-menu');
   const hasMenu = await menu.count() > 0;
-  if (hasMenu) await menu.click();
+  const hasAdvancedComfort = await page.locator('#comfort-settings').count() > 0;
+  if (hasAdvancedComfort) {
+    await page.keyboard.press('f');
+    await page.locator('#advanced-flight-settings > summary').click();
+    await page.locator('#comfort-settings > summary').click();
+  } else if (hasMenu) await menu.click();
   await page.locator('#quality-button').click();
-  if (hasMenu) await page.keyboard.press('Escape');
+  if (hasMenu || hasAdvancedComfort) await page.keyboard.press('Escape');
   await page.waitForTimeout(1_000);
   const highFrames = await sampleFrames(page, 10_000);
   const high = await readSnapshot(page);
