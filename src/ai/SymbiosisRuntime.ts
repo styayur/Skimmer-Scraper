@@ -125,7 +125,7 @@ export class SymbiosisRuntime {
       const perception=this.perception();if(!perception)return false;
       const intent=localRadioIntent(message,perception,this.team.settings.formation);
       const language=this.radioLanguage??radioLanguageOf(message);
-      const model=useModel&&this.client.canRequest(true) ? await this.client.request(perception,message,language) : null;
+      const model=useModel&&this.client.canRequest(true) ? await this.client.request(perception,message,language,intent?.plan?.orders) : null;
       if(generation!==this.radioGeneration||!this.context?.active)return false;
       const response=model&&readRadioReply(model.decision);
       if(model&&response&&radioLanguageOf(response.text)===language&&this.radioAgent(response.agent)===response.agent){

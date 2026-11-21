@@ -155,7 +155,8 @@ try {
   const dialogue = ordered.cooperation.radio.history.filter(line => line.source === 'player' || line.source === 'model');
   if (!physical) observations.dialogue = dialogue;
   observations.validation = ordered.cooperation.trace.filter(event => event.event === 'decision' &&
-    event.data.decision?.requestId === interpretation?.requestId).map(event => ({ provider: event.data.provider, validation: event.data.validation }));
+    event.data.decision?.requestId === interpretation?.requestId).map(event => ({ provider: event.data.provider, validation: event.data.validation,
+      ...(!physical ? { orders: event.data.decision.orders } : {}) }));
   assert.equal(interpretation?.source, 'model');
   assert(interpretation.action?.some(order => order.action === 'SCOUT' && order.targetId === 'route-left' && order.agents.includes(2)));
   const reply = dialogue.filter(line => line.source === 'model' && line.agent === 2).at(-1);
