@@ -57,6 +57,24 @@ try {
       window.__voiceEvidence.tracks.push(...stream.getAudioTracks());
       return stream;
     };
+    const frames = [];
+    const audio = [];
+    let previous = 0;
+    const frame = (now) => {
+      if (previous && frames.length < 18_000) frames.push([now, now - previous]);
+      previous = now;
+      requestAnimationFrame(frame);
+    };
+    requestAnimationFrame(frame);
+    const start = AudioBufferSourceNode.prototype.start;
+    AudioBufferSourceNode.prototype.start = function (...args) {
+      if (this.buffer?.sampleRate === 24_000 && this.buffer.duration <= 0.101) {
+        const from = performance.now() + Math.max(0, (args[0] ?? 0) - this.context.currentTime) * 1000;
+        audio.push([from, from + this.buffer.duration * 1000]);
+      }
+      return start.apply(this, args);
+    };
+    Object.assign(window.__voiceEvidence, { frames, audio });
   });
   await page.goto(base);
   await page.waitForFunction(() => window.__SKIMMER_SCRAPER__?.snapshot().mode === 'running', null, { timeout: 90_000 });
@@ -67,13 +85,24 @@ try {
       renderer: ext ? gl.getParameter(ext.UNMASKED_RENDERER_WEBGL) : null, agent: navigator.userAgent,
       permissionBefore: await navigator.permissions.query({ name: 'microphone' }).then(status => status.state) };
   });
-  await page.evaluate(async () => {
+  const restorePose = () => page.evaluate(async () => {
     const game = window.__SKIMMER_SCRAPER__;
     game.pause();
     await game.setPose({ x: 0, y: 340, z: 120 }, { yaw: 0, pitch: 0, roll: 0 });
     game.resume();
     document.title = 'Skimmer-Scraper 实体麦克风验收';
   });
+  await restorePose();
+  let baseline;
+  if (!physical) {
+    const from = await page.evaluate(() => performance.now());
+    const beginning = await snapshot();
+    await page.waitForTimeout(8_100);
+    const end = await snapshot();
+    const until = await page.evaluate(() => performance.now());
+    baseline = { from, until, distanceMeters: Math.abs(end.position.z - beginning.position.z) };
+    await restorePose();
+  }
   stage = 'configuration';
   await page.keyboard.press('f');
   await page.locator('#advanced-flight-settings > summary').click();
@@ -144,6 +173,34 @@ try {
   assert.equal(spoken.mode, 'running');
   assert.equal(errors.length, 0);
   for (const path of endpoints) assert(observations.auth.some(entry => entry.path === path && entry.status === 200));
+  if (baseline) {
+    const timings = await page.evaluate(({ from, until }) => {
+      const { frames, audio } = window.__voiceEvidence;
+      const windowed = (segments) => frames.filter(([timestamp]) => segments.some(([start, end]) => timestamp >= start && timestamp < end)).map(([, dt]) => dt);
+      return { baseline: windowed([[from, until]]), playback: windowed(audio), pcmScheduled: audio.length };
+    }, baseline);
+    const stats = (times) => {
+      const sorted = [...times].sort((a, b) => a - b);
+      const percentile = (p) => sorted[Math.ceil(p * sorted.length) - 1];
+      return { frames: sorted.length, p50Ms: percentile(0.5), p95Ms: percentile(0.95), p99Ms: percentile(0.99),
+        fps: 1000 / (times.reduce((sum, elapsed) => sum + elapsed, 0) / times.length) };
+    };
+    assert(timings.playback.length >= 25 && baseline.distanceMeters > 250);
+    observations.flightFrames = { baseline: stats(timings.baseline), playback: stats(timings.playback),
+      movementMeters: { baseline: baseline.distanceMeters, duringReply: Math.abs(spoken.position.z - ordered.position.z) },
+      pcmScheduled: timings.pcmScheduled };
+  }
+  stage = 'local fallback after disconnect';
+  await page.keyboard.press('f');
+  await page.locator('#ai-disconnect').click();
+  await page.keyboard.press('t');
+  await page.locator('#radio-input').fill('全体集合');
+  await page.locator('#radio-input').press('Enter');
+  await page.waitForFunction(() => window.__SKIMMER_SCRAPER__.snapshot().cooperation.lastPlan?.orders[0]?.action === 'REGROUP');
+  const fallback = await snapshot();
+  assert.equal(fallback.cooperation.model.connected, false);
+  assert.equal(fallback.cooperation.radio.history.filter(line => line.priority === 'reply').at(-1)?.source, 'local');
+  observations.disconnect = { connected: fallback.cooperation.model.connected, action: 'REGROUP', source: 'local' };
   save(basename, observations);
   console.log(JSON.stringify({ status: 'passed', physical, responses: observations.auth, outcome: observations.outcome, voice: spoken.voice }));
 } catch (error) {

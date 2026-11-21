@@ -41,6 +41,7 @@ export const openMicrophone = async (signal: AbortSignal): Promise<MicSession> =
   const chunks: Int16Array[] = [];
   let settled = false;
   let finishTimer = 0;
+  let permission: PermissionStatus | undefined;
   let resolve!: (clip: WaveClip | null) => void;
   let reject!: (error: Error) => void;
   const result = new Promise<WaveClip | null>((yes, no) => { resolve = yes; reject = no; });
@@ -48,6 +49,7 @@ export const openMicrophone = async (signal: AbortSignal): Promise<MicSession> =
     if (settled) return;
     settled = true;
     signal.removeEventListener('abort', abort);
+    permission?.removeEventListener('change', permissionChanged);
     window.clearTimeout(finishTimer);
     close();
     if (error) reject(error);
@@ -55,15 +57,22 @@ export const openMicrophone = async (signal: AbortSignal): Promise<MicSession> =
     chunks.length = 0;
   };
   const abort = () => complete(new DOMException('Recording cancelled', 'AbortError'));
+  const permissionChanged = () => { if (permission?.state !== 'granted') complete(new Error('mic-revoked')); };
   signal.addEventListener('abort', abort, { once: true });
+  void navigator.permissions?.query({ name: 'microphone' as PermissionName }).then(status => {
+    if (!settled && status.state === 'granted') {
+      permission = status;
+      permission.addEventListener('change', permissionChanged);
+    }
+  }).catch(() => {});
   for (const track of stream.getAudioTracks()) track.addEventListener('ended', () => complete(new Error('mic-revoked')), { once: true });
   node.port.onmessage = ({ data }: MessageEvent<Int16Array | null>) => {
     if (data === null) complete();
     else if (!settled) chunks.push(data);
   };
   node.onprocessorerror = () => complete(new Error('mic-capture'));
-  source.connect(node);
-  node.connect(context.destination);
+  try { source.connect(node); node.connect(context.destination); }
+  catch { complete(new Error('mic-capture')); }
   return { result, finish: () => {
     if (settled || finishTimer) return;
     // Release the physical input before asynchronous WAV finalization and upload.

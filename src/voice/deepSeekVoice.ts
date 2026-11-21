@@ -6,6 +6,7 @@ export const SPEECH_RATE = 24_000;
 const MAX_AUDIO_BYTES = SPEECH_RATE * 2 * 25;
 export const VOICE_LIMITS = Object.freeze({ asrRequests: 10, asrSeconds: 60, ttsRequests: 18, ttsCharacters: 1_200 });
 export type DeepSeekVoiceId = 'stella' | 'tide';
+export interface SpeechStreamStats { firstByteMs: number | null; streamMs: number; audioBytes: number }
 
 export class DeepSeekVoice {
   private readonly stats = {
@@ -69,7 +70,7 @@ export class DeepSeekVoice {
     }
   }
 
-  public async speak(text: string, voice: DeepSeekVoiceId, signal: AbortSignal, consume: (chunk: Uint8Array) => Promise<void>): Promise<void> {
+  public async speak(text: string, voice: DeepSeekVoiceId, signal: AbortSignal, consume: (chunk: Uint8Array) => Promise<void>): Promise<SpeechStreamStats> {
     if (!this.connected) throw new Error('voice-disconnected');
     if (this.model.containsCredential(text)) throw new Error('sensitive-response');
     const characters = Array.from(text).reduce((sum, character) => sum + (/\p{Script=Han}/u.test(character) ? 2 : 1), 0);
@@ -111,6 +112,7 @@ export class DeepSeekVoice {
       request.throwIfAborted();
       if (this.stats.lastTtsBytes < 480 || this.stats.lastTtsBytes % 2 !== 0) throw new Error('audio-format');
       this.stats.lastTtsMs = performance.now() - started;
+      return { firstByteMs: this.stats.lastTtsFirstByteMs, streamMs: this.stats.lastTtsMs, audioBytes: this.stats.lastTtsBytes };
     } catch (error) {
       if (timeout.aborted && !signal.aborted) throw new Error('voice-timeout');
       throw error;

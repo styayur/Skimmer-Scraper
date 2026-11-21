@@ -1,7 +1,7 @@
 import type { ModelClient } from '../ai/modelClient';
 import { radioText, type RadioLine } from '../ai/radioDialogue';
 import { openLocalSpeech, speakLocally, type RadioLanguage } from './browserSpeech';
-import { DeepSeekVoice, VOICE_LIMITS } from './deepSeekVoice';
+import { DeepSeekVoice, VOICE_LIMITS, type SpeechStreamStats } from './deepSeekVoice';
 import { openMicrophone } from './microphone';
 import { StreamedRadioPlayback } from './playback';
 import { MAX_CLIP_SECONDS } from './wave';
@@ -25,7 +25,7 @@ interface Hooks {
 
 const failure = (error: unknown): string => {
   if (error instanceof DOMException && (error.name === 'NotAllowedError' || error.name === 'SecurityError')) return 'mic-denied';
-  if (error instanceof DOMException && (error.name === 'NotFoundError' || error.name === 'NotReadableError')) return 'mic-unavailable';
+  if (error instanceof DOMException && (error.name === 'NotFoundError' || error.name === 'NotReadableError' || error.name === 'NotSupportedError')) return 'mic-unavailable';
   if (error instanceof Error && /^(?:http-\d{3}|mic-[a-z-]+|local-[a-z-]+|voice-[a-z-]+|asr-budget|tts-budget|playback-blocked|audio-format|empty-asr|dialogue-unavailable)$/.test(error.message)) return error.message;
   return 'voice-request';
 };
@@ -55,7 +55,7 @@ export class VoiceRadio {
   private commands = 0;
   private played = 0;
   private completed = 0;
-  private lastCompleted: { id: number; agent: number; provider: 'local' | 'deepseek' } | null = null;
+  private lastCompleted: { id: number; agent: number; provider: 'local' | 'deepseek'; stream?: SpeechStreamStats } | null = null;
   private lastError: string | null = null;
 
   public constructor(model: ModelClient, private readonly hooks: Hooks) { this.deepSeek = new DeepSeekVoice(model); }
@@ -184,7 +184,10 @@ export class VoiceRadio {
     this.seenLine = line.id;
     if (this.capture || this.settings.output === 'off' || line.agent === null) return;
     if (line.priority === 'risk') this.silence();
-    if (this.playback) { this.pendingLine = line; return; }
+    if (this.playback) {
+      if (this.pendingLine?.priority !== 'reply' || line.priority === 'reply') this.pendingLine = line;
+      return;
+    }
     this.play(line);
   }
 
@@ -208,13 +211,13 @@ export class VoiceRadio {
       if (this.settings.output === 'deepseek' && this.deepSeek.connected && this.context?.state === 'running') {
         const stream = new StreamedRadioPlayback(this.context, agent, signal);
         try {
-          await this.deepSeek.speak(line.text, agent === 2 ? 'tide' : 'stella', signal, async chunk => {
+          const stats = await this.deepSeek.speak(line.text, agent === 2 ? 'tide' : 'stella', signal, async chunk => {
             if (!began) { began = true; this.played++; }
             await stream.append(chunk);
           });
           await stream.finish();
           this.completed++;
-          this.lastCompleted = { id: line.id, agent, provider: 'deepseek' };
+          this.lastCompleted = { id: line.id, agent, provider: 'deepseek', stream: stats };
           return;
         } catch (error) {
           if (signal.aborted || began || !this.settings.localFallback) throw error;

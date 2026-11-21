@@ -1,6 +1,6 @@
 import { expect, test, type Page } from '@playwright/test';
 
-test.use({ launchOptions: { args: [
+test.use({ channel: 'chromium', launchOptions: { args: [
   '--use-angle=swiftshader', '--enable-webgl', '--ignore-gpu-blocklist', '--use-fake-device-for-media-stream',
 ] } });
 
@@ -214,5 +214,13 @@ test('Escape and leaving flight release the microphone without uploading or reus
   await expect.poll(async () => (await microphone(page)).states).toEqual(['ended', 'ended']);
   expect((await state(page)).mode).toBe('paused');
   expect((await state(page)).voice.commands).toBe(0);
+  expect(uploads).toBe(0);
+  await page.locator('#rules-close').click();
+  await page.keyboard.down('v');
+  await expect(page.locator('#voice-status')).toHaveAttribute('data-phase', 'recording');
+  await context.clearPermissions();
+  await expect.poll(async () => (await microphone(page)).states).toEqual(['ended', 'ended', 'ended']);
+  await page.keyboard.up('v');
+  expect((await state(page)).voice.lastError).toBe('mic-revoked');
   expect(uploads).toBe(0);
 });

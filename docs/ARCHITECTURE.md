@@ -109,6 +109,15 @@ is unavailable. Every order passes the existing validator. The radio samples
 actual movement and the active companion task before reporting execution.
 See [Companion radio](RADIO.md) for controls and data handling.
 
+Push-to-talk either uses on-device recognition or records mono PCM through an
+AudioWorklet for official DeepSeek ASR. The transcript enters the same radio
+queue as typed input. `VoiceRadio` owns capture, cancellation and the one
+active playback session. It uses the memory-only `ModelClient` credential
+gateway for the two pinned DeepSeek voice endpoints, with independent speech
+budgets. 24 kHz PCM playback streams into bounded Web Audio buffers. Cancellation
+stops tracks and buffered playback when the flight context changes. See
+[Voice radio](VOICE.md) for formats and permission flow.
+
 Trust starts at 0.5 and changes only through observed lead progress, separation,
 regrouping, impacts and verified Relay outcomes. It changes formation spacing,
 clearance, allowable planner risk and automatic rescue willingness. Surface Relay
