@@ -292,6 +292,10 @@
               <label><input id="local-world-collision" type="checkbox" /> 显示碰撞层</label>
               <button id="local-world-builtin" class="secondary-button" type="button">返回程序城市</button>
             </div>
+            <div id="local-world-motion-controls" class="world-inline-actions" hidden>
+              <label><input id="local-world-motion-running" type="checkbox" /> 播放世界动画</label>
+              <label id="local-world-motion-preview-label"><input id="local-world-motion-preview" type="checkbox" /> 起飞前预览</label>
+            </div>
           </div>
           <details id="local-world-library">
             <summary>本地 GLB 世界</summary>
@@ -328,6 +332,20 @@
                 <summary>网格语义</summary>
                 <label class="world-field">网格<select id="local-world-mesh"></select></label>
                 <label class="world-field">类型<select id="local-world-role"><option value="SURFACE">可贴近表面</option><option value="OBSTACLE">仅碰撞障碍</option><option value="DECORATION">装饰</option></select></label>
+              </details>
+              <details class="world-import-transform">
+                <summary>动画与运动路径</summary>
+                <label class="world-field">动画片段<select id="local-world-motion-clip"></select></label>
+                <p id="local-world-motion-channels" class="world-description"></p>
+                <label><input id="local-world-motion-loop" type="checkbox" checked /> 循环播放片段</label>
+                <label class="world-field">运动网格<select id="local-world-motion-mesh"></select></label>
+                <label><input id="local-world-motion-custom" type="checkbox" /> 自定义往返路径</label>
+                <fieldset id="local-world-motion-path" class="world-import-coordinates" disabled>
+                  <label class="world-field">局部 X 偏移<input id="local-world-motion-x" type="number" step="any" min="-1000" max="1000" required /></label>
+                  <label class="world-field">局部 Y 偏移<input id="local-world-motion-y" type="number" step="any" min="-1000" max="1000" required /></label>
+                  <label class="world-field">局部 Z 偏移<input id="local-world-motion-z" type="number" step="any" min="-1000" max="1000" required /></label>
+                  <label class="world-field">往返周期（秒）<input id="local-world-motion-seconds" type="number" step="any" min="0.25" max="300" required /></label>
+                </fieldset>
               </details>
               <label><input id="local-world-save" type="checkbox" checked /> 保存到此浏览器</label>
               <button id="local-world-apply" class="secondary-button" type="submit">启用世界</button>

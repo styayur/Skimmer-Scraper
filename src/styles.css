@@ -572,6 +572,7 @@ kbd {
 /* Flight options share the existing local-library visual language. */
 .flight-settings, .world-panel { overflow-y: auto; }
 .world-panel > * { flex-shrink: 0; }
+.world-panel { scroll-padding-top: 6rem; }
 .world-panel > .library-header { position: sticky; top: 0; z-index: 1; padding-block: 0.35rem; background: #1b111c; }
 .local-world { margin-top: 1rem; padding: 0.8rem 0; border-top: 1px solid var(--line-strong); border-bottom: 1px solid var(--line-strong); }
 .local-world details > summary { cursor: pointer; }
