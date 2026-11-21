@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { mergeGeometries } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 
 const SIGN_COPY = [
   ['SKIM UNIT', '#ff5d8f'],
@@ -126,5 +127,30 @@ export const createBillboardMesh = (
   mesh.rotation.y = placement.rotationY;
   mesh.name = `billboard-${placement.index}`;
   return mesh;
+};
+
+export const createBillboardBatches = (
+  placements: readonly BillboardPlacement[],
+  materials: readonly THREE.MeshBasicMaterial[],
+): THREE.Mesh[] => {
+  const buckets = new Map<number, THREE.BufferGeometry[]>();
+  for (const placement of placements) {
+    const key = placement.index % materials.length;
+    const geometry = new THREE.PlaneGeometry(placement.width, placement.height);
+    geometry.rotateY(placement.rotationY);
+    geometry.translate(placement.x, placement.y, placement.z);
+    const bucket = buckets.get(key);
+    if (bucket) bucket.push(geometry);
+    else buckets.set(key, [geometry]);
+  }
+  const batches: THREE.Mesh[] = [];
+  for (const [key, geometries] of buckets) {
+    const merged = mergeGeometries(geometries, false)!;
+    for (const geometry of geometries) geometry.dispose();
+    const mesh = new THREE.Mesh(merged, materials[key]);
+    mesh.name = `billboards-${key}`;
+    batches.push(mesh);
+  }
+  return batches;
 };
 

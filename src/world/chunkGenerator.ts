@@ -6,6 +6,7 @@ import { createWorldMaterials, type WorldMaterialKey, type WorldMaterials } from
 import { chance, pick, range, type Random } from './rng';
 import {
   createBillboardMaterialSet,
+  createBillboardBatches,
   createBillboardMesh,
   type BillboardMaterialSet,
   type BillboardPlacement,
@@ -382,6 +383,7 @@ export class ChunkGenerator {
             const lotRandom = seededRandom(this.settings.seed, this.settings.generatorVersion, revision, 'lot', blockX, blockZ, subX, subZ);
             const centerX = blockX * spacing + streetWidth * 0.5 + lotSize * (subX + 0.5);
             const centerZ = blockZ * spacing + streetWidth * 0.5 + lotSize * (subZ + 0.5);
+            if (denseCity && (centerX < x0 || centerX >= x0 + CHUNK_SIZE || centerZ < z0 || centerZ >= z0 + CHUNK_SIZE)) continue;
             const district = denseCity ? cityDistrictAt(this.settings.seed, centerX, centerZ) : undefined;
             const effectiveDensity = district
               ? Math.min(0.79, Math.max(0.38, this.settings.config.buildingDensity + (district.towers - 0.5) * 0.32))
@@ -504,7 +506,11 @@ export class ChunkGenerator {
       }
     }
 
-    for (const placement of work.billboards) group.add(createBillboardMesh(placement, this.billboardMaterials.materials));
+    if (denseCity) {
+      for (const batch of createBillboardBatches(work.billboards, this.billboardMaterials.materials)) group.add(batch);
+    } else {
+      for (const placement of work.billboards) group.add(createBillboardMesh(placement, this.billboardMaterials.materials));
+    }
 
     let renderTriangles = 0;
     for (const [materialKey, geometries] of work.render) {
@@ -516,7 +522,8 @@ export class ChunkGenerator {
       mesh.name = `${key}-${materialKey}`;
       mesh.matrixAutoUpdate = false;
       mesh.updateMatrix();
-      mesh.castShadow = !['rose', 'teal', 'windowWarm', 'water'].includes(materialKey);
+      mesh.castShadow = !['rose', 'teal', 'windowWarm', 'water'].includes(materialKey)
+        && (!denseCity || !['wood', 'blossom', 'soil'].includes(materialKey));
       if (mesh.castShadow) mesh.customDepthMaterial = this.shadowDepthMaterial;
       mesh.receiveShadow = ['ground', 'shellCeladon', 'shellPlum', 'shellIvory', 'bridge', 'rock', 'soil'].includes(materialKey);
       group.add(mesh);
