@@ -6,9 +6,28 @@ export type GameAction =
   | 'retry'
   | 'library'
   | 'close'
-  | 'mute'
   | 'camera'
-  | 'pause';
+  | 'pause'
+  | 'menu'
+  | 'title'
+  | 'rules'
+  | 'world'
+  | 'help'
+  | 'confirm'
+  | 'back'
+  | 'navigate-up'
+  | 'navigate-down'
+  | 'navigate-left'
+  | 'navigate-right';
+
+const shortcuts = new Map<string, GameAction>([
+  ['Enter', 'start'], ['KeyR', 'retry'], ['KeyM', 'library'], ['KeyC', 'camera'],
+  ['Escape', 'close'], ['KeyF', 'rules'], ['KeyG', 'world'], ['KeyH', 'help'],
+]);
+const flightCodes = new Set([
+  'KeyW', 'KeyA', 'KeyS', 'KeyD', 'KeyQ', 'KeyE',
+  'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ShiftLeft', 'ShiftRight',
+]);
 
 export interface InputSource {
   sample(timeSeconds: number): FlightInput;
@@ -24,12 +43,7 @@ const keyAxis = (pressed: Set<string>, positive: string[], negative: string[]): 
 export class KeyboardInputSource implements InputSource {
   private readonly pressed = new Set<string>();
   private enabled = true;
-  private readonly actionListeners = new Set<(action: GameAction) => void>();
-  private readonly handledCodes = new Set([
-    'KeyW', 'KeyA', 'KeyS', 'KeyD', 'KeyQ', 'KeyE',
-    'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight',
-    'Space', 'ShiftLeft', 'ShiftRight', 'KeyC', 'KeyR', 'KeyM', 'Escape', 'Enter',
-  ]);
+  private actionListener?: (action: GameAction) => boolean;
 
   public constructor(target: Window = window) {
     target.addEventListener('keydown', this.handleKeyDown, { passive: false });
@@ -57,27 +71,22 @@ export class KeyboardInputSource implements InputSource {
     };
   }
 
-  public onAction(listener: (action: GameAction) => void): () => void {
-    this.actionListeners.add(listener);
-    return () => this.actionListeners.delete(listener);
-  }
-
-  private emit(action: GameAction): void {
-    for (const listener of this.actionListeners) listener(action);
+  public onAction(listener: (action: GameAction) => boolean): void {
+    this.actionListener = listener;
   }
 
   private handleKeyDown = (event: KeyboardEvent): void => {
-    if (event.target instanceof HTMLElement && event.target.closest('input, select, textarea, [contenteditable="true"]')) return;
-    if (event.target instanceof HTMLElement && event.target.closest('button, summary') && ['Enter','Space'].includes(event.code)) return;
-    if (this.handledCodes.has(event.code)) event.preventDefault();
-    if (event.repeat) return;
-    this.pressed.add(event.code);
-
-    if (event.code === 'Enter') this.emit('start');
-    if (event.code === 'KeyR') this.emit('retry');
-    if (event.code === 'KeyM') this.emit('library');
-    if (event.code === 'KeyC') this.emit('camera');
-    if (event.code === 'Escape') this.emit('close');
+    if (event.defaultPrevented || event.isComposing || event.ctrlKey || event.metaKey || event.altKey) return;
+    const target = event.target instanceof Element ? event.target : null;
+    if (event.code !== 'Escape' && target?.closest('input, select, textarea, [contenteditable], [role="textbox"]')) return;
+    if (event.code === 'Enter' && target?.closest('button, summary, a[href]')) return;
+    const action = shortcuts.get(event.code);
+    if (action && !event.repeat && this.actionListener?.(action)) {
+      event.preventDefault();
+    } else if (this.enabled && flightCodes.has(event.code)) {
+      event.preventDefault();
+      this.pressed.add(event.code);
+    }
   };
 
   private handleKeyUp = (event: KeyboardEvent): void => {

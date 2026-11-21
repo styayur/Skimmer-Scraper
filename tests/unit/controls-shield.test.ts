@@ -35,6 +35,30 @@ describe('flight controls and shield', () => {
     expect(source.device).toContain('Gamepad');
     expect(actions).toEqual(['camera','camera']);
   });
+  it('supports remapped menu buttons and uses directional repeat only while navigating', () => {
+    const buttons = Array.from({ length: 17 }, () => ({ pressed: false, value: 0 }));
+    const axes = [0, 0, 0, 0, 0.8];
+    const pad = { connected: true, index: 0, id: 'Unmapped controller', mapping: '', buttons, axes } as Gamepad;
+    const settings = normalizeControls({ confirmButton: 5, backButton: 6, menuButton: 10, rollAxis: 4 });
+    const source = new GamepadInputSource(() => [pad]);
+    const actions: string[] = [];
+    const poll = (now: number, navigating = true): void => source.poll(settings, action => actions.push(action), navigating, now);
+    poll(0, false);
+    expect(actions).toEqual([]);
+    buttons[5].pressed = true;
+    poll(10);
+    poll(100);
+    poll(360);
+    expect(actions).toEqual(['confirm', 'navigate-right', 'navigate-right']);
+    axes[4] = 0;
+    buttons[5].pressed = false;
+    buttons[6].pressed = true;
+    poll(400);
+    buttons[6].pressed = false;
+    buttons[10].pressed = true;
+    poll(500, false);
+    expect(actions.slice(3)).toEqual(['back', 'menu']);
+  });
   it('preserves classic limits while allowing a controlled full roll', () => {
     let classic = createFlightState({ position: { x: 0, y: 100, z: 0 }, yaw: 0 });
     let precision = classic;

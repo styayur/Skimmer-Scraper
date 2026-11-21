@@ -18,6 +18,9 @@ export interface ControlSettings {
   cameraButton: number;
   pauseButton: number;
   retryButton: number;
+  confirmButton: number;
+  backButton: number;
+  menuButton: number;
 }
 export const DEFAULT_CONTROLS: Readonly<ControlSettings> = Object.freeze({
   profile: 'precision', sensitivity: 1, curve: 1.4, deadZone: 0.14,
@@ -25,6 +28,7 @@ export const DEFAULT_CONTROLS: Readonly<ControlSettings> = Object.freeze({
   autoCoordinate: true, levelAssist: 1,
   pitchAxis: 1, rollAxis: 0, yawAxis: 2, boostButton: 7,
   cameraButton: 3, pauseButton: 9, retryButton: 2,
+  confirmButton: 0, backButton: 1, menuButton: 8,
 });
 export const normalizeControls = (value: Partial<ControlSettings> = {}): ControlSettings => {
   const result = { ...DEFAULT_CONTROLS };
@@ -34,7 +38,8 @@ export const normalizeControls = (value: Partial<ControlSettings> = {}): Control
   };
   numeric('sensitivity', 0.2, 2); numeric('curve', 1, 3); numeric('deadZone', 0, 0.4);
   numeric('levelAssist', 0, 2);
-  for (const key of ['pitchAxis','rollAxis','yawAxis','boostButton','cameraButton','pauseButton','retryButton'] as const) {
+  for (const key of ['pitchAxis', 'rollAxis', 'yawAxis', 'boostButton', 'cameraButton', 'pauseButton', 'retryButton',
+    'confirmButton', 'backButton', 'menuButton'] as const) {
     numeric(key, 0, key.endsWith('Axis') ? 7 : 31); result[key] = Math.round(result[key]);
   }
   for (const key of ['invertPitch','invertRoll','invertYaw','autoCoordinate'] as const) {

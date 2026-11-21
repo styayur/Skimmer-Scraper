@@ -36,7 +36,7 @@ test.describe('phase 3 local GLB aircraft library', () => {
       return bridge?.snapshot().ready === true;
     });
 
-    await page.getByRole('button', { name: /机库/ }).click();
+    await page.keyboard.press('m');
     await expect(page.locator('#library-panel')).toBeVisible();
     await page.locator('#model-file').setInputFiles('tests/fixtures/test-aircraft.glb');
     await expect(page.locator('.model-option[aria-selected="true"]')).toContainText('test-aircraft');
@@ -52,13 +52,13 @@ test.describe('phase 3 local GLB aircraft library', () => {
     await expect(page.locator('#toast')).toContainText('旋转模型 180°');
 
     await page.getByRole('button', { name: '关闭机库' }).click();
-    await page.getByRole('button', { name: /开始挑战/ }).click();
+    await page.getByRole('button', { name: /开始游戏/ }).click();
     await expect(page.locator('#hud')).toBeVisible();
     await page.waitForTimeout(700);
     await page.screenshot({ path: 'evidence/v0.3/regression/phase-3-imported-flight.png', fullPage: true });
 
-    await page.locator('#camera-button').click();
-    await page.locator('#camera-button').click();
+    await page.keyboard.press('c');
+    await page.keyboard.press('c');
     await expect(page.locator('#cockpit-frame')).toBeVisible();
     await page.waitForTimeout(700);
     await page.screenshot({ path: 'evidence/v0.3/regression/v0.2/phase-1-cockpit-imported.png', fullPage: true });
@@ -78,7 +78,7 @@ test.describe('phase 3 local GLB aircraft library', () => {
       }).__SKIMMER_SCRAPER__;
       return bridge?.snapshot().ready === true;
     });
-    await page.getByRole('button', { name: /机库/ }).click();
+    await page.keyboard.press('m');
     await expect(page.locator('.model-option[aria-selected="true"]')).toContainText('test-aircraft');
 
     await page.getByRole('button', { name: '移除当前导入' }).click();

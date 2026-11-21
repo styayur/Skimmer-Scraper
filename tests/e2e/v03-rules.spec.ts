@@ -5,7 +5,7 @@ test('free flight, custom grace persistence and retry rule lock', async ({ page 
   await page.goto('/?debug=1');
   await page.waitForFunction(() => window.__SKIMMER_SCRAPER__?.snapshot().ready);
   await page.evaluate(() => window.__SKIMMER_SCRAPER__!.title());
-  await page.locator('#rules-open').click();
+  await page.keyboard.press('f');
   await page.locator('#run-mode').selectOption('free');
   await page.locator('#run-grace').fill('12');
   await page.locator('#run-grace').dispatchEvent('change');
@@ -20,7 +20,7 @@ test('free flight, custom grace persistence and retry rule lock', async ({ page 
   expect(result.mode).toBe('running');
   expect(result.rules.graceSeconds).toBe(12);
   expect(result.rules.shield).toBe(true);
-  await page.locator('#rules-open').click();
+  await page.keyboard.press('f');
   await expect(page.locator('#run-mode')).toBeDisabled();
   await page.locator('#rules-close').click();
   await page.reload();

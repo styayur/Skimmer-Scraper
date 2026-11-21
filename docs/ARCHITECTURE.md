@@ -2,7 +2,7 @@
 
 ## Candidate distribution
 
-The package version supplies the visible footer and debug bridge. Build provenance
+The package version appears in the in-game guide and debug bridge. Build provenance
 is emitted separately as `build-info.json`, keeping documentation/evidence changes
 out of the game JS hash. Static artifacts include the full AGPL text, historical
 MIT grant, dependency inventory, runtime/font notices and exact source link.
@@ -12,7 +12,10 @@ reads environment variables or private player storage.
 Leaving live flight synchronously suspends model work and changes the validation
 epoch before the next animation frame. Late replies cannot affect a paused,
 failed or replaced session. Gamepad Menu follows the same panel-close/pause path
-as Escape, so a hidden running game cannot remain behind an open modal.
+as Escape. Keyboard and gamepad shortcuts dispatch through `ActionRouter`.
+`OverlayManager` owns the visible panel, inerts the background and returns focus
+to the control that opened the panel. Moving between panels preserves the original
+pause until the player closes the last panel.
 
 ## Sky Journey
 

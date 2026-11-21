@@ -54,7 +54,7 @@ test.describe('v0.2 phase 2 seeded city', () => {
     const alphaAgain = await snapshot(page);
     expect(alphaAgain.worldFingerprint).toBe(alpha.worldFingerprint);
 
-    await page.locator('#world-open').click();
+    await page.keyboard.press('g');
     await expect(page.locator('#world-panel')).toBeVisible();
     await page.locator('#world-seed-input').fill('seed-beta');
     await page.locator('#world-preset-select').selectOption('archipelago');
@@ -76,7 +76,7 @@ test.describe('v0.2 phase 2 seeded city', () => {
     await expect(page.locator('#title-world-meta')).toContainText('seed-beta');
     await page.screenshot({ path: 'evidence/v0.3/regression/v0.2/phase-2-seed-variation.png', fullPage: true });
 
-    await page.locator('#world-open').click();
+    await page.keyboard.press('g');
     const beforeRandom = await page.locator('#world-seed-input').inputValue();
     await page.locator('#world-random').click();
     await expect(page.locator('#world-seed-input')).not.toHaveValue(beforeRandom);

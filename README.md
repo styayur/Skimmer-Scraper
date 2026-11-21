@@ -68,8 +68,13 @@ GitHub Pages is the only deployment target. Cloudflare Pages deployment is cance
 | Shift | Boost |
 | C | Chase → Nose → Cockpit |
 | R | Instant retry |
+| Esc / gamepad Menu | Pause or close the current panel |
+| F / G | Flight settings / world settings |
 | M | Aircraft library |
+| H | In-game guide, source and license |
 | Enter | Start |
+| Gamepad D-pad or left stick | Move focus in menus |
+| Gamepad A / B / View | Confirm / back / open game menu |
 
 ## Local GLB aircraft
 

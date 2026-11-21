@@ -1,6 +1,5 @@
 import type { CameraMode } from '../config/experience';
 import { formatTime } from '../game/storage';
-import type { RuleConfig } from '../game/ruleConfig';
 import type { WorldMode, WorldPresetId, WorldSettings } from '../world/worldConfig';
 import { WORLD_PRESET_OPTIONS } from '../world/worldConfig';
 
@@ -40,22 +39,14 @@ export interface ModelListItem {
 }
 
 export interface GameUIHooks {
-  onStart(): void;
-  onRetry(): void;
-  onMenu(): void;
-  onLibraryOpen(): void;
-  onLibraryClose(): void;
   onMuteToggle(): boolean;
   onQualityChange(): string;
   onImportModel(file: File): void;
   onSelectModel(id: string): void;
   onRemoveModel(): void;
   onRotateModel(): void;
-  onCameraToggle(): CameraMode;
   onVisualStimulationToggle(): boolean;
   onRecordingHintDismiss(): void;
-  onWorldOpen(): void;
-  onWorldClose(): void;
   onWorldApply(seed: string, preset: WorldPresetId, mode: WorldMode): void;
   onWorldRandom(): string;
   onWorldCopySeed(seed: string): void;
@@ -75,10 +66,8 @@ export class GameUI {
   private readonly loadingCopy = required<HTMLElement>('loading-copy');
   private readonly hud = required<HTMLElement>('hud');
   private readonly failScreen = required<HTMLElement>('fail-screen');
-  private readonly libraryPanel = required<HTMLElement>('library-panel');
   private readonly webglError = required<HTMLElement>('webgl-error');
   private readonly errorMessage = required<HTMLElement>('error-message');
-  private readonly titleBest = required<HTMLElement>('title-best');
   private readonly hudTimer = required<HTMLElement>('hud-timer');
   private readonly hudBest = required<HTMLElement>('hud-best');
   private readonly hudSpeed = required<HTMLElement>('hud-speed');
@@ -107,25 +96,17 @@ export class GameUI {
   private readonly hudView = required<HTMLElement>('hud-view');
   private readonly cockpitFrame = required<HTMLElement>('cockpit-frame');
   private readonly recordHint = required<HTMLElement>('record-hint');
-  private readonly worldPanel = required<HTMLElement>('world-panel');
   private readonly worldSeedInput = required<HTMLInputElement>('world-seed-input');
   private readonly worldPresetSelect = required<HTMLSelectElement>('world-preset-select');
   private readonly worldModeSelect = required<HTMLSelectElement>('world-mode-select');
   private readonly worldModeDescription = required<HTMLElement>('world-mode-description');
   private readonly worldPresetDescription = required<HTMLElement>('world-preset-description');
-  private readonly titleWorldPreset = required<HTMLElement>('title-world-preset');
-  private readonly titleWorldMeta = required<HTMLElement>('title-world-meta');
   private readonly toast = required<HTMLElement>('toast');
   private toastTimer: number | undefined;
   private currentModels: ModelListItem[] = [];
   private selectedModelId = 'procedural';
 
   public constructor(private readonly hooks: GameUIHooks) {
-    required<HTMLButtonElement>('start-button').addEventListener('click', hooks.onStart);
-    required<HTMLButtonElement>('retry-button').addEventListener('click', hooks.onRetry);
-    required<HTMLButtonElement>('menu-button').addEventListener('click', hooks.onMenu);
-    required<HTMLButtonElement>('library-open').addEventListener('click', hooks.onLibraryOpen);
-    required<HTMLButtonElement>('library-close').addEventListener('click', hooks.onLibraryClose);
     required<HTMLButtonElement>('import-model-button').addEventListener('click', () => this.modelFile.click());
     this.removeModelButton.addEventListener('click', hooks.onRemoveModel);
     this.rotateModelButton.addEventListener('click', hooks.onRotateModel);
@@ -146,16 +127,10 @@ export class GameUI {
       const reduced = hooks.onVisualStimulationToggle();
       this.setVisualStimulation(reduced);
     });
-    this.cameraButton.addEventListener('click', () => {
-      const mode = hooks.onCameraToggle();
-      this.setCameraMode(mode);
-    });
     required<HTMLButtonElement>('record-hint-close').addEventListener('click', () => {
       hooks.onRecordingHintDismiss();
       this.setRecordingHintVisible(false);
     });
-    required<HTMLButtonElement>('world-open').addEventListener('click', hooks.onWorldOpen);
-    required<HTMLButtonElement>('world-close').addEventListener('click', hooks.onWorldClose);
     required<HTMLFormElement>('world-form').addEventListener('submit', (event) => {
       event.preventDefault();
       hooks.onWorldApply(
@@ -190,6 +165,10 @@ export class GameUI {
     required<HTMLButtonElement>('reload-button').addEventListener('click', () => window.location.reload());
   }
 
+  public get canInteract(): boolean {
+    return Boolean(this.loadingScreen.hidden && this.webglError.hidden);
+  }
+
   public finishLoading(): void {
     this.loadingScreen.hidden = true;
   }
@@ -205,28 +184,21 @@ export class GameUI {
 
   public setBest(seconds: number): void {
     const formatted = formatTime(seconds);
-    this.titleBest.textContent = formatted;
     this.hudBest.textContent = formatted;
     this.failBest.textContent = formatted;
   }
-  public setRules(config: RuleConfig): void {
-    const free = config.mode === 'free';
-    required('start-button').querySelector('span')!.textContent = free ? '开始自由飞行' : '开始挑战';
-    document.querySelector<HTMLElement>('.title-copy')!.textContent = free
-      ? `自由探索城市，无近距宽限失败。${config.shield ? '防护罩开启，接触时减速反弹。' : '防护罩关闭，撞击仍会结束飞行。'} 自由飞行不计挑战成绩。`
-      : `建筑、屋脊、桥面、地面与悬浮岛都是有效表面。保持在 32 m 内，脱离表面后有 ${config.graceSeconds} 秒宽限。`;
-  }
-
   public showTitle(): void {
     this.titleScreen.hidden = false;
     this.hud.hidden = true;
     this.failScreen.hidden = true;
+    required('start-button').focus({ preventScroll: true });
   }
 
   public showFlight(): void {
     this.titleScreen.hidden = true;
     this.failScreen.hidden = true;
     this.hud.hidden = false;
+    (document.activeElement as HTMLElement | null)?.blur();
   }
 
   public showFailure(snapshot: FailureSnapshot): void {
@@ -320,35 +292,6 @@ export class GameUI {
     this.worldModeSelect.value = settings.mode;
     this.updateWorldPresetDescription();
     this.updateWorldModeDescription();
-    const titleMap: Record<WorldPresetId, string> = {
-      sakura: 'SAKURA<br />DUSK<br />DISTRICT',
-      neon: 'NEON<br />MEGACITY<br />DISTRICT',
-      archipelago: 'FLOATING<br />ARCHIPELAGO',
-      randomized: 'RANDOMIZED<br />CITY',
-    };
-    this.titleWorldPreset.innerHTML = titleMap[settings.preset];
-    this.titleWorldMeta.textContent = `WEBGL2 · SEED ${settings.seedText} · ${settings.mode.toUpperCase()}`;
-  }
-
-  public setWorldSeedValue(seed: string): void {
-    this.worldSeedInput.value = seed;
-  }
-
-  public getWorldSeedValue(): string {
-    return this.worldSeedInput.value;
-  }
-
-  public openWorld(): void {
-    this.worldPanel.hidden = false;
-    this.worldSeedInput.focus({ preventScroll: true });
-  }
-
-  public closeWorld(): void {
-    this.worldPanel.hidden = true;
-  }
-
-  public isWorldOpen(): boolean {
-    return !this.worldPanel.hidden;
   }
 
   public updateWorldPresetDescription(): void {
@@ -362,20 +305,8 @@ export class GameUI {
       : '同一种子、预设与生成器版本始终得到相同城市，适合分享与复现。';
   }
 
-  public openLibrary(): void {
-    this.libraryPanel.hidden = false;
-    required<HTMLButtonElement>('library-close').focus({ preventScroll: true });
-  }
-
-  public closeLibrary(): void {
-    this.libraryPanel.hidden = true;
-  }
-
-  public isLibraryOpen(): boolean {
-    return !this.libraryPanel.hidden;
-  }
-
   public setModels(models: ModelListItem[], selectedId: string): void {
+    const focusedModel = (document.activeElement as HTMLElement | null)?.dataset.modelId;
     this.currentModels = models;
     this.selectedModelId = selectedId;
     this.modelList.replaceChildren();
@@ -400,6 +331,10 @@ export class GameUI {
       button.append(text, tag);
       button.addEventListener('click', () => this.hooks.onSelectModel(model.id));
       this.modelList.append(button);
+    }
+    if (focusedModel) {
+      const buttons = Array.from(this.modelList.querySelectorAll('button'));
+      (buttons.find(button => button.dataset.modelId === focusedModel) ?? buttons[0])?.focus({ preventScroll: true });
     }
     const current = models.find((model) => model.id === this.selectedModelId);
     this.modelNote.textContent = current

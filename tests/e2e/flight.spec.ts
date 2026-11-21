@@ -41,7 +41,7 @@ test.describe('phase 1 flight prototype', () => {
     await expect(page.getByRole('heading', { name: 'SKIMMER SCRAPER' })).toBeVisible();
     await page.screenshot({ path: 'evidence/v0.3/regression/phase-1-title.png', fullPage: true });
 
-    await page.getByRole('button', { name: /开始挑战/ }).click();
+    await page.getByRole('button', { name: /开始游戏/ }).click();
     await expect(page.locator('#hud')).toBeVisible();
 
     const first = await readSnapshot(page);

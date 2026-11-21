@@ -1,3 +1,5 @@
+import { ActionRouter } from './ui/ActionRouter';
+import { OverlayManager } from './ui/OverlayManager';
 import '@fontsource-variable/syne';
 import '@fontsource-variable/ibm-plex-sans';
 import './styles.css';
@@ -29,7 +31,6 @@ import {
   KeyboardInputSource,
   ScriptedInputSource,
   demoInput,
-  type GameAction,
   type InputSource,
 } from './flight/input';
 import {
@@ -175,8 +176,6 @@ const builtInModel: ModelListItem = {
 };
 
 let mode: GameMode = 'title';
-let modeBeforeLibrary: GameMode = 'title';
-let modeBeforeWorld: GameMode = 'title';
 let flightState: FlightState | null = null;
 let runRules: RunRulesState = createRunRules(selectedRules);
 let lastSurfaceHit: SurfaceQuery | null = null;
@@ -265,11 +264,6 @@ const scripted = new ScriptedInputSource(demoInput);
 const inputSource: InputSource = debugInputEnabled ? scripted : keyboard;
 
 const ui: GameUI = new GameUI({
-  onStart: () => { void startRun(); },
-  onRetry: () => { void startRun(); },
-  onMenu: () => { void returnToTitle(); },
-  onLibraryOpen: () => openLibrary(),
-  onLibraryClose: () => closeLibrary(),
   onMuteToggle: () => {
     muted = !muted;
     audio.setMuted(muted);
@@ -292,11 +286,8 @@ const ui: GameUI = new GameUI({
   onRotateModel: () => {
     void rotateSelectedAircraft();
   },
-  onCameraToggle: () => toggleCameraMode(),
   onVisualStimulationToggle: () => toggleVisualStimulation(),
   onRecordingHintDismiss: () => dismissRecordingHint(),
-  onWorldOpen: () => openWorldPanel(),
-  onWorldClose: () => closeWorldPanel(),
   onWorldApply: (seedValue, preset, worldMode) => applyWorldSettings(seedValue, preset, worldMode),
   onWorldRandom: () => createRandomSeed(),
   onWorldCopySeed: (seedValue) => { void copyWorldText(seedValue.trim(), '种子已复制。'); },
@@ -305,7 +296,6 @@ const ui: GameUI = new GameUI({
 });
 
 ui.setBest(best);
-ui.setRules(selectedRules);
 ui.setModels([builtInModel], builtInModel.id);
 ui.setCameraMode(preferences.cameraMode);
 ui.setVisualStimulation(preferences.visualStimulation === 'reduced');
@@ -663,8 +653,7 @@ const startRun = async (): Promise<void> => {
   if (!renderer || !worldStreamer) return;
   runGeneration++;
   const transition = ++worldTransition;
-  closeLibrary(false);
-  closeWorldPanel(false);
+  actionRouter.clear();
   mode = 'title';
   symbiosis.suspend();
   keyboard.setEnabled(false);
@@ -724,8 +713,7 @@ const debugResume = (): boolean => {
 const returnToTitle = async (): Promise<void> => {
   runGeneration++;
   const transition = ++worldTransition;
-  closeLibrary(false);
-  closeWorldPanel(false);
+  actionRouter.clear();
   mode = 'title';
   symbiosis.suspend();
   keyboard.setEnabled(false);
@@ -765,61 +753,6 @@ const returnToTitle = async (): Promise<void> => {
   ui.setBest(best);
 };
 
-const openLibrary = (): void => {
-  if (!document.querySelector<HTMLElement>('#rules-panel')!.hidden) (document.querySelector('#rules-close') as HTMLButtonElement).click();
-  if (ui.isLibraryOpen()) return;
-  if (ui.isWorldOpen()) closeWorldPanel();
-  modeBeforeLibrary = mode;
-  if (mode === 'running') {
-    mode = 'paused';
-    symbiosis.suspend();
-    keyboard.setEnabled(false);
-    stepRunner.reset();
-    audio.pause();
-  }
-  ui.openLibrary();
-  refreshModelOptions();
-};
-
-const closeLibrary = (resume = true): void => {
-  if (!ui.isLibraryOpen()) return;
-  ui.closeLibrary();
-  if (resume && mode === 'paused' && modeBeforeLibrary === 'running') {
-    mode = 'running';
-    stepRunner.reset();
-    lastFrameTime = performance.now();
-    keyboard.setEnabled(!debugInputEnabled);
-    audio.resume();
-  }
-};
-
-
-const openWorldPanel = (): void => {
-  if (!document.querySelector<HTMLElement>('#rules-panel')!.hidden) (document.querySelector('#rules-close') as HTMLButtonElement).click();
-  if (ui.isWorldOpen()) return;
-  if (ui.isLibraryOpen()) closeLibrary();
-  modeBeforeWorld = mode;
-  if (mode === 'running') {
-    mode = 'paused';
-    symbiosis.suspend();
-    keyboard.setEnabled(false);
-    stepRunner.reset();
-    audio.pause();
-  }
-  ui.openWorld();
-};
-
-const closeWorldPanel = (resume = true): void => {
-  if (!ui.isWorldOpen()) return;
-  ui.closeWorld();
-  if (resume && mode === 'paused' && modeBeforeWorld === 'running') {
-    mode = 'running';
-    stepRunner.reset();
-    lastFrameTime = performance.now();
-    keyboard.setEnabled(!debugInputEnabled);
-    audio.resume();
-  }
-};
 const debugSnapshot = (): DebugSnapshot => {
   if (!renderer || !flightState) {
     throw new Error('Game is not ready.');
@@ -946,12 +879,8 @@ const debugSetPose = async (
 new RunSettingsPanel(selectedRules, (next) => {
   if (mode !== 'title' && mode !== 'failed') return;
   selectedRules = normalizeRules(next); saveRules(selectedRules);
-  ui.setRules(selectedRules);
   best = loadBest(scoreContextFor(worldSettings, selectedRules)); ui.setBest(best);
-}, () => {
-  closeLibrary(); closeWorldPanel();
-  return mode === 'running' ? debugPause() : false;
-}, (resume) => { if (resume) debugResume(); }, () => mode === 'title' || mode === 'failed');
+}, () => mode === 'title' || mode === 'failed');
 bindControlSettings(next => { controls = next; }, () => aircraftLibrary.getSelectedId(), anchor => renderer?.setCameraAnchor(anchor));
 bindCompanionSettings(companionSettings, () => mode === 'title' || mode === 'failed', next => {
   companionSettings = next; companions.configure(next);
@@ -962,30 +891,24 @@ bindCompanionSettings(companionSettings, () => mode === 'title' || mode === 'fai
 });
 const updateModelStatus = bindModelSettings(symbiosis);
 const journeyHud = new JourneyHud(()=>journey.skip());
-document.querySelector('#pause-resume')!.addEventListener('click', () => debugResume());
-document.querySelector('#pause-menu')!.addEventListener('click', () => { void returnToTitle(); });
-
-const handleAction = (action: GameAction): void => {
-  if (action === 'close') {
-    if (ui.isLibraryOpen()) closeLibrary();
-    else if (ui.isWorldOpen()) closeWorldPanel();
-    else if (!document.querySelector<HTMLElement>('#rules-panel')!.hidden) (document.querySelector('#rules-close') as HTMLButtonElement).click();
-    else if (mode === 'running') debugPause();
-    else if (mode === 'paused') debugResume();
-    return;
-  }
-  if (action === 'pause') { handleAction('close'); return; }
-  if (action === 'library') {
-    if (ui.isLibraryOpen()) closeLibrary();
-    else openLibrary();
-    return;
-  }
-  if (ui.isLibraryOpen() || ui.isWorldOpen() || !document.querySelector<HTMLElement>('#rules-panel')!.hidden) return;
-  if (action === 'camera' && mode !== 'title') toggleCameraMode();
-  if (action === 'start' && mode === 'title') void startRun();
-  if (action === 'retry' && mode !== 'title') void startRun();
-};
-keyboard.onAction(handleAction);
+const overlays = new OverlayManager({
+  menu: document.getElementById('pause-panel')!,
+  rules: document.getElementById('rules-panel')!,
+  world: document.getElementById('world-panel')!,
+  library: document.getElementById('library-panel')!,
+  help: document.getElementById('help-panel')!,
+});
+const actionRouter = new ActionRouter(overlays, {
+  mode: () => mode,
+  available: () => ui.canInteract,
+  pause: debugPause,
+  resume: debugResume,
+  start: () => { void startRun(); },
+  title: () => { void returnToTitle(); },
+  camera: toggleCameraMode,
+});
+document.getElementById('library-panel')!.addEventListener('skimmer:open', refreshModelOptions);
+keyboard.onAction(actionRouter.route);
 
 const frame = (now: number): void => {
   if (mode !== 'running') symbiosis.suspend();
@@ -995,8 +918,8 @@ const frame = (now: number): void => {
   const reducedRotation=preferences.visualStimulation==='reduced'||window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const inversion=journey.phase==='INVERSION'?Math.PI*journey.progress:journey.phase==='WORLD_SWAP'?Math.PI:journey.phase==='DIVE'?Math.PI*(1-journey.progress):0;
   renderer?.setInversion(reducedRotation?0:inversion);
-  document.querySelector<HTMLElement>('#pause-panel')!.hidden = mode !== 'paused' || ui.isLibraryOpen() || ui.isWorldOpen() || !document.querySelector<HTMLElement>('#rules-panel')!.hidden;
-  gamepad.poll(controls, handleAction);
+  const menuInput = ui.canInteract && (mode === 'title' || mode === 'failed' || Boolean(overlays.current));
+  gamepad.poll(controls, actionRouter.route, menuInput, now);
   document.querySelector('#input-device')!.textContent = gamepad.device;
   const delta = Math.min(0.1, Math.max(0, (now - lastFrameTime) / 1000));
   lastFrameTime = now;
@@ -1113,6 +1036,8 @@ document.addEventListener('visibilitychange', () => {
 });
 
 window.addEventListener('skimmer:webgl-context-lost', () => {
+  actionRouter.clear();
+  debugPause();
   ui.showFatal('WebGL2 上下文已丢失。请重新载入页面。');
 });
 

@@ -56,19 +56,22 @@ test.describe('v0.2 phase 1 flight experience', () => {
     await page.setViewportSize({ width: 1440, height: 900 });
     await page.goto('/?seed=334458');
     await waitReady(page);
+    await page.keyboard.press('h');
     await expect(page.locator('#record-hint')).toBeVisible();
     await page.locator('#record-hint-close').click();
     await expect(page.locator('#record-hint')).toBeHidden();
 
     await page.reload();
     await waitReady(page);
+    await page.keyboard.press('h');
     await expect(page.locator('#record-hint')).toBeHidden();
+    await page.keyboard.press('Escape');
 
-    await page.getByRole('button', { name: /开始挑战/ }).click();
+    await page.getByRole('button', { name: /开始游戏/ }).click();
     await expect(page.locator('#hud')).toBeVisible();
 
-    await page.locator('#camera-button').click();
-    await page.locator('#camera-button').click();
+    await page.keyboard.press('c');
+    await page.keyboard.press('c');
     await page.waitForFunction(() => {
       const bridge = (window as unknown as {
         __SKIMMER_SCRAPER__?: { snapshot(): { cameraMode: string; cameraBlend: number } };
@@ -91,10 +94,12 @@ test.describe('v0.2 phase 1 flight experience', () => {
       return state?.mode === 'running' && state.cameraMode === 'cockpit';
     });
 
+    await page.keyboard.press('Escape');
     await page.locator('#effects-button').click();
     await expect(page.locator('#effects-button')).toHaveText('视觉 · 柔和');
     expect((await call(page, 'snapshot')).visualStimulation).toBe('reduced');
     await expect(page.locator('#app')).toHaveClass(/low-stim/);
+    await page.keyboard.press('Escape');
 
     await call(page, 'setPose', { x: 0, y: 4.5, z: 180 }, { pitch: 0 });
     await call(page, 'advance', 0.2);

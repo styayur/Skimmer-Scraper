@@ -10,11 +10,11 @@ test('BYOK validates real game state, executes a synthetic test response, forget
    await route.fulfill({json:{choices:[{message:{content:JSON.stringify({requestId:perception.requestId,epoch:perception.epoch,ttl:12,risk:.25,formation:'spread',orders:[{agents:[1],action:target?'SCOUT':'FOLLOW',targetId:target?.id??null}],reason:'自动化合成响应'})}}],usage:{prompt_tokens:100,completion_tokens:60,total_tokens:160}}});
  });
  await page.goto('/?autostart=1&seed=334458');await page.waitForFunction(()=>window.__SKIMMER_SCRAPER__?.snapshot().mode==='running');
- await page.locator('#rules-open').click();await page.locator('.model-settings summary').click();await page.locator('#ai-key').fill(sentinel);await page.locator('#ai-connect').click();expect(await page.locator('#ai-key').inputValue()).toBe('');await page.locator('#rules-close').click();
+ await page.keyboard.press('f');await page.locator('.model-settings summary').click();await page.locator('#ai-key').fill(sentinel);await page.locator('#ai-connect').click();expect(await page.locator('#ai-key').inputValue()).toBe('');await page.locator('#rules-close').click();
  await page.waitForFunction(()=>window.__SKIMMER_SCRAPER__!.snapshot().cooperation.trace.some(t=>t.event==='execution'),null,{timeout:20000});
  const before=await page.evaluate(()=>window.__SKIMMER_SCRAPER__!.snapshot());const after=await page.evaluate(()=>window.__SKIMMER_SCRAPER__!.advance(2));expect(after.companions[0].position).not.toEqual(before.companions[0].position);
  const stored=await page.evaluate(()=>({local:{...localStorage},session:{...sessionStorage},state:window.__SKIMMER_SCRAPER__!.snapshot()}));expect(JSON.stringify(stored)).not.toContain(sentinel);expect(after.cooperation.model.usage.total).toBe(160);
- await page.locator('#rules-open').click();await page.locator('#ai-disconnect').click();await page.locator('#rules-close').click();
+ await page.keyboard.press('f');await page.locator('#ai-disconnect').click();await page.locator('#rules-close').click();
  const disconnected=await page.evaluate(()=>window.__SKIMMER_SCRAPER__!.snapshot());expect(disconnected.cooperation.model.connected).toBe(false);expect(disconnected.cooperation.planner).toBe('Local Autonomous Controller');expect(errors).toEqual([]);
  writeFileSync('evidence/v0.3/phase-4-synthetic-browser.json',JSON.stringify({method:'Synthetic mocked response for boundary testing; NOT real model evidence',before,after,disconnected,errors},null,2));
  await page.screenshot({path:'evidence/v0.3/phase-4-browser.png'});
@@ -29,7 +29,7 @@ test('pause cancels an in-flight plan synchronously and rejects its late respons
   await route.fulfill({json:{choices:[{message:{content:JSON.stringify({requestId:p.requestId,epoch:p.epoch,ttl:10,risk:.2,formation:'line',orders:[{agents:[1],action:'FOLLOW',targetId:null}],reason:'Synthetic late response'})}}]}}).catch(()=>{});
  });
  await page.goto('/?autostart=1&seed=334458');await page.waitForFunction(()=>window.__SKIMMER_SCRAPER__?.snapshot().mode==='running');
- await page.locator('#rules-open').click();await page.locator('.model-settings summary').click();await page.locator('#ai-budget').fill('1');await page.locator('#ai-key').fill('synthetic-cancellation-key');await page.locator('#ai-connect').click();await page.locator('#rules-close').click();
+ await page.keyboard.press('f');await page.locator('.model-settings summary').click();await page.locator('#ai-budget').fill('1');await page.locator('#ai-key').fill('synthetic-cancellation-key');await page.locator('#ai-connect').click();await page.locator('#rules-close').click();
  await expect.poll(()=>received,{timeout:20000}).toBe(true);
  const suspended=await page.evaluate(()=>{const g=window.__SKIMMER_SCRAPER__!;const before=g.snapshot();g.pause();return{before,after:g.snapshot(),perception:g.aiPerception()};});
  expect(suspended.after.cooperation.epoch).toBeGreaterThan(suspended.before.cooperation.epoch);expect(suspended.perception).toBeNull();
