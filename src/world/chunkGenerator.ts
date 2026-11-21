@@ -539,7 +539,7 @@ export class ChunkGenerator {
     }
     if (shadowSurfaces.length) {
       const geometry = mergeGeometries(shadowSurfaces, false)!;
-      const shadow = new THREE.Mesh(geometry, this.shadowDepthMaterial);
+      const shadow = new THREE.Mesh(geometry, this.materials.byKey.bridge);
       shadow.name = `${key}-structural-shadows`;
       shadow.layers.set(CITY_SHADOW_LAYER);
       shadow.castShadow = true;
