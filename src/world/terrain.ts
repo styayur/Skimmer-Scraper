@@ -10,7 +10,7 @@ const hash2d = (seed: number, x: number, z: number): number => {
 
 const smooth = (t: number): number => t * t * (3 - 2 * t);
 
-const valueNoise = (seed: number, x: number, z: number): number => {
+export const valueNoise = (seed: number, x: number, z: number): number => {
   const x0 = Math.floor(x);
   const z0 = Math.floor(z);
   const fx = smooth(x - x0);

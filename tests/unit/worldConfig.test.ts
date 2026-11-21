@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import {
   DEFAULT_WORLD_SEED,
   GENERATOR_VERSION,
+  LEGACY_GENERATOR_VERSION,
   buildWorldShareUrl,
   parseSeedText,
   resolveWorldSettings,
@@ -22,7 +23,7 @@ describe('world settings', () => {
     for (const preset of ['sakura', 'neon', 'archipelago', 'randomized'] as const) {
       const settings = resolveWorldSettings({ seed: '42', preset, mode: 'stable' });
       expect(settings.preset).toBe(preset);
-      expect(settings.generatorVersion).toBe(GENERATOR_VERSION);
+      expect(settings.generatorVersion).toBe(LEGACY_GENERATOR_VERSION);
       expect(settings.config.buildingDensity).toBeGreaterThan(0);
       expect(settings.config.streetSpacing).toBeGreaterThan(0);
     }
@@ -36,8 +37,19 @@ describe('world settings', () => {
     expect(parsed.preset).toBe('archipelago');
     expect(parsed.mode).toBe('ephemeral');
     expect(new URL(url).searchParams.get('world')).toBe('ephemeral');
-    expect(new URL(url).searchParams.get('gen')).toBe(String(GENERATOR_VERSION));
+    expect(new URL(url).searchParams.get('gen')).toBe(String(LEGACY_GENERATOR_VERSION));
     expect(new URL(url).pathname).toBe('/Skimmer-Scraper/');
     expect(worldSettingsFromSearch('?world=unknown').mode).toBe('stable');
+  });
+
+  it('keeps existing seed-only links and emits a unified v3 link for new worlds', () => {
+    expect(worldSettingsFromSearch('?seed=334458').generatorVersion).toBe(LEGACY_GENERATOR_VERSION);
+    expect(worldSettingsFromSearch('?seed=334458').preset).toBe('sakura');
+    expect(worldSettingsFromSearch('').preset).toBe('city');
+    const city = worldSettingsFromSearch('?gen=3&seed=334458&preset=archipelago&world=ephemeral');
+    expect(city).toMatchObject({ generatorVersion: GENERATOR_VERSION, mode: 'ephemeral', preset: 'city' });
+    const share = new URL(buildWorldShareUrl('https://example.com/Skimmer-Scraper/', city));
+    expect(share.searchParams.has('preset')).toBe(false);
+    expect(worldSettingsFromSearch(share.search)).toEqual(city);
   });
 });

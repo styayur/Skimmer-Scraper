@@ -1,7 +1,7 @@
 import type { CameraMode } from '../config/experience';
 import { formatTime } from '../game/storage';
-import type { WorldMode, WorldPresetId, WorldSettings } from '../world/worldConfig';
-import { WORLD_PRESET_OPTIONS } from '../world/worldConfig';
+import type { WorldMode, WorldSettings } from '../world/worldConfig';
+import { LEGACY_GENERATOR_VERSION, WORLD_PRESET_OPTIONS } from '../world/worldConfig';
 
 export interface FlightHudSnapshot {
   runTime: number;
@@ -49,11 +49,11 @@ export interface GameUIHooks {
   onVisualStimulationToggle(): boolean;
   onCameraSelect(view: CameraMode): void;
   onRecordingHintDismiss(): void;
-  onWorldApply(seed: string, preset: WorldPresetId, mode: WorldMode): void;
+  onWorldApply(seed: string, mode: WorldMode, upgrade?: boolean): void;
   onWorldRandom(): string;
   onWorldCopySeed(seed: string): void;
-  onWorldCopyLink(seed: string, preset: WorldPresetId, mode: WorldMode): void;
-  onWorldReset(): { seed: string; preset: WorldPresetId; mode: WorldMode };
+  onWorldCopyLink(seed: string, mode: WorldMode): void;
+  onWorldReset(): { seed: string; mode: WorldMode };
 }
 
 const required = <T extends HTMLElement>(id: string): T => {
@@ -100,10 +100,10 @@ export class GameUI {
   private readonly cockpitFrame = required<HTMLElement>('cockpit-frame');
   private readonly recordHint = required<HTMLElement>('record-hint');
   private readonly worldSeedInput = required<HTMLInputElement>('world-seed-input');
-  private readonly worldPresetSelect = required<HTMLSelectElement>('world-preset-select');
   private readonly worldModeSelect = required<HTMLSelectElement>('world-mode-select');
   private readonly worldModeDescription = required<HTMLElement>('world-mode-description');
-  private readonly worldPresetDescription = required<HTMLElement>('world-preset-description');
+  private readonly worldLegacy = required<HTMLElement>('world-legacy');
+  private readonly worldLegacyNote = required<HTMLElement>('world-legacy-note');
   private readonly toast = required<HTMLElement>('toast');
   private toastTimer: number | undefined;
   private currentModels: ModelListItem[] = [];
@@ -141,11 +141,12 @@ export class GameUI {
       event.preventDefault();
       hooks.onWorldApply(
         this.worldSeedInput.value,
-        this.worldPresetSelect.value as WorldPresetId,
         this.worldModeSelect.value as WorldMode,
       );
     });
-    this.worldPresetSelect.addEventListener('change', () => this.updateWorldPresetDescription());
+    required('world-upgrade').addEventListener('click', () => {
+      hooks.onWorldApply(this.worldSeedInput.value, this.worldModeSelect.value as WorldMode, true);
+    });
     this.worldModeSelect.addEventListener('change', () => this.updateWorldModeDescription());
     required<HTMLButtonElement>('world-random').addEventListener('click', () => {
       this.worldSeedInput.value = hooks.onWorldRandom();
@@ -156,16 +157,13 @@ export class GameUI {
     required<HTMLButtonElement>('world-copy-link').addEventListener('click', () => {
       hooks.onWorldCopyLink(
         this.worldSeedInput.value,
-        this.worldPresetSelect.value as WorldPresetId,
         this.worldModeSelect.value as WorldMode,
       );
     });
     required<HTMLButtonElement>('world-reset').addEventListener('click', () => {
       const reset = hooks.onWorldReset();
       this.worldSeedInput.value = reset.seed;
-      this.worldPresetSelect.value = reset.preset;
       this.worldModeSelect.value = reset.mode;
-      this.updateWorldPresetDescription();
       this.updateWorldModeDescription();
     });
     required<HTMLButtonElement>('reload-button').addEventListener('click', () => window.location.reload());
@@ -296,15 +294,11 @@ export class GameUI {
 
   public setWorldSettings(settings: WorldSettings): void {
     this.worldSeedInput.value = settings.seedText;
-    this.worldPresetSelect.value = settings.preset;
     this.worldModeSelect.value = settings.mode;
-    this.updateWorldPresetDescription();
+    this.worldLegacy.hidden = settings.generatorVersion !== LEGACY_GENERATOR_VERSION;
+    const legacy = WORLD_PRESET_OPTIONS.find(option => option.id === settings.preset);
+    this.worldLegacyNote.textContent = legacy ? '旧版城市 · ' + legacy.label : '';
     this.updateWorldModeDescription();
-  }
-
-  public updateWorldPresetDescription(): void {
-    const preset = WORLD_PRESET_OPTIONS.find((option) => option.id === this.worldPresetSelect.value);
-    this.worldPresetDescription.textContent = preset?.description ?? '';
   }
 
   public updateWorldModeDescription(): void {

@@ -5,6 +5,10 @@ import type { WorldMaterials, WorldMaterialKey } from '../../src/world/materials
 import { stableBoundaryProfile } from '../../src/world/stableBoundary';
 import { resolveWorldSettings } from '../../src/world/worldConfig';
 import type { BillboardMaterialSet } from '../../src/world/signage';
+import { ChunkedWorldAdapter } from '../../src/world/chunkedWorldAdapter';
+import { cityDistrictAt } from '../../src/world/cityDistricts';
+import { bridgeTiersAt } from '../../src/world/stableBoundary';
+import { journeyWorld } from '../../src/world/journeyWorlds';
 
 const MATERIAL_KEYS: WorldMaterialKey[] = [
   'shellCeladon', 'shellPlum', 'shellIvory', 'glass', 'rose', 'teal', 'windowWarm',
@@ -41,6 +45,66 @@ const disposeChunk = (chunk: ReturnType<ChunkGenerator['generate']>): void => {
 };
 
 describe('deterministic chunk generation', () => {
+  it('keeps the launch corridor clear across 16 fixed dense-city seeds', () => {
+    let buildings = 0;
+    let bridges = 0;
+    let islands = 0;
+    for (let seed = 0; seed < 16; seed++) {
+      const settings = resolveWorldSettings({ seed: String(seed) });
+      const generator = new ChunkGenerator(settings, fakeMaterials(), fakeBillboards());
+      const chunks = [[0, 0], [-1, 0], [0, -1], [-1, -1], [2, 0], [3, 1]].map(([x, z]) => generator.generate(x, z));
+      const adapter = new ChunkedWorldAdapter(chunks.map(chunk => ({
+        id: chunk.key, chunkX: chunk.chunkX, chunkZ: chunk.chunkZ, origin: chunk.origin,
+        bounds: chunk.bounds, geometry: chunk.collisionGeometry,
+      })));
+      for (let z = -184; z <= 120; z += 2) {
+        const hit = adapter.queryNearest({ x: 0, y: 24, z }, 32);
+        expect(hit?.distance, `seed ${seed}, runway z=${z}`).toBeGreaterThan(6.5);
+      }
+      for (const chunk of chunks) {
+        buildings += chunk.stats.buildings;
+        bridges += chunk.stats.bridges;
+        islands += chunk.stats.islands;
+        disposeChunk(chunk);
+      }
+      generator.dispose();
+    }
+    expect(buildings).toBeGreaterThan(550);
+    expect(bridges).toBeGreaterThan(210);
+    expect(islands).toBeGreaterThan(13);
+  });
+
+  it('keeps dense districts and stacked bridge seams stable across revisions', () => {
+    const settings = resolveWorldSettings({ seed: 'dense-seams', mode: 'ephemeral' });
+    const generator = new ChunkGenerator(settings, fakeMaterials(), fakeBillboards());
+    const west = generator.generate(2, -1, 0);
+    const refreshed = generator.generate(2, -1, 8);
+    const east = generator.generate(3, -1, 4);
+    expect(west.fingerprint).not.toBe(refreshed.fingerprint);
+    expect(stableBoundaryProfile(settings, 2, -1).bridges.filter(bridge => bridge.axis === 'x'))
+      .toEqual(stableBoundaryProfile(settings, 3, -1).bridges.filter(bridge => bridge.axis === 'x'));
+    const decks = Array.from({ length: 24 }, (_, line) => bridgeTiersAt(settings, 'x', line)).flat();
+    expect(decks.some(deck => deck.supportBase !== undefined)).toBe(true);
+    const before = cityDistrictAt(settings.seed, 220 - 0.01, -110);
+    const after = cityDistrictAt(settings.seed, 220 + 0.01, -110);
+    for (const key of ['towers', 'crossings', 'gardens'] as const) expect(before[key]).toBeCloseTo(after[key], 4);
+    const sample = Array.from({ length: 20 }, (_, index) => cityDistrictAt(settings.seed, index * 110, 0).towers);
+    expect(Math.max(...sample) - Math.min(...sample)).toBeGreaterThan(0.2);
+    [west, refreshed, east].forEach(disposeChunk);
+    generator.dispose();
+  });
+
+  it('retains urban density through all five palette and architecture changes', () => {
+    const base = resolveWorldSettings();
+    const worlds = Array.from({ length: 5 }, (_, index) => journeyWorld(base, index + 1));
+    expect(new Set(worlds.map(world => world.seed)).size).toBe(5);
+    expect(new Set(worlds.map(world => world.paletteHue)).size).toBe(5);
+    expect(new Set(worlds.map(world => world.config.architecture)).size).toBe(3);
+    for (const world of worlds) {
+      expect(world.preset).toBe('city');
+      expect(world.config.buildingDensity).toBeGreaterThanOrEqual(0.56);
+    }
+  });
   it('owns one shadow material per world and releases it with its generator', () => {
     const settings=resolveWorldSettings({seed:'shadow-lifetime'});
     const a=new ChunkGenerator(settings,fakeMaterials(),fakeBillboards());const b=new ChunkGenerator(settings,fakeMaterials(),fakeBillboards());

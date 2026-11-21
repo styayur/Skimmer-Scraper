@@ -2,15 +2,18 @@ import { hashNumbers } from './deterministic';
 import { mulberry32 } from './rng';
 
 export const CHUNK_SIZE = 220;
-export const GENERATOR_VERSION = 2;
+export const LEGACY_GENERATOR_VERSION = 2;
+export const GENERATOR_VERSION = 3;
 export const DEFAULT_WORLD_SEED = 0x51a7a;
 
 export type WorldMode = 'stable' | 'ephemeral';
-export type WorldPresetId = 'sakura' | 'neon' | 'archipelago' | 'randomized';
-export type ConcretePresetId = Exclude<WorldPresetId, 'randomized'>;
+export type LegacyPresetId = 'sakura' | 'neon' | 'archipelago' | 'randomized';
+export type WorldPresetId = LegacyPresetId | 'city';
+export type ConcretePresetId = Exclude<LegacyPresetId, 'randomized'>;
 
 export interface CityGenerationConfig {
   preset: WorldPresetId;
+  architecture?: 'setback' | 'faceted' | 'lantern';
   buildingDensity: number;
   buildingHeightMin: number;
   buildingHeightMax: number;
@@ -39,7 +42,7 @@ export interface WorldSettings {
 }
 
 export interface WorldPresetOption {
-  id: WorldPresetId;
+  id: LegacyPresetId;
   label: string;
   description: string;
 }
@@ -105,6 +108,25 @@ const PRESETS: Record<ConcretePresetId, Omit<CityGenerationConfig, 'preset'>> = 
   },
 };
 
+const DENSE_CITY: CityGenerationConfig = {
+  preset: 'city',
+  buildingDensity: 0.56,
+  buildingHeightMin: 58,
+  buildingHeightMax: 188,
+  streetWidth: 24,
+  streetSpacing: 110,
+  bridgeFrequency: 0.62,
+  bridgeHeightMin: 50,
+  bridgeHeightMax: 190,
+  islandFrequency: 0.32,
+  suspendedHeightMin: 188,
+  suspendedHeightMax: 365,
+  terrainAmplitude: 0,
+  buildingVariation: 1.04,
+  fogDensity: 0.001,
+  farDensity: 0.78,
+};
+
 const clamp = (value: number, min: number, max: number): number => Math.min(max, Math.max(min, value));
 
 export const hashSeedText = (text: string): number => {
@@ -131,12 +153,13 @@ export const parseSeedText = (input: string | null | undefined): { seed: number;
   return { seed: seeded, seedText: trimmed };
 };
 
-const isPreset = (value: string | null): value is WorldPresetId =>
+const isPreset = (value: string | null): value is LegacyPresetId =>
   value === 'sakura' || value === 'neon' || value === 'archipelago' || value === 'randomized';
 
 export const resolveGenerationConfig = (preset: WorldPresetId, seed: number): CityGenerationConfig => {
+  if (preset === 'city') return { ...DENSE_CITY };
   if (preset !== 'randomized') return { preset, ...PRESETS[preset] };
-  const random = mulberry32(hashNumbers(seed, 0x7a11d0, GENERATOR_VERSION));
+  const random = mulberry32(hashNumbers(seed, 0x7a11d0, LEGACY_GENERATOR_VERSION));
   const ids: ConcretePresetId[] = ['sakura', 'neon', 'archipelago'];
   const baseId = ids[Math.floor(random() * ids.length)] ?? 'sakura';
   const base = PRESETS[baseId];
@@ -164,36 +187,46 @@ export const resolveWorldSettings = (options: {
   seed?: string | null;
   preset?: string | null;
   mode?: string | null;
+  generatorVersion?: number;
 } = {}): WorldSettings => {
   const parsedSeed = parseSeedText(options.seed);
-  const preset = isPreset(options.preset ?? null) ? options.preset as WorldPresetId : 'sakura';
+  const legacyPreset = isPreset(options.preset ?? null) ? options.preset as LegacyPresetId : null;
+  const legacy = options.generatorVersion === LEGACY_GENERATOR_VERSION
+    || (options.generatorVersion === undefined && legacyPreset !== null);
+  const preset: WorldPresetId = legacy ? legacyPreset ?? 'sakura' : 'city';
   const mode: WorldMode = options.mode === 'ephemeral' ? 'ephemeral' : 'stable';
   return {
     ...parsedSeed,
     preset,
     mode,
-    generatorVersion: GENERATOR_VERSION,
+    generatorVersion: legacy ? LEGACY_GENERATOR_VERSION : GENERATOR_VERSION,
     config: resolveGenerationConfig(preset, parsedSeed.seed),
   };
 };
 
 export const worldSettingsFromSearch = (search: string | URLSearchParams): WorldSettings => {
   const params = typeof search === 'string' ? new URLSearchParams(search) : search;
+  const explicit = params.get('gen');
+  const hasLegacyFields = params.has('seed') || params.has('preset') || params.has('world');
+  const generatorVersion = explicit === String(GENERATOR_VERSION) || (!explicit && !hasLegacyFields)
+    ? GENERATOR_VERSION
+    : LEGACY_GENERATOR_VERSION;
   return resolveWorldSettings({
     seed: params.get('seed'),
     preset: params.get('preset'),
     mode: params.get('world'),
+    generatorVersion,
   });
 };
 
-export const buildWorldShareUrl = (baseHref: string, settings: Pick<WorldSettings, 'seedText' | 'preset' | 'mode'>): string => {
+export const buildWorldShareUrl = (baseHref: string, settings: Pick<WorldSettings, 'seedText' | 'preset' | 'mode' | 'generatorVersion'>): string => {
   const url = new URL(baseHref);
   url.search = '';
   url.hash = '';
   url.searchParams.set('seed', settings.seedText);
-  url.searchParams.set('preset', settings.preset);
+  if (settings.generatorVersion === LEGACY_GENERATOR_VERSION) url.searchParams.set('preset', settings.preset);
   url.searchParams.set('world', settings.mode);
-  url.searchParams.set('gen', String(GENERATOR_VERSION));
+  url.searchParams.set('gen', String(settings.generatorVersion));
   return url.toString();
 };
 

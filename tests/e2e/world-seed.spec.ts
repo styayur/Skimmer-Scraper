@@ -57,13 +57,12 @@ test.describe('v0.2 phase 2 seeded city', () => {
     await page.keyboard.press('g');
     await expect(page.locator('#world-panel')).toBeVisible();
     await page.locator('#world-seed-input').fill('seed-beta');
-    await page.locator('#world-preset-select').selectOption('archipelago');
-    await expect(page.locator('#world-preset-description')).toContainText('浮岛');
+    await expect(page.locator('#world-legacy-note')).toContainText('Neon Megacity');
     await page.locator('#world-copy-link').click();
     const copied = await page.evaluate(() => navigator.clipboard.readText());
     const copiedUrl = new URL(copied);
     expect(copiedUrl.searchParams.get('seed')).toBe('seed-beta');
-    expect(copiedUrl.searchParams.get('preset')).toBe('archipelago');
+    expect(copiedUrl.searchParams.get('preset')).toBe('neon');
     expect(copiedUrl.searchParams.get('world')).toBe('stable');
     expect(copiedUrl.searchParams.get('gen')).toBe('2');
 
@@ -71,7 +70,7 @@ test.describe('v0.2 phase 2 seeded city', () => {
     await page.waitForURL(/seed=seed-beta/);
     await waitReady(page);
     const beta = await snapshot(page);
-    expect(beta.worldPreset).toBe('archipelago');
+    expect(beta.worldPreset).toBe('neon');
     expect(beta.worldFingerprint).not.toBe(alpha.worldFingerprint);
     await page.screenshot({ path: 'evidence/v0.3/regression/v0.2/phase-2-seed-variation.png', fullPage: true });
 
@@ -84,7 +83,7 @@ test.describe('v0.2 phase 2 seeded city', () => {
     expect(copiedSeed).toBe(await page.locator('#world-seed-input').inputValue());
     await page.locator('#world-reset').click();
     await expect(page.locator('#world-seed-input')).toHaveValue('334458');
-    await expect(page.locator('#world-preset-select')).toHaveValue('sakura');
+    await expect(page.locator('#world-legacy-note')).toContainText('Neon Megacity');
     await page.screenshot({ path: 'evidence/v0.3/regression/v0.2/phase-2-world-panel.png', fullPage: true, animations: 'disabled' });
 
     writeFileSync(

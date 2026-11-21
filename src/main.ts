@@ -59,7 +59,7 @@ import {
 } from './world/chunkRevisionHistory';
 import { WorldStreamer, type StreamerStats, type StreamerUpdate } from './world/worldStreamer';
 import type { WorldMode, WorldPresetId } from './world/worldConfig';
-import { buildWorldShareUrl, DEFAULT_WORLD_SEED, resolveWorldSettings, worldSettingsFromSearch } from './world/worldConfig';
+import { buildWorldShareUrl, DEFAULT_WORLD_SEED, GENERATOR_VERSION, resolveWorldSettings, worldSettingsFromSearch } from './world/worldConfig';
 import type { SurfaceQuery, WorldStats } from './world/worldTypes';
 
 type GameMode = 'title' | 'running' | 'paused' | 'failed';
@@ -293,11 +293,11 @@ const ui: GameUI = new GameUI({
   onVisualStimulationToggle: () => toggleVisualStimulation(),
   onCameraSelect: (view) => applyCameraMode(view),
   onRecordingHintDismiss: () => dismissRecordingHint(),
-  onWorldApply: (seedValue, preset, worldMode) => applyWorldSettings(seedValue, preset, worldMode),
+  onWorldApply: (seedValue, worldMode, upgrade) => applyWorldSettings(seedValue, worldMode, upgrade),
   onWorldRandom: () => createRandomSeed(),
   onWorldCopySeed: (seedValue) => { void copyWorldText(seedValue.trim(), '种子已复制。'); },
-  onWorldCopyLink: (seedValue, preset, worldMode) => { void copyWorldLink(seedValue, preset, worldMode); },
-  onWorldReset: () => ({ seed: String(DEFAULT_WORLD_SEED), preset: 'sakura', mode: 'stable' }),
+  onWorldCopyLink: (seedValue, worldMode) => { void copyWorldLink(seedValue, worldMode); },
+  onWorldReset: () => ({ seed: String(DEFAULT_WORLD_SEED), mode: 'stable' }),
 });
 
 ui.setBest(best);
@@ -360,19 +360,24 @@ const copyWorldText = async (text: string, successMessage: string): Promise<void
 
 const applyWorldSettings = (
   seedValue: string,
-  preset: WorldPresetId,
   worldMode: WorldMode,
+  upgrade = false,
 ): void => {
-  const next = resolveWorldSettings({ seed: seedValue, preset, mode: worldMode });
+  const next = resolveWorldSettings({
+    seed: seedValue, preset: baseWorldSettings.preset, mode: worldMode,
+    generatorVersion: upgrade ? GENERATOR_VERSION : baseWorldSettings.generatorVersion,
+  });
   window.location.assign(buildWorldShareUrl(window.location.href, next));
 };
 
 const copyWorldLink = async (
   seedValue: string,
-  preset: WorldPresetId,
   worldMode: WorldMode,
 ): Promise<void> => {
-  const next = resolveWorldSettings({ seed: seedValue, preset, mode: worldMode });
+  const next = resolveWorldSettings({
+    seed: seedValue, preset: baseWorldSettings.preset, mode: worldMode,
+    generatorVersion: baseWorldSettings.generatorVersion,
+  });
   await copyWorldText(buildWorldShareUrl(window.location.href, next), '分享链接已复制。');
 };
 

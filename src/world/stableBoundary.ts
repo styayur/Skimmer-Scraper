@@ -1,13 +1,15 @@
 import { fingerprintValues, seededRandom } from './deterministic';
 import { range } from './rng';
 import { terrainHeightAt } from './terrain';
-import { CHUNK_SIZE, type WorldSettings } from './worldConfig';
+import { cityDistrictAt } from './cityDistricts';
+import { CHUNK_SIZE, GENERATOR_VERSION, type WorldSettings } from './worldConfig';
 
 export interface BridgeLineDefinition {
   axis: 'x' | 'z';
   lineIndex: number;
   enabled: boolean;
   height: number;
+  supportBase?: number;
 }
 
 export interface BoundaryTerrainSample {
@@ -34,10 +36,31 @@ export const bridgeLineAt = (
     axis === 'x' ? 1 : 2,
     lineIndex,
   );
+  if (settings.generatorVersion === GENERATOR_VERSION) {
+    const location = lineIndex * settings.config.streetSpacing;
+    const district = axis === 'x'
+      ? cityDistrictAt(settings.seed, 0, location)
+      : cityDistrictAt(settings.seed, location, 0);
+    return {
+      enabled: random() < settings.config.bridgeFrequency + (district.crossings - 0.5) * 0.28,
+      height: settings.config.bridgeHeightMin + (axis === 'x' ? 0 : 28) + range(random, 0, 13),
+    };
+  }
   return {
     enabled: random() < settings.config.bridgeFrequency,
     height: range(random, settings.config.bridgeHeightMin, settings.config.bridgeHeightMax),
   };
+};
+
+export const bridgeTiersAt = (
+  settings: WorldSettings, axis: 'x' | 'z', lineIndex: number,
+): BridgeLineDefinition[] => {
+  const primary = { axis, lineIndex, ...bridgeLineAt(settings, axis, lineIndex) };
+  if (!primary.enabled || settings.generatorVersion !== GENERATOR_VERSION) return [primary];
+  const random = seededRandom(settings.seed, settings.generatorVersion, 'upper-bridge', axis, lineIndex);
+  const upper = primary.height + 74;
+  if (random() >= 0.48 || upper > settings.config.bridgeHeightMax) return [primary];
+  return [primary, { axis, lineIndex, enabled: true, height: upper, supportBase: primary.height }];
 };
 
 const boundaryTerrain = (settings: WorldSettings, chunkX: number, chunkZ: number): BoundaryTerrainSample[] => {
@@ -77,12 +100,12 @@ export const stableBoundaryProfile = (
   const bridges: BridgeLineDefinition[] = [];
   for (let line = Math.floor(z0 / spacing) - 1; line <= Math.ceil((z0 + CHUNK_SIZE) / spacing) + 1; line += 1) {
     if (line * spacing >= z0 && line * spacing < z0 + CHUNK_SIZE) {
-      bridges.push({ axis: 'x', lineIndex: line, ...bridgeLineAt(settings, 'x', line) });
+      bridges.push(...bridgeTiersAt(settings, 'x', line));
     }
   }
   for (let line = Math.floor(x0 / spacing) - 1; line <= Math.ceil((x0 + CHUNK_SIZE) / spacing) + 1; line += 1) {
     if (line * spacing >= x0 && line * spacing < x0 + CHUNK_SIZE) {
-      bridges.push({ axis: 'z', lineIndex: line, ...bridgeLineAt(settings, 'z', line) });
+      bridges.push(...bridgeTiersAt(settings, 'z', line));
     }
   }
   const terrain = boundaryTerrain(settings, chunkX, chunkZ);

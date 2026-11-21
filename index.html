@@ -138,7 +138,8 @@
         </section>
         <section>
           <h3 id="guide-world" tabindex="-1">世界与模型</h3>
-          <p>稳定世界可用种子和分享链接重现。短暂世界中的区块卸载后，内部布局可能变化。在机库可导入自包含 GLB 飞机，或切回内置机型。</p>
+          <p>城市的街谷、空中高架和浮岛随种子排布。稳定世界可重现，短暂世界的区块卸载后会变化。旧链接会打开对应的旧版城市。在机库可导入自包含 GLB 飞机，或切回内置机型。</p>
+          <p><a href="?seed=334458&amp;preset=sakura&amp;world=stable&amp;gen=2">打开旧版默认城市</a></p>
         </section>
         <section>
           <h3 id="guide-ai" tabindex="-1">AI 伴机与语音</h3>
@@ -284,23 +285,17 @@
           <button id="world-close" data-action="close" data-panel-focus class="icon-button" type="button" aria-label="关闭世界设置">关闭</button>
         </div>
         <p class="library-copy">
-          Stable World 可复现分享；Ephemeral World 会在区块彻底卸载后遗忘内部布局。分享链接包含种子、预设、模式与生成器版本。
+          使用种子重新生成城市。分享链接会保留原有种子、世界模式和生成器版本。
         </p>
         <form id="world-form" class="world-form">
           <label class="world-field">
             <span class="data-label">WORLD SEED</span>
             <input id="world-seed-input" name="seed" type="text" maxlength="64" autocomplete="off" spellcheck="false" />
           </label>
-          <div class="setting-heading"><label class="world-field">
-            <span class="data-label">PRESET</span>
-            <select id="world-preset-select" name="preset">
-              <option value="sakura">Sakura Dusk</option>
-              <option value="neon">Neon Megacity</option>
-              <option value="archipelago">Floating Archipelago</option>
-              <option value="randomized">Randomized</option>
-            </select>
-          </label><details class="setting-help"><summary aria-label="世界预设帮助">?</summary><p>预设决定建筑配置和视觉风格。 <a href="#guide-world" data-help-section="guide-world">阅读指南</a></p></details></div>
-          <p id="world-preset-description" class="world-description"></p>
+          <div id="world-legacy" hidden>
+            <p id="world-legacy-note" class="world-description"></p>
+            <button id="world-upgrade" class="secondary-button" type="button">用此种子生成新版城市</button>
+          </div>
           <div class="setting-heading"><label class="world-field">
             <span class="data-label">WORLD MEMORY</span>
             <select id="world-mode-select" name="world">
