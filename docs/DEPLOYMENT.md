@@ -11,16 +11,22 @@ This is the only deployment target. v0.2.0 was verified on 2026-11-09 for deploy
 assets, the world-mode selector, share-link parameters and an Ephemeral flight. That result belongs
 to the deployed commit above. It is not evidence that a later commit is live.
 
-For v0.3 onward, only stable `vMAJOR.MINOR.PATCH` tags trigger automatic deployment.
-Phase merges and RC tags leave production untouched. `workflow_dispatch` remains
-an explicit maintainer deployment action. For v0.5.0, use the stable tag after
-the release PR and the merged source pass CI and the candidate gates.
+The production deploy job runs only for `workflow_dispatch` on
+`refs/heads/main`. The `github-pages` environment uses its existing `main`
+branch rule for every release.
 
-Before promotion, check that the `github-pages` environment allows a Tag rule
-for `v0.5.0`. At candidate verification the only rule was the `main` Branch
-rule. Keep the release a prerelease while the tag is ineligible. A repository
-owner can add the exact tag under **Settings → Environments → github-pages →
-Deployment branches and tags**. [GitHub deployment environment rules](https://docs.github.com/en/actions/how-tos/deploy/configure-and-manage-deployments/manage-environments)
+After the release PR merges and CI succeeds on that exact `main` commit,
+dispatch the workflow with the verified SHA:
+
+```sh
+gh workflow run deploy-github-pages.yml --ref main -f "expected_sha=$verified_main_sha"
+```
+
+Set `verified_main_sha` to the full SHA that passed CI. The workflow compares
+the supplied SHA with its dispatch SHA before checkout
+and building. After the deployment and public browser smoke test pass for the
+same commit and version, create the stable tag on that commit and publish the
+GitHub Release with its archives and checksums. Tags serve as release references.
 
 Verify a candidate under the project subpath before publishing. For a local
 build, run `npm ci`, `npm run test:all`, and `npm run preview -- --base
