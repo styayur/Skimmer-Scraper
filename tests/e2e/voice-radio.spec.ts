@@ -112,10 +112,10 @@ test('real browser capture uploads a WAV to mocked DeepSeek, flies the scout ord
   await expect.poll(async () => (await state(page)).cooperation.lastPlan?.orders[0]?.action).toBe('SCOUT');
   const order = await state(page);
   const reply = order.cooperation.radio.history.find(line => line.source === 'model' && line.agent === 2)!;
-  await expect.poll(async () => (await state(page)).voice.lastCompleted?.id, { timeout: 20_000 }).toBe(reply.id);
+  await expect.poll(async () => (await state(page)).voice.playbackHistory.some(line => line.id === reply.id && line.provider === 'deepseek'),
+    { timeout: 20_000 }).toBe(true);
   await expect.poll(async () => (await state(page)).cooperation.trace.some(entry => entry.event === 'radio-outcome')).toBe(true);
   const after = await state(page);
-  expect(after.voice.lastCompleted?.provider).toBe('deepseek');
   expect(after.runTime - order.runTime).toBeGreaterThan(1.2);
   expect(uploads).toBe(1);
   expect(modelCommands).toBe(1);

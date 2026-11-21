@@ -17,6 +17,7 @@ interface Capture {
   finish?: () => void;
   timer: number;
 }
+interface CompletedSpeech { id: number; agent: number; provider: 'local' | 'deepseek'; stream?: SpeechStreamStats }
 interface Hooks {
   available(): boolean;
   send(text: string, useModel: boolean): boolean;
@@ -55,7 +56,7 @@ export class VoiceRadio {
   private commands = 0;
   private played = 0;
   private completed = 0;
-  private lastCompleted: { id: number; agent: number; provider: 'local' | 'deepseek'; stream?: SpeechStreamStats } | null = null;
+  private readonly playbackHistory: CompletedSpeech[] = [];
   private lastError: string | null = null;
 
   public constructor(model: ModelClient, private readonly hooks: Hooks) { this.deepSeek = new DeepSeekVoice(model); }
@@ -67,7 +68,8 @@ export class VoiceRadio {
   public snapshot() {
     return { ...this.settings, phase: this.capture?.phase ?? 'idle', played: this.played, completed: this.completed,
       speaking: this.playback?.line.agent ?? null, captures: this.captures, commands: this.commands, lastError: this.lastError,
-      lastCompleted: this.lastCompleted, cloud: this.deepSeek.snapshot(), limits: VOICE_LIMITS };
+      lastCompleted: this.playbackHistory.at(-1) ?? null, playbackHistory: this.playbackHistory.slice(),
+      cloud: this.deepSeek.snapshot(), limits: VOICE_LIMITS };
   }
 
   public configure(settings: VoiceSettings): void {
@@ -219,8 +221,7 @@ export class VoiceRadio {
             await stream.append(chunk);
           });
           await stream.finish();
-          this.completed++;
-          this.lastCompleted = { id: line.id, agent, provider: 'deepseek', stream: stats };
+          this.finishSpeech({ id: line.id, agent, provider: 'deepseek', stream: stats });
           return;
         } catch (error) {
           if (signal.aborted || began || !this.settings.localFallback) throw error;
@@ -230,11 +231,16 @@ export class VoiceRadio {
       if (signal.aborted || this.settings.output === 'off') return;
       await speakLocally(line.text, language, agent, signal);
       this.played++;
-      this.completed++;
-      this.lastCompleted = { id: line.id, agent, provider: 'local' };
+      this.finishSpeech({ id: line.id, agent, provider: 'local' });
     } catch (error) {
       if (!signal.aborted) this.lastError = failure(error);
     }
+  }
+
+  private finishSpeech(speech: CompletedSpeech): void {
+    this.completed++;
+    this.playbackHistory.push(speech);
+    if (this.playbackHistory.length > 8) this.playbackHistory.shift();
   }
 
   public silence(): boolean {

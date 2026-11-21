@@ -170,10 +170,10 @@ try {
   stage = 'speech playback';
   await page.waitForFunction(id => {
     const voice = window.__SKIMMER_SCRAPER__.snapshot().voice;
-    return voice.lastCompleted?.id === id && voice.lastCompleted.provider === 'deepseek';
+    return voice.playbackHistory.some(line => line.id === id && line.provider === 'deepseek');
   }, reply.id, { timeout: 32_000 });
-  observations.modelReplyPlayback = { agent: reply.agent, id: reply.id };
   const spoken = await snapshot();
+  observations.modelReplyPlayback = spoken.voice.playbackHistory.find(line => line.id === reply.id);
   captures.push({ stage, ...compact(spoken) });
   assert.equal(spoken.mode, 'running');
   assert.equal(errors.length, 0);
