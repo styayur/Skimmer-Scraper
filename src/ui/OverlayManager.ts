@@ -1,4 +1,4 @@
-export type Overlay = 'menu' | 'rules' | 'world' | 'library' | 'help';
+export type Overlay = 'menu' | 'rules' | 'world' | 'library' | 'help' | 'radio';
 
 interface View {
   name: Overlay;

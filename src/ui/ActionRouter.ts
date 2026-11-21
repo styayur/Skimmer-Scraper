@@ -11,10 +11,11 @@ interface Actions {
   start(): void;
   title(): void;
   camera(): void;
+  radioAvailable(): boolean;
 }
 
 const focusable = 'button:not(:disabled), a[href], summary, select:not(:disabled), input:not([type=file]):not(:disabled), textarea:not(:disabled)';
-const panels = { rules: 'rules', world: 'world', library: 'library', help: 'help', menu: 'menu' } as const;
+const panels = { rules: 'rules', world: 'world', library: 'library', help: 'help', menu: 'menu', radio: 'radio' } as const;
 
 export class ActionRouter {
   private resumeOnClose = false;
@@ -57,6 +58,7 @@ export class ActionRouter {
     }
     if (Object.hasOwn(panels, action)) {
       const name = panels[action as keyof typeof panels];
+      if (name === 'radio' && (mode === 'title' || mode === 'failed' || !this.actions.radioAvailable())) return false;
       if (current === name && !fromPanel) return this.route('close');
       this.open(name, name !== 'menu' && (fromPanel || current === 'menu'));
       return true;
@@ -89,6 +91,7 @@ export class ActionRouter {
     }
     this.resumeButton.hidden = mode !== 'running' && mode !== 'paused';
     this.titleButton.hidden = mode === 'title';
+    document.getElementById('radio-open')!.hidden = mode === 'title' || mode === 'failed' || !this.actions.radioAvailable();
     this.menuTitle.textContent = this.resumeButton.hidden ? '游戏菜单' : '飞行已暂停';
     this.overlays.open(name, drillDown, focus);
   }

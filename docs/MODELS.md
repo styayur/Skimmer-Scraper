@@ -45,3 +45,5 @@ IndexedDB model format stay the same.
 WebGL2 remains required for rendering. GLTF loading itself uses Three.js `GLTFLoader`; Draco or Meshopt
 compressed GLBs are not supported unless their decoders are added explicitly. Keep models self-contained
 and avoid external texture paths.
+
+For optional language models that power companion dialogue, see [Companion radio](RADIO.md).

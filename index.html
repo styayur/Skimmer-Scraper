@@ -60,6 +60,7 @@
         </div>
 
         <div id="companion-status" class="companion-status" role="status" aria-label="伴机状态" hidden></div>
+        <div id="radio-subtitle" class="radio-subtitle" role="status" aria-live="polite" aria-atomic="true" hidden></div>
         <div id="cockpit-frame" class="cockpit-frame" aria-hidden="true" hidden>
           <span class="cockpit-frame__left"></span>
           <span class="cockpit-frame__right"></span>
@@ -98,10 +99,34 @@
           <button id="world-open" type="button" class="secondary-button" data-action="world">世界 <kbd>G</kbd></button>
           <button id="library-open" type="button" class="secondary-button" data-action="library">机库 <kbd>M</kbd></button>
           <button type="button" class="secondary-button" data-action="help">操作指南 <kbd>H</kbd></button>
+          <button id="radio-open" type="button" class="secondary-button" data-action="radio" hidden>伴机电台 <kbd>T</kbd></button>
         </div>
           <button id="camera-button" class="utility-button" type="button" data-action="camera">视角 · 追尾 <kbd>C</kbd></button>
         <button id="pause-menu" class="secondary-button" type="button" data-action="title">返回标题</button>
       </section>
+      <aside id="radio-panel" class="library-panel radio-panel" role="dialog" aria-modal="true" aria-labelledby="radio-title" hidden>
+        <div class="library-header">
+          <h2 id="radio-title">伴机电台</h2>
+          <button id="radio-close" type="button" class="utility-button" data-action="close" aria-label="关闭伴机电台">关闭</button>
+        </div>
+        <ol id="radio-history" class="radio-history" aria-label="本次飞行对话"></ol>
+        <p id="radio-empty" class="world-description">给伴机下令，或询问当前飞行情况。</p>
+        <div class="radio-controls">
+          <label><input id="radio-mute" type="checkbox" /> 静音字幕</label>
+          <button id="radio-interrupt" type="button" class="text-button">清除播报</button>
+        </div>
+        <div class="radio-commands" aria-label="常用指令">
+          <button type="button" class="secondary-button" data-radio-command="一号领航">一号领航</button>
+          <button type="button" class="secondary-button" data-radio-command="二号侦察左侧">侦察左侧</button>
+          <button type="button" class="secondary-button" data-radio-command="全体集合">全体集合</button>
+        </div>
+        <form id="radio-form" class="world-form">
+          <label for="radio-input" class="data-label">文字指令或问题</label>
+          <input id="radio-input" data-panel-focus name="message" maxlength="240" autocomplete="off" spellcheck="false" required />
+          <button class="primary-button" type="submit">发送并继续飞行</button>
+          <p id="radio-form-status" class="world-description" role="status"></p>
+        </form>
+      </aside>
       <aside id="help-panel" class="library-panel guide-panel" role="dialog" aria-modal="true" aria-labelledby="help-title" hidden>
         <div class="library-header">
           <h2 id="help-title">操作指南</h2>
@@ -145,7 +170,7 @@
         </section>
         <section>
           <h3 id="guide-ai" tabindex="-1">AI 伴机与语音</h3>
-          <p>起飞前可设置最多三台自主伴机。编队跟随和领航可离线运行。模型协作需要自带 Key，服务商可能收费。当前版本支持结构化团队规划，语音入口将在后续版本提供。</p>
+          <p>按 T 打开伴机电台。可请求跟随、领航、侦察左侧、集合、保持队形、寻找安全路线或准备地表接力。未连接模型时，常用指令由本地伴机执行。模型协作需要自带 Key，服务商可能收费。</p>
         </section>
         <section>
           <h3 id="guide-advanced" tabindex="-1">高级设置</h3>
