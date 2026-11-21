@@ -114,8 +114,9 @@ async function fly(count, quality, seconds, soak) {
         const sorted = [...frames].sort((a, b) => a - b);
         const percentile = p => sorted[Math.floor((sorted.length - 1) * p)];
         const distanceMeters = samples.slice(1).reduce((total, sample, index) => {
-          const prior = samples[index].position;
-          return total + Math.hypot(sample.position.x - prior.x, sample.position.y - prior.y, sample.position.z - prior.z);
+          const prior = samples[index];
+          if (sample.world !== prior.world) return total;
+          return total + Math.hypot(sample.position.x - prior.position.x, sample.position.y - prior.position.y, sample.position.z - prior.position.z);
         }, 0);
         const peaks = Object.fromEntries(['chunks', 'staticBvhs', 'dynamicBvhs','movingStructures','drawCalls','triangles','geometries','textures','heap']
           .map(key => [key, samples.reduce((peak, sample) => Math.max(peak, sample[key] ?? 0), 0)]));

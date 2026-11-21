@@ -13,8 +13,29 @@ to the deployed commit above. It is not evidence that a later commit is live.
 
 For v0.3 onward, only stable `vMAJOR.MINOR.PATCH` tags trigger automatic deployment.
 Phase merges and RC tags leave production untouched. `workflow_dispatch` remains
-an explicit maintainer deployment action. Release gates and player-experience
-issues are recorded in acceptance/v0.3.0.json before a stable tag is created.
+an explicit maintainer deployment action. For v0.5.0, use the stable tag after
+the release PR and the merged source pass CI and the candidate gates.
+
+Verify a candidate under the project subpath before publishing. For a local
+build, run `npm ci`, `npm run test:all`, and `npm run preview -- --base
+/Skimmer-Scraper/`. Run `node scripts/verify-v050.mjs` with `SKIMMER_URL` set to
+that preview URL, `SKIMMER_EXPECTED_VERSION` set to the candidate version and
+`SKIMMER_EXPECTED_COMMIT` set to the built revision. Set `SKIMMER_JOURNEY_SETS=2`
+for two complete five-world runs in Chrome. The real GPU matrix and sustained
+flight are exercised by `node scripts/v050-gpu.mjs matrix` and `soak`.
+
+From the clean, verified release commit, use `npm run release:package -- <output>`
+to create the static and source ZIPs, the release manifest and `SHA256SUMS.txt`.
+Keep the lockfile and the build toolchain recorded in the manifest. Source ZIPs
+retain `SOURCE_REVISION.json` for a build without `.git`. The release's
+`v0.5.0.json` is generated beside the archives so it can include their hashes
+and the verified production SHA. Run `python scripts/verify-release-package.py
+<output>` to check both archives and their embedded revision data.
+
+After Pages reports a successful deployment, verify the public project URL with
+`node scripts/verify-v050.mjs` and the expected version and commit. The smoke
+loads real WebGL2, exercises flight, voice settings, local radio, a sky crossing
+and GLB loading, and checks asset URLs and source provenance. [Public build metadata](https://styayur.github.io/Skimmer-Scraper/build-info.json)
 
 The v0.3.0-rc.1 candidate is a GitHub prerelease with static/source ZIPs and
 SHA256 manifests; it does not dispatch Pages or change the latest stable release.

@@ -2,9 +2,11 @@
 import hashlib
 import json
 import pathlib
+import platform
 import subprocess
 import sys
 import zipfile
+import zlib
 from datetime import datetime, timezone
 
 root = pathlib.Path(__file__).resolve().parent.parent
@@ -33,6 +35,8 @@ with zipfile.ZipFile(static, 'w', compression=zipfile.ZIP_DEFLATED, compressleve
 source = destination / f'skimmer-scraper-v{version}-source.zip'
 paths = [p for p in git('ls-files').splitlines() if '/' not in p]
 paths += ['.github', 'src', 'public', 'tests', 'scripts', 'docs', 'licenses', 'acceptance']
+if git('ls-files', 'automation'):
+    paths.append('automation')
 subprocess.run(['git', 'archive', '--format=zip', '-o', str(source), 'HEAD', '--', *paths], cwd=root, check=True)
 with zipfile.ZipFile(source, 'a', compression=zipfile.ZIP_DEFLATED, compresslevel=9) as archive:
     supplements = {'SOURCE_REVISION.json': json.dumps(meta, indent=2) + '\n', 'evidence/v0.3/regression/v0.2/.gitkeep': ''}
@@ -45,8 +49,17 @@ manifest = {
     'version': version, 'sourceCommit': commit, 'sourceCommitTime': meta['sourceCommitTime'],
     'sourceUrl': meta['sourceUrl'], 'scope': 'Static distribution and complete corresponding project source/build instructions; historical screenshot evidence remains in GitHub.',
     'reproducibility': 'Sorted static ZIP entries, fixed commit timestamp/mode, compression level9. Same clean commit, lockfile and documented toolchain. Cross-platform ZIP identity is not asserted.',
+    'toolchain': {
+        'build': meta.get('toolchain'),
+        'packaging': { 'python': platform.python_version(), 'zlib': zlib.ZLIB_RUNTIME_VERSION,
+                       'platform': platform.system(), 'machine': platform.machine() },
+        'lockfileSha256': hashlib.sha256((root / 'package-lock.json').read_bytes()).hexdigest(),
+    },
     'assets': [{'name': p.name, 'bytes': p.stat().st_size, 'sha256': hashlib.sha256(p.read_bytes()).hexdigest()} for p in [static, source]],
 }
-(destination / 'release-manifest.json').write_text(json.dumps(manifest, indent=2) + '\n', encoding='utf-8')
-(destination / 'SHA256SUMS.txt').write_text(''.join(f"{a['sha256']}  {a['name']}\n" for a in manifest['assets']), encoding='utf-8')
+manifest_file = destination / 'release-manifest.json'
+manifest_file.write_text(json.dumps(manifest, indent=2) + '\n', encoding='utf-8', newline='\n')
+checksums = ''.join(f"{asset['sha256']}  {asset['name']}\n" for asset in manifest['assets'])
+checksums += f'{hashlib.sha256(manifest_file.read_bytes()).hexdigest()}  {manifest_file.name}\n'
+(destination / 'SHA256SUMS.txt').write_text(checksums, encoding='utf-8', newline='\n')
 print(json.dumps(manifest, indent=2))

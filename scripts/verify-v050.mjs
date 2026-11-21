@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import { execFileSync } from 'node:child_process';
+import { createHash } from 'node:crypto';
 import { existsSync, mkdirSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { chromium, firefox } from '@playwright/test';
@@ -54,6 +55,12 @@ try {
   assert.equal(evidence.build.version, expectedVersion);
   assert.equal(evidence.build.sourceCommit, expectedCommit);
   assert.equal(evidence.build.dirty, false);
+  const bundle = await page.locator('script[type="module"][src]').getAttribute('src');
+  const bundleUrl = new URL(bundle, base);
+  assert(bundleUrl.origin === base.origin && bundleUrl.pathname.startsWith(`${base.pathname}assets/`));
+  const bundleResponse = await page.request.get(bundleUrl.href);
+  assert(bundleResponse.ok());
+  evidence.bundle = { path: bundleUrl.pathname, sha256: createHash('sha256').update(await bundleResponse.body()).digest('hex') };
   evidence.webgl = await page.evaluate(() => {
     const gl = document.querySelector('canvas').getContext('webgl2');
     const extension = gl?.getExtension('WEBGL_debug_renderer_info');
@@ -145,7 +152,7 @@ try {
               return { expected: crossing, crossings: after.journey.crossings, phases: [...phases], camera, resultingCamera: after.cameraMode,
                 departure, arrival, clearance: Number.isFinite(minimum) ? minimum : null, mode: after.mode,
                 companionCoverage: after.companions.every(agent => agent.deployed && !agent.uncovered),
-                shieldImpacts: after.shieldImpacts, signature: after.journey.signatureUnlocked, release: after.worldReleases.at(-1) };
+                shieldImpacts: after.shieldImpacts, signature: after.journey.easterEggUnlocked, release: after.worldReleases.at(-1) };
             }
           }
         }, { attitude: attitudes[index], crossing: index + 1 });
@@ -158,6 +165,7 @@ try {
         assert(Math.abs(trace.departure.speed - trace.arrival.speed) < 1e-7);
         assert(trace.clearance === null || trace.clearance >= 6.5);
         assert(trace.release?.bvhAfter === 0 && trace.release.rootChildrenAfter === 0);
+        if (index === 4) assert(trace.signature);
       }
       evidence.journeys.push(traces);
       await page.evaluate(() => window.__SKIMMER_SCRAPER__.retry());
