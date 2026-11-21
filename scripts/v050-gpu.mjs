@@ -19,6 +19,7 @@ async function fly(count, quality, seconds, soak) {
   const errors = [];
   page.on('pageerror', error => errors.push(error.message));
   await page.addInitScript(count => {
+    localStorage.setItem('skimmer-scraper.rules.v3', JSON.stringify({ mode: 'free', shield: true }));
     localStorage.setItem('skimmer-scraper.companions.v3', JSON.stringify({ count, formation: 'wedge', behavior: 'formation' }));
   }, count);
   try {
@@ -26,6 +27,10 @@ async function fly(count, quality, seconds, soak) {
     url.search = '?autostart=1&seed=334458&gen=3';
     await page.goto(url.href);
     await page.waitForFunction(() => window.__SKIMMER_SCRAPER__?.snapshot().mode === 'running', null, { timeout: 90_000 });
+    assert(await page.evaluate(count => {
+      const state = window.__SKIMMER_SCRAPER__.snapshot();
+      return state.rules.mode === 'free' && state.rules.shield && state.companions.length === count;
+    }, count), 'Expected shielded Free Flight with the requested companion count');
     if (quality === 'high') {
       await page.keyboard.press('f');
       await page.locator('#advanced-flight-settings > summary').click();
@@ -97,10 +102,10 @@ async function fly(count, quality, seconds, soak) {
             if (now >= nextProgress) {
               const current = samples.at(-1);
               window.flightProgress({ wallSeconds: Math.round((now - start) / 1000), simulatedSeconds: Math.round(current.time),
-                z: Math.round(current.position.z), chunks: current.chunks, movingStructures: current.movingStructures });
+                z: Math.round(current.position.z), mode: current.mode, buffering: current.buffering, chunks: current.chunks, movingStructures: current.movingStructures });
               nextProgress += 60_000;
             }
-            if (now - start < seconds * 1000) requestAnimationFrame(frame);
+            if (now - start < seconds * 1000 && samples.at(-1).mode === 'running') requestAnimationFrame(frame);
             else resolve();
           };
           requestAnimationFrame(frame);
