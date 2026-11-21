@@ -120,6 +120,9 @@ test('the AudioWorklet supplies a WAV to mocked DeepSeek, flies the scout order 
   expect((await state(page)).voice.input).toBe('off');
   await openVoice(page, 'deepseek');
 
+  // A newly connected model starts one autonomous plan. Wait for that request
+  // before recording so the clip spans the manual request cooldown even on CI.
+  await expect.poll(async () => (await state(page)).cooperation.model.successes).toBe(1);
   await page.keyboard.down('v');
   await expect(page.locator('#voice-status')).toHaveAttribute('data-phase', 'recording');
   expect(await microphone(page)).toEqual({ calls: 1, states: ['live'] });
@@ -132,9 +135,11 @@ test('the AudioWorklet supplies a WAV to mocked DeepSeek, flies the scout order 
   expect((wave as { bytes: number }).bytes).toBeGreaterThan(5_760);
   await expect.poll(async () => (await state(page)).cooperation.lastPlan?.orders[0]?.action).toBe('SCOUT');
   const order = await state(page);
-  const reply = order.cooperation.radio.history.find(line => line.source === 'model' && line.agent === 2)!;
-  await expect.poll(async () => (await state(page)).voice.playbackHistory.some(line => line.id === reply.id && line.provider === 'deepseek'),
-    { timeout: 20_000 }).toBe(true);
+  await expect.poll(async () => {
+    const flight = await state(page);
+    const reply = flight.cooperation.radio.history.find(line => line.source === 'model' && line.agent === 2);
+    return reply !== undefined && flight.voice.playbackHistory.some(line => line.id === reply.id && line.provider === 'deepseek');
+  }, { timeout: 20_000 }).toBe(true);
   await expect.poll(async () => (await state(page)).cooperation.trace.some(entry => entry.event === 'radio-outcome')).toBe(true);
   const after = await state(page);
   expect(after.runTime - order.runTime).toBeGreaterThan(1.2);

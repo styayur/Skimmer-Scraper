@@ -26,6 +26,14 @@
       "chromiumTotal": 41,
       "jobLimitMinutes": 40
     },
+    "githubVoiceFixtureFailure": {
+      "sourceCommit": "6297ce7824621a3c509c9454abc0836ac12c1c50",
+      "url": "https://github.com/styayur/Skimmer-Scraper/actions/runs/44934219288",
+      "chromiumPassed": 40,
+      "chromiumTotal": 41,
+      "observed": "Both CI traces showed one successful autonomous model request, then the local SCOUT fallback when the spoken command arrived within the manual request interval. The test assumed one model reply existed and dereferenced it.",
+      "change": "Wait for the first autonomous model response before recording. Verify the matching model reply and DeepSeek PCM playback together."
+    },
     "github": "Required suite and merged-main results are recorded against their actual runs in the release report."
   },
   "browsers": {
