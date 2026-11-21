@@ -17,6 +17,7 @@
 - New pilots begin in shielded Free Flight with Precision controls, Chase and three wingmates. Chase and Cockpit share per-aircraft anchor presets. Old Nose preferences migrate to Cockpit.
 - Sky Inversion carries the camera, aircraft attitude and formation through a checked exit corridor. Distant mirrored skylines follow the world seed.
 - Legacy generator links still resolve to their original layouts and score keys.
+- GitHub Pages is deployed by a manual workflow run from `main`. Stable tags identify the verified deployed commit.
 
 ## 0.3.0-rc.1 — 2026-11-21
 

@@ -11,8 +11,8 @@ wedge formation. Existing settings, aircraft, seeds and scores carry forward.
 
 [Play on GitHub Pages](https://styayur.github.io/Skimmer-Scraper/)
 
-The v0.5 candidate is distributed through GitHub Releases. Pages updates after
-the stable tag passes the deployment environment rule.
+Stable builds are deployed to Pages by a manual run from `main`. GitHub
+Releases provides the verified build and its corresponding source.
 
 The seeded city mixes tower canyons, stacked bridges and floating districts.
 Static and animated GLB worlds can be imported from your device. A climb

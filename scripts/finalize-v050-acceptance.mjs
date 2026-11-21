@@ -19,7 +19,7 @@ const verified = read(join(destination, browserEvidence));
 const integrated = read('acceptance/v0.5/pr9-integration.json');
 const release = gh(['release', 'view', tag, '--json', 'url,tagName,isDraft,isPrerelease,assets']);
 assert(release.tagName === tag && !release.isDraft && release.isPrerelease === candidate);
-const prs = [27, 28, 29, 30, 31, 32, 33, 34, Number(finalPr)].map(number => {
+const prs = [...new Set([27, 28, 29, 30, 31, 32, 33, 34, 35, Number(finalPr)])].map(number => {
   const pr = gh(['pr', 'view', String(number), '--json', 'number,state,title,url,mergeCommit,statusCheckRollup']);
   assert.equal(pr.state, 'MERGED');
   const required = ['Typecheck, unit tests, build, browser tests', 'security Actions CodeQL'];
@@ -28,7 +28,7 @@ const prs = [27, 28, 29, 30, 31, 32, 33, 34, Number(finalPr)].map(number => {
   )));
   return { number: pr.number, title: pr.title, status: pr.state, url: pr.url, commit: pr.mergeCommit.oid };
 });
-const commit = prs.at(-1).commit;
+const commit = prs.find(pr => pr.number === Number(finalPr)).commit;
 assert(manifest.sourceCommit === commit && archives.sourceCommit === commit && reproducibility.sourceCommit === commit);
 assert(archives.status === 'passed' && reproducibility.status === 'passed');
 assert(verified.status === 'passed' && verified.build.sourceCommit === commit && verified.build.version === manifest.version);
@@ -38,9 +38,9 @@ const runs = (workflow, selector) => gh(['run', 'list', '--workflow', workflow, 
   '--limit', '12', '--json', 'databaseId,url,status,conclusion,event,headBranch']).find(run =>
   run.status === 'completed' && run.conclusion === 'success' && selector(run));
 const main = runs('ci.yml', run => run.headBranch === 'main' && ['push', 'workflow_dispatch'].includes(run.event));
-const pages = runs('deploy-github-pages.yml', run => run.headBranch === tag && run.event === 'push');
+const pages = runs('deploy-github-pages.yml', run => run.headBranch === 'main' && run.event === 'workflow_dispatch');
 assert(main, 'Merged main CI must succeed');
-const mainLog = ghText(['run', 'view', String(main.databaseId), '--log']).replace(/\u001b\[[0-9;]*m/g, '');
+const mainLog = ghText(['run', 'view', String(main.databaseId), '--log']).replace(/(?:\u001b\[|\^\[\[)[0-9;]*m/g, '');
 const unitCount = mainLog.match(/\bTests\s+(\d+)\s+passed\b/)?.[1];
 const browserCount = mainLog.match(/T[\d:.]+Z[ \t]+(\d+) passed \([^\r\n]+\)[ \t]*\r?$/m)?.[1];
 const browserFlaky = Number(mainLog.match(/T[\d:.]+Z[ \t]+(\d+) flaky[ \t]*\r?$/m)?.[1] ?? 0);
@@ -52,13 +52,17 @@ if (candidate) {
   assert(production.status === 'blocked' && production.observed.url === publicUrl);
   assert(production.observed.sourceCommit !== commit && production.tag === 'v0.5.0');
 } else {
-  assert(pages && verified.url.startsWith(publicUrl), 'Tag-triggered Pages and its public smoke must both succeed');
+  assert(pages && verified.url === publicUrl, 'Manual main-branch Pages and its public smoke must both succeed');
   production = { status: 'verified', url: verified.url, sourceCommit: verified.build.sourceCommit, version: verified.build.version };
 }
+const tagCommit = tag => {
+  const reference = execFileSync('git', ['ls-remote', '--tags', 'origin', `refs/tags/${tag}`, `refs/tags/${tag}^{}`], { encoding: 'utf8' }).trim();
+  return reference.split('\n').at(-1)?.split(/\s/)[0];
+};
+assert.equal(tagCommit(tag), commit, 'Release tag must identify the verified commit');
 const historical = Object.fromEntries(['v0.1.0', 'v0.2.0', 'v0.3.0-rc.1'].map(tag => {
   const release = gh(['release', 'view', tag, '--json', 'tagName,url,isDraft,isPrerelease']);
-  const reference = execFileSync('git', ['ls-remote', '--tags', 'origin', `refs/tags/${tag}`, `refs/tags/${tag}^{}`], { encoding: 'utf8' }).trim();
-  const commit = reference.split('\n').at(-1)?.split(/\s/)[0];
+  const commit = tagCommit(tag);
   assert(release.tagName === tag && !release.isDraft && /^[a-f0-9]{40}$/.test(commit));
   return [tag, { commit, url: release.url, prerelease: release.isPrerelease }];
 }));
