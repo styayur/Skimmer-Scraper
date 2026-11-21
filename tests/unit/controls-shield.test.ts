@@ -38,7 +38,7 @@ describe('flight controls and shield', () => {
   it('supports remapped menu buttons and uses directional repeat only while navigating', () => {
     const buttons = Array.from({ length: 17 }, () => ({ pressed: false, value: 0 }));
     const axes = [0, 0, 0, 0, 0.8];
-    const pad = { connected: true, index: 0, id: 'Unmapped controller', mapping: '', buttons, axes } as Gamepad;
+    const pad = { connected: true, index: 0, id: 'Unmapped controller', mapping: '', buttons, axes } as unknown as Gamepad;
     const settings = normalizeControls({ confirmButton: 5, backButton: 6, menuButton: 10, rollAxis: 4 });
     const source = new GamepadInputSource(() => [pad]);
     const actions: string[] = [];
