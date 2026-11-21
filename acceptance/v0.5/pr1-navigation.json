@@ -1,0 +1,26 @@
+{
+  "phase": 1,
+  "pullRequest": 27,
+  "codeCommit": "6516a83842d9f70402fab00496bc4d30d1084431",
+  "localVerification": {
+    "typecheck": "passed",
+    "unit": {
+      "passed": 134,
+      "failed": 0
+    },
+    "newNavigationCases": [
+      "Live title and keyboard UI",
+      "Standard Gamepad API synthetic integration"
+    ],
+    "regressionRun": "See required GitHub checks for the exact PR head"
+  },
+  "screenshotReview": {
+    "desktopTitle": "evidence/v0.5/pr1-navigation/title-desktop.png",
+    "mobileTitle": "evidence/v0.5/pr1-navigation/title-mobile.png",
+    "mobileGuide": "evidence/v0.5/pr1-navigation/guide-mobile.png",
+    "gamepadFocus": "evidence/v0.5/pr1-navigation/pause-desktop.png",
+    "renderer": "Playwright Chromium WebGL2 via SwiftShader"
+  },
+  "hardwareTrace": "evidence/v0.5/pr1-navigation/hardware-gamepad.json",
+  "hardwareTraceScope": "Native button and stick behavior verified in headed Chrome; native directional-pad axis values captured, then decoded in code and covered by unit tests."
+}
