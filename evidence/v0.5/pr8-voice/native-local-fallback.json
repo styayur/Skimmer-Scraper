@@ -1,0 +1,40 @@
+{
+  "platform": {
+    "localVoices": [
+      "zh-CN",
+      "zh-CN",
+      "zh-CN"
+    ],
+    "recognitionAvailability": {
+      "en-US": "downloadable",
+      "zh-CN": "downloadable"
+    }
+  },
+  "mandarin": {
+    "nativeSpeech": true,
+    "action": "REGROUP",
+    "error": null,
+    "events": [
+      {
+        "event": "start",
+        "language": "zh-CN"
+      },
+      {
+        "event": "end"
+      }
+    ],
+    "installed": [
+      "zh-CN",
+      "zh-CN",
+      "zh-CN"
+    ],
+    "remoteRequests": 0
+  },
+  "english": {
+    "nativeSpeech": false,
+    "action": "REGROUP",
+    "textReply": "Copy. Regrouping on your flight path.",
+    "error": "local-tts-unavailable",
+    "remoteRequests": 0
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "phase": 8,
+  "sourceCommit": "a977a8b9a246ef22b3e124587b56a76af7551a0a",
+  "nativeProviderRun": {
+    "browser": "Chrome 157 on Windows, Radeon 780M via ANGLE D3D11, 1920x1080",
+    "captureInput": "Controlled Windows speech fixture fed through Chromium virtual microphone and the production AudioWorklet. No WAV is included in the game or evidence.",
+    "asr": { "http": 200, "audioMs": 5738, "latencyMsRounded": 747 },
+    "dialogue": { "http": 200, "model": "deepseek-flash", "latencyMsRounded": 1013, "tokens": 1571, "validation": "accepted" },
+    "flight": { "agent": 2, "order": "SCOUT", "target": "route-left", "meters": 66.35 },
+    "tts": { "http": 200, "voice": "tide", "language": "en-US", "firstByteMsRounded": 914, "pcmBytes": 132480, "scheduledBuffers": 28, "replyPlaybackCompleted": true },
+    "disconnectFallback": "Local REGROUP with the model disconnected",
+    "pageErrors": 0,
+    "raw": "evidence/v0.5/pr8-voice/deepseek-voice.json"
+  },
+  "hardwarePermission": { "states": ["prompt", "granted"], "liveMicrophoneTracks": 1, "asrRequests": 0, "raw": "evidence/v0.5/pr8-voice/hardware-permission.json" },
+  "browserPermissionLifecycle": { "denial": "mic-denied", "revocation": "mic-revoked", "trackAfterRevocation": "ended", "asrRequests": 0, "raw": "evidence/v0.5/pr8-voice/browser-permissions.json" },
+  "noKey": { "mandarinSystemVoice": "completed", "englishTextFallback": "passed", "outboundRequests": 0, "raw": "evidence/v0.5/pr8-voice/native-local-fallback.json" },
+  "movingFlightFrameTime": {
+    "baseline": { "frames": 956, "distanceMeters": 536.8, "p50Ms": 8.3, "p95Ms": 8.5, "p99Ms": 16.7, "fps": 117.3 },
+    "duringTtsPlayback": { "frames": 325, "p50Ms": 8.3, "p95Ms": 8.5, "p99Ms": 16.7, "fps": 117.6 },
+    "scope": "Short paired flight sample while audio buffers were scheduled. The release-duration hardware tests are separate."
+  },
+  "privacy": { "rawAudioStored": false, "exactEnvironmentCredentialMatches": 0, "scannedFiles": 136, "raw": "evidence/v0.5/pr8-voice/privacy-scan.json" },
+  "limitations": [
+    "The physical microphone check exercised authorization and short-press cleanup. The full paid command used controlled spoken input.",
+    "This Windows installation exposed Mandarin local speech voices. English captions remained available when an English local voice was unavailable. Device recognition requires an installed language pack."
+  ]
+}
