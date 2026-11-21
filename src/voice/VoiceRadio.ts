@@ -55,6 +55,7 @@ export class VoiceRadio {
   private commands = 0;
   private played = 0;
   private completed = 0;
+  private lastCompleted: { id: number; agent: number; provider: 'local' | 'deepseek' } | null = null;
   private lastError: string | null = null;
 
   public constructor(model: ModelClient, private readonly hooks: Hooks) { this.deepSeek = new DeepSeekVoice(model); }
@@ -62,7 +63,7 @@ export class VoiceRadio {
   public snapshot() {
     return { ...this.settings, phase: this.capture?.phase ?? 'idle', played: this.played, completed: this.completed,
       speaking: this.playback?.line.agent ?? null, captures: this.captures, commands: this.commands, lastError: this.lastError,
-      cloud: this.deepSeek.snapshot(), limits: VOICE_LIMITS };
+      lastCompleted: this.lastCompleted, cloud: this.deepSeek.snapshot(), limits: VOICE_LIMITS };
   }
 
   public configure(settings: VoiceSettings): void {
@@ -212,6 +213,7 @@ export class VoiceRadio {
           });
           await stream.finish();
           this.completed++;
+          this.lastCompleted = { id: line.id, agent, provider: 'deepseek' };
           return;
         } catch (error) {
           if (signal.aborted || began || !this.settings.localFallback) throw error;
@@ -222,6 +224,7 @@ export class VoiceRadio {
       await speakLocally(line.text, language, agent, signal);
       this.played++;
       this.completed++;
+      this.lastCompleted = { id: line.id, agent, provider: 'local' };
     } catch (error) {
       if (!signal.aborted) this.lastError = failure(error);
     }
