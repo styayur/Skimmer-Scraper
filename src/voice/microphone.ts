@@ -24,7 +24,7 @@ export const openMicrophone = async (signal: AbortSignal): Promise<MicSession> =
   signal.addEventListener('abort', close, { once: true });
   try {
     stream = await navigator.mediaDevices.getUserMedia({ audio: {
-      channelCount: 1, echoCancellation: true, noiseSuppression: true, autoGainControl: true,
+      channelCount: 1, echoCancellation: true, noiseSuppression: false, autoGainControl: false,
     } });
     signal.throwIfAborted();
     await Promise.all([context.audioWorklet.addModule(workletUrl), ready]);

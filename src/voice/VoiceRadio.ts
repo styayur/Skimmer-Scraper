@@ -60,6 +60,7 @@ export class VoiceRadio {
 
   public constructor(model: ModelClient, private readonly hooks: Hooks) { this.deepSeek = new DeepSeekVoice(model); }
   public get inputMode(): VoiceMode { return this.settings.input; }
+  public get ducking(): boolean { return !!this.playback || this.capture?.phase === 'opening' || this.capture?.phase === 'recording'; }
   public snapshot() {
     return { ...this.settings, phase: this.capture?.phase ?? 'idle', played: this.played, completed: this.completed,
       speaking: this.playback?.line.agent ?? null, captures: this.captures, commands: this.commands, lastError: this.lastError,

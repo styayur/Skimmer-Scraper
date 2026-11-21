@@ -21,6 +21,7 @@ export class FlightAudio {
   private engineOscillators: OscillatorNode[] = [];
   private noiseBuffer: AudioBuffer | null = null;
   private muted = false;
+  private ducked = false;
   private paused = false;
   private started = false;
 
@@ -35,7 +36,7 @@ export class FlightAudio {
     this.started = true;
     this.paused = false;
     void this.context.resume().catch(() => { /* Autoplay denial or page teardown: flight remains usable. */ });
-    this.master.gain.setTargetAtTime(this.muted ? 0 : 0.24, this.context.currentTime, 0.08);
+    this.master.gain.setTargetAtTime(this.flightVolume(), this.context.currentTime, 0.08);
     this.engineGain.gain.setTargetAtTime(0.13, this.context.currentTime, 0.1);
   }
 
@@ -50,14 +51,22 @@ export class FlightAudio {
     if (!this.context || !this.master || !this.engineGain || !this.started) return;
     this.paused = false;
     void this.context.resume().catch(() => { /* The context can close while resume is pending. */ });
-    this.master.gain.setTargetAtTime(this.muted ? 0 : 0.24, this.context.currentTime, 0.08);
+    this.master.gain.setTargetAtTime(this.flightVolume(), this.context.currentTime, 0.08);
   }
 
   public setMuted(muted: boolean): void {
     this.muted = muted;
     if (!this.context || !this.master) return;
-    this.master.gain.setTargetAtTime(muted ? 0 : this.paused ? 0 : 0.24, this.context.currentTime, 0.05);
+    this.master.gain.setTargetAtTime(this.flightVolume(), this.context.currentTime, 0.05);
   }
+
+  public setDucked(ducked: boolean): void {
+    if (ducked === this.ducked) return;
+    this.ducked = ducked;
+    if (this.context && this.master && this.started) this.master.gain.setTargetAtTime(this.flightVolume(), this.context.currentTime, 0.025);
+  }
+
+  private flightVolume(): number { return this.muted || this.paused ? 0 : this.ducked ? 0.035 : 0.24; }
 
   public update(speed: number, boosting: boolean, proximity = 0): void {
     if (!this.context || !this.engineFilter || !this.engineGain || !this.noiseGain || this.paused) return;

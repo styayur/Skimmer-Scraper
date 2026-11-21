@@ -1,0 +1,156 @@
+import assert from 'node:assert/strict';
+import { mkdirSync, writeFileSync } from 'node:fs';
+import { resolve } from 'node:path';
+import { chromium } from '@playwright/test';
+
+const key = process.env.DEEPSEEK_API_KEY;
+if (process.env.SKIMMER_REAL_VOICE !== '1' || !key) throw new Error('Set SKIMMER_REAL_VOICE=1 and DEEPSEEK_API_KEY to run paid voice tests.');
+const physical = process.env.SKIMMER_REAL_MIC === '1';
+const wav = process.env.SKIMMER_VOICE_WAV;
+if (!physical && !wav) throw new Error('Provide a spoken test fixture in SKIMMER_VOICE_WAV, or explicitly use SKIMMER_REAL_MIC=1.');
+const base = process.env.SKIMMER_URL ?? 'http://127.0.0.1:4178/?autostart=1&seed=334458&gen=3';
+const output = 'evidence/v0.5/pr8-voice';
+const basename = physical ? 'hardware-microphone' : 'deepseek-voice';
+const proxy = process.env.HTTPS_PROXY ? new URL(process.env.HTTPS_PROXY) : null;
+const browser = await chromium.launch({ channel: 'chrome', headless: false,
+  args: ['--use-angle=d3d11', '--disable-software-rasterizer',
+    ...(!physical ? ['--use-fake-device-for-media-stream', `--use-file-for-fake-audio-capture=${resolve(wav)}%noloop`] : [])],
+  ...(proxy ? { proxy: { server: proxy.origin, bypass: '127.0.0.1,localhost',
+    ...(proxy.username ? { username: decodeURIComponent(proxy.username), password: decodeURIComponent(proxy.password) } : {}) } } : {}),
+});
+const captures = [];
+const errors = [];
+const observations = { auth: [], captures, errors, physical, build: null };
+const endpoints = new Set(['/v1/tools/asr', '/v1/tools/tts', '/chat/completions']);
+let stage = 'startup';
+let page;
+const snapshot = () => page.evaluate(() => window.__SKIMMER_SCRAPER__.snapshot());
+const compact = (state) => ({ mode: state.mode, position: state.position, elapsed: state.runTime, voice: state.voice,
+  model: state.cooperation.model, agents: state.companions.map(agent => ({ id: agent.id, position: agent.position, task: agent.task })) });
+const save = (name, data) => {
+  const serialized = JSON.stringify(data, null, 2);
+  if (serialized.includes(key)) throw new Error('Sensitive evidence refused');
+  mkdirSync(output, { recursive: true });
+  writeFileSync(`${output}/${name}.json`, `${serialized}\n`);
+};
+
+try {
+  const context = await browser.newContext({ viewport: { width: 1920, height: 1080 } });
+  if (!physical) await context.grantPermissions(['microphone'], { origin: new URL(base).origin });
+  page = await context.newPage();
+  page.on('pageerror', () => errors.push('pageerror'));
+  page.on('response', response => {
+    const url = new URL(response.url());
+    if (url.origin === 'https://api.deepseek.com' && endpoints.has(url.pathname)) observations.auth.push({ path: url.pathname, status: response.status() });
+  });
+  page.on('requestfailed', request => {
+    const url = new URL(request.url());
+    if (url.origin === 'https://api.deepseek.com' && endpoints.has(url.pathname)) observations.auth.push({ path: url.pathname, network: request.failure()?.errorText });
+  });
+  await page.addInitScript(() => {
+    if (!navigator.mediaDevices?.getUserMedia) return;
+    const open = navigator.mediaDevices.getUserMedia.bind(navigator.mediaDevices);
+    window.__voiceEvidence = { attempts: 0, tracks: [] };
+    navigator.mediaDevices.getUserMedia = async (options) => {
+      window.__voiceEvidence.attempts++;
+      const stream = await open(options);
+      window.__voiceEvidence.tracks.push(...stream.getAudioTracks());
+      return stream;
+    };
+  });
+  await page.goto(base);
+  await page.waitForFunction(() => window.__SKIMMER_SCRAPER__?.snapshot().mode === 'running', null, { timeout: 90_000 });
+  observations.build = await page.evaluate(async () => {
+    const gl = document.querySelector('canvas').getContext('webgl2');
+    const ext = gl.getExtension('WEBGL_debug_renderer_info');
+    return { provenance: await fetch(new URL('./build-info.json', location.href)).then(response => response.json()),
+      renderer: ext ? gl.getParameter(ext.UNMASKED_RENDERER_WEBGL) : null, agent: navigator.userAgent,
+      permissionBefore: await navigator.permissions.query({ name: 'microphone' }).then(status => status.state) };
+  });
+  await page.evaluate(async () => {
+    const game = window.__SKIMMER_SCRAPER__;
+    game.pause();
+    await game.setPose({ x: 0, y: 340, z: 120 }, { yaw: 0, pitch: 0, roll: 0 });
+    game.resume();
+    document.title = 'Skimmer-Scraper 实体麦克风验收';
+  });
+  stage = 'configuration';
+  await page.keyboard.press('f');
+  await page.locator('#advanced-flight-settings > summary').click();
+  await page.locator('.model-settings summary').click();
+  await page.locator('#ai-budget').fill('4');
+  await page.locator('#ai-timeout').fill('20000');
+  await page.locator('#ai-interval').fill('60');
+  await page.locator('#ai-key').fill(key);
+  await page.locator('#ai-connect').click();
+  await page.locator('.voice-settings summary').click();
+  await page.locator('#voice-input').selectOption('deepseek');
+  await page.locator('#voice-output').selectOption('deepseek');
+  await page.locator('#voice-fallback').uncheck();
+  await page.locator('#rules-close').click();
+  assert.equal(await page.evaluate(() => window.__voiceEvidence.attempts), 0);
+  const before = await snapshot();
+  captures.push({ stage: 'before', ...compact(before) });
+  stage = 'recording';
+  if (!physical) await page.keyboard.down('v');
+  else console.log(JSON.stringify({ status: 'operator-ready', waitSeconds: 360, permission: observations.build.permissionBefore }));
+  await page.waitForFunction(() => window.__SKIMMER_SCRAPER__.snapshot().voice.phase === 'recording', null, { timeout: physical ? 360_000 : 15_000 });
+  observations.microphone = await page.evaluate(async () => ({
+    permission: await navigator.permissions.query({ name: 'microphone' }).then(status => status.state),
+    liveTracks: window.__voiceEvidence.tracks.filter(track => track.readyState === 'live').length,
+    attempts: window.__voiceEvidence.attempts,
+  }));
+  assert.equal(observations.microphone.permission, 'granted');
+  assert.equal(observations.microphone.liveTracks, 1);
+  mkdirSync(output, { recursive: true });
+  await page.screenshot({ path: `${output}/${basename}-recording.png`, animations: 'disabled' });
+  if (!physical) {
+    await page.waitForTimeout(5_100);
+    await page.keyboard.up('v');
+  }
+  stage = 'transcription';
+  await page.waitForFunction(() => {
+    const state = window.__SKIMMER_SCRAPER__.snapshot().voice;
+    return state.commands > 0 || (state.phase === 'idle' && state.lastError);
+  }, null, { timeout: 40_000 });
+  const transcribed = await snapshot();
+  captures.push({ stage, ...compact(transcribed) });
+  assert.equal(transcribed.voice.commands, 1);
+  assert.equal(await page.evaluate(() => window.__voiceEvidence.tracks.filter(track => track.readyState === 'live').length), 0);
+  stage = 'model action';
+  await page.waitForFunction(() => window.__SKIMMER_SCRAPER__.snapshot().cooperation.trace.some(event => event.event === 'radio-interpretation'), null, { timeout: 32_000 });
+  const ordered = await snapshot();
+  const interpretation = ordered.cooperation.trace.find(event => event.event === 'radio-interpretation')?.data;
+  observations.interpretation = interpretation;
+  const dialogue = ordered.cooperation.radio.history.filter(line => line.source === 'player' || line.source === 'model');
+  if (!physical) observations.dialogue = dialogue;
+  assert.equal(interpretation?.source, 'model');
+  assert(interpretation.action?.some(order => order.action === 'SCOUT' && order.targetId === 'route-left' && order.agents.includes(2)));
+  const reply = dialogue.filter(line => line.source === 'model' && line.agent === 2).at(-1);
+  assert(reply);
+  await page.waitForFunction(request => window.__SKIMMER_SCRAPER__.snapshot().cooperation.trace.some(event => event.event === 'radio-outcome' && event.data.requestId === request),
+    interpretation.requestId, { timeout: 15_000 });
+  const moved = await snapshot();
+  observations.outcome = moved.cooperation.trace.find(event => event.event === 'radio-outcome' && event.data.requestId === interpretation.requestId)?.data;
+  assert(observations.outcome.positions.some(agent => agent.id === 2 && agent.task === 'SCOUT' && agent.meters > 5));
+  stage = 'speech playback';
+  await page.waitForFunction(id => {
+    const voice = window.__SKIMMER_SCRAPER__.snapshot().voice;
+    return voice.lastCompleted?.id === id && voice.lastCompleted.provider === 'deepseek';
+  }, reply.id, { timeout: 32_000 });
+  observations.modelReplyPlayback = { agent: reply.agent, id: reply.id };
+  const spoken = await snapshot();
+  captures.push({ stage, ...compact(spoken) });
+  assert.equal(spoken.mode, 'running');
+  assert.equal(errors.length, 0);
+  for (const path of endpoints) assert(observations.auth.some(entry => entry.path === path && entry.status === 200));
+  save(basename, observations);
+  console.log(JSON.stringify({ status: 'passed', physical, responses: observations.auth, outcome: observations.outcome, voice: spoken.voice }));
+} catch (error) {
+  const failed = page && await snapshot().then(compact).catch(() => null);
+  save(`${basename}-incomplete`, { ...observations, stage, failed });
+  console.error(JSON.stringify({ status: 'incomplete', physical, stage, errorType: error?.name, failed }));
+  process.exitCode = 1;
+} finally {
+  await browser.close();
+}

@@ -1137,6 +1137,7 @@ const frame = (now: number): void => {
   radioPanel.update(mode === 'running' && !journey.active);
   const voiceInFlight = voiceAvailable();
   voiceRadio.update(voiceInFlight, symbiosis.radio.current());
+  audio.setDucked(voiceInFlight && voiceRadio.ducking);
   updateVoicePanel(voiceInFlight);
   updateModelStatus();
   journeyHud.update(journey, mode === 'running' && activeWorld instanceof WorldStreamer, runRules.config.mode === 'challenge' || (flightState?.position.y ?? 0) > 420);
