@@ -16,6 +16,12 @@ Phase merges and RC tags leave production untouched. `workflow_dispatch` remains
 an explicit maintainer deployment action. For v0.5.0, use the stable tag after
 the release PR and the merged source pass CI and the candidate gates.
 
+Before promotion, check that the `github-pages` environment allows a Tag rule
+for `v0.5.0`. At candidate verification the only rule was the `main` Branch
+rule. Keep the release a prerelease while the tag is ineligible. A repository
+owner can add the exact tag under **Settings → Environments → github-pages →
+Deployment branches and tags**. [GitHub deployment environment rules](https://docs.github.com/en/actions/how-tos/deploy/configure-and-manage-deployments/manage-environments)
+
 Verify a candidate under the project subpath before publishing. For a local
 build, run `npm ci`, `npm run test:all`, and `npm run preview -- --base
 /Skimmer-Scraper/`. Run `node scripts/verify-v050.mjs` with `SKIMMER_URL` set to

@@ -11,6 +11,9 @@ wedge formation. Existing settings, aircraft, seeds and scores carry forward.
 
 [Play on GitHub Pages](https://styayur.github.io/Skimmer-Scraper/)
 
+The v0.5 candidate is distributed through GitHub Releases. Pages updates after
+the stable tag passes the deployment environment rule.
+
 The seeded city mixes tower canyons, stacked bridges and floating districts.
 Static and animated GLB worlds can be imported from your device. A climb
 through **520 m** can lead to the next sky, carrying the aircraft's bank and
@@ -28,9 +31,9 @@ Run `npm ci`, `npm run build`, and `npm run preview` to play locally. The
 static ZIP runs on a static HTTP server. The build uses WebGL2 and contains
 its source revision, licenses and credits. [Releases](https://github.com/styayur/Skimmer-Scraper/releases) · [Deployment](docs/DEPLOYMENT.md) · [Acceptance](docs/ACCEPTANCE.md)
 
-<img src="evidence/phase-4-v0.1.0-title.png" alt="Skimmer-Scraper title screen over the sakura-dusk city" width="100%">
+<img src="evidence/v0.5/pr9-release/candidate-chrome-title.png" alt="Skimmer-Scraper title screen over the sakura-dusk city" width="100%">
 
-<img src="evidence/phase-4-v0.1.0-flight.png" alt="Close-surface flight through the city" width="100%">
+<img src="evidence/v0.5/pr9-release/gpu-matrix-balanced.png" alt="Three wingmates in flight across the dense city" width="100%">
 
 ## Challenge mode
 

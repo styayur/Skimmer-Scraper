@@ -35,6 +35,10 @@ with zipfile.ZipFile(static, 'w', compression=zipfile.ZIP_DEFLATED, compressleve
 source = destination / f'skimmer-scraper-v{version}-source.zip'
 paths = [p for p in git('ls-files').splitlines() if '/' not in p]
 paths += ['.github', 'src', 'public', 'tests', 'scripts', 'docs', 'licenses', 'acceptance']
+paths += [
+    'evidence/v0.5/pr9-release/candidate-chrome-title.png',
+    'evidence/v0.5/pr9-release/gpu-matrix-balanced.png',
+]
 if git('ls-files', 'automation'):
     paths.append('automation')
 subprocess.run(['git', 'archive', '--format=zip', '-o', str(source), 'HEAD', '--', *paths], cwd=root, check=True)
@@ -53,7 +57,8 @@ manifest = {
         'build': meta.get('toolchain'),
         'packaging': { 'python': platform.python_version(), 'zlib': zlib.ZLIB_RUNTIME_VERSION,
                        'platform': platform.system(), 'machine': platform.machine() },
-        'lockfileSha256': hashlib.sha256((root / 'package-lock.json').read_bytes()).hexdigest(),
+        'lockfileSha256': hashlib.sha256(subprocess.check_output(
+            ['git', 'show', 'HEAD:package-lock.json'], cwd=root)).hexdigest(),
     },
     'assets': [{'name': p.name, 'bytes': p.stat().st_size, 'sha256': hashlib.sha256(p.read_bytes()).hexdigest()} for p in [static, source]],
 }

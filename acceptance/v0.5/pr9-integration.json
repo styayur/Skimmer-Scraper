@@ -1,0 +1,360 @@
+{
+  "phase": 9,
+  "version": "0.5.0-rc.1",
+  "hardwareAndBrowserEvidenceSource": "68e83a71028e041245fd60ab1261185154eb4277",
+  "tests": {
+    "localFirstPass": {
+      "npmCi": "passed",
+      "typecheck": "passed",
+      "unitTestsPassed": 174,
+      "build": "passed",
+      "chromiumPassed": 40,
+      "chromiumTotal": 41,
+      "failure": "Chromium page fixture setup exceeded 45 seconds before the GLB test body started."
+    },
+    "focusedRerun": {
+      "chromiumPassed": 2,
+      "chromiumTotal": 2,
+      "repeatEach": 2,
+      "test": "imports simple, high-detail and animated GLB worlds with local-only decoding"
+    },
+    "github": "Required suite and merged-main results are recorded against their actual runs in the release report."
+  },
+  "browsers": {
+    "chrome": {
+      "version": "157.0.8103.79",
+      "status": "passed",
+      "scope": "candidate-chrome",
+      "webgl": {
+        "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+        "renderer": "ANGLE (AMD, AMD Radeon 780M Graphics (0x00001900) Direct3D11 vs_5_0 ps_5_0, D3D11)"
+      },
+      "raw": "evidence/v0.5/pr9-release/candidate-chrome.json"
+    },
+    "msedge": {
+      "version": "158.0.4370.33",
+      "status": "passed",
+      "scope": "candidate-msedge",
+      "webgl": {
+        "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+        "renderer": "ANGLE (AMD, AMD Radeon 780M Graphics (0x00001900) Direct3D11 vs_5_0 ps_5_0, D3D11)"
+      },
+      "raw": "evidence/v0.5/pr9-release/candidate-msedge.json"
+    },
+    "firefox": {
+      "version": "159.0",
+      "status": "passed",
+      "scope": "candidate-firefox",
+      "webgl": {
+        "version": "WebGL 2.0",
+        "renderer": "ANGLE (AMD, Radeon R9 200 Series Direct3D11 vs_5_0 ps_5_0), or similar"
+      },
+      "raw": "evidence/v0.5/pr9-release/candidate-firefox.json"
+    }
+  },
+  "hardware": {
+    "adapter": "ANGLE (AMD, AMD Radeon 780M Graphics (0x00001900) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+    "driver": "32.0.32029.2010",
+    "window": [
+      1920,
+      1080
+    ],
+    "minimumFlightSeconds": 900,
+    "soak": {
+      "environment": {
+        "renderer": "ANGLE (AMD, AMD Radeon 780M Graphics (0x00001900) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+        "webgl": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/157.0.0.0 Safari/537.36",
+        "viewport": [
+          1920,
+          1080
+        ],
+        "build": {
+          "version": "0.5.0-rc.1",
+          "sourceCommit": "f4ff056067927227792630da36951323548a41f5",
+          "sourceCommitTime": "2026-11-22T00:31:32+08:00",
+          "dirty": false,
+          "sourceUrl": "https://github.com/styayur/Skimmer-Scraper/tree/f4ff056067927227792630da36951323548a41f5"
+        }
+      },
+      "count": 3,
+      "quality": "balanced",
+      "soak": true,
+      "requestedSeconds": 930,
+      "pageErrors": [],
+      "taskMs": 397031.223,
+      "wallSeconds": 930.0035999999984,
+      "simulatedSeconds": 926.1916666659884,
+      "distanceMeters": 93860.86812162834,
+      "frameCount": 109857,
+      "p50Ms": 8.399999999906868,
+      "p95Ms": 8.5,
+      "p99Ms": 16.599999999976717,
+      "maximumMs": 167,
+      "fps": 118.12534919219686,
+      "peaks": {
+        "chunks": 30,
+        "staticBvhs": 30,
+        "movingStructures": 8,
+        "drawCalls": 481,
+        "triangles": 389550,
+        "geometries": 460,
+        "textures": 26,
+        "heap": 139844188
+      },
+      "distanceIncludingWorldSwapMeters": 99610.22555269202,
+      "notes": "Fleet and moving-structure counts were observed throughout. Dynamic BVHs use streamer statistics in the separate matrix. Distance excludes the world-frame change.",
+      "longTasks": [
+        {
+          "at": 72586.69999999925,
+          "ms": 51
+        }
+      ],
+      "oneSecondSamples": 930,
+      "raw": "evidence/v0.5/pr9-release/gpu-soak.json"
+    },
+    "gpuMatrix": {
+      "runSeconds": 15,
+      "raw": "evidence/v0.5/pr9-release/gpu-matrix.json",
+      "runs": [
+        {
+          "quality": "balanced",
+          "companions": 0,
+          "p50Ms": 8.3,
+          "p95Ms": 8.5,
+          "p99Ms": 16.7,
+          "fps": 116.82,
+          "peaks": {
+            "chunks": 28,
+            "staticBvhs": 28,
+            "dynamicBvhs": 8,
+            "movingStructures": 8,
+            "drawCalls": 449,
+            "triangles": 346486,
+            "geometries": 460,
+            "textures": 26,
+            "heap": 69878637
+          }
+        },
+        {
+          "quality": "balanced",
+          "companions": 1,
+          "p50Ms": 8.4,
+          "p95Ms": 8.6,
+          "p99Ms": 24.7,
+          "fps": 113.5,
+          "peaks": {
+            "chunks": 28,
+            "staticBvhs": 28,
+            "dynamicBvhs": 8,
+            "movingStructures": 8,
+            "drawCalls": 449,
+            "triangles": 346432,
+            "geometries": 460,
+            "textures": 26,
+            "heap": 68467930
+          }
+        },
+        {
+          "quality": "balanced",
+          "companions": 2,
+          "p50Ms": 8.4,
+          "p95Ms": 8.5,
+          "p99Ms": 16.8,
+          "fps": 115.59,
+          "peaks": {
+            "chunks": 28,
+            "staticBvhs": 28,
+            "dynamicBvhs": 8,
+            "movingStructures": 8,
+            "drawCalls": 451,
+            "triangles": 346454,
+            "geometries": 460,
+            "textures": 26,
+            "heap": 68782626
+          }
+        },
+        {
+          "quality": "balanced",
+          "companions": 3,
+          "p50Ms": 8.4,
+          "p95Ms": 16.6,
+          "p99Ms": 25,
+          "fps": 112.24,
+          "peaks": {
+            "chunks": 28,
+            "staticBvhs": 28,
+            "dynamicBvhs": 8,
+            "movingStructures": 8,
+            "drawCalls": 447,
+            "triangles": 344452,
+            "geometries": 460,
+            "textures": 26,
+            "heap": 68298539
+          }
+        },
+        {
+          "quality": "high",
+          "companions": 0,
+          "p50Ms": 8.4,
+          "p95Ms": 8.5,
+          "p99Ms": 16.9,
+          "fps": 114.65,
+          "peaks": {
+            "chunks": 28,
+            "staticBvhs": 28,
+            "dynamicBvhs": 8,
+            "movingStructures": 8,
+            "drawCalls": 461,
+            "triangles": 349244,
+            "geometries": 460,
+            "textures": 26,
+            "heap": 70402979
+          }
+        },
+        {
+          "quality": "high",
+          "companions": 1,
+          "p50Ms": 8.4,
+          "p95Ms": 8.7,
+          "p99Ms": 16.8,
+          "fps": 113.28,
+          "peaks": {
+            "chunks": 28,
+            "staticBvhs": 28,
+            "dynamicBvhs": 8,
+            "movingStructures": 8,
+            "drawCalls": 463,
+            "triangles": 349190,
+            "geometries": 460,
+            "textures": 26,
+            "heap": 72293003
+          }
+        },
+        {
+          "quality": "high",
+          "companions": 2,
+          "p50Ms": 8.4,
+          "p95Ms": 8.5,
+          "p99Ms": 16.8,
+          "fps": 114.15,
+          "peaks": {
+            "chunks": 28,
+            "staticBvhs": 28,
+            "dynamicBvhs": 8,
+            "movingStructures": 8,
+            "drawCalls": 463,
+            "triangles": 349208,
+            "geometries": 460,
+            "textures": 26,
+            "heap": 75213993
+          }
+        },
+        {
+          "quality": "high",
+          "companions": 3,
+          "p50Ms": 8.4,
+          "p95Ms": 8.5,
+          "p99Ms": 16.7,
+          "fps": 116.41,
+          "peaks": {
+            "chunks": 28,
+            "staticBvhs": 28,
+            "dynamicBvhs": 8,
+            "movingStructures": 8,
+            "drawCalls": 463,
+            "triangles": 348434,
+            "geometries": 460,
+            "textures": 26,
+            "heap": 74783763
+          }
+        }
+      ]
+    },
+    "voiceFrameTime": "acceptance/v0.5/pr8-voice.json"
+  },
+  "skyInversion": {
+    "completeJourneys": 2,
+    "crossings": 10,
+    "measuredSeamGapMs": [
+      161.5,
+      221.4
+    ],
+    "lowestMeasuredRecoveryClearanceMeters": 12.3,
+    "unchangedRollAndAirspeed": true,
+    "raw": "evidence/v0.5/pr9-release/candidate-chrome.json"
+  },
+  "worldImport": {
+    "cycles": [
+      {
+        "variant": "arches",
+        "bvh": 2,
+        "dynamicBvh": 0,
+        "release": {
+          "seed": 4034987637,
+          "bvhBefore": 2,
+          "bvhAfter": 0,
+          "dynamicBvhBefore": 0,
+          "dynamicBvhAfter": 0,
+          "rootChildrenAfter": 0,
+          "disposedGeometryCount": 3
+        }
+      },
+      {
+        "variant": "animated",
+        "bvh": 2,
+        "dynamicBvh": 1,
+        "release": {
+          "seed": 3016777078,
+          "bvhBefore": 2,
+          "bvhAfter": 0,
+          "dynamicBvhBefore": 1,
+          "dynamicBvhAfter": 0,
+          "rootChildrenAfter": 0,
+          "disposedGeometryCount": 4
+        }
+      },
+      {
+        "variant": "detailed",
+        "bvh": 2,
+        "dynamicBvh": 0,
+        "release": {
+          "seed": 943772975,
+          "bvhBefore": 2,
+          "bvhAfter": 0,
+          "dynamicBvhBefore": 0,
+          "dynamicBvhAfter": 0,
+          "rootChildrenAfter": 0,
+          "disposedGeometryCount": 4
+        }
+      }
+    ],
+    "raw": "evidence/v0.5/pr9-release/candidate-chrome.json",
+    "licensedSamples": "acceptance/v0.5/pr5-world.json"
+  },
+  "resourceStability": {
+    "retryCount": 6,
+    "refresh": {
+      "localAircraft": 1,
+      "camera": "cockpit",
+      "legacyScore": "24.7"
+    },
+    "retryRaw": "evidence/v0.5/pr9-release/native-retries-migration.json",
+    "dynamicBvhs": 8,
+    "packageBuild": "evidence/v0.5/pr9-release/candidate-source-rebuild.json",
+    "modelDisconnectAndReconnect": "acceptance/v0.5/pr7-radio.json",
+    "microphoneRevocation": "acceptance/v0.5/pr8-voice.json"
+  },
+  "humanControls": {
+    "gamepad": "acceptance/v0.5/pr1-navigation.json",
+    "microphone": "acceptance/v0.5/pr8-voice.json"
+  },
+  "limitations": [
+    "Physical microphone verification covered device authorization and cleanup. The full spoken command used a controlled Chromium microphone source with real DeepSeek services.",
+    "Browsers with no installed speech recognition language pack retain typed input. This Windows system had Mandarin local speech synthesis and used subtitles for English.",
+    "WebGL renderer counts and JavaScript heap samples are resource proxies. Hardware GPU-memory byte counts were outside the sample.",
+    "Native Edge and Firefox coverage was project-subpath smoke. The full automated browser suite used Chromium.",
+    "Rigid GLB transforms share moving collision BVHs. Skeletal and morphing mesh deformation uses the documented proxy approximation.",
+    "Source rebuilding worked on Windows and Linux. Build metadata and source map bytes depend on the toolchain."
+  ]
+}

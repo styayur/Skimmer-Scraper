@@ -44,6 +44,10 @@ for asset in manifest['assets']:
             revision[field] != manifest[field] for field in ('sourceCommit', 'version', 'sourceUrl')
         ):
             raise SystemExit('Archive revision metadata or license files do not match')
+        if revision_name == 'SOURCE_REVISION.json' and (
+            hashlib.sha256(archive.read('package-lock.json')).hexdigest() != manifest['toolchain']['lockfileSha256']
+        ):
+            raise SystemExit('Source lockfile does not match the manifest')
         audio_files = []
         scanned = 0
         for member in archive.infolist():

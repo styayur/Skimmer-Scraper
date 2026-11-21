@@ -16,10 +16,12 @@ ASR, model and TTS calls. [Voice acceptance](../acceptance/v0.5/pr8-voice.json)
 | Dynamic collisions | [PR6](../acceptance/v0.5/pr6-motion.json) |
 | Live model dialogue | [PR7](../acceptance/v0.5/pr7-radio.json) |
 | Voice radio | [PR8](../acceptance/v0.5/pr8-voice.json) |
+| Candidate integration and hardware QA | [PR9](../acceptance/v0.5/pr9-integration.json) |
 
-The final machine-readable report is `v0.5.0.json` in the release assets. It
-binds the merged source, browser and hardware evidence, archive hashes and
-the verified public deployment. [GitHub Releases](https://github.com/styayur/Skimmer-Scraper/releases)
+The candidate's `v0.5.0-rc.1.json` binds merged source, browser and hardware
+evidence, archive hashes and the deployment gate. The stable `v0.5.0.json`
+also requires a production smoke test and the exact Pages deployment run.
+[GitHub Releases](https://github.com/styayur/Skimmer-Scraper/releases)
 
 # v0.3 candidate acceptance
 

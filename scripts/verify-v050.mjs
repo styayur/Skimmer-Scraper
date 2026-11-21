@@ -108,7 +108,10 @@ try {
   assert.equal(await page.locator('#voice-output').inputValue(), 'off');
   assert(await page.locator('#voice-language').isVisible());
   evidence.voiceSettings = ['voice-input', 'voice-output', 'voice-language'];
-  if (family === 'chrome') await image('voice-settings');
+  if (family === 'chrome') {
+    await page.locator('#voice-output').scrollIntoViewIfNeeded();
+    await image('voice-settings');
+  }
   await page.locator('#rules-close').click();
 
   stage = 'local text command';
