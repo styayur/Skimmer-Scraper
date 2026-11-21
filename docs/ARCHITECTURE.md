@@ -45,6 +45,16 @@ then use their usual avoidance during descent and recovery.
 `MirrorSky` derives an inverted skyline from the active world seed and palette.
 It follows the camera at a fixed offset, uses one batched mesh and frees that
 mesh on every world exchange. The world streamer and surface queries never see it.
+
+## Finite imported worlds
+
+`WorldImporter` checks the container, decode budgets and resource references before
+loading a GLB. `SceneAnalyzer` retains visual materials and converts solid meshes
+to world-space triangles. `ImportedWorldAdapter` uses the existing BVH index for
+surface and obstacle geometry. Flight, shields and companions query both, while
+proximity and Surface Relay query the surface index. `WorldResourceManager`
+keeps the binary and display metadata in separate IndexedDB stores and updates
+both in one transaction. See [Local GLB worlds](WORLD-IMPORT.md).
 Each generator also owns one shared shadow depth material. Real-GPU lifecycle
 instrumentation found a disposed ground map being uploaded again through the
 renderer-shared shadow material; per-world ownership releases that sampler state.

@@ -2,6 +2,7 @@ import { clamp, distance, forwardFromAttitude, type Vec3 } from '../core/math';
 import type { FlightState } from '../flight/flightModel';
 import type { CompanionTeam, CompanionWorld, AgentTask } from '../companions/AgentController';
 import type { RunRulesState } from '../game/runRules';
+import { queryFlightSurface } from '../world/worldTypes';
 import { attemptRelay, createRelay, createTrust, relayEligibility, trustEvent, type TrustEvent } from '../game/cooperation';
 import { ModelClient, type ModelReply } from './modelClient';
 import { validatePlan } from './validator';
@@ -49,12 +50,12 @@ export class SymbiosisRuntime {
       targets.push({id:side===0?'route-ahead':side<0?'route-left':'route-right',kind:'route',position,clearance:hit?.distance??null});
     }
     for(const agent of this.team.agents){
-      const hit=c.world.queryNearest(agent.flight.position,32.01);
+      const hit=queryFlightSurface(c.world,agent.flight.position,32.01);
       if(agent.deployed&&!agent.uncovered&&hit&&hit.distance>6&&hit.distance<=32)
         targets.push({id:`surface-${agent.id}`,kind:'surface',agentId:agent.id,position:{...agent.flight.position},clearance:hit.distance});
     }
     return{requestId:`${this.epoch}-${++this.serial}`,epoch:this.epoch,time:this.time,seed:c.seed,
-      player:{position:{...c.player.position},velocity:{...c.player.velocity},grace:c.rules.grace,graceLimit:c.rules.config.graceSeconds,surfaceDistance:c.world.queryNearest(c.player.position,90)?.distance??null,mode:c.rules.config.mode},
+      player:{position:{...c.player.position},velocity:{...c.player.velocity},grace:c.rules.grace,graceLimit:c.rules.config.graceSeconds,surfaceDistance:queryFlightSurface(c.world,c.player.position,90)?.distance??null,mode:c.rules.config.mode},
       trust:this.trust.value,riskLimit:clamp(0.15+this.trust.value*0.65,0.15,0.8),charges:this.relay.charges,
       relayReady:this.team.agents.some(partner=>!relayEligibility(this.relay,{time:this.time,trust:this.trust.value,player:c.player.position,rules:c.rules,world:c.world,partner,requested:true})),
       agents:this.team.agents.map(a=>({id:a.id,position:{...a.flight.position},velocity:{...a.flight.velocity},task:a.task,surfaceDistance:a.surfaceDistance,deployed:a.deployed})),
@@ -133,7 +134,7 @@ export class SymbiosisRuntime {
     if(!partner)return c.rules;
     const result=attemptRelay(this.relay,{time:this.time,trust:this.trust.value,player:c.player.position,rules:c.rules,partner,world:c.world,requested});
     this.relay=result.state;c.rules=result.rules;this.event(result.success?'relay-success':'relay-failure',`relay-${id}`,1);
-    this.record('relay',{agent:id,success:result.success,reason:result.reason,bonus:result.bonus,charges:this.relay.charges,player:{...c.player.position},partner:{...partner.flight.position},surface: c.world.queryNearest(partner.flight.position,33)?.distance??null});
+    this.record('relay',{agent:id,success:result.success,reason:result.reason,bonus:result.bonus,charges:this.relay.charges,player:{...c.player.position},partner:{...partner.flight.position},surface: queryFlightSurface(c.world,partner.flight.position,33)?.distance??null});
     if(result.success)this.relayFlash={from:{...c.player.position},to:{...partner.flight.position},until:this.time+1};
     return result.rules;
   }

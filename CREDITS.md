@@ -14,7 +14,7 @@ generation service, textures or runtime dependencies were added for this feature
 - Skimmer-Scraper source code and original procedural world/aircraft geometry: AGPL-3.0-only for v0.3 onward; historical MIT grants retained, © 2026 styayur.
 - Sky, facade textures, signage, blossom, particles, aircraft materials, engine sound and wind noise
   are generated at runtime by this repository. Imported GLB files remain user-owned local data and are
-  not shipped with the game. 	ests/fixtures/test-aircraft.glb is an original synthetic test fixture.
+  not shipped with the game. The aircraft and four world test fixtures are original assets.
 - src/audio/synth.ts contains an original WebAudio engine/wind synthesis graph; no audio recordings are
   bundled.
 
@@ -35,6 +35,13 @@ generation service, textures or runtime dependencies were added for this feature
 Exact transitive dependency versions are recorded in `package-lock.json`; their license terms remain
 in their respective packages. Font files are distributed through Fontsource under the SIL Open Font
 License 1.1.
+
+Local world imports use codec builds shipped with Three.js. Draco by Google and Basis Universal by
+Binomial LLC use [Apache-2.0](licenses/APACHE-2.0.txt). Basis Universal includes its
+[attribution notice](licenses/BASIS-UNIVERSAL-NOTICE.txt). Meshoptimizer 1.1 by Arseny Kapoulkine
+uses its [MIT license](licenses/MESHOPTIMIZER-MIT.txt).
+Three.js also bundles Don McCurdy's [KTX-Parse](licenses/KTX-PARSE-LICENSE.txt) and
+[zstddec-wasm](licenses/ZSTDDEC-LICENSE.txt). The latter includes the Zstandard license.
 
 Wrangler (MIT OR Apache-2.0) was previously a devDependency used only for the cancelled Cloudflare
 Pages path. It is no longer installed. Git history retains the exact versions that were used.

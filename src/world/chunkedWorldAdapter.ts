@@ -62,7 +62,7 @@ export class ChunkedWorldAdapter implements SurfaceProvider {
     return [...this.chunks.keys()];
   }
 
-  public queryNearest(position: Vec3, maxDistance: number): SurfaceQuery | null {
+  public queryNearest(position: Vec3, maxDistance: number, onlyChunk?: string): SurfaceQuery | null {
     if (!(maxDistance >= 0)) return null;
     this.queryPoint.set(position.x, position.y, position.z);
     this.lastBroadPhaseCandidates = 0;
@@ -73,6 +73,7 @@ export class ChunkedWorldAdapter implements SurfaceProvider {
     const bestPoint = new THREE.Vector3();
 
     for (const chunk of this.chunks.values()) {
+      if (onlyChunk && chunk.id !== onlyChunk) continue;
       this.localPoint.copy(this.queryPoint).sub(chunk.origin);
       if (chunk.bounds.distanceToPoint(this.localPoint) > bestDistance) continue;
       this.lastBroadPhaseCandidates += 1;

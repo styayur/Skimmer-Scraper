@@ -18,8 +18,9 @@ export interface RunRulesState {
 }
 
 export interface SurfaceSample {
-  /** Exact distance to the nearest solid surface, or null when nothing is within query range. */
+  /** Exact distance to a surface that grants proximity credit. */
   distance: number | null;
+  collisionDistance?: number | null;
 }
 
 export const createRunRules = (config: Partial<RuleConfig> = {}): RunRulesState => ({
@@ -43,7 +44,8 @@ export const updateRunRules = (
     ? Math.max(0, surface.distance)
     : null;
 
-  if (distance !== null && distance <= COLLISION_RADIUS && !state.config.shield) {
+  const collision = surface.collisionDistance === undefined ? distance : surface.collisionDistance;
+  if (collision !== null && collision <= COLLISION_RADIUS && !state.config.shield) {
     return {
       ...state,
       elapsed: state.elapsed + dt,

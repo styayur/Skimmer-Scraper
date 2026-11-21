@@ -7,7 +7,7 @@ const GLB_MAGIC = 0x46546c67;
 const JSON_CHUNK = 0x4e4f534a;
 const BIN_CHUNK = 0x004e4942;
 
-interface GltfJson {
+export interface GltfJson {
   asset?: { version?: string };
   accessors?: Array<{ count?: number }>;
   meshes?: Array<{
@@ -51,31 +51,40 @@ export const assertSelfContainedGltfUris = (value: unknown, path = 'gltf'): void
   }
 };
 
-export const inspectGlb = (buffer: ArrayBuffer): GlbInspection => {
+export const readGlbContainer = (buffer: ArrayBuffer, maxBytes: number, options: { strict?: boolean; maxJsonBytes?: number } = {}): {
+  json: GltfJson;
+  binary: Uint8Array | null;
+} => {
   if (buffer.byteLength < 20) fail('GLB is too small.');
   const view = new DataView(buffer);
   if (view.getUint32(0, true) !== GLB_MAGIC) fail('File is not a binary glTF (GLB) container.');
   if (view.getUint32(4, true) !== 2) fail('Only GLB version 2 is supported.');
   const declaredLength = view.getUint32(8, true);
   if (declaredLength !== buffer.byteLength) fail('GLB length header does not match the file.');
-  if (declaredLength > MAX_GLB_BYTES) fail('GLB exceeds the 48 MB local import limit.');
+  if (declaredLength > maxBytes) fail(`GLB exceeds the ${maxBytes / (1024 * 1024)} MB local import limit.`);
 
   let offset = 12;
   let jsonChunk: Uint8Array | null = null;
-  let hasBinaryChunk = false;
+  let binary: Uint8Array | null = null;
   while (offset + 8 <= declaredLength) {
     const chunkLength = view.getUint32(offset, true);
     const chunkType = view.getUint32(offset + 4, true);
     const start = offset + 8;
     const end = start + chunkLength;
+    if (options.strict && (chunkLength % 4 !== 0 || (offset === 12 && chunkType !== JSON_CHUNK)
+          || (chunkType === JSON_CHUNK && jsonChunk) || (chunkType === BIN_CHUNK && binary))) {
+      fail('GLB chunk order or alignment is invalid.');
+    }
     if (end > declaredLength) fail('GLB chunk length exceeds the container.');
     if (chunkType === JSON_CHUNK && !jsonChunk) {
+      if (chunkLength > (options.maxJsonBytes ?? maxBytes)) fail('GLB scene metadata exceeds the import limit.');
       jsonChunk = new Uint8Array(buffer, start, chunkLength);
-    } else if (chunkType === BIN_CHUNK) {
-      hasBinaryChunk = true;
+    } else if (chunkType === BIN_CHUNK && !binary) {
+      binary = new Uint8Array(buffer, start, chunkLength);
     }
     offset = end;
   }
+  if (options.strict && offset !== declaredLength) fail('GLB ends with an incomplete chunk.');
   if (!jsonChunk) fail('GLB has no JSON chunk.');
   const jsonBytes = jsonChunk as Uint8Array;
 
@@ -86,11 +95,15 @@ export const inspectGlb = (buffer: ArrayBuffer): GlbInspection => {
   } catch {
     fail('GLB JSON chunk is invalid.');
   }
-  if (!parsed || typeof parsed !== 'object') fail('GLB JSON root is invalid.');
+  if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) fail('GLB JSON root is invalid.');
   const json = parsed as GltfJson;
   if (json.asset?.version !== '2.0') fail('GLB asset version must be 2.0.');
   assertSelfContainedGltfUris(json);
+  return { json, binary };
+};
 
+export const inspectGlb = (buffer: ArrayBuffer): GlbInspection => {
+  const { json, binary } = readGlbContainer(buffer, MAX_GLB_BYTES);
   let triangles = 0;
   for (const mesh of json.meshes ?? []) {
     for (const primitive of mesh.primitives ?? []) {
@@ -107,12 +120,12 @@ export const inspectGlb = (buffer: ArrayBuffer): GlbInspection => {
   }
 
   return {
-    sizeBytes: declaredLength,
+    sizeBytes: buffer.byteLength,
     triangles,
     generator: typeof (json.asset as { generator?: unknown } | undefined)?.generator === 'string'
       ? String((json.asset as { generator?: unknown }).generator)
       : null,
-    hasBinaryChunk,
+    hasBinaryChunk: binary !== null,
   };
 };
 

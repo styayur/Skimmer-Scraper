@@ -1,7 +1,7 @@
 import { clamp, distance, forwardFromAttitude, type Vec3 } from '../core/math';
 import { createFlightState, type FlightState } from '../flight/flightModel';
 import { resolveShield } from '../game/shield';
-import type { SurfaceProvider } from '../world/worldTypes';
+import { queryFlightSurface, type SurfaceProvider } from '../world/worldTypes';
 import { normalizeCompanions, type CompanionSettings } from './settings';
 
 export type AgentTask = 'FORMATION_FOLLOW' | 'INDEPENDENT_FOLLOW' | 'LEAD' | 'REGROUP' | 'AVOID' | 'RECOVER' | 'SCOUT' | 'PROTECT' | 'RELAY' | 'HOLD';
@@ -177,7 +177,7 @@ export class CompanionTeam {
   }
   private perceive(agent: AgentState, player: FlightState, world: CompanionWorld): void {
     agent.decisions++;
-    const nearest = world.queryNearest(agent.flight.position, 90);
+    const nearest = queryFlightSurface(world, agent.flight.position, 90);
     agent.surfaceDistance = nearest?.distance ?? null;
     const horizon = Math.min(0.65, 35 / Math.max(18, agent.flight.speed));
     const predicted = add(agent.flight.position, scale(agent.flight.velocity, horizon));
