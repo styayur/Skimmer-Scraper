@@ -1,9 +1,5 @@
 import { expect, test, type Page } from '@playwright/test';
 
-test.use({ channel: 'chromium', launchOptions: { args: [
-  '--use-angle=swiftshader', '--enable-webgl', '--ignore-gpu-blocklist', '--use-fake-device-for-media-stream',
-] } });
-
 const api = 'https://api.deepseek.com';
 const credential = 'synthetic-voice-browser-credential';
 const state = (page: Page) => page.evaluate(() => window.__SKIMMER_SCRAPER__!.snapshot());
@@ -36,15 +32,44 @@ const start = async (page: Page) => {
 };
 
 const observeMicrophone = (page: Page) => page.addInitScript(() => {
-  const media = navigator.mediaDevices;
-  const open = media.getUserMedia.bind(media);
-  const probe = { calls: 0, tracks: [] as MediaStreamTrack[] };
+  const probe = { calls: 0, tracks: [] as MediaStreamTrack[], wave: null as Record<string, number | string> | null };
   Object.assign(window, { microphoneProbe: probe });
-  media.getUserMedia = async constraints => {
+  // Simulate the device in CI. The browser runs the production AudioWorklet,
+  // recording graph, WAV encoder, permission observer, and playback graph.
+  navigator.mediaDevices.getUserMedia = async () => {
     probe.calls++;
-    const stream = await open(constraints);
-    probe.tracks.push(...stream.getTracks());
-    return stream;
+    if ((await navigator.permissions.query({ name: 'microphone' as PermissionName })).state !== 'granted') {
+      throw new DOMException('Permission denied', 'NotAllowedError');
+    }
+    const audio = new AudioContext();
+    const oscillator = audio.createOscillator();
+    const destination = audio.createMediaStreamDestination();
+    oscillator.connect(destination);
+    oscillator.start();
+    await audio.resume();
+    const [track] = destination.stream.getAudioTracks();
+    const stop = track.stop.bind(track);
+    track.stop = () => {
+      if (track.readyState === 'ended') return;
+      stop();
+      oscillator.stop();
+      void audio.close();
+    };
+    probe.tracks.push(track);
+    return destination.stream;
+  };
+  const fetch = window.fetch.bind(window);
+  window.fetch = async (input, init) => {
+    if (input === 'https://api.deepseek.com/v1/tools/asr' && init?.body instanceof FormData) {
+      const file = init.body.get('file');
+      if (file instanceof File) {
+        const bytes = await file.arrayBuffer();
+        const header = new DataView(bytes);
+        probe.wave = { name: file.name, type: file.type, header: new TextDecoder().decode(bytes.slice(0, 4)),
+          channels: header.getUint16(22, true), sampleRate: header.getUint32(24, true), depth: header.getUint16(34, true), bytes: header.getUint32(40, true) };
+      }
+    }
+    return fetch(input, init);
   };
 });
 const microphone = (page: Page) => page.evaluate(() => {
@@ -52,7 +77,7 @@ const microphone = (page: Page) => page.evaluate(() => {
   return { calls, states: tracks.map(track => track.readyState) };
 });
 
-test('real browser capture uploads a WAV to mocked DeepSeek, flies the scout order and plays streamed PCM', async ({ page, context }) => {
+test('the AudioWorklet supplies a WAV to mocked DeepSeek, flies the scout order and plays streamed PCM', async ({ page, context }) => {
   test.setTimeout(160_000);
   await context.grantPermissions(['microphone']);
   await observeMicrophone(page);
@@ -62,15 +87,8 @@ test('real browser capture uploads a WAV to mocked DeepSeek, flies the scout ord
   await page.route(`${api}/v1/tools/asr`, async route => {
     const request = route.request();
     expect(await request.headerValue('authorization')).toBe(`Bearer ${credential}`);
-    const body = request.postDataBuffer()!;
-    expect(body.includes(credential)).toBe(false);
-    const riff = body.indexOf(Buffer.from('RIFF'));
-    expect(riff).toBeGreaterThan(0);
-    expect(body.toString('ascii', riff + 8, riff + 12)).toBe('WAVE');
-    expect(body.readUInt16LE(riff + 22)).toBe(1);
-    expect(body.readUInt32LE(riff + 24)).toBe(16_000);
-    expect(body.readUInt16LE(riff + 34)).toBe(16);
-    expect(body.readUInt32LE(riff + 40)).toBeGreaterThan(5_760);
+    expect(await request.headerValue('content-type')).toMatch(/^multipart\/form-data; boundary=/);
+    expect(request.postDataBuffer()?.includes(credential) ?? false).toBe(false);
     uploads++;
     await route.fulfill({ json: { text: '二号去侦察左侧', duration_ms: 900 } });
   });
@@ -109,6 +127,9 @@ test('real browser capture uploads a WAV to mocked DeepSeek, flies the scout ord
   await page.keyboard.up('v');
   await expect.poll(async () => (await state(page)).voice.commands).toBe(1);
   expect(await microphone(page)).toEqual({ calls: 1, states: ['ended'] });
+  const wave = await page.evaluate(() => (window as unknown as { microphoneProbe: { wave: unknown } }).microphoneProbe.wave);
+  expect(wave).toMatchObject({ name: 'radio.wav', type: 'audio/wav', header: 'RIFF', channels: 1, sampleRate: 16_000, depth: 16 });
+  expect((wave as { bytes: number }).bytes).toBeGreaterThan(5_760);
   await expect.poll(async () => (await state(page)).cooperation.lastPlan?.orders[0]?.action).toBe('SCOUT');
   const order = await state(page);
   const reply = order.cooperation.radio.history.find(line => line.source === 'model' && line.agent === 2)!;
@@ -218,9 +239,12 @@ test('Escape and leaving flight release the microphone without uploading or reus
   await page.locator('#rules-close').click();
   await page.keyboard.down('v');
   await expect(page.locator('#voice-status')).toHaveAttribute('data-phase', 'recording');
-  await context.clearPermissions();
+  const devtools = await context.newCDPSession(page);
+  const { targetInfo } = await devtools.send('Target.getTargetInfo');
+  await devtools.send('Browser.setPermission', { permission: { name: 'microphone' }, setting: 'denied',
+    origin: new URL(page.url()).origin, browserContextId: targetInfo.browserContextId });
   await expect.poll(async () => (await microphone(page)).states).toEqual(['ended', 'ended', 'ended']);
   await page.keyboard.up('v');
-  expect((await state(page)).voice.lastError).toBe('mic-revoked');
+  await expect.poll(async () => (await state(page)).voice.lastError).toBe('mic-revoked');
   expect(uploads).toBe(0);
 });
