@@ -1,0 +1,187 @@
+{
+  "phase": 4,
+  "sourceCommit": "4fbd4b6",
+  "typecheck": "passed",
+  "build": "passed",
+  "unit": {
+    "passed": 146
+  },
+  "browser": {
+    "engine": "Chromium",
+    "renderer": "SwiftShader",
+    "method": "Stage pilot poses below the threshold, then use normal requestAnimationFrame and fixed simulation steps for each crossing. Toggle Chase and Cockpit using C.",
+    "crossings": [
+      {
+        "world": 1,
+        "seed": 3628620643,
+        "camera": "chase",
+        "frames": 40,
+        "cameraQuaternionAbsDot": 0.9686915803565929,
+        "cameraOffsetChangeMeters": 5.489125646424024,
+        "entryAttitude": {
+          "pitch": 0.75,
+          "roll": 1.475463888446904,
+          "yaw": 0.025424772568073205
+        },
+        "firstDiveAttitude": {
+          "pitch": 0.75,
+          "roll": 1.475463888446904,
+          "yaw": 0.025424772568073205
+        },
+        "speedAtInversion": 65.86950775708671,
+        "speedAtDive": 65.86950775708671,
+        "minimumSampledPlayerClearanceMeters": 14.523364374717318,
+        "activeBVHs": 25,
+        "oldWorldRelease": {
+          "seed": 334458,
+          "bvhBefore": 25,
+          "bvhAfter": 0,
+          "rootChildrenAfter": 0,
+          "disposedGeometryCount": 494
+        },
+        "mirrorTriangles": 2640,
+        "mirrorSurface": null,
+        "companionShieldContacts": 1,
+        "companionsDeployed": 3
+      },
+      {
+        "world": 2,
+        "seed": 1725424397,
+        "camera": "cockpit",
+        "frames": 44,
+        "cameraQuaternionAbsDot": 0.9828549916653009,
+        "cameraOffsetChangeMeters": 8.526512829121202e-14,
+        "entryAttitude": {
+          "pitch": 1.16,
+          "roll": 2.9842639809027776,
+          "yaw": 0.4222599889340464
+        },
+        "firstDiveAttitude": {
+          "pitch": 1.16,
+          "roll": 2.9842639809027776,
+          "yaw": 0.4222599889340464
+        },
+        "speedAtInversion": 65.81607931116332,
+        "speedAtDive": 65.81607931116332,
+        "minimumSampledPlayerClearanceMeters": 18.588298089175165,
+        "activeBVHs": 25,
+        "oldWorldRelease": {
+          "seed": 3628620643,
+          "bvhBefore": 25,
+          "bvhAfter": 0,
+          "rootChildrenAfter": 0,
+          "disposedGeometryCount": 687
+        },
+        "mirrorTriangles": 2640,
+        "mirrorSurface": null,
+        "companionShieldContacts": 0,
+        "companionsDeployed": 3
+      },
+      {
+        "world": 3,
+        "seed": 433022510,
+        "camera": "chase",
+        "frames": 41,
+        "cameraQuaternionAbsDot": 0.9883613882549207,
+        "cameraOffsetChangeMeters": 3.0543465253499575,
+        "entryAttitude": {
+          "pitch": 1.31,
+          "roll": -1.5130203854166666,
+          "yaw": -0.3869510653810377
+        },
+        "firstDiveAttitude": {
+          "pitch": 1.31,
+          "roll": -1.5130203854166666,
+          "yaw": -0.3869510653810377
+        },
+        "speedAtInversion": 65.77124259015672,
+        "speedAtDive": 65.77124259015672,
+        "minimumSampledPlayerClearanceMeters": 19.848183582237137,
+        "activeBVHs": 25,
+        "oldWorldRelease": {
+          "seed": 1725424397,
+          "bvhBefore": 25,
+          "bvhAfter": 0,
+          "rootChildrenAfter": 0,
+          "disposedGeometryCount": 567
+        },
+        "mirrorTriangles": 2640,
+        "mirrorSurface": null,
+        "companionShieldContacts": 1,
+        "companionsDeployed": 3
+      },
+      {
+        "world": 4,
+        "seed": 4192331915,
+        "camera": "cockpit",
+        "frames": 42,
+        "cameraQuaternionAbsDot": 0.9774376892666069,
+        "cameraOffsetChangeMeters": 0.09846411536364645,
+        "entryAttitude": {
+          "pitch": 1.63,
+          "roll": -2.7406806041666667,
+          "yaw": 1.6137310384895547
+        },
+        "firstDiveAttitude": {
+          "pitch": 1.5976331018518517,
+          "yaw": 1.5819793861118667,
+          "roll": -2.7406806041666667
+        },
+        "speedAtInversion": 65.7330035824403,
+        "speedAtDive": 65.7330035824403,
+        "minimumSampledPlayerClearanceMeters": 17.798251722323446,
+        "activeBVHs": 20,
+        "oldWorldRelease": {
+          "seed": 433022510,
+          "bvhBefore": 25,
+          "bvhAfter": 0,
+          "rootChildrenAfter": 0,
+          "disposedGeometryCount": 497
+        },
+        "mirrorTriangles": 2640,
+        "mirrorSurface": null,
+        "companionShieldContacts": 2,
+        "companionsDeployed": 3
+      },
+      {
+        "world": 5,
+        "seed": 3785883280,
+        "camera": "chase",
+        "frames": 41,
+        "cameraQuaternionAbsDot": 0.9866432311492508,
+        "cameraOffsetChangeMeters": 2.7726140260893284,
+        "entryAttitude": {
+          "pitch": 1.03,
+          "roll": 0.6772127448220486,
+          "yaw": -2.213727664713383
+        },
+        "firstDiveAttitude": {
+          "pitch": 1.03,
+          "roll": 0.6772127448220486,
+          "yaw": -2.213727664713383
+        },
+        "speedAtInversion": 65.6750988731627,
+        "speedAtDive": 65.6750988731627,
+        "minimumSampledPlayerClearanceMeters": 12.284363617897164,
+        "activeBVHs": 25,
+        "oldWorldRelease": {
+          "seed": 4192331915,
+          "bvhBefore": 25,
+          "bvhAfter": 0,
+          "rootChildrenAfter": 0,
+          "disposedGeometryCount": 597
+        },
+        "mirrorTriangles": 2640,
+        "mirrorSurface": null,
+        "companionShieldContacts": 2,
+        "companionsDeployed": 3
+      }
+    ],
+    "pageErrors": []
+  },
+  "evidence": [
+    "evidence\\v0.5\\pr4-sky\\five-crossings.json",
+    "evidence\\v0.5\\pr4-sky\\sky-1.png",
+    "evidence\\v0.5\\pr4-sky\\sky-4.png"
+  ]
+}
