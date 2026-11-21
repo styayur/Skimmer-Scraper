@@ -29,11 +29,16 @@ transforms are preserved. A 180° orientation control handles GLBs that use the 
 
 ## First-person anchors
 
-Flight Settings exposes a per-aircraft first-person position anchor in normalized
-aircraft meters (X right, Y up, negative Z forward; each within ±8 m). Anchors are
-optional local metadata and do not change the IndexedDB model schema or collision
-envelope. Without an anchor, Nose and Cockpit use independent defaults. Imported
-and built-in meshes are hidden in both first-person modes to keep the view clear.
+Open Flight Settings → Advanced → Cockpit position to choose Standard, Fighter,
+Glider, High, or a custom anchor. Presets use the normalized bounds of the active
+aircraft in its current orientation. Enable live preview to see the cockpit view
+before saving. Restore recommended selects Standard for the current aircraft.
+
+Custom coordinates are in meters within ±8 m per axis. X points right, Y up and
+negative Z forward. Anchors are stored per aircraft alongside the previous XYZ
+format. Older saved coordinates load as Custom, and a saved Nose view opens in
+Cockpit. The cockpit view hides the aircraft mesh. The collision envelope and
+IndexedDB model format stay the same.
 
 ## Browser support
 

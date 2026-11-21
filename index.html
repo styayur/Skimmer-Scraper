@@ -99,12 +99,7 @@
           <button id="library-open" type="button" class="secondary-button" data-action="library">机库 <kbd>M</kbd></button>
           <button type="button" class="secondary-button" data-action="help">操作指南 <kbd>H</kbd></button>
         </div>
-        <div class="quick-controls">
           <button id="camera-button" class="utility-button" type="button" data-action="camera">视角 · 追尾 <kbd>C</kbd></button>
-          <button id="mute-button" class="utility-button" type="button" aria-pressed="false">声音 · 开</button>
-          <button id="effects-button" class="utility-button" type="button" aria-pressed="false">视觉 · 标准</button>
-          <button id="quality-button" class="utility-button" type="button">画质 · 平衡</button>
-        </div>
         <button id="pause-menu" class="secondary-button" type="button" data-action="title">返回标题</button>
       </section>
       <aside id="help-panel" class="library-panel guide-panel" role="dialog" aria-modal="true" aria-labelledby="help-title" hidden>
@@ -125,7 +120,7 @@
         </nav>
         <section>
           <h3 id="guide-start" tabindex="-1">快速开始</h3>
-          <p>点击开始游戏、按 Enter 或手柄 A 起飞。挑战模式要保持在建筑、地面、桥面或岛屿的 32 米内。脱离后开始倒数，重新贴近就会恢复全部宽限。自由飞行可以离开建筑，不记录挑战成绩。</p>
+          <p>点击开始游戏、按 Enter 或手柄 A 起飞。首次起飞默认带三台伴机自由探索。挑战模式要保持在建筑、地面、桥面或岛屿的 32 米内。脱离后开始倒数，重新贴近就会恢复全部宽限。自由飞行可以离开建筑，不记录挑战成绩。</p>
         </section>
         <section>
           <h3 id="guide-flight" tabindex="-1">飞行控制</h3>
@@ -139,7 +134,7 @@
         </section>
         <section>
           <h3 id="guide-view" tabindex="-1">视角与座舱</h3>
-          <p>按 C 切换追尾、机头和驾驶舱视角。第一人称隐藏机身。每架飞机的座舱位置都可在飞行设置中单独调整。</p>
+          <p>按 C 在追尾与驾驶舱间切换。高级设置提供座舱位置预设、实时预览和手动坐标。每架飞机可单独保存。</p>
         </section>
         <section>
           <h3 id="guide-world" tabindex="-1">世界与模型</h3>
@@ -151,7 +146,7 @@
         </section>
         <section>
           <h3 id="guide-advanced" tabindex="-1">高级设置</h3>
-          <p>在游戏菜单切换声音、画质或柔和视觉。在飞行设置调整宽限、防护罩、操控和模型预算。进入一场飞行后，规则在返回标题前锁定。</p>
+          <p>在飞行设置的高级选项中调整宽限、防护罩、操控、声音、视觉和模型预算。进入一场飞行后，规则在返回标题前锁定。</p>
           <div id="record-hint">
             <p>录制飞行可使用系统录屏。Windows 上可尝试 Win + Alt + R。</p>
             <button id="record-hint-close" class="text-button" type="button">隐藏录屏提示</button>
@@ -195,45 +190,68 @@
         <div class="library-header"><h2>飞行设置</h2><button id="rules-close" data-action="close" data-panel-focus class="utility-button" type="button">关闭</button></div>
         <p id="rules-note"></p>
         <div class="setting-heading"><label>玩法 <select id="run-mode"><option value="challenge">Challenge · 近距挑战</option><option value="free">Free Flight · 自由飞行</option></select></label><details class="setting-help"><summary aria-label="玩法帮助">?</summary><p>挑战记录个人时间，自由飞行允许远离地面。 <a href="#guide-start" data-help-section="guide-start">阅读指南</a></p></details></div>
-        <div class="setting-heading"><label>宽限秒数（1–15）<input id="run-grace" type="number" min="1" max="15" step="0.1" value="5" /></label><details class="setting-help"><summary aria-label="宽限帮助">?</summary><p>脱离所有近距表面后，可继续飞行的秒数。 <a href="#guide-advanced" data-help-section="guide-advanced">阅读指南</a></p></details></div>
-        <div class="setting-heading"><label><input id="run-shield" type="checkbox" /> 自由模式防护罩</label><details class="setting-help"><summary aria-label="防护罩帮助">?</summary><p>自由飞行碰撞时，防护罩使飞机减速并反弹。 <a href="#guide-advanced" data-help-section="guide-advanced">阅读指南</a></p></details></div>
-        <p>标准 5 秒个人挑战、自定义规则和 AI 辅助挑战分别记录；自由模式不计成绩。</p>
-        <details><summary>自主伴机</summary>
-          <p>本地自主伴飞 · Local Autonomous Controller。无需 API；连接模型后可接收经安全校验的团队规划。</p>
-          <label>伴机数量 <select id="companion-count"><option value="0">关闭</option><option value="1">1 台</option><option value="2">2 台</option><option value="3">3 台</option></select></label>
-          <label>编队 <select id="companion-formation"><option value="wedge">楔形</option><option value="line">纵队</option><option value="spread">展开</option></select></label>
-          <label>自主任务 <select id="companion-behavior"><option value="formation">编队跟随</option><option value="independent">独立跟随</option><option value="lead">1 号领航</option></select></label>
-          <p>数量在起飞前选择，带伴机的挑战单独计分。青色 KITE-1、金色 KITE-2、玫红 KITE-3。</p>
-        </details>
-        <details><summary>操控与手柄</summary>
-          <p id="input-device">Keyboard</p>
-          <label>操控方案 <select data-control="profile"><option value="precision">Precision · 高速精确操控</option><option value="classic">Classic · 经典操控</option></select></label>
-          <label>灵敏度 <input data-control="sensitivity" type="number" min="0.2" max="2" step="0.1" /></label>
-          <label>响应曲线 <input data-control="curve" type="number" min="1" max="3" step="0.1" /></label>
-          <label>手柄死区 <input data-control="deadZone" type="number" min="0" max="0.4" step="0.01" /></label>
-          <label>水平恢复辅助 <input data-control="levelAssist" type="number" min="0" max="2" step="0.1" /></label>
-          <label><input data-control="autoCoordinate" type="checkbox" /> 自动协调转弯</label>
-          <label><input data-control="invertPitch" type="checkbox" /> 反转俯仰</label>
-          <label><input data-control="invertRoll" type="checkbox" /> 反转滚转</label>
-          <label><input data-control="invertYaw" type="checkbox" /> 反转偏航</label>
-          <p>标准 XInput：左摇杆俯仰/滚转、右摇杆偏航、RT 加速、Y 视角、X 重试、Menu 暂停。键盘有输入时优先使用键盘。</p>
-          <label>俯仰轴 <input data-control="pitchAxis" type="number" min="0" max="7" /></label>
-          <label>滚转轴 <input data-control="rollAxis" type="number" min="0" max="7" /></label>
-          <label>偏航轴 <input data-control="yawAxis" type="number" min="0" max="7" /></label>
-          <label>加速按钮 <input data-control="boostButton" type="number" min="0" max="31" /></label>
-          <label>视角按钮 <input data-control="cameraButton" type="number" min="0" max="31" /></label>
-          <label>暂停按钮 <input data-control="pauseButton" type="number" min="0" max="31" /></label>
-          <label>重试按钮 <input data-control="retryButton" type="number" min="0" max="31" /></label>
-          <label>菜单确认按钮 <input data-control="confirmButton" type="number" min="0" max="31" /></label>
-          <label>菜单返回按钮 <input data-control="backButton" type="number" min="0" max="31" /></label>
-          <label>游戏菜单按钮 <input data-control="menuButton" type="number" min="0" max="31" /></label>
-        </details>
-        <details><summary>当前机型第一人称锚点（米）</summary>
-          <p>相对归一化机身的位置；X 向右，Y 向上，负 Z 向前。没有设置时分别使用机头/驾驶舱回退。第一人称隐藏机身，不改变碰撞范围。</p>
-          <label>X <input id="anchor-x" type="number" min="-8" max="8" step="0.1" value="0" /></label>
-          <label>Y <input id="anchor-y" type="number" min="-8" max="8" step="0.1" value="0.72" /></label>
-          <label>Z <input id="anchor-z" type="number" min="-8" max="8" step="0.1" value="-2.35" /></label>
-          <button id="anchor-save" class="utility-button" type="button">保存当前机型锚点</button>
+        <label>视角 <select id="camera-mode"><option value="chase">追尾</option><option value="cockpit">驾驶舱</option></select></label>
+        <label>伴机数量 <select id="companion-count"><option value="0">关闭</option><option value="1">1 台</option><option value="2">2 台</option><option value="3">3 台</option></select></label>
+        <details id="advanced-flight-settings">
+          <summary>高级设置</summary>
+          <div class="setting-heading"><label>宽限秒数（1–15）<input id="run-grace" type="number" min="1" max="15" step="0.1" value="5" /></label><details class="setting-help"><summary aria-label="宽限帮助">?</summary><p>脱离所有近距表面后，可继续飞行的秒数。 <a href="#guide-advanced" data-help-section="guide-advanced">阅读指南</a></p></details></div>
+          <div class="setting-heading"><label><input id="run-shield" type="checkbox" /> 自由模式防护罩</label><details class="setting-help"><summary aria-label="防护罩帮助">?</summary><p>自由飞行碰撞时，防护罩使飞机减速并反弹。 <a href="#guide-advanced" data-help-section="guide-advanced">阅读指南</a></p></details></div>
+          <p>标准 5 秒个人挑战、自定义规则和 AI 辅助挑战分别记录；自由模式不计成绩。</p>
+          <details><summary>自主伴机</summary>
+            <p>本地自主伴飞 · Local Autonomous Controller。无需 API；连接模型后可接收经安全校验的团队规划。</p>
+            <label>编队 <select id="companion-formation"><option value="wedge">楔形</option><option value="line">纵队</option><option value="spread">展开</option></select></label>
+            <label>自主任务 <select id="companion-behavior"><option value="formation">编队跟随</option><option value="independent">独立跟随</option><option value="lead">1 号领航</option></select></label>
+            <p>数量在起飞前选择，带伴机的挑战单独计分。青色 KITE-1、金色 KITE-2、玫红 KITE-3。</p>
+          </details>
+          <details><summary>操控与手柄</summary>
+            <p id="input-device">Keyboard</p>
+            <label>操控方案 <select data-control="profile"><option value="precision">Precision · 高速精确操控</option><option value="classic">Classic · 经典操控</option></select></label>
+            <label>灵敏度 <input data-control="sensitivity" type="number" min="0.2" max="2" step="0.1" /></label>
+            <label>响应曲线 <input data-control="curve" type="number" min="1" max="3" step="0.1" /></label>
+            <label>手柄死区 <input data-control="deadZone" type="number" min="0" max="0.4" step="0.01" /></label>
+            <label>水平恢复辅助 <input data-control="levelAssist" type="number" min="0" max="2" step="0.1" /></label>
+            <label><input data-control="autoCoordinate" type="checkbox" /> 自动协调转弯</label>
+            <label><input data-control="invertPitch" type="checkbox" /> 反转俯仰</label>
+            <label><input data-control="invertRoll" type="checkbox" /> 反转滚转</label>
+            <label><input data-control="invertYaw" type="checkbox" /> 反转偏航</label>
+            <p>标准 XInput：左摇杆俯仰/滚转、右摇杆偏航、RT 加速、Y 视角、X 重试、Menu 暂停。键盘有输入时优先使用键盘。</p>
+            <label>俯仰轴 <input data-control="pitchAxis" type="number" min="0" max="7" /></label>
+            <label>滚转轴 <input data-control="rollAxis" type="number" min="0" max="7" /></label>
+            <label>偏航轴 <input data-control="yawAxis" type="number" min="0" max="7" /></label>
+            <label>加速按钮 <input data-control="boostButton" type="number" min="0" max="31" /></label>
+            <label>视角按钮 <input data-control="cameraButton" type="number" min="0" max="31" /></label>
+            <label>暂停按钮 <input data-control="pauseButton" type="number" min="0" max="31" /></label>
+            <label>重试按钮 <input data-control="retryButton" type="number" min="0" max="31" /></label>
+            <label>菜单确认按钮 <input data-control="confirmButton" type="number" min="0" max="31" /></label>
+            <label>菜单返回按钮 <input data-control="backButton" type="number" min="0" max="31" /></label>
+            <label>游戏菜单按钮 <input data-control="menuButton" type="number" min="0" max="31" /></label>
+          </details>
+          <details id="camera-anchor-settings"><summary>当前机型座舱位置</summary>
+            <label>座舱预设 <select id="anchor-preset">
+              <option value="standard">标准座舱</option>
+              <option value="fighter">战斗机座舱</option>
+              <option value="glider">滑翔机座舱</option>
+              <option value="high">高位座舱</option>
+              <option value="custom">自定义锚点</option>
+            </select></label>
+            <label><input id="anchor-preview" type="checkbox" /> 实时预览</label>
+            <div id="anchor-coordinates" hidden>
+              <p>X 向右，Y 向上，负 Z 向前。单位为米。</p>
+              <label>X <input id="anchor-x" type="number" min="-8" max="8" step="0.01" /></label>
+              <label>Y <input id="anchor-y" type="number" min="-8" max="8" step="0.01" /></label>
+              <label>Z <input id="anchor-z" type="number" min="-8" max="8" step="0.01" /></label>
+            </div>
+            <button id="anchor-recommend" class="utility-button" type="button">恢复推荐值</button>
+            <button id="anchor-save" class="utility-button" type="button">保存当前机型锚点</button>
+            <p id="anchor-message" role="status"></p>
+          </details>
+          <details id="comfort-settings"><summary>视觉与音频</summary>
+            <div class="quick-controls">
+              <button id="mute-button" class="utility-button" type="button" aria-pressed="false">声音 · 开</button>
+              <button id="effects-button" class="utility-button" type="button" aria-pressed="false">视觉 · 标准</button>
+              <button id="quality-button" class="utility-button" type="button">画质 · 平衡</button>
+            </div>
+          </details>
         </details>
       </aside>
       <aside id="library-panel" role="dialog" aria-modal="true" class="library-panel" aria-labelledby="library-title" hidden>

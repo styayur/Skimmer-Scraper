@@ -1,9 +1,6 @@
 import { loadControls, normalizeControls, saveControls, type ControlSettings } from '../flight/controlSettings';
-import { loadCameraAnchor, saveCameraAnchor } from '../model/cameraAnchors';
-import type { Vec3 } from '../core/math';
 
-export const bindControlSettings = (change: (settings: ControlSettings) => void,
-  aircraft: () => string, anchorChanged: (anchor: Vec3) => void): void => {
+export const bindControlSettings = (change: (settings: ControlSettings) => void): void => {
   let settings = loadControls();
   const fields = document.querySelectorAll<HTMLInputElement | HTMLSelectElement>('[data-control]');
   fields.forEach(field => {
@@ -15,15 +12,5 @@ export const bindControlSettings = (change: (settings: ControlSettings) => void,
         : key === 'profile' ? field.value : Number(field.value);
       settings = normalizeControls({ ...settings, [key]: value }); saveControls(settings); change(settings);
     });
-  });
-  document.querySelector('#rules-panel')!.addEventListener('skimmer:open', () => {
-    const anchor = loadCameraAnchor(aircraft()) ?? { x: 0, y: 0.72, z: -2.35 };
-    for (const axis of ['x','y','z'] as const) (document.querySelector(`#anchor-${axis}`) as HTMLInputElement).value = String(anchor[axis]);
-  });
-  document.querySelector('#anchor-save')!.addEventListener('click', () => {
-    const read = (axis: string): number => Number((document.querySelector(`#anchor-${axis}`) as HTMLInputElement).value);
-    const anchor = { x: read('x'), y: read('y'), z: read('z') };
-    saveCameraAnchor(aircraft(), anchor);
-    const saved = loadCameraAnchor(aircraft()); if (saved) anchorChanged(saved);
   });
 };

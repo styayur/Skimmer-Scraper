@@ -7,6 +7,7 @@ test('free flight, custom grace persistence and retry rule lock', async ({ page 
   await page.evaluate(() => window.__SKIMMER_SCRAPER__!.title());
   await page.keyboard.press('f');
   await page.locator('#run-mode').selectOption('free');
+  await page.locator('#advanced-flight-settings > summary').click();
   await page.locator('#run-grace').fill('12');
   await page.locator('#run-grace').dispatchEvent('change');
   await page.locator('#rules-close').click();

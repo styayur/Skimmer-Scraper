@@ -15,7 +15,7 @@ for(const name of ['edge','firefox']){
    worlds.push(s);if(s.mode!=='running'||s.journey.crossings!==index||s.companions.length!==count||s.streaming.bvhCount>41)throw Error('Journey compatibility assertion failed');
   }
   const fifth=worlds.at(-1);await page.screenshot({path:`evidence/v0.3/phase-6-${name}.png`});
-  const views=[];for(const view of ['chase','nose','cockpit'])views.push(await page.evaluate(v=>window.__SKIMMER_SCRAPER__.setCameraMode(v),view));
+  const views=[];for(const view of ['chase','cockpit'])views.push(await page.evaluate(v=>window.__SKIMMER_SCRAPER__.setCameraMode(v),view));
   const restored=await page.evaluate(async()=>{const g=window.__SKIMMER_SCRAPER__;await g.title();return g.snapshot();});
   if(restored.journey.worldIndex!==0||restored.mode!=='title'||!fifth.journey.easterEggUnlocked||errors.length)throw Error('Restore or lifecycle assertion failed');
   results.push({name,count,mode,status:'passed',initial,worlds,views,restored,errors,userAgent:await page.evaluate(()=>navigator.userAgent),method:'Fixed-time browser compatibility, 519m approach fixture and valid climbing; not an FPS or manual experience assessment.'});

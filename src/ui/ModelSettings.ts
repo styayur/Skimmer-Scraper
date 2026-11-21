@@ -1,6 +1,6 @@
 import { DEFAULT_MODEL_CONFIG, type PublicModelConfig } from '../ai/contracts';
 import type { SymbiosisRuntime } from '../ai/SymbiosisRuntime';
-export const bindModelSettings=(runtime:SymbiosisRuntime):(()=>void)=>{
+export const bindModelSettings=(runtime:SymbiosisRuntime, onIssue: (message: string) => void):(()=>void)=>{
   const panel=document.createElement('details');panel.className='model-settings';
   panel.innerHTML=`<summary>模型协作 · 自带 API Key</summary>
     <p>未连接时使用 Local Autonomous Controller。Key 仅留在当前页内存；网页脚本在运行时仍可能读取。只发送必要飞行状态，不发送本机模型。</p>
@@ -15,7 +15,7 @@ export const bindModelSettings=(runtime:SymbiosisRuntime):(()=>void)=>{
     <label>超时（毫秒）<input id="ai-timeout" type="number" min="1000" max="20000" value="8000"></label>
     <div><button id="ai-connect" type="button">连接</button> <button id="ai-disconnect" type="button">断开并删除 Key</button></div>
     <p id="ai-message" role="status">没有官方代管推理；服务商需允许浏览器直连。自定义代理须自行明确信任。</p>`;
-  document.querySelector('#rules-panel')!.append(panel);
+  document.querySelector('#advanced-flight-settings')!.append(panel);
   const input=(id:string)=>panel.querySelector<HTMLInputElement>(`#ai-${id}`)!;
   const provider=panel.querySelector<HTMLSelectElement>('#ai-provider')!;
   const message=panel.querySelector<HTMLElement>('#ai-message')!;
@@ -32,9 +32,14 @@ export const bindModelSettings=(runtime:SymbiosisRuntime):(()=>void)=>{
     }catch{message.textContent='配置无效：检查 HTTPS、端点信任、模型及预算。Key 已从输入框清除。';}
   });
   panel.querySelector('#ai-disconnect')!.addEventListener('click',()=>{runtime.client.disconnect();runtime.invalidate();input('key').value='';message.textContent='已删除内存 Key，恢复本地伴飞。';});
-  const status=document.createElement('div');status.id='cooperation-status';status.className='cooperation-status';status.setAttribute('role','status');document.querySelector('#companion-status')!.after(status);
+  const status=document.createElement('p');status.id='cooperation-status';status.className='cooperation-status';panel.append(status);
+  let previousError: string | null = null;
   return()=>{
     const s=runtime.snapshot();status.hidden=runtime.team.agents.length===0;
+    const issue = s.model.error ?? null;
+    if (issue && issue !== previousError) onIssue(`模型协作暂停，伴机继续本地飞行。 ${issue}`);
+    previousError = issue;
+    if (!panel.open || !panel.getClientRects().length) return;
     const text=`Trust ${Math.round(s.trust.value*100)} · Relay ${s.relay.charges}/2 · ${Math.max(0,Math.ceil(s.relay.cooldownUntil-s.time))}s\n${s.model.connected?'模型已连接':'本地伴飞'} · ${s.model.requests} 次 · ${s.model.usage.total} tokens${s.model.error?` · ${s.model.error}`:''}`;
     if(status.textContent!==text)status.textContent=text;
   };

@@ -17,8 +17,13 @@ teamwork await review. Explicit capture windows recorded a58.3ms transition maxi
 Try the candidate locally: `npm ci`, `npm run build`, then `npm run preview`.
 The release static ZIP can also be served over HTTP without Node or a backend.
 Choose Free Flight, shield and companion count in **飞行设置** before takeoff;
-cycle Chase/Nose/Cockpit with **C**, pause with **Esc** or gamepad Menu.
+switch between Chase and Cockpit with **C**, pause with **Esc** or gamepad Menu.
 See [candidate QA and reproduction](docs/V030-QA.md).
+
+New pilots start in Free Flight with the shield on, the Chase view, Precision controls,
+and three local companions in a wedge. Existing pilot settings and scores carry forward.
+The flight settings panel offers play mode, view and companion count. Open its advanced
+section for per-aircraft cockpit presets, controls, visuals, audio and model budgets.
 
 **Public site:** [https://styayur.github.io/Skimmer-Scraper/](https://styayur.github.io/Skimmer-Scraper/)
 
@@ -66,7 +71,7 @@ GitHub Pages is the only deployment target. Cloudflare Pages deployment is cance
 | A / D or Arrow Left / Right | Roll |
 | Q / E | Yaw |
 | Shift | Boost |
-| C | Chase → Nose → Cockpit |
+| C | Switch between Chase and Cockpit |
 | R | Instant retry |
 | Esc / gamepad Menu | Pause or close the current panel |
 | F / G | Flight settings / world settings |

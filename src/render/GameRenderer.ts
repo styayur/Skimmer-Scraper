@@ -63,6 +63,8 @@ export class GameRenderer {
   private readonly petals: PetalField;
   private readonly speedRibbons: SpeedRibbons;
   private readonly proceduralAircraft: ProceduralAircraft;
+  private readonly builtInAircraftBounds: THREE.Box3;
+  private aircraftBounds: THREE.Box3;
   private readonly aircraftMount = new THREE.Group();
   private readonly aircraftModelMount = new THREE.Group();
   private readonly companions = new CompanionRenderer();
@@ -144,6 +146,8 @@ export class GameRenderer {
     this.scene.add(rim);
 
     this.proceduralAircraft = createProceduralAircraft();
+    this.builtInAircraftBounds = new THREE.Box3().setFromObject(this.proceduralAircraft.group);
+    this.aircraftBounds = this.builtInAircraftBounds;
     this.aircraftMount.name = 'aircraft-mount';
     this.aircraftModelMount.name = 'aircraft-model-mount';
     this.aircraftMount.add(this.aircraftModelMount);
@@ -194,6 +198,7 @@ export class GameRenderer {
     }
     if (model) {
       this.externalAircraft = model;
+      this.aircraftBounds = new THREE.Box3().setFromObject(model);
       model.traverse((object) => {
         if (object instanceof THREE.Mesh) {
           object.castShadow = true;
@@ -203,8 +208,13 @@ export class GameRenderer {
       this.aircraftModelMount.add(model);
       this.proceduralAircraft.group.visible = false;
     } else {
+      this.aircraftBounds = this.builtInAircraftBounds;
       this.proceduralAircraft.group.visible = true;
     }
+  }
+
+  public getAircraftBounds(): THREE.Box3 {
+    return this.aircraftBounds;
   }
 
   public setCameraMode(mode: CameraMode, immediate = false): void {

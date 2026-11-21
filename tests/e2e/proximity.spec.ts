@@ -43,6 +43,7 @@ test.describe('phase 2 proximity and collision rules', () => {
     });
 
     await page.setViewportSize({ width: 1440, height: 900 });
+    await page.addInitScript(() => localStorage.setItem('skimmer-scraper.rules.v3', JSON.stringify({ mode: 'challenge' })));
     await page.goto('/?debug=1&autostart=1&seed=334458');
     await page.waitForFunction(() => {
       const bridge = (window as unknown as {

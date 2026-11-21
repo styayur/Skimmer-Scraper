@@ -66,6 +66,7 @@ test.describe('v0.1.0 release acceptance', () => {
 
     await page.setViewportSize({ width: 1440, height: 900 });
     await page.emulateMedia({ reducedMotion: 'reduce' });
+    await page.addInitScript(() => localStorage.setItem('skimmer-scraper.rules.v3', JSON.stringify({ mode: 'challenge' })));
     await page.goto('/?seed=334458');
     await waitForReady(page);
 
@@ -106,7 +107,9 @@ test.describe('v0.1.0 release acceptance', () => {
     await expect(page.locator('#hud')).toBeVisible();
     await expect(page.locator('#surface-state')).toHaveText('SURFACE LOCK');
 
-    await page.keyboard.press('Escape');
+    await page.keyboard.press('f');
+    await page.locator('#advanced-flight-settings > summary').click();
+    await page.locator('#comfort-settings > summary').click();
     await page.locator('#mute-button').click();
     await expect(page.locator('#mute-button')).toHaveAttribute('aria-pressed', 'true');
     await page.locator('#mute-button').click();

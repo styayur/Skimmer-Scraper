@@ -32,7 +32,7 @@ export class OverlayManager {
     } else if (this.active && this.active !== name && drillDown) {
       this.history.push({ name: this.active, focus: previouslyFocused ?? undefined });
     }
-    if (this.panel && this.active !== name) this.panel.hidden = true;
+    if (this.active !== name) this.hideActive();
     this.active = name;
     this.backgrounds.forEach(background => { background.inert = true; });
     const panel = this.panels[name];
@@ -48,12 +48,19 @@ export class OverlayManager {
   }
 
   public clear(restoreFocus = false): void {
-    if (this.panel) this.panel.hidden = true;
+    this.hideActive();
     this.active = undefined;
     this.history.length = 0;
     this.backgrounds.forEach(background => { background.inert = false; });
     if (restoreFocus && this.opener?.getClientRects().length) this.opener.focus({ preventScroll: true });
     this.opener = undefined;
+  }
+
+  private hideActive(): void {
+    const panel = this.panel;
+    if (!panel) return;
+    panel.hidden = true;
+    panel.dispatchEvent(new Event('skimmer:close'));
   }
 
   private focus(panel: HTMLElement, preferred?: HTMLElement): void {

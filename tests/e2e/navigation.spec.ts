@@ -53,6 +53,7 @@ test('minimal live title, guide and keyboard navigation', async ({ page }, testI
   await expect(visiblePanels(page)).toHaveCount(1);
   await page.keyboard.press('Escape');
   await expect(page.getByRole('link', { name: '阅读指南' })).toBeFocused();
+  await page.locator('#advanced-flight-settings > summary').click();
   await page.locator('.model-settings summary').click();
   const key = page.locator('#ai-key');
   await key.pressSequentially('fghmrc');

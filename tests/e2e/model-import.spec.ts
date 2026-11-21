@@ -58,7 +58,6 @@ test.describe('phase 3 local GLB aircraft library', () => {
     await page.screenshot({ path: 'evidence/v0.3/regression/phase-3-imported-flight.png', fullPage: true });
 
     await page.keyboard.press('c');
-    await page.keyboard.press('c');
     await expect(page.locator('#cockpit-frame')).toBeVisible();
     await page.waitForTimeout(700);
     await page.screenshot({ path: 'evidence/v0.3/regression/v0.2/phase-1-cockpit-imported.png', fullPage: true });

@@ -71,7 +71,6 @@ test.describe('v0.2 phase 1 flight experience', () => {
     await expect(page.locator('#hud')).toBeVisible();
 
     await page.keyboard.press('c');
-    await page.keyboard.press('c');
     await page.waitForFunction(() => {
       const bridge = (window as unknown as {
         __SKIMMER_SCRAPER__?: { snapshot(): { cameraMode: string; cameraBlend: number } };
@@ -94,7 +93,9 @@ test.describe('v0.2 phase 1 flight experience', () => {
       return state?.mode === 'running' && state.cameraMode === 'cockpit';
     });
 
-    await page.keyboard.press('Escape');
+    await page.keyboard.press('f');
+    await page.locator('#advanced-flight-settings > summary').click();
+    await page.locator('#comfort-settings > summary').click();
     await page.locator('#effects-button').click();
     await expect(page.locator('#effects-button')).toHaveText('视觉 · 柔和');
     expect((await call(page, 'snapshot')).visualStimulation).toBe('reduced');

@@ -9,8 +9,8 @@ export const normalizeCompanions = (value: Partial<CompanionSettings> = {}): Com
   behavior: value.behavior === 'independent' || value.behavior === 'lead' ? value.behavior : 'formation',
 });
 const KEY = 'skimmer-scraper.companions.v3';
-export const loadCompanions = (): CompanionSettings => {
-  try { return normalizeCompanions(JSON.parse(localStorage.getItem(KEY) ?? '{}')); } catch { return normalizeCompanions(); }
+export const loadCompanions = (storage: Storage = localStorage): CompanionSettings => {
+  try { return normalizeCompanions(JSON.parse(storage.getItem(KEY) ?? '{}')); } catch { return normalizeCompanions(); }
 };
 export const saveCompanions = (settings: CompanionSettings): void => {
   try { localStorage.setItem(KEY, JSON.stringify(normalizeCompanions(settings))); } catch { /* optional */ }

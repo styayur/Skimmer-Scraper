@@ -1,0 +1,20 @@
+{
+  "phase": 2,
+  "codeCommit": "ee593ab4c3a1f39d7873d8221c33ea42dd0a6b97",
+  "typecheck": "passed",
+  "unitTestsPassed": 139,
+  "browser": {
+    "engine": "Chromium WebGL2 / SwiftShader",
+    "focusedCasesPassed": 2,
+    "observations": [
+      "A new browser profile starts in Free Flight with a shield, Chase, Precision and three local companions in a wedge.",
+      "Default takeoff opened neither a model connection nor the microphone.",
+      "Historical challenge configuration, solo score, per-aircraft XYZ and seed were retained. Nose loaded as Cockpit.",
+      "A locally imported GLB previewed and saved its own high cockpit preset. Closing preview restored Chase."
+    ]
+  },
+  "reviewedScreenshots": [
+    "evidence/v0.5/pr2-experience/first-flight.png",
+    "evidence/v0.5/pr2-experience/cockpit-preview.png"
+  ]
+}

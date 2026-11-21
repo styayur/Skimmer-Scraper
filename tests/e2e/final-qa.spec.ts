@@ -112,6 +112,7 @@ test.describe('v0.2.0 final QA', () => {
     });
 
     await page.setViewportSize({ width: 1280, height: 720 });
+    await page.addInitScript(() => localStorage.setItem('skimmer-scraper.rules.v3', JSON.stringify({ mode: 'challenge' })));
     await page.goto('/?autostart=1&seed=v020-final-qa&preset=neon&world=stable');
     // This legacy suite measures a paused software proxy. Pause atomically on
     // readiness, before slow CI chunk settling can run the challenge to failure.
@@ -132,7 +133,9 @@ test.describe('v0.2.0 final QA', () => {
       animations: 'disabled',
     });
 
-    await page.locator('.flight-menu').click();
+    await page.keyboard.press('f');
+    await page.locator('#advanced-flight-settings > summary').click();
+    await page.locator('#comfort-settings > summary').click();
     await page.locator('#quality-button').click();
     await expect(page.locator('#quality-button')).toHaveText('画质 · 高');
     await page.keyboard.press('Escape');
