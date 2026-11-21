@@ -644,6 +644,17 @@ kbd {
 .companion-status span::before { content: ''; width: 0.4rem; height: 0.4rem; border-radius: 50%; background: var(--wing, var(--teal)); }
 .companion-status [data-wing="2"] { --wing: #f7c878; }
 .companion-status [data-wing="3"] { --wing: var(--rose); }
+.radio-subtitle { position: absolute; left: 50%; bottom: max(5rem, 12vh); width: max-content; max-width: min(38rem, 88vw); transform: translateX(-50%); display: grid; gap: 0.2rem; padding: 0.48rem 0.7rem; color: var(--paper); background: #140e18db; border-left: 2px solid var(--teal); font-size: clamp(0.75rem, 1.75vw, 0.9rem); pointer-events: none; }
+.radio-subtitle[data-priority="risk"] { border-color: var(--rose); }
+.radio-speaker { color: var(--teal); font-size: 0.72rem; font-weight: 700; }
+.radio-panel { overflow-y: auto; }
+.radio-history { display: grid; gap: 0.6rem; max-height: min(34vh, 18rem); overflow-y: auto; padding: 0; margin: 0.65rem 0; list-style: none; }
+.radio-history > li { display: grid; gap: 0.18rem; padding: 0.55rem 0.65rem; background: #241725; overflow-wrap: anywhere; font-size: 0.86rem; }
+.radio-history > li[data-source="player"] { border-left: 2px solid var(--rose); }
+.radio-controls, .radio-commands { display: flex; flex-wrap: wrap; gap: 0.55rem; align-items: center; font-size: 0.86rem; }
+.radio-commands { margin-block: 0.55rem; }
+.radio-commands button { min-height: 2.4rem; padding: 0.45rem 0.6rem; }
+#radio-input { box-sizing: border-box; width: 100%; border: 1px solid var(--line-strong); background: #211827; color: var(--paper); padding: 0.6rem; font: inherit; }
 .cooperation-status { white-space: pre-line; color: #b9f4df; }
 #advanced-flight-settings { margin-top: 0.75rem; }
 #advanced-flight-settings > details { margin: 0.9rem 0; }

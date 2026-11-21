@@ -1,6 +1,7 @@
 import { distance, type Vec3 } from '../core/math';
 import type { AgentState, CompanionWorld } from '../companions/AgentController';
 import { ACTIONS, type Perception, type ResolvedOrder, type TeamPlan, type ValidatedPlan } from './contracts';
+import { queryFlightSurface } from '../world/worldTypes';
 const object = (value: unknown): value is Record<string, unknown> => value !== null && typeof value === 'object' && !Array.isArray(value);
 const exact = (value: Record<string, unknown>, keys: string[]): boolean => Object.keys(value).length === keys.length && Object.keys(value).every(key=>keys.includes(key));
 const finiteVec = (value: Vec3): boolean => [value.x,value.y,value.z].every(n=>Number.isFinite(n)&&Math.abs(n)<=1e8);
@@ -23,10 +24,11 @@ export const validatePlan = (raw: unknown, context: ValidationContext): Validati
     if(!object(value)||!exact(value,['agents','action','targetId'])||!ACTIONS.includes(value.action as typeof ACTIONS[number]))return fail('action');
     if(!Array.isArray(value.agents)||value.agents.length<1||value.agents.length>3)return fail('agents');
     for(const id of value.agents){
-      if(!Number.isInteger(id)||affected.has(id)||!context.agents.some(agent=>agent.id===id&&agent.deployed))return fail('agents');affected.add(id);
+      if(!Number.isInteger(id)||affected.has(id)||!context.agents.some(agent=>agent.id===id&&agent.deployed&&!agent.uncovered))return fail('agents');affected.add(id);
     }
     const target=context.perception.targets.find(candidate=>candidate.id===value.targetId);
     if(value.targetId!==null&&typeof value.targetId!=='string')return fail('target');
+    if(value.targetId!==null&&!target)return fail('target');
     if(!target&&!['FOLLOW','REGROUP','PROTECT'].includes(String(value.action)))return fail('target');
     let position=target?{...target.position}:{...context.player};
     if(value.action==='RELAY'){
@@ -37,7 +39,10 @@ export const validatePlan = (raw: unknown, context: ValidationContext): Validati
     if((context.world.isCompanionCovered?.(position)??context.world.isCollisionCovered?.(position))===false)return fail('uncovered-target');
     const hit=context.world.queryNearest(position,40);
     if(hit&&hit.distance<=6)return fail('solid-target');
-    if(value.action==='RELAY'&&(!hit||hit.distance>32))return fail('relay-surface');
+    if(value.action==='RELAY'){
+      const surface=queryFlightSurface(context.world,position,32.01);
+      if(!surface||surface.distance>32)return fail('relay-surface');
+    }
     // Local collision avoidance remains authoritative after this conservative reachability check.
     for(const id of value.agents){
       const origin=context.agents.find(agent=>agent.id===id)!.flight.position;

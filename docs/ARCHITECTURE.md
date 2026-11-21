@@ -102,6 +102,13 @@ LEAD selects a published directional corridor and refreshes its safe forward rou
 locally as the pilot moves; SCOUT/HOLD retain bounded fixed waypoints. This avoids
 turning a leader back toward an already-passed waypoint after network latency.
 
+The radio sends optional pilot text with the same perception and the three
+callsign profiles. Replies and declarative plans share a single team request.
+Typed commands also resolve locally using the published targets when the model
+is unavailable. Every order passes the existing validator. The radio samples
+actual movement and the active companion task before reporting execution.
+See [Companion radio](RADIO.md) for controls and data handling.
+
 Trust starts at 0.5 and changes only through observed lead progress, separation,
 regrouping, impacts and verified Relay outcomes. It changes formation spacing,
 clearance, allowable planner risk and automatic rescue willingness. Surface Relay

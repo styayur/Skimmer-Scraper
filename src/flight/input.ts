@@ -13,6 +13,7 @@ export type GameAction =
   | 'rules'
   | 'world'
   | 'help'
+  | 'radio'
   | 'confirm'
   | 'back'
   | 'navigate-up'
@@ -22,7 +23,7 @@ export type GameAction =
 
 const shortcuts = new Map<string, GameAction>([
   ['Enter', 'start'], ['KeyR', 'retry'], ['KeyM', 'library'], ['KeyC', 'camera'],
-  ['Escape', 'close'], ['KeyF', 'rules'], ['KeyG', 'world'], ['KeyH', 'help'],
+  ['Escape', 'close'], ['KeyF', 'rules'], ['KeyG', 'world'], ['KeyH', 'help'], ['KeyT', 'radio'],
 ]);
 const flightCodes = new Set([
   'KeyW', 'KeyA', 'KeyS', 'KeyD', 'KeyQ', 'KeyE',

@@ -1,0 +1,278 @@
+{
+  "before": [
+    {
+      "id": 1,
+      "callsign": "KITE-1",
+      "position": {
+        "x": -14,
+        "y": 277.23974879778035,
+        "z": 106.20162868720281
+      },
+      "velocity": {
+        "x": 0,
+        "y": -2.9713128923793697,
+        "z": -64.35780967467423
+      },
+      "target": {
+        "x": -14,
+        "y": 275.5902087592644,
+        "z": 106.00157497046898
+      },
+      "task": "FORMATION_FOLLOW",
+      "surfaceDistance": 31.4729498445272,
+      "decisions": 1,
+      "impacts": 0,
+      "uncovered": false,
+      "deployed": true
+    },
+    {
+      "id": 2,
+      "callsign": "KITE-2",
+      "position": {
+        "x": 15.038751816721645,
+        "y": 279.75704419530524,
+        "z": 107.40641232120875
+      },
+      "velocity": {
+        "x": 9.60114228418603,
+        "y": 0.35600706026492257,
+        "z": -52.88401321432658
+      },
+      "target": {
+        "x": 14,
+        "y": 275.49588883801715,
+        "z": 106.00157497046898
+      },
+      "task": "AVOID",
+      "surfaceDistance": 33.60860272856277,
+      "decisions": 1,
+      "impacts": 0,
+      "uncovered": false,
+      "deployed": true
+    },
+    {
+      "id": 3,
+      "callsign": "KITE-3",
+      "position": {
+        "x": 0,
+        "y": 281.5604954950378,
+        "z": 122.72295431344148
+      },
+      "velocity": {
+        "x": 0,
+        "y": -7.497913658860555,
+        "z": -59.89568036176821
+      },
+      "target": {
+        "x": 0,
+        "y": 276.07318082646486,
+        "z": 121.99977500421872
+      },
+      "task": "FORMATION_FOLLOW",
+      "surfaceDistance": 36.31223889113239,
+      "decisions": 1,
+      "impacts": 0,
+      "uncovered": false,
+      "deployed": true
+    }
+  ],
+  "after": [
+    {
+      "id": 1,
+      "callsign": "KITE-1",
+      "position": {
+        "x": -13.93931740347299,
+        "y": 275.4133183573002,
+        "z": -70.57119565962178
+      },
+      "velocity": {
+        "x": -0.03174510365314133,
+        "y": -1.1177167914640527,
+        "z": -65.27478938237738
+      },
+      "target": {
+        "x": -14,
+        "y": 274.7725554278735,
+        "z": -72.76731778766589
+      },
+      "task": "FORMATION_FOLLOW",
+      "surfaceDistance": null,
+      "decisions": 16,
+      "impacts": 0,
+      "uncovered": false,
+      "deployed": true
+    },
+    {
+      "id": 2,
+      "callsign": "KITE-2",
+      "position": {
+        "x": -57.03639292531762,
+        "y": 291.08287315172333,
+        "z": -0.6427993082255061
+      },
+      "velocity": {
+        "x": -10.045291373212908,
+        "y": -3.2166857782971783,
+        "z": 14.639462826641559
+      },
+      "target": {
+        "x": -38,
+        "y": 290,
+        "z": 23.397755053830053
+      },
+      "task": "SCOUT",
+      "surfaceDistance": null,
+      "decisions": 16,
+      "impacts": 0,
+      "uncovered": false,
+      "deployed": true
+    },
+    {
+      "id": 3,
+      "callsign": "KITE-3",
+      "position": {
+        "x": 0,
+        "y": 274.0015265241968,
+        "z": -47.62420185278983
+      },
+      "velocity": {
+        "x": 0,
+        "y": -0.17842373710964712,
+        "z": -65.42333423020101
+      },
+      "target": {
+        "x": 0,
+        "y": 274.0010633843548,
+        "z": -56.76731778766588
+      },
+      "task": "FORMATION_FOLLOW",
+      "surfaceDistance": null,
+      "decisions": 16,
+      "impacts": 0,
+      "uncovered": false,
+      "deployed": true
+    }
+  ],
+  "radio": {
+    "active": {
+      "id": 3,
+      "agent": 2,
+      "text": "指令执行中。已飞行 98 米。",
+      "source": "local",
+      "priority": "notice"
+    },
+    "history": [
+      {
+        "id": 1,
+        "agent": null,
+        "text": "二号去侦察左侧",
+        "source": "player",
+        "priority": "reply"
+      },
+      {
+        "id": 2,
+        "agent": 2,
+        "text": "收到，开始侦察左翼。",
+        "source": "local",
+        "priority": "reply"
+      },
+      {
+        "id": 3,
+        "agent": 2,
+        "text": "指令执行中。已飞行 98 米。",
+        "source": "local",
+        "priority": "notice"
+      }
+    ],
+    "queued": 0,
+    "muted": false,
+    "pending": false
+  },
+  "outcomes": [
+    {
+      "time": 0.3000000000000001,
+      "event": "radio-interpretation",
+      "data": {
+        "source": "local",
+        "intent": "scout-left",
+        "requestId": "3-1",
+        "agent": 2,
+        "action": [
+          {
+            "agents": [
+              2
+            ],
+            "action": "SCOUT",
+            "targetId": "route-left"
+          }
+        ],
+        "modelFallback": false
+      }
+    },
+    {
+      "time": 1.7083333333333297,
+      "event": "radio-outcome",
+      "data": {
+        "requestId": "3-1",
+        "positions": [
+          {
+            "id": 2,
+            "action": "SCOUT",
+            "task": "SCOUT",
+            "position": {
+              "x": -35.223584496862806,
+              "y": 290.40687097874167,
+              "z": 19.361578683606503
+            },
+            "meters": 97.75667837843604
+          }
+        ]
+      }
+    }
+  ],
+  "muted": {
+    "active": null,
+    "history": [
+      {
+        "id": 1,
+        "agent": null,
+        "text": "二号去侦察左侧",
+        "source": "player",
+        "priority": "reply"
+      },
+      {
+        "id": 2,
+        "agent": 2,
+        "text": "收到，开始侦察左翼。",
+        "source": "local",
+        "priority": "reply"
+      },
+      {
+        "id": 3,
+        "agent": 2,
+        "text": "指令执行中。已飞行 98 米。",
+        "source": "local",
+        "priority": "notice"
+      },
+      {
+        "id": 4,
+        "agent": null,
+        "text": "一号领航",
+        "source": "player",
+        "priority": "reply"
+      },
+      {
+        "id": 5,
+        "agent": 1,
+        "text": "收到，开始前出领航。",
+        "source": "local",
+        "priority": "reply"
+      }
+    ],
+    "queued": 0,
+    "muted": true,
+    "pending": false
+  },
+  "errors": [],
+  "outbound": []
+}

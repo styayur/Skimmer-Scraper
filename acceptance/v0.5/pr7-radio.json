@@ -1,0 +1,44 @@
+{
+  "phase": 7,
+  "sourceCommit": "52b4a9b2b5aea36606ad4fc971b0e19f8ad262da",
+  "typecheck": "passed",
+  "build": "passed",
+  "radioUnitTestsPassed": 12,
+  "focusedChromium": {
+    "passed": 2,
+    "localWithoutCredentials": {
+      "leftScoutChangedCourse": true,
+      "executionReported": true,
+      "outboundHttpsRequests": 0
+    },
+    "mockedProvider": {
+      "validatedModelOrder": true,
+      "disconnectRestoredLocalRegroup": true
+    }
+  },
+  "realDeepSeekFlash": {
+    "browser": "Chrome 157 on Windows with AMD Radeon 780M via ANGLE D3D11",
+    "viewport": "1920x1080",
+    "http200": 4,
+    "reportedUsageTokens": 5956,
+    "requestLatencyMsRounded": [1078, 695, 782, 880],
+    "validatedOrders": ["LEAD", "SCOUT", "REGROUP"],
+    "leadWingmateMeters": 122.0,
+    "leftScoutMeters": 79.4,
+    "regroupMetersByWingmate": [93.0, 123.5, 92.2],
+    "contextReply": {
+      "callsign": "KITE-3",
+      "altitudeMeters": 270,
+      "surfaceDistanceMetersRounded": 58,
+      "trust": 0.58
+    },
+    "pageErrors": 0,
+    "raw": "evidence/v0.5/pr7-radio/deepseek-flash.json"
+  },
+  "screenshotsReviewed": [
+    "evidence/v0.5/pr7-radio/radio-subtitle.png",
+    "evidence/v0.5/pr7-radio/radio-history.png",
+    "evidence/v0.5/pr7-radio/deepseek-flash.png"
+  ],
+  "limitations": ["Numeric reports are model-generated. The tested reply matched recorded scene perception. The existing action validator independently rejects unsafe actions, and recognized pilot commands fall back locally if proposed orders disregard them."]
+}

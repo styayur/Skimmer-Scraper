@@ -1,5 +1,7 @@
 import { ActionRouter } from './ui/ActionRouter';
 import { OverlayManager } from './ui/OverlayManager';
+import { RadioPanel } from './ui/RadioPanel';
+import { radioText } from './ai/radioDialogue';
 import '@fontsource-variable/syne';
 import '@fontsource-variable/ibm-plex-sans';
 import './styles.css';
@@ -214,6 +216,7 @@ let renderer: GameRenderer | null = null;
 let currentImportedAircraft: Group | null = null;
 let cockpitPreview = false;
 let motionPreview = false;
+let pendingRadio: { message: string; until: number } | null = null;
 let modelLoadVersion = 0;
 
 const stepRunner = new FixedStepRunner(FLIGHT.fixedDt, 12);
@@ -628,6 +631,7 @@ const simulateJourneyStep = (dt: number): boolean => {
   if (event === 'completed') {
     skyPassage = null;
     journeyHud.completed(journey.crossings, journey.time);
+    symbiosis.flightReport(3, `穿越完成。已进入第 ${journey.crossings} 层天空。`);
     proximityFeedback = createProximityFeedback();
   }
   return true;
@@ -671,7 +675,10 @@ const simulateFixedStep = (dt: number, holdPosition = false): boolean => {
     nextState = contact.flight;
     if (contact.impact) {
       shieldGlow = 1;
-      if (shieldCooldown === 0) { shieldImpacts++; gamepad.impact(); shieldCooldown = 0.2; }
+      if (shieldCooldown === 0) {
+        shieldImpacts++; gamepad.impact(); shieldCooldown = 0.2;
+        symbiosis.flightReport(2, '防护罩已吸收撞击。注意避开障碍。', 'risk');
+      }
     }
   }
   const collisionDistance = !runRules.config.shield
@@ -686,6 +693,7 @@ const simulateFixedStep = (dt: number, holdPosition = false): boolean => {
     runRules = symbiosis.step(flightState, runRules, activeWorld, worldSettings.seed, dt);
   }
   if(activeWorld instanceof WorldStreamer && journey.observe(previousY,flightState,runRules,dt)){
+    pendingRadio=null;
     symbiosis.invalidate();companions.clearTargets();
     for(const agent of companions.agents)companions.setTarget(agent.id,flightState.position,'REGROUP',12);
   }
@@ -724,6 +732,7 @@ const finishRun = (): void => {
 const resetFlightState = (): void => {
   if (!renderer || !activeWorld) return;
   motionPreview = false;
+  pendingRadio = null;
   activeWorld.resetMotion();
   const spawn = activeWorld.getDefaultSpawn();
   flightState = createFlightState({
@@ -793,6 +802,7 @@ const startRun = async (): Promise<void> => {
 const debugPause = (): boolean => {
   if (mode !== 'running') return mode === 'paused';
   mode = 'paused';
+  pendingRadio = null;
   symbiosis.suspend();
   keyboard.setEnabled(false);
   stepRunner.reset();
@@ -1022,7 +1032,9 @@ const overlays = new OverlayManager({
   world: document.getElementById('world-panel')!,
   library: document.getElementById('library-panel')!,
   help: document.getElementById('help-panel')!,
+  radio: document.getElementById('radio-panel')!,
 });
+const radioAvailable = () => companionSettings.count > 0 && !journey.active;
 const actionRouter = new ActionRouter(overlays, {
   mode: () => mode,
   available: () => ui.canInteract,
@@ -1031,7 +1043,19 @@ const actionRouter = new ActionRouter(overlays, {
   start: () => { void startRun(); },
   title: () => { void returnToTitle(); },
   camera: toggleCameraMode,
+  radioAvailable,
 });
+
+const queueRadioDialogue = (raw: string): boolean => {
+  if ((mode !== 'running' && mode !== 'paused') || !radioAvailable() || symbiosis.client.containsCredential(raw)) return false;
+  const message = radioText(raw);
+  if (!message) return false;
+  pendingRadio = { message, until: performance.now() + 6_000 };
+  actionRouter.clear();
+  debugResume();
+  return true;
+};
+const radioPanel = new RadioPanel(symbiosis.radio, queueRadioDialogue);
 
 const activateWorld = (world: ImportedWorldAdapter | WorldStreamer, history: ChunkRevisionHistory | null): void => {
   if (!renderer) throw new Error('游戏尚未准备好。');
@@ -1085,7 +1109,18 @@ keyboard.onAction(actionRouter.route);
 
 const frame = (now: number): void => {
   if (mode !== 'running') symbiosis.suspend();
-  else if (!debugAdvancing && !buffering && !journey.active) void symbiosis.request();
+  else if (!debugAdvancing && !buffering && !journey.active) {
+    if (!pendingRadio) void symbiosis.request();
+    else if (symbiosis.canSendDialogue()) {
+      const { message } = pendingRadio;
+      pendingRadio = null;
+      void symbiosis.sendDialogue(message);
+    } else if (now > pendingRadio.until) {
+      pendingRadio = null;
+      ui.showToast('伴机电台暂不可用。', true);
+    }
+  }
+  radioPanel.update(mode === 'running' && !journey.active);
   updateModelStatus();
   journeyHud.update(journey, mode === 'running' && activeWorld instanceof WorldStreamer, runRules.config.mode === 'challenge' || (flightState?.position.y ?? 0) > 420);
   const reducedRotation=preferences.visualStimulation==='reduced'||window.matchMedia('(prefers-reduced-motion: reduce)').matches;

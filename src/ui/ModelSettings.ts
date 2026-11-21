@@ -3,13 +3,13 @@ import type { SymbiosisRuntime } from '../ai/SymbiosisRuntime';
 export const bindModelSettings=(runtime:SymbiosisRuntime, onIssue: (message: string) => void):(()=>void)=>{
   const panel=document.createElement('details');panel.className='model-settings';
   panel.innerHTML=`<summary>模型协作 · 自带 API Key</summary>
-    <p>未连接时使用 Local Autonomous Controller。Key 仅留在当前页内存；网页脚本在运行时仍可能读取。只发送必要飞行状态，不发送本机模型。</p>
+    <p>未连接时使用本地伴飞。Key 仅留在当前页内存，网页脚本在运行时仍可能读取。模型服务商只接收必要飞行状态和主动发送的文字，可能收费。</p>
     <label>提供商 <select id="ai-provider"><option value="deepseek">DeepSeek</option><option value="openai">OpenAI</option><option value="custom">受信任兼容端点</option></select></label>
     <label>模型 <input id="ai-model" value="deepseek-flash" maxlength="100" autocomplete="off"></label>
     <label>Endpoint <input id="ai-endpoint" type="url" value="https://api.deepseek.com/chat/completions" autocomplete="off" spellcheck="false"></label>
     <label><input id="ai-trusted" type="checkbox">我信任自定义端点接收此 Key 和飞行状态</label>
     <label>API Key <input id="ai-key" type="password" autocomplete="off" spellcheck="false" placeholder="仅当前页面"></label>
-    <label>间隔（秒）<input id="ai-interval" type="number" min="2" max="60" value="8"></label>
+    <label>自主规划间隔（秒）<input id="ai-interval" type="number" min="2" max="60" value="8"></label>
     <label>页面调用上限 <input id="ai-budget" type="number" min="1" max="100" value="20"></label>
     <label>保守 Token 预算 <input id="ai-tokens" type="number" min="1000" max="200000" value="50000"></label>
     <label>超时（毫秒）<input id="ai-timeout" type="number" min="1000" max="20000" value="8000"></label>

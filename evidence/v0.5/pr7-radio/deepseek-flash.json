@@ -1,0 +1,882 @@
+{
+  "kind": "direct paid browser HTTPS and live game physics",
+  "provider": "https://api.deepseek.com/chat/completions",
+  "observations": [
+    {
+      "http": 200
+    },
+    {
+      "http": 200
+    },
+    {
+      "http": 200
+    },
+    {
+      "http": 200
+    }
+  ],
+  "runs": [
+    {
+      "message": "一号领航",
+      "before": {
+        "position": {
+          "x": 0,
+          "y": 270,
+          "z": 120
+        },
+        "trust": 0.5,
+        "agents": [
+          {
+            "id": 1,
+            "callsign": "KITE-1",
+            "position": {
+              "x": -14,
+              "y": 276.78407288745825,
+              "z": 106.5618202010409
+            },
+            "velocity": {
+              "x": 0,
+              "y": -3.562732424101568,
+              "z": -64.11411637926179
+            },
+            "target": {
+              "x": -14,
+              "y": 275.6783042799485,
+              "z": 106.00157497046898
+            },
+            "task": "FORMATION_FOLLOW",
+            "surfaceDistance": 31.041716889925976,
+            "decisions": 2,
+            "impacts": 0,
+            "uncovered": false,
+            "deployed": true
+          },
+          {
+            "id": 2,
+            "callsign": "KITE-2",
+            "position": {
+              "x": 17.79571149494383,
+              "y": 279.9695229365833,
+              "z": 110.09688139358376
+            },
+            "velocity": {
+              "x": 17.45634080126462,
+              "y": -0.1491478114196205,
+              "z": -51.28043916233219
+            },
+            "target": {
+              "x": 14,
+              "y": 275.36482370749474,
+              "z": 106.00157497046898
+            },
+            "task": "AVOID",
+            "surfaceDistance": 33.55901228745088,
+            "decisions": 2,
+            "impacts": 0,
+            "uncovered": false,
+            "deployed": true
+          },
+          {
+            "id": 3,
+            "callsign": "KITE-3",
+            "position": {
+              "x": 0,
+              "y": 280.01541115954245,
+              "z": 124.09292926062439
+            },
+            "velocity": {
+              "x": 0,
+              "y": -9.964311444982917,
+              "z": -58.539863160823934
+            },
+            "target": {
+              "x": 0,
+              "y": 275.84345572130036,
+              "z": 121.99977500421872
+            },
+            "task": "FORMATION_FOLLOW",
+            "surfaceDistance": 35.36246358718344,
+            "decisions": 2,
+            "impacts": 0,
+            "uncovered": false,
+            "deployed": true
+          }
+        ]
+      },
+      "perception": {
+        "player": {
+          "position": {
+            "x": 0,
+            "y": 270,
+            "z": 118.89931357682916
+          },
+          "velocity": {
+            "x": 0,
+            "y": 0,
+            "z": -66.04095372487417
+          },
+          "grace": 5,
+          "graceLimit": 5,
+          "surfaceDistance": null,
+          "mode": "free"
+        },
+        "trust": 0.5,
+        "targets": [
+          {
+            "id": "route-ahead",
+            "kind": "route",
+            "position": {
+              "x": 0,
+              "y": 278,
+              "z": 28.899313576829158
+            },
+            "clearance": null
+          },
+          {
+            "id": "route-left",
+            "kind": "route",
+            "position": {
+              "x": -38,
+              "y": 290,
+              "z": 28.899313576829158
+            },
+            "clearance": null
+          },
+          {
+            "id": "route-right",
+            "kind": "route",
+            "position": {
+              "x": 38,
+              "y": 290,
+              "z": 28.899313576829158
+            },
+            "clearance": null
+          }
+        ]
+      },
+      "interpretation": {
+        "source": "model",
+        "intent": "lead",
+        "requestId": "3-1",
+        "agent": 1,
+        "action": [
+          {
+            "agents": [
+              1
+            ],
+            "action": "LEAD",
+            "targetId": "route-ahead"
+          },
+          {
+            "agents": [
+              2
+            ],
+            "action": "FOLLOW",
+            "targetId": null
+          },
+          {
+            "agents": [
+              3
+            ],
+            "action": "FOLLOW",
+            "targetId": null
+          }
+        ],
+        "latencyMs": 1077.5,
+        "usage": {
+          "input": 1324,
+          "output": 125,
+          "total": 1449,
+          "cached": 512
+        }
+      },
+      "line": {
+        "id": 2,
+        "agent": 1,
+        "text": "KITE-1收到，沿前方航线领航，保持楔形编队。",
+        "source": "model",
+        "priority": "reply"
+      },
+      "validation": [
+        "accepted"
+      ],
+      "usage": {
+        "connected": true,
+        "pending": false,
+        "requests": 1,
+        "successes": 1,
+        "failures": 0,
+        "cancellations": 0,
+        "reservedTokens": 6137,
+        "usage": {
+          "input": 1324,
+          "output": 125,
+          "total": 1449,
+          "cached": 512
+        },
+        "lastLatencyMs": 1077.5,
+        "error": null
+      },
+      "outcome": {
+        "requestId": "3-1",
+        "positions": [
+          {
+            "id": 1,
+            "action": "LEAD",
+            "task": "LEAD",
+            "position": {
+              "x": -0.6394979451015793,
+              "y": 276.0239512228107,
+              "z": -85.74759838548441
+            },
+            "meters": 122.00438917320055
+          },
+          {
+            "id": 2,
+            "action": "FOLLOW",
+            "task": "FORMATION_FOLLOW",
+            "position": {
+              "x": 13.619023587315658,
+              "y": 273.48200944876044,
+              "z": -45.06800336292059
+            },
+            "meters": 91.69880441116605
+          },
+          {
+            "id": 3,
+            "action": "FOLLOW",
+            "task": "FORMATION_FOLLOW",
+            "position": {
+              "x": 0,
+              "y": 274.05812093777564,
+              "z": -32.00788563514038
+            },
+            "meters": 89.69725024889166
+          }
+        ]
+      }
+    },
+    {
+      "message": "二号去侦察左侧",
+      "before": {
+        "position": {
+          "x": 0,
+          "y": 270,
+          "z": -46.12981997914747
+        },
+        "trust": 0.58,
+        "agents": [
+          {
+            "id": 1,
+            "callsign": "KITE-1",
+            "position": {
+              "x": -0.5505922936243957,
+              "y": 276.0240724208107,
+              "z": -87.19082998422273
+            },
+            "velocity": {
+              "x": 5.283816560859983,
+              "y": 0.006683346447055307,
+              "z": -86.58812758402175
+            },
+            "target": {
+              "x": 0,
+              "y": 276,
+              "z": -135.0297964910382
+            },
+            "task": "LEAD",
+            "surfaceDistance": null,
+            "decisions": 16,
+            "impacts": 0,
+            "uncovered": false,
+            "deployed": true
+          },
+          {
+            "id": 2,
+            "callsign": "KITE-2",
+            "position": {
+              "x": 13.61814346315826,
+              "y": 273.465099411713,
+              "z": -46.15983057971032
+            },
+            "velocity": {
+              "x": -0.05805193070946101,
+              "y": -1.0220722879471218,
+              "z": -65.52016625754696
+            },
+            "target": {
+              "x": 13.44,
+              "y": 272.8816218190021,
+              "z": -59.0297964910382
+            },
+            "task": "FORMATION_FOLLOW",
+            "surfaceDistance": null,
+            "decisions": 16,
+            "impacts": 0,
+            "uncovered": false,
+            "deployed": true
+          },
+          {
+            "id": 3,
+            "callsign": "KITE-3",
+            "position": {
+              "x": 0,
+              "y": 274.05347420696006,
+              "z": -33.08506425347297
+            },
+            "velocity": {
+              "x": 0,
+              "y": -0.27728440193336,
+              "z": -64.64259193092116
+            },
+            "target": {
+              "x": 0,
+              "y": 274.00051123642635,
+              "z": -43.0297964910382
+            },
+            "task": "FORMATION_FOLLOW",
+            "surfaceDistance": null,
+            "decisions": 16,
+            "impacts": 0,
+            "uncovered": false,
+            "deployed": true
+          }
+        ]
+      },
+      "perception": {
+        "player": {
+          "position": {
+            "x": 0,
+            "y": 270,
+            "z": -48.32986539924869
+          },
+          "velocity": {
+            "x": 0,
+            "y": 0,
+            "z": -66.00133969606046
+          },
+          "grace": 5,
+          "graceLimit": 5,
+          "surfaceDistance": null,
+          "mode": "free"
+        },
+        "trust": 0.58,
+        "targets": [
+          {
+            "id": "route-ahead",
+            "kind": "route",
+            "position": {
+              "x": 0,
+              "y": 278,
+              "z": -138.3298653992487
+            },
+            "clearance": null
+          },
+          {
+            "id": "route-left",
+            "kind": "route",
+            "position": {
+              "x": -38,
+              "y": 290,
+              "z": -138.3298653992487
+            },
+            "clearance": null
+          },
+          {
+            "id": "route-right",
+            "kind": "route",
+            "position": {
+              "x": 38,
+              "y": 290,
+              "z": -138.3298653992487
+            },
+            "clearance": null
+          }
+        ]
+      },
+      "interpretation": {
+        "source": "model",
+        "intent": "scout-left",
+        "requestId": "4-2",
+        "agent": 2,
+        "action": [
+          {
+            "agents": [
+              2
+            ],
+            "action": "SCOUT",
+            "targetId": "route-left"
+          }
+        ],
+        "latencyMs": 694.6999999992549,
+        "usage": {
+          "input": 1388,
+          "output": 83,
+          "total": 1471,
+          "cached": 512
+        }
+      },
+      "line": {
+        "id": 6,
+        "agent": 2,
+        "text": "KITE-2收到，前往左侧侦察。",
+        "source": "model",
+        "priority": "reply"
+      },
+      "validation": [
+        "accepted"
+      ],
+      "usage": {
+        "connected": true,
+        "pending": false,
+        "requests": 2,
+        "successes": 2,
+        "failures": 0,
+        "cancellations": 0,
+        "reservedTokens": 12480,
+        "usage": {
+          "input": 2712,
+          "output": 208,
+          "total": 2920,
+          "cached": 1024
+        },
+        "lastLatencyMs": 694.6999999992549,
+        "error": null
+      },
+      "outcome": {
+        "requestId": "4-2",
+        "positions": [
+          {
+            "id": 2,
+            "action": "SCOUT",
+            "task": "SCOUT",
+            "position": {
+              "x": -38.9575161024374,
+              "y": 291.56708813735645,
+              "z": -150.16312034459534
+            },
+            "meters": 79.39669727329385
+          }
+        ]
+      }
+    },
+    {
+      "message": "全体集合",
+      "before": {
+        "position": {
+          "x": 0,
+          "y": 270,
+          "z": -187.48079490011048
+        },
+        "trust": 0.58,
+        "agents": [
+          {
+            "id": 1,
+            "callsign": "KITE-1",
+            "position": {
+              "x": -25.133075621122206,
+              "y": 272.54133076855345,
+              "z": -180.64373215625295
+            },
+            "velocity": {
+              "x": 1.7616861219764661,
+              "y": -0.9362597892823656,
+              "z": -64.59356213821894
+            },
+            "target": {
+              "x": -22.176,
+              "y": 272.4478633458233,
+              "z": -201.48079490011048
+            },
+            "task": "FORMATION_FOLLOW",
+            "surfaceDistance": null,
+            "decisions": 28,
+            "impacts": 0,
+            "uncovered": false,
+            "deployed": true
+          },
+          {
+            "id": 2,
+            "callsign": "KITE-2",
+            "position": {
+              "x": -39.68589409427961,
+              "y": 291.7454591567497,
+              "z": -150.42979521207855
+            },
+            "velocity": {
+              "x": -28.499542923987644,
+              "y": 6.908269249440763,
+              "z": -10.451515215493341
+            },
+            "target": {
+              "x": -38,
+              "y": 290,
+              "z": -138.3298653992487
+            },
+            "task": "SCOUT",
+            "surfaceDistance": null,
+            "decisions": 28,
+            "impacts": 0,
+            "uncovered": false,
+            "deployed": true
+          },
+          {
+            "id": 3,
+            "callsign": "KITE-3",
+            "position": {
+              "x": 0.08632948708596297,
+              "y": 274.84286539403416,
+              "z": -171.6710049793176
+            },
+            "velocity": {
+              "x": -0.2279422004038141,
+              "y": 1.79664938623578,
+              "z": -65.98495125598237
+            },
+            "target": {
+              "x": 0,
+              "y": 275.4990220347459,
+              "z": -185.48079490011048
+            },
+            "task": "FORMATION_FOLLOW",
+            "surfaceDistance": null,
+            "decisions": 28,
+            "impacts": 0,
+            "uncovered": false,
+            "deployed": true
+          }
+        ]
+      },
+      "perception": {
+        "player": {
+          "position": {
+            "x": 0,
+            "y": 270,
+            "z": -189.1307968015491
+          },
+          "velocity": {
+            "x": 0,
+            "y": 0,
+            "z": -66.00007520352061
+          },
+          "grace": 5,
+          "graceLimit": 5,
+          "surfaceDistance": null,
+          "mode": "free"
+        },
+        "trust": 0.58,
+        "targets": [
+          {
+            "id": "route-ahead",
+            "kind": "route",
+            "position": {
+              "x": 0,
+              "y": 278,
+              "z": -279.1307968015491
+            },
+            "clearance": null
+          },
+          {
+            "id": "route-left",
+            "kind": "route",
+            "position": {
+              "x": -38,
+              "y": 290,
+              "z": -279.1307968015491
+            },
+            "clearance": null
+          },
+          {
+            "id": "route-right",
+            "kind": "route",
+            "position": {
+              "x": 38,
+              "y": 290,
+              "z": -279.1307968015491
+            },
+            "clearance": null
+          }
+        ]
+      },
+      "interpretation": {
+        "source": "model",
+        "intent": "regroup",
+        "requestId": "5-3",
+        "agent": 1,
+        "action": [
+          {
+            "agents": [
+              1,
+              2,
+              3
+            ],
+            "action": "REGROUP",
+            "targetId": null
+          }
+        ],
+        "latencyMs": 782.2999999970198,
+        "usage": {
+          "input": 1423,
+          "output": 82,
+          "total": 1505,
+          "cached": 512
+        }
+      },
+      "line": {
+        "id": 9,
+        "agent": 1,
+        "text": "收到，全体集合，向队长靠拢。",
+        "source": "model",
+        "priority": "reply"
+      },
+      "validation": [
+        "accepted"
+      ],
+      "usage": {
+        "connected": true,
+        "pending": false,
+        "requests": 3,
+        "successes": 3,
+        "failures": 0,
+        "cancellations": 0,
+        "reservedTokens": 18966,
+        "usage": {
+          "input": 4135,
+          "output": 290,
+          "total": 4425,
+          "cached": 1536
+        },
+        "lastLatencyMs": 782.2999999970198,
+        "error": null
+      },
+      "outcome": {
+        "requestId": "5-3",
+        "positions": [
+          {
+            "id": 1,
+            "action": "REGROUP",
+            "task": "REGROUP",
+            "position": {
+              "x": -12.154864919359506,
+              "y": 272.09404196633824,
+              "z": -326.96833546482105
+            },
+            "meters": 93.0248068977695
+          },
+          {
+            "id": 2,
+            "action": "REGROUP",
+            "task": "REGROUP",
+            "position": {
+              "x": 8.52796156205289,
+              "y": 274.8429527088152,
+              "z": -284.3106060808233
+            },
+            "meters": 123.54521820661544
+          },
+          {
+            "id": 3,
+            "action": "REGROUP",
+            "task": "REGROUP",
+            "position": {
+              "x": 0.003580216207884275,
+              "y": 277.40006043013466,
+              "z": -316.41349949116733
+            },
+            "meters": 92.16094521108096
+          }
+        ]
+      }
+    },
+    {
+      "message": "三号，请报告队长的高度和最近可贴近表面距离，按米取整，并报告团队 Trust。",
+      "before": {
+        "position": {
+          "x": 0,
+          "y": 270,
+          "z": -333.78084932107606
+        },
+        "trust": 0.58,
+        "agents": [
+          {
+            "id": 1,
+            "callsign": "KITE-1",
+            "position": {
+              "x": -12.189930185400906,
+              "y": 272.1039764347708,
+              "z": -328.6286808552035
+            },
+            "velocity": {
+              "x": -1.4561632988327295,
+              "y": 0.4080935390792714,
+              "z": -66.4704131181577
+            },
+            "target": {
+              "x": -13.44,
+              "y": 272.3929596882958,
+              "z": -346.6808492556776
+            },
+            "task": "REGROUP",
+            "surfaceDistance": 45.52510863939459,
+            "decisions": 40,
+            "impacts": 0,
+            "uncovered": false,
+            "deployed": true
+          },
+          {
+            "id": 2,
+            "callsign": "KITE-2",
+            "position": {
+              "x": 9.014988847600453,
+              "y": 274.70366517450174,
+              "z": -286.59774170045483
+            },
+            "velocity": {
+              "x": 19.18871747701608,
+              "y": -5.463030918557954,
+              "z": -91.51704790558884
+            },
+            "target": {
+              "x": 13.44,
+              "y": 274.1335299830433,
+              "z": -346.6808492556776
+            },
+            "task": "REGROUP",
+            "surfaceDistance": 52.4915055129848,
+            "decisions": 40,
+            "impacts": 0,
+            "uncovered": false,
+            "deployed": true
+          },
+          {
+            "id": 3,
+            "callsign": "KITE-3",
+            "position": {
+              "x": 0.0035949864079122783,
+              "y": 277.42172795330987,
+              "z": -318.0529562753512
+            },
+            "velocity": {
+              "x": 0.00034210211857998437,
+              "y": 0.8685063168640446,
+              "z": -65.59773005149081
+            },
+            "target": {
+              "x": 0,
+              "y": 277.75133342718584,
+              "z": -330.6808492556776
+            },
+            "task": "REGROUP",
+            "surfaceDistance": 50.142448698572785,
+            "decisions": 40,
+            "impacts": 0,
+            "uncovered": false,
+            "deployed": true
+          }
+        ]
+      },
+      "perception": {
+        "player": {
+          "position": {
+            "x": 0,
+            "y": 270,
+            "z": -337.6308495387231
+          },
+          "velocity": {
+            "x": 0,
+            "y": 0,
+            "z": -66.00000360635671
+          },
+          "grace": 5,
+          "graceLimit": 5,
+          "surfaceDistance": 58.28449752782237,
+          "mode": "free"
+        },
+        "trust": 0.58,
+        "targets": [
+          {
+            "id": "route-ahead",
+            "kind": "route",
+            "position": {
+              "x": 0,
+              "y": 278,
+              "z": -427.6308495387231
+            },
+            "clearance": null
+          },
+          {
+            "id": "route-left",
+            "kind": "route",
+            "position": {
+              "x": -38,
+              "y": 290,
+              "z": -427.6308495387231
+            },
+            "clearance": null
+          },
+          {
+            "id": "route-right",
+            "kind": "route",
+            "position": {
+              "x": 38,
+              "y": 290,
+              "z": -427.6308495387231
+            },
+            "clearance": null
+          }
+        ]
+      },
+      "interpretation": {
+        "source": "model",
+        "intent": null,
+        "requestId": "6-4",
+        "agent": 3,
+        "action": null,
+        "latencyMs": 880.1000000014901,
+        "usage": {
+          "input": 1497,
+          "output": 34,
+          "total": 1531,
+          "cached": 512
+        }
+      },
+      "line": {
+        "id": 12,
+        "agent": 3,
+        "text": "队长高度270米，最近可贴近表面58米，团队Trust 0.58。",
+        "source": "model",
+        "priority": "reply"
+      },
+      "validation": [],
+      "usage": {
+        "connected": true,
+        "pending": false,
+        "requests": 4,
+        "successes": 4,
+        "failures": 0,
+        "cancellations": 0,
+        "reservedTokens": 25721,
+        "usage": {
+          "input": 5632,
+          "output": 324,
+          "total": 5956,
+          "cached": 2048
+        },
+        "lastLatencyMs": 880.1000000014901,
+        "error": "request-budget"
+      }
+    }
+  ],
+  "pageErrors": 0,
+  "environment": {
+    "build": {
+      "version": "0.3.0-rc.1",
+      "sourceCommit": "52b4a9b2b5aea36606ad4fc971b0e19f8ad262da",
+      "sourceCommitTime": "2026-11-21T22:15:29+08:00",
+      "dirty": false,
+      "sourceUrl": "https://github.com/styayur/Skimmer-Scraper/tree/52b4a9b2b5aea36606ad4fc971b0e19f8ad262da"
+    },
+    "agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/157.0.0.0 Safari/537.36",
+    "renderer": "ANGLE (AMD, AMD Radeon 780M Graphics (0x00001900) Direct3D11 vs_5_0 ps_5_0, D3D11)"
+  }
+}
