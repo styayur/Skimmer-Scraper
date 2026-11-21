@@ -1,0 +1,114 @@
+{
+  "os": "Windows 11",
+  "method": "12 seconds of actual default-path flying per case on one clean build. Seed 334458, three autonomous companions, no network, no pause or debug advance during capture.",
+  "results": [
+    {
+      "quality": "high",
+      "buildCommit": "43d47c3993628044825f765d85416c6a46d0ea0b",
+      "browser": "157.0.8103.79",
+      "errors": [],
+      "gpu": "ANGLE (AMD, AMD Radeon 780M Graphics (0x00001900) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "viewport": [
+        1920,
+        1080
+      ],
+      "seed": 334458,
+      "generatorVersion": 3,
+      "world": {
+        "chunks": 25,
+        "buildings": 210,
+        "bridges": 60,
+        "islands": 10,
+        "collisionTriangles": 85160,
+        "renderTriangles": 258530
+      },
+      "frameCount": 1160,
+      "movingFrames": 1159,
+      "modes": {
+        "running": 1160
+      },
+      "peaks": {
+        "dynamicBVH": 8,
+        "drawCalls": 494,
+        "bvh": 25,
+        "chunks": 25,
+        "geometries": 407,
+        "textures": 26,
+        "renderTriangles": 356838
+      },
+      "p50Ms": 8.399999999999636,
+      "p95Ms": 16.799999999999727,
+      "p99Ms": 25.100000000000364,
+      "averageFps": 96.61674801352633,
+      "companions": 3,
+      "widestCompanionDistance": 88.9154434701869,
+      "uncoveredCompanionSamples": 0,
+      "mirrorSky": {
+        "seed": 334458,
+        "triangles": 2640,
+        "cameraOffset": 0
+      },
+      "generation": {
+        "samples": 45,
+        "p95Ms": 53.80000000074506,
+        "maxMs": 566.8999999985099
+      },
+      "runTime": 12.016666666666616,
+      "shieldImpacts": 0
+    },
+    {
+      "quality": "high",
+      "buildCommit": "43d47c3993628044825f765d85416c6a46d0ea0b",
+      "browser": "157.0.8103.79",
+      "errors": [],
+      "gpu": "ANGLE (AMD, AMD Radeon 780M Graphics (0x00001900) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "viewport": [
+        1920,
+        1080
+      ],
+      "seed": 334458,
+      "generatorVersion": 3,
+      "world": {
+        "chunks": 25,
+        "buildings": 210,
+        "bridges": 60,
+        "islands": 10,
+        "collisionTriangles": 85160,
+        "renderTriangles": 258530
+      },
+      "frameCount": 992,
+      "movingFrames": 992,
+      "modes": {
+        "running": 992
+      },
+      "peaks": {
+        "dynamicBVH": 8,
+        "drawCalls": 494,
+        "bvh": 25,
+        "chunks": 25,
+        "geometries": 407,
+        "textures": 26,
+        "renderTriangles": 356834
+      },
+      "p50Ms": 8.399999999999864,
+      "p95Ms": 24.899999999999636,
+      "p99Ms": 33.5,
+      "averageFps": 82.61434424864252,
+      "companions": 3,
+      "widestCompanionDistance": 88.47201214009698,
+      "uncoveredCompanionSamples": 0,
+      "mirrorSky": {
+        "seed": 334458,
+        "triangles": 2640,
+        "cameraOffset": 0
+      },
+      "generation": {
+        "samples": 45,
+        "p95Ms": 66.09999999776483,
+        "maxMs": 412.30000000074506
+      },
+      "runTime": 12.024999999999954,
+      "shieldImpacts": 0
+    }
+  ]
+}

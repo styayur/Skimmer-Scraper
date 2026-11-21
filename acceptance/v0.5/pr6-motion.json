@@ -1,0 +1,137 @@
+{
+  "phase": 6,
+  "sourceCommit": "bdfaa534a323d83a840969065d1a5067811d3b0c",
+  "unit": {
+    "passed": 156,
+    "dynamicCases": 6
+  },
+  "typecheck": "passed",
+  "build": "passed",
+  "focusedChromium": {
+    "passed": 2,
+    "closeFlight": {
+      "distance": 2.5,
+      "point": {
+        "x": 220,
+        "y": 271.1013579774818,
+        "z": 220.858248420991
+      },
+      "chunkId": "0:0",
+      "surfaceId": "moving:0:0:garden"
+    },
+    "companions": 3,
+    "glbHit": {
+      "distance": 2,
+      "point": {
+        "x": 88.8669435963624,
+        "y": 35.58333333333334,
+        "z": 30
+      },
+      "chunkId": "imported-motion",
+      "surfaceId": "glb:10"
+    },
+    "shieldImpacts": 1,
+    "released": {
+      "seed": 3016777078,
+      "bvhBefore": 2,
+      "bvhAfter": 0,
+      "dynamicBvhBefore": 1,
+      "dynamicBvhAfter": 0,
+      "rootChildrenAfter": 0,
+      "disposedGeometryCount": 4
+    }
+  },
+  "nativeMotionFlight": {
+    "seconds": 90.00020000000298,
+    "pathMeters": 7272.36912558707,
+    "samples": 91,
+    "dynamicBVHCounts": [
+      8
+    ],
+    "textures": [
+      19,
+      26
+    ],
+    "renderer": "ANGLE (AMD, AMD Radeon 780M Graphics (0x00001900) Direct3D11 vs_5_0 ps_5_0, D3D11)"
+  },
+  "matchedHigh": [
+    {
+      "buildCommit": "df35854028c706fff10d67f41673a7c455f48655",
+      "frameCount": 1167,
+      "averageFps": 97.20625718427914,
+      "p50Ms": 8.399999999999636,
+      "p95Ms": 16.800000000000182,
+      "p99Ms": 25,
+      "peaks": {
+        "dynamicBVH": 0,
+        "drawCalls": 492,
+        "bvh": 25,
+        "chunks": 25,
+        "geometries": 403,
+        "textures": 26,
+        "renderTriangles": 356790
+      }
+    },
+    {
+      "buildCommit": "43d47c3993628044825f765d85416c6a46d0ea0b",
+      "frameCount": 1063,
+      "averageFps": 88.5287406099572,
+      "p50Ms": 8.399999999999636,
+      "p95Ms": 16.899999999999636,
+      "p99Ms": 33.5,
+      "peaks": {
+        "dynamicBVH": 8,
+        "drawCalls": 494,
+        "bvh": 25,
+        "chunks": 25,
+        "geometries": 407,
+        "textures": 26,
+        "renderTriangles": 356834
+      }
+    },
+    {
+      "buildCommit": "43d47c3993628044825f765d85416c6a46d0ea0b",
+      "frameCount": 1111,
+      "averageFps": 92.43774388672895,
+      "p50Ms": 8.399999999999636,
+      "p95Ms": 16.800000000000182,
+      "p99Ms": 33.399999999999636,
+      "peaks": {
+        "dynamicBVH": 8,
+        "drawCalls": 494,
+        "bvh": 25,
+        "chunks": 25,
+        "geometries": 407,
+        "textures": 26,
+        "renderTriangles": 356834
+      }
+    },
+    {
+      "buildCommit": "df35854028c706fff10d67f41673a7c455f48655",
+      "frameCount": 1082,
+      "averageFps": 90.15464604718812,
+      "p50Ms": 8.399999999999636,
+      "p95Ms": 16.80000000000109,
+      "p99Ms": 33.400000000001455,
+      "peaks": {
+        "dynamicBVH": 0,
+        "drawCalls": 492,
+        "bvh": 25,
+        "chunks": 25,
+        "geometries": 403,
+        "textures": 26,
+        "renderTriangles": 356786
+      }
+    }
+  ],
+  "evidence": [
+    "evidence/v0.5/pr6-motion/animated-lift.png",
+    "evidence/v0.5/pr6-motion/floating-garden.png",
+    "evidence/v0.5/pr6-motion/glb-motion.json",
+    "evidence/v0.5/pr6-motion/native-flight-90s.json",
+    "evidence/v0.5/pr6-motion/native-gpu-high-repeat.json",
+    "evidence/v0.5/pr6-motion/native-gpu-matched.json",
+    "evidence/v0.5/pr6-motion/native-gpu.json",
+    "evidence/v0.5/pr6-motion/procedural-motion.json"
+  ]
+}
