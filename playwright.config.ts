@@ -13,7 +13,9 @@ export default defineConfig({
     baseURL: 'http://127.0.0.1:4173',
     trace: 'retain-on-failure',
     screenshot: 'only-on-failure',
-    video: 'retain-on-failure',
+    // Keep the first failure's trace and screenshot. Record its retry in CI so
+    // successful software-rendered flights do not compete with a video encoder.
+    video: process.env.CI ? 'on-first-retry' : 'retain-on-failure',
   },
   projects: [
     {
