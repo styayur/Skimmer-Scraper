@@ -1,5 +1,5 @@
 import type { Perception, TeamOrder, TeamPlan } from './contracts';
-import { COMPANION_PROFILES } from './radioDialogue';
+import { COMPANION_PROFILES, radioLanguageOf, type RadioLanguage } from './radioDialogue';
 
 export type RadioCommand = 'follow' | 'lead' | 'scout-left' | 'regroup' | 'formation' | 'safe-route' | 'relay';
 export interface LocalRadioIntent { kind: RadioCommand; plan: TeamPlan | null; agent: number | null }
@@ -14,8 +14,9 @@ const acknowledgements: Record<RadioCommand, [string, string]> = {
   relay: ['收到，开始准备地表接力。', 'Copy. Preparing Surface Relay.'],
 };
 
-export const localRadioReply = (message: string, perception: Perception, intent: LocalRadioIntent | null, applied: boolean, agent: number): string => {
-  const lang = /[\u3400-\u9fff]/.test(message) ? 0 : 1;
+export const localRadioReply = (message: string, perception: Perception, intent: LocalRadioIntent | null, applied: boolean, agent: number,
+  language: RadioLanguage = radioLanguageOf(message)): string => {
+  const lang = language === 'zh-CN' ? 0 : 1;
   if (intent) {
     if (applied) return acknowledgements[intent.kind][lang];
     if (!intent.agent) return ['指定的伴机暂时不可用。', 'That wingmate is unavailable.'][lang]!;

@@ -1,6 +1,6 @@
 import type { ModelClient } from '../ai/modelClient';
-import { radioText, type RadioLine } from '../ai/radioDialogue';
-import { openLocalSpeech, speakLocally, type RadioLanguage } from './browserSpeech';
+import { radioLanguageOf, radioText, type RadioLanguage, type RadioLine } from '../ai/radioDialogue';
+import { openLocalSpeech, speakLocally } from './browserSpeech';
 import { DeepSeekVoice, VOICE_LIMITS, type SpeechStreamStats } from './deepSeekVoice';
 import { openMicrophone } from './microphone';
 import { StreamedRadioPlayback } from './playback';
@@ -60,6 +60,9 @@ export class VoiceRadio {
 
   public constructor(model: ModelClient, private readonly hooks: Hooks) { this.deepSeek = new DeepSeekVoice(model); }
   public get inputMode(): VoiceMode { return this.settings.input; }
+  public get preferredLanguage(): RadioLanguage | undefined {
+    return this.settings.input === 'off' && this.settings.output === 'off' ? undefined : this.settings.language;
+  }
   public get ducking(): boolean { return !!this.playback || this.capture?.phase === 'opening' || this.capture?.phase === 'recording'; }
   public snapshot() {
     return { ...this.settings, phase: this.capture?.phase ?? 'idle', played: this.played, completed: this.completed,
@@ -205,7 +208,7 @@ export class VoiceRadio {
 
   private async announce(line: RadioLine, signal: AbortSignal): Promise<void> {
     const agent = line.agent ?? 1;
-    const language = /[\u3400-\u9fff]/.test(line.text) ? 'zh-CN' : 'en-US';
+    const language = radioLanguageOf(line.text);
     let began = false;
     try {
       if (this.settings.output === 'deepseek' && this.deepSeek.connected && this.context?.state === 'running') {

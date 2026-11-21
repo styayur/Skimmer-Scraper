@@ -5,7 +5,8 @@ input and wingmate speech can be enabled separately. Both start off on each
 page load. With input enabled, hold **V** or the in-flight talk button, speak,
 then release to send. **Esc** cancels the clip. **Advanced → Controls** allows
 an unused gamepad button to be assigned to push-to-talk. Supply `-1` to clear
-the assignment.
+the assignment. Choose Chinese or English for on-device recognition,
+wingmate replies and ambient radio reports.
 
 The browser asks for microphone permission the first time you press to talk.
 Grant it, then press again when the recording indicator is visible. Recording

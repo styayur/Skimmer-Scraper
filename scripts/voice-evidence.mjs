@@ -115,6 +115,7 @@ try {
   await page.locator('.voice-settings summary').click();
   await page.locator('#voice-input').selectOption('deepseek');
   await page.locator('#voice-output').selectOption('deepseek');
+  if (!physical) await page.locator('#voice-language').selectOption('en-US');
   await page.locator('#voice-fallback').uncheck();
   await page.locator('#rules-close').click();
   assert.equal(await page.evaluate(() => window.__voiceEvidence.attempts), 0);
@@ -153,10 +154,13 @@ try {
   observations.interpretation = interpretation;
   const dialogue = ordered.cooperation.radio.history.filter(line => line.source === 'player' || line.source === 'model');
   if (!physical) observations.dialogue = dialogue;
+  observations.validation = ordered.cooperation.trace.filter(event => event.event === 'decision' &&
+    event.data.decision?.requestId === interpretation?.requestId).map(event => ({ provider: event.data.provider, validation: event.data.validation }));
   assert.equal(interpretation?.source, 'model');
   assert(interpretation.action?.some(order => order.action === 'SCOUT' && order.targetId === 'route-left' && order.agents.includes(2)));
   const reply = dialogue.filter(line => line.source === 'model' && line.agent === 2).at(-1);
   assert(reply);
+  if (!physical) assert(!/[\u3400-\u9fff]/.test(reply.text));
   await page.waitForFunction(request => window.__SKIMMER_SCRAPER__.snapshot().cooperation.trace.some(event => event.event === 'radio-outcome' && event.data.requestId === request),
     interpretation.requestId, { timeout: 15_000 });
   const moved = await snapshot();

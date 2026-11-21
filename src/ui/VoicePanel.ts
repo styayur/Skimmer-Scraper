@@ -1,5 +1,6 @@
 import type { GameAction } from '../flight/input';
-import { prepareLocalSpeech, type RadioLanguage } from '../voice/browserSpeech';
+import type { RadioLanguage } from '../ai/radioDialogue';
+import { prepareLocalSpeech } from '../voice/browserSpeech';
 import type { VoiceMode, VoiceRadio } from '../voice/VoiceRadio';
 
 const modes = '<option value="off">关闭</option><option value="local">本机</option><option value="deepseek">DeepSeek</option>';
@@ -14,7 +15,8 @@ export const showVoiceStatus = (phase: string, message: string): void => {
   if (phase === 'idle' && message) dismiss = window.setTimeout(() => { status.hidden = true; }, 4500);
 };
 
-export const bindVoicePanel = (voice: VoiceRadio, action: (action: GameAction) => boolean) => {
+export const bindVoicePanel = (voice: VoiceRadio, action: (action: GameAction) => boolean,
+  changeLanguage: (language: RadioLanguage | undefined) => void) => {
   const panel = document.createElement('details');
   panel.className = 'voice-settings';
   panel.innerHTML = `<summary>语音电台</summary>
@@ -22,7 +24,7 @@ export const bindVoicePanel = (voice: VoiceRadio, action: (action: GameAction) =
     <p>DeepSeek 模式使用模型协作中的 Key。音频或播报文本直接发往 DeepSeek，服务商可能收费。本机识别和播报由设备处理。</p>
     <label>语音输入 <select id="voice-input">${modes}</select></label>
     <label>伴机语音播报 <select id="voice-output">${modes}</select></label>
-    <label>本机输入语言 <select id="voice-language"><option value="zh-CN">中文</option><option value="en-US">English</option></select></label>
+    <label>本机识别与电台回复语言 <select id="voice-language"><option value="zh-CN">中文</option><option value="en-US">English</option></select></label>
     <label><input type="checkbox" id="voice-fallback" checked> DeepSeek 播报失败时使用本机语音</label>
     <div><button id="voice-language-prepare" type="button">准备本机语言包</button></div>
     <p id="voice-language-status" role="status"></p><p id="voice-usage"></p>`;
@@ -34,8 +36,11 @@ export const bindVoicePanel = (voice: VoiceRadio, action: (action: GameAction) =
   const prepare = panel.querySelector<HTMLButtonElement>('#voice-language-prepare')!;
   const languageStatus = panel.querySelector('#voice-language-status')!;
   const usage = panel.querySelector('#voice-usage')!;
-  const configure = () => voice.configure({ input: input.value as VoiceMode, output: output.value as VoiceMode,
-    language: language.value as RadioLanguage, localFallback: fallback.checked });
+  const configure = () => {
+    voice.configure({ input: input.value as VoiceMode, output: output.value as VoiceMode,
+      language: language.value as RadioLanguage, localFallback: fallback.checked });
+    changeLanguage(voice.preferredLanguage);
+  };
   for (const field of [input, output, language, fallback]) field.addEventListener('change', configure);
   language.addEventListener('change', () => { languageStatus.textContent = ''; });
   prepare.addEventListener('click', async () => {

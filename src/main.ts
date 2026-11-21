@@ -634,7 +634,7 @@ const simulateJourneyStep = (dt: number): boolean => {
   if (event === 'completed') {
     skyPassage = null;
     journeyHud.completed(journey.crossings, journey.time);
-    symbiosis.flightReport(3, `穿越完成。已进入第 ${journey.crossings} 层天空。`);
+    symbiosis.flightReport(3, [`穿越完成。已进入第 ${journey.crossings} 层天空。`, `Crossing complete. Entering sky ${journey.crossings}.`]);
     proximityFeedback = createProximityFeedback();
   }
   return true;
@@ -680,7 +680,7 @@ const simulateFixedStep = (dt: number, holdPosition = false): boolean => {
       shieldGlow = 1;
       if (shieldCooldown === 0) {
         shieldImpacts++; gamepad.impact(); shieldCooldown = 0.2;
-        symbiosis.flightReport(2, '防护罩已吸收撞击。注意避开障碍。', 'risk');
+        symbiosis.flightReport(2, ['防护罩已吸收撞击。注意避开障碍。', 'Shield absorbed the impact. Clear the obstacle.'], 'risk');
       }
     }
   }
@@ -1068,7 +1068,8 @@ const queueRadioDialogue = (raw: string, useModel = true): boolean => {
   return true;
 };
 const voiceRadio = new VoiceRadio(symbiosis.client, { available: voiceAvailable, send: queueRadioDialogue, status: showVoiceStatus });
-const updateVoicePanel = bindVoicePanel(voiceRadio, action => actionRouter.route(action, false, 'touch'));
+const updateVoicePanel = bindVoicePanel(voiceRadio, action => actionRouter.route(action, false, 'touch'),
+  language => { symbiosis.radioLanguage = language; });
 const radioPanel = new RadioPanel(symbiosis.radio, queueRadioDialogue, () => voiceRadio.silence());
 
 const activateWorld = (world: ImportedWorldAdapter | WorldStreamer, history: ChunkRevisionHistory | null): void => {

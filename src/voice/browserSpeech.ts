@@ -1,4 +1,4 @@
-export type RadioLanguage = 'zh-CN' | 'en-US';
+import type { RadioLanguage } from '../ai/radioDialogue';
 interface LocalResult extends Event { results: ArrayLike<ArrayLike<{ transcript: string }>> }
 interface LocalError extends Event { error: string }
 interface LocalRecognition {
