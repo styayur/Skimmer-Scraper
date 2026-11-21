@@ -85,6 +85,24 @@ describe('bounded team radio', () => {
     expect(JSON.stringify(runtime.snapshot())).not.toContain(key);
   });
 
+  it('rejects a valid model route that contradicts the current pilot command', async () => {
+    const transport: typeof fetch = async (_url, options) => {
+      const input = JSON.parse(JSON.parse(String(options?.body)).messages[1].content).perception;
+      const plan = { requestId: input.requestId, epoch: input.epoch, ttl: 12, risk: 0.2, formation: 'wedge',
+        orders: [{ agents: [1], action: 'LEAD', targetId: 'route-ahead' }], reason: 'Taking point' };
+      return new Response(JSON.stringify({ choices: [{ message: { content: JSON.stringify({
+        plan, reply: { agentId: 1, text: 'Taking point.' },
+      }) } }] }));
+    };
+    const client = new ModelClient(transport);
+    client.connect(DEFAULT_MODEL_CONFIG, 'synthetic-radio-command');
+    const { runtime } = fixture(client);
+    expect(await runtime.sendDialogue('全体集合')).toBe(true);
+    expect(runtime.trace).toContainEqual(expect.objectContaining({ event: 'decision', data: expect.objectContaining({ validation: 'radio-command-mismatch' }) }));
+    expect(runtime.lastPlan?.orders[0]).toEqual({ agents: [1, 2, 3], action: 'REGROUP', targetId: null });
+    expect(runtime.radio.snapshot().history.at(-1)?.source).toBe('local');
+  });
+
   it('discards a response that comes back after a world invalidation', async () => {
     let finish!: (value: Response) => void;
     const transport = vi.fn(async () => new Promise<Response>(resolve => { finish = resolve; }));

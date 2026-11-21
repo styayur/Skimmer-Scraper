@@ -42,7 +42,7 @@ test('local radio responds to text, changes a scout route and keeps concise mute
   await expect(page.locator('#radio-subtitle')).toContainText('Guardian');
   await expect(page.locator('#radio-subtitle')).toContainText('侦察左翼');
   mkdirSync(output, { recursive: true });
-  await page.screenshot({ path: `${output}/radio-subtitle.png` });
+  await page.screenshot({ path: `${output}/radio-subtitle.png`, animations: 'disabled' });
   const after = await page.evaluate(() => window.__SKIMMER_SCRAPER__!.advance(2));
   expect(after.companions[1]!.position.x).toBeLessThan(before.companions[1]!.position.x - 15);
   expect(after.cooperation.trace.some(entry => entry.event === 'radio-outcome')).toBe(true);
@@ -50,7 +50,7 @@ test('local radio responds to text, changes a scout route and keeps concise mute
   await page.keyboard.press('t');
   await expect(page.locator('#radio-history')).toContainText('二号去侦察左侧');
   await expect(page.locator('#radio-history')).toContainText('已飞行');
-  await page.screenshot({ path: `${output}/radio-history.png` });
+  await page.screenshot({ path: `${output}/radio-history.png`, animations: 'disabled' });
   await page.locator('#radio-mute').check();
   await page.locator('[data-radio-command="一号领航"]').click();
   await expect.poll(async () => (await snapshot(page)).cooperation.lastPlan?.orders[0]?.action).toBe('LEAD');

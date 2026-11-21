@@ -8,7 +8,7 @@ import { ModelClient, type ModelReply } from './modelClient';
 import { validatePlan } from './validator';
 import type { AgentAction, Perception, ValidatedPlan } from './contracts';
 import { RadioDialogue, radioText, type RadioPriority } from './radioDialogue';
-import { addressedAgent, localRadioIntent, localRadioReply } from './radioCommands';
+import { addressedAgent, localRadioIntent, localRadioReply, type LocalRadioIntent } from './radioCommands';
 
 interface Context { player:FlightState; rules:RunRulesState; world:CompanionWorld; seed:number; active:boolean }
 interface Trace { time:number; event:string; data:unknown }
@@ -128,7 +128,7 @@ export class SymbiosisRuntime {
       const response=model&&readRadioReply(model.decision);
       if(model&&response&&this.radioAgent(response.agent)===response.agent){
         const isQuestion=response.plan===null;
-        if(isQuestion&&!intent || !isQuestion&&this.accept({...model,decision:response.plan},perception,'Model Radio')){
+        if(isQuestion&&!intent || !isQuestion&&this.accept({...model,decision:response.plan},perception,'Model Radio',intent)){
           this.radio.report(response.agent,response.text,'model','reply',this.time);
           this.record('radio-interpretation',{source:'model',intent:intent?.kind??null,requestId:perception.requestId,agent:response.agent,
             action:isQuestion?null:this.lastPlan?.orders,latencyMs:model.latencyMs,usage:model.usage});
@@ -199,10 +199,19 @@ export class SymbiosisRuntime {
   public replay(decision:unknown,perception:Perception):boolean {
     return this.accept({decision,usage:{input:0,output:0,total:0,cached:0},latencyMs:0,provider:'recording',model:'recorded'},perception,'Recorded Model Plan');
   }
-  private accept(reply:ModelReply,perception:Perception,label:string):boolean {
+  private accept(reply:ModelReply,perception:Perception,label:string,pilotIntent:LocalRadioIntent|null=null):boolean {
     const c=this.context;
     if(!c)return false;
     const result=validatePlan(reply.decision,{perception,epoch:this.epoch,time:this.time,active:c.active,player:c.player.position,agents:this.team.agents,world:c.world,usedIds:this.used});
+    if(result.ok&&pilotIntent){
+      const required=pilotIntent.plan?.orders[0];
+      const matching=required&&result.plan.orders.filter(order=>order.action===required.action&&
+        (pilotIntent.kind!=='scout-left'||order.targetId===required.targetId));
+      if(!required||!matching||!required.agents.every(id=>matching.some(order=>order.agents.includes(id)))){
+        this.record('decision',{...reply,validation:'radio-command-mismatch'});
+        return false;
+      }
+    }
     this.record('decision',{...reply,validation:result.ok?'accepted':result.reason});
     if(!result.ok){if(!['stale-epoch','inactive-state'].includes(result.reason))this.event('bad-plan');return false;}
     const plan=result.plan;this.used.add(plan.requestId);if(this.used.size>128)this.used.delete(this.used.values().next().value!);
