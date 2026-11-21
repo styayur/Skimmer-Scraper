@@ -27,3 +27,6 @@ The first detected clip plays by default. In **Animation and motion paths**, sel
 Rigid translation, rotation and scale move both the visual mesh and its collider. Skin and morph animations use the reference mesh shape for collision. The import panel marks those approximations. During flight, **Play world animation** pauses or resumes object motion. Before takeoff, **Preview** plays the scene around the start area. Retry resets the animation clock to zero. The limit is 128 active rigid collision meshes per imported world.
 
 A world can use up to 128 MiB of GLB data, 2,500 nodes, 1,250,000 rendered triangles counting repeated instances, 256 materials and 128 textures. Width and height are limited to 8192 pixels per texture and decoded base images to 50,331,648 pixels total. The transformed solid scene can span up to 12,000 m on its longest axis. The separate local world library can keep six worlds within a combined 256 MiB. Larger imports show resource usage and offer cancellation before activation.
+
+Collision ownership, moving structures and test evidence are described in
+[Moving structures](DYNAMIC-WORLD.md). [Aircraft models](MODELS.md) have a separate library.

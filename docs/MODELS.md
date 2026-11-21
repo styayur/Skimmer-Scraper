@@ -47,3 +47,7 @@ compressed GLBs are not supported unless their decoders are added explicitly. Ke
 and avoid external texture paths.
 
 For optional language models that power companion dialogue, see [Companion radio](RADIO.md).
+
+The aircraft library and local world library are separate. World imports have
+separate collision settings, scene validation, decoder support and resources.
+[World import](WORLD-IMPORT.md) · [Moving structures](DYNAMIC-WORLD.md)

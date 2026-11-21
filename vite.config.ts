@@ -7,10 +7,15 @@ const { version } = packageInfo;
 // Build provenance is a separate asset: documentation/evidence commits do not
 // alter the flight bundle. Never import or spread process.env into client code.
 const git = (...args: string[]): string => execFileSync('git', args, { encoding: 'utf8' }).trim();
-const revision = existsSync('.git')
+interface Revision { sourceCommit: string; sourceCommitTime: string; dirty: boolean }
+const revision: Revision = existsSync('.git')
   ? { sourceCommit: git('rev-parse', 'HEAD'), sourceCommitTime: git('show', '-s', '--format=%cI', 'HEAD'), dirty: spawnSync('git', ['diff', '--quiet', 'HEAD']).status !== 0 }
-  : JSON.parse(readFileSync('SOURCE_REVISION.json', 'utf8')) as { sourceCommit: string; sourceCommitTime: string; dirty: boolean };
-const buildInfo = { version, ...revision, sourceUrl: `https://github.com/styayur/Skimmer-Scraper/tree/${revision.sourceCommit}` };
+  : JSON.parse(readFileSync('SOURCE_REVISION.json', 'utf8')) as Revision;
+const { sourceCommit, sourceCommitTime, dirty } = revision;
+const buildInfo = { version, sourceCommit, sourceCommitTime, dirty,
+  sourceUrl: `https://github.com/styayur/Skimmer-Scraper/tree/${sourceCommit}`,
+  toolchain: { node: process.version, platform: process.platform, architecture: process.arch },
+};
 
 export default defineConfig({
   base: './',
@@ -24,5 +29,7 @@ export default defineConfig({
       this.emitFile({ type: 'asset', fileName: 'build-info.json', source: `${JSON.stringify(buildInfo, null, 2)}\n` });
     },
   }],
-  build: { target: 'es2022', sourcemap: true },
+  // The complete source is linked above. Asset modules can emit different
+  // synthetic references in their source maps across identical builds.
+  build: { target: 'es2022', sourcemap: false },
 });

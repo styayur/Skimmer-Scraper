@@ -2,6 +2,22 @@
 
 ## Unreleased
 
+## 0.5.0
+
+### Added
+
+- In-game guide, common action routing and keyboard, touch and controller navigation.
+- A dense unified city with layered corridors, moving gardens, lifts and rings.
+- Local GLB world importing, spawn and semantic controls, rigid animation collisions and saved world slots.
+- Companion callsigns, dialogue, validated flight commands and feedback from actual wingmate movement.
+- Optional push-to-talk, on-device speech and direct DeepSeek ASR, model dialogue and streamed TTS with memory-only BYOK.
+
+### Changed
+
+- New pilots begin in shielded Free Flight with Precision controls, Chase and three wingmates. Chase and Cockpit share per-aircraft anchor presets. Old Nose preferences migrate to Cockpit.
+- Sky Inversion carries the camera, aircraft attitude and formation through a checked exit corridor. Distant mirrored skylines follow the world seed.
+- Legacy generator links still resolve to their original layouts and score keys.
+
 ## 0.3.0-rc.1 — 2026-11-21
 
 ### Added

@@ -1,0 +1,87 @@
+{
+  "url": "http://127.0.0.1:4181/Skimmer-Scraper/",
+  "scope": "candidate-firefox",
+  "browser": "159.0",
+  "journeys": [],
+  "worldImports": [
+    {
+      "variant": "animated",
+      "bvh": 2,
+      "dynamicBvh": 1,
+      "release": {
+        "seed": 3016777078,
+        "bvhBefore": 2,
+        "bvhAfter": 0,
+        "dynamicBvhBefore": 1,
+        "dynamicBvhAfter": 0,
+        "rootChildrenAfter": 0,
+        "disposedGeometryCount": 4
+      }
+    }
+  ],
+  "pageErrors": [],
+  "httpErrors": [],
+  "assets": [
+    {
+      "path": "/Skimmer-Scraper/assets/index-BJxsGIPb.css",
+      "status": 200
+    },
+    {
+      "path": "/Skimmer-Scraper/assets/index-DcI6zZAp.js",
+      "status": 200
+    },
+    {
+      "path": "/Skimmer-Scraper/assets/ibm-plex-sans-latin-wght-normal-IvpUvPa2.woff2",
+      "status": 200
+    },
+    {
+      "path": "/Skimmer-Scraper/assets/syne-latin-wght-normal-BVsvWWA4.woff2",
+      "status": 200
+    },
+    {
+      "path": "/Skimmer-Scraper/assets/worldCodecs-BWa5d7Kf.js",
+      "status": 200
+    }
+  ],
+  "build": {
+    "version": "0.5.0-rc.1",
+    "sourceCommit": "68e83a71028e041245fd60ab1261185154eb4277",
+    "sourceCommitTime": "2026-11-22T00:50:28+08:00",
+    "dirty": false,
+    "sourceUrl": "https://github.com/styayur/Skimmer-Scraper/tree/68e83a71028e041245fd60ab1261185154eb4277",
+    "toolchain": {
+      "node": "v26.7.0",
+      "platform": "win32",
+      "architecture": "x64"
+    }
+  },
+  "bundle": {
+    "path": "/Skimmer-Scraper/assets/index-DcI6zZAp.js",
+    "sha256": "519fab9457771bd279ff7c5fc6139c610cd43008a9f66ddfea26bb4aafced0d8"
+  },
+  "webgl": {
+    "version": "WebGL 2.0",
+    "renderer": "ANGLE (AMD, Radeon R9 200 Series Direct3D11 vs_5_0 ps_5_0), or similar"
+  },
+  "defaults": {
+    "mode": "free",
+    "shield": true,
+    "companions": 3,
+    "camera": "chase",
+    "movingStructures": 8,
+    "dynamicBvhs": 8
+  },
+  "voiceSettings": [
+    "voice-input",
+    "voice-output",
+    "voice-language"
+  ],
+  "radio": {
+    "id": 2,
+    "agent": 1,
+    "text": "收到，全队向你集合。",
+    "source": "local",
+    "priority": "reply"
+  },
+  "status": "passed"
+}

@@ -3,9 +3,9 @@
 ## Product contract
 
 Skimmer-Scraper is a static, account-free browser game. The player flies an aircraft close to a
-continuous, hand-composed procedural city. Buildings, roofs, ground, bridges and floating islands
-are all valid surfaces. A run ends immediately on impact or after the player has remained farther
-than the surface range for five seconds. Time alive and a local personal best are the only score.
+continuous procedural city, with optional local GLB worlds. New pilots start in shielded Free Flight
+with three local wingmates. Challenge uses surface grace, impact failure and a local personal best.
+Keep previous settings, world URLs and score records compatible.
 
 Do not add accounts, remote model uploads, analytics that identify players, or server-side state
 without an explicit product decision.
@@ -21,6 +21,7 @@ without an explicit product decision.
   - `src/world`: world contract, seeded generation and spatial queries.
   - `src/render`: Three.js scene, camera, effects and visual-only animation.
   - `src/audio`, `src/ui`, `src/model`: browser adapters around plain contracts.
+  - `src/ai`, `src/voice`: optional browser radio requests, validated orders and bounded audio. The flight loop never waits for a request.
   - `src/main.ts`: composition root only.
 - UI reads snapshots. It must not mutate flight or rule state directly.
 - Add a deterministic scripted-input path for every simulation behavior that needs regression testing.
@@ -69,10 +70,9 @@ Never claim real-GPU performance from CI/headless Chromium.
 
 ## Git workflow
 
-- Work in one `codex/v0.3-phase-*` branch per v0.2 delivery phase.
-- Open and merge one PR per phase after CI passes.
+- Work in one `codex/` branch per delivery phase. Use the repository's protected checks and native auto-merge.
 - Keep generated screenshots and acceptance JSON with the corresponding phase commit.
-- Preserve the `v0.1.0` tag/release and its evidence. Tag `v0.2.0` only after the final release PR is merged.
+- Preserve the historical tags, releases and evidence. Stable version tags are reserved for verified builds from the merged release source.
 
 ## v0.3 product revision
 

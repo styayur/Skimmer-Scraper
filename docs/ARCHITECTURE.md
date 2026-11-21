@@ -1,13 +1,15 @@
 # Architecture
 
-## Candidate distribution
+## Distribution and verification
 
 The package version appears in the in-game guide and debug bridge. Build provenance
 is emitted separately as `build-info.json`, keeping documentation/evidence changes
 out of the game JS hash. Static artifacts include the full AGPL text, historical
 MIT grant, dependency inventory, runtime/font notices and exact source link.
-Source packages retain build provenance when rebuilt outside Git. Packaging never
-reads environment variables or private player storage.
+Source packages retain build provenance when rebuilt outside Git. The release
+manifest binds both archives to one Git commit. The final acceptance report
+is kept alongside the archives so it can record both archive hashes and the
+actual public deployment. [Deployment](DEPLOYMENT.md) · [Acceptance](ACCEPTANCE.md)
 
 Leaving live flight synchronously suspends model work and changes the validation
 epoch before the next animation frame. Late replies cannot affect a paused,

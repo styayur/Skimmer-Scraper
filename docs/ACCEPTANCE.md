@@ -1,3 +1,28 @@
+# v0.5.0 acceptance
+
+The release requires full Chromium regression, native moving-flight GPU
+measurements, two complete Sky Inversion journeys, import and disposal checks,
+and a flight of at least 15 minutes. Ordinary CI uses simulated audio input and
+provider responses. Native DeepSeek evidence separately records the official
+ASR, model and TTS calls. [Voice acceptance](../acceptance/v0.5/pr8-voice.json)
+
+| Phase | Evidence |
+| --- | --- |
+| Input and physical gamepad | [PR1](../acceptance/v0.5/pr1-navigation.json) |
+| Defaults, cameras and migration | [PR2](../acceptance/v0.5/pr2-experience.json) |
+| Unified dense generator | [PR3](../acceptance/v0.5/pr3-city.json) |
+| Continuous inversion and mirror scene | [PR4](../acceptance/v0.5/pr4-sky.json) |
+| Local GLB worlds | [PR5](../acceptance/v0.5/pr5-world.json) |
+| Dynamic collisions | [PR6](../acceptance/v0.5/pr6-motion.json) |
+| Live model dialogue | [PR7](../acceptance/v0.5/pr7-radio.json) |
+| Voice radio | [PR8](../acceptance/v0.5/pr8-voice.json) |
+| Candidate integration and hardware QA | [PR9](../acceptance/v0.5/pr9-integration.json) |
+
+The candidate's `v0.5.0-rc.1.json` binds merged source, browser and hardware
+evidence, archive hashes and the deployment gate. The stable `v0.5.0.json`
+also requires a production smoke test and the exact Pages deployment run.
+[GitHub Releases](https://github.com/styayur/Skimmer-Scraper/releases)
+
 # v0.3 candidate acceptance
 
 The final candidate report is [acceptance/v0.3.0.json](../acceptance/v0.3.0.json).

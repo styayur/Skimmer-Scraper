@@ -67,17 +67,23 @@ test('local radio responds to text, changes a scout route and keeps concise mute
   }, null, 2));
 });
 
-test('a mocked model uses the existing action validator, then disconnect restores local typed operation', async ({ page }) => {
+test('a mocked model validates orders, disconnect restores local radio, and reconnect resumes model orders', async ({ page }) => {
   test.setTimeout(150_000);
   const credential = 'synthetic-radio-credential';
+  const replacement = 'synthetic-radio-reconnected';
   let transmitted = 0;
+  let firstRequestAt = 0;
   await page.route('https://api.deepseek.com/chat/completions', async route => {
+    const expectedKey = transmitted === 0 ? credential : replacement;
+    expect((await route.request().allHeaders()).authorization).toBe(`Bearer ${expectedKey}`);
     const payload = route.request().postDataJSON();
     expect(JSON.stringify(payload)).not.toContain(credential);
+    expect(JSON.stringify(payload)).not.toContain(replacement);
     const input = JSON.parse(payload.messages[1].content);
     expect(input.message).toBe('一号领航');
     expect(input.profiles).toHaveLength(3);
     const p = input.perception;
+    if (transmitted === 0) firstRequestAt = performance.now();
     transmitted++;
     await route.fulfill({ json: { choices: [{ message: { content: JSON.stringify({
       plan: { requestId: p.requestId, epoch: p.epoch, ttl: 12, risk: 0.2, formation: 'wedge',
@@ -89,7 +95,8 @@ test('a mocked model uses the existing action validator, then disconnect restore
   await page.keyboard.press('f');
   await page.locator('#advanced-flight-settings > summary').click();
   await page.locator('.model-settings summary').click();
-  await page.locator('#ai-budget').fill('1');
+  await page.locator('#ai-budget').fill('2');
+  await page.locator('#ai-interval').fill('60');
   await page.locator('#ai-key').fill(credential);
   await page.locator('#ai-connect').click();
   await send(page, '一号领航');
@@ -108,4 +115,18 @@ test('a mocked model uses the existing action validator, then disconnect restore
   expect(transmitted).toBe(1);
   expect(local.cooperation.lastPlan?.orders[0]?.agents).toEqual([1, 2, 3]);
   expect(local.cooperation.radio.history.at(-1)?.source).toBe('local');
+
+  await page.keyboard.press('f');
+  await page.locator('#ai-key').fill(replacement);
+  await page.locator('#ai-connect').click();
+  await expect(page.locator('#ai-key')).toHaveValue('');
+  await expect.poll(() => performance.now() - firstRequestAt).toBeGreaterThan(650);
+  await send(page, '一号领航');
+  await expect.poll(async () => (await snapshot(page)).cooperation.model.successes).toBe(2);
+  const reconnected = await snapshot(page);
+  expect(reconnected.cooperation.lastPlan?.orders[0]?.action).toBe('LEAD');
+  expect(reconnected.cooperation.radio.history.at(-1)?.source).toBe('model');
+  expect(reconnected.cooperation.model.usage.total).toBe(282);
+  expect(transmitted).toBe(2);
+  expect(JSON.stringify(reconnected)).not.toContain(replacement);
 });

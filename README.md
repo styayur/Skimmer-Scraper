@@ -4,62 +4,42 @@
 [![WebGL2](https://img.shields.io/badge/renderer-WebGL2-53e5cf)](https://github.com/styayur/Skimmer-Scraper)
 [![License: AGPL-3.0-only](https://img.shields.io/badge/code-AGPL--3.0--only-ffb58f)](LICENSE)
 
-A close-surface 3D flight challenge through an original sakura-dusk megacity. Stay within reach of
-the architecture, thread bridges and floating islands, and keep your run alive. No account, no remote
-profile, no model upload.
+A close-surface flight game through a sakura-dusk city. Thread bridges, moving
+structures and floating islands in Chase or Cockpit. New pilots take off in
+shielded Free Flight with three local wingmates, Precision controls and a
+wedge formation. Existing settings, aircraft, seeds and scores carry forward.
 
-**v0.3.0-rc.1** adds configurable Challenge/Free Flight, shields, three views,
-gamepad/Precision controls, 1–3 local or model-planned companions, Trust/Surface
-Relay and five-world Sky Inversion. This is a candidate for experience review;
-the public site remains v0.2.0. Hands-on controls, art, transition pacing and AI
-teamwork await review. Explicit capture windows recorded a58.3ms transition maximum.
+[Play on GitHub Pages](https://styayur.github.io/Skimmer-Scraper/)
 
-Try the candidate locally: `npm ci`, `npm run build`, then `npm run preview`.
-The release static ZIP can also be served over HTTP without Node or a backend.
-Choose Free Flight, shield and companion count in **飞行设置** before takeoff;
-switch between Chase and Cockpit with **C**, pause with **Esc** or gamepad Menu.
-See [candidate QA and reproduction](docs/V030-QA.md).
+The v0.5 candidate is distributed through GitHub Releases. Pages updates after
+the stable tag passes the deployment environment rule.
 
-New pilots start in Free Flight with the shield on, the Chase view, Precision controls,
-and three local companions in a wedge. Existing pilot settings and scores carry forward.
-The flight settings panel offers play mode, view and companion count. Open its advanced
-section for per-aircraft cockpit presets, controls, visuals, audio and model budgets.
-The default city combines tower canyons, stacked bridges and floating districts in one
-seeded generator. Legacy links still reproduce their version 2 layouts and scores.
-See [seed compatibility and generation](docs/WORLD.md).
+The seeded city mixes tower canyons, stacked bridges and floating districts.
+Static and animated GLB worlds can be imported from your device. A climb
+through **520 m** can lead to the next sky, carrying the aircraft's bank and
+camera into the dive. The distant mirrored skyline changes with each world.
+Five arrivals reveal a light sculpture and signature. [World generation](docs/WORLD.md) · [World import](docs/WORLD-IMPORT.md) · [Moving structures](docs/DYNAMIC-WORLD.md)
 
-**Public site:** [https://styayur.github.io/Skimmer-Scraper/](https://styayur.github.io/Skimmer-Scraper/)
+Press **T** for text commands and replies. Each wingmate has a callsign and
+role. Flight settings provide optional model cooperation and voice. When
+voice input is enabled, hold **V** to speak and release to send. BYOK keys
+live in page memory. The local controller works without an account or key.
+DeepSeek voice sends only the opted-in audio or playback text and may incur
+charges. [Companion radio](docs/RADIO.md) · [Voice setup and budgets](docs/VOICE.md)
 
-Optional model cooperation is under **飞行设置 → 模型协作**.
-Select 1–3 companions before takeoff, then connect a browser-compatible provider
-using your own key. DeepSeek and OpenAI official endpoints and explicitly trusted
-compatible endpoints are supported. Keys remain in page memory and can be deleted
-by disconnecting; same-page scripts can still access runtime credentials. Nothing
-is uploaded by default; local GLB bytes never enter model perception. No official
-hosted inference service is active. Without a key or on API failure, the complete
-local companion controller remains available. Budgets persist across run retries.
-See [architecture](docs/ARCHITECTURE.md) and sanitized [AI evidence](evidence/v0.3/).
+Run `npm ci`, `npm run build`, and `npm run preview` to play locally. The
+static ZIP runs on a static HTTP server. The build uses WebGL2 and contains
+its source revision, licenses and credits. [Releases](https://github.com/styayur/Skimmer-Scraper/releases) · [Deployment](docs/DEPLOYMENT.md) · [Acceptance](docs/ACCEPTANCE.md)
 
-For **Sky Inversion**, climb through **520 m** from a roof/island or use Free
-Flight to explore upward. A live upward crossing opens a short inversion and safe
-formation dive into the next seeded world. The transition can be skipped; **视觉 ·
-轻缓** or the system reduced-motion setting removes the extra roll. Challenge time
-and grace freeze only after the valid crossing. Five arrivals reveal an original
-light sculpture and local signature; flying continues afterward. Retry returns to
-the initial seed. Journey scores are separate from historical solo scores.
+<img src="evidence/v0.5/pr9-release/candidate-chrome-title.png" alt="Skimmer-Scraper title screen over the sakura-dusk city" width="100%">
 
-GitHub Pages is the only deployment target. Cloudflare Pages deployment is cancelled; see
-[docs/DEPLOYMENT.md](docs/DEPLOYMENT.md). No Cloudflare deployment success is claimed.
+<img src="evidence/v0.5/pr9-release/gpu-matrix-balanced.png" alt="Three wingmates in flight across the dense city" width="100%">
 
-<img src="evidence/phase-4-v0.1.0-title.png" alt="Skimmer-Scraper title screen over the sakura-dusk city" width="100%">
-
-<img src="evidence/phase-4-v0.1.0-flight.png" alt="Close-surface flight through the city" width="100%">
-
-## The challenge
+## Challenge mode
 
 - Stay within **32 m** of a solid surface to keep the **5 second** proximity grace full.
 - Leaving every surface starts the countdown. Re-entering the band restores all five seconds.
-- Touching a building, roof, bridge, ground or floating island ends the run immediately.
+- An impact ends the Challenge run. Shielded Free Flight absorbs contact and continues.
 - Only survival time and a browser-local personal best are recorded.
 - Press **R** at any time for instant retry.
 - Import your own self-contained GLB aircraft; it stays in your browser's IndexedDB.
@@ -80,6 +60,8 @@ GitHub Pages is the only deployment target. Cloudflare Pages deployment is cance
 | F / G | Flight settings / world settings |
 | M | Aircraft library |
 | H | In-game guide, source and license |
+| T | Companion text radio |
+| V | Hold to record when voice input is enabled |
 | Enter | Start |
 | Gamepad D-pad or left stick | Move focus in menus |
 | Gamepad A / B / View | Confirm / back / open game menu |
@@ -90,8 +72,8 @@ Open the aircraft library and choose **导入本机 GLB**. The app validates the
 resource URIs, stores the file in IndexedDB, and preserves authored materials while normalizing the
 model to an 8 m envelope. Imported models can be rotated 180° or removed. No model bytes are uploaded.
 
-Limits: 48 MB, 250,000 triangles, 24 locally stored models. Draco/Meshopt-compressed GLBs require
-extra decoders and are not currently supported. Full details: [docs/MODELS.md](docs/MODELS.md).
+Aircraft limits are 48 MB, 250,000 triangles and 24 stored models. World imports use their own
+decoders and budgets. [Aircraft import](docs/MODELS.md) · [World import](docs/WORLD-IMPORT.md)
 
 ## Stack
 
@@ -99,7 +81,7 @@ extra decoders and are not currently supported. Full details: [docs/MODELS.md](d
 - Vitest for pure simulation/rules/storage tests
 - Playwright for real Chromium WebGL interaction and screenshots
 - GitHub Pages static deployment workflow
-- WebAudio synthesis for engine and wind sound; no audio downloads
+- Web Audio synthesis for flight sound and opt-in streaming radio playback
 
 ## Architecture
 

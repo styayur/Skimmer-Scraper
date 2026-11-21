@@ -11,9 +11,11 @@ export default defineConfig({
   expect: { timeout: 10_000 },
   use: {
     baseURL: 'http://127.0.0.1:4173',
-    trace: 'retain-on-failure',
     screenshot: 'only-on-failure',
-    video: 'retain-on-failure',
+    // Capture the first failure's screenshot and record trace/video on retry.
+    // Software-rendered flights share the runner with those recorders.
+    trace: process.env.CI ? 'on-first-retry' : 'retain-on-failure',
+    video: process.env.CI ? 'on-first-retry' : 'retain-on-failure',
   },
   projects: [
     {
