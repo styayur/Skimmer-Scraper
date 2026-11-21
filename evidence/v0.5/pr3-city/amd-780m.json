@@ -1,0 +1,414 @@
+{
+  "os": "Windows 11",
+  "method": "12 seconds of actual default-path flying per case on one clean build. Seed 334458, three autonomous companions, no network, no pause or debug advance during capture.",
+  "buildCommit": "65070d742df0d2083bdbb8974e1b590b4522700a",
+  "cases": [
+    {
+      "quality": "balanced",
+      "buildCommit": "65070d742df0d2083bdbb8974e1b590b4522700a",
+      "browser": "157.0.8103.79",
+      "errors": [],
+      "gpu": "ANGLE (AMD, AMD Radeon 780M Graphics (0x00001900) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "viewport": [
+        1920,
+        1080
+      ],
+      "seed": 334458,
+      "generatorVersion": 2,
+      "world": {
+        "chunks": 25,
+        "buildings": 150,
+        "bridges": 30,
+        "islands": 3,
+        "collisionTriangles": 129836,
+        "renderTriangles": 250954
+      },
+      "frameCount": 1212,
+      "movingFrames": 1209,
+      "modes": {
+        "running": 1212
+      },
+      "peaks": {
+        "drawCalls": 457,
+        "bvh": 25,
+        "chunks": 25,
+        "geometries": 314,
+        "textures": 24,
+        "renderTriangles": 356764
+      },
+      "p50Ms": 8.399999999999636,
+      "p95Ms": 16.700000000000728,
+      "p99Ms": 24.899999999999636,
+      "averageFps": 100.90246095441073,
+      "companions": 3,
+      "widestCompanionDistance": 78.1276705259868,
+      "uncoveredCompanionSamples": 0,
+      "generation": {
+        "samples": 45,
+        "p95Ms": 162.69999999925494,
+        "maxMs": 495.90000000037253
+      },
+      "runTime": 12.024999999999947,
+      "shieldImpacts": 0
+    },
+    {
+      "quality": "balanced",
+      "buildCommit": "65070d742df0d2083bdbb8974e1b590b4522700a",
+      "browser": "157.0.8103.79",
+      "errors": [],
+      "gpu": "ANGLE (AMD, AMD Radeon 780M Graphics (0x00001900) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "viewport": [
+        1920,
+        1080
+      ],
+      "seed": 334458,
+      "generatorVersion": 3,
+      "world": {
+        "chunks": 25,
+        "buildings": 210,
+        "bridges": 60,
+        "islands": 10,
+        "collisionTriangles": 85160,
+        "renderTriangles": 258530
+      },
+      "frameCount": 1274,
+      "movingFrames": 1271,
+      "modes": {
+        "running": 1274
+      },
+      "peaks": {
+        "drawCalls": 490,
+        "bvh": 25,
+        "chunks": 25,
+        "geometries": 401,
+        "textures": 26,
+        "renderTriangles": 351584
+      },
+      "p50Ms": 8.399999999999636,
+      "p95Ms": 16.700000000000728,
+      "p99Ms": 25,
+      "averageFps": 106.12244897960171,
+      "companions": 3,
+      "widestCompanionDistance": 88.98449913891716,
+      "uncoveredCompanionSamples": 0,
+      "generation": {
+        "samples": 45,
+        "p95Ms": 57.80000000074506,
+        "maxMs": 225.59999999962747
+      },
+      "runTime": 12.024999999999949,
+      "shieldImpacts": 0
+    },
+    {
+      "quality": "high",
+      "buildCommit": "65070d742df0d2083bdbb8974e1b590b4522700a",
+      "browser": "157.0.8103.79",
+      "errors": [],
+      "gpu": "ANGLE (AMD, AMD Radeon 780M Graphics (0x00001900) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "viewport": [
+        1920,
+        1080
+      ],
+      "seed": 334458,
+      "generatorVersion": 3,
+      "world": {
+        "chunks": 25,
+        "buildings": 210,
+        "bridges": 60,
+        "islands": 10,
+        "collisionTriangles": 85160,
+        "renderTriangles": 258530
+      },
+      "frameCount": 1316,
+      "movingFrames": 1315,
+      "modes": {
+        "running": 1316
+      },
+      "peaks": {
+        "drawCalls": 490,
+        "bvh": 25,
+        "chunks": 25,
+        "geometries": 402,
+        "textures": 26,
+        "renderTriangles": 351584
+      },
+      "p50Ms": 8.399999999999636,
+      "p95Ms": 16.700000000000045,
+      "p99Ms": 16.900000000001455,
+      "averageFps": 109.65296004666764,
+      "companions": 3,
+      "widestCompanionDistance": 88.65958525096866,
+      "uncoveredCompanionSamples": 0,
+      "generation": {
+        "samples": 45,
+        "p95Ms": 53.59999999962747,
+        "maxMs": 262.90000000037253
+      },
+      "runTime": 12.008333333333287,
+      "shieldImpacts": 0
+    },
+    {
+      "quality": "high",
+      "buildCommit": "65070d742df0d2083bdbb8974e1b590b4522700a",
+      "browser": "157.0.8103.79",
+      "errors": [],
+      "gpu": "ANGLE (AMD, AMD Radeon 780M Graphics (0x00001900) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "viewport": [
+        1920,
+        1080
+      ],
+      "seed": 334458,
+      "generatorVersion": 2,
+      "world": {
+        "chunks": 25,
+        "buildings": 150,
+        "bridges": 30,
+        "islands": 3,
+        "collisionTriangles": 129836,
+        "renderTriangles": 250954
+      },
+      "frameCount": 1385,
+      "movingFrames": 1382,
+      "modes": {
+        "running": 1385
+      },
+      "peaks": {
+        "drawCalls": 459,
+        "bvh": 25,
+        "chunks": 25,
+        "geometries": 314,
+        "textures": 24,
+        "renderTriangles": 359788
+      },
+      "p50Ms": 8.300000000001091,
+      "p95Ms": 8.5,
+      "p99Ms": 16.799999999999727,
+      "averageFps": 115.34169456519571,
+      "companions": 3,
+      "widestCompanionDistance": 78.12959366921274,
+      "uncoveredCompanionSamples": 0,
+      "generation": {
+        "samples": 45,
+        "p95Ms": 61.90000000037253,
+        "maxMs": 276.09999999962747
+      },
+      "runTime": 12.008333333333285,
+      "shieldImpacts": 0
+    }
+  ],
+  "invalidAttempts": [
+    {
+      "reason": "Only 2.22 seconds of simulation advanced during the 12-second wall clock window.",
+      "sample": {
+        "quality": "balanced",
+        "buildCommit": "65070d742df0d2083bdbb8974e1b590b4522700a",
+        "browser": "157.0.8103.79",
+        "errors": [],
+        "gpu": "ANGLE (AMD, AMD Radeon 780M Graphics (0x00001900) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+        "viewport": [
+          1920,
+          1080
+        ],
+        "seed": 334458,
+        "generatorVersion": 2,
+        "world": {
+          "chunks": 25,
+          "buildings": 140,
+          "bridges": 35,
+          "islands": 2,
+          "collisionTriangles": 128910,
+          "renderTriangles": 240786
+        },
+        "frameCount": 124,
+        "movingFrames": 124,
+        "modes": {
+          "running": 124
+        },
+        "peaks": {
+          "drawCalls": 457,
+          "bvh": 25,
+          "chunks": 25,
+          "geometries": 253,
+          "textures": 23,
+          "renderTriangles": 356764
+        },
+        "p50Ms": 8.400000000000091,
+        "p95Ms": 1001.7999999999993,
+        "p99Ms": 1002,
+        "averageFps": 10.238541503249085,
+        "companions": 3,
+        "widestCompanionDistance": 21.639162759011175,
+        "uncoveredCompanionSamples": 0,
+        "generation": {
+          "samples": 30,
+          "p95Ms": 238.90000000037253,
+          "maxMs": 547.6000000014901
+        },
+        "runTime": 2.216666666666661,
+        "shieldImpacts": 0
+      }
+    }
+  ],
+  "priorPhaseBaseline": [
+    {
+      "quality": "balanced",
+      "buildCommit": "277ca63ec89798bfea2adf8ab0424177a84769ae",
+      "browser": "157.0.8103.79",
+      "errors": [],
+      "gpu": "ANGLE (AMD, AMD Radeon 780M Graphics (0x00001900) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "viewport": [
+        1920,
+        1080
+      ],
+      "frameCount": 1230,
+      "movingFrames": 1227,
+      "modes": {
+        "running": 1230
+      },
+      "peaks": {
+        "drawCalls": 457,
+        "bvh": 25,
+        "chunks": 25,
+        "geometries": 314,
+        "textures": 24
+      },
+      "p50Ms": 8.399999999999636,
+      "p95Ms": 16.799999999999272,
+      "p99Ms": 25,
+      "averageFps": 102.39334027056103,
+      "companions": 3,
+      "runTime": 12.016666666666614,
+      "shieldImpacts": 0,
+      "seed": 334458
+    },
+    {
+      "quality": "high",
+      "buildCommit": "277ca63ec89798bfea2adf8ab0424177a84769ae",
+      "browser": "157.0.8103.79",
+      "errors": [],
+      "gpu": "ANGLE (AMD, AMD Radeon 780M Graphics (0x00001900) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "viewport": [
+        1920,
+        1080
+      ],
+      "frameCount": 1061,
+      "movingFrames": 1059,
+      "modes": {
+        "running": 1061
+      },
+      "peaks": {
+        "drawCalls": 455,
+        "bvh": 25,
+        "chunks": 25,
+        "geometries": 314,
+        "textures": 24
+      },
+      "p50Ms": 8.399999999999636,
+      "p95Ms": 16.900000000000546,
+      "p99Ms": 41.69999999999982,
+      "averageFps": 88.36953624734298,
+      "companions": 3,
+      "runTime": 12.016666666666618,
+      "shieldImpacts": 0,
+      "seed": 334458
+    }
+  ],
+  "beforeDrawCallOptimization": [
+    {
+      "quality": "balanced",
+      "buildCommit": "f10e6574b1082d7804f9a828c416eab6d6b331bc",
+      "browser": "157.0.8103.79",
+      "errors": [],
+      "gpu": "ANGLE (AMD, AMD Radeon 780M Graphics (0x00001900) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "viewport": [
+        1920,
+        1080
+      ],
+      "seed": 334458,
+      "generatorVersion": 3,
+      "world": {
+        "chunks": 25,
+        "buildings": 210,
+        "bridges": 60,
+        "islands": 10,
+        "collisionTriangles": 85160,
+        "renderTriangles": 258530
+      },
+      "frameCount": 1124,
+      "movingFrames": 1122,
+      "modes": {
+        "running": 1124
+      },
+      "peaks": {
+        "drawCalls": 583,
+        "bvh": 25,
+        "chunks": 25,
+        "geometries": 395,
+        "textures": 26,
+        "renderTriangles": 372192
+      },
+      "p50Ms": 8.399999999999636,
+      "p95Ms": 16.80000000000109,
+      "p99Ms": 33.399999999999636,
+      "averageFps": 93.64325585270349,
+      "companions": 3,
+      "widestCompanionDistance": 88.98449913891716,
+      "uncoveredCompanionSamples": 0,
+      "generation": {
+        "samples": 45,
+        "p95Ms": 70,
+        "maxMs": 228.2999999988824
+      },
+      "runTime": 12.008333333333281,
+      "shieldImpacts": 0
+    },
+    {
+      "quality": "high",
+      "buildCommit": "f10e6574b1082d7804f9a828c416eab6d6b331bc",
+      "browser": "157.0.8103.79",
+      "errors": [],
+      "gpu": "ANGLE (AMD, AMD Radeon 780M Graphics (0x00001900) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "viewport": [
+        1920,
+        1080
+      ],
+      "seed": 334458,
+      "generatorVersion": 3,
+      "world": {
+        "chunks": 25,
+        "buildings": 210,
+        "bridges": 60,
+        "islands": 10,
+        "collisionTriangles": 85160,
+        "renderTriangles": 258530
+      },
+      "frameCount": 1081,
+      "movingFrames": 1079,
+      "modes": {
+        "running": 1081
+      },
+      "peaks": {
+        "drawCalls": 581,
+        "bvh": 25,
+        "chunks": 25,
+        "geometries": 395,
+        "textures": 26,
+        "renderTriangles": 372192
+      },
+      "p50Ms": 8.399999999999636,
+      "p95Ms": 16.899999999999636,
+      "p99Ms": 33.399999999999636,
+      "averageFps": 90.0068275299273,
+      "companions": 3,
+      "widestCompanionDistance": 88.84770422159919,
+      "uncoveredCompanionSamples": 0,
+      "generation": {
+        "samples": 45,
+        "p95Ms": 56.19999999925494,
+        "maxMs": 261.2999999988824
+      },
+      "runTime": 12.02499999999995,
+      "shieldImpacts": 0
+    }
+  ]
+}
