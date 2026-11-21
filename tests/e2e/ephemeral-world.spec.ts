@@ -88,7 +88,7 @@ const chunk = (state: EphemeralSnapshot, key: string): ChunkState | undefined =>
   state.chunkStates.find((candidate) => candidate.key === key && candidate.state === 'ACTIVE');
 
 const openPausedWorldPanel = async (page: Page): Promise<void> => {
-  await page.locator('#world-open').click();
+  await page.keyboard.press('g');
   await expect(page.locator('#world-panel')).toBeVisible();
   await page.waitForFunction(() => {
     const bridge = (window as unknown as {

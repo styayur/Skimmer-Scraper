@@ -45,7 +45,7 @@ for (const count of [1,2,3]) {
       expect(agent.decisions).toBeGreaterThan(25);expect(agent.position).not.toEqual(start.companions[index].position);
       expect(Object.values(agent.position).every(Number.isFinite)).toBe(true);
     }
-    await page.locator('#rules-open').click();
+    await page.keyboard.press('f');
     await page.locator('#rules-panel summary').filter({ hasText: '自主伴机' }).click();
     await page.locator('#companion-formation').selectOption('spread');
     await page.locator('#companion-behavior').selectOption('lead');
@@ -67,7 +67,7 @@ for (const count of [1,2,3]) {
     let disabled: typeof final | null = null;
     if (count === 3) {
       await page.keyboard.press('Escape'); await page.locator('#pause-menu').click();
-      await expect(page.locator('#title-screen')).toBeVisible();await page.locator('#rules-open').click();
+      await expect(page.locator('#title-screen')).toBeVisible();await page.keyboard.press('f');
       await page.locator('#companion-count').selectOption('0');await page.locator('#rules-close').click();
       await page.locator('#start-button').click();
       await expect.poll(() => page.evaluate(() => window.__SKIMMER_SCRAPER__!.snapshot().companions.length)).toBe(0);

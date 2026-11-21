@@ -26,79 +26,16 @@
         <div class="loading-line"><i></i></div>
       </div>
 
-      <header class="top-rail" aria-label="游戏工具">
-        <div class="micro-brand">
-          <span class="micro-brand__mark" aria-hidden="true"></span>
-          <span>SS<span class="micro-brand__slash">/</span>01</span>
-        </div>
-        <div class="top-rail__tools">
-          <button id="mute-button" class="utility-button" type="button" aria-pressed="false">声音 · 开</button>
-          <button id="effects-button" class="utility-button" type="button" aria-pressed="false">视觉 · 标准</button>
-          <button id="quality-button" class="utility-button" type="button">画质 · 平衡</button>
-          <button id="camera-button" class="utility-button" type="button">视角 · 追尾 <kbd>C</kbd></button>
-          <button id="world-open" class="utility-button" type="button">世界</button>
-          <button id="rules-open" class="utility-button" type="button">飞行设置</button>
-          <button id="library-open" class="utility-button" type="button">机库 <kbd>M</kbd></button>
-        </div>
-      </header>
-
       <section id="title-screen" class="title-screen" aria-labelledby="game-title">
         <div class="title-panel">
-          <p class="kicker title-kicker">CLOSE-SURFACE FLIGHT / 近距飞行挑战</p>
-          <h1 id="game-title" class="game-title">
+          <h1 id="game-title" class="game-title" aria-label="SKIMMER SCRAPER">
             <span>SKIMMER</span>
             <span class="game-title__second">SCRAPER</span>
           </h1>
-          <p class="title-deck">
-            贴着城市飞。<span>别让天际线甩掉你。</span>
-          </p>
-          <p class="title-copy">
-            建筑、屋脊、桥面、地面与悬浮岛都是有效表面。保持近距，连续生存五秒仅是你的最后缓冲。
-          </p>
-
-          <div class="title-actions">
-            <button id="start-button" class="primary-button" type="button">
-              <span>开始挑战</span>
-              <span class="button-meta">ENTER</span>
-            </button>
-            <div class="best-readout">
-              <span class="data-label">PERSONAL BEST</span>
-              <strong id="title-best">00:00.00</strong>
-            </div>
-          </div>
-
-          <div class="control-deck" aria-label="操作提示">
-            <div class="control-group">
-              <span class="data-label">FLIGHT</span>
-              <p><kbd>W</kbd><kbd>S</kbd> 俯仰 <i></i> <kbd>A</kbd><kbd>D</kbd> 滚转 <i></i> <kbd>Q</kbd><kbd>E</kbd> 偏航</p>
-            </div>
-            <div class="control-group">
-              <span class="data-label">SYSTEM</span>
-              <p><kbd>SHIFT</kbd> 加速 <i></i> <kbd>C</kbd> 视角 <i></i> <kbd>R</kbd> 立即重试 <i></i> <kbd>M</kbd> 机库</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="title-aside" aria-hidden="true">
-          <span class="title-aside__index">01</span>
-          <p id="title-world-preset">SAKURA<br />DUSK<br />DISTRICT</p>
-          <span class="title-aside__rule"></span>
-          <small id="title-world-meta">WEBGL2 · SEED 334458 · STABLE</small>
-        </div>
-
-        <aside id="record-hint" class="record-hint" aria-label="录屏提示">
-          <button id="record-hint-close" class="record-hint__close" type="button" aria-label="关闭录屏提示">×</button>
-          <span class="data-label">CAPTURE THE LINE</span>
-          <strong>记录你的精彩飞行</strong>
-          <p>推荐系统录屏或 OBS Studio。Windows 可尝试 <kbd>Win</kbd> + <kbd>Alt</kbd> + <kbd>R</kbd>，需系统录屏功能可用。</p>
-        </aside>
-
-        <div class="title-footer">
-          <span>NO ACCOUNT</span>
-          <span>LOCAL BEST ONLY</span>
-          <span>GLB STAYS ON DEVICE</span>
-          <a href="%SKIMMER_SOURCE_URL%" target="_blank" rel="noopener">源码 · AGPL-3.0</a>
-          <span class="title-footer__version">v%SKIMMER_VERSION%</span>
+          <button id="start-button" class="primary-button" type="button" data-action="start">
+            <span>开始游戏</span>
+          </button>
+          <p class="title-tip">TIP · W / S 控制俯仰，更多见 <a href="#help-panel" data-action="help">操作指南</a>。</p>
         </div>
       </section>
 
@@ -145,15 +82,89 @@
 
         <div class="hud-bottom">
           <p id="flight-status" class="flight-status">原型飞行 · 近距规则将在下一阶段接入</p>
+          <button class="utility-button flight-menu" type="button" data-action="menu">暂停 <kbd>Esc</kbd></button>
           <p class="hud-hint"><span id="hud-view">CHASE / 追尾</span> <i></i> <kbd>C</kbd> 视角 <i></i> <kbd>R</kbd> 重试 <i></i> <kbd>M</kbd> 机库</p>
         </div>
       </section>
 
-      <section id="pause-panel" class="pause-panel" aria-label="暂停菜单" hidden>
-        <p class="kicker">FLIGHT PAUSED</p><h2>飞行已暂停</h2>
-        <button id="pause-resume" class="primary-button" type="button">继续飞行 · Esc</button>
-        <button id="pause-menu" class="secondary-button" type="button">返回标题</button>
+      <section id="pause-panel" class="pause-panel" role="dialog" aria-modal="true" aria-labelledby="quick-title" hidden>
+        <div class="library-header">
+          <h2 id="quick-title">游戏菜单</h2>
+          <button class="utility-button" type="button" data-action="close" data-panel-focus>关闭</button>
+        </div>
+        <button id="pause-resume" class="primary-button" type="button" data-action="close">继续飞行</button>
+        <div class="quick-links">
+          <button id="rules-open" type="button" class="secondary-button" data-action="rules">飞行设置 <kbd>F</kbd></button>
+          <button id="world-open" type="button" class="secondary-button" data-action="world">世界 <kbd>G</kbd></button>
+          <button id="library-open" type="button" class="secondary-button" data-action="library">机库 <kbd>M</kbd></button>
+          <button type="button" class="secondary-button" data-action="help">操作指南 <kbd>H</kbd></button>
+        </div>
+        <div class="quick-controls">
+          <button id="camera-button" class="utility-button" type="button" data-action="camera">视角 · 追尾 <kbd>C</kbd></button>
+          <button id="mute-button" class="utility-button" type="button" aria-pressed="false">声音 · 开</button>
+          <button id="effects-button" class="utility-button" type="button" aria-pressed="false">视觉 · 标准</button>
+          <button id="quality-button" class="utility-button" type="button">画质 · 平衡</button>
+        </div>
+        <button id="pause-menu" class="secondary-button" type="button" data-action="title">返回标题</button>
       </section>
+      <aside id="help-panel" class="library-panel guide-panel" role="dialog" aria-modal="true" aria-labelledby="help-title" hidden>
+        <div class="library-header">
+          <h2 id="help-title">操作指南</h2>
+          <button id="help-close" class="utility-button" type="button" data-action="close" data-panel-focus>关闭</button>
+        </div>
+        <button class="secondary-button" type="button" data-action="menu">游戏菜单</button>
+        <nav class="guide-index" aria-label="指南目录">
+          <a href="#guide-start" data-help-section="guide-start">快速开始</a>
+          <a href="#guide-flight" data-help-section="guide-flight">飞行控制</a>
+          <a href="#guide-pad" data-help-section="guide-pad">手柄操作</a>
+          <a href="#guide-view" data-help-section="guide-view">视角与座舱</a>
+          <a href="#guide-world" data-help-section="guide-world">世界与模型</a>
+          <a href="#guide-ai" data-help-section="guide-ai">AI 伴机与语音</a>
+          <a href="#guide-advanced" data-help-section="guide-advanced">高级设置</a>
+          <a href="#guide-privacy" data-help-section="guide-privacy">开源许可与隐私</a>
+        </nav>
+        <section>
+          <h3 id="guide-start" tabindex="-1">快速开始</h3>
+          <p>点击开始游戏、按 Enter 或手柄 A 起飞。挑战模式要保持在建筑、地面、桥面或岛屿的 32 米内。脱离后开始倒数，重新贴近就会恢复全部宽限。自由飞行可以离开建筑，不记录挑战成绩。</p>
+        </section>
+        <section>
+          <h3 id="guide-flight" tabindex="-1">飞行控制</h3>
+          <p>W / S 或 ↑ / ↓ 俯仰，A / D 或 ← / → 滚转，Q / E 偏航，Shift 加速。R 重试，Esc 暂停或返回。</p>
+          <p>F 打开飞行设置，G 打开世界，M 打开机库，H 打开本指南。</p>
+        </section>
+        <section>
+          <h3 id="guide-pad" tabindex="-1">手柄操作</h3>
+          <p>方向键或左摇杆移动焦点，A 确认，B 返回，Menu 暂停，View 打开游戏菜单。用左右方向调整选项和数字。</p>
+          <p>飞行时左摇杆俯仰和滚转，右摇杆偏航，RT 加速。默认 Y 切换视角，X 重试。可在飞行设置中重新映射飞行按钮。</p>
+        </section>
+        <section>
+          <h3 id="guide-view" tabindex="-1">视角与座舱</h3>
+          <p>按 C 切换追尾、机头和驾驶舱视角。第一人称隐藏机身。每架飞机的座舱位置都可在飞行设置中单独调整。</p>
+        </section>
+        <section>
+          <h3 id="guide-world" tabindex="-1">世界与模型</h3>
+          <p>稳定世界可用种子和分享链接重现。短暂世界中的区块卸载后，内部布局可能变化。在机库可导入自包含 GLB 飞机，或切回内置机型。</p>
+        </section>
+        <section>
+          <h3 id="guide-ai" tabindex="-1">AI 伴机与语音</h3>
+          <p>起飞前可设置最多三台自主伴机。编队跟随和领航可离线运行。模型协作需要自带 Key，服务商可能收费。当前版本支持结构化团队规划，语音入口将在后续版本提供。</p>
+        </section>
+        <section>
+          <h3 id="guide-advanced" tabindex="-1">高级设置</h3>
+          <p>在游戏菜单切换声音、画质或柔和视觉。在飞行设置调整宽限、防护罩、操控和模型预算。进入一场飞行后，规则在返回标题前锁定。</p>
+          <div id="record-hint">
+            <p>录制飞行可使用系统录屏。Windows 上可尝试 Win + Alt + R。</p>
+            <button id="record-hint-close" class="text-button" type="button">隐藏录屏提示</button>
+          </div>
+        </section>
+        <section>
+          <h3 id="guide-privacy" tabindex="-1">开源许可与隐私</h3>
+          <p>无需账号。成绩和设置保存在本机，GLB 飞机保存在浏览器中。连接模型后，必要的飞行状态直接发送给所选服务商。Key 仅在当前页面内存中使用。</p>
+          <p><a href="%SKIMMER_SOURCE_URL%" target="_blank" rel="noopener">源码 · AGPL-3.0</a> ·
+            <a href="./LICENSE" target="_blank" rel="noopener">许可证全文</a> ·
+            <span id="game-version">v%SKIMMER_VERSION%</span></p>
+        </section>
+      </aside>
       <section id="fail-screen" class="fail-screen" aria-labelledby="fail-title" hidden>
         <div class="fail-panel">
           <p id="fail-eyebrow" class="kicker">RUN ENDED / 挑战结束</p>
@@ -171,21 +182,21 @@
           </div>
           <p id="new-best-badge" class="new-best" hidden>NEW PERSONAL BEST / 新纪录</p>
           <div class="fail-actions">
-            <button id="retry-button" class="primary-button" type="button">
+            <button id="retry-button" class="primary-button" type="button" data-action="retry">
               <span>再飞一次</span>
               <span class="button-meta">R</span>
             </button>
-            <button id="menu-button" class="secondary-button" type="button">返回标题</button>
+            <button id="menu-button" class="secondary-button" type="button" data-action="title">返回标题</button>
           </div>
         </div>
       </section>
 
-      <aside id="rules-panel" class="library-panel flight-settings" aria-label="飞行设置" hidden>
-        <div class="library-header"><h2>飞行设置</h2><button id="rules-close" class="utility-button" type="button">关闭</button></div>
+      <aside id="rules-panel" role="dialog" aria-modal="true" class="library-panel flight-settings" aria-label="飞行设置" hidden>
+        <div class="library-header"><h2>飞行设置</h2><button id="rules-close" data-action="close" data-panel-focus class="utility-button" type="button">关闭</button></div>
         <p id="rules-note"></p>
-        <label>玩法 <select id="run-mode"><option value="challenge">Challenge · 近距挑战</option><option value="free">Free Flight · 自由飞行</option></select></label>
-        <label>宽限秒数（1–15）<input id="run-grace" type="number" min="1" max="15" step="0.1" value="5" /></label>
-        <label><input id="run-shield" type="checkbox" /> 自由模式防护罩</label>
+        <div class="setting-heading"><label>玩法 <select id="run-mode"><option value="challenge">Challenge · 近距挑战</option><option value="free">Free Flight · 自由飞行</option></select></label><details class="setting-help"><summary aria-label="玩法帮助">?</summary><p>挑战记录个人时间，自由飞行允许远离地面。 <a href="#guide-start" data-help-section="guide-start">阅读指南</a></p></details></div>
+        <div class="setting-heading"><label>宽限秒数（1–15）<input id="run-grace" type="number" min="1" max="15" step="0.1" value="5" /></label><details class="setting-help"><summary aria-label="宽限帮助">?</summary><p>脱离所有近距表面后，可继续飞行的秒数。 <a href="#guide-advanced" data-help-section="guide-advanced">阅读指南</a></p></details></div>
+        <div class="setting-heading"><label><input id="run-shield" type="checkbox" /> 自由模式防护罩</label><details class="setting-help"><summary aria-label="防护罩帮助">?</summary><p>自由飞行碰撞时，防护罩使飞机减速并反弹。 <a href="#guide-advanced" data-help-section="guide-advanced">阅读指南</a></p></details></div>
         <p>标准 5 秒个人挑战、自定义规则和 AI 辅助挑战分别记录；自由模式不计成绩。</p>
         <details><summary>自主伴机</summary>
           <p>本地自主伴飞 · Local Autonomous Controller。无需 API；连接模型后可接收经安全校验的团队规划。</p>
@@ -213,6 +224,9 @@
           <label>视角按钮 <input data-control="cameraButton" type="number" min="0" max="31" /></label>
           <label>暂停按钮 <input data-control="pauseButton" type="number" min="0" max="31" /></label>
           <label>重试按钮 <input data-control="retryButton" type="number" min="0" max="31" /></label>
+          <label>菜单确认按钮 <input data-control="confirmButton" type="number" min="0" max="31" /></label>
+          <label>菜单返回按钮 <input data-control="backButton" type="number" min="0" max="31" /></label>
+          <label>游戏菜单按钮 <input data-control="menuButton" type="number" min="0" max="31" /></label>
         </details>
         <details><summary>当前机型第一人称锚点（米）</summary>
           <p>相对归一化机身的位置；X 向右，Y 向上，负 Z 向前。没有设置时分别使用机头/驾驶舱回退。第一人称隐藏机身，不改变碰撞范围。</p>
@@ -222,13 +236,13 @@
           <button id="anchor-save" class="utility-button" type="button">保存当前机型锚点</button>
         </details>
       </aside>
-      <aside id="library-panel" class="library-panel" aria-labelledby="library-title" hidden>
+      <aside id="library-panel" role="dialog" aria-modal="true" class="library-panel" aria-labelledby="library-title" hidden>
         <div class="library-header">
           <div>
             <p class="kicker">LOCAL AIRCRAFT</p>
             <h2 id="library-title">机库</h2>
           </div>
-          <button id="library-close" class="icon-button" type="button" aria-label="关闭机库">关闭</button>
+          <button id="library-close" data-action="close" data-panel-focus class="icon-button" type="button" aria-label="关闭机库">关闭</button>
         </div>
         <p class="library-copy">
           导入本机 <code>.glb</code> 模型。文件只保存在此浏览器，不会上传，也不需要账号。
@@ -243,13 +257,13 @@
         <p id="model-note" class="model-note">当前为内置程序化机型 KITE-07。</p>
       </aside>
 
-      <aside id="world-panel" class="world-panel" aria-labelledby="world-title" hidden>
+      <aside id="world-panel" role="dialog" aria-modal="true" class="world-panel" aria-labelledby="world-title" hidden>
         <div class="library-header">
           <div>
             <p class="kicker">WORLD GENERATOR</p>
             <h2 id="world-title">世界种子</h2>
           </div>
-          <button id="world-close" class="icon-button" type="button" aria-label="关闭世界设置">关闭</button>
+          <button id="world-close" data-action="close" data-panel-focus class="icon-button" type="button" aria-label="关闭世界设置">关闭</button>
         </div>
         <p class="library-copy">
           Stable World 可复现分享；Ephemeral World 会在区块彻底卸载后遗忘内部布局。分享链接包含种子、预设、模式与生成器版本。
@@ -259,7 +273,7 @@
             <span class="data-label">WORLD SEED</span>
             <input id="world-seed-input" name="seed" type="text" maxlength="64" autocomplete="off" spellcheck="false" />
           </label>
-          <label class="world-field">
+          <div class="setting-heading"><label class="world-field">
             <span class="data-label">PRESET</span>
             <select id="world-preset-select" name="preset">
               <option value="sakura">Sakura Dusk</option>
@@ -267,15 +281,15 @@
               <option value="archipelago">Floating Archipelago</option>
               <option value="randomized">Randomized</option>
             </select>
-          </label>
+          </label><details class="setting-help"><summary aria-label="世界预设帮助">?</summary><p>预设决定建筑配置和视觉风格。 <a href="#guide-world" data-help-section="guide-world">阅读指南</a></p></details></div>
           <p id="world-preset-description" class="world-description"></p>
-          <label class="world-field">
+          <div class="setting-heading"><label class="world-field">
             <span class="data-label">WORLD MEMORY</span>
             <select id="world-mode-select" name="world">
               <option value="stable">Stable World</option>
               <option value="ephemeral">Ephemeral World</option>
             </select>
-          </label>
+          </label><details class="setting-help"><summary aria-label="世界记忆帮助">?</summary><p>稳定世界可复现，短暂世界卸载后可能改变。 <a href="#guide-world" data-help-section="guide-world">阅读指南</a></p></details></div>
           <p id="world-mode-description" class="world-description"></p>
           <div class="world-inline-actions">
             <button id="world-random" class="text-button" type="button">随机种子</button>

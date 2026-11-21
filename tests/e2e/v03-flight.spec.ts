@@ -60,12 +60,12 @@ test('browser Gamepad API input hotplug, camera, pause, retry and keyboard fallb
   await press(9);
   await press(2);
   await page.waitForFunction(() => window.__SKIMMER_SCRAPER__!.snapshot().mode === 'running');
-  await page.locator('#rules-open').click();
+  await page.keyboard.press('f');
   await expect(page.locator('#rules-panel')).toBeVisible();
   await press(9);
   await expect(page.locator('#rules-panel')).toBeHidden();
   expect(await page.evaluate(() => window.__SKIMMER_SCRAPER__!.snapshot().mode)).toBe('running');
-  await page.locator('#library-open').click();
+  await page.keyboard.press('m');
   await press(9);
   await expect(page.locator('#library-panel')).toBeHidden();
   expect(await page.evaluate(() => window.__SKIMMER_SCRAPER__!.snapshot().mode)).toBe('running');

@@ -132,8 +132,10 @@ test.describe('v0.2.0 final QA', () => {
       animations: 'disabled',
     });
 
+    await page.locator('.flight-menu').click();
     await page.locator('#quality-button').click();
     await expect(page.locator('#quality-button')).toHaveText('画质 · 高');
+    await page.keyboard.press('Escape');
     await page.waitForTimeout(800);
     const highFrames = await sampleFrames(page, 4_000);
     const high = await snapshot(page);

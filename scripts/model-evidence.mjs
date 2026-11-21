@@ -17,7 +17,7 @@ try{
   stage='game boot';await page.goto(process.env.SKIMMER_URL??'http://127.0.0.1:4174/?autostart=1&seed=334458');await page.waitForFunction(()=>window.__SKIMMER_SCRAPER__?.snapshot().mode==='running',null,{timeout:120000});
   // Different real geometry: default rooftop flight vs open air, same base seed.
   if(model==='deepseek-v4-pro')await page.evaluate(async()=>{const g=window.__SKIMMER_SCRAPER__;const s=g.snapshot();await g.setPose({...s.position,y:450});});
-  stage='configuration';await page.locator('#rules-open').click();await page.locator('.model-settings summary').click();await page.locator('#ai-model').fill(model);await page.locator('#ai-budget').fill('2');await page.locator('#ai-timeout').fill('20000');await page.locator('#ai-interval').fill('8');
+  stage='configuration';await page.keyboard.press('f');await page.locator('.model-settings summary').click();await page.locator('#ai-model').fill(model);await page.locator('#ai-budget').fill('2');await page.locator('#ai-timeout').fill('20000');await page.locator('#ai-interval').fill('8');
   try{await page.locator('#ai-key').fill(secret);}catch{throw Error('Could not enter memory credential');}
   await page.locator('#ai-connect').click();await page.locator('#rules-close').click();
   stage='inference';await page.waitForFunction(()=>window.__SKIMMER_SCRAPER__.snapshot().cooperation.model.requests>=2&&!window.__SKIMMER_SCRAPER__.snapshot().cooperation.model.pending,null,{timeout:80000});

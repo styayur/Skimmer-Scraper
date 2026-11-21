@@ -35,6 +35,49 @@ describe('flight controls and shield', () => {
     expect(source.device).toContain('Gamepad');
     expect(actions).toEqual(['camera','camera']);
   });
+  it('supports remapped menu buttons and uses directional repeat only while navigating', () => {
+    const buttons = Array.from({ length: 17 }, () => ({ pressed: false, value: 0 }));
+    const axes = [0, 0, 0, 0, 0.8];
+    const pad = { connected: true, index: 0, id: 'Unmapped controller', mapping: '', buttons, axes } as unknown as Gamepad;
+    const settings = normalizeControls({ confirmButton: 5, backButton: 6, menuButton: 10, rollAxis: 4 });
+    const source = new GamepadInputSource(() => [pad]);
+    const actions: string[] = [];
+    const poll = (now: number, navigating = true): void => source.poll(settings, action => actions.push(action), navigating, now);
+    poll(0, false);
+    expect(actions).toEqual([]);
+    buttons[5].pressed = true;
+    poll(10);
+    poll(100);
+    poll(360);
+    expect(actions).toEqual(['confirm', 'navigate-right', 'navigate-right']);
+    axes[4] = 0;
+    buttons[5].pressed = false;
+    buttons[6].pressed = true;
+    poll(400);
+    buttons[6].pressed = false;
+    buttons[10].pressed = true;
+    poll(500, false);
+    expect(actions.slice(3)).toEqual(['back', 'menu']);
+  });
+  it('recognizes Android OTG menu buttons and hat axes in Chrome', () => {
+    const buttons = Array.from({ length: 17 }, () => ({ pressed: false, value: 0 }));
+    const axes = [0, 0, 0, -1, -1, 0, 0, 0, 0, 3.29];
+    const pad = { connected: true, index: 0, id: 'Android Gamepad (Vendor: 2563 Product: 0526)',
+      mapping: '', buttons, axes } as unknown as Gamepad;
+    const source = new GamepadInputSource(() => [pad]);
+    const actions: string[] = [];
+    buttons[11].pressed = true;
+    source.poll({ ...DEFAULT_CONTROLS }, action => actions.push(action));
+    buttons[11].pressed = false;
+    buttons[10].pressed = true;
+    source.poll({ ...DEFAULT_CONTROLS }, action => actions.push(action), true);
+    buttons[10].pressed = false;
+    for (const angle of [-1, -3 / 7, 1 / 7, 5 / 7, 3.29]) {
+      axes[9] = angle;
+      source.poll({ ...DEFAULT_CONTROLS }, action => actions.push(action), true);
+    }
+    expect(actions).toEqual(['pause', 'menu', 'navigate-up', 'navigate-right', 'navigate-down', 'navigate-left']);
+  });
   it('preserves classic limits while allowing a controlled full roll', () => {
     let classic = createFlightState({ position: { x: 0, y: 100, z: 0 }, yaw: 0 });
     let precision = classic;

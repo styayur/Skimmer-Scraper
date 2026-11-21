@@ -78,7 +78,7 @@ test.describe('v0.1.0 release acceptance', () => {
     });
 
     await page.setViewportSize({ width: 390, height: 844 });
-    await expect(page.getByRole('button', { name: /开始挑战/ })).toBeInViewport();
+    await expect(page.getByRole('button', { name: /开始游戏/ })).toBeInViewport();
     const mobileLayout = await page.evaluate(() => {
       const start = document.querySelector<HTMLElement>('#start-button')?.getBoundingClientRect();
       const brand = document.querySelector<HTMLElement>('#game-title')?.getBoundingClientRect();
@@ -96,7 +96,7 @@ test.describe('v0.1.0 release acceptance', () => {
     });
 
     await page.setViewportSize({ width: 1440, height: 900 });
-    await page.getByRole('button', { name: /开始挑战/ }).click();
+    await page.getByRole('button', { name: /开始游戏/ }).click();
     await page.waitForFunction(() => {
       const bridge = (window as unknown as {
         __SKIMMER_SCRAPER__?: { snapshot(): { mode: string } };
@@ -106,10 +106,12 @@ test.describe('v0.1.0 release acceptance', () => {
     await expect(page.locator('#hud')).toBeVisible();
     await expect(page.locator('#surface-state')).toHaveText('SURFACE LOCK');
 
+    await page.keyboard.press('Escape');
     await page.locator('#mute-button').click();
     await expect(page.locator('#mute-button')).toHaveAttribute('aria-pressed', 'true');
     await page.locator('#mute-button').click();
     await expect(page.locator('#mute-button')).toHaveAttribute('aria-pressed', 'false');
+    await page.keyboard.press('Escape');
 
     await page.waitForTimeout(700);
     await page.screenshot({

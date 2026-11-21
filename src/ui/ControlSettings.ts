@@ -16,7 +16,7 @@ export const bindControlSettings = (change: (settings: ControlSettings) => void,
       settings = normalizeControls({ ...settings, [key]: value }); saveControls(settings); change(settings);
     });
   });
-  document.querySelector('#rules-open')!.addEventListener('click', () => {
+  document.querySelector('#rules-panel')!.addEventListener('skimmer:open', () => {
     const anchor = loadCameraAnchor(aircraft()) ?? { x: 0, y: 0.72, z: -2.35 };
     for (const axis of ['x','y','z'] as const) (document.querySelector(`#anchor-${axis}`) as HTMLInputElement).value = String(anchor[axis]);
   });
