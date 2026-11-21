@@ -19,6 +19,9 @@ meta = json.loads((root / 'dist/build-info.json').read_text(encoding='utf-8'))
 commit = git('rev-parse', 'HEAD')
 if meta['sourceCommit'] != commit or meta['dirty']:
     raise SystemExit('Build metadata must identify this clean commit')
+lockfile = subprocess.check_output(['git', 'show', 'HEAD:package-lock.json'], cwd=root)
+if (root / 'package-lock.json').read_bytes() != lockfile:
+    raise SystemExit('Build the release in a clean checkout with Git core.autocrlf=false')
 version = json.loads((root / 'package.json').read_text(encoding='utf-8'))['version']
 destination = pathlib.Path(sys.argv[1]).resolve()
 destination.mkdir(parents=True, exist_ok=True)
@@ -41,7 +44,8 @@ paths += [
 ]
 if git('ls-files', 'automation'):
     paths.append('automation')
-subprocess.run(['git', 'archive', '--format=zip', '-o', str(source), 'HEAD', '--', *paths], cwd=root, check=True)
+subprocess.run(['git', '-c', 'core.autocrlf=false', 'archive', '--format=zip', '-o', str(source),
+                'HEAD', '--', *paths], cwd=root, check=True)
 with zipfile.ZipFile(source, 'a', compression=zipfile.ZIP_DEFLATED, compresslevel=9) as archive:
     supplements = {'SOURCE_REVISION.json': json.dumps(meta, indent=2) + '\n', 'evidence/v0.3/regression/v0.2/.gitkeep': ''}
     for name, content in sorted(supplements.items()):
@@ -55,10 +59,9 @@ manifest = {
     'reproducibility': 'Sorted static ZIP entries, fixed commit timestamp/mode, compression level9. Same clean commit, lockfile and documented toolchain. Cross-platform ZIP identity is not asserted.',
     'toolchain': {
         'build': meta.get('toolchain'),
-        'packaging': { 'python': platform.python_version(), 'zlib': zlib.ZLIB_RUNTIME_VERSION,
+        'packaging': { 'git': git('--version'), 'python': platform.python_version(), 'zlib': zlib.ZLIB_RUNTIME_VERSION,
                        'platform': platform.system(), 'machine': platform.machine() },
-        'lockfileSha256': hashlib.sha256(subprocess.check_output(
-            ['git', 'show', 'HEAD:package-lock.json'], cwd=root)).hexdigest(),
+        'lockfileSha256': hashlib.sha256(lockfile).hexdigest(),
     },
     'assets': [{'name': p.name, 'bytes': p.stat().st_size, 'sha256': hashlib.sha256(p.read_bytes()).hexdigest()} for p in [static, source]],
 }

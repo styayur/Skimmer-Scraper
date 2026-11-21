@@ -32,6 +32,9 @@ flight are exercised by `node scripts/v050-gpu.mjs matrix` and `soak`.
 
 From the clean, verified release commit, use `npm run release:package -- <output>`
 to create the static and source ZIPs, the release manifest and `SHA256SUMS.txt`.
+On Windows, create the packaging checkout with
+`git -c core.autocrlf=false worktree add --detach <directory> <commit>` before
+installing and building so the workspace and source archive use the same bytes.
 Keep the lockfile and the build toolchain recorded in the manifest. Source ZIPs
 retain `SOURCE_REVISION.json` for a build without `.git`. The release's
 `v0.5.0.json` is generated beside the archives so it can include their hashes
