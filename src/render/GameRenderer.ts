@@ -21,6 +21,7 @@ import { CompanionRenderer } from './companions';
 import type { AgentState } from '../companions/AgentController';
 import { journeyProfile } from '../world/journeyWorlds';
 import { JourneyGate } from './journeyGate';
+import { CITY_SHADOW_LAYER } from '../world/worldConfig';
 
 export class WebGL2UnavailableError extends Error {
   public constructor() {
@@ -132,6 +133,7 @@ export class GameRenderer {
     const sun = new THREE.DirectionalLight(0xffd3ac, 3.4);
     sun.position.copy(this.atmosphere.sunDirection).multiplyScalar(480);
     sun.castShadow = true;
+    sun.shadow.camera.layers.enable(CITY_SHADOW_LAYER);
     sun.shadow.mapSize.set(1536, 1536);
     sun.shadow.camera.near = 30;
     sun.shadow.camera.far = 1000;

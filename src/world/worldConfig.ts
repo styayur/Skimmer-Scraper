@@ -2,6 +2,7 @@ import { hashNumbers } from './deterministic';
 import { mulberry32 } from './rng';
 
 export const CHUNK_SIZE = 220;
+export const CITY_SHADOW_LAYER = 5;
 export const LEGACY_GENERATOR_VERSION = 2;
 export const GENERATOR_VERSION = 3;
 export const DEFAULT_WORLD_SEED = 0x51a7a;

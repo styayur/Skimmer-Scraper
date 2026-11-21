@@ -16,6 +16,7 @@ import { bridgeTiersAt, type BridgeLineDefinition } from './stableBoundary';
 import { cityDistrictAt } from './cityDistricts';
 import {
   CHUNK_SIZE,
+  CITY_SHADOW_LAYER,
   GENERATOR_VERSION,
   type WorldSettings,
 } from './worldConfig';
@@ -513,6 +514,7 @@ export class ChunkGenerator {
     }
 
     let renderTriangles = 0;
+    const shadowSurfaces: THREE.BufferGeometry[] = [];
     for (const [materialKey, geometries] of work.render) {
       const merged = mergeGeometries(geometries, false);
       for (const geometry of geometries) geometry.dispose();
@@ -524,10 +526,25 @@ export class ChunkGenerator {
       mesh.updateMatrix();
       mesh.castShadow = !['rose', 'teal', 'windowWarm', 'water'].includes(materialKey)
         && (!denseCity || !['wood', 'blossom', 'soil'].includes(materialKey));
+      if (denseCity && ['shellCeladon', 'shellPlum', 'shellIvory', 'bridge', 'rock'].includes(materialKey)) {
+        const surface = new THREE.BufferGeometry();
+        surface.setAttribute('position', merged.getAttribute('position'));
+        shadowSurfaces.push(surface);
+        mesh.castShadow = false;
+      }
       if (mesh.castShadow) mesh.customDepthMaterial = this.shadowDepthMaterial;
       mesh.receiveShadow = ['ground', 'shellCeladon', 'shellPlum', 'shellIvory', 'bridge', 'rock', 'soil'].includes(materialKey);
       group.add(mesh);
       renderTriangles += triangleCount(merged);
+    }
+    if (shadowSurfaces.length) {
+      const geometry = mergeGeometries(shadowSurfaces, false)!;
+      const shadow = new THREE.Mesh(geometry, this.shadowDepthMaterial);
+      shadow.name = `${key}-structural-shadows`;
+      shadow.layers.set(CITY_SHADOW_LAYER);
+      shadow.castShadow = true;
+      shadow.customDepthMaterial = this.shadowDepthMaterial;
+      group.add(shadow);
     }
 
     const mergedCollision = mergeGeometries(work.collision, false);
