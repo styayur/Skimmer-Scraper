@@ -42,7 +42,8 @@ const pages = runs('deploy-github-pages.yml', run => run.headBranch === tag && r
 assert(main, 'Merged main CI must succeed');
 const mainLog = ghText(['run', 'view', String(main.databaseId), '--log']).replace(/\u001b\[[0-9;]*m/g, '');
 const unitCount = mainLog.match(/\bTests\s+(\d+)\s+passed\b/)?.[1];
-const browserCount = mainLog.match(/Browser integration tests[^\n]*?\b(\d+) passed \(/)?.[1];
+const browserCount = mainLog.match(/T[\d:.]+Z[ \t]+(\d+) passed \([^\r\n]+\)[ \t]*\r?$/m)?.[1];
+const browserFlaky = Number(mainLog.match(/T[\d:.]+Z[ \t]+(\d+) flaky[ \t]*\r?$/m)?.[1] ?? 0);
 assert(unitCount && browserCount, 'Missing actual unit/browser pass counts in the merged main CI log');
 const publicUrl = 'https://styayur.github.io/Skimmer-Scraper/';
 let production;
@@ -68,7 +69,9 @@ const report = {
   generatedAt: new Date().toISOString(),
   status: candidate ? 'VERIFIED RELEASE CANDIDATE' : 'VERIFIED LIVE',
   pullRequests: prs,
-  tests: { ...integrated.tests, mergedMain: { unitPassed: Number(unitCount), chromiumPassed: Number(browserCount), run: main.url } },
+  tests: { ...integrated.tests, mergedMain: {
+    unitPassed: Number(unitCount), chromiumPassed: Number(browserCount), chromiumPassedAfterRetry: browserFlaky, run: main.url,
+  } },
   browsers: integrated.browsers,
   hardware: integrated.hardware,
   resourceStability: integrated.resourceStability,
