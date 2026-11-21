@@ -148,6 +148,10 @@ export class ChunkGenerator {
   ) {
     this.materials = materials;
     this.billboardMaterials = billboardMaterials;
+    if (settings.generatorVersion === GENERATOR_VERSION) {
+      // The illuminated windows are individual flat planes with no volume.
+      this.materials.byKey.windowWarm.forceSinglePass = true;
+    }
   }
 
   public generate(chunkX: number, chunkZ: number, revision = 0): GeneratedChunk {
