@@ -2,11 +2,20 @@ import { NEUTRAL_INPUT, type FlightInput } from './flightModel';
 import { shapeInput, type ControlSettings } from './controlSettings';
 import type { GameAction } from './input';
 
+// Chrome on Windows exposes the ShanWan Android/OTG controller without a
+// standard mapping. Keep View and Menu in the same slots used by saved controls.
+const androidOtgMenuSlots = [10, 11, 8, 9];
+const hatDirections: readonly GameAction[] = [
+  'navigate-up', 'navigate-up', 'navigate-right', 'navigate-down',
+  'navigate-down', 'navigate-down', 'navigate-left', 'navigate-up',
+];
+
 export class GamepadInputSource {
   private pressed = new Set<number>();
   private direction: GameAction | undefined;
   private nextDirectionAt = 0;
   private current: Gamepad | null = null;
+  private buttonSlots: readonly number[] | undefined;
   public device = 'Keyboard';
   public constructor(private readonly readPads: () => readonly (Gamepad | null)[] = () => navigator.getGamepads?.() ?? []) {}
   public poll(settings: ControlSettings, action: (action: GameAction) => void, navigating = false, now = 0): void {
@@ -14,6 +23,9 @@ export class GamepadInputSource {
     if (pad?.index !== this.current?.index || pad?.id !== this.current?.id) {
       this.pressed.clear();
       this.direction = undefined;
+      this.buttonSlots = pad && !pad.mapping && /Vendor: 2563 Product: 0526/i.test(pad.id)
+        ? androidOtgMenuSlots
+        : undefined;
     }
     this.current = pad;
     this.device = pad ? `Gamepad · ${pad.mapping || 'custom'}` : 'Keyboard';
@@ -21,7 +33,8 @@ export class GamepadInputSource {
     const actions: Array<[number, GameAction]> = [[settings.pauseButton, 'pause']];
     if (navigating) actions.push([settings.confirmButton, 'confirm'], [settings.backButton, 'back']);
     actions.push([settings.cameraButton, 'camera'], [settings.retryButton, 'retry'], [settings.menuButton, 'menu']);
-    for (const [button, name] of actions) {
+    for (const [slot, name] of actions) {
+      const button = this.buttonIndex(slot);
       if (pad.buttons[button]?.pressed && !this.pressed.has(button)) {
         action(name);
         break;
@@ -35,9 +48,18 @@ export class GamepadInputSource {
     }
     this.direction = direction;
   }
+  private buttonIndex(slot: number): number {
+    return this.buttonSlots?.[slot - 8] ?? slot;
+  }
   private navigationDirection(pad: Gamepad, settings: ControlSettings): GameAction | undefined {
-    for (const [index, direction] of [[12, 'navigate-up'], [13, 'navigate-down'], [14, 'navigate-left'], [15, 'navigate-right']] as const) {
-      if (pad.buttons[index]?.pressed) return direction;
+    if (this.buttonSlots) {
+      // The hat reports eight evenly spaced positions and an out-of-range neutral.
+      const hat = pad.axes[9];
+      if (hat >= -1 && hat <= 1 && hat !== 0) return hatDirections[Math.round((hat + 1) * 3.5)];
+    } else {
+      for (const [index, direction] of [[12, 'navigate-up'], [13, 'navigate-down'], [14, 'navigate-left'], [15, 'navigate-right']] as const) {
+        if (pad.buttons[index]?.pressed) return direction;
+      }
     }
     const x = pad.axes[pad.mapping === 'standard' ? 0 : settings.rollAxis] ?? 0;
     const y = pad.axes[pad.mapping === 'standard' ? 1 : settings.pitchAxis] ?? 0;
@@ -50,7 +72,7 @@ export class GamepadInputSource {
     const pad = this.current;
     return shapeInput({ pitch: pad.axes[settings.pitchAxis] ?? 0,
       roll: -(pad.axes[settings.rollAxis] ?? 0), yaw: -(pad.axes[settings.yawAxis] ?? 0),
-      boost: (pad.buttons[settings.boostButton]?.value ?? 0) > 0.35 }, settings, true);
+      boost: (pad.buttons[this.buttonIndex(settings.boostButton)]?.value ?? 0) > 0.35 }, settings, true);
   }
   public impact(): void {
     const actuator = this.current?.vibrationActuator;

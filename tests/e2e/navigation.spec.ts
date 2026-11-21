@@ -6,6 +6,9 @@ const waitReady = (page: Page) => page.waitForFunction(() => window.__SKIMMER_SC
 
 test('minimal live title, guide and keyboard navigation', async ({ page }, testInfo) => {
   test.setTimeout(90_000);
+  await page.addInitScript(() => {
+    Object.defineProperty(navigator, 'getGamepads', { value: () => [] });
+  });
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto('/?seed=334458');
   await waitReady(page);
