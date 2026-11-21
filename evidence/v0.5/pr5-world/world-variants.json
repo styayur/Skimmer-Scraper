@@ -1,0 +1,1498 @@
+{
+  "results": [
+    {
+      "localWorld": {
+        "manifest": {
+          "id": "b9d8551161307968cd3352922a27590d52e6724c37fad963c525f9c915263b02",
+          "name": "building",
+          "bytes": 2556,
+          "nodes": 5,
+          "triangles": 48,
+          "collisionTriangles": 36,
+          "materials": 4,
+          "textures": 0,
+          "texturePixels": 0,
+          "bounds": {
+            "x": 680.0000000000001,
+            "y": 120,
+            "z": 560.0000000000001
+          },
+          "animations": [],
+          "meshRoles": [
+            {
+              "id": "1",
+              "name": "Promenade",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "2",
+              "name": "East Lantern Tower",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "3",
+              "name": "West Atrium",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "4",
+              "name": "Skybox far",
+              "inferred": "DECORATION",
+              "role": "DECORATION"
+            }
+          ],
+          "options": {
+            "scale": 2,
+            "yaw": 90,
+            "up": "y",
+            "spawnYaw": 0,
+            "spawn": null
+          }
+        },
+        "spawn": {
+          "x": 0,
+          "y": 134,
+          "z": 290.00000000000006
+        },
+        "collisionVisible": false
+      },
+      "worldReleases": [
+        {
+          "seed": 334458,
+          "bvhBefore": 25,
+          "bvhAfter": 0,
+          "rootChildrenAfter": 0,
+          "disposedGeometryCount": 323
+        }
+      ],
+      "journey": {
+        "phase": "ASCENT",
+        "phaseTime": 0,
+        "time": 0,
+        "progress": 0,
+        "worldIndex": 0,
+        "crossings": 0,
+        "active": false,
+        "height": 520,
+        "history": [],
+        "easterEggUnlocked": false,
+        "easterEggTriggers": 0,
+        "easterEggVisible": false
+      },
+      "cooperation": {
+        "planner": "Local Autonomous Controller",
+        "time": 0.7499999999999998,
+        "epoch": 4,
+        "trust": {
+          "value": 0.5,
+          "events": []
+        },
+        "relay": {
+          "charges": 2,
+          "cooldownUntil": 0,
+          "attempts": 0,
+          "successes": 0,
+          "failures": 0
+        },
+        "model": {
+          "connected": false,
+          "pending": false,
+          "requests": 0,
+          "successes": 0,
+          "failures": 0,
+          "cancellations": 0,
+          "reservedTokens": 0,
+          "usage": {
+            "input": 0,
+            "output": 0,
+            "total": 0,
+            "cached": 0
+          },
+          "lastLatencyMs": null,
+          "error": null
+        },
+        "config": {
+          "provider": "deepseek",
+          "model": "deepseek-flash",
+          "trusted": false,
+          "intervalSeconds": 8,
+          "maxRequests": 20,
+          "tokenBudget": 50000,
+          "timeoutMs": 8000,
+          "origin": "https://api.deepseek.com"
+        },
+        "lastPlan": null,
+        "trace": [],
+        "memory": []
+      },
+      "ready": true,
+      "attitude": {
+        "pitch": 0,
+        "roll": 0,
+        "yaw": 0
+      },
+      "control": {
+        "pitch": 0,
+        "roll": 0,
+        "yaw": 0,
+        "boost": false
+      },
+      "rules": {
+        "mode": "free",
+        "graceSeconds": 5,
+        "shield": true,
+        "assisted": true
+      },
+      "companionSettings": {
+        "count": 3,
+        "formation": "wedge",
+        "behavior": "formation"
+      },
+      "companions": [
+        {
+          "id": 1,
+          "callsign": "KITE-1",
+          "position": {
+            "x": -14,
+            "y": 140.15650242222597,
+            "z": 227.5925368059974
+          },
+          "velocity": {
+            "x": 0,
+            "y": -1.7936810487138999,
+            "z": -64.88195371269367
+          },
+          "target": {
+            "x": -14,
+            "y": 139.98542598207518,
+            "z": 226.49999999999903
+          },
+          "task": "FORMATION_FOLLOW",
+          "surfaceDistance": null,
+          "decisions": 4,
+          "impacts": 0,
+          "uncovered": false,
+          "deployed": true
+        },
+        {
+          "id": 2,
+          "callsign": "KITE-2",
+          "position": {
+            "x": 14,
+            "y": 140.267921089422,
+            "z": 229.25700891894164
+          },
+          "velocity": {
+            "x": 0,
+            "y": -4.908263977017789,
+            "z": -62.97337872875435
+          },
+          "target": {
+            "x": 14,
+            "y": 139.275529404269,
+            "z": 226.49999999999903
+          },
+          "task": "FORMATION_FOLLOW",
+          "surfaceDistance": null,
+          "decisions": 4,
+          "impacts": 0,
+          "uncovered": false,
+          "deployed": true
+        },
+        {
+          "id": 3,
+          "callsign": "KITE-3",
+          "position": {
+            "x": 0,
+            "y": 141.1074110787822,
+            "z": 247.00782970015084
+          },
+          "velocity": {
+            "x": 0,
+            "y": -5.826666763585417,
+            "z": -59.87225737641394
+          },
+          "target": {
+            "x": 0,
+            "y": 139.39291697458313,
+            "z": 242.49999999999903
+          },
+          "task": "FORMATION_FOLLOW",
+          "surfaceDistance": null,
+          "decisions": 4,
+          "impacts": 0,
+          "uncovered": false,
+          "deployed": true
+        }
+      ],
+      "companionEvents": [
+        {
+          "time": 0,
+          "agent": 1,
+          "event": "spawn",
+          "task": "FORMATION_FOLLOW"
+        },
+        {
+          "time": 0,
+          "agent": 2,
+          "event": "spawn",
+          "task": "FORMATION_FOLLOW"
+        },
+        {
+          "time": 0,
+          "agent": 3,
+          "event": "spawn",
+          "task": "FORMATION_FOLLOW"
+        }
+      ],
+      "shieldImpacts": 0,
+      "inputDevice": "Gamepad · custom",
+      "mode": "running",
+      "runTime": 0.7499999999999998,
+      "best": 0,
+      "speed": 66,
+      "altitude": 134,
+      "position": {
+        "x": 0,
+        "y": 134,
+        "z": 240.49999999999903
+      },
+      "velocity": {
+        "x": 0,
+        "y": 0,
+        "z": -66
+      },
+      "surfaceDistance": null,
+      "surfaceLocked": false,
+      "grace": 5,
+      "failureReason": null,
+      "world": {
+        "chunks": 0,
+        "buildings": 0,
+        "bridges": 0,
+        "islands": 0,
+        "collisionTriangles": 36,
+        "renderTriangles": 48
+      },
+      "adapter": {
+        "chunks": 1,
+        "bvhCount": 1,
+        "lastBroadPhaseCandidates": 0,
+        "lastQueries": 0
+      },
+      "streaming": null,
+      "buffering": false,
+      "renderOrigin": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "render": {
+        "calls": 74,
+        "triangles": 7366,
+        "points": 560,
+        "lines": 0,
+        "fps": 26.591268251995576,
+        "geometries": 22,
+        "textures": 19,
+        "inversionAngle": 0,
+        "mirrorSky": {
+          "seed": null,
+          "triangles": 0,
+          "cameraOffset": 115.65460875453692
+        }
+      },
+      "seed": 3117962513,
+      "debugInput": false,
+      "selectedAircraft": "procedural",
+      "localModelCount": 0,
+      "cameraMode": "chase",
+      "cameraBlend": 0,
+      "cameraAnchor": {
+        "x": 0,
+        "y": 2.36,
+        "z": -1.57
+      },
+      "cameraOrientation": [
+        -0.026592671522095827,
+        0,
+        0,
+        0.9996463523773386
+      ],
+      "cameraPosition": {
+        "x": 0,
+        "y": 137.7,
+        "z": 253.67333333333238
+      },
+      "fov": 63.37931034482759,
+      "proximity": 0,
+      "proximityZone": "detached",
+      "visualStimulation": "standard",
+      "recordingHintVisible": true,
+      "worldPreset": "city",
+      "worldMode": "stable",
+      "generatorVersion": 3,
+      "worldFingerprint": 4107640996,
+      "revisionHistory": null,
+      "chunkStates": []
+    },
+    {
+      "localWorld": {
+        "manifest": {
+          "id": "3840d52f81ec41216d57cae9bfc1bd73d763fad52dc532631641b9c0aa27136f",
+          "name": "detailed",
+          "bytes": 50148,
+          "nodes": 74,
+          "triangles": 119916,
+          "collisionTriangles": 119904,
+          "materials": 5,
+          "textures": 0,
+          "texturePixels": 0,
+          "bounds": {
+            "x": 280,
+            "y": 80,
+            "z": 375.5
+          },
+          "animations": [],
+          "meshRoles": [
+            {
+              "id": "1",
+              "name": "Promenade",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "2",
+              "name": "East Lantern Tower",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "3",
+              "name": "West Atrium",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "4",
+              "name": "Skybox far",
+              "inferred": "DECORATION",
+              "role": "DECORATION"
+            },
+            {
+              "id": "5",
+              "name": "Rose bridge pier east",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "6",
+              "name": "Rose bridge pier west",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "7",
+              "name": "Rose bridge deck",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "8",
+              "name": "East overhang",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "9",
+              "name": "Safety Block",
+              "inferred": "OBSTACLE",
+              "role": "OBSTACLE"
+            },
+            {
+              "id": "10",
+              "name": "Faceted tower 0-0",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "11",
+              "name": "Faceted tower 0-1",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "12",
+              "name": "Faceted tower 0-2",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "13",
+              "name": "Faceted tower 0-3",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "14",
+              "name": "Faceted tower 0-4",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "15",
+              "name": "Faceted tower 0-5",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "16",
+              "name": "Faceted tower 0-6",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "17",
+              "name": "Faceted tower 0-7",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "18",
+              "name": "Faceted tower 1-0",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "19",
+              "name": "Faceted tower 1-1",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "20",
+              "name": "Faceted tower 1-2",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "21",
+              "name": "Faceted tower 1-3",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "22",
+              "name": "Faceted tower 1-4",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "23",
+              "name": "Faceted tower 1-5",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "24",
+              "name": "Faceted tower 1-6",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "25",
+              "name": "Faceted tower 1-7",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "26",
+              "name": "Faceted tower 2-0",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "27",
+              "name": "Faceted tower 2-1",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "28",
+              "name": "Faceted tower 2-2",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "29",
+              "name": "Faceted tower 2-3",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "30",
+              "name": "Faceted tower 2-4",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "31",
+              "name": "Faceted tower 2-5",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "32",
+              "name": "Faceted tower 2-6",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "33",
+              "name": "Faceted tower 2-7",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "34",
+              "name": "Faceted tower 3-0",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "35",
+              "name": "Faceted tower 3-1",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "36",
+              "name": "Faceted tower 3-2",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "37",
+              "name": "Faceted tower 3-3",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "38",
+              "name": "Faceted tower 3-4",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "39",
+              "name": "Faceted tower 3-5",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "40",
+              "name": "Faceted tower 3-6",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "41",
+              "name": "Faceted tower 3-7",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "42",
+              "name": "Faceted tower 4-0",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "43",
+              "name": "Faceted tower 4-1",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "44",
+              "name": "Faceted tower 4-2",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "45",
+              "name": "Faceted tower 4-3",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "46",
+              "name": "Faceted tower 4-4",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "47",
+              "name": "Faceted tower 4-5",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "48",
+              "name": "Faceted tower 4-6",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "49",
+              "name": "Faceted tower 4-7",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "50",
+              "name": "Faceted tower 5-0",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "51",
+              "name": "Faceted tower 5-1",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "52",
+              "name": "Faceted tower 5-2",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "53",
+              "name": "Faceted tower 5-3",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "54",
+              "name": "Faceted tower 5-4",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "55",
+              "name": "Faceted tower 5-5",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "56",
+              "name": "Faceted tower 5-6",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "57",
+              "name": "Faceted tower 5-7",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "58",
+              "name": "Faceted tower 6-0",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "59",
+              "name": "Faceted tower 6-1",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "60",
+              "name": "Faceted tower 6-2",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "61",
+              "name": "Faceted tower 6-3",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "62",
+              "name": "Faceted tower 6-4",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "63",
+              "name": "Faceted tower 6-5",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "64",
+              "name": "Faceted tower 6-6",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "65",
+              "name": "Faceted tower 6-7",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "66",
+              "name": "Faceted tower 7-0",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "67",
+              "name": "Faceted tower 7-1",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "68",
+              "name": "Faceted tower 7-2",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "69",
+              "name": "Faceted tower 7-3",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "70",
+              "name": "Faceted tower 7-4",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "71",
+              "name": "Faceted tower 7-5",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "72",
+              "name": "Faceted tower 7-6",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "73",
+              "name": "Faceted tower 7-7",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            }
+          ],
+          "options": {
+            "scale": 1,
+            "yaw": 0,
+            "up": "y",
+            "spawnYaw": 0,
+            "spawn": null
+          }
+        },
+        "spawn": {
+          "x": 0,
+          "y": 94,
+          "z": 0
+        },
+        "collisionVisible": false
+      },
+      "worldReleases": [
+        {
+          "seed": 334458,
+          "bvhBefore": 25,
+          "bvhAfter": 0,
+          "rootChildrenAfter": 0,
+          "disposedGeometryCount": 323
+        },
+        {
+          "seed": 3117962513,
+          "bvhBefore": 1,
+          "bvhAfter": 0,
+          "rootChildrenAfter": 0,
+          "disposedGeometryCount": 2
+        }
+      ],
+      "journey": {
+        "phase": "ASCENT",
+        "phaseTime": 0,
+        "time": 0,
+        "progress": 0,
+        "worldIndex": 0,
+        "crossings": 0,
+        "active": false,
+        "height": 520,
+        "history": [],
+        "easterEggUnlocked": false,
+        "easterEggTriggers": 0,
+        "easterEggVisible": false
+      },
+      "cooperation": {
+        "planner": "Local Autonomous Controller",
+        "time": 0.7499999999999998,
+        "epoch": 8,
+        "trust": {
+          "value": 0.5,
+          "events": []
+        },
+        "relay": {
+          "charges": 2,
+          "cooldownUntil": 0,
+          "attempts": 0,
+          "successes": 0,
+          "failures": 0
+        },
+        "model": {
+          "connected": false,
+          "pending": false,
+          "requests": 0,
+          "successes": 0,
+          "failures": 0,
+          "cancellations": 0,
+          "reservedTokens": 0,
+          "usage": {
+            "input": 0,
+            "output": 0,
+            "total": 0,
+            "cached": 0
+          },
+          "lastLatencyMs": null,
+          "error": null
+        },
+        "config": {
+          "provider": "deepseek",
+          "model": "deepseek-flash",
+          "trusted": false,
+          "intervalSeconds": 8,
+          "maxRequests": 20,
+          "tokenBudget": 50000,
+          "timeoutMs": 8000,
+          "origin": "https://api.deepseek.com"
+        },
+        "lastPlan": null,
+        "trace": [],
+        "memory": []
+      },
+      "ready": true,
+      "attitude": {
+        "pitch": 0,
+        "roll": 0,
+        "yaw": 0
+      },
+      "control": {
+        "pitch": 0,
+        "roll": 0,
+        "yaw": 0,
+        "boost": false
+      },
+      "rules": {
+        "mode": "free",
+        "graceSeconds": 5,
+        "shield": true,
+        "assisted": true
+      },
+      "companionSettings": {
+        "count": 3,
+        "formation": "wedge",
+        "behavior": "formation"
+      },
+      "companions": [
+        {
+          "id": 1,
+          "callsign": "KITE-1",
+          "position": {
+            "x": -14,
+            "y": 100.15650242222588,
+            "z": -62.40746319400258
+          },
+          "velocity": {
+            "x": 0,
+            "y": -1.7936810487137027,
+            "z": -64.88195371269367
+          },
+          "target": {
+            "x": -14,
+            "y": 99.98542598207517,
+            "z": -63.499999999999936
+          },
+          "task": "FORMATION_FOLLOW",
+          "surfaceDistance": 33.14465820409971,
+          "decisions": 4,
+          "impacts": 0,
+          "uncovered": false,
+          "deployed": true
+        },
+        {
+          "id": 2,
+          "callsign": "KITE-2",
+          "position": {
+            "x": 14,
+            "y": 100.26792108942199,
+            "z": -60.7429910810582
+          },
+          "velocity": {
+            "x": 0,
+            "y": -4.908263977017738,
+            "z": -62.973378728754206
+          },
+          "target": {
+            "x": 14,
+            "y": 99.27552940426901,
+            "z": -63.499999999999936
+          },
+          "task": "FORMATION_FOLLOW",
+          "surfaceDistance": 37.93977734212429,
+          "decisions": 4,
+          "impacts": 0,
+          "uncovered": false,
+          "deployed": true
+        },
+        {
+          "id": 3,
+          "callsign": "KITE-3",
+          "position": {
+            "x": 0,
+            "y": 101.10741107878235,
+            "z": -42.99217029984872
+          },
+          "velocity": {
+            "x": 0,
+            "y": -5.826666763584617,
+            "z": -59.87225737641331
+          },
+          "target": {
+            "x": 0,
+            "y": 99.39291697458314,
+            "z": -47.499999999999936
+          },
+          "task": "FORMATION_FOLLOW",
+          "surfaceDistance": 31.413704330425283,
+          "decisions": 4,
+          "impacts": 0,
+          "uncovered": false,
+          "deployed": true
+        }
+      ],
+      "companionEvents": [
+        {
+          "time": 0,
+          "agent": 1,
+          "event": "spawn",
+          "task": "FORMATION_FOLLOW"
+        },
+        {
+          "time": 0,
+          "agent": 2,
+          "event": "spawn",
+          "task": "FORMATION_FOLLOW"
+        },
+        {
+          "time": 0,
+          "agent": 3,
+          "event": "spawn",
+          "task": "FORMATION_FOLLOW"
+        }
+      ],
+      "shieldImpacts": 0,
+      "inputDevice": "Gamepad · custom",
+      "mode": "running",
+      "runTime": 0.7499999999999998,
+      "best": 0,
+      "speed": 66,
+      "altitude": 94,
+      "position": {
+        "x": 0,
+        "y": 94,
+        "z": -49.499999999999936
+      },
+      "velocity": {
+        "x": 0,
+        "y": 0,
+        "z": -66
+      },
+      "surfaceDistance": 34.536280249601546,
+      "surfaceLocked": false,
+      "grace": 5,
+      "failureReason": null,
+      "world": {
+        "chunks": 0,
+        "buildings": 0,
+        "bridges": 0,
+        "islands": 0,
+        "collisionTriangles": 119904,
+        "renderTriangles": 119916
+      },
+      "adapter": {
+        "chunks": 2,
+        "bvhCount": 2,
+        "lastBroadPhaseCandidates": 0,
+        "lastQueries": 0
+      },
+      "streaming": null,
+      "buffering": false,
+      "renderOrigin": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "render": {
+        "calls": 251,
+        "triangles": 329410,
+        "points": 560,
+        "lines": 0,
+        "fps": 14.331633826404639,
+        "geometries": 23,
+        "textures": 19,
+        "inversionAngle": 0,
+        "mirrorSky": {
+          "seed": null,
+          "triangles": 0,
+          "cameraOffset": 114.10018858024212
+        }
+      },
+      "seed": 943772975,
+      "debugInput": false,
+      "selectedAircraft": "procedural",
+      "localModelCount": 0,
+      "cameraMode": "chase",
+      "cameraBlend": 0,
+      "cameraAnchor": {
+        "x": 0,
+        "y": 2.36,
+        "z": -1.57
+      },
+      "cameraOrientation": [
+        -0.02659267152209584,
+        0,
+        0,
+        0.9996463523773386
+      ],
+      "cameraPosition": {
+        "x": 0,
+        "y": 97.7,
+        "z": -36.326666666666604
+      },
+      "fov": 63.37931034482759,
+      "proximity": 0.07546692915168078,
+      "proximityZone": "detached",
+      "visualStimulation": "standard",
+      "recordingHintVisible": true,
+      "worldPreset": "city",
+      "worldMode": "stable",
+      "generatorVersion": 3,
+      "worldFingerprint": 3857576871,
+      "revisionHistory": null,
+      "chunkStates": []
+    },
+    {
+      "localWorld": {
+        "manifest": {
+          "id": "b3d05d76fd3894595fb5e7c117c9b3f731dba665d9ffc42d0795677b134b516e",
+          "name": "animated",
+          "bytes": 3508,
+          "nodes": 11,
+          "triangles": 120,
+          "collisionTriangles": 108,
+          "materials": 4,
+          "textures": 0,
+          "texturePixels": 0,
+          "bounds": {
+            "x": 280,
+            "y": 60,
+            "z": 340
+          },
+          "animations": [
+            {
+              "name": "Lift cycle",
+              "seconds": 2
+            }
+          ],
+          "meshRoles": [
+            {
+              "id": "1",
+              "name": "Promenade",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "2",
+              "name": "East Lantern Tower",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "3",
+              "name": "West Atrium",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "4",
+              "name": "Skybox far",
+              "inferred": "DECORATION",
+              "role": "DECORATION"
+            },
+            {
+              "id": "5",
+              "name": "Rose bridge pier east",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "6",
+              "name": "Rose bridge pier west",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "7",
+              "name": "Rose bridge deck",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "8",
+              "name": "East overhang",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "9",
+              "name": "Safety Block",
+              "inferred": "OBSTACLE",
+              "role": "OBSTACLE"
+            },
+            {
+              "id": "10",
+              "name": "Lift",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            }
+          ],
+          "options": {
+            "scale": 1,
+            "yaw": 0,
+            "up": "y",
+            "spawnYaw": 0,
+            "spawn": null
+          }
+        },
+        "spawn": {
+          "x": 0,
+          "y": 74,
+          "z": 180
+        },
+        "collisionVisible": false
+      },
+      "worldReleases": [
+        {
+          "seed": 334458,
+          "bvhBefore": 25,
+          "bvhAfter": 0,
+          "rootChildrenAfter": 0,
+          "disposedGeometryCount": 323
+        },
+        {
+          "seed": 3117962513,
+          "bvhBefore": 1,
+          "bvhAfter": 0,
+          "rootChildrenAfter": 0,
+          "disposedGeometryCount": 2
+        },
+        {
+          "seed": 943772975,
+          "bvhBefore": 2,
+          "bvhAfter": 0,
+          "rootChildrenAfter": 0,
+          "disposedGeometryCount": 4
+        }
+      ],
+      "journey": {
+        "phase": "ASCENT",
+        "phaseTime": 0,
+        "time": 0,
+        "progress": 0,
+        "worldIndex": 0,
+        "crossings": 0,
+        "active": false,
+        "height": 520,
+        "history": [],
+        "easterEggUnlocked": false,
+        "easterEggTriggers": 0,
+        "easterEggVisible": false
+      },
+      "cooperation": {
+        "planner": "Local Autonomous Controller",
+        "time": 0.7499999999999998,
+        "epoch": 12,
+        "trust": {
+          "value": 0.5,
+          "events": []
+        },
+        "relay": {
+          "charges": 2,
+          "cooldownUntil": 0,
+          "attempts": 0,
+          "successes": 0,
+          "failures": 0
+        },
+        "model": {
+          "connected": false,
+          "pending": false,
+          "requests": 0,
+          "successes": 0,
+          "failures": 0,
+          "cancellations": 0,
+          "reservedTokens": 0,
+          "usage": {
+            "input": 0,
+            "output": 0,
+            "total": 0,
+            "cached": 0
+          },
+          "lastLatencyMs": null,
+          "error": null
+        },
+        "config": {
+          "provider": "deepseek",
+          "model": "deepseek-flash",
+          "trusted": false,
+          "intervalSeconds": 8,
+          "maxRequests": 20,
+          "tokenBudget": 50000,
+          "timeoutMs": 8000,
+          "origin": "https://api.deepseek.com"
+        },
+        "lastPlan": null,
+        "trace": [],
+        "memory": []
+      },
+      "ready": true,
+      "attitude": {
+        "pitch": 0,
+        "roll": 0,
+        "yaw": 0
+      },
+      "control": {
+        "pitch": 0,
+        "roll": 0,
+        "yaw": 0,
+        "boost": false
+      },
+      "rules": {
+        "mode": "free",
+        "graceSeconds": 5,
+        "shield": true,
+        "assisted": true
+      },
+      "companionSettings": {
+        "count": 3,
+        "formation": "wedge",
+        "behavior": "formation"
+      },
+      "companions": [
+        {
+          "id": 1,
+          "callsign": "KITE-1",
+          "position": {
+            "x": -14,
+            "y": 80.15650242222588,
+            "z": 117.59253680599734
+          },
+          "velocity": {
+            "x": 0,
+            "y": -1.7936810487137105,
+            "z": -64.88195371269376
+          },
+          "target": {
+            "x": -14,
+            "y": 79.98542598207517,
+            "z": 116.49999999999898
+          },
+          "task": "FORMATION_FOLLOW",
+          "surfaceDistance": 79.46375018746771,
+          "decisions": 4,
+          "impacts": 0,
+          "uncovered": false,
+          "deployed": true
+        },
+        {
+          "id": 2,
+          "callsign": "KITE-2",
+          "position": {
+            "x": 14,
+            "y": 80.26792108942199,
+            "z": 119.25700891894161
+          },
+          "velocity": {
+            "x": 0,
+            "y": -4.9082639770177545,
+            "z": -62.97337872875436
+          },
+          "target": {
+            "x": 14,
+            "y": 79.27552940426901,
+            "z": 116.49999999999898
+          },
+          "task": "FORMATION_FOLLOW",
+          "surfaceDistance": 80.06694068434074,
+          "decisions": 4,
+          "impacts": 0,
+          "uncovered": false,
+          "deployed": true
+        },
+        {
+          "id": 3,
+          "callsign": "KITE-3",
+          "position": {
+            "x": 0,
+            "y": 81.10741107878225,
+            "z": 137.00782970015098
+          },
+          "velocity": {
+            "x": 0,
+            "y": -5.826666763585543,
+            "z": -59.87225737641421
+          },
+          "target": {
+            "x": 0,
+            "y": 79.39291697458314,
+            "z": 132.49999999999898
+          },
+          "task": "FORMATION_FOLLOW",
+          "surfaceDistance": 81.12889491467392,
+          "decisions": 4,
+          "impacts": 0,
+          "uncovered": false,
+          "deployed": true
+        }
+      ],
+      "companionEvents": [
+        {
+          "time": 0,
+          "agent": 1,
+          "event": "spawn",
+          "task": "FORMATION_FOLLOW"
+        },
+        {
+          "time": 0,
+          "agent": 2,
+          "event": "spawn",
+          "task": "FORMATION_FOLLOW"
+        },
+        {
+          "time": 0,
+          "agent": 3,
+          "event": "spawn",
+          "task": "FORMATION_FOLLOW"
+        }
+      ],
+      "shieldImpacts": 0,
+      "inputDevice": "Gamepad · custom",
+      "mode": "running",
+      "runTime": 0.7499999999999998,
+      "best": 0,
+      "speed": 66,
+      "altitude": 74,
+      "position": {
+        "x": 0,
+        "y": 74,
+        "z": 130.49999999999898
+      },
+      "velocity": {
+        "x": 0,
+        "y": 0,
+        "z": -66
+      },
+      "surfaceDistance": 73,
+      "surfaceLocked": false,
+      "grace": 5,
+      "failureReason": null,
+      "world": {
+        "chunks": 0,
+        "buildings": 0,
+        "bridges": 0,
+        "islands": 0,
+        "collisionTriangles": 108,
+        "renderTriangles": 120
+      },
+      "adapter": {
+        "chunks": 2,
+        "bvhCount": 2,
+        "lastBroadPhaseCandidates": 0,
+        "lastQueries": 0
+      },
+      "streaming": null,
+      "buffering": false,
+      "renderOrigin": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "render": {
+        "calls": 92,
+        "triangles": 7582,
+        "points": 560,
+        "lines": 0,
+        "fps": 10.261679449011238,
+        "geometries": 22,
+        "textures": 19,
+        "inversionAngle": 0,
+        "mirrorSky": {
+          "seed": null,
+          "triangles": 0,
+          "cameraOffset": 112.2705866040463
+        }
+      },
+      "seed": 3016777078,
+      "debugInput": false,
+      "selectedAircraft": "procedural",
+      "localModelCount": 0,
+      "cameraMode": "chase",
+      "cameraBlend": 0,
+      "cameraAnchor": {
+        "x": 0,
+        "y": 2.36,
+        "z": -1.57
+      },
+      "cameraOrientation": [
+        -0.026592671522095827,
+        0,
+        0,
+        0.9996463523773386
+      ],
+      "cameraPosition": {
+        "x": 0,
+        "y": 77.7,
+        "z": 143.67333333333232
+      },
+      "fov": 63.37931034482759,
+      "proximity": 0,
+      "proximityZone": "detached",
+      "visualStimulation": "standard",
+      "recordingHintVisible": true,
+      "worldPreset": "city",
+      "worldMode": "stable",
+      "generatorVersion": 3,
+      "worldFingerprint": 622324435,
+      "revisionHistory": null,
+      "chunkStates": []
+    }
+  ],
+  "errors": []
+}

@@ -1,0 +1,93 @@
+{
+  "phase": 5,
+  "sourceCommit": "8ddcb927bd6458cf3cca612c96d9d773fbb905a3",
+  "typecheck": "passed",
+  "build": "passed",
+  "unit": {
+    "passed": 150
+  },
+  "focusedChromium": {
+    "passed": 2,
+    "cases": [
+      {
+        "fixture": "building",
+        "triangles": 48,
+        "animations": 0,
+        "mode": "running",
+        "companions": 3
+      },
+      {
+        "fixture": "detailed",
+        "triangles": 119916,
+        "animations": 0,
+        "mode": "running",
+        "companions": 3
+      },
+      {
+        "fixture": "animated",
+        "triangles": 120,
+        "animations": 1,
+        "mode": "running",
+        "companions": 3
+      }
+    ],
+    "archway": {
+      "start": {
+        "x": 0,
+        "y": 12,
+        "z": 110
+      },
+      "afterFlightZ": -21.999999999999645,
+      "surfaceLocked": true,
+      "shieldImpacts": 1,
+      "proximityAndCollision": {
+        "bridge": {
+          "distance": 2,
+          "point": {
+            "x": 0,
+            "y": 29,
+            "z": 0
+          },
+          "chunkId": "local-f081067586fa34c8cc796153bfedaf872061454f9ef54f0e1660d0c104b5a4d4-surface",
+          "surfaceId": "local-f081067586fa34c8cc796153bfedaf872061454f9ef54f0e1660d0c104b5a4d4-surface"
+        },
+        "obstacle": {
+          "distance": 1,
+          "point": {
+            "x": 0,
+            "y": 8,
+            "z": -62
+          },
+          "chunkId": "local-f081067586fa34c8cc796153bfedaf872061454f9ef54f0e1660d0c104b5a4d4-obstacle",
+          "surfaceId": "local-f081067586fa34c8cc796153bfedaf872061454f9ef54f0e1660d0c104b5a4d4-obstacle"
+        },
+        "obstacleAsProximity": null,
+        "backdrop": null
+      },
+      "release": {
+        "seed": 4034987637,
+        "bvhBefore": 2,
+        "bvhAfter": 0,
+        "rootChildrenAfter": 0,
+        "disposedGeometryCount": 3
+      },
+      "outbound": [],
+      "errors": []
+    }
+  },
+  "publicCompatibility": {
+    "scenes": 3,
+    "atlas": "No authorized Atlas fixture was available in the workspace or Downloads. Used authored fixtures and licensed Khronos samples.",
+    "results": "evidence/v0.5/pr5-world/public-samples.json"
+  },
+  "resourceLifecycle": {
+    "cycles": 3,
+    "renderer": "ANGLE (AMD, AMD Radeon 780M Graphics (0x00001900) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+    "results": "evidence/v0.5/pr5-world/subpath-lifecycle.json"
+  },
+  "screenshotsReviewed": [
+    "world-settings.png",
+    "arch-flight.png",
+    "collision-layer.png"
+  ]
+}
