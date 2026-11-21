@@ -85,7 +85,7 @@ try {
   assert(initial.rules.shield);
   assert.equal(initial.cameraMode, 'chase');
   assert(initial.companions.length === 3 && initial.companions.every(agent => agent.deployed));
-  assert(initial.dynamicStructures.length > 0 && initial.adapter.dynamicBvhCount > 0);
+  assert(initial.dynamicStructures.length > 0 && initial.streaming.dynamicBvhCount > 0);
   assert.equal(initial.voice.input, 'off');
   assert.equal(initial.cooperation.model.requests, 0);
   const moving = await page.evaluate(() => window.__SKIMMER_SCRAPER__.advance(1.5));
@@ -95,7 +95,7 @@ try {
     return before && JSON.stringify(before) !== JSON.stringify(structure);
   }));
   evidence.defaults = { mode: initial.rules.mode, shield: initial.rules.shield, companions: initial.companions.length,
-    camera: initial.cameraMode, movingStructures: initial.dynamicStructures.length, dynamicBvhs: initial.adapter.dynamicBvhCount };
+    camera: initial.cameraMode, movingStructures: initial.dynamicStructures.length, dynamicBvhs: initial.streaming.dynamicBvhCount };
   await page.keyboard.press('c');
   await page.waitForFunction(() => window.__SKIMMER_SCRAPER__.snapshot().cameraMode === 'cockpit');
   if (family === 'chrome') await image('cockpit');
@@ -192,7 +192,7 @@ try {
     await running();
     const after = await page.evaluate(() => window.__SKIMMER_SCRAPER__.advance(1));
     assert(after.localWorld?.manifest.name === variant && after.adapter.bvhCount > 0);
-    if (variant === 'animated') assert(after.adapter.dynamicBvhCount > 0);
+    if (variant === 'animated') assert(after.dynamicStructures.length > 0);
     if (family === 'chrome' && variant === 'animated') await image('glb-flight');
     await openLibrary();
     await page.locator('#local-world-builtin').click();
@@ -200,7 +200,8 @@ try {
     const restored = await snapshot();
     const release = restored.worldReleases.findLast(world => world.bvhBefore === after.adapter.bvhCount);
     assert(release && release.bvhAfter === 0 && release.dynamicBvhAfter === 0 && release.disposedGeometryCount > 0);
-    evidence.worldImports.push({ variant, bvh: after.adapter.bvhCount, dynamicBvh: after.adapter.dynamicBvhCount, release });
+    if (variant === 'animated') assert(release.dynamicBvhBefore > 0);
+    evidence.worldImports.push({ variant, bvh: after.adapter.bvhCount, dynamicBvh: release.dynamicBvhBefore, release });
     if (variant !== variants.at(-1)) {
       await page.locator('#start-button').click();
       await running();

@@ -78,7 +78,7 @@ async function fly(count, quality, seconds, soak) {
           return { mode: state.mode, time: state.runTime, position: state.position, buffering: state.buffering,
             companions: state.companions.length, shieldImpacts: state.shieldImpacts, world: state.journey.worldIndex,
             chunks: state.streaming?.activeChunks ?? 0, staticBvhs: state.streaming?.bvhCount ?? 0,
-            dynamicBvhs: state.adapter?.dynamicBvhCount ?? 0, movingStructures: state.dynamicStructures.length,
+            dynamicBvhs: state.streaming?.dynamicBvhCount ?? null, movingStructures: state.dynamicStructures.length,
             queuedChunks: state.streaming?.queuedChunks ?? 0, drawCalls: state.render.calls, triangles: state.render.triangles,
             geometries: state.render.geometries, textures: state.render.textures, heap: performance.memory?.usedJSHeapSize ?? null };
         };
