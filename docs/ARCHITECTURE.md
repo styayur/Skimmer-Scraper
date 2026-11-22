@@ -119,11 +119,14 @@ See [Companion radio](RADIO.md) for controls and data handling.
 
 Push-to-talk either uses on-device recognition or records mono PCM through an
 AudioWorklet for official DeepSeek ASR. The transcript enters the same radio
-queue as typed input. `VoiceRadio` owns capture, cancellation and the one
-active playback session. It uses the memory-only `ModelClient` credential
-gateway for the two pinned DeepSeek voice endpoints, with independent speech
-budgets. 24 kHz PCM playback streams into bounded Web Audio buffers. Cancellation
-stops tracks and buffered playback when the flight context changes. See
+queue as typed input. `VoiceRadio` owns half-duplex capture and dispatches
+each real companion identity to a `VoiceProvider`. `SpeechQueue` permits one
+active utterance and three waiting calls, with priority, duplicate suppression
+and expiry. The subtitle tracks the active spoken line. System speech uses
+on-device voices and per-role rate and pitch. DeepSeek uses the memory-only
+`ModelClient` credential gateway and independent speech budgets. `RadioAudio`
+streams 24 kHz PCM through a bounded Web Audio graph with filtering, compression
+and panning. Lifecycle changes abort captures and stop buffered audio. See
 [Voice radio](VOICE.md) for formats and permission flow.
 
 Trust starts at 0.5 and changes only through observed lead progress, separation,

@@ -112,7 +112,7 @@ try {
   await page.locator('#ai-interval').fill('60');
   await page.locator('#ai-key').fill(key);
   await page.locator('#ai-connect').click();
-  await page.locator('.voice-settings summary').click();
+  await page.locator('.voice-settings > summary').click();
   await page.locator('#voice-input').selectOption('deepseek');
   await page.locator('#voice-output').selectOption('deepseek');
   if (!physical) await page.locator('#voice-language').selectOption('en-US');

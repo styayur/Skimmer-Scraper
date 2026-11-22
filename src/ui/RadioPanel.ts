@@ -28,7 +28,7 @@ export class RadioPanel {
       get('form-status').textContent = '';
       this.update(false);
     });
-    this.panel.addEventListener('skimmer:close', () => { this.input.value = ''; });
+    this.panel.addEventListener('skimmer:close', () => { this.input.value = ''; silence(); });
     form.addEventListener('submit', event => {
       event.preventDefault();
       const accepted = this.send(this.input.value);
@@ -44,9 +44,9 @@ export class RadioPanel {
     get('interrupt').addEventListener('click', () => { radio.interrupt(); silence(); this.update(false); });
   }
 
-  public update(inFlight: boolean): void {
+  public update(inFlight: boolean, voice: RadioLine | null = null): void {
     const { active, history } = this.radio.snapshot();
-    const spoken = inFlight ? active : null;
+    const spoken = inFlight ? voice ?? active : null;
     if (spoken?.id !== this.subtitleId) {
       this.subtitleId = spoken?.id;
       this.subtitle.hidden = spoken === null;

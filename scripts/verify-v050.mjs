@@ -103,7 +103,7 @@ try {
   await page.waitForFunction(() => window.__SKIMMER_SCRAPER__.snapshot().cameraMode === 'chase');
   await page.keyboard.press('f');
   await page.locator('#advanced-flight-settings > summary').click();
-  await page.locator('.voice-settings summary').click();
+  await page.locator('.voice-settings > summary').click();
   assert.equal(await page.locator('#voice-input').inputValue(), 'off');
   assert.equal(await page.locator('#voice-output').inputValue(), 'off');
   assert(await page.locator('#voice-language').isVisible());

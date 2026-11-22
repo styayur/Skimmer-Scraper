@@ -17,7 +17,7 @@ export interface RadioLine {
   priority: RadioPriority;
 }
 
-const priority: Record<RadioPriority, number> = { notice: 0, reply: 1, risk: 2 };
+export const radioPriority: Readonly<Record<RadioPriority, number>> = { notice: 0, reply: 1, risk: 2 };
 const maxHistory = 32;
 const maxQueue = 4;
 
@@ -38,9 +38,9 @@ export class RadioDialogue {
   public report(agent: number, text: string, source: 'local' | 'model', kind: RadioPriority, time: number): void {
     const line = this.remember(agent, text, source, kind);
     if (!line || this.muted) return;
-    if (this.active && kind === 'risk' && this.active.priority !== 'risk') this.active = null;
+    if (this.active && radioPriority[kind] > radioPriority[this.active.priority]) this.active = null;
     this.queue.push(line);
-    this.queue.sort((a, b) => priority[b.priority] - priority[a.priority] || a.id - b.id);
+    this.queue.sort((a, b) => radioPriority[b.priority] - radioPriority[a.priority] || a.id - b.id);
     if (this.queue.length > maxQueue) this.queue.length = maxQueue;
     this.step(time);
   }

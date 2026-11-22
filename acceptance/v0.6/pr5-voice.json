@@ -1,0 +1,75 @@
+{
+  "phase": 5,
+  "status": "TESTED",
+  "baseline": "d6e76d6217cf9f09e723589803acd3a6b754655f",
+  "sourceCommit": "83e052235727053ee505b11087fe0d30ddd9195b",
+  "automated": {
+    "typecheck": "passed",
+    "build": "passed",
+    "unit": 184,
+    "chromium": 45,
+    "fullSuiteSource": "56b7c21572e11622577e827d2adbe58fbac14362",
+    "targeted": [
+      "Normal flight and textual radio",
+      "Default offline output and matching captions",
+      "Pause, device changes, retry and real Sky Inversion invalidation",
+      "Missing local system voice and explicit disabled preference",
+      "Mocked DeepSeek AudioWorklet, WAV validation, orders, streamed PCM and teardown"
+    ]
+  },
+  "native": {
+    "platform": "Windows with installed Mandarin on-device system voices",
+    "method": "The speech probe observes real SpeechSynthesis start, end and cancel events. Every utterance reaches the original browser method. No microphone or network voice is used.",
+    "browsers": [
+      {
+        "name": "Chrome",
+        "version": "157.0.8103.79",
+        "voices": {
+          "lead": "Microsoft Huihui - Chinese (Simplified, PRC)",
+          "guardian": "Microsoft Kangkang - Chinese (Simplified, PRC)",
+          "explorer": "Microsoft Yaoyao - Chinese (Simplified, PRC)"
+        },
+        "completedNativeEvents": 4,
+        "maxSimultaneousSpeakers": 1,
+        "externalRequests": []
+      },
+      {
+        "name": "Edge",
+        "version": "158.0.4370.33",
+        "voices": {
+          "lead": "Microsoft Huihui - Chinese (Simplified, PRC)",
+          "guardian": "Microsoft Kangkang - Chinese (Simplified, PRC)",
+          "explorer": "Microsoft Yaoyao - Chinese (Simplified, PRC)"
+        },
+        "completedNativeEvents": 4,
+        "maxSimultaneousSpeakers": 1,
+        "externalRequests": []
+      },
+      {
+        "name": "Firefox",
+        "version": "159.0",
+        "voices": {
+          "lead": "urn:moz-tts:sapi:Microsoft Huihui - Chinese (Simplified, PRC)?zh-CN",
+          "guardian": "urn:moz-tts:sapi:Microsoft Kangkang - Chinese (Simplified, PRC)?zh-CN",
+          "explorer": "urn:moz-tts:sapi:Microsoft Yaoyao - Chinese (Simplified, PRC)?zh-CN"
+        },
+        "completedNativeEvents": 5,
+        "maxSimultaneousSpeakers": 1,
+        "externalRequests": []
+      }
+    ]
+  },
+  "reference": "https://github.com/styayur/siny/tree/a31619ba641e64b9d9ff572257e4ca52f66e91f6",
+  "limits": [
+    "System voice availability and output depend on the local OS and browser. Captions stay available.",
+    "Web Audio bandpass, compression and pan apply to PCM streams. System conversations use the browser speech engine.",
+    "The new provider contract accepts a high quality browser model. That engine is implemented and verified in the following phase.",
+    "The mocked DeepSeek tests certify the client path from the AudioWorklet to the validator and stream. The paid provider is verified separately."
+  ],
+  "evidence": [
+    "evidence/v0.6/pr5-voice/native-speech.json",
+    "evidence/v0.6/pr5-voice/chrome-navigator.png",
+    "evidence/v0.6/pr5-voice/edge-navigator.png",
+    "evidence/v0.6/pr5-voice/firefox-navigator.png"
+  ]
+}
