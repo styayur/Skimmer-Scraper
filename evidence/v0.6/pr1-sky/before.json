@@ -1,0 +1,2488 @@
+{
+  "name": "before",
+  "driver": "32.0.32029.2010",
+  "browser": "157.0.8103.79",
+  "views": {
+    "low": {
+      "attitude": {
+        "pitch": 0.6,
+        "roll": 0,
+        "yaw": 0
+      },
+      "camera": [
+        0.2700120094999231,
+        0,
+        0,
+        0.9628569544464086
+      ],
+      "position": {
+        "x": 0,
+        "y": 45,
+        "z": 120
+      },
+      "seed": 334458,
+      "mirror": {
+        "seed": 334458,
+        "triangles": 2640,
+        "cameraOffset": 0
+      },
+      "chunks": 15,
+      "bvh": 15,
+      "surface": null
+    },
+    "climb": {
+      "attitude": {
+        "pitch": 0.76,
+        "roll": 0,
+        "yaw": 1.9
+      },
+      "camera": [
+        0.20131752196921093,
+        0.7631460426696794,
+        -0.28151891764028825,
+        0.5457347999866093
+      ],
+      "position": {
+        "x": 0,
+        "y": 310,
+        "z": 120
+      },
+      "seed": 334458,
+      "mirror": {
+        "seed": 334458,
+        "triangles": 2640,
+        "cameraOffset": 0
+      },
+      "chunks": 25,
+      "bvh": 25,
+      "surface": null
+    },
+    "rolled": {
+      "attitude": {
+        "pitch": 0.69,
+        "roll": 1.22,
+        "yaw": -1.7
+      },
+      "camera": [
+        0.23166317331556202,
+        0.722116001920122,
+        -0.5450518048608368,
+        -0.35749011723152074
+      ],
+      "position": {
+        "x": 0,
+        "y": 250,
+        "z": 120
+      },
+      "seed": 334458,
+      "mirror": {
+        "seed": 334458,
+        "triangles": 2640,
+        "cameraOffset": 0
+      },
+      "chunks": 25,
+      "bvh": 25,
+      "surface": null
+    },
+    "inverted": {
+      "attitude": {
+        "pitch": 0.68,
+        "roll": 3.141592653589793,
+        "yaw": 2.6
+      },
+      "camera": [
+        0.8995330391699081,
+        -0.09588182444306594,
+        0.24972444625425716,
+        0.34537615454200404
+      ],
+      "position": {
+        "x": 0,
+        "y": 160,
+        "z": 120
+      },
+      "seed": 334458,
+      "mirror": {
+        "seed": 334458,
+        "triangles": 2640,
+        "cameraOffset": 0
+      },
+      "chunks": 25,
+      "bvh": 25,
+      "surface": null
+    }
+  },
+  "runs": [
+    {
+      "quality": "balanced",
+      "seconds": 12.0081,
+      "frames": 1270,
+      "fps": 105.76194402111908,
+      "p50Ms": 8.300000000001091,
+      "p95Ms": 16.699999999999818,
+      "p99Ms": 16.80000000000109,
+      "meters": 767.0053831904677,
+      "simulatedSeconds": 12.008333333333281,
+      "samples": [
+        {
+          "mode": "running",
+          "world": 0,
+          "position": {
+            "x": 0,
+            "y": 112,
+            "z": 120
+          },
+          "runTime": 0.18333333333333332,
+          "companions": 3,
+          "buffering": false,
+          "chunks": 25,
+          "bvh": 25,
+          "dynamicBvh": 8,
+          "mirror": {
+            "seed": 334458,
+            "triangles": 2640,
+            "cameraOffset": 0
+          },
+          "calls": 393,
+          "triangles": 252328,
+          "textures": 25
+        },
+        {
+          "mode": "running",
+          "world": 0,
+          "position": {
+            "x": 0,
+            "y": 122.90306447956763,
+            "z": 89.17747298498581
+          },
+          "runTime": 0.6833333333333333,
+          "companions": 3,
+          "buffering": false,
+          "chunks": 25,
+          "bvh": 25,
+          "dynamicBvh": 8,
+          "mirror": {
+            "seed": 334458,
+            "triangles": 2640,
+            "cameraOffset": 0
+          },
+          "calls": 385,
+          "triangles": 237144,
+          "textures": 25
+        },
+        {
+          "mode": "running",
+          "world": 0,
+          "position": {
+            "x": 0,
+            "y": 133.67059879232693,
+            "z": 58.73808432851572
+          },
+          "runTime": 1.1833333333333316,
+          "companions": 3,
+          "buffering": false,
+          "chunks": 25,
+          "bvh": 25,
+          "dynamicBvh": 8,
+          "mirror": {
+            "seed": 334458,
+            "triangles": 2640,
+            "cameraOffset": 0
+          },
+          "calls": 372,
+          "triangles": 223674,
+          "textures": 25
+        },
+        {
+          "mode": "running",
+          "world": 0,
+          "position": {
+            "x": 0,
+            "y": 144.54707348959442,
+            "z": 27.99072556411587
+          },
+          "runTime": 1.691666666666663,
+          "companions": 3,
+          "buffering": false,
+          "chunks": 25,
+          "bvh": 25,
+          "dynamicBvh": 8,
+          "mirror": {
+            "seed": 334458,
+            "triangles": 2640,
+            "cameraOffset": 0
+          },
+          "calls": 350,
+          "triangles": 216306,
+          "textures": 25
+        },
+        {
+          "mode": "running",
+          "world": 0,
+          "position": {
+            "x": 0,
+            "y": 155.3875931465312,
+            "z": -2.654989739952296
+          },
+          "runTime": 2.199999999999995,
+          "companions": 3,
+          "buffering": false,
+          "chunks": 22,
+          "bvh": 22,
+          "dynamicBvh": 8,
+          "mirror": {
+            "seed": 334458,
+            "triangles": 2640,
+            "cameraOffset": 0
+          },
+          "calls": 383,
+          "triangles": 241648,
+          "textures": 25
+        },
+        {
+          "mode": "running",
+          "world": 0,
+          "position": {
+            "x": 0,
+            "y": 166.03268452054527,
+            "z": -32.74823710794884
+          },
+          "runTime": 2.699999999999993,
+          "companions": 3,
+          "buffering": false,
+          "chunks": 25,
+          "bvh": 25,
+          "dynamicBvh": 8,
+          "mirror": {
+            "seed": 334458,
+            "triangles": 2640,
+            "cameraOffset": 0
+          },
+          "calls": 434,
+          "triangles": 278192,
+          "textures": 25
+        },
+        {
+          "mode": "running",
+          "world": 0,
+          "position": {
+            "x": 0,
+            "y": 176.8460931652819,
+            "z": -63.31731066533083
+          },
+          "runTime": 3.2083333333333246,
+          "companions": 3,
+          "buffering": false,
+          "chunks": 25,
+          "bvh": 25,
+          "dynamicBvh": 8,
+          "mirror": {
+            "seed": 334458,
+            "triangles": 2640,
+            "cameraOffset": 0
+          },
+          "calls": 410,
+          "triangles": 265548,
+          "textures": 25
+        },
+        {
+          "mode": "running",
+          "world": 0,
+          "position": {
+            "x": 0,
+            "y": 187.47769178955605,
+            "z": -93.37241456970344
+          },
+          "runTime": 3.708333333333323,
+          "companions": 3,
+          "buffering": false,
+          "chunks": 25,
+          "bvh": 25,
+          "dynamicBvh": 8,
+          "mirror": {
+            "seed": 334458,
+            "triangles": 2640,
+            "cameraOffset": 0
+          },
+          "calls": 390,
+          "triangles": 262632,
+          "textures": 25
+        },
+        {
+          "mode": "running",
+          "world": 0,
+          "position": {
+            "x": 0,
+            "y": 198.10700751911688,
+            "z": -123.42106482206783
+          },
+          "runTime": 4.208333333333332,
+          "companions": 3,
+          "buffering": false,
+          "chunks": 25,
+          "bvh": 25,
+          "dynamicBvh": 8,
+          "mirror": {
+            "seed": 334458,
+            "triangles": 2640,
+            "cameraOffset": 0
+          },
+          "calls": 363,
+          "triangles": 249876,
+          "textures": 25
+        },
+        {
+          "mode": "running",
+          "world": 0,
+          "position": {
+            "x": 0,
+            "y": 208.9122906840832,
+            "z": -153.96716797326692
+          },
+          "runTime": 4.716666666666691,
+          "companions": 3,
+          "buffering": false,
+          "chunks": 25,
+          "bvh": 25,
+          "dynamicBvh": 8,
+          "mirror": {
+            "seed": 334458,
+            "triangles": 2640,
+            "cameraOffset": 0
+          },
+          "calls": 348,
+          "triangles": 248632,
+          "textures": 25
+        },
+        {
+          "mode": "running",
+          "world": 0,
+          "position": {
+            "x": 0,
+            "y": 219.71696821582822,
+            "z": -184.51155902358323
+          },
+          "runTime": 5.225000000000049,
+          "companions": 3,
+          "buffering": false,
+          "chunks": 25,
+          "bvh": 25,
+          "dynamicBvh": 8,
+          "mirror": {
+            "seed": 334458,
+            "triangles": 2640,
+            "cameraOffset": 0
+          },
+          "calls": 304,
+          "triangles": 234414,
+          "textures": 25
+        },
+        {
+          "mode": "running",
+          "world": 0,
+          "position": {
+            "x": 0,
+            "y": 230.34422149431896,
+            "z": -214.55437880929838
+          },
+          "runTime": 5.725000000000074,
+          "companions": 3,
+          "buffering": false,
+          "chunks": 25,
+          "bvh": 25,
+          "dynamicBvh": 8,
+          "mirror": {
+            "seed": 334458,
+            "triangles": 2640,
+            "cameraOffset": 0
+          },
+          "calls": 271,
+          "triangles": 213662,
+          "textures": 25
+        },
+        {
+          "mode": "running",
+          "world": 0,
+          "position": {
+            "x": 0,
+            "y": 241.1484423632568,
+            "z": -245.09747889213162
+          },
+          "runTime": 6.233333333333433,
+          "companions": 3,
+          "buffering": false,
+          "chunks": 25,
+          "bvh": 25,
+          "dynamicBvh": 8,
+          "mirror": {
+            "seed": 334458,
+            "triangles": 2640,
+            "cameraOffset": 0
+          },
+          "calls": 379,
+          "triangles": 292370,
+          "textures": 26
+        },
+        {
+          "mode": "running",
+          "world": 0,
+          "position": {
+            "x": 0,
+            "y": 251.9525850709013,
+            "z": -275.6403580161157
+          },
+          "runTime": 6.7416666666667915,
+          "companions": 3,
+          "buffering": false,
+          "chunks": 25,
+          "bvh": 25,
+          "dynamicBvh": 8,
+          "mirror": {
+            "seed": 334458,
+            "triangles": 2640,
+            "cameraOffset": 0
+          },
+          "calls": 334,
+          "triangles": 277082,
+          "textures": 26
+        },
+        {
+          "mode": "running",
+          "world": 0,
+          "position": {
+            "x": 0,
+            "y": 262.5795721753486,
+            "z": -305.6824253384601
+          },
+          "runTime": 7.241666666666816,
+          "companions": 3,
+          "buffering": false,
+          "chunks": 25,
+          "bvh": 25,
+          "dynamicBvh": 8,
+          "mirror": {
+            "seed": 334458,
+            "triangles": 2640,
+            "cameraOffset": 0
+          },
+          "calls": 322,
+          "triangles": 264658,
+          "textures": 26
+        },
+        {
+          "mode": "running",
+          "world": 0,
+          "position": {
+            "x": 0,
+            "y": 273.3836559473953,
+            "z": -336.2251378538686
+          },
+          "runTime": 7.750000000000175,
+          "companions": 3,
+          "buffering": false,
+          "chunks": 25,
+          "bvh": 25,
+          "dynamicBvh": 8,
+          "mirror": {
+            "seed": 334458,
+            "triangles": 2640,
+            "cameraOffset": 0
+          },
+          "calls": 309,
+          "triangles": 260810,
+          "textures": 26
+        },
+        {
+          "mode": "running",
+          "world": 0,
+          "position": {
+            "x": 0,
+            "y": 284.01061372046735,
+            "z": -366.2671222575895
+          },
+          "runTime": 8.250000000000172,
+          "companions": 3,
+          "buffering": false,
+          "chunks": 25,
+          "bvh": 25,
+          "dynamicBvh": 8,
+          "mirror": {
+            "seed": 334458,
+            "triangles": 2640,
+            "cameraOffset": 0
+          },
+          "calls": 270,
+          "triangles": 232808,
+          "textures": 26
+        },
+        {
+          "mode": "running",
+          "world": 0,
+          "position": {
+            "x": 0,
+            "y": 294.81468238495415,
+            "z": -396.8097920645301
+          },
+          "runTime": 8.758333333333477,
+          "companions": 3,
+          "buffering": false,
+          "chunks": 25,
+          "bvh": 25,
+          "dynamicBvh": 8,
+          "mirror": {
+            "seed": 334458,
+            "triangles": 2640,
+            "cameraOffset": 0
+          },
+          "calls": 237,
+          "triangles": 203738,
+          "textures": 26
+        },
+        {
+          "mode": "running",
+          "world": 0,
+          "position": {
+            "x": 0,
+            "y": 305.4416326392174,
+            "z": -426.8517552128781
+          },
+          "runTime": 9.258333333333448,
+          "companions": 3,
+          "buffering": false,
+          "chunks": 25,
+          "bvh": 25,
+          "dynamicBvh": 8,
+          "mirror": {
+            "seed": 334458,
+            "triangles": 2640,
+            "cameraOffset": 0
+          },
+          "calls": 228,
+          "triangles": 198054,
+          "textures": 26
+        },
+        {
+          "mode": "running",
+          "world": 0,
+          "position": {
+            "x": 0,
+            "y": 316.06858162134154,
+            "z": -456.8937147649411
+          },
+          "runTime": 9.75833333333342,
+          "companions": 3,
+          "buffering": false,
+          "chunks": 25,
+          "bvh": 25,
+          "dynamicBvh": 8,
+          "mirror": {
+            "seed": 334458,
+            "triangles": 2640,
+            "cameraOffset": 0
+          },
+          "calls": 282,
+          "triangles": 280930,
+          "textures": 26
+        },
+        {
+          "mode": "running",
+          "world": 0,
+          "position": {
+            "x": 0,
+            "y": 326.69552995574816,
+            "z": -486.93567248593206
+          },
+          "runTime": 10.258333333333391,
+          "companions": 3,
+          "buffering": false,
+          "chunks": 25,
+          "bvh": 25,
+          "dynamicBvh": 8,
+          "mirror": {
+            "seed": 334458,
+            "triangles": 2640,
+            "cameraOffset": 0
+          },
+          "calls": 247,
+          "triangles": 245216,
+          "textures": 26
+        },
+        {
+          "mode": "running",
+          "world": 0,
+          "position": {
+            "x": 0,
+            "y": 337.4995937587105,
+            "z": -517.4783285495367
+          },
+          "runTime": 10.766666666666696,
+          "companions": 3,
+          "buffering": false,
+          "chunks": 25,
+          "bvh": 25,
+          "dynamicBvh": 8,
+          "mirror": {
+            "seed": 334458,
+            "triangles": 2640,
+            "cameraOffset": 0
+          },
+          "calls": 226,
+          "triangles": 217458,
+          "textures": 26
+        },
+        {
+          "mode": "running",
+          "world": 0,
+          "position": {
+            "x": 0,
+            "y": 348.3036573898386,
+            "z": -548.0209841273736
+          },
+          "runTime": 11.275,
+          "companions": 3,
+          "buffering": false,
+          "chunks": 25,
+          "bvh": 25,
+          "dynamicBvh": 8,
+          "mirror": {
+            "seed": 334458,
+            "triangles": 2640,
+            "cameraOffset": 0
+          },
+          "calls": 179,
+          "triangles": 168274,
+          "textures": 26
+        },
+        {
+          "mode": "running",
+          "world": 0,
+          "position": {
+            "x": 0,
+            "y": 358.93060513907335,
+            "z": -578.0629401941071
+          },
+          "runTime": 11.774999999999972,
+          "companions": 3,
+          "buffering": false,
+          "chunks": 25,
+          "bvh": 25,
+          "dynamicBvh": 8,
+          "mirror": {
+            "seed": 334458,
+            "triangles": 2640,
+            "cameraOffset": 0
+          },
+          "calls": 161,
+          "triangles": 150624,
+          "textures": 26
+        },
+        {
+          "mode": "running",
+          "world": 0,
+          "position": {
+            "x": 0,
+            "y": 367.7863948965395,
+            "z": -603.0979034881706
+          },
+          "runTime": 12.191666666666615,
+          "companions": 3,
+          "buffering": false,
+          "chunks": 25,
+          "bvh": 25,
+          "dynamicBvh": 8,
+          "mirror": {
+            "seed": 334458,
+            "triangles": 2640,
+            "cameraOffset": 0
+          },
+          "calls": 149,
+          "triangles": 134524,
+          "textures": 26
+        }
+      ]
+    },
+    {
+      "quality": "balanced",
+      "seconds": 12.0081,
+      "frames": 1338,
+      "fps": 111.42478826791915,
+      "p50Ms": 8.30000000000291,
+      "p95Ms": 16.599999999998545,
+      "p99Ms": 16.799999999999272,
+      "meters": 765.3185558313744,
+      "simulatedSeconds": 12.008333333332653,
+      "samples": [
+        {
+          "mode": "running",
+          "world": 0,
+          "position": {
+            "x": 0,
+            "y": 112.17711579494872,
+            "z": 119.49930073468582
+          },
+          "runTime": 12.199999999999948,
+          "companions": 3,
+          "buffering": false,
+          "chunks": 19,
+          "bvh": 19,
+          "dynamicBvh": 8,
+          "mirror": {
+            "seed": 334458,
+            "triangles": 2640,
+            "cameraOffset": 0
+          },
+          "calls": 382,
+          "triangles": 242824,
+          "textures": 26
+        },
+        {
+          "mode": "running",
+          "world": 0,
+          "position": {
+            "x": 0,
+            "y": 122.98117927701045,
+            "z": 88.95664557825373
+          },
+          "runTime": 12.708333333333252,
+          "companions": 3,
+          "buffering": false,
+          "chunks": 25,
+          "bvh": 25,
+          "dynamicBvh": 8,
+          "mirror": {
+            "seed": 334458,
+            "triangles": 2640,
+            "cameraOffset": 0
+          },
+          "calls": 383,
+          "triangles": 237140,
+          "textures": 26
+        },
+        {
+          "mode": "running",
+          "world": 0,
+          "position": {
+            "x": 0,
+            "y": 133.60812695205715,
+            "z": 58.91468972124704
+          },
+          "runTime": 13.208333333333224,
+          "companions": 3,
+          "buffering": false,
+          "chunks": 25,
+          "bvh": 25,
+          "dynamicBvh": 8,
+          "mirror": {
+            "seed": 334458,
+            "triangles": 2640,
+            "cameraOffset": 0
+          },
+          "calls": 370,
+          "triangles": 223670,
+          "textures": 26
+        },
+        {
+          "mode": "running",
+          "world": 0,
+          "position": {
+            "x": 0,
+            "y": 144.4121904154063,
+            "z": 28.37203461771494
+          },
+          "runTime": 13.716666666666528,
+          "companions": 3,
+          "buffering": false,
+          "chunks": 25,
+          "bvh": 25,
+          "dynamicBvh": 8,
+          "mirror": {
+            "seed": 334458,
+            "triangles": 2640,
+            "cameraOffset": 0
+          },
+          "calls": 352,
+          "triangles": 216310,
+          "textures": 26
+        },
+        {
+          "mode": "running",
+          "world": 0,
+          "position": {
+            "x": 0,
+            "y": 155.21625387555258,
+            "z": -2.1706204767629176
+          },
+          "runTime": 14.224999999999833,
+          "companions": 3,
+          "buffering": false,
+          "chunks": 22,
+          "bvh": 22,
+          "dynamicBvh": 8,
+          "mirror": {
+            "seed": 334458,
+            "triangles": 2640,
+            "cameraOffset": 0
+          },
+          "calls": 383,
+          "triangles": 241648,
+          "textures": 26
+        },
+        {
+          "mode": "running",
+          "world": 0,
+          "position": {
+            "x": 0,
+            "y": 165.84320153969227,
+            "z": -32.21257630293591
+          },
+          "runTime": 14.724999999999804,
+          "companions": 3,
+          "buffering": false,
+          "chunks": 25,
+          "bvh": 25,
+          "dynamicBvh": 8,
+          "mirror": {
+            "seed": 334458,
+            "triangles": 2640,
+            "cameraOffset": 0
+          },
+          "calls": 434,
+          "triangles": 278192,
+          "textures": 26
+        },
+        {
+          "mode": "running",
+          "world": 0,
+          "position": {
+            "x": 0,
+            "y": 176.6472649974236,
+            "z": -62.75523139058663
+          },
+          "runTime": 15.233333333333109,
+          "companions": 3,
+          "buffering": false,
+          "chunks": 25,
+          "bvh": 25,
+          "dynamicBvh": 8,
+          "mirror": {
+            "seed": 334458,
+            "triangles": 2640,
+            "cameraOffset": 0
+          },
+          "calls": 410,
+          "triangles": 265548,
+          "textures": 26
+        },
+        {
+          "mode": "running",
+          "world": 0,
+          "position": {
+            "x": 0,
+            "y": 187.4513284547415,
+            "z": -93.29788647706886
+          },
+          "runTime": 15.741666666666413,
+          "companions": 3,
+          "buffering": false,
+          "chunks": 25,
+          "bvh": 25,
+          "dynamicBvh": 8,
+          "mirror": {
+            "seed": 334458,
+            "triangles": 2640,
+            "cameraOffset": 0
+          },
+          "calls": 390,
+          "triangles": 262632,
+          "textures": 26
+        },
+        {
+          "mode": "running",
+          "world": 0,
+          "position": {
+            "x": 0,
+            "y": 198.07827611747356,
+            "z": -123.33984229926256
+          },
+          "runTime": 16.241666666666386,
+          "companions": 3,
+          "buffering": false,
+          "chunks": 25,
+          "bvh": 25,
+          "dynamicBvh": 8,
+          "mirror": {
+            "seed": 334458,
+            "triangles": 2640,
+            "cameraOffset": 0
+          },
+          "calls": 363,
+          "triangles": 249876,
+          "textures": 26
+        },
+        {
+          "mode": "running",
+          "world": 0,
+          "position": {
+            "x": 0,
+            "y": 208.8823395744799,
+            "z": -153.8824973848638
+          },
+          "runTime": 16.74999999999969,
+          "companions": 3,
+          "buffering": false,
+          "chunks": 25,
+          "bvh": 25,
+          "dynamicBvh": 8,
+          "mirror": {
+            "seed": 334458,
+            "triangles": 2640,
+            "cameraOffset": 0
+          },
+          "calls": 348,
+          "triangles": 248632,
+          "textures": 26
+        },
+        {
+          "mode": "running",
+          "world": 0,
+          "position": {
+            "x": 0,
+            "y": 219.6864030314328,
+            "z": -184.42515247031412
+          },
+          "runTime": 17.258333333332995,
+          "companions": 3,
+          "buffering": false,
+          "chunks": 25,
+          "bvh": 25,
+          "dynamicBvh": 8,
+          "mirror": {
+            "seed": 334458,
+            "triangles": 2640,
+            "cameraOffset": 0
+          },
+          "calls": 304,
+          "triangles": 234414,
+          "textures": 26
+        },
+        {
+          "mode": "running",
+          "world": 0,
+          "position": {
+            "x": 0,
+            "y": 230.49046648835886,
+            "z": -214.9678075556885
+          },
+          "runTime": 17.7666666666663,
+          "companions": 3,
+          "buffering": false,
+          "chunks": 25,
+          "bvh": 25,
+          "dynamicBvh": 8,
+          "mirror": {
+            "seed": 334458,
+            "triangles": 2640,
+            "cameraOffset": 0
+          },
+          "calls": 271,
+          "triangles": 213662,
+          "textures": 26
+        },
+        {
+          "mode": "running",
+          "world": 0,
+          "position": {
+            "x": 0,
+            "y": 241.11741415089588,
+            "z": -245.0097633773309
+          },
+          "runTime": 18.26666666666627,
+          "companions": 3,
+          "buffering": false,
+          "chunks": 25,
+          "bvh": 25,
+          "dynamicBvh": 8,
+          "mirror": {
+            "seed": 334458,
+            "triangles": 2640,
+            "cameraOffset": 0
+          },
+          "calls": 379,
+          "triangles": 292370,
+          "textures": 26
+        },
+        {
+          "mode": "running",
+          "world": 0,
+          "position": {
+            "x": 0,
+            "y": 251.74436181342625,
+            "z": -275.05171919895446
+          },
+          "runTime": 18.766666666666243,
+          "companions": 3,
+          "buffering": false,
+          "chunks": 25,
+          "bvh": 25,
+          "dynamicBvh": 8,
+          "mirror": {
+            "seed": 334458,
+            "triangles": 2640,
+            "cameraOffset": 0
+          },
+          "calls": 334,
+          "triangles": 277082,
+          "textures": 26
+        },
+        {
+          "mode": "running",
+          "world": 0,
+          "position": {
+            "x": 0,
+            "y": 262.37130947595256,
+            "z": -305.0936750205685
+          },
+          "runTime": 19.266666666666215,
+          "companions": 3,
+          "buffering": false,
+          "chunks": 25,
+          "bvh": 25,
+          "dynamicBvh": 8,
+          "mirror": {
+            "seed": 334458,
+            "triangles": 2640,
+            "cameraOffset": 0
+          },
+          "calls": 322,
+          "triangles": 264658,
+          "textures": 26
+        },
+        {
+          "mode": "running",
+          "world": 0,
+          "position": {
+            "x": 0,
+            "y": 273.17537293285346,
+            "z": -335.6363301058712
+          },
+          "runTime": 19.77499999999952,
+          "companions": 3,
+          "buffering": false,
+          "chunks": 25,
+          "bvh": 25,
+          "dynamicBvh": 8,
+          "mirror": {
+            "seed": 334458,
+            "triangles": 2640,
+            "cameraOffset": 0
+          },
+          "calls": 309,
+          "triangles": 260810,
+          "textures": 26
+        },
+        {
+          "mode": "running",
+          "world": 0,
+          "position": {
+            "x": 0,
+            "y": 283.80232059537894,
+            "z": -365.67828592747725
+          },
+          "runTime": 20.27499999999949,
+          "companions": 3,
+          "buffering": false,
+          "chunks": 25,
+          "bvh": 25,
+          "dynamicBvh": 8,
+          "mirror": {
+            "seed": 334458,
+            "triangles": 2640,
+            "cameraOffset": 0
+          },
+          "calls": 270,
+          "triangles": 232808,
+          "textures": 26
+        },
+        {
+          "mode": "running",
+          "world": 0,
+          "position": {
+            "x": 0,
+            "y": 294.60638405227985,
+            "z": -396.22094101277673
+          },
+          "runTime": 20.783333333332795,
+          "companions": 3,
+          "buffering": false,
+          "chunks": 25,
+          "bvh": 25,
+          "dynamicBvh": 8,
+          "mirror": {
+            "seed": 334458,
+            "triangles": 2640,
+            "cameraOffset": 0
+          },
+          "calls": 237,
+          "triangles": 203738,
+          "textures": 26
+        },
+        {
+          "mode": "running",
+          "world": 0,
+          "position": {
+            "x": 0,
+            "y": 305.2333317148019,
+            "z": -426.2628968343828
+          },
+          "runTime": 21.283333333332767,
+          "companions": 3,
+          "buffering": false,
+          "chunks": 25,
+          "bvh": 25,
+          "dynamicBvh": 8,
+          "mirror": {
+            "seed": 334458,
+            "triangles": 2640,
+            "cameraOffset": 0
+          },
+          "calls": 228,
+          "triangles": 198054,
+          "textures": 26
+        },
+        {
+          "mode": "running",
+          "world": 0,
+          "position": {
+            "x": 0,
+            "y": 316.03739517169936,
+            "z": -456.80555191968097
+          },
+          "runTime": 21.79166666666607,
+          "companions": 3,
+          "buffering": false,
+          "chunks": 25,
+          "bvh": 25,
+          "dynamicBvh": 8,
+          "mirror": {
+            "seed": 334458,
+            "triangles": 2640,
+            "cameraOffset": 0
+          },
+          "calls": 280,
+          "triangles": 280678,
+          "textures": 26
+        },
+        {
+          "mode": "running",
+          "world": 0,
+          "position": {
+            "x": 0,
+            "y": 326.8414586285968,
+            "z": -487.348207004977
+          },
+          "runTime": 22.299999999999375,
+          "companions": 3,
+          "buffering": false,
+          "chunks": 25,
+          "bvh": 25,
+          "dynamicBvh": 8,
+          "mirror": {
+            "seed": 334458,
+            "triangles": 2640,
+            "cameraOffset": 0
+          },
+          "calls": 245,
+          "triangles": 244964,
+          "textures": 26
+        },
+        {
+          "mode": "running",
+          "world": 0,
+          "position": {
+            "x": 0,
+            "y": 337.46840629111887,
+            "z": -517.3901628265796
+          },
+          "runTime": 22.799999999999347,
+          "companions": 3,
+          "buffering": false,
+          "chunks": 25,
+          "bvh": 25,
+          "dynamicBvh": 8,
+          "mirror": {
+            "seed": 334458,
+            "triangles": 2640,
+            "cameraOffset": 0
+          },
+          "calls": 224,
+          "triangles": 217206,
+          "textures": 26
+        },
+        {
+          "mode": "running",
+          "world": 0,
+          "position": {
+            "x": 0,
+            "y": 348.2724697480163,
+            "z": -547.9328179118756
+          },
+          "runTime": 23.30833333333265,
+          "companions": 3,
+          "buffering": false,
+          "chunks": 25,
+          "bvh": 25,
+          "dynamicBvh": 8,
+          "mirror": {
+            "seed": 334458,
+            "triangles": 2640,
+            "cameraOffset": 0
+          },
+          "calls": 179,
+          "triangles": 168274,
+          "textures": 26
+        },
+        {
+          "mode": "running",
+          "world": 0,
+          "position": {
+            "x": 0,
+            "y": 358.8994174105384,
+            "z": -577.9747737334783
+          },
+          "runTime": 23.808333333332623,
+          "companions": 3,
+          "buffering": false,
+          "chunks": 25,
+          "bvh": 25,
+          "dynamicBvh": 8,
+          "mirror": {
+            "seed": 334458,
+            "triangles": 2640,
+            "cameraOffset": 0
+          },
+          "calls": 161,
+          "triangles": 150624,
+          "textures": 26
+        },
+        {
+          "mode": "running",
+          "world": 0,
+          "position": {
+            "x": 0,
+            "y": 367.40097554055603,
+            "z": -602.0083383907604
+          },
+          "runTime": 24.2083333333326,
+          "companions": 3,
+          "buffering": false,
+          "chunks": 25,
+          "bvh": 25,
+          "dynamicBvh": 8,
+          "mirror": {
+            "seed": 334458,
+            "triangles": 2640,
+            "cameraOffset": 0
+          },
+          "calls": 149,
+          "triangles": 134524,
+          "textures": 26
+        }
+      ]
+    },
+    {
+      "quality": "high",
+      "seconds": 12.008099999999999,
+      "frames": 1329,
+      "fps": 110.67529417643092,
+      "p50Ms": 8.300000000001091,
+      "p95Ms": 16.600000000000364,
+      "p99Ms": 16.800000000000182,
+      "meters": 766.4578088774176,
+      "simulatedSeconds": 11.99999999999996,
+      "samples": [
+        {
+          "mode": "running",
+          "world": 0,
+          "position": {
+            "x": 0,
+            "y": 112,
+            "z": 120
+          },
+          "runTime": 0,
+          "companions": 3,
+          "buffering": false,
+          "chunks": 25,
+          "bvh": 25,
+          "dynamicBvh": 8,
+          "mirror": {
+            "seed": 334458,
+            "triangles": 2640,
+            "cameraOffset": 0
+          },
+          "calls": 392,
+          "triangles": 252328,
+          "textures": 25
+        },
+        {
+          "mode": "running",
+          "world": 0,
+          "position": {
+            "x": 0,
+            "y": 123.26091000928112,
+            "z": 88.16585799110359
+          },
+          "runTime": 0.5166666666666673,
+          "companions": 3,
+          "buffering": false,
+          "chunks": 25,
+          "bvh": 25,
+          "dynamicBvh": 8,
+          "mirror": {
+            "seed": 334458,
+            "triangles": 2640,
+            "cameraOffset": 0
+          },
+          "calls": 385,
+          "triangles": 237144,
+          "textures": 25
+        },
+        {
+          "mode": "running",
+          "world": 0,
+          "position": {
+            "x": 0,
+            "y": 134.20266948939917,
+            "z": 57.233941757852094
+          },
+          "runTime": 1.0249999999999988,
+          "companions": 3,
+          "buffering": false,
+          "chunks": 25,
+          "bvh": 25,
+          "dynamicBvh": 8,
+          "mirror": {
+            "seed": 334458,
+            "triangles": 2640,
+            "cameraOffset": 0
+          },
+          "calls": 370,
+          "triangles": 223670,
+          "textures": 25
+        },
+        {
+          "mode": "running",
+          "world": 0,
+          "position": {
+            "x": 0,
+            "y": 144.89814642584858,
+            "z": 26.998256420948834
+          },
+          "runTime": 1.524999999999997,
+          "companions": 3,
+          "buffering": false,
+          "chunks": 25,
+          "bvh": 25,
+          "dynamicBvh": 8,
+          "mirror": {
+            "seed": 334458,
+            "triangles": 2640,
+            "cameraOffset": 0
+          },
+          "calls": 350,
+          "triangles": 216306,
+          "textures": 25
+        },
+        {
+          "mode": "running",
+          "world": 0,
+          "position": {
+            "x": 0,
+            "y": 155.73750690218876,
+            "z": -3.6441819259551487
+          },
+          "runTime": 2.0333333333333288,
+          "companions": 3,
+          "buffering": false,
+          "chunks": 22,
+          "bvh": 22,
+          "dynamicBvh": 8,
+          "mirror": {
+            "seed": 334458,
+            "triangles": 2640,
+            "cameraOffset": 0
+          },
+          "calls": 383,
+          "triangles": 241648,
+          "textures": 25
+        },
+        {
+          "mode": "running",
+          "world": 0,
+          "position": {
+            "x": 0,
+            "y": 166.38202136916684,
+            "z": -33.73579840084455
+          },
+          "runTime": 2.533333333333327,
+          "companions": 3,
+          "buffering": false,
+          "chunks": 25,
+          "bvh": 25,
+          "dynamicBvh": 8,
+          "mirror": {
+            "seed": 334458,
+            "triangles": 2640,
+            "cameraOffset": 0
+          },
+          "calls": 434,
+          "triangles": 278192,
+          "textures": 25
+        },
+        {
+          "mode": "running",
+          "world": 0,
+          "position": {
+            "x": 0,
+            "y": 177.37235129466276,
+            "z": -64.80502133971062
+          },
+          "runTime": 3.049999999999992,
+          "companions": 3,
+          "buffering": false,
+          "chunks": 25,
+          "bvh": 25,
+          "dynamicBvh": 8,
+          "mirror": {
+            "seed": 334458,
+            "triangles": 2640,
+            "cameraOffset": 0
+          },
+          "calls": 410,
+          "triangles": 265548,
+          "textures": 25
+        },
+        {
+          "mode": "running",
+          "world": 0,
+          "position": {
+            "x": 0,
+            "y": 188.003751658775,
+            "z": -94.85956477053828
+          },
+          "runTime": 3.54999999999999,
+          "companions": 3,
+          "buffering": false,
+          "chunks": 25,
+          "bvh": 25,
+          "dynamicBvh": 8,
+          "mirror": {
+            "seed": 334458,
+            "triangles": 2640,
+            "cameraOffset": 0
+          },
+          "calls": 390,
+          "triangles": 262632,
+          "textures": 25
+        },
+        {
+          "mode": "running",
+          "world": 0,
+          "position": {
+            "x": 0,
+            "y": 198.63296644290148,
+            "z": -124.90792965419867
+          },
+          "runTime": 4.049999999999991,
+          "companions": 3,
+          "buffering": false,
+          "chunks": 25,
+          "bvh": 25,
+          "dynamicBvh": 8,
+          "mirror": {
+            "seed": 334458,
+            "triangles": 2640,
+            "cameraOffset": 0
+          },
+          "calls": 363,
+          "triangles": 249876,
+          "textures": 25
+        },
+        {
+          "mode": "running",
+          "world": 0,
+          "position": {
+            "x": 0,
+            "y": 209.2610684249454,
+            "z": -154.95314869089881
+          },
+          "runTime": 4.550000000000016,
+          "companions": 3,
+          "buffering": false,
+          "chunks": 25,
+          "bvh": 25,
+          "dynamicBvh": 8,
+          "mirror": {
+            "seed": 334458,
+            "triangles": 2640,
+            "cameraOffset": 0
+          },
+          "calls": 343,
+          "triangles": 245896,
+          "textures": 25
+        },
+        {
+          "mode": "running",
+          "world": 0,
+          "position": {
+            "x": 0,
+            "y": 219.888603816664,
+            "z": -184.99676599942072
+          },
+          "runTime": 5.050000000000041,
+          "companions": 3,
+          "buffering": false,
+          "chunks": 25,
+          "bvh": 25,
+          "dynamicBvh": 8,
+          "mirror": {
+            "seed": 334458,
+            "triangles": 2640,
+            "cameraOffset": 0
+          },
+          "calls": 304,
+          "triangles": 234414,
+          "textures": 25
+        },
+        {
+          "mode": "running",
+          "world": 0,
+          "position": {
+            "x": 0,
+            "y": 230.51585072528076,
+            "z": -215.0395677777568
+          },
+          "runTime": 5.5500000000000655,
+          "companions": 3,
+          "buffering": false,
+          "chunks": 25,
+          "bvh": 25,
+          "dynamicBvh": 8,
+          "mirror": {
+            "seed": 334458,
+            "triangles": 2640,
+            "cameraOffset": 0
+          },
+          "calls": 271,
+          "triangles": 213662,
+          "textures": 25
+        },
+        {
+          "mode": "running",
+          "world": 0,
+          "position": {
+            "x": 0,
+            "y": 241.14295075087412,
+            "z": -245.08195432366253
+          },
+          "runTime": 6.05000000000009,
+          "companions": 3,
+          "buffering": false,
+          "chunks": 25,
+          "bvh": 25,
+          "dynamicBvh": 8,
+          "mirror": {
+            "seed": 334458,
+            "triangles": 2640,
+            "cameraOffset": 0
+          },
+          "calls": 379,
+          "triangles": 292370,
+          "textures": 26
+        },
+        {
+          "mode": "running",
+          "world": 0,
+          "position": {
+            "x": 0,
+            "y": 251.7699759900328,
+            "z": -275.1241294513103
+          },
+          "runTime": 6.550000000000115,
+          "companions": 3,
+          "buffering": false,
+          "chunks": 25,
+          "bvh": 25,
+          "dynamicBvh": 8,
+          "mirror": {
+            "seed": 334458,
+            "triangles": 2640,
+            "cameraOffset": 0
+          },
+          "calls": 334,
+          "triangles": 277082,
+          "textures": 26
+        },
+        {
+          "mode": "running",
+          "world": 0,
+          "position": {
+            "x": 0,
+            "y": 262.57407940392886,
+            "z": -305.6668974934399
+          },
+          "runTime": 7.058333333333474,
+          "companions": 3,
+          "buffering": false,
+          "chunks": 25,
+          "bvh": 25,
+          "dynamicBvh": 8,
+          "mirror": {
+            "seed": 334458,
+            "triangles": 2640,
+            "cameraOffset": 0
+          },
+          "calls": 322,
+          "triangles": 264658,
+          "textures": 26
+        },
+        {
+          "mode": "running",
+          "world": 0,
+          "position": {
+            "x": 0,
+            "y": 273.2010469524587,
+            "z": -335.7089095319883
+          },
+          "runTime": 7.558333333333499,
+          "companions": 3,
+          "buffering": false,
+          "chunks": 25,
+          "bvh": 25,
+          "dynamicBvh": 8,
+          "mirror": {
+            "seed": 334458,
+            "triangles": 2640,
+            "cameraOffset": 0
+          },
+          "calls": 309,
+          "triangles": 260810,
+          "textures": 26
+        },
+        {
+          "mode": "running",
+          "world": 0,
+          "position": {
+            "x": 0,
+            "y": 283.82800474007007,
+            "z": -365.7508939768107
+          },
+          "runTime": 8.058333333333517,
+          "companions": 3,
+          "buffering": false,
+          "chunks": 25,
+          "bvh": 25,
+          "dynamicBvh": 8,
+          "mirror": {
+            "seed": 334458,
+            "triangles": 2640,
+            "cameraOffset": 0
+          },
+          "calls": 270,
+          "triangles": 232808,
+          "textures": 26
+        },
+        {
+          "mode": "running",
+          "world": 0,
+          "position": {
+            "x": 0,
+            "y": 294.63207341204554,
+            "z": -396.2935638049215
+          },
+          "runTime": 8.566666666666821,
+          "companions": 3,
+          "buffering": false,
+          "chunks": 25,
+          "bvh": 25,
+          "dynamicBvh": 8,
+          "mirror": {
+            "seed": 334458,
+            "triangles": 2640,
+            "cameraOffset": 0
+          },
+          "calls": 237,
+          "triangles": 203738,
+          "textures": 26
+        },
+        {
+          "mode": "running",
+          "world": 0,
+          "position": {
+            "x": 0,
+            "y": 305.2590236700354,
+            "z": -426.33552696380565
+          },
+          "runTime": 9.066666666666793,
+          "companions": 3,
+          "buffering": false,
+          "chunks": 25,
+          "bvh": 25,
+          "dynamicBvh": 8,
+          "mirror": {
+            "seed": 334458,
+            "triangles": 2640,
+            "cameraOffset": 0
+          },
+          "calls": 228,
+          "triangles": 198054,
+          "textures": 26
+        },
+        {
+          "mode": "running",
+          "world": 0,
+          "position": {
+            "x": 0,
+            "y": 315.88597265405707,
+            "z": -456.37748652123327
+          },
+          "runTime": 9.566666666666764,
+          "companions": 3,
+          "buffering": false,
+          "chunks": 25,
+          "bvh": 25,
+          "dynamicBvh": 8,
+          "mirror": {
+            "seed": 334458,
+            "triangles": 2640,
+            "cameraOffset": 0
+          },
+          "calls": 282,
+          "triangles": 280930,
+          "textures": 26
+        },
+        {
+          "mode": "running",
+          "world": 0,
+          "position": {
+            "x": 0,
+            "y": 326.6900367916131,
+            "z": -486.9201435307217
+          },
+          "runTime": 10.075000000000069,
+          "companions": 3,
+          "buffering": false,
+          "chunks": 25,
+          "bvh": 25,
+          "dynamicBvh": 8,
+          "mirror": {
+            "seed": 334458,
+            "triangles": 2640,
+            "cameraOffset": 0
+          },
+          "calls": 247,
+          "triangles": 245216,
+          "textures": 26
+        },
+        {
+          "mode": "running",
+          "world": 0,
+          "position": {
+            "x": 0,
+            "y": 337.3169847928898,
+            "z": -516.9621003099671
+          },
+          "runTime": 10.57500000000004,
+          "companions": 3,
+          "buffering": false,
+          "chunks": 25,
+          "bvh": 25,
+          "dynamicBvh": 8,
+          "mirror": {
+            "seed": 334458,
+            "triangles": 2640,
+            "cameraOffset": 0
+          },
+          "calls": 226,
+          "triangles": 217458,
+          "textures": 26
+        },
+        {
+          "mode": "running",
+          "world": 0,
+          "position": {
+            "x": 0,
+            "y": 347.94393262789123,
+            "z": -547.0040566191607
+          },
+          "runTime": 11.075000000000012,
+          "companions": 3,
+          "buffering": false,
+          "chunks": 25,
+          "bvh": 25,
+          "dynamicBvh": 8,
+          "mirror": {
+            "seed": 334458,
+            "triangles": 2640,
+            "cameraOffset": 0
+          },
+          "calls": 179,
+          "triangles": 168274,
+          "textures": 26
+        },
+        {
+          "mode": "running",
+          "world": 0,
+          "position": {
+            "x": 0,
+            "y": 358.57088037823337,
+            "z": -577.0460126890237
+          },
+          "runTime": 11.574999999999983,
+          "companions": 3,
+          "buffering": false,
+          "chunks": 25,
+          "bvh": 25,
+          "dynamicBvh": 8,
+          "mirror": {
+            "seed": 334458,
+            "triangles": 2640,
+            "cameraOffset": 0
+          },
+          "calls": 163,
+          "triangles": 154784,
+          "textures": 26
+        },
+        {
+          "mode": "running",
+          "world": 0,
+          "position": {
+            "x": 0,
+            "y": 367.60378593114956,
+            "z": -602.5816752498191
+          },
+          "runTime": 11.99999999999996,
+          "companions": 3,
+          "buffering": false,
+          "chunks": 25,
+          "bvh": 25,
+          "dynamicBvh": 8,
+          "mirror": {
+            "seed": 334458,
+            "triangles": 2640,
+            "cameraOffset": 0
+          },
+          "calls": 149,
+          "triangles": 134524,
+          "textures": 26
+        }
+      ]
+    },
+    {
+      "quality": "high",
+      "seconds": 12.008,
+      "frames": 1334,
+      "fps": 111.09260493004663,
+      "p50Ms": 8.30000000000291,
+      "p95Ms": 16.600000000000364,
+      "p99Ms": 16.80000000000109,
+      "meters": 764.7874534352023,
+      "simulatedSeconds": 11.99999999999932,
+      "samples": [
+        {
+          "mode": "running",
+          "world": 0,
+          "position": {
+            "x": 0,
+            "y": 112,
+            "z": 120
+          },
+          "runTime": 11.99999999999996,
+          "companions": 3,
+          "buffering": false,
+          "chunks": 18,
+          "bvh": 18,
+          "dynamicBvh": 8,
+          "mirror": {
+            "seed": 334458,
+            "triangles": 2640,
+            "cameraOffset": 0
+          },
+          "calls": 378,
+          "triangles": 239488,
+          "textures": 26
+        },
+        {
+          "mode": "running",
+          "world": 0,
+          "position": {
+            "x": 0,
+            "y": 122.6269476877153,
+            "z": 89.95804410717956
+          },
+          "runTime": 12.49999999999993,
+          "companions": 3,
+          "buffering": false,
+          "chunks": 25,
+          "bvh": 25,
+          "dynamicBvh": 8,
+          "mirror": {
+            "seed": 334458,
+            "triangles": 2640,
+            "cameraOffset": 0
+          },
+          "calls": 385,
+          "triangles": 237144,
+          "textures": 26
+        },
+        {
+          "mode": "running",
+          "world": 0,
+          "position": {
+            "x": 0,
+            "y": 133.25389536306537,
+            "z": 59.9160882493152
+          },
+          "runTime": 12.999999999999902,
+          "companions": 3,
+          "buffering": false,
+          "chunks": 25,
+          "bvh": 25,
+          "dynamicBvh": 8,
+          "mirror": {
+            "seed": 334458,
+            "triangles": 2640,
+            "cameraOffset": 0
+          },
+          "calls": 372,
+          "triangles": 223674,
+          "textures": 26
+        },
+        {
+          "mode": "running",
+          "world": 0,
+          "position": {
+            "x": 0,
+            "y": 143.88084303211966,
+            "z": 29.874132409249004
+          },
+          "runTime": 13.499999999999874,
+          "companions": 3,
+          "buffering": false,
+          "chunks": 25,
+          "bvh": 25,
+          "dynamicBvh": 8,
+          "mirror": {
+            "seed": 334458,
+            "triangles": 2640,
+            "cameraOffset": 0
+          },
+          "calls": 352,
+          "triangles": 216310,
+          "textures": 26
+        },
+        {
+          "mode": "running",
+          "world": 0,
+          "position": {
+            "x": 0,
+            "y": 154.68490649238214,
+            "z": -0.6685226855576404
+          },
+          "runTime": 14.008333333333178,
+          "companions": 3,
+          "buffering": false,
+          "chunks": 21,
+          "bvh": 21,
+          "dynamicBvh": 8,
+          "mirror": {
+            "seed": 334458,
+            "triangles": 2640,
+            "cameraOffset": 0
+          },
+          "calls": 351,
+          "triangles": 220280,
+          "textures": 26
+        },
+        {
+          "mode": "running",
+          "world": 0,
+          "position": {
+            "x": 0,
+            "y": 165.48896995097456,
+            "z": -31.211177775642575
+          },
+          "runTime": 14.516666666666483,
+          "companions": 3,
+          "buffering": false,
+          "chunks": 25,
+          "bvh": 25,
+          "dynamicBvh": 8,
+          "mirror": {
+            "seed": 334458,
+            "triangles": 2640,
+            "cameraOffset": 0
+          },
+          "calls": 434,
+          "triangles": 278192,
+          "textures": 26
+        },
+        {
+          "mode": "running",
+          "world": 0,
+          "position": {
+            "x": 0,
+            "y": 176.2930334087262,
+            "z": -61.75383286335033
+          },
+          "runTime": 15.024999999999787,
+          "companions": 3,
+          "buffering": false,
+          "chunks": 25,
+          "bvh": 25,
+          "dynamicBvh": 8,
+          "mirror": {
+            "seed": 334458,
+            "triangles": 2640,
+            "cameraOffset": 0
+          },
+          "calls": 410,
+          "triangles": 265548,
+          "textures": 26
+        },
+        {
+          "mode": "running",
+          "world": 0,
+          "position": {
+            "x": 0,
+            "y": 186.919981071674,
+            "z": -91.79578868615395
+          },
+          "runTime": 15.524999999999759,
+          "companions": 3,
+          "buffering": false,
+          "chunks": 25,
+          "bvh": 25,
+          "dynamicBvh": 8,
+          "mirror": {
+            "seed": 334458,
+            "triangles": 2640,
+            "cameraOffset": 0
+          },
+          "calls": 390,
+          "triangles": 262632,
+          "textures": 26
+        },
+        {
+          "mode": "running",
+          "world": 0,
+          "position": {
+            "x": 0,
+            "y": 197.72404452879138,
+            "z": -122.33844377206918
+          },
+          "runTime": 16.033333333333065,
+          "companions": 3,
+          "buffering": false,
+          "chunks": 25,
+          "bvh": 25,
+          "dynamicBvh": 8,
+          "mirror": {
+            "seed": 334458,
+            "triangles": 2640,
+            "cameraOffset": 0
+          },
+          "calls": 365,
+          "triangles": 250356,
+          "textures": 26
+        },
+        {
+          "mode": "running",
+          "world": 0,
+          "position": {
+            "x": 0,
+            "y": 208.35099219142356,
+            "z": -152.38039959398074
+          },
+          "runTime": 16.533333333333037,
+          "companions": 3,
+          "buffering": false,
+          "chunks": 25,
+          "bvh": 25,
+          "dynamicBvh": 8,
+          "mirror": {
+            "seed": 334458,
+            "triangles": 2640,
+            "cameraOffset": 0
+          },
+          "calls": 348,
+          "triangles": 248632,
+          "textures": 26
+        },
+        {
+          "mode": "running",
+          "world": 0,
+          "position": {
+            "x": 0,
+            "y": 218.97793985400233,
+            "z": -182.4223554157413
+          },
+          "runTime": 17.033333333333008,
+          "companions": 3,
+          "buffering": false,
+          "chunks": 25,
+          "bvh": 25,
+          "dynamicBvh": 8,
+          "mirror": {
+            "seed": 334458,
+            "triangles": 2640,
+            "cameraOffset": 0
+          },
+          "calls": 307,
+          "triangles": 234550,
+          "textures": 26
+        },
+        {
+          "mode": "running",
+          "world": 0,
+          "position": {
+            "x": 0,
+            "y": 229.60488751655393,
+            "z": -212.464311237425
+          },
+          "runTime": 17.53333333333298,
+          "companions": 3,
+          "buffering": false,
+          "chunks": 25,
+          "bvh": 25,
+          "dynamicBvh": 8,
+          "mirror": {
+            "seed": 334458,
+            "triangles": 2640,
+            "cameraOffset": 0
+          },
+          "calls": 275,
+          "triangles": 218226,
+          "textures": 26
+        },
+        {
+          "mode": "running",
+          "world": 0,
+          "position": {
+            "x": 0,
+            "y": 240.23183517909175,
+            "z": -242.5062670590697
+          },
+          "runTime": 18.03333333333295,
+          "companions": 3,
+          "buffering": false,
+          "chunks": 25,
+          "bvh": 25,
+          "dynamicBvh": 8,
+          "mirror": {
+            "seed": 334458,
+            "triangles": 2640,
+            "cameraOffset": 0
+          },
+          "calls": 381,
+          "triangles": 295410,
+          "textures": 26
+        },
+        {
+          "mode": "running",
+          "world": 0,
+          "position": {
+            "x": 0,
+            "y": 250.85878284162249,
+            "z": -272.54822288069437
+          },
+          "runTime": 18.533333333332923,
+          "companions": 3,
+          "buffering": false,
+          "chunks": 25,
+          "bvh": 25,
+          "dynamicBvh": 8,
+          "mirror": {
+            "seed": 334458,
+            "triangles": 2640,
+            "cameraOffset": 0
+          },
+          "calls": 338,
+          "triangles": 277090,
+          "textures": 26
+        },
+        {
+          "mode": "running",
+          "world": 0,
+          "position": {
+            "x": 0,
+            "y": 261.6628462985245,
+            "z": -303.09087796600255
+          },
+          "runTime": 19.041666666666227,
+          "companions": 3,
+          "buffering": false,
+          "chunks": 25,
+          "bvh": 25,
+          "dynamicBvh": 8,
+          "mirror": {
+            "seed": 334458,
+            "triangles": 2640,
+            "cameraOffset": 0
+          },
+          "calls": 322,
+          "triangles": 264658,
+          "textures": 26
+        },
+        {
+          "mode": "running",
+          "world": 0,
+          "position": {
+            "x": 0,
+            "y": 272.28979396105,
+            "z": -333.1328337876121
+          },
+          "runTime": 19.5416666666662,
+          "companions": 3,
+          "buffering": false,
+          "chunks": 25,
+          "bvh": 25,
+          "dynamicBvh": 8,
+          "mirror": {
+            "seed": 334458,
+            "triangles": 2640,
+            "cameraOffset": 0
+          },
+          "calls": 310,
+          "triangles": 260954,
+          "textures": 26
+        },
+        {
+          "mode": "running",
+          "world": 0,
+          "position": {
+            "x": 0,
+            "y": 282.9167416235755,
+            "z": -363.1747896092182
+          },
+          "runTime": 20.04166666666617,
+          "companions": 3,
+          "buffering": false,
+          "chunks": 25,
+          "bvh": 25,
+          "dynamicBvh": 8,
+          "mirror": {
+            "seed": 334458,
+            "triangles": 2640,
+            "cameraOffset": 0
+          },
+          "calls": 273,
+          "triangles": 233356,
+          "textures": 26
+        },
+        {
+          "mode": "running",
+          "world": 0,
+          "position": {
+            "x": 0,
+            "y": 293.7208050804764,
+            "z": -393.71744469451767
+          },
+          "runTime": 20.549999999999475,
+          "companions": 3,
+          "buffering": false,
+          "chunks": 25,
+          "bvh": 25,
+          "dynamicBvh": 8,
+          "mirror": {
+            "seed": 334458,
+            "triangles": 2640,
+            "cameraOffset": 0
+          },
+          "calls": 244,
+          "triangles": 217362,
+          "textures": 26
+        },
+        {
+          "mode": "running",
+          "world": 0,
+          "position": {
+            "x": 0,
+            "y": 304.34775274299875,
+            "z": -423.7594005161237
+          },
+          "runTime": 21.049999999999446,
+          "companions": 3,
+          "buffering": false,
+          "chunks": 25,
+          "bvh": 25,
+          "dynamicBvh": 8,
+          "mirror": {
+            "seed": 334458,
+            "triangles": 2640,
+            "cameraOffset": 0
+          },
+          "calls": 230,
+          "triangles": 198058,
+          "textures": 26
+        },
+        {
+          "mode": "running",
+          "world": 0,
+          "position": {
+            "x": 0,
+            "y": 314.9747004055208,
+            "z": -453.80135633772875
+          },
+          "runTime": 21.549999999999418,
+          "companions": 3,
+          "buffering": false,
+          "chunks": 25,
+          "bvh": 25,
+          "dynamicBvh": 8,
+          "mirror": {
+            "seed": 334458,
+            "triangles": 2640,
+            "cameraOffset": 0
+          },
+          "calls": 283,
+          "triangles": 281266,
+          "textures": 26
+        },
+        {
+          "mode": "running",
+          "world": 0,
+          "position": {
+            "x": 0,
+            "y": 325.77876386241826,
+            "z": -484.34401142302477
+          },
+          "runTime": 22.058333333332723,
+          "companions": 3,
+          "buffering": false,
+          "chunks": 25,
+          "bvh": 25,
+          "dynamicBvh": 8,
+          "mirror": {
+            "seed": 334458,
+            "triangles": 2640,
+            "cameraOffset": 0
+          },
+          "calls": 254,
+          "triangles": 256848,
+          "textures": 26
+        },
+        {
+          "mode": "running",
+          "world": 0,
+          "position": {
+            "x": 0,
+            "y": 336.40571152494033,
+            "z": -514.3859672446274
+          },
+          "runTime": 22.558333333332694,
+          "companions": 3,
+          "buffering": false,
+          "chunks": 25,
+          "bvh": 25,
+          "dynamicBvh": 8,
+          "mirror": {
+            "seed": 334458,
+            "triangles": 2640,
+            "cameraOffset": 0
+          },
+          "calls": 228,
+          "triangles": 225934,
+          "textures": 26
+        },
+        {
+          "mode": "running",
+          "world": 0,
+          "position": {
+            "x": 0,
+            "y": 347.0326591874624,
+            "z": -544.42792306623
+          },
+          "runTime": 23.058333333332666,
+          "companions": 3,
+          "buffering": false,
+          "chunks": 25,
+          "bvh": 25,
+          "dynamicBvh": 8,
+          "mirror": {
+            "seed": 334458,
+            "triangles": 2640,
+            "cameraOffset": 0
+          },
+          "calls": 183,
+          "triangles": 172710,
+          "textures": 26
+        },
+        {
+          "mode": "running",
+          "world": 0,
+          "position": {
+            "x": 0,
+            "y": 357.83672264435984,
+            "z": -574.9705781515261
+          },
+          "runTime": 23.56666666666597,
+          "companions": 3,
+          "buffering": false,
+          "chunks": 25,
+          "bvh": 25,
+          "dynamicBvh": 8,
+          "mirror": {
+            "seed": 334458,
+            "triangles": 2640,
+            "cameraOffset": 0
+          },
+          "calls": 167,
+          "triangles": 159572,
+          "textures": 26
+        },
+        {
+          "mode": "running",
+          "world": 0,
+          "position": {
+            "x": 0,
+            "y": 367.04674395187897,
+            "z": -601.0069398635817
+          },
+          "runTime": 23.99999999999928,
+          "companions": 3,
+          "buffering": false,
+          "chunks": 25,
+          "bvh": 25,
+          "dynamicBvh": 8,
+          "mirror": {
+            "seed": 334458,
+            "triangles": 2640,
+            "cameraOffset": 0
+          },
+          "calls": 149,
+          "triangles": 134524,
+          "textures": 26
+        }
+      ]
+    }
+  ],
+  "environment": {
+    "viewport": [
+      1920,
+      1080
+    ],
+    "renderer": "ANGLE (AMD, AMD Radeon 780M Graphics (0x00001900) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+    "build": {
+      "version": "0.5.0",
+      "sourceCommit": "eb284103ec26c7a8333e4fb69797e72684c46302",
+      "sourceCommitTime": "2026-11-21T22:21:08Z",
+      "dirty": false,
+      "sourceUrl": "https://github.com/styayur/Skimmer-Scraper/tree/eb284103ec26c7a8333e4fb69797e72684c46302",
+      "toolchain": {
+        "node": "v26.7.0",
+        "platform": "win32",
+        "architecture": "x64"
+      }
+    }
+  }
+}

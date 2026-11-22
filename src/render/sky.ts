@@ -1,10 +1,12 @@
 import * as THREE from 'three';
+import { MIRROR_GROUND, type MirrorGroundPalette } from './mirrorSky';
 
 export interface SkyAtmosphere {
   group: THREE.Group;
   sunDirection: THREE.Vector3;
   update(time: number): void;
   palette(top:number,mid:number,horizon:number):void;
+  setMirrorGround(palette: MirrorGroundPalette | null): void;
   dispose(): void;
 }
 
@@ -24,6 +26,11 @@ export const createSkyAtmosphere = (): SkyAtmosphere => {
       uMid: { value: new THREE.Color(0x9f4f66) },
       uHorizon: { value: new THREE.Color(0xffb58f) },
       uSun: { value: new THREE.Color(0xffd0a1) },
+      uMirrorGround: { value: false },
+      uGroundProjection: { value: MIRROR_GROUND.height / MIRROR_GROUND.radius },
+      uGroundLimit: { value: MIRROR_GROUND.height / Math.hypot(MIRROR_GROUND.height, MIRROR_GROUND.radius) },
+      uGroundStone: { value: new THREE.Color() },
+      uGroundHaze: { value: new THREE.Color() },
     },
     vertexShader: `
       varying vec3 vWorldPosition;
@@ -41,6 +48,11 @@ export const createSkyAtmosphere = (): SkyAtmosphere => {
       uniform vec3 uMid;
       uniform vec3 uHorizon;
       uniform vec3 uSun;
+      uniform bool uMirrorGround;
+      uniform float uGroundProjection;
+      uniform float uGroundLimit;
+      uniform vec3 uGroundStone;
+      uniform vec3 uGroundHaze;
       varying vec3 vWorldPosition;
 
       void main() {
@@ -58,6 +70,25 @@ export const createSkyAtmosphere = (): SkyAtmosphere => {
         cloudBand = smoothstep(0.52, 0.86, cloudBand) * smoothstep(0.44, 0.76, height) * (1.0 - height * 0.7);
         color += haze + vec3(cloudBand) * vec3(0.16, 0.075, 0.13);
         color = mix(color, uHorizon, (1.0 - horizonBand) * 0.1);
+        // Project an upward sightline onto the underside of the district plane.
+        // Only the atmosphere pass draws the ground, so regular geometry still
+        // occludes it through the existing scene depth.
+        if (uMirrorGround && direction.y > uGroundLimit) {
+          vec2 ground = direction.xz * (uGroundProjection / direction.y);
+          float radius = length(ground);
+          float air = smoothstep(0.22, 0.96, radius);
+          vec2 grid = ground * 10.0;
+          vec2 distanceToStreet = abs(fract(grid + 0.5) - 0.5);
+          vec2 filtered = max(fwidth(grid), vec2(0.009));
+          vec2 street = 1.0 - smoothstep(vec2(0.012), filtered + 0.023, distanceToStreet);
+          vec3 surface = mix(uGroundStone, uGroundHaze, air);
+          surface = mix(surface, uGroundHaze, max(street.x, street.y) * (1.0 - air) * 0.24);
+          gl_FragColor = vec4(surface, 1.0);
+          #include <tonemapping_fragment>
+          #include <colorspace_fragment>
+          float opacity = 0.96 * (1.0 - smoothstep(0.56, 0.99, radius));
+          color = mix(color, gl_FragColor.rgb, opacity);
+        }
         gl_FragColor = vec4(color, 1.0);
       }
     `,
@@ -113,6 +144,13 @@ export const createSkyAtmosphere = (): SkyAtmosphere => {
       (skyMaterial.uniforms.uTop!.value as THREE.Color).setHex(top);
       (skyMaterial.uniforms.uMid!.value as THREE.Color).setHex(mid);
       (skyMaterial.uniforms.uHorizon!.value as THREE.Color).setHex(horizon);
+    },
+    setMirrorGround: (palette) => {
+      skyMaterial.uniforms.uMirrorGround!.value = palette !== null;
+      if (palette) {
+        (skyMaterial.uniforms.uGroundStone!.value as THREE.Color).copy(palette.stone);
+        (skyMaterial.uniforms.uGroundHaze!.value as THREE.Color).copy(palette.haze);
+      }
     },
     update: (time) => {
       skyMaterial.uniforms.uTime!.value = time;

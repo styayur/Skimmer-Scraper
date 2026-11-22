@@ -1,0 +1,263 @@
+{
+  "phase": 1,
+  "status": "TESTED",
+  "baseline": "eb284103ec26c7a8333e4fb69797e72684c46302",
+  "sourceCommit": "fef62cd92d8ce4cadcea0886042831ee8fb1c2f0",
+  "seed": 334458,
+  "views": [
+    {
+      "name": "low",
+      "position": {
+        "x": 0,
+        "y": 45,
+        "z": 120
+      },
+      "attitude": {
+        "pitch": 0.6,
+        "roll": 0,
+        "yaw": 0
+      },
+      "before": "evidence/v0.6/pr1-sky/before-low.png",
+      "after": "evidence/v0.6/pr1-sky/after-low.png",
+      "cameraQuaternionComponentDelta": 1.491691767885328e-7,
+      "collisionProbe": null,
+      "streamingSample": {
+        "before": 15,
+        "after": 16,
+        "beforeBvhs": 15,
+        "afterBvhs": 16
+      }
+    },
+    {
+      "name": "climb",
+      "position": {
+        "x": 0,
+        "y": 310,
+        "z": 120
+      },
+      "attitude": {
+        "pitch": 0.76,
+        "roll": 0,
+        "yaw": 1.9
+      },
+      "before": "evidence/v0.6/pr1-sky/before-climb.png",
+      "after": "evidence/v0.6/pr1-sky/after-climb.png",
+      "cameraQuaternionComponentDelta": 1.1822926110349741e-7,
+      "collisionProbe": null,
+      "streamingSample": {
+        "before": 25,
+        "after": 25,
+        "beforeBvhs": 25,
+        "afterBvhs": 25
+      }
+    },
+    {
+      "name": "rolled",
+      "position": {
+        "x": 0,
+        "y": 250,
+        "z": 120
+      },
+      "attitude": {
+        "pitch": 0.69,
+        "roll": 1.22,
+        "yaw": -1.7
+      },
+      "before": "evidence/v0.6/pr1-sky/before-rolled.png",
+      "after": "evidence/v0.6/pr1-sky/after-rolled.png",
+      "cameraQuaternionComponentDelta": 1.1187273984969437e-7,
+      "collisionProbe": null,
+      "streamingSample": {
+        "before": 25,
+        "after": 25,
+        "beforeBvhs": 25,
+        "afterBvhs": 25
+      }
+    },
+    {
+      "name": "inverted",
+      "position": {
+        "x": 0,
+        "y": 160,
+        "z": 120
+      },
+      "attitude": {
+        "pitch": 0.68,
+        "roll": 3.141592653589793,
+        "yaw": 2.6
+      },
+      "before": "evidence/v0.6/pr1-sky/before-inverted.png",
+      "after": "evidence/v0.6/pr1-sky/after-inverted.png",
+      "cameraQuaternionComponentDelta": 1.393588209275265e-7,
+      "collisionProbe": null,
+      "streamingSample": {
+        "before": 25,
+        "after": 25,
+        "beforeBvhs": 25,
+        "afterBvhs": 25
+      }
+    }
+  ],
+  "graphics": {
+    "renderer": "ANGLE (AMD, AMD Radeon 780M Graphics (0x00001900) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+    "driver": "32.0.32029.2010",
+    "browser": "157.0.8103.79",
+    "viewport": [
+      1920,
+      1080
+    ],
+    "method": "Headed Chrome on hardware. Two paired 12-second moving flights per quality and build using the same pose and three wingmates. RAF times are end-to-end frame intervals.",
+    "comparison": [
+      {
+        "quality": "balanced",
+        "before": {
+          "fps": [
+            105.76,
+            111.42
+          ],
+          "p50Ms": [
+            8.3,
+            8.3
+          ],
+          "p95Ms": [
+            16.7,
+            16.6
+          ],
+          "p99Ms": [
+            16.8,
+            16.8
+          ],
+          "meters": [
+            767.01,
+            765.32
+          ],
+          "peakChunks": 25,
+          "peakStaticBvhs": 25,
+          "peakDynamicBvhs": 8,
+          "peakDrawCalls": 434,
+          "peakTextures": 26,
+          "bufferingSamples": 0
+        },
+        "after": {
+          "fps": [
+            114.92,
+            117.17
+          ],
+          "p50Ms": [
+            8.3,
+            8.3
+          ],
+          "p95Ms": [
+            8.5,
+            8.4
+          ],
+          "p99Ms": [
+            16.7,
+            16.7
+          ],
+          "meters": [
+            766.48,
+            764.79
+          ],
+          "peakChunks": 25,
+          "peakStaticBvhs": 25,
+          "peakDynamicBvhs": 8,
+          "peakDrawCalls": 436,
+          "peakTextures": 26,
+          "bufferingSamples": 0
+        }
+      },
+      {
+        "quality": "high",
+        "before": {
+          "fps": [
+            110.68,
+            111.09
+          ],
+          "p50Ms": [
+            8.3,
+            8.3
+          ],
+          "p95Ms": [
+            16.6,
+            16.6
+          ],
+          "p99Ms": [
+            16.8,
+            16.8
+          ],
+          "meters": [
+            766.46,
+            764.79
+          ],
+          "peakChunks": 25,
+          "peakStaticBvhs": 25,
+          "peakDynamicBvhs": 8,
+          "peakDrawCalls": 434,
+          "peakTextures": 26,
+          "bufferingSamples": 0
+        },
+        "after": {
+          "fps": [
+            117.67,
+            117.5
+          ],
+          "p50Ms": [
+            8.3,
+            8.3
+          ],
+          "p95Ms": [
+            8.4,
+            8.5
+          ],
+          "p99Ms": [
+            16.7,
+            16.7
+          ],
+          "meters": [
+            766.99,
+            764.79
+          ],
+          "peakChunks": 25,
+          "peakStaticBvhs": 25,
+          "peakDynamicBvhs": 8,
+          "peakDrawCalls": 436,
+          "peakTextures": 26,
+          "bufferingSamples": 0
+        }
+      }
+    ],
+    "rawBefore": "evidence/v0.6/pr1-sky/before.json",
+    "rawAfter": "evidence/v0.6/pr1-sky/after.json",
+    "notes": "A separate transparent ground mesh was tested and replaced by composition in the existing atmosphere pass. The first low-angle pose can be captured while the render ring is still filling. Moving tests reached the same peak chunk and BVH count. Short RAF runs do not establish a platform-wide performance improvement."
+  },
+  "renderer": {
+    "skylineTriangles": 2640,
+    "ground": {
+      "height": 650,
+      "radius": 1530
+    },
+    "extraMeshes": 0,
+    "extraDrawPasses": 0,
+    "extraCollisionSurfaces": 0,
+    "extraBvhs": 0
+  },
+  "journey": {
+    "crossings": 5,
+    "signature": true,
+    "views": [
+      "chase",
+      "cockpit"
+    ],
+    "screenshots": [
+      "evidence/v0.6/pr1-sky/journey-1.png",
+      "evidence/v0.6/pr1-sky/journey-4.png"
+    ]
+  },
+  "automated": {
+    "typecheck": "passed",
+    "build": "passed",
+    "unit": 175,
+    "chromium": 41
+  }
+}
