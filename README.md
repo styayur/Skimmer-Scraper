@@ -193,7 +193,7 @@ original synthetic assets are documented in [CREDITS.md](CREDITS.md). New releas
 
 Challenge grace is configurable from 1 to 15 seconds (default 5). Free Flight has no proximity expiry and defaults to a shield. Options lock at takeoff; retry keeps the selection. Custom and assisted scores are separate; historical standard scores retain their keys.
 
-Production deployment is now triggered by a stable version tag; merges and RC tags do not replace the public game. Source: https://github.com/styayur/Skimmer-Scraper. See docs/LICENSE-AUDIT.md.
+At the time of the v0.3 candidate, a stable version tag triggered production deployment. The current procedure is documented in [Deployment](docs/DEPLOYMENT.md). See [Licensing provenance](docs/LICENSE-AUDIT.md).
 
 Flight Settings includes a Classic profile and a Precision profile (speed-sensitive
 control gain, full rolls/loops, optional coordinated turns and adjustable leveling).
