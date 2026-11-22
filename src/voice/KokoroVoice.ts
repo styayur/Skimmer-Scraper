@@ -4,8 +4,8 @@ import { KOKORO_VOICES, mandarinSpeechText, type KokoroBackend, type KokoroReply
 import type { VoiceIdentity, VoiceLifecycle, VoiceProvider } from './voiceContracts';
 
 const idleMs = 45_000;
-const loadTimeoutMs = 15 * 60_000;
-const downloadStallMs = 150_000;
+const loadTimeoutMs = 25 * 60_000;
+const downloadStallMs = 210_000;
 interface Call {
   id: number;
   timer: number;

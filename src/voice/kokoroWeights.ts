@@ -9,9 +9,10 @@ const partialCache = `skimmer-kokoro-parts-${KOKORO_REVISION}`;
 
 const requestRange = async (start: number, signal: AbortSignal, tries = 3): Promise<Uint8Array<ArrayBuffer> | null> => {
   try {
-    const response = await fetch(`${url}?download=true`, {
+    // A distinct URL keeps shared caches from reusing another range's signed redirect.
+    const response = await fetch(`${url}?download=true&part=${start}`, {
       headers: { Range: `bytes=${start}-${Math.min(start + rangeSize, size) - 1}` },
-      signal: AbortSignal.any([signal, AbortSignal.timeout(45_000)]),
+      signal: AbortSignal.any([signal, AbortSignal.timeout(65_000)]),
     });
     if (response.status !== 206) {
       await response.body?.cancel();
