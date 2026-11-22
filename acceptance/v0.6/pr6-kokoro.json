@@ -271,6 +271,22 @@
     {
       "path": "evidence/v0.6/pr6-kokoro/range-resume.json",
       "sha256": "bbfc58107a0d0a09b75c79811047aad71c0b0cf663aa477ddcab7126cc9b10f6"
+    },
+    {
+      "path": "evidence/v0.6/pr6-kokoro/firefox-guard.json",
+      "sha256": "ddb6f9790b6908552da305ae200e07308502f203aa032777e39cbbf6a11ff9c1"
+    },
+    {
+      "path": "evidence/v0.6/pr6-kokoro/firefox-runtime-fallback.json",
+      "sha256": "ebab2c75ee7566b934109acc12a5cd9bffd5e09b387bb19a5499f69d09ba9ee2"
     }
-  ]
+  ],
+  "windowsFirefox": {
+    "browser": "159.0",
+    "diagnosisSource": "d5699b4dd879b5e3abe15a9dca54a6b3c162015c",
+    "guardSource": "6ae72d8a2fa4acba7fa85fea3699ce7a7e7270cf",
+    "diagnosis": "The browser adapter exposed shader-f16. ONNX Runtime OrtRun failed at WebGPU BufferManager Download. Actual local KITE-2 speech ended after fallback.",
+    "actualGuard": "No Hugging Face requests. Worker releases promptly and a subsequent KITE-2 reply completes in native system speech.",
+    "documentation": "https://onnxruntime.ai/docs/get-started/with-javascript/web.html#supported-versions"
+  }
 }

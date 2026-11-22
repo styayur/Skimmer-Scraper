@@ -1,0 +1,42 @@
+{
+  "status": "passed",
+  "errors": [],
+  "source": {
+    "version": "0.5.0",
+    "sourceCommit": "d5699b4dd879b5e3abe15a9dca54a6b3c162015c",
+    "sourceCommitTime": "2026-11-23T00:20:43+08:00",
+    "dirty": false,
+    "sourceUrl": "https://github.com/styayur/Skimmer-Scraper/tree/d5699b4dd879b5e3abe15a9dca54a6b3c162015c",
+    "toolchain": {
+      "node": "v26.7.0",
+      "platform": "win32",
+      "architecture": "x64"
+    }
+  },
+  "model": {
+    "phase": "error",
+    "backend": "webgpu",
+    "device": "WebGPU",
+    "percent": 100,
+    "loads": 1,
+    "releases": 1,
+    "generated": 0,
+    "completed": 0,
+    "loadMs": 5260,
+    "inferenceMs": null,
+    "audioSeconds": null,
+    "lastVoice": null,
+    "error": "kokoro-inference",
+    "detail": "failed to call OrtRun(). ERROR_CODE: 1, ERROR_MESSAGE: /mnt/azure_nvme_temp/_work/1/s/onnxruntime/core/providers/webgpu/buffer_manager.cc:605 void onnxruntime::webgpu::BufferManager::Download(WGPUBuffer, void *, size_t) const [ONN",
+    "resident": false,
+    "idleMs": 45000
+  },
+  "fallback": {
+    "provider": "local",
+    "voiceId": "urn:moz-tts:sapi:Microsoft Kangkang - Chinese (Simplified, PRC)?zh-CN",
+    "rate": 0.9300000071525574,
+    "pitch": 0.8799999952316284,
+    "id": 4,
+    "agent": 2
+  }
+}

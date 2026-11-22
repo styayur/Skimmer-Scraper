@@ -1,0 +1,59 @@
+{
+  "browser": "159.0",
+  "errors": [],
+  "requests": [],
+  "source": {
+    "version": "0.5.0",
+    "sourceCommit": "6ae72d8a2fa4acba7fa85fea3699ce7a7e7270cf",
+    "sourceCommitTime": "2026-11-23T00:31:02+08:00",
+    "dirty": false,
+    "sourceUrl": "https://github.com/styayur/Skimmer-Scraper/tree/6ae72d8a2fa4acba7fa85fea3699ce7a7e7270cf",
+    "toolchain": {
+      "node": "v26.7.0",
+      "platform": "win32",
+      "architecture": "x64"
+    }
+  },
+  "webgpu": {
+    "exposed": true,
+    "hasAdapter": true,
+    "shaderF16": true,
+    "vendor": "",
+    "fallback": false
+  },
+  "nativeDefault": {
+    "provider": "local",
+    "voiceId": "urn:moz-tts:sapi:Microsoft Kangkang - Chinese (Simplified, PRC)?zh-CN",
+    "rate": 0.9300000071525574,
+    "pitch": 0.8799999952316284,
+    "id": 2,
+    "agent": 2
+  },
+  "outcome": {
+    "phase": "error",
+    "backend": null,
+    "device": "",
+    "percent": null,
+    "loads": 0,
+    "releases": 1,
+    "generated": 0,
+    "completed": 0,
+    "loadMs": null,
+    "inferenceMs": null,
+    "audioSeconds": null,
+    "lastVoice": null,
+    "error": "kokoro-device",
+    "detail": "",
+    "resident": false,
+    "idleMs": 45000
+  },
+  "fallbackSpeech": {
+    "provider": "local",
+    "voiceId": "urn:moz-tts:sapi:Microsoft Kangkang - Chinese (Simplified, PRC)?zh-CN",
+    "rate": 0.9300000071525574,
+    "pitch": 0.8799999952316284,
+    "id": 4,
+    "agent": 2
+  },
+  "status": "passed"
+}
