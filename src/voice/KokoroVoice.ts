@@ -5,7 +5,7 @@ import type { VoiceIdentity, VoiceLifecycle, VoiceProvider } from './voiceContra
 
 const idleMs = 45_000;
 const loadTimeoutMs = 15 * 60_000;
-const downloadStallMs = 90_000;
+const downloadStallMs = 150_000;
 interface Call {
   id: number;
   timer: number;
