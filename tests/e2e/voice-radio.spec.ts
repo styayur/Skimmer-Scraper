@@ -140,8 +140,10 @@ test('the AudioWorklet supplies a WAV to mocked DeepSeek, flies the scout order 
     const reply = flight.cooperation.radio.history.find(line => line.source === 'model' && line.agent === 2);
     return reply !== undefined && flight.voice.playbackHistory.some(line => line.id === reply.id && line.provider === 'deepseek');
   }, { timeout: 20_000 }).toBe(true);
-  await expect.poll(async () => (await state(page)).cooperation.trace.some(entry => entry.event === 'radio-outcome')).toBe(true);
-  const after = await state(page);
+  // The outcome is due in simulation time. Run the normal fixed steps even when
+  // software rendering or trace recording makes browser frames arrive slowly.
+  const after = await page.evaluate(() => window.__SKIMMER_SCRAPER__!.advance(1.6));
+  expect(after.cooperation.trace.some(entry => entry.event === 'radio-outcome')).toBe(true);
   expect(after.runTime - order.runTime).toBeGreaterThan(1.2);
   expect(uploads).toBe(1);
   expect(modelCommands).toBe(1);
