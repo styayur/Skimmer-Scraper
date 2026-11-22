@@ -93,7 +93,7 @@ test('copies and replays real separable city layouts, refreshing unlocked visits
     });
   };
   monitor(page);
-  await page.goto('/?seed=334458');
+  await page.goto('/?seed=334458&world=stable&gen=3');
   const url = page.url();
   const ready = (tab: Page) => tab.waitForFunction(() => window.__SKIMMER_SCRAPER__?.snapshot().ready);
   await ready(page);
@@ -114,11 +114,14 @@ test('copies and replays real separable city layouts, refreshing unlocked visits
   const seedInput = page.getByRole('textbox', { name: '输入种子' });
   const firstSeed = await seedInput.inputValue();
   expect(firstSeed.length).toBeGreaterThan(64);
+  await page.setViewportSize({ width: 360, height: 680 });
+  expect(await opened(page).evaluate(panel => panel.scrollWidth === panel.clientWidth)).toBe(true);
   await seedInput.fill('334458');
   await page.getByRole('button', { name: '复制种子' }).click();
   await expect.poll(() => page.evaluate(() => navigator.clipboard.readText())).toBe(firstSeed);
   await expect(page.locator('#world-mode-select')).toBeHidden();
 
+  await page.setViewportSize({ width: 920, height: 620 });
   await page.reload();
   await ready(page);
   const second = await readCity(page);
@@ -148,9 +151,10 @@ test('copies and replays real separable city layouts, refreshing unlocked visits
   const releasedGeometries = released[0]!.disposedGeometryCount;
   expect(releasedGeometries).toBeGreaterThanOrEqual(3);
   expect(released.map(world => world.disposedGeometryCount)).toEqual(released.map(() => releasedGeometries));
-  await openWorld(page);
-  await page.locator('#local-world-builtin').click();
-  await expect.poll(async () => (await snapshot(page)).localWorld).toBeNull();
+  await Promise.all([page.waitForEvent('load'), paste(page, '334458')]);
+  await ready(page);
+  await expect(page).toHaveURL(url);
+  expect((await snapshot(page)).localWorld).toBeNull();
   await library(page);
   await page.locator('#local-world-load').click();
   await expect(page.locator('#local-world-config')).toBeVisible();
@@ -185,7 +189,7 @@ test('copies and replays real separable city layouts, refreshing unlocked visits
   expect(errors).toEqual([]);
   expect(remote).toEqual([]);
   writeFileSync(testInfo.outputPath('variants.json'), JSON.stringify({
-    original, first, second, replay, kept, reopened, onAnotherProfile,
+    original, first, second, completeSeed: firstSeed, replay, kept, reopened, onAnotherProfile,
     originalRender, firstRender, secondRender, released, errors, remote,
   }, null, 2));
 });

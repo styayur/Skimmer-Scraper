@@ -392,6 +392,7 @@ const applyWorldSettings = (
     seed: seedValue, preset: baseWorldSettings.preset, mode: worldMode,
     generatorVersion: upgrade ? GENERATOR_VERSION : baseWorldSettings.generatorVersion,
   });
+  worldPanel.clearVisit();
   window.location.assign(buildWorldShareUrl(window.location.href, next));
 };
 

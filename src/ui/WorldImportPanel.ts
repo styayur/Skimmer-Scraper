@@ -191,7 +191,7 @@ export class WorldImportPanel {
         await this.openVisit(seed, active.source.data, active.world.manifest.name, active.source.saved, true, current);
         return;
       }
-      const record = await this.store.get(seed.fingerprint);
+      const record = await this.store.get(seed.fingerprint).catch(() => null);
       if (!current()) return;
       if (!record) {
         this.pendingSeed = seed;
@@ -221,13 +221,17 @@ export class WorldImportPanel {
     }
   }
 
+  public clearVisit(): void {
+    try { sessionStorage.removeItem(sessionKey); } catch { /* Session storage can be disabled. */ }
+  }
+
   private rememberVisit(): void {
+    const source = this.active?.source;
+    if (!source?.saved) { this.clearVisit(); return; }
     try {
-      const source = this.active?.source;
-      if (source?.saved) sessionStorage.setItem(sessionKey, JSON.stringify({
+      sessionStorage.setItem(sessionKey, JSON.stringify({
         url: location.href, seed: this.activeSeed, replay: source.replay,
       }));
-      else sessionStorage.removeItem(sessionKey);
     } catch { /* The local library remains available when session storage is disabled. */ }
   }
 
