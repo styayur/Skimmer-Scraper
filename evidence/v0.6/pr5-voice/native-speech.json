@@ -1,0 +1,675 @@
+[
+  {
+    "browser": "Chrome",
+    "version": "157.0.8103.79",
+    "build": {
+      "version": "0.5.0",
+      "sourceCommit": "83e052235727053ee505b11087fe0d30ddd9195b",
+      "sourceCommitTime": "2026-11-22T21:52:41+08:00",
+      "dirty": false,
+      "sourceUrl": "https://github.com/styayur/Skimmer-Scraper/tree/83e052235727053ee505b11087fe0d30ddd9195b",
+      "toolchain": {
+        "node": "v26.7.0",
+        "platform": "win32",
+        "architecture": "x64"
+      }
+    },
+    "voices": [
+      null,
+      null,
+      null
+    ],
+    "messages": {
+      "lead": {
+        "id": 1,
+        "agent": 1,
+        "text": "编队已就位。沿前方航线出发。",
+        "source": "local",
+        "priority": "notice",
+        "provider": {
+          "provider": "local",
+          "voiceId": "Microsoft Huihui - Chinese (Simplified, PRC)",
+          "rate": 0.9900000095367432,
+          "pitch": 1,
+          "id": 1
+        },
+        "subtitle": "KITE-1 · Navigator\n编队已就位。沿前方航线出发。"
+      },
+      "guardian": {
+        "id": 3,
+        "agent": 2,
+        "text": "我是 KITE-2，Guardian。负责碰撞风险、护航和接力救援。",
+        "source": "local",
+        "priority": "reply",
+        "provider": {
+          "provider": "local",
+          "voiceId": "Microsoft Kangkang - Chinese (Simplified, PRC)",
+          "rate": 0.9300000071525574,
+          "pitch": 0.8799999952316284,
+          "id": 3
+        },
+        "subtitle": "KITE-2 · Guardian\n我是 KITE-2，Guardian。负责碰撞风险、护航和接力救援。"
+      },
+      "explorer": {
+        "id": 5,
+        "agent": 3,
+        "text": "我是 KITE-3，Explorer。负责远景、浮岛和新世界。",
+        "source": "local",
+        "priority": "reply",
+        "provider": {
+          "provider": "local",
+          "voiceId": "Microsoft Yaoyao - Chinese (Simplified, PRC)",
+          "rate": 1.100000023841858,
+          "pitch": 1.1200000047683716,
+          "id": 5
+        },
+        "subtitle": "KITE-3 · Explorer\n我是 KITE-3，Explorer。负责远景、浮岛和新世界。"
+      },
+      "cancelled": {
+        "id": 7,
+        "agent": 3,
+        "text": "侦察通报。当前高度 410 米，最近可贴近表面 71 米。",
+        "source": "local",
+        "priority": "reply",
+        "provider": {
+          "provider": "local",
+          "voiceId": "Microsoft Yaoyao - Chinese (Simplified, PRC)",
+          "rate": 1.100000023841858,
+          "pitch": 1.1200000047683716,
+          "id": 7
+        },
+        "subtitle": "KITE-3 · Explorer\n侦察通报。当前高度 410 米，最近可贴近表面 71 米。"
+      },
+      "crossing": {
+        "id": 8,
+        "agent": 3,
+        "text": "穿越完成。已进入第 1 层天空。",
+        "source": "local",
+        "priority": "notice",
+        "provider": {
+          "provider": "local",
+          "voiceId": "Microsoft Yaoyao - Chinese (Simplified, PRC)",
+          "rate": 1.100000023841858,
+          "pitch": 1.1200000047683716,
+          "id": 8
+        },
+        "subtitle": "KITE-3 · Explorer\n穿越完成。已进入第 1 层天空。"
+      }
+    },
+    "actualSystemSpeech": {
+      "records": [
+        {
+          "id": 1,
+          "text": "编队已就位。沿前方航线出发。",
+          "voice": "Microsoft Huihui - Chinese (Simplified, PRC)",
+          "onDevice": true,
+          "language": "zh-CN",
+          "rate": 0.9900000095367432,
+          "pitch": 1,
+          "event": "start",
+          "elapsed": 143
+        },
+        {
+          "id": 1,
+          "text": "编队已就位。沿前方航线出发。",
+          "voice": "Microsoft Huihui - Chinese (Simplified, PRC)",
+          "onDevice": true,
+          "language": "zh-CN",
+          "rate": 0.9900000095367432,
+          "pitch": 1,
+          "event": "end",
+          "elapsed": 4841.5,
+          "error": null
+        },
+        {
+          "id": 2,
+          "text": "我是 KITE-2，Guardian。负责碰撞风险、护航和接力救援。",
+          "voice": "Microsoft Kangkang - Chinese (Simplified, PRC)",
+          "onDevice": true,
+          "language": "zh-CN",
+          "rate": 0.9300000071525574,
+          "pitch": 0.8799999952316284,
+          "event": "start",
+          "elapsed": 63.29999923706055
+        },
+        {
+          "id": 2,
+          "text": "我是 KITE-2，Guardian。负责碰撞风险、护航和接力救援。",
+          "voice": "Microsoft Kangkang - Chinese (Simplified, PRC)",
+          "onDevice": true,
+          "language": "zh-CN",
+          "rate": 0.9300000071525574,
+          "pitch": 0.8799999952316284,
+          "event": "end",
+          "elapsed": 6887,
+          "error": null
+        },
+        {
+          "id": 3,
+          "text": "我是 KITE-3，Explorer。负责远景、浮岛和新世界。",
+          "voice": "Microsoft Yaoyao - Chinese (Simplified, PRC)",
+          "onDevice": true,
+          "language": "zh-CN",
+          "rate": 1.100000023841858,
+          "pitch": 1.1200000047683716,
+          "event": "start",
+          "elapsed": 61.70000076293945
+        },
+        {
+          "id": 3,
+          "text": "我是 KITE-3，Explorer。负责远景、浮岛和新世界。",
+          "voice": "Microsoft Yaoyao - Chinese (Simplified, PRC)",
+          "onDevice": true,
+          "language": "zh-CN",
+          "rate": 1.100000023841858,
+          "pitch": 1.1200000047683716,
+          "event": "end",
+          "elapsed": 6378.10009765625,
+          "error": null
+        },
+        {
+          "id": 4,
+          "text": "侦察通报。当前高度 410 米，最近可贴近表面 71 米。",
+          "voice": "Microsoft Yaoyao - Chinese (Simplified, PRC)",
+          "onDevice": true,
+          "language": "zh-CN",
+          "rate": 1.100000023841858,
+          "pitch": 1.1200000047683716,
+          "event": "start",
+          "elapsed": 27.899999618530273
+        },
+        {
+          "event": "cancel",
+          "active": 1
+        },
+        {
+          "id": 4,
+          "text": "侦察通报。当前高度 410 米，最近可贴近表面 71 米。",
+          "voice": "Microsoft Yaoyao - Chinese (Simplified, PRC)",
+          "onDevice": true,
+          "language": "zh-CN",
+          "rate": 1.100000023841858,
+          "pitch": 1.1200000047683716,
+          "event": "error",
+          "elapsed": 60.599998474121094,
+          "error": "interrupted"
+        },
+        {
+          "id": 5,
+          "text": "穿越完成。已进入第 1 层天空。",
+          "voice": "Microsoft Yaoyao - Chinese (Simplified, PRC)",
+          "onDevice": true,
+          "language": "zh-CN",
+          "rate": 1.100000023841858,
+          "pitch": 1.1200000047683716,
+          "event": "start",
+          "elapsed": 32.599998474121094
+        },
+        {
+          "id": 5,
+          "text": "穿越完成。已进入第 1 层天空。",
+          "voice": "Microsoft Yaoyao - Chinese (Simplified, PRC)",
+          "onDevice": true,
+          "language": "zh-CN",
+          "rate": 1.100000023841858,
+          "pitch": 1.1200000047683716,
+          "event": "end",
+          "elapsed": 4297,
+          "error": null
+        }
+      ],
+      "maximumActive": 1
+    },
+    "outbound": [],
+    "errors": []
+  },
+  {
+    "browser": "Edge",
+    "version": "158.0.4370.33",
+    "build": {
+      "version": "0.5.0",
+      "sourceCommit": "83e052235727053ee505b11087fe0d30ddd9195b",
+      "sourceCommitTime": "2026-11-22T21:52:41+08:00",
+      "dirty": false,
+      "sourceUrl": "https://github.com/styayur/Skimmer-Scraper/tree/83e052235727053ee505b11087fe0d30ddd9195b",
+      "toolchain": {
+        "node": "v26.7.0",
+        "platform": "win32",
+        "architecture": "x64"
+      }
+    },
+    "voices": [
+      null,
+      null,
+      null
+    ],
+    "messages": {
+      "lead": {
+        "id": 1,
+        "agent": 1,
+        "text": "编队已就位。沿前方航线出发。",
+        "source": "local",
+        "priority": "notice",
+        "provider": {
+          "provider": "local",
+          "voiceId": "Microsoft Huihui - Chinese (Simplified, PRC)",
+          "rate": 0.9900000095367432,
+          "pitch": 1,
+          "id": 1
+        },
+        "subtitle": "KITE-1 · Navigator\n编队已就位。沿前方航线出发。"
+      },
+      "guardian": {
+        "id": 3,
+        "agent": 2,
+        "text": "我是 KITE-2，Guardian。负责碰撞风险、护航和接力救援。",
+        "source": "local",
+        "priority": "reply",
+        "provider": {
+          "provider": "local",
+          "voiceId": "Microsoft Kangkang - Chinese (Simplified, PRC)",
+          "rate": 0.9300000071525574,
+          "pitch": 0.8799999952316284,
+          "id": 3
+        },
+        "subtitle": "KITE-2 · Guardian\n我是 KITE-2，Guardian。负责碰撞风险、护航和接力救援。"
+      },
+      "explorer": {
+        "id": 5,
+        "agent": 3,
+        "text": "我是 KITE-3，Explorer。负责远景、浮岛和新世界。",
+        "source": "local",
+        "priority": "reply",
+        "provider": {
+          "provider": "local",
+          "voiceId": "Microsoft Yaoyao - Chinese (Simplified, PRC)",
+          "rate": 1.100000023841858,
+          "pitch": 1.1200000047683716,
+          "id": 5
+        },
+        "subtitle": "KITE-3 · Explorer\n我是 KITE-3，Explorer。负责远景、浮岛和新世界。"
+      },
+      "cancelled": {
+        "id": 7,
+        "agent": 3,
+        "text": "侦察通报。当前高度 410 米，最近可贴近表面 74 米。",
+        "source": "local",
+        "priority": "reply",
+        "provider": {
+          "provider": "local",
+          "voiceId": "Microsoft Yaoyao - Chinese (Simplified, PRC)",
+          "rate": 1.100000023841858,
+          "pitch": 1.1200000047683716,
+          "id": 7
+        },
+        "subtitle": "KITE-3 · Explorer\n侦察通报。当前高度 410 米，最近可贴近表面 74 米。"
+      },
+      "crossing": {
+        "id": 8,
+        "agent": 3,
+        "text": "穿越完成。已进入第 1 层天空。",
+        "source": "local",
+        "priority": "notice",
+        "provider": {
+          "provider": "local",
+          "voiceId": "Microsoft Yaoyao - Chinese (Simplified, PRC)",
+          "rate": 1.100000023841858,
+          "pitch": 1.1200000047683716,
+          "id": 8
+        },
+        "subtitle": "KITE-3 · Explorer\n穿越完成。已进入第 1 层天空。"
+      }
+    },
+    "actualSystemSpeech": {
+      "records": [
+        {
+          "id": 1,
+          "text": "编队已就位。沿前方航线出发。",
+          "voice": "Microsoft Huihui - Chinese (Simplified, PRC)",
+          "onDevice": true,
+          "language": "zh-CN",
+          "rate": 0.9900000095367432,
+          "pitch": 1,
+          "event": "start",
+          "elapsed": 295.29998779296875
+        },
+        {
+          "id": 1,
+          "text": "编队已就位。沿前方航线出发。",
+          "voice": "Microsoft Huihui - Chinese (Simplified, PRC)",
+          "onDevice": true,
+          "language": "zh-CN",
+          "rate": 0.9900000095367432,
+          "pitch": 1,
+          "event": "end",
+          "elapsed": 4831.2998046875,
+          "error": null
+        },
+        {
+          "id": 2,
+          "text": "我是 KITE-2，Guardian。负责碰撞风险、护航和接力救援。",
+          "voice": "Microsoft Kangkang - Chinese (Simplified, PRC)",
+          "onDevice": true,
+          "language": "zh-CN",
+          "rate": 0.9300000071525574,
+          "pitch": 0.8799999952316284,
+          "event": "start",
+          "elapsed": 93.80000305175781
+        },
+        {
+          "id": 2,
+          "text": "我是 KITE-2，Guardian。负责碰撞风险、护航和接力救援。",
+          "voice": "Microsoft Kangkang - Chinese (Simplified, PRC)",
+          "onDevice": true,
+          "language": "zh-CN",
+          "rate": 0.9300000071525574,
+          "pitch": 0.8799999952316284,
+          "event": "end",
+          "elapsed": 6902.2998046875,
+          "error": null
+        },
+        {
+          "id": 3,
+          "text": "我是 KITE-3，Explorer。负责远景、浮岛和新世界。",
+          "voice": "Microsoft Yaoyao - Chinese (Simplified, PRC)",
+          "onDevice": true,
+          "language": "zh-CN",
+          "rate": 1.100000023841858,
+          "pitch": 1.1200000047683716,
+          "event": "start",
+          "elapsed": 63.20000076293945
+        },
+        {
+          "id": 3,
+          "text": "我是 KITE-3，Explorer。负责远景、浮岛和新世界。",
+          "voice": "Microsoft Yaoyao - Chinese (Simplified, PRC)",
+          "onDevice": true,
+          "language": "zh-CN",
+          "rate": 1.100000023841858,
+          "pitch": 1.1200000047683716,
+          "event": "end",
+          "elapsed": 6378.7998046875,
+          "error": null
+        },
+        {
+          "id": 4,
+          "text": "侦察通报。当前高度 410 米，最近可贴近表面 74 米。",
+          "voice": "Microsoft Yaoyao - Chinese (Simplified, PRC)",
+          "onDevice": true,
+          "language": "zh-CN",
+          "rate": 1.100000023841858,
+          "pitch": 1.1200000047683716,
+          "event": "start",
+          "elapsed": 30.299999237060547
+        },
+        {
+          "event": "cancel",
+          "active": 1
+        },
+        {
+          "id": 4,
+          "text": "侦察通报。当前高度 410 米，最近可贴近表面 74 米。",
+          "voice": "Microsoft Yaoyao - Chinese (Simplified, PRC)",
+          "onDevice": true,
+          "language": "zh-CN",
+          "rate": 1.100000023841858,
+          "pitch": 1.1200000047683716,
+          "event": "error",
+          "elapsed": 69,
+          "error": "interrupted"
+        },
+        {
+          "id": 5,
+          "text": "穿越完成。已进入第 1 层天空。",
+          "voice": "Microsoft Yaoyao - Chinese (Simplified, PRC)",
+          "onDevice": true,
+          "language": "zh-CN",
+          "rate": 1.100000023841858,
+          "pitch": 1.1200000047683716,
+          "event": "start",
+          "elapsed": 31.5
+        },
+        {
+          "id": 5,
+          "text": "穿越完成。已进入第 1 层天空。",
+          "voice": "Microsoft Yaoyao - Chinese (Simplified, PRC)",
+          "onDevice": true,
+          "language": "zh-CN",
+          "rate": 1.100000023841858,
+          "pitch": 1.1200000047683716,
+          "event": "end",
+          "elapsed": 4290.89990234375,
+          "error": null
+        }
+      ],
+      "maximumActive": 1
+    },
+    "outbound": [],
+    "errors": []
+  },
+  {
+    "browser": "Firefox",
+    "version": "159.0",
+    "build": {
+      "version": "0.5.0",
+      "sourceCommit": "83e052235727053ee505b11087fe0d30ddd9195b",
+      "sourceCommitTime": "2026-11-22T21:52:41+08:00",
+      "dirty": false,
+      "sourceUrl": "https://github.com/styayur/Skimmer-Scraper/tree/83e052235727053ee505b11087fe0d30ddd9195b",
+      "toolchain": {
+        "node": "v26.7.0",
+        "platform": "win32",
+        "architecture": "x64"
+      }
+    },
+    "voices": [
+      null,
+      null,
+      null,
+      null
+    ],
+    "messages": {
+      "lead": {
+        "id": 1,
+        "agent": 1,
+        "text": "编队已就位。沿前方航线出发。",
+        "source": "local",
+        "priority": "notice",
+        "provider": {
+          "provider": "local",
+          "voiceId": "urn:moz-tts:sapi:Microsoft Huihui - Chinese (Simplified, PRC)?zh-CN",
+          "rate": 0.9900000095367432,
+          "pitch": 1,
+          "id": 1
+        },
+        "subtitle": "KITE-1 · Navigator\n编队已就位。沿前方航线出发。"
+      },
+      "guardian": {
+        "id": 3,
+        "agent": 2,
+        "text": "我是 KITE-2，Guardian。负责碰撞风险、护航和接力救援。",
+        "source": "local",
+        "priority": "reply",
+        "provider": {
+          "provider": "local",
+          "voiceId": "urn:moz-tts:sapi:Microsoft Kangkang - Chinese (Simplified, PRC)?zh-CN",
+          "rate": 0.9300000071525574,
+          "pitch": 0.8799999952316284,
+          "id": 3
+        },
+        "subtitle": "KITE-2 · Guardian\n我是 KITE-2，Guardian。负责碰撞风险、护航和接力救援。"
+      },
+      "explorer": {
+        "id": 5,
+        "agent": 3,
+        "text": "我是 KITE-3，Explorer。负责远景、浮岛和新世界。",
+        "source": "local",
+        "priority": "reply",
+        "provider": {
+          "provider": "local",
+          "voiceId": "urn:moz-tts:sapi:Microsoft Yaoyao - Chinese (Simplified, PRC)?zh-CN",
+          "rate": 1.100000023841858,
+          "pitch": 1.1200000047683716,
+          "id": 5
+        },
+        "subtitle": "KITE-3 · Explorer\n我是 KITE-3，Explorer。负责远景、浮岛和新世界。"
+      },
+      "cancelled": {
+        "id": 7,
+        "agent": 3,
+        "text": "侦察通报。当前高度 410 米，最近可贴近表面 73 米。",
+        "source": "local",
+        "priority": "reply",
+        "provider": {
+          "provider": "local",
+          "voiceId": "urn:moz-tts:sapi:Microsoft Yaoyao - Chinese (Simplified, PRC)?zh-CN",
+          "rate": 1.100000023841858,
+          "pitch": 1.1200000047683716,
+          "id": 7
+        },
+        "subtitle": "KITE-3 · Explorer\n侦察通报。当前高度 410 米，最近可贴近表面 73 米。"
+      },
+      "crossing": {
+        "id": 8,
+        "agent": 3,
+        "text": "穿越完成。已进入第 1 层天空。",
+        "source": "local",
+        "priority": "notice",
+        "provider": {
+          "provider": "local",
+          "voiceId": "urn:moz-tts:sapi:Microsoft Yaoyao - Chinese (Simplified, PRC)?zh-CN",
+          "rate": 1.100000023841858,
+          "pitch": 1.1200000047683716,
+          "id": 8
+        },
+        "subtitle": "KITE-3 · Explorer\n穿越完成。已进入第 1 层天空。"
+      }
+    },
+    "actualSystemSpeech": {
+      "records": [
+        {
+          "id": 1,
+          "text": "编队已就位。沿前方航线出发。",
+          "voice": "urn:moz-tts:sapi:Microsoft Huihui - Chinese (Simplified, PRC)?zh-CN",
+          "onDevice": true,
+          "language": "zh-CN",
+          "rate": 0.9900000095367432,
+          "pitch": 1,
+          "event": "start",
+          "elapsed": 0
+        },
+        {
+          "id": 1,
+          "text": "编队已就位。沿前方航线出发。",
+          "voice": "urn:moz-tts:sapi:Microsoft Huihui - Chinese (Simplified, PRC)?zh-CN",
+          "onDevice": true,
+          "language": "zh-CN",
+          "rate": 0.9900000095367432,
+          "pitch": 1,
+          "event": "end",
+          "elapsed": 4.821325302124023,
+          "error": null
+        },
+        {
+          "id": 2,
+          "text": "我是 KITE-2，Guardian。负责碰撞风险、护航和接力救援。",
+          "voice": "urn:moz-tts:sapi:Microsoft Kangkang - Chinese (Simplified, PRC)?zh-CN",
+          "onDevice": true,
+          "language": "zh-CN",
+          "rate": 0.9300000071525574,
+          "pitch": 0.8799999952316284,
+          "event": "start",
+          "elapsed": 0
+        },
+        {
+          "id": 2,
+          "text": "我是 KITE-2，Guardian。负责碰撞风险、护航和接力救援。",
+          "voice": "urn:moz-tts:sapi:Microsoft Kangkang - Chinese (Simplified, PRC)?zh-CN",
+          "onDevice": true,
+          "language": "zh-CN",
+          "rate": 0.9300000071525574,
+          "pitch": 0.8799999952316284,
+          "event": "end",
+          "elapsed": 6.887324333190918,
+          "error": null
+        },
+        {
+          "id": 3,
+          "text": "我是 KITE-3，Explorer。负责远景、浮岛和新世界。",
+          "voice": "urn:moz-tts:sapi:Microsoft Yaoyao - Chinese (Simplified, PRC)?zh-CN",
+          "onDevice": true,
+          "language": "zh-CN",
+          "rate": 1.100000023841858,
+          "pitch": 1.1200000047683716,
+          "event": "start",
+          "elapsed": 0
+        },
+        {
+          "id": 3,
+          "text": "我是 KITE-3，Explorer。负责远景、浮岛和新世界。",
+          "voice": "urn:moz-tts:sapi:Microsoft Yaoyao - Chinese (Simplified, PRC)?zh-CN",
+          "onDevice": true,
+          "language": "zh-CN",
+          "rate": 1.100000023841858,
+          "pitch": 1.1200000047683716,
+          "event": "end",
+          "elapsed": 6.370499610900879,
+          "error": null
+        },
+        {
+          "id": 4,
+          "text": "侦察通报。当前高度 410 米，最近可贴近表面 73 米。",
+          "voice": "urn:moz-tts:sapi:Microsoft Yaoyao - Chinese (Simplified, PRC)?zh-CN",
+          "onDevice": true,
+          "language": "zh-CN",
+          "rate": 1.100000023841858,
+          "pitch": 1.1200000047683716,
+          "event": "start",
+          "elapsed": 0
+        },
+        {
+          "event": "cancel",
+          "active": 1
+        },
+        {
+          "id": 4,
+          "text": "侦察通报。当前高度 410 米，最近可贴近表面 73 米。",
+          "voice": "urn:moz-tts:sapi:Microsoft Yaoyao - Chinese (Simplified, PRC)?zh-CN",
+          "onDevice": true,
+          "language": "zh-CN",
+          "rate": 1.100000023841858,
+          "pitch": 1.1200000047683716,
+          "event": "end",
+          "elapsed": 0.12991860508918762,
+          "error": null
+        },
+        {
+          "id": 5,
+          "text": "穿越完成。已进入第 1 层天空。",
+          "voice": "urn:moz-tts:sapi:Microsoft Yaoyao - Chinese (Simplified, PRC)?zh-CN",
+          "onDevice": true,
+          "language": "zh-CN",
+          "rate": 1.100000023841858,
+          "pitch": 1.1200000047683716,
+          "event": "start",
+          "elapsed": 0
+        },
+        {
+          "id": 5,
+          "text": "穿越完成。已进入第 1 层天空。",
+          "voice": "urn:moz-tts:sapi:Microsoft Yaoyao - Chinese (Simplified, PRC)?zh-CN",
+          "onDevice": true,
+          "language": "zh-CN",
+          "rate": 1.100000023841858,
+          "pitch": 1.1200000047683716,
+          "event": "end",
+          "elapsed": 4.313344955444336,
+          "error": null
+        }
+      ],
+      "maximumActive": 1
+    },
+    "outbound": [],
+    "errors": []
+  }
+]
