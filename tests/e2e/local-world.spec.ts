@@ -45,6 +45,14 @@ test('flies an imported arch with three companions, collides with an obstacle an
   await page.getByText('网格语义', { exact: true }).click();
   await page.locator('#local-world-mesh').selectOption({ label: 'East overhang' });
   await page.locator('#local-world-role').selectOption('OBSTACLE');
+  const collisionHelp = page.getByRole('button', { name: '碰撞分类帮助' });
+  await collisionHelp.click();
+  await expect(page.locator('#guide-motion')).toBeFocused();
+  await page.keyboard.press('Escape');
+  await expect(collisionHelp).toBeFocused();
+  await expect(form).toBeVisible();
+  await expect(form.locator('[name=y]')).toHaveValue('12');
+  await expect(page.locator('#local-world-role')).toHaveValue('OBSTACLE');
   mkdirSync(evidence, { recursive: true });
   await page.screenshot({ path: `${evidence}/world-settings.png` });
   await page.locator('#local-world-apply').click();
