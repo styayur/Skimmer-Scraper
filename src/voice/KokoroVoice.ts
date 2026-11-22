@@ -105,7 +105,7 @@ export class KokoroVoice implements VoiceProvider {
     let playback: RadioAudio | undefined;
     try {
       const result = await this.call(id => ({ type: 'generate', id, text, voice, speed: identity.rate }),
-        this.stats.backend === 'wasm' ? 6500 : 5000);
+        preview ? 25_000 : this.stats.backend === 'wasm' ? 6500 : 5000);
       signal.throwIfAborted();
       if (result.type !== 'audio') throw new Error('kokoro-inference');
       this.stats.generated++;

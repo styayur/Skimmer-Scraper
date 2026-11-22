@@ -21,6 +21,21 @@ let model: KokoroTTS | undefined;
 let backend: KokoroBackend | null = null;
 let busy = false;
 let deviceName = '';
+const voicePath = `https://huggingface.co/${KOKORO_MODEL}/resolve/${KOKORO_REVISION}/voices`;
+
+const cacheVoices = async (): Promise<void> => {
+  if (typeof caches === 'undefined') return;
+  // The pinned Kokoro package reads embeddings from this cache before using fetch.
+  const cache = await caches.open('kokoro-voices');
+  await Promise.all(Object.values(KOKORO_VOICES).map(async voice => {
+    const url = `${voicePath}/${voice}.bin`;
+    if (await cache.match(url)) return;
+    const result = await fetch(url, { signal: AbortSignal.timeout(30_000) });
+    if (!result.ok) return;
+    const bytes = await result.arrayBuffer();
+    if (bytes.byteLength === 522_240) await cache.put(url, new Response(bytes));
+  }));
+};
 
 const fail = (id: number, code: string, error?: unknown): void => {
   const detail = error instanceof Error ? error.message.slice(0, 230) : '';
@@ -65,11 +80,12 @@ const prepare = async (request: Extract<KokoroRequest, { type: 'prepare' }>): Pr
       percent: Number.isFinite(progress.progress) ? Math.min(100, Math.round(progress.progress)) : null });
   };
   try {
-    model = await KokoroTTS.from_pretrained(KOKORO_MODEL, {
+    const [loaded] = await Promise.all([KokoroTTS.from_pretrained(KOKORO_MODEL, {
       device: backend, dtype: backend === 'webgpu' ? 'q4f16' : 'q8',
-      voicePath: `https://huggingface.co/${KOKORO_MODEL}/resolve/${KOKORO_REVISION}/voices`,
+      voicePath,
       progress_callback,
-    });
+    }), cacheVoices().catch(() => { /* Kokoro can fetch an uncached voice on demand. */ })]);
+    model = loaded;
     worker.postMessage({ type: 'ready', id: request.id, backend, loadMs: performance.now() - started, device: deviceName });
   } catch (error) {
     const message = error instanceof Error ? error.message : '';
