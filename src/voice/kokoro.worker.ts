@@ -48,6 +48,11 @@ const prepare = async (request: Extract<KokoroRequest, { type: 'prepare' }>): Pr
     return;
   }
   const started = performance.now();
+  // The ONNX Runtime WebGPU provider does not support Firefox on Windows.
+  if (device.userAgent.includes('Windows NT') && device.userAgent.includes('Firefox/')) {
+    fail(request.id, 'kokoro-device');
+    return;
+  }
   let gpu: Awaited<ReturnType<WebGpu['requestAdapter']>> = null;
   try { gpu = await device.gpu?.requestAdapter({ powerPreference: 'high-performance' }) ?? null; } catch { /* Use the system fallback. */ }
   if (!gpu?.features.has('shader-f16') || gpu.info?.isFallbackAdapter) {

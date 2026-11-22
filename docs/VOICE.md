@@ -44,7 +44,9 @@ line through the end of playback.
   system speech or captions. Non-Mandarin lines use the same fallback.
   The single-threaded WASM-only experiment was slow and produced invalid
   waveform samples. Browsers without compatible WebGPU use the system or
-  caption fallback immediately.
+  caption fallback immediately. Firefox on Windows uses the fallback before
+  downloading weights because ONNX Runtime WebGPU inference is unsupported
+  there. [ONNX Runtime Web browser support](https://onnxruntime.ai/docs/get-started/with-javascript/web.html#supported-versions)
 - **DeepSeek input** sends the released recording directly to the DeepSeek
   ASR endpoint. The transcript goes through the same dialogue and validated
   flight orders as typed requests. **DeepSeek output** sends wingmate lines to
