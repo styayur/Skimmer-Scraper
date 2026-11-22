@@ -3,7 +3,8 @@ import { env, type ProgressInfo } from '@huggingface/transformers';
 import ortFactory from 'onnxruntime-web/ort-wasm-simd-threaded.asyncify.mjs?url';
 import ortWasm from 'onnxruntime-web/ort-wasm-simd-threaded.asyncify.wasm?url';
 import {
-  KOKORO_MODEL, KOKORO_REVISION, KOKORO_VOICES, type KokoroBackend, type KokoroReply, type KokoroRequest,
+  KOKORO_MODEL, KOKORO_REVISION, KOKORO_VOICES, KOKORO_VOICE_PATH, usableKokoroAudio,
+  type KokoroBackend, type KokoroReply, type KokoroRequest,
 } from './kokoroProtocol';
 
 const worker = globalThis as unknown as {
@@ -16,19 +17,17 @@ type WebGpu = {
     info?: { vendor?: string; architecture?: string; description?: string; isFallbackAdapter?: boolean };
   } | null>;
 };
-const device = navigator as Navigator & { gpu?: WebGpu; deviceMemory?: number };
+const device = navigator as Navigator & { gpu?: WebGpu };
 let model: KokoroTTS | undefined;
 let backend: KokoroBackend | null = null;
 let busy = false;
 let deviceName = '';
-const voicePath = `https://huggingface.co/${KOKORO_MODEL}/resolve/${KOKORO_REVISION}/voices`;
-
 const cacheVoices = async (): Promise<void> => {
   if (typeof caches === 'undefined') return;
   // The pinned Kokoro package reads embeddings from this cache before using fetch.
   const cache = await caches.open('kokoro-voices');
   await Promise.all(Object.values(KOKORO_VOICES).map(async voice => {
-    const url = `${voicePath}/${voice}.bin`;
+    const url = `${KOKORO_VOICE_PATH}/${voice}.bin`;
     if (await cache.match(url)) return;
     const result = await fetch(url, { signal: AbortSignal.timeout(30_000) });
     if (!result.ok) return;
@@ -49,22 +48,18 @@ const prepare = async (request: Extract<KokoroRequest, { type: 'prepare' }>): Pr
   }
   const started = performance.now();
   let gpu: Awaited<ReturnType<WebGpu['requestAdapter']>> = null;
-  if (!request.forceWasm && device.gpu) {
-    try { gpu = await device.gpu.requestAdapter({ powerPreference: 'high-performance' }); } catch { /* Try WASM. */ }
-  }
-  backend = gpu?.features.has('shader-f16') && !gpu.info?.isFallbackAdapter ? 'webgpu' : 'wasm';
-  if (backend === 'wasm' && (device.hardwareConcurrency < 4 || (device.deviceMemory ?? 4) < 4)) {
+  try { gpu = await device.gpu?.requestAdapter({ powerPreference: 'high-performance' }) ?? null; } catch { /* Use the system fallback. */ }
+  if (!gpu?.features.has('shader-f16') || gpu.info?.isFallbackAdapter) {
     fail(request.id, 'kokoro-device');
     return;
   }
-  deviceName = backend === 'webgpu'
-    ? gpu?.info?.description || [gpu?.info?.vendor, gpu?.info?.architecture].filter(Boolean).join(' ') || 'WebGPU'
-    : `single-thread WASM · ${device.hardwareConcurrency} logical cores`;
+  backend = 'webgpu';
+  deviceName = gpu.info?.description || [gpu.info?.vendor, gpu.info?.architecture].filter(Boolean).join(' ') || 'WebGPU';
   env.allowLocalModels = false;
   env.remoteHost = 'https://huggingface.co/';
   env.remotePathTemplate = `{model}/resolve/${KOKORO_REVISION}/`;
   env.useBrowserCache = typeof caches !== 'undefined';
-  env.cacheKey = 'skimmer-kokoro-zh-v1';
+  env.cacheKey = 'skimmer-kokoro-zh-mixed-v1';
   env.useWasmCache = false;
   if (env.backends.onnx.wasm) {
     env.backends.onnx.wasm.numThreads = 1;
@@ -81,8 +76,8 @@ const prepare = async (request: Extract<KokoroRequest, { type: 'prepare' }>): Pr
   };
   try {
     const [loaded] = await Promise.all([KokoroTTS.from_pretrained(KOKORO_MODEL, {
-      device: backend, dtype: backend === 'webgpu' ? 'q4f16' : 'q8',
-      voicePath,
+      device: backend, dtype: 'fp16',
+      voicePath: KOKORO_VOICE_PATH,
       progress_callback,
     }), cacheVoices().catch(() => { /* Kokoro can fetch an uncached voice on demand. */ })]);
     model = loaded;
@@ -104,7 +99,7 @@ const generate = async (request: Extract<KokoroRequest, { type: 'generate' }>): 
   try {
     const result = await model.generate(request.text, { voice: request.voice, speed: request.speed });
     const { audio, sampling_rate: sampleRate } = result;
-    if (!(audio instanceof Float32Array) || sampleRate !== 24_000 || audio.length < 2400 || audio.length > sampleRate * 18) {
+    if (!(audio instanceof Float32Array) || !usableKokoroAudio(audio, sampleRate)) {
       throw new Error('audio-format');
     }
     const samples = new Float32Array(audio);

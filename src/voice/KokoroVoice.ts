@@ -15,7 +15,7 @@ interface Call {
   reject(error: Error): void;
 }
 class KokoroError extends Error {
-  public constructor(code: string, public readonly backend: KokoroBackend | null, public readonly detail: string) { super(code); }
+  public constructor(code: string, public readonly detail: string) { super(code); }
 }
 
 /** Created through a dynamic import. Workers and model weights are opened only for opted-in requests. */
@@ -27,7 +27,6 @@ export class KokoroVoice implements VoiceProvider {
   private idleTimer = 0;
   private serial = 0;
   private generation = 0;
-  private forceWasm = false;
   private retryAt = 0;
   private stats = {
     phase: 'idle' as 'idle' | 'loading' | 'ready' | 'generating' | 'playing' | 'error',
@@ -61,10 +60,10 @@ export class KokoroVoice implements VoiceProvider {
     const task = this.load(generation).catch(error => {
       if (generation === this.generation) {
         this.stopWorker();
-        this.retryAt = performance.now() + 30_000;
         this.stats.phase = 'error';
         this.stats.error = error instanceof Error ? error.message : 'kokoro-backend';
         this.stats.detail = error instanceof KokoroError ? error.detail : '';
+        this.retryAt = this.stats.error === 'kokoro-device' ? Infinity : performance.now() + 30_000;
       }
       throw error;
     }).finally(() => { if (this.loading === task) this.loading = null; });
@@ -105,7 +104,7 @@ export class KokoroVoice implements VoiceProvider {
     let playback: RadioAudio | undefined;
     try {
       const result = await this.call(id => ({ type: 'generate', id, text, voice, speed: identity.rate }),
-        preview ? 25_000 : this.stats.backend === 'wasm' ? 6500 : 5000);
+        preview ? 25_000 : 9000);
       signal.throwIfAborted();
       if (result.type !== 'audio') throw new Error('kokoro-inference');
       this.stats.generated++;
@@ -124,10 +123,8 @@ export class KokoroVoice implements VoiceProvider {
         this.stats.error = code;
         this.stats.detail = error instanceof KokoroError ? error.detail : '';
         if (code === 'kokoro-inference' || code === 'kokoro-slow' || code === 'kokoro-backend') {
-          const useWasmNext = this.stats.backend === 'webgpu';
-          this.forceWasm ||= useWasmNext;
           this.stopWorker();
-          if (!useWasmNext) this.retryAt = performance.now() + 45_000;
+          this.retryAt = performance.now() + 45_000;
           this.stats.phase = 'error';
         }
       }
@@ -149,16 +146,7 @@ export class KokoroVoice implements VoiceProvider {
   }
 
   private async load(generation: number): Promise<void> {
-    let result: KokoroReply;
-    try {
-      result = await this.call(id => ({ type: 'prepare', id, forceWasm: this.forceWasm }), loadTimeoutMs);
-    } catch (error) {
-      if (generation !== this.generation || !(error instanceof KokoroError)
-          || error.message !== 'kokoro-backend' || error.backend !== 'webgpu') throw error;
-      this.forceWasm = true;
-      this.stopWorker();
-      result = await this.call(id => ({ type: 'prepare', id, forceWasm: true }), loadTimeoutMs);
-    }
+    const result = await this.call(id => ({ type: 'prepare', id }), loadTimeoutMs);
     if (generation !== this.generation || result.type !== 'ready') throw new Error('kokoro-backend');
     this.stats = { ...this.stats, phase: 'ready', backend: result.backend, device: result.device,
       percent: 100, loads: this.stats.loads + 1, loadMs: result.loadMs, error: null };
@@ -196,12 +184,12 @@ export class KokoroVoice implements VoiceProvider {
       this.pending = null;
       window.clearTimeout(call.timer);
       window.clearTimeout(call.stallTimer);
-      if (data.type === 'error') call.reject(new KokoroError(data.code, data.backend, data.detail));
+      if (data.type === 'error') call.reject(new KokoroError(data.code, data.detail));
       else call.resolve(data);
     });
     worker.addEventListener('error', event => {
       if (worker !== this.worker) return;
-      const error = new KokoroError('kokoro-backend', this.stats.backend, event.message.slice(0, 230));
+      const error = new KokoroError('kokoro-backend', event.message.slice(0, 230));
       this.stopWorker(error);
     });
     return worker;

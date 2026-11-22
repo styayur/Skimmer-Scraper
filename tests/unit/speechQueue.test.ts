@@ -3,7 +3,7 @@ import type { RadioLine, RadioPriority } from '../../src/ai/radioDialogue';
 import { SpeechQueue } from '../../src/voice/SpeechQueue';
 import { resolveVoiceIdentity } from '../../src/voice/voiceContracts';
 import { loadVoicePreferences, saveVoicePreferences } from '../../src/voice/voicePreferences';
-import { KOKORO_VOICES, mandarinSpeechText } from '../../src/voice/kokoroProtocol';
+import { KOKORO_VOICES, mandarinSpeechText, usableKokoroAudio } from '../../src/voice/kokoroProtocol';
 
 const line = (id: number, priority: RadioPriority = 'notice', text = `call ${id}`, agent = 1): RadioLine =>
   ({ id, agent, text, source: 'local', priority });
@@ -91,4 +91,17 @@ it('keeps Kokoro Mandarin-only with bounded text and a voice per speaker', () =>
   expect(() => mandarinSpeechText('航向 Oregon。', 'zh-CN')).toThrow('kokoro-language');
   expect(() => mandarinSpeechText('Clear to proceed.', 'en-US')).toThrow('kokoro-language');
   expect(() => mandarinSpeechText('飞'.repeat(93), 'zh-CN')).toThrow('kokoro-sentence-limit');
+});
+
+it('rejects invalid model waveforms before claiming speech playback', () => {
+  const silence = new Float32Array(24_000);
+  const audio = new Float32Array(silence);
+  audio[23] = 0.04;
+  expect(usableKokoroAudio(silence, 24_000)).toBe(false);
+  expect(usableKokoroAudio(audio, 16_000)).toBe(false);
+  expect(usableKokoroAudio(audio, 24_000)).toBe(true);
+  audio[12_300] = Number.NaN;
+  expect(usableKokoroAudio(audio, 24_000)).toBe(false);
+  audio[12_300] = Infinity;
+  expect(usableKokoroAudio(audio, 24_000)).toBe(false);
 });

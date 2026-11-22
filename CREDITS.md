@@ -59,17 +59,19 @@ files were used locally for verification. [Khronos glTF Sample Assets](https://g
 
 Engine and wind sounds are synthesized locally from original project code.
 Optional DeepSeek speech uses the provider's HTTPS endpoints. Release testing
-used a locally generated Windows speech fixture for an English scout command.
+used locally generated Windows speech fixtures for scout commands.
 The distributable contains no recorded voice assets. [Voice radio](docs/VOICE.md)
 
 Local high-quality Mandarin speech uses `@uzen/kokoro-js` (Apache-2.0),
 Hugging Face Transformers.js (Apache-2.0), ONNX Runtime Web (MIT) and
-`pinyin-pro` (MIT). Opt-in model and voice downloads come from the
-Apache-2.0 ONNX conversion of hexgrad's Kokoro-82M-v1.1-zh. Its model card
+`pinyin-pro` (MIT). The opt-in downloads use hsc666's mixed-precision
+ONNX weights and onnx-community's voice embeddings. Both repositories
+declare Apache-2.0 and derive from hexgrad's Kokoro-82M-v1.1-zh. Its card
 credits LongMaoData for the permissively supplied Mandarin training data.
 Model weights and voice embeddings are downloaded directly by the browser.
 [Kokoro JS](https://github.com/uzen-zone/kokoro-js/tree/bbc3b5da19965257db0c8e6c9fb9381175b165a7) ·
-[ONNX model and voices](https://huggingface.co/onnx-community/Kokoro-82M-v1.1-zh-ONNX/tree/6cc0f0d2ebe369a68b0df87c2b65c1af8c0ac3e3) ·
+[Mixed-precision weights](https://huggingface.co/hsc666/Kokoro-82M-v1.1-zh-ONNX-webgpu/tree/cf37b65bbce28544e5cecc6ab826b05548c590d8) ·
+[ONNX voice embeddings](https://huggingface.co/onnx-community/Kokoro-82M-v1.1-zh-ONNX/tree/6cc0f0d2ebe369a68b0df87c2b65c1af8c0ac3e3/voices) ·
 [Original model](https://huggingface.co/hexgrad/Kokoro-82M-v1.1-zh/tree/01e7505bd6a7a2ac4975463114c3a7650a9f7218)
 
 The v0.3 model planner adapter, validator, Trust/Relay rules and relay line effect

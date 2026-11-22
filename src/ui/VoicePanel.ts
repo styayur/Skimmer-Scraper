@@ -7,7 +7,7 @@ import type { VoiceInput, VoiceOutput, VoiceOverrides } from '../voice/voiceCont
 const inputModes = '<option value="off">关闭</option><option value="local">本机识别</option><option value="deepseek">DeepSeek</option>';
 const kokoroErrors: Record<string, string> = {
   'kokoro-download': '模型下载失败，请检查网络后重试。',
-  'kokoro-device': '当前设备资源不足。',
+  'kokoro-device': '当前浏览器或显卡缺少兼容的 WebGPU。',
   'kokoro-backend': '当前浏览器无法运行本地模型。',
   'kokoro-inference': '本地模型合成失败。',
   'kokoro-slow': '本地模型合成超时。',
@@ -160,7 +160,7 @@ export const bindVoicePanel = (voice: VoiceRadio, action: (action: GameAction) =
       : isPreparing ? '正在准备试听…' : isPlaying ? '正在试听…' : preview.phase === 'completed' ? '试听完成。'
       : preview.phase === 'cancelled' ? '已取消试听。' : '';
     if (previewStatus.textContent !== previewMessage) previewStatus.textContent = previewMessage;
-    const backend = kokoro?.backend === 'webgpu' ? 'WebGPU' : kokoro?.backend === 'wasm' ? 'WASM' : '';
+    const backend = kokoro?.backend === 'webgpu' ? 'WebGPU' : '';
     const pending = kokoro?.phase === 'loading' ? `正在准备中文模型${backend ? ` · ${backend}` : ''}${
       kokoro.percent !== null ? ` · ${kokoro.percent}%` : ''}…` : '';
     const engineError = kokoro?.phase === 'error' ? kokoro.error : null;

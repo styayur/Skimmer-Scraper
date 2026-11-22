@@ -18,11 +18,11 @@ const setup = async (page: Page, unavailable = false) => {
             workers.push(data.type === 'prepare' ? 'prepare' : data.voice!);
             setTimeout(() => {
               if (closed) return;
-              const base = { id: data.id, backend: 'wasm' };
+              const base = { id: data.id, backend: 'webgpu' };
               if (data.type === 'prepare') {
                 events.dispatchEvent(new MessageEvent('message', { data: unavailable
                   ? { ...base, type: 'error', code: 'kokoro-download', detail: 'Fixture: download unavailable' }
-                  : { ...base, type: 'ready', loadMs: 20, device: 'Fixture WASM' } }));
+                  : { ...base, type: 'ready', loadMs: 20, device: 'Fixture WebGPU' } }));
               } else {
                 const length = data.voice === 'zf_006' ? 96_000 : 24_000;
                 const samples = Float32Array.from({ length }, (_, i) => Math.sin(i / 15) * 0.08);

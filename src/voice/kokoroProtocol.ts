@@ -1,13 +1,14 @@
 import type { RadioLanguage } from '../ai/radioDialogue';
 
-export const KOKORO_MODEL = 'onnx-community/Kokoro-82M-v1.1-zh-ONNX';
-export const KOKORO_REVISION = '6cc0f0d2ebe369a68b0df87c2b65c1af8c0ac3e3';
+export const KOKORO_MODEL = 'hsc666/Kokoro-82M-v1.1-zh-ONNX-webgpu';
+export const KOKORO_REVISION = 'cf37b65bbce28544e5cecc6ab826b05548c590d8';
+export const KOKORO_VOICE_PATH = 'https://huggingface.co/onnx-community/Kokoro-82M-v1.1-zh-ONNX/resolve/6cc0f0d2ebe369a68b0df87c2b65c1af8c0ac3e3/voices';
 export const KOKORO_VOICES = { 1: 'zf_001', 2: 'zm_010', 3: 'zf_006' } as const;
 export type KokoroVoiceId = typeof KOKORO_VOICES[keyof typeof KOKORO_VOICES];
-export type KokoroBackend = 'webgpu' | 'wasm';
+export type KokoroBackend = 'webgpu';
 
 export type KokoroRequest =
-  | { type: 'prepare'; id: number; forceWasm: boolean }
+  | { type: 'prepare'; id: number }
   | { type: 'generate'; id: number; text: string; voice: KokoroVoiceId; speed: number };
 
 export type KokoroReply =
@@ -25,3 +26,7 @@ export const mandarinSpeechText = (text: string, language: RadioLanguage): strin
   if (Array.from(chinese).length > 92) throw new Error('kokoro-sentence-limit');
   return chinese;
 };
+
+export const usableKokoroAudio = (audio: Float32Array, sampleRate: number): boolean =>
+  sampleRate === 24_000 && audio.length >= 2400 && audio.length <= sampleRate * 18
+  && audio.every(Number.isFinite) && audio.some(sample => Math.abs(sample) > 0.001);
