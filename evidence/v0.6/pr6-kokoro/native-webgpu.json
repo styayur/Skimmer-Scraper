@@ -1,0 +1,529 @@
+{
+  "recording": {
+    "source": {
+      "version": "0.5.0",
+      "sourceCommit": "df7b41715fba24170765093794aaa02775096eb5",
+      "sourceCommitTime": "2026-11-23T00:12:32+08:00",
+      "dirty": false,
+      "sourceUrl": "https://github.com/styayur/Skimmer-Scraper/tree/df7b41715fba24170765093794aaa02775096eb5",
+      "toolchain": {
+        "node": "v26.7.0",
+        "platform": "win32",
+        "architecture": "x64"
+      }
+    },
+    "mode": "chrome",
+    "workload": "all",
+    "version": "157.0.8103.79",
+    "gpu": {
+      "webgpu": {
+        "vendor": "amd",
+        "architecture": "rdna-3",
+        "device": "",
+        "description": "",
+        "isFallbackAdapter": false,
+        "f16": true
+      },
+      "webgl": "ANGLE (AMD, AMD Radeon 780M Graphics (0x00001900) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "cores": 16
+    },
+    "loaded": {
+      "phase": "ready",
+      "backend": "webgpu",
+      "device": "amd rdna-3",
+      "percent": 100,
+      "loads": 1,
+      "releases": 0,
+      "generated": 0,
+      "completed": 0,
+      "loadMs": 134165.79999999702,
+      "inferenceMs": null,
+      "audioSeconds": null,
+      "lastVoice": null,
+      "error": null,
+      "detail": "",
+      "resident": true,
+      "idleMs": 45000
+    },
+    "previews": [
+      {
+        "role": 1,
+        "preview": {
+          "phase": "completed",
+          "error": null,
+          "speech": {
+            "provider": "high-quality",
+            "voiceId": "zf_001",
+            "rate": 0.99
+          }
+        },
+        "model": {
+          "phase": "ready",
+          "backend": "webgpu",
+          "device": "amd rdna-3",
+          "percent": 100,
+          "loads": 1,
+          "releases": 0,
+          "generated": 1,
+          "completed": 1,
+          "loadMs": 134165.79999999702,
+          "inferenceMs": 5622.5,
+          "audioSeconds": 4.1,
+          "lastVoice": "zf_001",
+          "error": null,
+          "detail": "",
+          "resident": true,
+          "idleMs": 45000
+        },
+        "actual": {
+          "length": 98400,
+          "rate": 24000,
+          "peak": 0.395263671875,
+          "rms": 0.0595682330408643,
+          "startsAt": 141.05066666666667,
+          "ended": true,
+          "stopped": false,
+          "endsAt": 145.18133333333333
+        }
+      },
+      {
+        "role": 2,
+        "preview": {
+          "phase": "completed",
+          "error": null,
+          "speech": {
+            "provider": "high-quality",
+            "voiceId": "zm_010",
+            "rate": 0.93
+          }
+        },
+        "model": {
+          "phase": "ready",
+          "backend": "webgpu",
+          "device": "amd rdna-3",
+          "percent": 100,
+          "loads": 1,
+          "releases": 0,
+          "generated": 2,
+          "completed": 2,
+          "loadMs": 134165.79999999702,
+          "inferenceMs": 1394.0999999940395,
+          "audioSeconds": 4.325,
+          "lastVoice": "zm_010",
+          "error": null,
+          "detail": "",
+          "resident": true,
+          "idleMs": 45000
+        },
+        "actual": {
+          "length": 103800,
+          "rate": 24000,
+          "peak": 0.58349609375,
+          "rms": 0.05579529254726757,
+          "startsAt": 146.66133333333335,
+          "ended": true,
+          "stopped": false,
+          "endsAt": 151.02133333333333
+        }
+      },
+      {
+        "role": 3,
+        "preview": {
+          "phase": "completed",
+          "error": null,
+          "speech": {
+            "provider": "high-quality",
+            "voiceId": "zf_006",
+            "rate": 1.1
+          }
+        },
+        "model": {
+          "phase": "ready",
+          "backend": "webgpu",
+          "device": "amd rdna-3",
+          "percent": 100,
+          "loads": 1,
+          "releases": 0,
+          "generated": 3,
+          "completed": 3,
+          "loadMs": 134165.79999999702,
+          "inferenceMs": 1133.0999999940395,
+          "audioSeconds": 4.225,
+          "lastVoice": "zf_006",
+          "error": null,
+          "detail": "",
+          "resident": true,
+          "idleMs": 45000
+        },
+        "actual": {
+          "length": 101400,
+          "rate": 24000,
+          "peak": 0.451171875,
+          "rms": 0.0634132177519569,
+          "startsAt": 152.312,
+          "ended": true,
+          "stopped": false,
+          "endsAt": 156.57866666666666
+        }
+      }
+    ],
+    "flight": [
+      {
+        "agent": 1,
+        "voice": {
+          "provider": "high-quality",
+          "voiceId": "zf_001",
+          "rate": 0.99,
+          "id": 3,
+          "agent": 1
+        },
+        "model": {
+          "phase": "ready",
+          "backend": "webgpu",
+          "device": "amd rdna-3",
+          "percent": 100,
+          "loads": 2,
+          "releases": 1,
+          "generated": 6,
+          "completed": 5,
+          "loadMs": 3465,
+          "inferenceMs": 1387.5,
+          "audioSeconds": 5.825,
+          "lastVoice": "zf_001",
+          "error": null,
+          "detail": "",
+          "resident": true,
+          "idleMs": 45000
+        },
+        "companions": 3,
+        "dynamics": 8,
+        "buffered": false,
+        "runTime": 13.799999999999857,
+        "render": {
+          "calls": 466,
+          "triangles": 347410,
+          "points": 560,
+          "lines": 0,
+          "fps": 120.02342376128584,
+          "geometries": 458,
+          "textures": 26,
+          "inversionAngle": 0,
+          "mirrorSky": {
+            "seed": 334458,
+            "triangles": 2640,
+            "cameraOffset": 0,
+            "ground": {
+              "height": 650,
+              "radius": 1530
+            }
+          }
+        }
+      },
+      {
+        "agent": 2,
+        "voice": {
+          "provider": "high-quality",
+          "voiceId": "zm_010",
+          "rate": 0.93,
+          "id": 5,
+          "agent": 2
+        },
+        "model": {
+          "phase": "ready",
+          "backend": "webgpu",
+          "device": "amd rdna-3",
+          "percent": 100,
+          "loads": 2,
+          "releases": 1,
+          "generated": 7,
+          "completed": 6,
+          "loadMs": 3465,
+          "inferenceMs": 1652.7999999970198,
+          "audioSeconds": 6.35,
+          "lastVoice": "zm_010",
+          "error": null,
+          "detail": "",
+          "resident": true,
+          "idleMs": 45000
+        },
+        "companions": 3,
+        "dynamics": 8,
+        "buffered": false,
+        "runTime": 21.949999999999395,
+        "render": {
+          "calls": 482,
+          "triangles": 379448,
+          "points": 380,
+          "lines": 0,
+          "fps": 105.78640754964447,
+          "geometries": 516,
+          "textures": 26,
+          "inversionAngle": 0,
+          "mirrorSky": {
+            "seed": 334458,
+            "triangles": 2640,
+            "cameraOffset": 0,
+            "ground": {
+              "height": 650,
+              "radius": 1530
+            }
+          }
+        }
+      },
+      {
+        "agent": 3,
+        "voice": {
+          "provider": "high-quality",
+          "voiceId": "zf_006",
+          "rate": 1.1,
+          "id": 7,
+          "agent": 3
+        },
+        "model": {
+          "phase": "ready",
+          "backend": "webgpu",
+          "device": "amd rdna-3",
+          "percent": 100,
+          "loads": 2,
+          "releases": 1,
+          "generated": 8,
+          "completed": 7,
+          "loadMs": 3465,
+          "inferenceMs": 1405.9000000059605,
+          "audioSeconds": 5.7,
+          "lastVoice": "zf_006",
+          "error": null,
+          "detail": "",
+          "resident": true,
+          "idleMs": 45000
+        },
+        "companions": 3,
+        "dynamics": 8,
+        "buffered": false,
+        "runTime": 29.19166666666565,
+        "render": {
+          "calls": 345,
+          "triangles": 275628,
+          "points": 380,
+          "lines": 0,
+          "fps": 120.0009619708842,
+          "geometries": 461,
+          "textures": 26,
+          "inversionAngle": 0,
+          "mirrorSky": {
+            "seed": 334458,
+            "triangles": 2640,
+            "cameraOffset": 0,
+            "ground": {
+              "height": 650,
+              "radius": 1530
+            }
+          }
+        }
+      }
+    ],
+    "errors": [],
+    "performance": {
+      "flight-default": {
+        "samples": 649,
+        "meanFps": 107.12752962926287,
+        "p50": 8.300000000000182,
+        "p95": 16.5,
+        "p99": 33.69999999999982,
+        "max": 50
+      },
+      "flight-with-model": {
+        "samples": 2356,
+        "meanFps": 100.93739824859043,
+        "p50": 8.300000000017462,
+        "p95": 16.79999999998836,
+        "p99": 41.70000000001164,
+        "max": 191.89999999999418
+      },
+      "flight-inference": {
+        "samples": 276,
+        "meanFps": 61.794734013971066,
+        "p50": 8.39999999999418,
+        "p95": 50,
+        "p99": 150.10000000000582,
+        "max": 191.89999999999418
+      }
+    },
+    "reopened": {
+      "phase": "ready",
+      "backend": "webgpu",
+      "device": "amd rdna-3",
+      "percent": 100,
+      "loads": 2,
+      "releases": 1,
+      "generated": 4,
+      "completed": 4,
+      "loadMs": 3465,
+      "inferenceMs": 3104.6000000089407,
+      "audioSeconds": 4.225,
+      "lastVoice": "zf_006",
+      "error": null,
+      "detail": "",
+      "resident": true,
+      "idleMs": 45000
+    },
+    "cache": [
+      {
+        "name": "skimmer-kokoro-zh-mixed-v1",
+        "urls": [
+          "https://huggingface.co/hsc666/Kokoro-82M-v1.1-zh-ONNX-webgpu/resolve/cf37b65bbce28544e5cecc6ab826b05548c590d8/onnx/model_fp16.onnx",
+          "https://huggingface.co/hsc666/Kokoro-82M-v1.1-zh-ONNX-webgpu/resolve/cf37b65bbce28544e5cecc6ab826b05548c590d8/config.json",
+          "https://huggingface.co/hsc666/Kokoro-82M-v1.1-zh-ONNX-webgpu/resolve/cf37b65bbce28544e5cecc6ab826b05548c590d8/tokenizer_config.json",
+          "https://huggingface.co/hsc666/Kokoro-82M-v1.1-zh-ONNX-webgpu/resolve/cf37b65bbce28544e5cecc6ab826b05548c590d8/tokenizer.json"
+        ]
+      },
+      {
+        "name": "kokoro-voices",
+        "urls": [
+          "https://huggingface.co/onnx-community/Kokoro-82M-v1.1-zh-ONNX/resolve/6cc0f0d2ebe369a68b0df87c2b65c1af8c0ac3e3/voices/zf_001.bin",
+          "https://huggingface.co/onnx-community/Kokoro-82M-v1.1-zh-ONNX/resolve/6cc0f0d2ebe369a68b0df87c2b65c1af8c0ac3e3/voices/zf_006.bin",
+          "https://huggingface.co/onnx-community/Kokoro-82M-v1.1-zh-ONNX/resolve/6cc0f0d2ebe369a68b0df87c2b65c1af8c0ac3e3/voices/zm_010.bin"
+        ]
+      }
+    ],
+    "cancelled": {
+      "phase": "cancelled",
+      "length": 101400,
+      "rate": 24000,
+      "peak": 0.467041015625,
+      "rms": 0.06346313415700647,
+      "startsAt": 168.93066666666667,
+      "ended": false,
+      "stopped": true
+    },
+    "idle": {
+      "phase": "idle",
+      "backend": "webgpu",
+      "device": "amd rdna-3",
+      "percent": null,
+      "loads": 2,
+      "releases": 2,
+      "generated": 8,
+      "completed": 7,
+      "loadMs": 3465,
+      "inferenceMs": 1405.9000000059605,
+      "audioSeconds": 5.7,
+      "lastVoice": "zf_006",
+      "error": null,
+      "detail": "",
+      "resident": false,
+      "idleMs": 45000
+    }
+  },
+  "network": {
+    "defaultModelRequests": 0,
+    "remoteRangeResponses": 143,
+    "remoteDownloadsDuringReopen": 0,
+    "phaseSamples": [
+      {
+        "elapsedMs": 5024,
+        "percent": 18
+      },
+      {
+        "elapsedMs": 10037,
+        "percent": 30
+      },
+      {
+        "elapsedMs": 15038,
+        "percent": 36
+      },
+      {
+        "elapsedMs": 20049,
+        "percent": 40
+      },
+      {
+        "elapsedMs": 25050,
+        "percent": 43
+      },
+      {
+        "elapsedMs": 30049,
+        "percent": 46
+      },
+      {
+        "elapsedMs": 35049,
+        "percent": 49
+      },
+      {
+        "elapsedMs": 40057,
+        "percent": 50
+      },
+      {
+        "elapsedMs": 45070,
+        "percent": 53
+      },
+      {
+        "elapsedMs": 50077,
+        "percent": 56
+      },
+      {
+        "elapsedMs": 55091,
+        "percent": 60
+      },
+      {
+        "elapsedMs": 60076,
+        "percent": 63
+      },
+      {
+        "elapsedMs": 65089,
+        "percent": 67
+      },
+      {
+        "elapsedMs": 70105,
+        "percent": 70
+      },
+      {
+        "elapsedMs": 75113,
+        "percent": 72
+      },
+      {
+        "elapsedMs": 80116,
+        "percent": 74
+      },
+      {
+        "elapsedMs": 85127,
+        "percent": 76
+      },
+      {
+        "elapsedMs": 90128,
+        "percent": 78
+      },
+      {
+        "elapsedMs": 95132,
+        "percent": 81
+      },
+      {
+        "elapsedMs": 100143,
+        "percent": 83
+      },
+      {
+        "elapsedMs": 105146,
+        "percent": 86
+      },
+      {
+        "elapsedMs": 110145,
+        "percent": 89
+      },
+      {
+        "elapsedMs": 115161,
+        "percent": 92
+      },
+      {
+        "elapsedMs": 120167,
+        "percent": 96
+      },
+      {
+        "elapsedMs": 125169,
+        "percent": 98
+      },
+      {
+        "elapsedMs": 130166,
+        "percent": 100
+      }
+    ]
+  }
+}

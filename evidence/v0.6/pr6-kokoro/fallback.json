@@ -1,0 +1,128 @@
+{
+  "status": "passed",
+  "contexts": [
+    {
+      "code": "kokoro-device",
+      "fault": "No WebGPU on the real model Worker navigator",
+      "build": {
+        "version": "0.5.0",
+        "sourceCommit": "c6d75f81fc30f20044ea72a84dfa2121768960e2",
+        "sourceCommitTime": "2026-11-23T00:06:45+08:00",
+        "dirty": false,
+        "sourceUrl": "https://github.com/styayur/Skimmer-Scraper/tree/c6d75f81fc30f20044ea72a84dfa2121768960e2",
+        "toolchain": {
+          "node": "v26.7.0",
+          "platform": "win32",
+          "architecture": "x64"
+        }
+      },
+      "gpuFailure": {
+        "phase": "error",
+        "backend": null,
+        "device": "",
+        "percent": null,
+        "loads": 0,
+        "releases": 1,
+        "generated": 0,
+        "completed": 0,
+        "loadMs": null,
+        "inferenceMs": null,
+        "audioSeconds": null,
+        "lastVoice": null,
+        "error": "kokoro-device",
+        "detail": "",
+        "resident": false,
+        "idleMs": 45000
+      },
+      "requests": [],
+      "completedSystemSpeech": {
+        "provider": "local",
+        "voiceId": "Microsoft Kangkang - Chinese (Simplified, PRC)",
+        "rate": 0.9300000071525574,
+        "pitch": 0.8799999952316284,
+        "id": 4,
+        "agent": 2
+      },
+      "flight": {
+        "mode": "running",
+        "companions": 3,
+        "runtime": 8.283333333333504
+      },
+      "errors": []
+    },
+    {
+      "code": "kokoro-download",
+      "fault": "Browser network interruption on Hugging Face requests",
+      "build": {
+        "version": "0.5.0",
+        "sourceCommit": "c6d75f81fc30f20044ea72a84dfa2121768960e2",
+        "sourceCommitTime": "2026-11-23T00:06:45+08:00",
+        "dirty": false,
+        "sourceUrl": "https://github.com/styayur/Skimmer-Scraper/tree/c6d75f81fc30f20044ea72a84dfa2121768960e2",
+        "toolchain": {
+          "node": "v26.7.0",
+          "platform": "win32",
+          "architecture": "x64"
+        }
+      },
+      "gpuFailure": {
+        "phase": "error",
+        "backend": "webgpu",
+        "device": "",
+        "percent": null,
+        "loads": 0,
+        "releases": 1,
+        "generated": 0,
+        "completed": 0,
+        "loadMs": null,
+        "inferenceMs": null,
+        "audioSeconds": null,
+        "lastVoice": null,
+        "error": "kokoro-download",
+        "detail": "Kokoro download: Failed to fetch",
+        "resident": false,
+        "idleMs": 45000
+      },
+      "requests": [
+        {
+          "method": "GET",
+          "path": "https://huggingface.co/onnx-community/Kokoro-82M-v1.1-zh-ONNX/resolve/6cc0f0d2ebe369a68b0df87c2b65c1af8c0ac3e3/voices/zf_001.bin"
+        },
+        {
+          "method": "GET",
+          "path": "https://huggingface.co/onnx-community/Kokoro-82M-v1.1-zh-ONNX/resolve/6cc0f0d2ebe369a68b0df87c2b65c1af8c0ac3e3/voices/zm_010.bin"
+        },
+        {
+          "method": "GET",
+          "path": "https://huggingface.co/onnx-community/Kokoro-82M-v1.1-zh-ONNX/resolve/6cc0f0d2ebe369a68b0df87c2b65c1af8c0ac3e3/voices/zf_006.bin"
+        },
+        {
+          "method": "GET",
+          "path": "https://huggingface.co/hsc666/Kokoro-82M-v1.1-zh-ONNX-webgpu/resolve/cf37b65bbce28544e5cecc6ab826b05548c590d8/onnx/model_fp16.onnx"
+        },
+        {
+          "method": "GET",
+          "path": "https://huggingface.co/hsc666/Kokoro-82M-v1.1-zh-ONNX-webgpu/resolve/cf37b65bbce28544e5cecc6ab826b05548c590d8/onnx/model_fp16.onnx"
+        },
+        {
+          "method": "GET",
+          "path": "https://huggingface.co/hsc666/Kokoro-82M-v1.1-zh-ONNX-webgpu/resolve/cf37b65bbce28544e5cecc6ab826b05548c590d8/onnx/model_fp16.onnx"
+        }
+      ],
+      "completedSystemSpeech": {
+        "provider": "local",
+        "voiceId": "Microsoft Kangkang - Chinese (Simplified, PRC)",
+        "rate": 0.9300000071525574,
+        "pitch": 0.8799999952316284,
+        "id": 4,
+        "agent": 2
+      },
+      "flight": {
+        "mode": "running",
+        "companions": 3,
+        "runtime": 8.308333333333502
+      },
+      "errors": []
+    }
+  ]
+}

@@ -109,7 +109,7 @@ export class SystemSpeech implements VoiceProvider {
       utterance.lang = voice.lang;
       utterance.rate = identity.rate;
       utterance.pitch = identity.pitch;
-      utterance.volume = 0.83;
+      utterance.volume = identity.volume;
       let started = false;
       const clear = () => {
         window.clearTimeout(timer);

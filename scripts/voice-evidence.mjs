@@ -9,7 +9,7 @@ const physical = process.env.SKIMMER_REAL_MIC === '1';
 const wav = process.env.SKIMMER_VOICE_WAV;
 if (!physical && !wav) throw new Error('Provide a spoken test fixture in SKIMMER_VOICE_WAV, or explicitly use SKIMMER_REAL_MIC=1.');
 const base = process.env.SKIMMER_URL ?? 'http://127.0.0.1:4178/?autostart=1&seed=334458&gen=3';
-const output = 'evidence/v0.5/pr8-voice';
+const output = process.env.SKIMMER_VOICE_EVIDENCE_DIR ?? 'evidence/v0.5/pr8-voice';
 const basename = physical ? 'hardware-microphone' : 'deepseek-voice';
 const proxy = process.env.HTTPS_PROXY ? new URL(process.env.HTTPS_PROXY) : null;
 const browser = await chromium.launch({ channel: 'chrome', headless: false,

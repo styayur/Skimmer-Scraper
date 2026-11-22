@@ -26,3 +26,21 @@ The v0.3 candidate static build now emits the full LICENSE, CREDITS and all
 licenses/ notices/inventory, and pins its source link to the exact build commit.
 Both project license texts and runtime/font notices are verified through HTTP
 by the distribution browser test. No reference-game code or assets were copied.
+
+## v0.6 browser voice
+
+Kokoro JS, Transformers.js and the downloadable ONNX weights and Mandarin
+embeddings carry Apache-2.0. ONNX Runtime Web, its common JavaScript bindings,
+`pinyin-pro` and Hugging Face's Jinja implementation carry MIT. The
+published model and converted voice files are pinned by revision. The
+application includes the browser inference runtime with its upstream notices.
+The program's English fallback uses OS speech. The build aliases Kokoro's
+optional English phonemizer to the project's Mandarin-only boundary, so the
+npm-installed GPL eSpeak component and its WebAssembly are absent from the
+distributed game. The Node inference backend and image tooling remain
+lockfile dependencies of Transformers.js and are excluded from the static build.
+
+The audio queue, interruption and idle release design drew on Siny
+(`a31619ba641e64b9d9ff572257e4ca52f66e91f6`). The runtime implementation is
+original browser TypeScript and ships no Siny code, native executables or
+model files. The project retains the previous MIT notice and AGPL-3.0-only.

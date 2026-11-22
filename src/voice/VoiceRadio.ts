@@ -2,6 +2,7 @@ import type { ModelClient } from '../ai/modelClient';
 import { radioLanguageOf, radioText, type RadioLanguage, type RadioLine } from '../ai/radioDialogue';
 import { openLocalSpeech, SystemSpeech } from './browserSpeech';
 import { DeepSeekVoice, VOICE_LIMITS, type SpeechStreamStats } from './deepSeekVoice';
+import type { KokoroVoice } from './KokoroVoice';
 import { openMicrophone } from './microphone';
 import { RadioAudio } from './playback';
 import { SpeechQueue } from './SpeechQueue';
@@ -31,7 +32,7 @@ interface Hooks {
 const failure = (error: unknown): string => {
   if (error instanceof DOMException && (error.name === 'NotAllowedError' || error.name === 'SecurityError')) return 'mic-denied';
   if (error instanceof DOMException && (error.name === 'NotFoundError' || error.name === 'NotReadableError' || error.name === 'NotSupportedError')) return 'mic-unavailable';
-  if (error instanceof Error && /^(?:http-\d{3}|mic-[a-z-]+|local-[a-z-]+|voice-[a-z-]+|asr-budget|tts-budget|playback-blocked|audio-format|empty-asr|dialogue-unavailable)$/.test(error.message)) return error.message;
+  if (error instanceof Error && /^(?:http-\d{3}|mic-[a-z-]+|local-[a-z-]+|voice-[a-z-]+|kokoro-[a-z-]+|asr-budget|tts-budget|playback-blocked|audio-format|empty-asr|dialogue-unavailable)$/.test(error.message)) return error.message;
   return 'voice-request';
 };
 const messages: Record<string, string> = {
@@ -51,13 +52,19 @@ const messages: Record<string, string> = {
 export class VoiceRadio {
   private settings: VoicePreferences;
   private readonly deepSeek: DeepSeekVoice;
-  private readonly providers: Partial<Record<SpeakingProvider, VoiceProvider>>;
+  private readonly providers: Record<SpeakingProvider, VoiceProvider>;
   private readonly speech = new SpeechQueue((line, signal) => this.announce(line, signal));
   private capture: Capture | null = null;
   private speechStart: (SpeechStart & { id: number }) | null = null;
   private seenLine: number | null = null;
   private activated = false;
   private context: AudioContext | null = null;
+  private kokoro: KokoroVoice | null = null;
+  private kokoroImport: Promise<KokoroVoice> | null = null;
+  private preview: AbortController | null = null;
+  private previewStatus = 'idle' as 'idle' | 'preparing' | 'playing' | 'completed' | 'cancelled' | 'error';
+  private previewError: string | null = null;
+  private previewSpeech: SpeechStart | null = null;
   private captures = 0;
   private commands = 0;
   private played = 0;
@@ -67,16 +74,14 @@ export class VoiceRadio {
   private lastOutputError: string | null = null;
   private lastOutputFallback: SpeakingProvider | null = null;
 
-  public constructor(model: ModelClient, private readonly hooks: Hooks, highQuality?: VoiceProvider) {
+  public constructor(model: ModelClient, private readonly hooks: Hooks) {
     this.deepSeek = new DeepSeekVoice(model);
-    this.providers = { local: new SystemSpeech(), deepseek: { speak: this.speakCloud }, 'high-quality': highQuality };
+    this.providers = { local: new SystemSpeech(), deepseek: { speak: this.speakCloud }, 'high-quality': { speak: this.speakHighQuality } };
     this.settings = loadVoicePreferences(window.localStorage);
-    if (!highQuality && this.settings.output === 'high-quality') this.settings.output = 'local';
   }
 
   public get inputMode(): VoiceInput { return this.settings.input; }
   public get preferences(): VoicePreferences { return { ...this.settings, voices: { ...this.settings.voices } }; }
-  public get hasHighQuality(): boolean { return !!this.providers['high-quality']; }
   public get preferredLanguage(): RadioLanguage | undefined {
     return this.settings.input === 'off' && this.settings.language === 'zh-CN' ? undefined : this.settings.language;
   }
@@ -91,22 +96,35 @@ export class VoiceRadio {
       captures: this.captures, commands: this.commands, lastError: this.lastError, lastOutputError: this.lastOutputError,
       lastOutputFallback: this.lastOutputFallback,
       lastCompleted: this.playbackHistory.at(-1) ?? null, playbackHistory: this.playbackHistory.slice(),
+      kokoro: this.kokoro?.snapshot() ?? null,
+      preview: { phase: this.previewStatus, error: this.previewError, speech: this.previewSpeech },
       cloud: this.deepSeek.snapshot(), limits: VOICE_LIMITS };
   }
 
   public configure(settings: VoicePreferences): void {
-    this.cancel(false);
-    this.silence();
+    const outputChanged = this.settings.output !== settings.output;
+    this.suspend();
+    if (outputChanged) {
+      this.previewStatus = 'idle';
+      this.previewSpeech = null;
+      this.previewError = null;
+      if (settings.output !== 'high-quality') this.releaseHighQuality();
+    }
     this.settings = { ...settings, voices: { ...settings.voices } };
     this.lastOutputError = null;
     this.lastOutputFallback = null;
     saveVoicePreferences(window.localStorage, this.settings);
     if (this.activated) this.unlock();
+    if (outputChanged && settings.output === 'high-quality') {
+      void this.getKokoro().then(engine => engine.prepare(true)).catch(error => {
+        if (this.settings.output === 'high-quality' && failure(error) !== 'kokoro-cancelled') this.lastOutputError = failure(error);
+      });
+    }
   }
 
   public unlock(): void {
     this.activated = true;
-    if (this.settings.output !== 'deepseek' || typeof AudioContext === 'undefined') return;
+    if ((this.settings.output !== 'deepseek' && this.settings.output !== 'high-quality') || typeof AudioContext === 'undefined') return;
     try {
       this.context ??= new AudioContext();
       if (this.context.state === 'suspended') void this.context.resume().catch(() => {});
@@ -129,6 +147,7 @@ export class VoiceRadio {
     }
     this.lastError = null;
     this.unlock();
+    this.cancelPreview();
     this.silence();
     const controller = new AbortController();
     const capture: Capture = { source, controller, phase: 'opening', timer: window.setTimeout(() => {
@@ -212,13 +231,14 @@ export class VoiceRadio {
   public update(inFlight: boolean, line: RadioLine | null, muted = false): void {
     const unseen = line && line.id !== this.seenLine;
     if (line) this.seenLine = line.id;
-    if (!inFlight) { this.suspend(); return; }
+    if (!inFlight) { this.cancel(false); this.silence(); return; }
     if (muted) { this.silence(); return; }
-    if (unseen && !this.capture && this.activated && this.settings.output !== 'off' && line.agent !== null) this.speech.enqueue(line);
+    if (unseen && !this.capture && !this.preview && this.activated && this.settings.output !== 'off'
+      && this.settings.volume > 0 && line.agent !== null) this.speech.enqueue(line);
   }
 
   private async announce(line: RadioLine, signal: AbortSignal): Promise<void> {
-    const identity = resolveVoiceIdentity(line.agent, this.settings.voices);
+    const identity = resolveVoiceIdentity(line.agent, this.settings.voices, this.settings.volume);
     const selected = this.settings.output;
     if (!identity || selected === 'off') return;
     const language = radioLanguageOf(line.text);
@@ -235,9 +255,7 @@ export class VoiceRadio {
     for (const mode of order) {
       try {
         signal.throwIfAborted();
-        const provider = this.providers[mode];
-        if (!provider) throw new Error('voice-provider-unavailable');
-        const stream = await provider.speak(line, language, identity, lifecycle);
+        const stream = await this.providers[mode].speak(line, language, identity, lifecycle);
         signal.throwIfAborted();
         const started = this.speechStart;
         if (!started || started.id !== line.id) throw new Error('playback-blocked');
@@ -264,6 +282,69 @@ export class VoiceRadio {
     } finally { playback.close(); }
   };
 
+  private getKokoro(): Promise<KokoroVoice> {
+    if (this.kokoro) return Promise.resolve(this.kokoro);
+    if (this.kokoroImport) return this.kokoroImport;
+    const pending = import('./KokoroVoice').then(({ KokoroVoice }) => {
+      if (this.kokoroImport !== pending || this.settings.output !== 'high-quality') throw new Error('kokoro-cancelled');
+      return this.kokoro = new KokoroVoice(() => this.context);
+    }).finally(() => { if (this.kokoroImport === pending) this.kokoroImport = null; });
+    this.kokoroImport = pending;
+    return pending;
+  }
+
+  private speakHighQuality = async (line: RadioLine, language: RadioLanguage, identity: VoiceIdentity,
+    lifecycle: VoiceLifecycle): Promise<void> => {
+    const engine = await this.getKokoro();
+    lifecycle.signal.throwIfAborted();
+    await engine.speak(line, language, identity, lifecycle);
+  };
+
+  public async previewVoice(agent: number): Promise<void> {
+    if (this.preview) { this.cancelPreview(); return; }
+    const { language, output, voices, volume } = this.settings;
+    const identity = resolveVoiceIdentity(agent, voices, volume);
+    if (!identity || (output !== 'local' && output !== 'high-quality') || volume === 0) return;
+    this.unlock();
+    this.silence();
+    const controller = new AbortController();
+    this.preview = controller;
+    this.previewStatus = 'preparing';
+    this.previewError = null;
+    this.previewSpeech = null;
+    const { signal } = controller;
+    const line: RadioLine = { id: 0, agent, text: language === 'zh-CN' ? '电台检查。云层下方航线畅通。'
+      : 'Radio check. The route below the clouds is clear.', source: 'local', priority: 'notice' };
+    try {
+      await this.providers[output].speak(line, language, identity, { signal, preview: true, start: speech => {
+        if (signal.aborted) return;
+        this.previewSpeech = speech;
+        this.previewStatus = 'playing';
+      } });
+      if (!signal.aborted) this.previewStatus = 'completed';
+    } catch (error) {
+      if (!signal.aborted) {
+        this.previewError = failure(error);
+        this.previewStatus = 'error';
+      }
+    } finally {
+      if (this.preview === controller) this.preview = null;
+    }
+  }
+
+  public cancelPreview(): void {
+    if (!this.preview) return;
+    this.preview.abort();
+    this.preview = null;
+    this.previewStatus = 'cancelled';
+  }
+
+  public releaseHighQuality(): void {
+    this.cancelPreview();
+    this.kokoroImport = null;
+    this.kokoro?.dispose();
+  }
+
   private finishSpeech(speech: CompletedSpeech): void {
     this.completed++;
     this.playbackHistory.push(speech);
@@ -278,6 +359,7 @@ export class VoiceRadio {
   public suspend(): void {
     this.cancel(false);
     this.silence();
+    this.cancelPreview();
   }
 
   public reset(): void {
@@ -287,7 +369,7 @@ export class VoiceRadio {
 
   public dispose(): void {
     this.reset();
-    this.providers['high-quality']?.dispose?.();
+    this.releaseHighQuality();
     if (this.context) void this.context.close().catch(() => {});
     this.context = null;
   }

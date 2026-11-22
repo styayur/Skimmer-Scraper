@@ -37,7 +37,7 @@ export class RadioAudio {
     compressor.attack.value = 0.008;
     compressor.release.value = 0.18;
     const gain = context.createGain();
-    gain.gain.value = 0.86;
+    gain.gain.value = identity.volume;
     const pan = context.createStereoPanner();
     pan.pan.value = identity.pan;
     this.bandHigh.connect(bandLow);
@@ -64,14 +64,39 @@ export class RadioAudio {
   private async schedule(): Promise<void> {
     const frames = this.used >> 1;
     if (!frames) return;
-    if (this.context.state !== 'running') throw new Error('playback-blocked');
-    const ahead = this.nextAt - this.context.currentTime;
-    if (ahead > 0.55) await delay((ahead - 0.45) * 1000, this.signal);
-    this.signal.throwIfAborted();
     const buffer = this.context.createBuffer(1, frames, SPEECH_RATE);
     const data = buffer.getChannelData(0);
     const view = new DataView(this.bytes.buffer);
     for (let index = 0; index < frames; index++) data[index] = view.getInt16(index * 2, true) / 32768;
+    this.used = 0;
+    await this.scheduleBuffer(buffer);
+  }
+
+  public async playSamples(samples: Float32Array<ArrayBuffer>, sampleRate: number): Promise<void> {
+    const buffer = this.context.createBuffer(1, samples.length, sampleRate);
+    buffer.copyToChannel(samples, 0);
+    const node = await this.scheduleBuffer(buffer);
+    this.signal.throwIfAborted();
+    await new Promise<void>((resolve, reject) => {
+      const cleanup = () => {
+        window.clearTimeout(timer);
+        node.removeEventListener('ended', ended);
+        this.signal.removeEventListener('abort', abort);
+      };
+      const ended = () => { cleanup(); resolve(); };
+      const abort = () => { cleanup(); reject(this.signal.reason); };
+      const timer = window.setTimeout(() => { cleanup(); reject(new Error('playback-blocked')); },
+        (buffer.duration / this.identity.rate + 2) * 1000);
+      node.addEventListener('ended', ended, { once: true });
+      this.signal.addEventListener('abort', abort, { once: true });
+    });
+  }
+
+  private async scheduleBuffer(buffer: AudioBuffer): Promise<AudioBufferSourceNode> {
+    if (this.context.state !== 'running') throw new Error('playback-blocked');
+    const ahead = this.nextAt - this.context.currentTime;
+    if (ahead > 0.55) await delay((ahead - 0.45) * 1000, this.signal);
+    this.signal.throwIfAborted();
     const node = this.context.createBufferSource();
     node.buffer = buffer;
     node.playbackRate.value = this.identity.rate;
@@ -81,8 +106,8 @@ export class RadioAudio {
     node.start(this.nextAt);
     this.sources.add(node);
     this.nextAt += buffer.duration / this.identity.rate;
-    this.used = 0;
     if (!this.announced) { this.announced = true; this.onStart(); }
+    return node;
   }
 
   public async finish(): Promise<void> {
