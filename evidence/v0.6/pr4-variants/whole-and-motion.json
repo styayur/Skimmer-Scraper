@@ -1,0 +1,158 @@
+{
+  "mergedOriginal": {
+    "manifest": {
+      "id": "f51364e64562e7b5ddbd61d0073f800b531c85c3334a0efc89c25e75c0391b5c",
+      "name": "merged",
+      "bytes": 3304,
+      "nodes": 2,
+      "triangles": 48,
+      "collisionTriangles": 48,
+      "materials": 1,
+      "textures": 0,
+      "texturePixels": 0,
+      "bounds": {
+        "x": 200,
+        "y": 66,
+        "z": 240
+      },
+      "animations": [],
+      "meshRoles": [
+        {
+          "id": "1",
+          "name": "Single joined mesh",
+          "inferred": "SURFACE",
+          "role": "SURFACE"
+        }
+      ],
+      "options": {
+        "scale": 1,
+        "yaw": 0,
+        "up": "y",
+        "spawnYaw": 0,
+        "spawn": null
+      }
+    },
+    "spawn": {
+      "x": 0,
+      "y": 80,
+      "z": 130
+    },
+    "collisionVisible": false,
+    "clear": true,
+    "geometrySHA256": "436db0d2b1d60fe1775f81661a8d17a1de0e9692f43ffdb0b76c8b0d27bd11c4"
+  },
+  "merged": {
+    "manifest": {
+      "id": "f51364e64562e7b5ddbd61d0073f800b531c85c3334a0efc89c25e75c0391b5c",
+      "name": "merged",
+      "bytes": 3304,
+      "nodes": 2,
+      "triangles": 48,
+      "collisionTriangles": 48,
+      "materials": 1,
+      "textures": 0,
+      "texturePixels": 0,
+      "bounds": {
+        "x": 203.1337998314018,
+        "y": 63.070448710871865,
+        "z": 239.2558251646243
+      },
+      "animations": [],
+      "meshRoles": [
+        {
+          "id": "1",
+          "name": "Single joined mesh",
+          "inferred": "SURFACE",
+          "role": "SURFACE"
+        }
+      ],
+      "options": {
+        "scale": 1,
+        "yaw": 0,
+        "up": "y",
+        "spawnYaw": 0,
+        "spawn": null
+      },
+      "variant": {
+        "seed": 1599967010,
+        "layout": "whole",
+        "movedGroups": 0
+      }
+    },
+    "spawn": {
+      "x": -45.029981238991375,
+      "y": 22.182083396392862,
+      "z": 129.62791258231215
+    },
+    "collisionVisible": false,
+    "clear": true,
+    "geometrySHA256": "fb82685d90f5bbfbb6516df61b6a157d85c7c577fd4fc0f56eef8e717e628fbf"
+  },
+  "start": [
+    {
+      "id": "glb:10",
+      "type": "glb",
+      "position": {
+        "x": 75.77432298412121,
+        "y": 9.57753088109661,
+        "z": 46.55468428834759
+      },
+      "yaw": 0
+    }
+  ],
+  "actual": {
+    "lift": {
+      "id": "glb:10",
+      "type": "glb",
+      "position": {
+        "x": 83.48764961566836,
+        "y": 27.26935875867787,
+        "z": 47.98823003079751
+      },
+      "yaw": 0
+    },
+    "nearest": {
+      "distance": 2.6791495105018797,
+      "point": {
+        "x": 83.48764961566836,
+        "y": 32.59020924817599,
+        "z": 47.98823003079751
+      },
+      "chunkId": "imported-motion",
+      "surfaceId": "glb:10"
+    },
+    "render": {
+      "calls": 92,
+      "triangles": 7582,
+      "points": 560,
+      "lines": 0,
+      "fps": 11.792908903034606,
+      "geometries": 23,
+      "textures": 19,
+      "inversionAngle": 0,
+      "mirrorSky": {
+        "seed": null,
+        "triangles": 0,
+        "cameraOffset": 99.01994030473031,
+        "ground": null
+      }
+    }
+  },
+  "contact": {
+    "impacts": 1,
+    "tasks": [
+      "AVOID",
+      "AVOID",
+      "AVOID"
+    ]
+  },
+  "release": {
+    "seed": 3016777078,
+    "bvhBefore": 2,
+    "bvhAfter": 0,
+    "dynamicBvhBefore": 1,
+    "dynamicBvhAfter": 0,
+    "rootChildrenAfter": 0,
+    "disposedGeometryCount": 4
+  }
+}

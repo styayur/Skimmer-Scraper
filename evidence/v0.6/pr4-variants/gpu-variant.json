@@ -1,0 +1,346 @@
+{
+  "environment": {
+    "renderer": "ANGLE (AMD, AMD Radeon 780M Graphics (0x00001900) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+    "viewport": [
+      1920,
+      1080
+    ],
+    "build": {
+      "version": "0.5.0",
+      "sourceCommit": "ff66667d9c2c7c9f8937a45c212596ab964c4132",
+      "sourceCommitTime": "2026-11-22T21:06:12+08:00",
+      "dirty": false,
+      "sourceUrl": "https://github.com/styayur/Skimmer-Scraper/tree/ff66667d9c2c7c9f8937a45c212596ab964c4132",
+      "toolchain": {
+        "node": "v26.7.0",
+        "platform": "win32",
+        "architecture": "x64"
+      }
+    },
+    "browser": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/157.0.0.0 Safari/537.36"
+  },
+  "driver": "32.0.32029.2010",
+  "method": "Headed Radeon 1920x1080. Frame samples come from actual rendered RAF intervals at the same paused flight pose. Each import time spans browser interactions and scene activation. Heap is Chromium JS heap after voluntary CDP GC. Geometry and textures are renderer object counts, and mesh BVHs are application counts.",
+  "sourceBytes": 50148,
+  "importMs": 339.79259999999977,
+  "variantMs": [
+    453.7451000000001,
+    438.892399999997,
+    424.78889999999956,
+    412.8319999999985,
+    412.60229999999865,
+    409.3855999999978
+  ],
+  "observations": [
+    {
+      "label": "procedural-start",
+      "heapBytes": 8798836,
+      "domNodes": 1944,
+      "geometries": 166,
+      "textures": 23,
+      "drawCalls": 361,
+      "renderTriangles": 135796,
+      "staticBVH": 15,
+      "importedVariant": null,
+      "released": null
+    },
+    {
+      "label": "imported-original",
+      "heapBytes": 7929592,
+      "domNodes": 2845,
+      "geometries": 23,
+      "textures": 19,
+      "drawCalls": 243,
+      "renderTriangles": 119916,
+      "staticBVH": 2,
+      "importedVariant": null,
+      "released": {
+        "seed": 334458,
+        "bvhBefore": 32,
+        "bvhAfter": 0,
+        "dynamicBvhBefore": 0,
+        "dynamicBvhAfter": 0,
+        "rootChildrenAfter": 0,
+        "disposedGeometryCount": 409
+      }
+    },
+    {
+      "label": "variant-1",
+      "heapBytes": 8768308,
+      "domNodes": 2857,
+      "geometries": 24,
+      "textures": 19,
+      "drawCalls": 281,
+      "renderTriangles": 119916,
+      "staticBVH": 2,
+      "importedVariant": {
+        "seed": 2027784175,
+        "layout": "grouped",
+        "movedGroups": 15
+      },
+      "released": {
+        "seed": 943772975,
+        "bvhBefore": 2,
+        "bvhAfter": 0,
+        "dynamicBvhBefore": 0,
+        "dynamicBvhAfter": 0,
+        "rootChildrenAfter": 0,
+        "disposedGeometryCount": 4
+      }
+    },
+    {
+      "label": "variant-2",
+      "heapBytes": 8965556,
+      "domNodes": 2857,
+      "geometries": 24,
+      "textures": 19,
+      "drawCalls": 281,
+      "renderTriangles": 119916,
+      "staticBVH": 2,
+      "importedVariant": {
+        "seed": 4152190180,
+        "layout": "grouped",
+        "movedGroups": 13
+      },
+      "released": {
+        "seed": 943772975,
+        "bvhBefore": 2,
+        "bvhAfter": 0,
+        "dynamicBvhBefore": 0,
+        "dynamicBvhAfter": 0,
+        "rootChildrenAfter": 0,
+        "disposedGeometryCount": 4
+      }
+    },
+    {
+      "label": "variant-3",
+      "heapBytes": 8962208,
+      "domNodes": 2855,
+      "geometries": 24,
+      "textures": 19,
+      "drawCalls": 281,
+      "renderTriangles": 119916,
+      "staticBVH": 2,
+      "importedVariant": {
+        "seed": 4008505352,
+        "layout": "grouped",
+        "movedGroups": 14
+      },
+      "released": {
+        "seed": 943772975,
+        "bvhBefore": 2,
+        "bvhAfter": 0,
+        "dynamicBvhBefore": 0,
+        "dynamicBvhAfter": 0,
+        "rootChildrenAfter": 0,
+        "disposedGeometryCount": 4
+      }
+    },
+    {
+      "label": "variant-4",
+      "heapBytes": 9079500,
+      "domNodes": 2857,
+      "geometries": 24,
+      "textures": 19,
+      "drawCalls": 281,
+      "renderTriangles": 119916,
+      "staticBVH": 2,
+      "importedVariant": {
+        "seed": 3937523214,
+        "layout": "grouped",
+        "movedGroups": 8
+      },
+      "released": {
+        "seed": 943772975,
+        "bvhBefore": 2,
+        "bvhAfter": 0,
+        "dynamicBvhBefore": 0,
+        "dynamicBvhAfter": 0,
+        "rootChildrenAfter": 0,
+        "disposedGeometryCount": 4
+      }
+    },
+    {
+      "label": "variant-5",
+      "heapBytes": 9153004,
+      "domNodes": 2857,
+      "geometries": 24,
+      "textures": 19,
+      "drawCalls": 281,
+      "renderTriangles": 119916,
+      "staticBVH": 2,
+      "importedVariant": {
+        "seed": 3205226602,
+        "layout": "grouped",
+        "movedGroups": 6
+      },
+      "released": {
+        "seed": 943772975,
+        "bvhBefore": 2,
+        "bvhAfter": 0,
+        "dynamicBvhBefore": 0,
+        "dynamicBvhAfter": 0,
+        "rootChildrenAfter": 0,
+        "disposedGeometryCount": 4
+      }
+    },
+    {
+      "label": "variant-6",
+      "heapBytes": 9171084,
+      "domNodes": 2857,
+      "geometries": 24,
+      "textures": 19,
+      "drawCalls": 281,
+      "renderTriangles": 119916,
+      "staticBVH": 2,
+      "importedVariant": {
+        "seed": 4222364235,
+        "layout": "grouped",
+        "movedGroups": 10
+      },
+      "released": {
+        "seed": 943772975,
+        "bvhBefore": 2,
+        "bvhAfter": 0,
+        "dynamicBvhBefore": 0,
+        "dynamicBvhAfter": 0,
+        "rootChildrenAfter": 0,
+        "disposedGeometryCount": 4
+      }
+    },
+    {
+      "label": "procedural-after-delete",
+      "heapBytes": 10764856,
+      "domNodes": 2888,
+      "geometries": 279,
+      "textures": 23,
+      "drawCalls": 539,
+      "renderTriangles": 320158,
+      "staticBVH": 32,
+      "importedVariant": null,
+      "released": {
+        "seed": 943772975,
+        "bvhBefore": 2,
+        "bvhAfter": 0,
+        "dynamicBvhBefore": 0,
+        "dynamicBvhAfter": 0,
+        "rootChildrenAfter": 0,
+        "disposedGeometryCount": 4
+      }
+    }
+  ],
+  "samples": [
+    {
+      "label": "original-balanced",
+      "quality": "balanced",
+      "measurements": 710,
+      "meanFps": 118.16986502005558,
+      "p50Ms": 8.300000000000182,
+      "p95Ms": 8.400000000000546,
+      "p99Ms": 16.200000000000273,
+      "maxMs": 24.90000000000009
+    },
+    {
+      "label": "variant-balanced",
+      "quality": "balanced",
+      "measurements": 717,
+      "meanFps": 119.33889249513156,
+      "p50Ms": 8.300000000001091,
+      "p95Ms": 8.400000000001455,
+      "p99Ms": 8.5,
+      "maxMs": 24.899999999999636
+    },
+    {
+      "label": "variant-high",
+      "quality": "high",
+      "measurements": 720,
+      "meanFps": 120,
+      "p50Ms": 8.299999999999272,
+      "p95Ms": 8.5,
+      "p99Ms": 8.599999999998545,
+      "maxMs": 8.700000000000728
+    }
+  ],
+  "firstFile": {
+    "hash": "3840d52f81ec41216d57cae9bfc1bd73d763fad52dc532631641b9c0aa27136f",
+    "bytes": 50148,
+    "count": 1
+  },
+  "keptFile": {
+    "hash": "3840d52f81ec41216d57cae9bfc1bd73d763fad52dc532631641b9c0aa27136f",
+    "bytes": 50148,
+    "count": 1
+  },
+  "removedFile": {
+    "hash": null,
+    "bytes": 0,
+    "count": 0
+  },
+  "released": [
+    {
+      "seed": 943772975,
+      "bvhBefore": 2,
+      "bvhAfter": 0,
+      "dynamicBvhBefore": 0,
+      "dynamicBvhAfter": 0,
+      "rootChildrenAfter": 0,
+      "disposedGeometryCount": 4
+    },
+    {
+      "seed": 943772975,
+      "bvhBefore": 2,
+      "bvhAfter": 0,
+      "dynamicBvhBefore": 0,
+      "dynamicBvhAfter": 0,
+      "rootChildrenAfter": 0,
+      "disposedGeometryCount": 4
+    },
+    {
+      "seed": 943772975,
+      "bvhBefore": 2,
+      "bvhAfter": 0,
+      "dynamicBvhBefore": 0,
+      "dynamicBvhAfter": 0,
+      "rootChildrenAfter": 0,
+      "disposedGeometryCount": 4
+    },
+    {
+      "seed": 943772975,
+      "bvhBefore": 2,
+      "bvhAfter": 0,
+      "dynamicBvhBefore": 0,
+      "dynamicBvhAfter": 0,
+      "rootChildrenAfter": 0,
+      "disposedGeometryCount": 4
+    },
+    {
+      "seed": 943772975,
+      "bvhBefore": 2,
+      "bvhAfter": 0,
+      "dynamicBvhBefore": 0,
+      "dynamicBvhAfter": 0,
+      "rootChildrenAfter": 0,
+      "disposedGeometryCount": 4
+    },
+    {
+      "seed": 943772975,
+      "bvhBefore": 2,
+      "bvhAfter": 0,
+      "dynamicBvhBefore": 0,
+      "dynamicBvhAfter": 0,
+      "rootChildrenAfter": 0,
+      "disposedGeometryCount": 4
+    },
+    {
+      "seed": 943772975,
+      "bvhBefore": 2,
+      "bvhAfter": 0,
+      "dynamicBvhBefore": 0,
+      "dynamicBvhAfter": 0,
+      "rootChildrenAfter": 0,
+      "disposedGeometryCount": 4
+    }
+  ],
+  "errors": [],
+  "external": []
+}

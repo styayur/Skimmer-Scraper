@@ -1,8 +1,9 @@
 import * as THREE from 'three';
 import { forwardFromAttitude, type Vec3 } from '../../core/math';
 import { ChunkedWorldAdapter } from '../chunkedWorldAdapter';
-import { fingerprintValues } from '../deterministic';
+import { fingerprintValues, seededRandom } from '../deterministic';
 import type { RenderableWorld, SpawnState } from '../renderWorld';
+import { range } from '../rng';
 import { resolveWorldSettings } from '../worldConfig';
 import type { SurfaceProvider, WorldStats } from '../worldTypes';
 import { UnifiedSurfaceQuery } from '../unifiedSurfaceQuery';
@@ -19,7 +20,7 @@ export class ImportedWorldAdapter implements RenderableWorld, SurfaceProvider {
     queryNearest: (position, range) => this.adapter.queryNearest(position, range),
     queryProximity: (position, range) => this.adapter.queryNearest(position, range, this.surfaceId),
   });
-  private readonly spawn: SpawnState;
+  private spawn?: SpawnState;
   private readonly collisionView = new THREE.Group();
   private readonly surfaceId: string;
   private disposed = false;
@@ -42,7 +43,6 @@ export class ImportedWorldAdapter implements RenderableWorld, SurfaceProvider {
       this.adapter.addChunk({ id, chunkX: 0, chunkZ: 0, origin, bounds: geometry.boundingBox!, geometry });
     }
     motion?.attach(this.surfaces.dynamic, scene.dynamic, this.collisionView);
-    this.spawn = this.chooseSpawn();
     for (const [geometry, color] of [[scene.surfaces, 0x62ffd6], [scene.obstacles, 0xffa178]] as const) {
       if (!geometry) continue;
       this.collisionView.add(new THREE.Mesh(geometry, new THREE.MeshBasicMaterial({
@@ -69,7 +69,8 @@ export class ImportedWorldAdapter implements RenderableWorld, SurfaceProvider {
   }
 
   public getDefaultSpawn(): SpawnState {
-    return { ...this.spawn, position: { ...this.spawn.position } };
+    const spawn = this.spawn ??= this.chooseSpawn();
+    return { ...spawn, position: { ...spawn.position } };
   }
 
   public getRenderOrigin(): Vec3 { return { x: 0, y: 0, z: 0 }; }
@@ -90,7 +91,8 @@ export class ImportedWorldAdapter implements RenderableWorld, SurfaceProvider {
   public getDynamicSnapshot() { return this.motion?.snapshot() ?? []; }
 
   public getFingerprint(): number {
-    return fingerprintValues(this.manifest.id, JSON.stringify(this.manifest.options));
+    const source = [this.manifest.id, JSON.stringify(this.manifest.options)];
+    return this.manifest.variant ? fingerprintValues(...source, String(this.manifest.variant.seed)) : fingerprintValues(...source);
   }
 
   public getStats(): WorldStats {
@@ -116,15 +118,27 @@ export class ImportedWorldAdapter implements RenderableWorld, SurfaceProvider {
     const pitch = 0;
     const speed = 66;
     const direction = forwardFromAttitude({ yaw, pitch, roll: 0 });
-    const safe = (position: Vec3) => {
-      for (let distance = 0; distance <= 22; distance += 2) {
+    const safe = (position: Vec3, corridor = 22) => {
+      for (let distance = 0; distance <= corridor; distance += 2) {
         const point = { x: position.x + distance * direction.x, y: position.y, z: position.z + distance * direction.z };
         if (this.queryNearest(point, 6.5)) return false;
       }
       return true;
     };
+    const clearVariantCorridor = (position: Vec3): boolean => {
+      if (!safe(position, 60)) return false;
+      if (!this.motion || !this.surfaces.dynamic.count) return true;
+      try {
+        for (let step = 0; step < 10; step++) {
+          this.motion.step(0.1);
+          if (!safe(position, 60)) return false;
+        }
+        return true;
+      } finally { this.motion.reset(); }
+    };
     if (options.spawn) {
-      if (!safe(options.spawn)) throw new Error('出生点或前方航线太靠近碰撞面，请调整坐标或使用自动出生点。');
+      const clear = this.manifest.variant ? clearVariantCorridor(options.spawn) : safe(options.spawn);
+      if (!clear) throw new Error('出生点或前方航线太靠近碰撞面，请调整坐标或使用自动出生点。');
       return { position: { ...options.spawn }, yaw, pitch, speed };
     }
 
@@ -132,6 +146,20 @@ export class ImportedWorldAdapter implements RenderableWorld, SurfaceProvider {
     const edge = Math.abs(direction.x) * max.x + Math.abs(direction.z) * max.z;
     const y = max.y + 14;
     const approach = { x: -(edge + 10) * direction.x, y, z: -(edge + 10) * direction.z };
+    if (this.manifest.variant) {
+      const random = seededRandom(this.manifest.id, this.manifest.variant.seed, 'imported-corridor-v1');
+      const cross = { x: -direction.z, z: direction.x };
+      const halfWidth = Math.abs(cross.x) * max.x + Math.abs(cross.z) * max.z;
+      for (let lane = 0; lane < 14; lane++) {
+        const lateral = range(random, -0.84, 0.84) * halfWidth;
+        const position = { x: approach.x + cross.x * lateral, y: Math.max(12, max.y * range(random, 0.28, 0.84)),
+          z: approach.z + cross.z * lateral };
+        const entrance = { x: position.x + direction.x * 50, y: position.y, z: position.z + direction.z * 50 };
+        if (this.queryProximity(entrance, 48) && clearVariantCorridor(position)) return { position, yaw, pitch, speed };
+      }
+      if (clearVariantCorridor(approach)) return { position: approach, yaw, pitch, speed };
+      throw new Error('此变体没有安全的出生航线。');
+    }
     for (const position of [approach, { x: 0, y, z: 0 },
       { x: max.x * 0.65, y, z: max.z * 0.65 }, { x: -max.x * 0.65, y, z: -max.z * 0.65 }]) {
       if (safe(position) && (this.queryProximity(position, 32) || this.queryNearest(position, 32))) return { position, yaw, pitch, speed };

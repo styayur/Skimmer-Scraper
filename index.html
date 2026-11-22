@@ -284,6 +284,10 @@
           <div id="local-world-active" hidden>
             <p id="local-world-name" class="world-description"></p>
             <div class="world-inline-actions">
+              <button id="local-world-new-variant" class="secondary-button" type="button">生成新变体</button>
+              <button id="local-world-keep" class="text-button" type="button">保留当前世界</button>
+            </div>
+            <div class="world-inline-actions">
               <label><input id="local-world-collision" type="checkbox" /> 显示碰撞层</label>
               <button id="local-world-builtin" class="secondary-button" type="button">返回程序城市</button>
             </div>
@@ -350,18 +354,18 @@
         </section>
         <form id="world-form" class="world-form">
           <div class="setting-heading"><label class="world-field">输入种子<input id="world-seed-input" name="seed" type="text" maxlength="64" autocomplete="off" spellcheck="false" /></label><button class="setting-help" type="button" aria-label="种子帮助" data-help-section="guide-world">?</button></div>
-          <div id="world-legacy" hidden>
+          <div id="world-legacy" data-procedural-world hidden>
             <p id="world-legacy-note" class="world-description"></p>
             <button id="world-upgrade" class="secondary-button" type="button">用此种子生成新版城市</button>
           </div>
-          <div class="setting-heading"><label class="world-field">世界记忆<select id="world-mode-select" name="world"><option value="stable">稳定世界</option><option value="ephemeral">短暂世界</option></select></label><button class="setting-help" type="button" aria-label="世界记忆帮助" data-help-section="guide-world">?</button></div>
+          <div class="setting-heading" data-procedural-world><label class="world-field">世界记忆<select id="world-mode-select" name="world"><option value="stable">稳定世界</option><option value="ephemeral">短暂世界</option></select></label><button class="setting-help" type="button" aria-label="世界记忆帮助" data-help-section="guide-world">?</button></div>
           <div class="world-inline-actions">
-            <button id="world-random" class="text-button" type="button">随机种子</button>
+            <button id="world-random" class="text-button" type="button" data-procedural-world>随机种子</button>
             <button id="world-copy-seed" class="text-button" type="button">复制种子</button>
           </div>
           <div class="world-actions">
             <button class="primary-button" type="submit">生成并重载</button>
-            <button id="world-reset" class="secondary-button" type="button">恢复默认种子</button>
+            <button id="world-reset" class="secondary-button" type="button" data-procedural-world>恢复默认种子</button>
           </div>
         </form>
       </aside>

@@ -91,4 +91,5 @@ export interface WorldManifest {
   meshRoles: WorldMeshRole[];
   collisionTriangles: number;
   options: WorldImportOptions;
+  variant?: { seed: number; layout: 'grouped' | 'whole'; movedGroups: number };
 }

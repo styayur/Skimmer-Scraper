@@ -56,7 +56,13 @@ to world-space triangles. `ImportedWorldAdapter` uses the existing BVH index for
 surface and obstacle geometry. Flight, shields and companions query both, while
 proximity and Surface Relay query the surface index. `WorldResourceManager`
 keeps the binary and display metadata in separate IndexedDB stores and updates
-both in one transaction. See [Local GLB worlds](WORLD-IMPORT.md).
+both in one transaction. A kept variant is metadata on the existing asset
+record. The versioned seed contains the source SHA-256, variant identity and
+import configuration. It is applied before baking collisions. Grouping follows
+scene branches and geometric contact, and whole-scene changes preserve joined
+or animated geometry. When a candidate fails the bounds or takeoff check, its
+renderer and collision resources are released before the original is loaded.
+See [Local GLB worlds](WORLD-IMPORT.md).
 
 ## Moving architecture
 

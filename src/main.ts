@@ -72,7 +72,7 @@ import { ImportedWorldAdapter } from './world/imports/importedWorldAdapter';
 import type { WorldManifest } from './world/imports/worldManifest';
 import { WorldImporter } from './world/imports/worldImporter';
 import { WorldResourceManager } from './world/imports/worldResourceManager';
-import { WorldImportPanel } from './ui/WorldImportPanel';
+import { WorldImportPanel, type ImportedWorldSource } from './ui/WorldImportPanel';
 
 type GameMode = 'title' | 'running' | 'paused' | 'failed';
 
@@ -317,9 +317,11 @@ const ui: GameUI = new GameUI({
   onVisualStimulationToggle: () => toggleVisualStimulation(),
   onCameraSelect: (view) => applyCameraMode(view),
   onRecordingHintDismiss: () => dismissRecordingHint(),
-  onWorldApply: (seedValue, worldMode, upgrade) => applyWorldSettings(seedValue, worldMode, upgrade),
+  onWorldApply: (seedValue, worldMode, upgrade) => {
+    if (upgrade || !worldPanel.useSeed(seedValue)) applyWorldSettings(seedValue, worldMode, upgrade);
+  },
   onWorldRandom: () => createRandomSeed(),
-  onWorldCopySeed: (seedValue) => { void copyWorldText(seedValue.trim(), '种子已复制。'); },
+  onWorldCopySeed: (seedValue) => { void copyWorldText(worldPanel.activeSeed ?? seedValue.trim(), '种子已复制。'); },
   onWorldReset: () => ({ seed: String(DEFAULT_WORLD_SEED), mode: 'stable' }),
 });
 
@@ -390,6 +392,7 @@ const applyWorldSettings = (
     seed: seedValue, preset: baseWorldSettings.preset, mode: worldMode,
     generatorVersion: upgrade ? GENERATOR_VERSION : baseWorldSettings.generatorVersion,
   });
+  worldPanel.clearVisit();
   window.location.assign(buildWorldShareUrl(window.location.href, next));
 };
 
@@ -1065,7 +1068,7 @@ const updateVoicePanel = bindVoicePanel(voiceRadio, action => actionRouter.route
   language => { symbiosis.radioLanguage = language; });
 const radioPanel = new RadioPanel(symbiosis.radio, queueRadioDialogue, () => voiceRadio.silence());
 
-const activateWorld = (world: ImportedWorldAdapter | WorldStreamer, history: ChunkRevisionHistory | null): void => {
+const activateWorld = (world: ImportedWorldAdapter | WorldStreamer, history: ChunkRevisionHistory | null, source?: ImportedWorldSource): void => {
   if (!renderer) throw new Error('游戏尚未准备好。');
   ++runGeneration;
   ++worldTransition;
@@ -1081,19 +1084,20 @@ const activateWorld = (world: ImportedWorldAdapter | WorldStreamer, history: Chu
   revisionHistory = history;
   renderer.setWorld(world, 0);
   resetFlightState();
-  worldPanel.setActive(world instanceof ImportedWorldAdapter ? world : null);
   ui.setWorldSettings(baseWorldSettings);
+  worldPanel.setActive(world instanceof ImportedWorldAdapter ? world : null, source);
   ui.finishLoading();
   ui.showTitle();
 };
 
 const worldPanel = new WorldImportPanel(worldResources, {
   read: file => worldImporter.read(file),
-  open: (data, name, options) => worldImporter.load(data, name, options, loader => {
+  open: (data, name, options, variant) => worldImporter.load(data, name, options, loader => {
     if (!renderer) throw new Error('WebGL2 场景尚未准备好。');
     renderer.configureWorldTextures(loader);
-  }),
-  apply: world => activateWorld(world, null),
+  }, variant),
+  apply: (world, source) => activateWorld(world, null, source),
+  notice: (message, warning) => ui.showToast(message, warning),
   collision: visible => { if (activeWorld instanceof ImportedWorldAdapter) activeWorld.setCollisionVisible(visible); },
   motion: running => { if (activeWorld instanceof ImportedWorldAdapter) activeWorld.setMotionRunning(running); },
   preview: enabled => { motionPreview = enabled && mode === 'title'; },
@@ -1238,6 +1242,7 @@ const boot = async (): Promise<void> => {
     saveRules(selectedRules);
     saveCompanions(companionSettings);
   }
+  await worldPanel.restoreVisit();
   best = loadBest(runScoreContext(selectedRules));
   ui.setBest(best);
   bindFlightOptions();
