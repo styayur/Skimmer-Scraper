@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import type { ChunkSource, ChunkSourceRequest } from '../../src/world/chunkSource';
 import { chunkKey } from '../../src/world/chunkSource';
 import { ChunkRevisionHistory } from '../../src/world/chunkRevisionHistory';
@@ -148,6 +148,62 @@ const cover = async (
 };
 
 describe('world streamer lifecycle', () => {
+  it('serves the current collision ring, then a predicted turn, before a remote wingmate', async () => {
+    const source = new ManualSource();
+    const streamer = new WorldStreamer(settings, { source });
+    const current = { x: 20, y: 220, z: 20 };
+    const predicted = { x: -225, y: 175, z: 19 };
+    const follower = { x: 1_100, y: 205, z: 950 };
+    streamer.setCompanionPositions([follower]);
+    streamer.update(current, { x: 0, y: -20, z: -98 }, {
+      forecast: () => ({ heading: { x: -1, y: -0.2, z: 0 }, samples: [{ position: predicted, seconds: 1.5 }] }),
+    });
+    try {
+      expect(streamer.isCollisionCovered(current)).toBe(false);
+      await waitUntil(() => {
+        if (streamer.isCollisionCovered(current)) return source.pending.length > 0;
+        source.resolveAll();
+        return false;
+      });
+      expect(source.pending[0]?.request.chunkX).toBe(-2);
+      expect(streamer.isCollisionCovered(predicted)).toBe(false);
+      await waitUntil(() => {
+        if (streamer.isCollisionCovered(predicted)) return true;
+        source.resolveAll();
+        return false;
+      });
+      expect(streamer.isCompanionCovered(follower)).toBe(false);
+      expect(streamer.getStreamerStats().activationP95Ms).toBeGreaterThan(0);
+    } finally {
+      streamer.dispose();
+      source.resolveAll();
+    }
+  });
+
+  it('keeps the near visible edge warm through a reversal and releases it at the deadline', async () => {
+    const now = vi.spyOn(performance, 'now');
+    const streamer = new WorldStreamer(settings, { source: new ImmediateSource() });
+    const center = { x: 100, y: 260, z: 110 };
+    const moving = { x: 0, y: 0, z: -98 };
+    const reversed = { x: 0, y: 0, z: 98 };
+    const edge = () => streamer.getChunkStates().find(chunk => chunk.key === '0:-3')?.state;
+    try {
+      now.mockReturnValue(1_000);
+      await cover(streamer, center, moving);
+      expect(edge()).toBe('ACTIVE');
+      now.mockReturnValue(1_600);
+      await cover(streamer, center, reversed);
+      expect(edge()).toBe('ACTIVE');
+      now.mockReturnValue(2_300);
+      await cover(streamer, center, reversed);
+      expect(edge()).toBeUndefined();
+      expect(streamer.getStreamerStats().activeChunks).toBeLessThanOrEqual(41);
+    } finally {
+      streamer.dispose();
+      now.mockRestore();
+    }
+  });
+
   it('retains follower coverage in the shared budget and retires it after hints clear', async () => {
     const streamer = new WorldStreamer(settings, { source: new ImmediateSource(), maxLoadedChunks: 41 });
     const follower = { x: 0, y: 40, z: 900 };

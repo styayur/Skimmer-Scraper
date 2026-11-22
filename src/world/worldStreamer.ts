@@ -30,6 +30,18 @@ interface ManagedChunk {
   lastUsed: number;
   requestToken: number;
   generated?: GeneratedChunk;
+  geometryBytes?: number;
+  renderObjects?: number;
+}
+
+interface StreamForecast {
+  heading: Vec3;
+  samples: ReadonlyArray<{ seconds: number; position: Vec3 }>;
+}
+
+interface StreamIntent {
+  forecast?: () => StreamForecast;
+  inFlight?: boolean;
 }
 
 export interface StreamerStats {
@@ -50,6 +62,8 @@ export interface StreamerStats {
   generationMinMs: number;
   generationMaxMs: number;
   generationSampleCount: number;
+  synchronousBuildP95Ms: number | null;
+  activationP95Ms: number;
   maxLoadedChunks: number;
   coverageComplete: boolean;
   rebaseCount: number;
@@ -81,7 +95,10 @@ const SPAWN_X = 0;
 const SPAWN_Z = 120;
 const ORIGIN_REBASE_THRESHOLD = 12_000;
 const ORIGIN_REBASE_STEP = 10_000;
-const LOOK_AHEAD_SECONDS = 4;
+const MAX_FORECAST_SECONDS = 4.5;
+const PLAN_INTERVAL_MS = 90;
+const RETENTION_MS = 1_250;
+const RETENTION_PRIORITY = 30;
 
 export interface GenerationTiming {
   count: number;
@@ -103,6 +120,12 @@ export const summarizeGenerationTimes = (values: readonly number[]): GenerationT
     max: sorted[count - 1]!,
     p95: sorted[p95Index]!,
   };
+};
+
+const addTiming = (history: number[], duration: number): GenerationTiming => {
+  history.push(duration);
+  if (history.length > 200) history.shift();
+  return summarizeGenerationTimes(history);
 };
 
 const emptyStateCounts = (): Record<ChunkLifecycleState, number> => ({
@@ -145,9 +168,20 @@ export class WorldStreamer implements RenderableWorld {
   private readonly onChunkActivated: (event: ChunkStreamEvent) => void;
   private readonly onChunkRetired: (event: ChunkStreamEvent) => void;
   private readonly generationTimes: number[] = [];
+  private readonly synchronousBuildTimes: number[] = [];
+  private readonly activationTimes: number[] = [];
+  private generationTiming = summarizeGenerationTimes([]);
+  private synchronousBuildP95Ms: number | null = null;
+  private activationP95Ms = 0;
   private readonly renderOrigin = { x: 0, y: 0, z: 0 };
   private lastPosition = { x: 0, y: 24, z: SPAWN_Z };
   private lastVelocity = { x: 0, y: 0, z: -1 };
+  private lastIntent: StreamIntent = {};
+  private planAfter = 0;
+  private plannedCenter = '';
+  private plannedInFlight = false;
+  private plannedVelocity = { x: 0, z: 0 };
+  private companionFootprint = '';
   private companionPositions: Array<{ x: number; y: number; z: number }> = [];
   private requestToken = 0;
   private inFlight = 0;
@@ -161,9 +195,9 @@ export class WorldStreamer implements RenderableWorld {
   public constructor(settings: WorldSettings, options: WorldStreamerOptions = {}) {
     this.settings = settings;
     this.source = options.source ?? new InlineChunkSource(settings);
-    this.maxLoadedChunks = Math.max(9, options.maxLoadedChunks ?? 41);
-    this.renderRadius = Math.max(1, options.renderRadius ?? 2);
-    this.collisionRadius = Math.max(1, options.collisionRadius ?? 1);
+    this.renderRadius = Math.max(1, Math.trunc(options.renderRadius ?? 2));
+    this.collisionRadius = Math.max(1, Math.trunc(options.collisionRadius ?? 1));
+    this.maxLoadedChunks = Math.max((this.collisionRadius * 2 + 1) ** 2, options.maxLoadedChunks ?? 41);
     this.revisionProvider = options.revisionProvider ?? (() => 0);
     this.onChunkActivated = options.onChunkActivated ?? (() => {});
     this.onChunkRetired = options.onChunkRetired ?? (() => {});
@@ -192,23 +226,47 @@ export class WorldStreamer implements RenderableWorld {
   }
 
   public update(
-    position: { x: number; y: number; z: number },
-    velocity: { x: number; y: number; z: number },
+    position: Vec3,
+    velocity: Vec3,
+    intent: StreamIntent = {},
   ): StreamerUpdate {
     if (this.disposed) {
       return { coverageComplete: false, rebaseDelta: null, stats: this.getStreamerStats() };
     }
     this.lastPosition = { ...position };
     this.lastVelocity = { ...velocity };
+    this.lastIntent = intent;
     const rebaseDelta = this.maybeRebase(position);
     this.architecture?.cover(position, this.companionPositions);
-    const desired = this.buildDesiredChunks(position, velocity);
     const now = performance.now();
+    const centerX = Math.floor(position.x / CHUNK_SIZE);
+    const centerZ = Math.floor(position.z / CHUNK_SIZE);
+    const center = chunkKey(centerX, centerZ);
+    const inFlight = intent.inFlight !== false;
+    if (center !== this.plannedCenter || inFlight !== this.plannedInFlight || now >= this.planAfter
+      || Math.hypot(velocity.x - this.plannedVelocity.x, velocity.z - this.plannedVelocity.z) >= 10) {
+      this.plannedCenter = center;
+      this.plannedInFlight = inFlight;
+      this.plannedVelocity = { x: velocity.x, z: velocity.z };
+      this.planAfter = now + PLAN_INTERVAL_MS;
+      this.reconcileDesiredChunks(this.buildDesiredChunks(position, velocity, intent.forecast?.(), now, centerX, centerZ, inFlight), now);
+    }
+
+    return {
+      coverageComplete: this.isCollisionCovered(position),
+      rebaseDelta,
+      stats: this.getStreamerStats(),
+    };
+  }
+
+  private reconcileDesiredChunks(desired: Map<string, number>, now: number): void {
 
     for (const record of [...this.chunks.values()]) {
-      if (desired.has(record.key)) {
-        record.priority = desired.get(record.key)!;
-        record.lastUsed = now;
+      const priority = desired.get(record.key);
+      if (priority !== undefined) {
+        record.priority = priority;
+        if (record.priority < RETENTION_PRIORITY) record.lastUsed = now;
+        if (record.state === 'RETIRING') record.state = 'GENERATING';
       } else if (record.state === 'QUEUED') {
         this.chunks.delete(record.key);
       } else if (record.state === 'ACTIVE' || record.state === 'READY') {
@@ -233,22 +291,22 @@ export class WorldStreamer implements RenderableWorld {
       });
     }
 
-    this.enforceBudget(position);
     this.processQueue();
-    return {
-      coverageComplete: this.isCollisionCovered(position),
-      rebaseDelta,
-      stats: this.getStreamerStats(),
-    };
   }
   public setCompanionPositions(positions: readonly { x: number; y: number; z: number }[]): void {
     this.companionPositions = positions.filter(position => Object.values(position).every(Number.isFinite)).slice(0, 3).map(position => ({ ...position }));
+    const footprint = this.companionPositions.map(({ x, z }) => [x - 80, x + 80, z - 80, z + 80]
+      .map(edge => Math.floor(edge / CHUNK_SIZE)).join(':')).join(';');
+    if (footprint !== this.companionFootprint) {
+      this.companionFootprint = footprint;
+      this.planAfter = 0;
+    }
   }
 
   public async prime(position = this.defaultSpawn.position, timeoutMs = 30_000): Promise<void> {
     const started = performance.now();
     while (!this.isCollisionCovered(position)) {
-      this.update(position, { x: 0, y: 0, z: -1 });
+      this.update(position, { x: 0, y: 0, z: -1 }, { inFlight: false });
       if (performance.now() - started > timeoutMs) {
         throw new Error('Timed out while preparing collision chunks around the spawn.');
       }
@@ -354,14 +412,10 @@ export class WorldStreamer implements RenderableWorld {
       stateCounts[record.state] += 1;
       if (record.state !== 'ACTIVE' || !record.generated) continue;
       active += 1;
-      geometryBytesTotal += geometryBytes(record.generated.collisionGeometry);
-      record.generated.group.traverse((object) => {
-        if (!(object instanceof THREE.Mesh)) return;
-        renderObjectCount += 1;
-        geometryBytesTotal += geometryBytes(object.geometry);
-      });
+      geometryBytesTotal += record.geometryBytes ?? 0;
+      renderObjectCount += record.renderObjects ?? 0;
     }
-    const timing = summarizeGenerationTimes(this.generationTimes);
+    const timing = this.generationTiming;
     return {
       stateCounts,
       loadedChunks: active,
@@ -380,6 +434,8 @@ export class WorldStreamer implements RenderableWorld {
       generationMinMs: timing.min,
       generationMaxMs: timing.max,
       generationSampleCount: timing.count,
+      synchronousBuildP95Ms: this.synchronousBuildP95Ms,
+      activationP95Ms: this.activationP95Ms,
       maxLoadedChunks: this.maxLoadedChunks,
       coverageComplete: this.isCollisionCovered(this.lastPosition),
       rebaseCount: this.rebaseCount,
@@ -416,75 +472,81 @@ export class WorldStreamer implements RenderableWorld {
   }
 
   private buildDesiredChunks(
-    position: { x: number; z: number },
-    velocity: { x: number; z: number },
+    position: Vec3,
+    velocity: Vec3,
+    forecast: StreamForecast | undefined,
+    now: number,
+    centerX: number,
+    centerZ: number,
+    inFlight: boolean,
   ): Map<string, number> {
     const desired = new Map<string, number>();
-    const centerX = Math.floor(position.x / CHUNK_SIZE);
-    const centerZ = Math.floor(position.z / CHUNK_SIZE);
     const add = (x: number, z: number, priority: number): void => {
       const key = chunkKey(x, z);
       const current = desired.get(key);
       if (current === undefined || priority < current) desired.set(key, priority);
     };
 
-    for (let dz = -this.collisionRadius; dz <= this.collisionRadius; dz += 1) {
-      for (let dx = -this.collisionRadius; dx <= this.collisionRadius; dx += 1) {
-        add(centerX + dx, centerZ + dz, Math.abs(dx) + Math.abs(dz));
+    const collisionRing = (x: number, z: number, priority: number): void => {
+      for (let dz = -this.collisionRadius; dz <= this.collisionRadius; dz++) {
+        for (let dx = -this.collisionRadius; dx <= this.collisionRadius; dx++) {
+          const offset = (Math.abs(dx) + Math.abs(dz)) / (1 + this.collisionRadius * 2);
+          add(x + dx, z + dz, priority + offset * 0.5);
+        }
       }
+    };
+    collisionRing(centerX, centerZ, 0);
+
+    const speed = Math.hypot(velocity.x, velocity.z);
+    const path = forecast?.samples ?? (speed > 1 ? [1, 2, 3, MAX_FORECAST_SECONDS].map(seconds => ({
+      seconds, position: { x: position.x + velocity.x * seconds, y: position.y, z: position.z + velocity.z * seconds },
+    })) : []);
+    // The collision index becomes usable only after the BVH is registered. Predict
+    // the same neighborhood the physics gate needs, with extra lead for slower devices.
+    const activationLatency = inFlight ? this.activationP95Ms : 0;
+    const lead = Math.min(2.7, 1.35 + 5 * (activationLatency || 90) / 1000);
+    for (const sample of path) {
+      const x = Math.floor(sample.position.x / CHUNK_SIZE);
+      const z = Math.floor(sample.position.z / CHUNK_SIZE);
+      if (x === centerX && z === centerZ) continue;
+      if (sample.seconds <= lead) collisionRing(x, z, 2 + sample.seconds * 0.6);
+      else collisionRing(x, z, 23 + sample.seconds);
     }
 
-    // Keep a small swept/perception envelope for each follower in the same bounded index.
-    // Player collision cells retain the highest priority; the total budget stays unchanged.
+    // Keep each follower's swept/perception envelope in the same bounded index.
     for (const companion of this.companionPositions) {
       for (let z = Math.floor((companion.z - 80) / CHUNK_SIZE); z <= Math.floor((companion.z + 80) / CHUNK_SIZE); z++) {
         for (let x = Math.floor((companion.x - 80) / CHUNK_SIZE); x <= Math.floor((companion.x + 80) / CHUNK_SIZE); x++) add(x, z, 5);
       }
     }
 
-    for (let dz = -this.renderRadius; dz <= this.renderRadius; dz += 1) {
-      for (let dx = -this.renderRadius; dx <= this.renderRadius; dx += 1) {
-        add(centerX + dx, centerZ + dz, 10 + Math.abs(dx) + Math.abs(dz));
+    const heading = forecast?.heading ?? velocity;
+    const headingLength = Math.hypot(heading.x, heading.z);
+    const viewRadius = this.renderRadius + 1;
+    for (let dz = -viewRadius; dz <= viewRadius; dz++) {
+      for (let dx = -viewRadius; dx <= viewRadius; dx++) {
+        const radius = Math.max(Math.abs(dx), Math.abs(dz));
+        if (radius <= this.collisionRadius) continue;
+        const direction = headingLength > 0.01 ? (dx * heading.x + dz * heading.z) / (Math.hypot(dx, dz) * headingLength) : 0;
+        if (radius === viewRadius && direction < 0.65) continue;
+        add(centerX + dx, centerZ + dz, 12 + radius * 2 - direction * 3);
       }
     }
 
-    const speed = Math.hypot(velocity.x, velocity.z);
-    if (speed > 1) {
-      const averageGenerationMs = this.generationTimes.length
-        ? this.generationTimes.reduce((sum, value) => sum + value, 0) / this.generationTimes.length
-        : 0;
-      const latencySeconds = this.generationTimes.length
-        ? Math.min(0.8, (averageGenerationMs / 1000) * 2)
-        : 0.25;
-      const horizonMeters = Math.min(720, speed * (LOOK_AHEAD_SECONDS + latencySeconds));
-      const directionalX = velocity.x / speed;
-      const directionalZ = velocity.z / speed;
-      for (let distance = CHUNK_SIZE * 0.5; distance <= horizonMeters; distance += CHUNK_SIZE * 0.5) {
-        const predictedX = Math.floor((position.x + directionalX * distance) / CHUNK_SIZE);
-        const predictedZ = Math.floor((position.z + directionalZ * distance) / CHUNK_SIZE);
-        for (let dz = -1; dz <= 1; dz += 1) {
-          for (let dx = -1; dx <= 1; dx += 1) {
-            add(predictedX + dx, predictedZ + dz, 20 + distance / CHUNK_SIZE + Math.abs(dx) + Math.abs(dz));
-          }
-        }
+    // Preserve recent nearby geometry when the player crosses back or reverses.
+    // These entries cannot displace any requested collision or visible cell.
+    if (inFlight) {
+      for (const record of this.chunks.values()) {
+        if (!isActive(record) || now - record.lastUsed > RETENTION_MS) continue;
+        const radius = Math.max(Math.abs(record.chunkX - centerX), Math.abs(record.chunkZ - centerZ));
+        if (radius <= viewRadius) add(record.chunkX, record.chunkZ, RETENTION_PRIORITY + radius);
       }
     }
-
-    const ordered = [...desired.entries()].sort((a, b) => a[1] - b[1]).slice(0, this.maxLoadedChunks);
-    return new Map(ordered);
-  }
-
-  private enforceBudget(position: { x: number; z: number }): void {
-    const active = [...this.chunks.values()].filter(isActive);
-    if (active.length <= this.maxLoadedChunks) return;
-    active.sort((a, b) => {
-      const da = Math.hypot((a.chunkX + 0.5) * CHUNK_SIZE - position.x, (a.chunkZ + 0.5) * CHUNK_SIZE - position.z);
-      const db = Math.hypot((b.chunkX + 0.5) * CHUNK_SIZE - position.x, (b.chunkZ + 0.5) * CHUNK_SIZE - position.z);
-      return db - da;
-    });
-    for (const record of active.slice(0, active.length - this.maxLoadedChunks)) {
-      this.retireChunk(record);
-    }
+    const ordered = [...desired.entries()].sort((a, b) => a[1] - b[1]);
+    const safetyChunks = ordered.filter(([, priority]) => priority < 10).length;
+    const visualLimit = Math.max(30, 36 - Math.floor(Math.max(0, activationLatency - 70) / 18));
+    const budget = Math.min(this.maxLoadedChunks, Math.max(safetyChunks, visualLimit));
+    return new Map(ordered.slice(0, budget));
   }
 
   private processQueue(): void {
@@ -504,8 +566,10 @@ export class WorldStreamer implements RenderableWorld {
     this.source.generate({ chunkX: record.chunkX, chunkZ: record.chunkZ, revision: record.revision })
       .then((generated) => {
         const duration = performance.now() - started;
-        this.generationTimes.push(duration);
-        if (this.generationTimes.length > 200) this.generationTimes.shift();
+        this.generationTiming = addTiming(this.generationTimes, duration);
+        if (generated.synchronousBuildMs !== undefined) {
+          this.synchronousBuildP95Ms = addTiming(this.synchronousBuildTimes, generated.synchronousBuildMs).p95;
+        }
         if (this.disposed || record.requestToken === 0 || record.state !== 'GENERATING') {
           this.disposeGenerated(generated);
           if (record.state === 'RETIRING') this.retiredTotal += 1;
@@ -518,18 +582,33 @@ export class WorldStreamer implements RenderableWorld {
           generated.origin.y,
           generated.origin.z - this.renderOrigin.z,
         );
+        try {
+          this.adapter.addChunk({
+            id: generated.key,
+            chunkX: generated.chunkX,
+            chunkZ: generated.chunkZ,
+            origin: generated.origin,
+            bounds: generated.bounds,
+            geometry: generated.collisionGeometry,
+          } satisfies CollisionChunk);
+        } catch (error) {
+          this.disposeGenerated(generated);
+          throw error;
+        }
+        let bytes = geometryBytes(generated.collisionGeometry);
+        let renderObjects = 0;
+        generated.group.traverse(object => {
+          if (!(object instanceof THREE.Mesh)) return;
+          renderObjects++;
+          bytes += geometryBytes(object.geometry);
+        });
+        record.geometryBytes = bytes;
+        record.renderObjects = renderObjects;
         this.root.add(generated.group);
-        this.adapter.addChunk({
-          id: generated.key,
-          chunkX: generated.chunkX,
-          chunkZ: generated.chunkZ,
-          origin: generated.origin,
-          bounds: generated.bounds,
-          geometry: generated.collisionGeometry,
-        } satisfies CollisionChunk);
         record.state = 'ACTIVE';
         record.generated = generated;
         this.generatedTotal += 1;
+        this.activationP95Ms = addTiming(this.activationTimes, performance.now() - started).p95;
         if (!this.disposed) {
           try {
             this.onChunkActivated({
@@ -550,7 +629,7 @@ export class WorldStreamer implements RenderableWorld {
         if (this.retryTimer !== null) clearTimeout(this.retryTimer);
         this.retryTimer = setTimeout(() => {
           this.retryTimer = null;
-          if (!this.disposed) this.update(this.lastPosition, this.lastVelocity);
+          if (!this.disposed) this.update(this.lastPosition, this.lastVelocity, this.lastIntent);
         }, 400);
       })
       .finally(() => {

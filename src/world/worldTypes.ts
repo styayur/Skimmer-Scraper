@@ -30,6 +30,7 @@ export interface GeneratedChunk {
   collisionGeometry: BufferGeometry;
   fingerprint: number;
   stats: ChunkGenerationStats;
+  synchronousBuildMs?: number;
 }
 
 export interface WorldStats {

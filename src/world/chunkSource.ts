@@ -34,7 +34,10 @@ export class InlineChunkSource implements ChunkSource {
   public async generate(request: ChunkSourceRequest): Promise<GeneratedChunk> {
     await yieldToBrowser();
     if (this.disposed) throw new Error('Chunk source was disposed before generation started.');
-    return this.generator.generate(request.chunkX, request.chunkZ, request.revision);
+    const started = performance.now();
+    const chunk = this.generator.generate(request.chunkX, request.chunkZ, request.revision);
+    chunk.synchronousBuildMs = performance.now() - started;
+    return chunk;
   }
 
   public dispose(): void {

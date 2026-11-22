@@ -1,0 +1,2005 @@
+{
+  "name": "before-cold",
+  "browser": "157.0.8103.79",
+  "driver": "32.0.32029.2010",
+  "runs": [
+    {
+      "quality": "balanced",
+      "cpuThrottle": 4,
+      "seconds": 14.957999999999998,
+      "altitude": 410,
+      "cold": true,
+      "initial": {
+        "elapsed": 0,
+        "position": {
+          "x": 4596,
+          "y": 410,
+          "z": 4436
+        },
+        "attitude": {
+          "pitch": 0,
+          "roll": 0,
+          "yaw": 0
+        },
+        "speed": 66.03003078475501,
+        "buffering": false,
+        "world": 0,
+        "stalledCompanions": [
+          false,
+          false,
+          false
+        ],
+        "deployed": 3,
+        "drawCalls": 98,
+        "renderGeometries": 48,
+        "textures": 25,
+        "dynamic": 8,
+        "streaming": {
+          "stateCounts": {
+            "UNLOADED": 0,
+            "QUEUED": 14,
+            "GENERATING": 1,
+            "READY": 0,
+            "ACTIVE": 10,
+            "RETIRING": 0,
+            "DISPOSED": 0
+          },
+          "loadedChunks": 10,
+          "activeChunks": 10,
+          "queuedChunks": 14,
+          "generatingChunks": 1,
+          "generatedTotal": 27,
+          "retiredTotal": 18,
+          "disposedGeometryCount": 293,
+          "bvhCount": 10,
+          "dynamicBvhCount": 8,
+          "renderObjectCount": 151,
+          "estimatedCpuGeometryBytes": 13012060,
+          "generationAvgMs": 109.0607142863529,
+          "generationP95Ms": 298.6000000089407,
+          "generationMinMs": 7.299999997019768,
+          "generationMaxMs": 958.3000000119209,
+          "generationSampleCount": 28,
+          "maxLoadedChunks": 41,
+          "coverageComplete": true,
+          "rebaseCount": 0
+        },
+        "shieldImpacts": 0
+      },
+      "end": {
+        "elapsed": 14.008333333333164,
+        "position": {
+          "x": 4428.080555254958,
+          "y": 410,
+          "z": 3596.053377798218
+        },
+        "attitude": {
+          "pitch": 0,
+          "roll": 0,
+          "yaw": 3.0095678603855633
+        },
+        "speed": 101.99999977976393,
+        "buffering": false,
+        "world": 0,
+        "stalledCompanions": [
+          false,
+          false,
+          false
+        ],
+        "deployed": 3,
+        "drawCalls": 317,
+        "renderGeometries": 389,
+        "textures": 25,
+        "dynamic": 8,
+        "streaming": {
+          "stateCounts": {
+            "UNLOADED": 0,
+            "QUEUED": 0,
+            "GENERATING": 0,
+            "READY": 0,
+            "ACTIVE": 25,
+            "RETIRING": 0,
+            "DISPOSED": 0
+          },
+          "loadedChunks": 25,
+          "activeChunks": 25,
+          "queuedChunks": 0,
+          "generatingChunks": 0,
+          "generatedTotal": 70,
+          "retiredTotal": 47,
+          "disposedGeometryCount": 770,
+          "bvhCount": 25,
+          "dynamicBvhCount": 8,
+          "renderObjectCount": 387,
+          "estimatedCpuGeometryBytes": 33799188,
+          "generationAvgMs": 115.27916666720476,
+          "generationP95Ms": 181.5,
+          "generationMinMs": 7.299999997019768,
+          "generationMaxMs": 958.3000000119209,
+          "generationSampleCount": 72,
+          "maxLoadedChunks": 41,
+          "coverageComplete": true,
+          "rebaseCount": 0
+        },
+        "shieldImpacts": 0
+      },
+      "mode": "running",
+      "fps": 39.77804519320765,
+      "frameCount": 595,
+      "frameMs": [
+        16.700000000000728,
+        99.79999999999927,
+        142.30000000000018
+      ],
+      "visibleFrames": 595,
+      "incompleteFrames": 128,
+      "maxMissing": 7,
+      "bufferingEntries": 1,
+      "bufferingFrames": 1,
+      "bufferingMs": 150,
+      "collisionCellEntries": 6,
+      "readyAtPreviousFrame": 5,
+      "distanceTraveled": 1402.3492011796413,
+      "samples": [
+        {
+          "ms": 16.800000000000182,
+          "elapsed": 0,
+          "position": {
+            "x": 4596,
+            "y": 410,
+            "z": 4436
+          },
+          "attitude": {
+            "pitch": 0,
+            "roll": 0,
+            "yaw": 0
+          },
+          "speed": 66.03003078475501,
+          "buffering": false,
+          "world": 0,
+          "stalledCompanions": [
+            false,
+            false,
+            false
+          ],
+          "deployed": 3,
+          "drawCalls": 98,
+          "renderGeometries": 48,
+          "textures": 25,
+          "dynamic": 8,
+          "streaming": {
+            "stateCounts": {
+              "UNLOADED": 0,
+              "QUEUED": 13,
+              "GENERATING": 1,
+              "READY": 0,
+              "ACTIVE": 11,
+              "RETIRING": 0,
+              "DISPOSED": 0
+            },
+            "loadedChunks": 11,
+            "activeChunks": 11,
+            "queuedChunks": 13,
+            "generatingChunks": 1,
+            "generatedTotal": 28,
+            "retiredTotal": 18,
+            "disposedGeometryCount": 293,
+            "bvhCount": 11,
+            "dynamicBvhCount": 8,
+            "renderObjectCount": 168,
+            "estimatedCpuGeometryBytes": 14344004,
+            "generationAvgMs": 109.27241379382282,
+            "generationP95Ms": 298.6000000089407,
+            "generationMinMs": 7.299999997019768,
+            "generationMaxMs": 958.3000000119209,
+            "generationSampleCount": 29,
+            "maxLoadedChunks": 41,
+            "coverageComplete": true,
+            "rebaseCount": 0
+          },
+          "shieldImpacts": 0,
+          "projectedCells": 8,
+          "missingCells": [
+            "19:18",
+            "19:17",
+            "20:17",
+            "21:17",
+            "21:18",
+            "22:18",
+            "22:17"
+          ]
+        },
+        {
+          "ms": 633.4000000000001,
+          "elapsed": 0.47499999999999987,
+          "position": {
+            "x": 4596,
+            "y": 410,
+            "z": 4400.091758059698
+          },
+          "attitude": {
+            "pitch": 0,
+            "roll": 0,
+            "yaw": 0
+          },
+          "speed": 83.05700129350873,
+          "buffering": true,
+          "world": 0,
+          "stalledCompanions": [
+            false,
+            false,
+            false
+          ],
+          "deployed": 3,
+          "drawCalls": 132,
+          "renderGeometries": 66,
+          "textures": 25,
+          "dynamic": 8,
+          "streaming": {
+            "stateCounts": {
+              "UNLOADED": 0,
+              "QUEUED": 14,
+              "GENERATING": 1,
+              "READY": 0,
+              "ACTIVE": 13,
+              "RETIRING": 0,
+              "DISPOSED": 0
+            },
+            "loadedChunks": 13,
+            "activeChunks": 13,
+            "queuedChunks": 14,
+            "generatingChunks": 1,
+            "generatedTotal": 31,
+            "retiredTotal": 19,
+            "disposedGeometryCount": 310,
+            "bvhCount": 13,
+            "dynamicBvhCount": 8,
+            "renderObjectCount": 202,
+            "estimatedCpuGeometryBytes": 17117660,
+            "generationAvgMs": 114.21250000037253,
+            "generationP95Ms": 298.6000000089407,
+            "generationMinMs": 7.299999997019768,
+            "generationMaxMs": 958.3000000119209,
+            "generationSampleCount": 32,
+            "maxLoadedChunks": 41,
+            "coverageComplete": true,
+            "rebaseCount": 0
+          },
+          "shieldImpacts": 0,
+          "projectedCells": 7,
+          "missingCells": [
+            "20:17",
+            "21:18",
+            "22:18",
+            "19:17",
+            "22:17"
+          ]
+        },
+        {
+          "ms": 658.4000000000001,
+          "elapsed": 0.5166666666666664,
+          "position": {
+            "x": 4596,
+            "y": 410,
+            "z": 4396.604952174984
+          },
+          "attitude": {
+            "pitch": 0,
+            "roll": 0,
+            "yaw": 0
+          },
+          "speed": 84.09313064886544,
+          "buffering": false,
+          "world": 0,
+          "stalledCompanions": [
+            false,
+            false,
+            false
+          ],
+          "deployed": 3,
+          "drawCalls": 164,
+          "renderGeometries": 83,
+          "textures": 25,
+          "dynamic": 8,
+          "streaming": {
+            "stateCounts": {
+              "UNLOADED": 0,
+              "QUEUED": 11,
+              "GENERATING": 0,
+              "READY": 0,
+              "ACTIVE": 14,
+              "RETIRING": 1,
+              "DISPOSED": 0
+            },
+            "loadedChunks": 14,
+            "activeChunks": 14,
+            "queuedChunks": 11,
+            "generatingChunks": 0,
+            "generatedTotal": 32,
+            "retiredTotal": 19,
+            "disposedGeometryCount": 310,
+            "bvhCount": 14,
+            "dynamicBvhCount": 8,
+            "renderObjectCount": 220,
+            "estimatedCpuGeometryBytes": 18829132,
+            "generationAvgMs": 116.12424242451335,
+            "generationP95Ms": 298.6000000089407,
+            "generationMinMs": 7.299999997019768,
+            "generationMaxMs": 958.3000000119209,
+            "generationSampleCount": 33,
+            "maxLoadedChunks": 41,
+            "coverageComplete": true,
+            "rebaseCount": 0
+          },
+          "shieldImpacts": 0,
+          "projectedCells": 7,
+          "missingCells": [
+            "20:17",
+            "22:18",
+            "19:17",
+            "22:17"
+          ]
+        },
+        {
+          "ms": 1166.7000000000003,
+          "elapsed": 0.8833333333333317,
+          "position": {
+            "x": 4596,
+            "y": 410,
+            "z": 4364.354663341883
+          },
+          "attitude": {
+            "pitch": 0,
+            "roll": 0,
+            "yaw": 0
+          },
+          "speed": 91.08449340279243,
+          "buffering": false,
+          "world": 0,
+          "stalledCompanions": [
+            false,
+            false,
+            false
+          ],
+          "deployed": 3,
+          "drawCalls": 162,
+          "renderGeometries": 84,
+          "textures": 25,
+          "dynamic": 8,
+          "streaming": {
+            "stateCounts": {
+              "UNLOADED": 0,
+              "QUEUED": 8,
+              "GENERATING": 1,
+              "READY": 0,
+              "ACTIVE": 16,
+              "RETIRING": 0,
+              "DISPOSED": 0
+            },
+            "loadedChunks": 16,
+            "activeChunks": 16,
+            "queuedChunks": 8,
+            "generatingChunks": 1,
+            "generatedTotal": 34,
+            "retiredTotal": 20,
+            "disposedGeometryCount": 327,
+            "bvhCount": 16,
+            "dynamicBvhCount": 8,
+            "renderObjectCount": 253,
+            "estimatedCpuGeometryBytes": 22047672,
+            "generationAvgMs": 120.50833333366447,
+            "generationP95Ms": 298.6000000089407,
+            "generationMinMs": 7.299999997019768,
+            "generationMaxMs": 958.3000000119209,
+            "generationSampleCount": 36,
+            "maxLoadedChunks": 41,
+            "coverageComplete": true,
+            "rebaseCount": 0
+          },
+          "shieldImpacts": 0,
+          "projectedCells": 8,
+          "missingCells": [
+            "19:17",
+            "20:17",
+            "21:17",
+            "22:18",
+            "22:17"
+          ]
+        },
+        {
+          "ms": 1708.2999999999997,
+          "elapsed": 1.299999999999997,
+          "position": {
+            "x": 4596,
+            "y": 410,
+            "z": 4325.313680176861
+          },
+          "attitude": {
+            "pitch": 0,
+            "roll": 0,
+            "yaw": 0
+          },
+          "speed": 95.780531817674,
+          "buffering": false,
+          "world": 0,
+          "stalledCompanions": [
+            false,
+            false,
+            false
+          ],
+          "deployed": 3,
+          "drawCalls": 214,
+          "renderGeometries": 120,
+          "textures": 25,
+          "dynamic": 8,
+          "streaming": {
+            "stateCounts": {
+              "UNLOADED": 0,
+              "QUEUED": 5,
+              "GENERATING": 1,
+              "READY": 0,
+              "ACTIVE": 19,
+              "RETIRING": 0,
+              "DISPOSED": 0
+            },
+            "loadedChunks": 19,
+            "activeChunks": 19,
+            "queuedChunks": 5,
+            "generatingChunks": 1,
+            "generatedTotal": 37,
+            "retiredTotal": 20,
+            "disposedGeometryCount": 327,
+            "bvhCount": 19,
+            "dynamicBvhCount": 8,
+            "renderObjectCount": 300,
+            "estimatedCpuGeometryBytes": 26275376,
+            "generationAvgMs": 120.7717948724062,
+            "generationP95Ms": 298.6000000089407,
+            "generationMinMs": 7.299999997019768,
+            "generationMaxMs": 958.3000000119209,
+            "generationSampleCount": 39,
+            "maxLoadedChunks": 41,
+            "coverageComplete": true,
+            "rebaseCount": 0
+          },
+          "shieldImpacts": 0,
+          "projectedCells": 8,
+          "missingCells": [
+            "19:17",
+            "21:17",
+            "22:17"
+          ]
+        },
+        {
+          "ms": 2250.0000000000005,
+          "elapsed": 1.7749999999999955,
+          "position": {
+            "x": 4596,
+            "y": 410,
+            "z": 4279.032240976454
+          },
+          "attitude": {
+            "pitch": 0,
+            "roll": 0,
+            "yaw": 0
+          },
+          "speed": 98.72461833292499,
+          "buffering": false,
+          "world": 0,
+          "stalledCompanions": [
+            false,
+            false,
+            false
+          ],
+          "deployed": 3,
+          "drawCalls": 236,
+          "renderGeometries": 145,
+          "textures": 25,
+          "dynamic": 8,
+          "streaming": {
+            "stateCounts": {
+              "UNLOADED": 0,
+              "QUEUED": 4,
+              "GENERATING": 1,
+              "READY": 0,
+              "ACTIVE": 23,
+              "RETIRING": 0,
+              "DISPOSED": 0
+            },
+            "loadedChunks": 23,
+            "activeChunks": 23,
+            "queuedChunks": 4,
+            "generatingChunks": 1,
+            "generatedTotal": 41,
+            "retiredTotal": 20,
+            "disposedGeometryCount": 327,
+            "bvhCount": 23,
+            "dynamicBvhCount": 8,
+            "renderObjectCount": 358,
+            "estimatedCpuGeometryBytes": 31503512,
+            "generationAvgMs": 121.72790697736795,
+            "generationP95Ms": 182.59999999403954,
+            "generationMinMs": 7.299999997019768,
+            "generationMaxMs": 958.3000000119209,
+            "generationSampleCount": 43,
+            "maxLoadedChunks": 41,
+            "coverageComplete": true,
+            "rebaseCount": 0
+          },
+          "shieldImpacts": 0,
+          "projectedCells": 8,
+          "missingCells": [
+            "22:17"
+          ]
+        },
+        {
+          "ms": 2866.7000000000003,
+          "elapsed": 2.308333333333327,
+          "position": {
+            "x": 4596,
+            "y": 410,
+            "z": 4225.87049571272
+          },
+          "attitude": {
+            "pitch": 0,
+            "roll": 0,
+            "yaw": 0
+          },
+          "speed": 100.4057005844213,
+          "buffering": false,
+          "world": 0,
+          "stalledCompanions": [
+            false,
+            false,
+            false
+          ],
+          "deployed": 3,
+          "drawCalls": 340,
+          "renderGeometries": 217,
+          "textures": 25,
+          "dynamic": 8,
+          "streaming": {
+            "stateCounts": {
+              "UNLOADED": 0,
+              "QUEUED": 0,
+              "GENERATING": 0,
+              "READY": 0,
+              "ACTIVE": 28,
+              "RETIRING": 0,
+              "DISPOSED": 0
+            },
+            "loadedChunks": 28,
+            "activeChunks": 28,
+            "queuedChunks": 0,
+            "generatingChunks": 0,
+            "generatedTotal": 46,
+            "retiredTotal": 20,
+            "disposedGeometryCount": 327,
+            "bvhCount": 28,
+            "dynamicBvhCount": 8,
+            "renderObjectCount": 435,
+            "estimatedCpuGeometryBytes": 38638256,
+            "generationAvgMs": 121.43541666741173,
+            "generationP95Ms": 182.59999999403954,
+            "generationMinMs": 7.299999997019768,
+            "generationMaxMs": 958.3000000119209,
+            "generationSampleCount": 48,
+            "maxLoadedChunks": 41,
+            "coverageComplete": true,
+            "rebaseCount": 0
+          },
+          "shieldImpacts": 0,
+          "projectedCells": 9,
+          "missingCells": []
+        },
+        {
+          "ms": 3450.0000000000005,
+          "elapsed": 2.891666666666658,
+          "position": {
+            "x": 4596,
+            "y": 410,
+            "z": 4167.010529207358
+          },
+          "attitude": {
+            "pitch": 0,
+            "roll": 0,
+            "yaw": 0
+          },
+          "speed": 101.27462433386368,
+          "buffering": false,
+          "world": 0,
+          "stalledCompanions": [
+            false,
+            false,
+            false
+          ],
+          "deployed": 3,
+          "drawCalls": 343,
+          "renderGeometries": 244,
+          "textures": 25,
+          "dynamic": 8,
+          "streaming": {
+            "stateCounts": {
+              "UNLOADED": 0,
+              "QUEUED": 0,
+              "GENERATING": 0,
+              "READY": 0,
+              "ACTIVE": 25,
+              "RETIRING": 0,
+              "DISPOSED": 0
+            },
+            "loadedChunks": 25,
+            "activeChunks": 25,
+            "queuedChunks": 0,
+            "generatingChunks": 0,
+            "generatedTotal": 48,
+            "retiredTotal": 25,
+            "disposedGeometryCount": 409,
+            "bvhCount": 25,
+            "dynamicBvhCount": 8,
+            "renderObjectCount": 387,
+            "estimatedCpuGeometryBytes": 34366368,
+            "generationAvgMs": 120.54200000077486,
+            "generationP95Ms": 182.59999999403954,
+            "generationMinMs": 7.299999997019768,
+            "generationMaxMs": 958.3000000119209,
+            "generationSampleCount": 50,
+            "maxLoadedChunks": 41,
+            "coverageComplete": true,
+            "rebaseCount": 0
+          },
+          "shieldImpacts": 0,
+          "projectedCells": 7,
+          "missingCells": []
+        },
+        {
+          "ms": 3950.0000000000005,
+          "elapsed": 3.3666666666666565,
+          "position": {
+            "x": 4596,
+            "y": 410,
+            "z": 4118.813448136831
+          },
+          "attitude": {
+            "pitch": 0,
+            "roll": 0,
+            "yaw": 0
+          },
+          "speed": 101.6179927143358,
+          "buffering": false,
+          "world": 0,
+          "stalledCompanions": [
+            false,
+            false,
+            false
+          ],
+          "deployed": 3,
+          "drawCalls": 320,
+          "renderGeometries": 244,
+          "textures": 25,
+          "dynamic": 8,
+          "streaming": {
+            "stateCounts": {
+              "UNLOADED": 0,
+              "QUEUED": 0,
+              "GENERATING": 0,
+              "READY": 0,
+              "ACTIVE": 25,
+              "RETIRING": 0,
+              "DISPOSED": 0
+            },
+            "loadedChunks": 25,
+            "activeChunks": 25,
+            "queuedChunks": 0,
+            "generatingChunks": 0,
+            "generatedTotal": 48,
+            "retiredTotal": 25,
+            "disposedGeometryCount": 409,
+            "bvhCount": 25,
+            "dynamicBvhCount": 8,
+            "renderObjectCount": 387,
+            "estimatedCpuGeometryBytes": 34366368,
+            "generationAvgMs": 120.54200000077486,
+            "generationP95Ms": 182.59999999403954,
+            "generationMinMs": 7.299999997019768,
+            "generationMaxMs": 958.3000000119209,
+            "generationSampleCount": 50,
+            "maxLoadedChunks": 41,
+            "coverageComplete": true,
+            "rebaseCount": 0
+          },
+          "shieldImpacts": 0,
+          "projectedCells": 8,
+          "missingCells": []
+        },
+        {
+          "ms": 4458.299999999999,
+          "elapsed": 3.874999999999995,
+          "position": {
+            "x": 4596,
+            "y": 410,
+            "z": 4067.1031642431976
+          },
+          "attitude": {
+            "pitch": 0,
+            "roll": 0,
+            "yaw": 0
+          },
+          "speed": 101.80767441696607,
+          "buffering": false,
+          "world": 0,
+          "stalledCompanions": [
+            false,
+            false,
+            false
+          ],
+          "deployed": 3,
+          "drawCalls": 324,
+          "renderGeometries": 258,
+          "textures": 25,
+          "dynamic": 8,
+          "streaming": {
+            "stateCounts": {
+              "UNLOADED": 0,
+              "QUEUED": 1,
+              "GENERATING": 1,
+              "READY": 0,
+              "ACTIVE": 26,
+              "RETIRING": 0,
+              "DISPOSED": 0
+            },
+            "loadedChunks": 26,
+            "activeChunks": 26,
+            "queuedChunks": 1,
+            "generatingChunks": 1,
+            "generatedTotal": 49,
+            "retiredTotal": 25,
+            "disposedGeometryCount": 409,
+            "bvhCount": 26,
+            "dynamicBvhCount": 8,
+            "renderObjectCount": 402,
+            "estimatedCpuGeometryBytes": 36000452,
+            "generationAvgMs": 120.44117647146477,
+            "generationP95Ms": 182.59999999403954,
+            "generationMinMs": 7.299999997019768,
+            "generationMaxMs": 958.3000000119209,
+            "generationSampleCount": 51,
+            "maxLoadedChunks": 41,
+            "coverageComplete": true,
+            "rebaseCount": 0
+          },
+          "shieldImpacts": 0,
+          "projectedCells": 8,
+          "missingCells": []
+        },
+        {
+          "ms": 4975,
+          "elapsed": 4.30833333333335,
+          "position": {
+            "x": 4596,
+            "y": 410,
+            "z": 4022.965906195007
+          },
+          "attitude": {
+            "pitch": 0,
+            "roll": 0,
+            "yaw": 0
+          },
+          "speed": 101.89285429031534,
+          "buffering": false,
+          "world": 0,
+          "stalledCompanions": [
+            false,
+            false,
+            false
+          ],
+          "deployed": 3,
+          "drawCalls": 355,
+          "renderGeometries": 288,
+          "textures": 25,
+          "dynamic": 8,
+          "streaming": {
+            "stateCounts": {
+              "UNLOADED": 0,
+              "QUEUED": 0,
+              "GENERATING": 0,
+              "READY": 0,
+              "ACTIVE": 28,
+              "RETIRING": 0,
+              "DISPOSED": 0
+            },
+            "loadedChunks": 28,
+            "activeChunks": 28,
+            "queuedChunks": 0,
+            "generatingChunks": 0,
+            "generatedTotal": 51,
+            "retiredTotal": 25,
+            "disposedGeometryCount": 409,
+            "bvhCount": 28,
+            "dynamicBvhCount": 8,
+            "renderObjectCount": 434,
+            "estimatedCpuGeometryBytes": 39002904,
+            "generationAvgMs": 120.42641509535177,
+            "generationP95Ms": 182.59999999403954,
+            "generationMinMs": 7.299999997019768,
+            "generationMaxMs": 958.3000000119209,
+            "generationSampleCount": 53,
+            "maxLoadedChunks": 41,
+            "coverageComplete": true,
+            "rebaseCount": 0
+          },
+          "shieldImpacts": 0,
+          "projectedCells": 9,
+          "missingCells": []
+        },
+        {
+          "ms": 5483.299999999999,
+          "elapsed": 4.816666666666709,
+          "position": {
+            "x": 4596,
+            "y": 410,
+            "z": 3971.1550938805117
+          },
+          "attitude": {
+            "pitch": 0,
+            "roll": 0,
+            "yaw": 0
+          },
+          "speed": 101.94605636631024,
+          "buffering": false,
+          "world": 0,
+          "stalledCompanions": [
+            false,
+            false,
+            false
+          ],
+          "deployed": 3,
+          "drawCalls": 299,
+          "renderGeometries": 288,
+          "textures": 25,
+          "dynamic": 8,
+          "streaming": {
+            "stateCounts": {
+              "UNLOADED": 0,
+              "QUEUED": 0,
+              "GENERATING": 0,
+              "READY": 0,
+              "ACTIVE": 28,
+              "RETIRING": 0,
+              "DISPOSED": 0
+            },
+            "loadedChunks": 28,
+            "activeChunks": 28,
+            "queuedChunks": 0,
+            "generatingChunks": 0,
+            "generatedTotal": 51,
+            "retiredTotal": 25,
+            "disposedGeometryCount": 409,
+            "bvhCount": 28,
+            "dynamicBvhCount": 8,
+            "renderObjectCount": 434,
+            "estimatedCpuGeometryBytes": 39002904,
+            "generationAvgMs": 120.42641509535177,
+            "generationP95Ms": 182.59999999403954,
+            "generationMinMs": 7.299999997019768,
+            "generationMaxMs": 958.3000000119209,
+            "generationSampleCount": 53,
+            "maxLoadedChunks": 41,
+            "coverageComplete": true,
+            "rebaseCount": 0
+          },
+          "shieldImpacts": 0,
+          "projectedCells": 5,
+          "missingCells": []
+        },
+        {
+          "ms": 5983.4,
+          "elapsed": 5.291666666666732,
+          "position": {
+            "x": 4596,
+            "y": 410,
+            "z": 3922.7239025705753
+          },
+          "attitude": {
+            "pitch": 0,
+            "roll": 0,
+            "yaw": 0
+          },
+          "speed": 101.97159146350407,
+          "buffering": false,
+          "world": 0,
+          "stalledCompanions": [
+            false,
+            false,
+            false
+          ],
+          "deployed": 3,
+          "drawCalls": 340,
+          "renderGeometries": 317,
+          "textures": 25,
+          "dynamic": 8,
+          "streaming": {
+            "stateCounts": {
+              "UNLOADED": 0,
+              "QUEUED": 0,
+              "GENERATING": 0,
+              "READY": 0,
+              "ACTIVE": 25,
+              "RETIRING": 0,
+              "DISPOSED": 0
+            },
+            "loadedChunks": 25,
+            "activeChunks": 25,
+            "queuedChunks": 0,
+            "generatingChunks": 0,
+            "generatedTotal": 53,
+            "retiredTotal": 30,
+            "disposedGeometryCount": 489,
+            "bvhCount": 25,
+            "dynamicBvhCount": 8,
+            "renderObjectCount": 390,
+            "estimatedCpuGeometryBytes": 35089728,
+            "generationAvgMs": 119.65272727364844,
+            "generationP95Ms": 182.59999999403954,
+            "generationMinMs": 7.299999997019768,
+            "generationMaxMs": 958.3000000119209,
+            "generationSampleCount": 55,
+            "maxLoadedChunks": 41,
+            "coverageComplete": true,
+            "rebaseCount": 0
+          },
+          "shieldImpacts": 0,
+          "projectedCells": 7,
+          "missingCells": []
+        },
+        {
+          "ms": 6508.199999999999,
+          "elapsed": 5.816666666666759,
+          "position": {
+            "x": 4596,
+            "y": 410,
+            "z": 3869.1845271564885
+          },
+          "attitude": {
+            "pitch": 0,
+            "roll": 0,
+            "yaw": 0
+          },
+          "speed": 101.98601563834204,
+          "buffering": false,
+          "world": 0,
+          "stalledCompanions": [
+            false,
+            false,
+            false
+          ],
+          "deployed": 3,
+          "drawCalls": 306,
+          "renderGeometries": 317,
+          "textures": 25,
+          "dynamic": 8,
+          "streaming": {
+            "stateCounts": {
+              "UNLOADED": 0,
+              "QUEUED": 0,
+              "GENERATING": 0,
+              "READY": 0,
+              "ACTIVE": 25,
+              "RETIRING": 0,
+              "DISPOSED": 0
+            },
+            "loadedChunks": 25,
+            "activeChunks": 25,
+            "queuedChunks": 0,
+            "generatingChunks": 0,
+            "generatedTotal": 53,
+            "retiredTotal": 30,
+            "disposedGeometryCount": 489,
+            "bvhCount": 25,
+            "dynamicBvhCount": 8,
+            "renderObjectCount": 390,
+            "estimatedCpuGeometryBytes": 35089728,
+            "generationAvgMs": 119.65272727364844,
+            "generationP95Ms": 182.59999999403954,
+            "generationMinMs": 7.299999997019768,
+            "generationMaxMs": 958.3000000119209,
+            "generationSampleCount": 55,
+            "maxLoadedChunks": 41,
+            "coverageComplete": true,
+            "rebaseCount": 0
+          },
+          "shieldImpacts": 0,
+          "projectedCells": 8,
+          "missingCells": []
+        },
+        {
+          "ms": 7041.5,
+          "elapsed": 6.341666666666784,
+          "position": {
+            "x": 4596,
+            "y": 410,
+            "z": 3815.6397572059823
+          },
+          "attitude": {
+            "pitch": 0,
+            "roll": 0,
+            "yaw": 0
+          },
+          "speed": 101.99311607019926,
+          "buffering": false,
+          "world": 0,
+          "stalledCompanions": [
+            false,
+            false,
+            false
+          ],
+          "deployed": 3,
+          "drawCalls": 350,
+          "renderGeometries": 363,
+          "textures": 25,
+          "dynamic": 8,
+          "streaming": {
+            "stateCounts": {
+              "UNLOADED": 0,
+              "QUEUED": 0,
+              "GENERATING": 0,
+              "READY": 0,
+              "ACTIVE": 28,
+              "RETIRING": 0,
+              "DISPOSED": 0
+            },
+            "loadedChunks": 28,
+            "activeChunks": 28,
+            "queuedChunks": 0,
+            "generatingChunks": 0,
+            "generatedTotal": 56,
+            "retiredTotal": 30,
+            "disposedGeometryCount": 489,
+            "bvhCount": 28,
+            "dynamicBvhCount": 8,
+            "renderObjectCount": 439,
+            "estimatedCpuGeometryBytes": 38860904,
+            "generationAvgMs": 118.41724138013248,
+            "generationP95Ms": 182.59999999403954,
+            "generationMinMs": 7.299999997019768,
+            "generationMaxMs": 958.3000000119209,
+            "generationSampleCount": 58,
+            "maxLoadedChunks": 41,
+            "coverageComplete": true,
+            "rebaseCount": 0
+          },
+          "shieldImpacts": 0,
+          "projectedCells": 9,
+          "missingCells": []
+        },
+        {
+          "ms": 7549.9,
+          "elapsed": 6.8500000000001435,
+          "position": {
+            "x": 4596,
+            "y": 410,
+            "z": 3763.792274948193
+          },
+          "attitude": {
+            "pitch": 0,
+            "roll": 0,
+            "yaw": 0
+          },
+          "speed": 101.99653421318868,
+          "buffering": false,
+          "world": 0,
+          "stalledCompanions": [
+            false,
+            false,
+            false
+          ],
+          "deployed": 3,
+          "drawCalls": 327,
+          "renderGeometries": 363,
+          "textures": 25,
+          "dynamic": 8,
+          "streaming": {
+            "stateCounts": {
+              "UNLOADED": 0,
+              "QUEUED": 0,
+              "GENERATING": 0,
+              "READY": 0,
+              "ACTIVE": 28,
+              "RETIRING": 0,
+              "DISPOSED": 0
+            },
+            "loadedChunks": 28,
+            "activeChunks": 28,
+            "queuedChunks": 0,
+            "generatingChunks": 0,
+            "generatedTotal": 56,
+            "retiredTotal": 30,
+            "disposedGeometryCount": 489,
+            "bvhCount": 28,
+            "dynamicBvhCount": 8,
+            "renderObjectCount": 439,
+            "estimatedCpuGeometryBytes": 38860904,
+            "generationAvgMs": 118.41724138013248,
+            "generationP95Ms": 182.59999999403954,
+            "generationMinMs": 7.299999997019768,
+            "generationMaxMs": 958.3000000119209,
+            "generationSampleCount": 58,
+            "maxLoadedChunks": 41,
+            "coverageComplete": true,
+            "rebaseCount": 0
+          },
+          "shieldImpacts": 0,
+          "projectedCells": 5,
+          "missingCells": []
+        },
+        {
+          "ms": 8058.199999999999,
+          "elapsed": 7.358333333333501,
+          "position": {
+            "x": 4596,
+            "y": 410,
+            "z": 3711.943542531973
+          },
+          "attitude": {
+            "pitch": 0,
+            "roll": 0,
+            "yaw": 0
+          },
+          "speed": 101.99825511320286,
+          "buffering": false,
+          "world": 0,
+          "stalledCompanions": [
+            false,
+            false,
+            false
+          ],
+          "deployed": 3,
+          "drawCalls": 356,
+          "renderGeometries": 378,
+          "textures": 25,
+          "dynamic": 8,
+          "streaming": {
+            "stateCounts": {
+              "UNLOADED": 0,
+              "QUEUED": 0,
+              "GENERATING": 0,
+              "READY": 0,
+              "ACTIVE": 25,
+              "RETIRING": 0,
+              "DISPOSED": 0
+            },
+            "loadedChunks": 25,
+            "activeChunks": 25,
+            "queuedChunks": 0,
+            "generatingChunks": 0,
+            "generatedTotal": 58,
+            "retiredTotal": 35,
+            "disposedGeometryCount": 574,
+            "bvhCount": 25,
+            "dynamicBvhCount": 8,
+            "renderObjectCount": 387,
+            "estimatedCpuGeometryBytes": 33799188,
+            "generationAvgMs": 116.94166666741172,
+            "generationP95Ms": 182.59999999403954,
+            "generationMinMs": 7.299999997019768,
+            "generationMaxMs": 958.3000000119209,
+            "generationSampleCount": 60,
+            "maxLoadedChunks": 41,
+            "coverageComplete": true,
+            "rebaseCount": 0
+          },
+          "shieldImpacts": 0,
+          "projectedCells": 7,
+          "missingCells": []
+        },
+        {
+          "ms": 8566.5,
+          "elapsed": 7.8666666666668466,
+          "position": {
+            "x": 4596,
+            "y": 410,
+            "z": 3660.094180710351
+          },
+          "attitude": {
+            "pitch": 0,
+            "roll": 0,
+            "yaw": 0
+          },
+          "speed": 101.99912151840245,
+          "buffering": false,
+          "world": 0,
+          "stalledCompanions": [
+            false,
+            false,
+            false
+          ],
+          "deployed": 3,
+          "drawCalls": 328,
+          "renderGeometries": 378,
+          "textures": 25,
+          "dynamic": 8,
+          "streaming": {
+            "stateCounts": {
+              "UNLOADED": 0,
+              "QUEUED": 0,
+              "GENERATING": 0,
+              "READY": 0,
+              "ACTIVE": 25,
+              "RETIRING": 0,
+              "DISPOSED": 0
+            },
+            "loadedChunks": 25,
+            "activeChunks": 25,
+            "queuedChunks": 0,
+            "generatingChunks": 0,
+            "generatedTotal": 58,
+            "retiredTotal": 35,
+            "disposedGeometryCount": 574,
+            "bvhCount": 25,
+            "dynamicBvhCount": 8,
+            "renderObjectCount": 387,
+            "estimatedCpuGeometryBytes": 33799188,
+            "generationAvgMs": 116.94166666741172,
+            "generationP95Ms": 182.59999999403954,
+            "generationMinMs": 7.299999997019768,
+            "generationMaxMs": 958.3000000119209,
+            "generationSampleCount": 60,
+            "maxLoadedChunks": 41,
+            "coverageComplete": true,
+            "rebaseCount": 0
+          },
+          "shieldImpacts": 0,
+          "projectedCells": 8,
+          "missingCells": []
+        },
+        {
+          "ms": 9100.199999999999,
+          "elapsed": 8.383333333333484,
+          "position": {
+            "x": 4596,
+            "y": 410,
+            "z": 3607.3945056524053
+          },
+          "attitude": {
+            "pitch": 0,
+            "roll": 0,
+            "yaw": 0
+          },
+          "speed": 101.99956266698197,
+          "buffering": false,
+          "world": 0,
+          "stalledCompanions": [
+            false,
+            false,
+            false
+          ],
+          "deployed": 3,
+          "drawCalls": 354,
+          "renderGeometries": 416,
+          "textures": 25,
+          "dynamic": 8,
+          "streaming": {
+            "stateCounts": {
+              "UNLOADED": 0,
+              "QUEUED": 0,
+              "GENERATING": 0,
+              "READY": 0,
+              "ACTIVE": 28,
+              "RETIRING": 0,
+              "DISPOSED": 0
+            },
+            "loadedChunks": 28,
+            "activeChunks": 28,
+            "queuedChunks": 0,
+            "generatingChunks": 0,
+            "generatedTotal": 61,
+            "retiredTotal": 35,
+            "disposedGeometryCount": 574,
+            "bvhCount": 28,
+            "dynamicBvhCount": 8,
+            "renderObjectCount": 428,
+            "estimatedCpuGeometryBytes": 37330540,
+            "generationAvgMs": 115.83809523875752,
+            "generationP95Ms": 181.5,
+            "generationMinMs": 7.299999997019768,
+            "generationMaxMs": 958.3000000119209,
+            "generationSampleCount": 63,
+            "maxLoadedChunks": 41,
+            "coverageComplete": true,
+            "rebaseCount": 0
+          },
+          "shieldImpacts": 0,
+          "projectedCells": 8,
+          "missingCells": []
+        },
+        {
+          "ms": 9608.199999999999,
+          "elapsed": 8.891666666666788,
+          "position": {
+            "x": 4596,
+            "y": 410,
+            "z": 3555.544665603457
+          },
+          "attitude": {
+            "pitch": 0,
+            "roll": 0,
+            "yaw": 0
+          },
+          "speed": 101.99977982009548,
+          "buffering": false,
+          "world": 0,
+          "stalledCompanions": [
+            false,
+            false,
+            false
+          ],
+          "deployed": 3,
+          "drawCalls": 315,
+          "renderGeometries": 416,
+          "textures": 25,
+          "dynamic": 8,
+          "streaming": {
+            "stateCounts": {
+              "UNLOADED": 0,
+              "QUEUED": 0,
+              "GENERATING": 0,
+              "READY": 0,
+              "ACTIVE": 28,
+              "RETIRING": 0,
+              "DISPOSED": 0
+            },
+            "loadedChunks": 28,
+            "activeChunks": 28,
+            "queuedChunks": 0,
+            "generatingChunks": 0,
+            "generatedTotal": 61,
+            "retiredTotal": 35,
+            "disposedGeometryCount": 574,
+            "bvhCount": 28,
+            "dynamicBvhCount": 8,
+            "renderObjectCount": 428,
+            "estimatedCpuGeometryBytes": 37330540,
+            "generationAvgMs": 115.83809523875752,
+            "generationP95Ms": 181.5,
+            "generationMinMs": 7.299999997019768,
+            "generationMaxMs": 958.3000000119209,
+            "generationSampleCount": 63,
+            "maxLoadedChunks": 41,
+            "coverageComplete": true,
+            "rebaseCount": 0
+          },
+          "shieldImpacts": 0,
+          "projectedCells": 5,
+          "missingCells": []
+        },
+        {
+          "ms": 10158.1,
+          "elapsed": 9.441666666666757,
+          "position": {
+            "x": 4596,
+            "y": 410,
+            "z": 3499.4447505986022
+          },
+          "attitude": {
+            "pitch": 0,
+            "roll": 0,
+            "yaw": 0
+          },
+          "speed": 101.99989521140283,
+          "buffering": false,
+          "world": 0,
+          "stalledCompanions": [
+            false,
+            false,
+            false
+          ],
+          "deployed": 3,
+          "drawCalls": 321,
+          "renderGeometries": 380,
+          "textures": 25,
+          "dynamic": 8,
+          "streaming": {
+            "stateCounts": {
+              "UNLOADED": 0,
+              "QUEUED": 0,
+              "GENERATING": 0,
+              "READY": 0,
+              "ACTIVE": 25,
+              "RETIRING": 0,
+              "DISPOSED": 0
+            },
+            "loadedChunks": 25,
+            "activeChunks": 25,
+            "queuedChunks": 0,
+            "generatingChunks": 0,
+            "generatedTotal": 63,
+            "retiredTotal": 40,
+            "disposedGeometryCount": 659,
+            "bvhCount": 25,
+            "dynamicBvhCount": 8,
+            "renderObjectCount": 378,
+            "estimatedCpuGeometryBytes": 31769744,
+            "generationAvgMs": 114.5200000006419,
+            "generationP95Ms": 181.5,
+            "generationMinMs": 7.299999997019768,
+            "generationMaxMs": 958.3000000119209,
+            "generationSampleCount": 65,
+            "maxLoadedChunks": 41,
+            "coverageComplete": true,
+            "rebaseCount": 0
+          },
+          "shieldImpacts": 0,
+          "projectedCells": 7,
+          "missingCells": []
+        },
+        {
+          "ms": 10666.5,
+          "elapsed": 9.950000000000061,
+          "position": {
+            "x": 4596,
+            "y": 410,
+            "z": 3447.594788924191
+          },
+          "attitude": {
+            "pitch": 0,
+            "roll": 0,
+            "yaw": 0
+          },
+          "speed": 101.9999472430794,
+          "buffering": false,
+          "world": 0,
+          "stalledCompanions": [
+            false,
+            false,
+            false
+          ],
+          "deployed": 3,
+          "drawCalls": 300,
+          "renderGeometries": 380,
+          "textures": 25,
+          "dynamic": 8,
+          "streaming": {
+            "stateCounts": {
+              "UNLOADED": 0,
+              "QUEUED": 0,
+              "GENERATING": 0,
+              "READY": 0,
+              "ACTIVE": 25,
+              "RETIRING": 0,
+              "DISPOSED": 0
+            },
+            "loadedChunks": 25,
+            "activeChunks": 25,
+            "queuedChunks": 0,
+            "generatingChunks": 0,
+            "generatedTotal": 63,
+            "retiredTotal": 40,
+            "disposedGeometryCount": 659,
+            "bvhCount": 25,
+            "dynamicBvhCount": 8,
+            "renderObjectCount": 378,
+            "estimatedCpuGeometryBytes": 31769744,
+            "generationAvgMs": 114.5200000006419,
+            "generationP95Ms": 181.5,
+            "generationMinMs": 7.299999997019768,
+            "generationMaxMs": 958.3000000119209,
+            "generationSampleCount": 65,
+            "maxLoadedChunks": 41,
+            "coverageComplete": true,
+            "rebaseCount": 0
+          },
+          "shieldImpacts": 0,
+          "projectedCells": 8,
+          "missingCells": []
+        },
+        {
+          "ms": 11174.9,
+          "elapsed": 10.458333333333366,
+          "position": {
+            "x": 4589.9029813423385,
+            "y": 410,
+            "z": 3396.425095758489
+          },
+          "attitude": {
+            "pitch": 0,
+            "roll": 0.7267499999999995,
+            "yaw": 0.3547696461696033
+          },
+          "speed": 101.99997343897384,
+          "buffering": false,
+          "world": 0,
+          "stalledCompanions": [
+            false,
+            false,
+            false
+          ],
+          "deployed": 3,
+          "drawCalls": 274,
+          "renderGeometries": 380,
+          "textures": 25,
+          "dynamic": 8,
+          "streaming": {
+            "stateCounts": {
+              "UNLOADED": 0,
+              "QUEUED": 0,
+              "GENERATING": 0,
+              "READY": 0,
+              "ACTIVE": 25,
+              "RETIRING": 0,
+              "DISPOSED": 0
+            },
+            "loadedChunks": 25,
+            "activeChunks": 25,
+            "queuedChunks": 0,
+            "generatingChunks": 0,
+            "generatedTotal": 63,
+            "retiredTotal": 40,
+            "disposedGeometryCount": 659,
+            "bvhCount": 25,
+            "dynamicBvhCount": 8,
+            "renderObjectCount": 378,
+            "estimatedCpuGeometryBytes": 31769744,
+            "generationAvgMs": 114.5200000006419,
+            "generationP95Ms": 181.5,
+            "generationMinMs": 7.299999997019768,
+            "generationMaxMs": 958.3000000119209,
+            "generationSampleCount": 65,
+            "maxLoadedChunks": 41,
+            "coverageComplete": true,
+            "rebaseCount": 0
+          },
+          "shieldImpacts": 0,
+          "projectedCells": 7,
+          "missingCells": [
+            "21:12"
+          ]
+        },
+        {
+          "ms": 11683.199999999999,
+          "elapsed": 10.96666666666667,
+          "position": {
+            "x": 4555.265587676144,
+            "y": 410,
+            "z": 3359.926458525153
+          },
+          "attitude": {
+            "pitch": 0,
+            "roll": 1.660050000000003,
+            "yaw": 1.1889745764673627
+          },
+          "speed": 101.99998662757221,
+          "buffering": false,
+          "world": 0,
+          "stalledCompanions": [
+            false,
+            false,
+            false
+          ],
+          "deployed": 3,
+          "drawCalls": 265,
+          "renderGeometries": 380,
+          "textures": 25,
+          "dynamic": 8,
+          "streaming": {
+            "stateCounts": {
+              "UNLOADED": 0,
+              "QUEUED": 0,
+              "GENERATING": 0,
+              "READY": 0,
+              "ACTIVE": 25,
+              "RETIRING": 0,
+              "DISPOSED": 0
+            },
+            "loadedChunks": 25,
+            "activeChunks": 25,
+            "queuedChunks": 0,
+            "generatingChunks": 0,
+            "generatedTotal": 63,
+            "retiredTotal": 40,
+            "disposedGeometryCount": 659,
+            "bvhCount": 25,
+            "dynamicBvhCount": 8,
+            "renderObjectCount": 378,
+            "estimatedCpuGeometryBytes": 31769744,
+            "generationAvgMs": 114.5200000006419,
+            "generationP95Ms": 181.5,
+            "generationMinMs": 7.299999997019768,
+            "generationMaxMs": 958.3000000119209,
+            "generationSampleCount": 65,
+            "maxLoadedChunks": 41,
+            "coverageComplete": true,
+            "rebaseCount": 0
+          },
+          "shieldImpacts": 0,
+          "projectedCells": 5,
+          "missingCells": []
+        },
+        {
+          "ms": 12191.5,
+          "elapsed": 11.474999999999975,
+          "position": {
+            "x": 4504.770192590535,
+            "y": 410,
+            "z": 3361.9980603957665
+          },
+          "attitude": {
+            "pitch": 0,
+            "roll": 2.59335,
+            "yaw": 1.9644289468569764
+          },
+          "speed": 101.99999326751073,
+          "buffering": false,
+          "world": 0,
+          "stalledCompanions": [
+            false,
+            false,
+            false
+          ],
+          "deployed": 3,
+          "drawCalls": 242,
+          "renderGeometries": 380,
+          "textures": 25,
+          "dynamic": 8,
+          "streaming": {
+            "stateCounts": {
+              "UNLOADED": 0,
+              "QUEUED": 0,
+              "GENERATING": 0,
+              "READY": 0,
+              "ACTIVE": 25,
+              "RETIRING": 0,
+              "DISPOSED": 0
+            },
+            "loadedChunks": 25,
+            "activeChunks": 25,
+            "queuedChunks": 0,
+            "generatingChunks": 0,
+            "generatedTotal": 63,
+            "retiredTotal": 40,
+            "disposedGeometryCount": 659,
+            "bvhCount": 25,
+            "dynamicBvhCount": 8,
+            "renderObjectCount": 378,
+            "estimatedCpuGeometryBytes": 31769744,
+            "generationAvgMs": 114.5200000006419,
+            "generationP95Ms": 181.5,
+            "generationMinMs": 7.299999997019768,
+            "generationMaxMs": 958.3000000119209,
+            "generationSampleCount": 65,
+            "maxLoadedChunks": 41,
+            "coverageComplete": true,
+            "rebaseCount": 0
+          },
+          "shieldImpacts": 0,
+          "projectedCells": 3,
+          "missingCells": []
+        },
+        {
+          "ms": 12691.5,
+          "elapsed": 11.974999999999946,
+          "position": {
+            "x": 4465.344242974764,
+            "y": 410,
+            "z": 3393.188825605967
+          },
+          "attitude": {
+            "pitch": 0,
+            "roll": 1.3191064066648432,
+            "yaw": 2.549723661096348
+          },
+          "speed": 101.99999657210985,
+          "buffering": false,
+          "world": 0,
+          "stalledCompanions": [
+            false,
+            false,
+            false
+          ],
+          "deployed": 3,
+          "drawCalls": 254,
+          "renderGeometries": 380,
+          "textures": 25,
+          "dynamic": 8,
+          "streaming": {
+            "stateCounts": {
+              "UNLOADED": 0,
+              "QUEUED": 0,
+              "GENERATING": 0,
+              "READY": 0,
+              "ACTIVE": 25,
+              "RETIRING": 0,
+              "DISPOSED": 0
+            },
+            "loadedChunks": 25,
+            "activeChunks": 25,
+            "queuedChunks": 0,
+            "generatingChunks": 0,
+            "generatedTotal": 63,
+            "retiredTotal": 40,
+            "disposedGeometryCount": 659,
+            "bvhCount": 25,
+            "dynamicBvhCount": 8,
+            "renderObjectCount": 378,
+            "estimatedCpuGeometryBytes": 31769744,
+            "generationAvgMs": 114.5200000006419,
+            "generationP95Ms": 181.5,
+            "generationMinMs": 7.299999997019768,
+            "generationMaxMs": 958.3000000119209,
+            "generationSampleCount": 65,
+            "maxLoadedChunks": 41,
+            "coverageComplete": true,
+            "rebaseCount": 0
+          },
+          "shieldImpacts": 0,
+          "projectedCells": 7,
+          "missingCells": [
+            "17:16"
+          ]
+        },
+        {
+          "ms": 13291.4,
+          "elapsed": 12.499999999999917,
+          "position": {
+            "x": 4448.473338271835,
+            "y": 410,
+            "z": 3443.5618474237144
+          },
+          "attitude": {
+            "pitch": 0,
+            "roll": 0.21808006481743814,
+            "yaw": 2.9843951010399583
+          },
+          "speed": 101.99999831258977,
+          "buffering": false,
+          "world": 0,
+          "stalledCompanions": [
+            false,
+            false,
+            false
+          ],
+          "deployed": 3,
+          "drawCalls": 333,
+          "renderGeometries": 426,
+          "textures": 25,
+          "dynamic": 8,
+          "streaming": {
+            "stateCounts": {
+              "UNLOADED": 0,
+              "QUEUED": 0,
+              "GENERATING": 0,
+              "READY": 0,
+              "ACTIVE": 28,
+              "RETIRING": 0,
+              "DISPOSED": 0
+            },
+            "loadedChunks": 28,
+            "activeChunks": 28,
+            "queuedChunks": 0,
+            "generatingChunks": 0,
+            "generatedTotal": 66,
+            "retiredTotal": 40,
+            "disposedGeometryCount": 659,
+            "bvhCount": 28,
+            "dynamicBvhCount": 8,
+            "renderObjectCount": 427,
+            "estimatedCpuGeometryBytes": 36622264,
+            "generationAvgMs": 115.17352941215916,
+            "generationP95Ms": 181.5,
+            "generationMinMs": 7.299999997019768,
+            "generationMaxMs": 958.3000000119209,
+            "generationSampleCount": 68,
+            "maxLoadedChunks": 41,
+            "coverageComplete": true,
+            "rebaseCount": 0
+          },
+          "shieldImpacts": 0,
+          "projectedCells": 7,
+          "missingCells": []
+        },
+        {
+          "ms": 13899.800000000001,
+          "elapsed": 12.991666666666555,
+          "position": {
+            "x": 4441.731787379827,
+            "y": 410,
+            "z": 3493.2558400729304
+          },
+          "attitude": {
+            "pitch": 0,
+            "roll": 0,
+            "yaw": 3.0095678603855633
+          },
+          "speed": 101.99999913112421,
+          "buffering": false,
+          "world": 0,
+          "stalledCompanions": [
+            false,
+            false,
+            false
+          ],
+          "deployed": 3,
+          "drawCalls": 317,
+          "renderGeometries": 426,
+          "textures": 25,
+          "dynamic": 8,
+          "streaming": {
+            "stateCounts": {
+              "UNLOADED": 0,
+              "QUEUED": 0,
+              "GENERATING": 0,
+              "READY": 0,
+              "ACTIVE": 28,
+              "RETIRING": 0,
+              "DISPOSED": 0
+            },
+            "loadedChunks": 28,
+            "activeChunks": 28,
+            "queuedChunks": 0,
+            "generatingChunks": 0,
+            "generatedTotal": 68,
+            "retiredTotal": 42,
+            "disposedGeometryCount": 694,
+            "bvhCount": 28,
+            "dynamicBvhCount": 8,
+            "renderObjectCount": 427,
+            "estimatedCpuGeometryBytes": 36622264,
+            "generationAvgMs": 115.53571428614003,
+            "generationP95Ms": 181.5,
+            "generationMinMs": 7.299999997019768,
+            "generationMaxMs": 958.3000000119209,
+            "generationSampleCount": 70,
+            "maxLoadedChunks": 41,
+            "coverageComplete": true,
+            "rebaseCount": 0
+          },
+          "shieldImpacts": 0,
+          "projectedCells": 8,
+          "missingCells": [
+            "21:18"
+          ]
+        },
+        {
+          "ms": 14424.800000000001,
+          "elapsed": 13.474999999999861,
+          "position": {
+            "x": 4435.241857363729,
+            "y": 410,
+            "z": 3542.126800551963
+          },
+          "attitude": {
+            "pitch": 0,
+            "roll": 0,
+            "yaw": 3.0095678603855633
+          },
+          "speed": 101.99999954753969,
+          "buffering": false,
+          "world": 0,
+          "stalledCompanions": [
+            false,
+            false,
+            false
+          ],
+          "deployed": 3,
+          "drawCalls": 350,
+          "renderGeometries": 389,
+          "textures": 25,
+          "dynamic": 8,
+          "streaming": {
+            "stateCounts": {
+              "UNLOADED": 0,
+              "QUEUED": 0,
+              "GENERATING": 0,
+              "READY": 0,
+              "ACTIVE": 25,
+              "RETIRING": 0,
+              "DISPOSED": 0
+            },
+            "loadedChunks": 25,
+            "activeChunks": 25,
+            "queuedChunks": 0,
+            "generatingChunks": 0,
+            "generatedTotal": 70,
+            "retiredTotal": 47,
+            "disposedGeometryCount": 770,
+            "bvhCount": 25,
+            "dynamicBvhCount": 8,
+            "renderObjectCount": 387,
+            "estimatedCpuGeometryBytes": 33799188,
+            "generationAvgMs": 115.27916666720476,
+            "generationP95Ms": 181.5,
+            "generationMinMs": 7.299999997019768,
+            "generationMaxMs": 958.3000000119209,
+            "generationSampleCount": 72,
+            "maxLoadedChunks": 41,
+            "coverageComplete": true,
+            "rebaseCount": 0
+          },
+          "shieldImpacts": 0,
+          "projectedCells": 7,
+          "missingCells": []
+        },
+        {
+          "ms": 14933.1,
+          "elapsed": 13.983333333333166,
+          "position": {
+            "x": 4428.416241291629,
+            "y": 410,
+            "z": 3593.5255694873717
+          },
+          "attitude": {
+            "pitch": 0,
+            "roll": 0,
+            "yaw": 3.0095678603855633
+          },
+          "speed": 101.99999977220409,
+          "buffering": false,
+          "world": 0,
+          "stalledCompanions": [
+            false,
+            false,
+            false
+          ],
+          "deployed": 3,
+          "drawCalls": 317,
+          "renderGeometries": 389,
+          "textures": 25,
+          "dynamic": 8,
+          "streaming": {
+            "stateCounts": {
+              "UNLOADED": 0,
+              "QUEUED": 0,
+              "GENERATING": 0,
+              "READY": 0,
+              "ACTIVE": 25,
+              "RETIRING": 0,
+              "DISPOSED": 0
+            },
+            "loadedChunks": 25,
+            "activeChunks": 25,
+            "queuedChunks": 0,
+            "generatingChunks": 0,
+            "generatedTotal": 70,
+            "retiredTotal": 47,
+            "disposedGeometryCount": 770,
+            "bvhCount": 25,
+            "dynamicBvhCount": 8,
+            "renderObjectCount": 387,
+            "estimatedCpuGeometryBytes": 33799188,
+            "generationAvgMs": 115.27916666720476,
+            "generationP95Ms": 181.5,
+            "generationMinMs": 7.299999997019768,
+            "generationMaxMs": 958.3000000119209,
+            "generationSampleCount": 72,
+            "maxLoadedChunks": 41,
+            "coverageComplete": true,
+            "rebaseCount": 0
+          },
+          "shieldImpacts": 0,
+          "projectedCells": 8,
+          "missingCells": []
+        }
+      ],
+      "capture": "before-cold-balanced-4x-cold.png",
+      "errors": []
+    }
+  ],
+  "environment": {
+    "renderer": "ANGLE (AMD, AMD Radeon 780M Graphics (0x00001900) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+    "viewport": [
+      1920,
+      1080
+    ],
+    "build": {
+      "version": "0.5.0",
+      "sourceCommit": "4d891b990c0d8d43eeb32464c4b72700266aa60f",
+      "sourceCommitTime": "2026-11-22T07:18:42Z",
+      "dirty": false,
+      "sourceUrl": "https://github.com/styayur/Skimmer-Scraper/tree/4d891b990c0d8d43eeb32464c4b72700266aa60f",
+      "toolchain": {
+        "node": "v26.7.0",
+        "platform": "win32",
+        "architecture": "x64"
+      }
+    }
+  }
+}
