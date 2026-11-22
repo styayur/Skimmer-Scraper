@@ -118,21 +118,22 @@ test.describe('v0.2 phase 4 ephemeral world', () => {
     await page.context().grantPermissions(['clipboard-read', 'clipboard-write']);
 
     await page.setViewportSize({ width: 1440, height: 900 });
-    await page.goto('/?autostart=1&seed=phase-4-ephemeral&preset=neon&world=ephemeral');
+    await page.goto('/?autostart=1&seed=phase-4-ephemeral&preset=neon&world=ephemeral&gen=2');
     await waitReady(page);
     await openPausedWorldPanel(page);
 
     await expect(page.locator('#world-mode-select')).toHaveValue('ephemeral');
-    await expect(page.locator('#world-mode-description')).toContainText('不再完全记得');
+    await page.getByRole('button', { name: '世界记忆帮助' }).click();
+    await expect(page.locator('#guide-world')).toBeFocused();
+    await expect(page.locator('#guide-world').locator('..')).toContainText('最近 256 个卸载区块');
+    await expect(page.locator('#guide-world').locator('..')).toContainText('推荐稳定世界');
+    await page.keyboard.press('Escape');
+    await expect(page.getByRole('button', { name: '世界记忆帮助' })).toBeFocused();
     await page.locator('#world-mode-select').selectOption('stable');
-    await expect(page.locator('#world-mode-description')).toContainText('始终得到相同城市');
+    await expect(page.locator('#world-mode-select')).toHaveValue('stable');
     await page.locator('#world-mode-select').selectOption('ephemeral');
-    await page.locator('#world-copy-link').click();
-    const copiedUrl = new URL(await page.evaluate(() => navigator.clipboard.readText()));
-    expect(copiedUrl.searchParams.get('seed')).toBe('phase-4-ephemeral');
-    expect(copiedUrl.searchParams.get('preset')).toBe('neon');
-    expect(copiedUrl.searchParams.get('world')).toBe('ephemeral');
-    expect(copiedUrl.searchParams.get('gen')).toBe('2');
+    await page.locator('#world-copy-seed').click();
+    expect(await page.evaluate(() => navigator.clipboard.readText())).toBe('phase-4-ephemeral');
 
     const home = { x: 0, y: 85, z: 120 };
     const waypointB = { x: 4_420, y: 85, z: 120 };

@@ -40,7 +40,7 @@ test.describe('v0.2 phase 2 seeded city', () => {
     await page.context().grantPermissions(['clipboard-read', 'clipboard-write']);
 
     await page.setViewportSize({ width: 1440, height: 900 });
-    await page.goto('/?seed=seed-alpha&preset=neon&world=stable');
+    await page.goto('/?seed=seed-alpha&preset=neon&world=stable&gen=2');
     await waitReady(page);
     const alpha = await snapshot(page);
     expect(alpha.worldPreset).toBe('neon');
@@ -58,17 +58,18 @@ test.describe('v0.2 phase 2 seeded city', () => {
     await expect(page.locator('#world-panel')).toBeVisible();
     await page.locator('#world-seed-input').fill('seed-beta');
     await expect(page.locator('#world-legacy-note')).toContainText('Neon Megacity');
-    await page.locator('#world-copy-link').click();
-    const copied = await page.evaluate(() => navigator.clipboard.readText());
-    const copiedUrl = new URL(copied);
-    expect(copiedUrl.searchParams.get('seed')).toBe('seed-beta');
-    expect(copiedUrl.searchParams.get('preset')).toBe('neon');
-    expect(copiedUrl.searchParams.get('world')).toBe('stable');
-    expect(copiedUrl.searchParams.get('gen')).toBe('2');
+    await expect(page.getByRole('button', { name: '复制分享链接' })).toHaveCount(0);
+    await page.locator('#world-copy-seed').click();
+    expect(await page.evaluate(() => navigator.clipboard.readText())).toBe('seed-beta');
 
     await page.getByRole('button', { name: /生成并重载/ }).click();
     await page.waitForURL(/seed=seed-beta/);
     await waitReady(page);
+    const applied = new URL(page.url());
+    expect(applied.searchParams.get('seed')).toBe('seed-beta');
+    expect(applied.searchParams.get('preset')).toBe('neon');
+    expect(applied.searchParams.get('world')).toBe('stable');
+    expect(applied.searchParams.get('gen')).toBe('2');
     const beta = await snapshot(page);
     expect(beta.worldPreset).toBe('neon');
     expect(beta.worldFingerprint).not.toBe(alpha.worldFingerprint);

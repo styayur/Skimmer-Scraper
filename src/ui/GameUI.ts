@@ -52,7 +52,6 @@ export interface GameUIHooks {
   onWorldApply(seed: string, mode: WorldMode, upgrade?: boolean): void;
   onWorldRandom(): string;
   onWorldCopySeed(seed: string): void;
-  onWorldCopyLink(seed: string, mode: WorldMode): void;
   onWorldReset(): { seed: string; mode: WorldMode };
 }
 
@@ -101,7 +100,6 @@ export class GameUI {
   private readonly recordHint = required<HTMLElement>('record-hint');
   private readonly worldSeedInput = required<HTMLInputElement>('world-seed-input');
   private readonly worldModeSelect = required<HTMLSelectElement>('world-mode-select');
-  private readonly worldModeDescription = required<HTMLElement>('world-mode-description');
   private readonly worldLegacy = required<HTMLElement>('world-legacy');
   private readonly worldLegacyNote = required<HTMLElement>('world-legacy-note');
   private readonly toast = required<HTMLElement>('toast');
@@ -147,24 +145,16 @@ export class GameUI {
     required('world-upgrade').addEventListener('click', () => {
       hooks.onWorldApply(this.worldSeedInput.value, this.worldModeSelect.value as WorldMode, true);
     });
-    this.worldModeSelect.addEventListener('change', () => this.updateWorldModeDescription());
     required<HTMLButtonElement>('world-random').addEventListener('click', () => {
       this.worldSeedInput.value = hooks.onWorldRandom();
     });
     required<HTMLButtonElement>('world-copy-seed').addEventListener('click', () => {
       hooks.onWorldCopySeed(this.worldSeedInput.value);
     });
-    required<HTMLButtonElement>('world-copy-link').addEventListener('click', () => {
-      hooks.onWorldCopyLink(
-        this.worldSeedInput.value,
-        this.worldModeSelect.value as WorldMode,
-      );
-    });
     required<HTMLButtonElement>('world-reset').addEventListener('click', () => {
       const reset = hooks.onWorldReset();
       this.worldSeedInput.value = reset.seed;
       this.worldModeSelect.value = reset.mode;
-      this.updateWorldModeDescription();
     });
     required<HTMLButtonElement>('reload-button').addEventListener('click', () => window.location.reload());
   }
@@ -298,13 +288,6 @@ export class GameUI {
     this.worldLegacy.hidden = settings.generatorVersion !== LEGACY_GENERATOR_VERSION;
     const legacy = WORLD_PRESET_OPTIONS.find(option => option.id === settings.preset);
     this.worldLegacyNote.textContent = legacy ? '旧版城市 · ' + legacy.label : '';
-    this.updateWorldModeDescription();
-  }
-
-  public updateWorldModeDescription(): void {
-    this.worldModeDescription.textContent = this.worldModeSelect.value === 'ephemeral'
-      ? '你离开后的城市，将不再完全记得自己原来的模样。最近 256 个卸载区块保留明确修订历史。'
-      : '同一种子、预设与生成器版本始终得到相同城市，适合分享与复现。';
   }
 
   public setModels(models: ModelListItem[], selectedId: string): void {

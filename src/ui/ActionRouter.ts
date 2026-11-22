@@ -64,7 +64,7 @@ export class ActionRouter {
       const name = panels[action as keyof typeof panels];
       if (name === 'radio' && (mode === 'title' || mode === 'failed' || !this.actions.radioAvailable())) return false;
       if (current === name && !fromPanel) return this.route('close');
-      this.open(name, name !== 'menu' && (fromPanel || current === 'menu'));
+      this.open(name, name !== 'menu' && (fromPanel || current === 'menu' || name === 'help'));
       return true;
     }
     if (action === 'title') {

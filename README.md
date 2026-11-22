@@ -48,6 +48,11 @@ its source revision, licenses and credits. [Releases](https://github.com/styayur
 
 ## Controls
 
+Open **游戏教程** from the title screen or press **H**. Search by control name,
+topic or provider. In settings, **?** opens the matching chapter and closing the
+tutorial returns to the same control. Use **复制种子** to copy a seed. Saved legacy
+URLs still restore their original world parameters.
+
 | Input | Action |
 | --- | --- |
 | W / S or Arrow Up / Down | Pitch down / up |
@@ -59,7 +64,7 @@ its source revision, licenses and credits. [Releases](https://github.com/styayur
 | Esc / gamepad Menu | Pause or close the current panel |
 | F / G | Flight settings / world settings |
 | M | Aircraft library |
-| H | In-game guide, source and license |
+| H | Searchable game tutorial, source and licenses |
 | T | Companion text radio |
 | V | Hold to record when voice input is enabled |
 | Enter | Start |

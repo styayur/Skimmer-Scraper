@@ -20,14 +20,12 @@ export const bindVoicePanel = (voice: VoiceRadio, action: (action: GameAction) =
   const panel = document.createElement('details');
   panel.className = 'voice-settings';
   panel.innerHTML = `<summary>语音电台</summary>
-    <p>启用输入后，按住 V 或手柄指定键讲话，松开发送，Esc 取消。单次最多 12 秒，录音仅用于本次转写。</p>
-    <p>DeepSeek 模式使用模型协作中的 Key。音频或播报文本直接发往 DeepSeek，服务商可能收费。本机识别和播报由设备处理。</p>
-    <label>语音输入 <select id="voice-input">${modes}</select></label>
-    <label>伴机语音播报 <select id="voice-output">${modes}</select></label>
-    <label>本机识别与电台回复语言 <select id="voice-language"><option value="zh-CN">中文</option><option value="en-US">English</option></select></label>
+    <div class="setting-heading"><label>语音输入 <select id="voice-input">${modes}</select></label><button class="setting-help" type="button" aria-label="语音电台帮助" data-help-section="guide-voice">?</button></div>
+    <label>伴机播报 <select id="voice-output">${modes}</select></label>
+    <label>语言 <select id="voice-language"><option value="zh-CN">中文</option><option value="en-US">English</option></select></label>
     <label><input type="checkbox" id="voice-fallback" checked> DeepSeek 播报失败时使用本机语音</label>
-    <div><button id="voice-language-prepare" type="button">准备本机语言包</button></div>
-    <p id="voice-language-status" role="status"></p><p id="voice-usage"></p>`;
+    <div><button id="voice-language-prepare" class="utility-button" type="button">准备本机语言包</button></div>
+    <p id="voice-language-status" class="setting-status" role="status"></p><p id="voice-usage" class="setting-status" hidden></p>`;
   document.querySelector('#advanced-flight-settings')!.append(panel);
   const input = panel.querySelector<HTMLSelectElement>('#voice-input')!;
   const output = panel.querySelector<HTMLSelectElement>('#voice-output')!;
@@ -35,11 +33,12 @@ export const bindVoicePanel = (voice: VoiceRadio, action: (action: GameAction) =
   const fallback = panel.querySelector<HTMLInputElement>('#voice-fallback')!;
   const prepare = panel.querySelector<HTMLButtonElement>('#voice-language-prepare')!;
   const languageStatus = panel.querySelector('#voice-language-status')!;
-  const usage = panel.querySelector('#voice-usage')!;
+  const usage = panel.querySelector<HTMLElement>('#voice-usage')!;
   const configure = () => {
     voice.configure({ input: input.value as VoiceMode, output: output.value as VoiceMode,
       language: language.value as RadioLanguage, localFallback: fallback.checked });
     changeLanguage(voice.preferredLanguage);
+    usage.hidden = input.value !== 'deepseek' && output.value !== 'deepseek';
   };
   for (const field of [input, output, language, fallback]) field.addEventListener('change', configure);
   language.addEventListener('change', () => { languageStatus.textContent = ''; });
@@ -76,7 +75,7 @@ export const bindVoicePanel = (voice: VoiceRadio, action: (action: GameAction) =
     const hidden = !inFlight || voice.inputMode === 'off';
     if (button.hidden !== hidden) button.hidden = hidden;
     if (!inFlight && !status.hidden) showVoiceStatus('idle', '');
-    if (!panel.open || !panel.getClientRects().length) return;
+    if (usage.hidden || !panel.open || !panel.getClientRects().length) return;
     const { cloud, limits } = voice.snapshot();
     const text = `本页 DeepSeek 用量 · 转写 ${cloud.asrRequests}/${limits.asrRequests} 次，${cloud.asrSeconds}/${limits.asrSeconds} 秒 · 播报 ${cloud.ttsRequests}/${limits.ttsRequests} 次，${cloud.ttsCharacters}/${limits.ttsCharacters} 计费字符`;
     if (usage.textContent !== text) usage.textContent = text;

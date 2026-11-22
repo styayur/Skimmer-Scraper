@@ -9,17 +9,18 @@ test('minimal live title, guide and keyboard navigation', async ({ page }, testI
   await page.addInitScript(() => {
     Object.defineProperty(navigator, 'getGamepads', { value: () => [] });
   });
-  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.setViewportSize({ width: 1920, height: 1080 });
   await page.goto('/?seed=334458');
   await waitReady(page);
   await expect(page.locator('.title-panel > *')).toHaveCount(3);
+  await expect(page.locator('.title-panel')).toHaveText('SKIMMER SCRAPER 开始游戏 游戏教程');
   await expect(page.locator('#title-screen').getByRole('heading', { name: 'SKIMMER SCRAPER' })).toBeVisible();
   const titleFrame = await page.evaluate(() => window.__SKIMMER_SCRAPER__!.snapshot().render.triangles);
   expect(titleFrame).toBeGreaterThan(10_000);
   await page.screenshot({ path: testInfo.outputPath('title-desktop.png'), animations: 'disabled' });
 
   await page.setViewportSize({ width: 360, height: 680 });
-  const guideLink = page.locator('#title-screen').getByRole('link', { name: '操作指南' });
+  const guideLink = page.locator('#title-screen').getByRole('link', { name: '游戏教程', exact: true });
   await expect(guideLink).toBeInViewport();
   await page.screenshot({ path: testInfo.outputPath('title-mobile.png'), animations: 'disabled' });
   await guideLink.click();
@@ -29,7 +30,18 @@ test('minimal live title, guide and keyboard navigation', async ({ page }, testI
   await expect(closeHelp).toBeFocused();
   await page.keyboard.press('Tab');
   await expect(page.getByRole('button', { name: '游戏菜单' })).toBeFocused();
-  await page.getByRole('link', { name: '开源许可与隐私' }).click();
+  await expect(page.locator('#guide-content section')).toHaveCount(19);
+  expect(await page.locator('button[data-help-section]').evaluateAll(buttons => buttons
+    .map(button => (button as HTMLButtonElement).dataset.helpSection!)
+    .filter(id => !document.getElementById(id)))).toEqual([]);
+  const search = page.getByRole('searchbox', { name: '搜索教程' });
+  await search.fill('不存在的教程章节');
+  await expect(page.locator('#guide-empty')).toBeVisible();
+  await search.fill('API Key 费用');
+  await expect(page.locator('#guide-index a:visible')).toHaveCount(1);
+  await expect(page.locator('#guide-ai')).toBeVisible();
+  await search.fill('');
+  await page.getByRole('link', { name: '源码与开源许可证' }).click();
   await expect(page.locator('#guide-privacy')).toBeFocused();
   await expect(page.getByRole('link', { name: '许可证全文' })).toHaveAttribute('href', './LICENSE');
   await expect(page.getByRole('link', { name: '源码 · AGPL-3.0' })).toHaveAttribute('href', /github.com\/styayur\/Skimmer-Scraper\/tree\/[a-f0-9]{40}/);
@@ -37,6 +49,10 @@ test('minimal live title, guide and keyboard navigation', async ({ page }, testI
   await page.keyboard.press('Escape');
   await expect(guideLink).toBeFocused();
   await expect(visiblePanels(page)).toHaveCount(0);
+  await page.keyboard.press('h');
+  await expect(closeHelp).toBeFocused();
+  await expect(search).toHaveValue('');
+  await page.keyboard.press('Escape');
 
   await page.keyboard.press('g');
   const seed = page.locator('#world-seed-input');
@@ -47,18 +63,37 @@ test('minimal live title, guide and keyboard navigation', async ({ page }, testI
   await expect(visiblePanels(page)).toHaveCount(1);
   await page.keyboard.press('Escape');
   await page.keyboard.press('f');
-  await page.locator('summary[aria-label="玩法帮助"]').click();
-  await page.getByRole('link', { name: '阅读指南' }).click();
-  await expect(page.locator('#guide-start')).toBeFocused();
+  const rules = page.locator('#rules-panel');
+  const modeHelp = page.getByRole('button', { name: '玩法帮助' });
+  await modeHelp.click();
+  await expect(page.locator('#guide-modes')).toBeFocused();
   await expect(visiblePanels(page)).toHaveCount(1);
   await page.keyboard.press('Escape');
-  await expect(page.getByRole('link', { name: '阅读指南' })).toBeFocused();
+  await expect(modeHelp).toBeFocused();
   await page.locator('#advanced-flight-settings > summary').click();
+  await rules.getByText('操控与手柄', { exact: true }).click();
+  await page.locator('#camera-anchor-settings > summary').click();
+  const anchorHelp = page.getByRole('button', { name: '座舱位置帮助' });
+  await anchorHelp.scrollIntoViewIfNeeded();
+  await anchorHelp.focus();
+  const beforeHelpScroll = await rules.evaluate(panel => panel.scrollTop);
+  expect(beforeHelpScroll).toBeGreaterThan(0);
+  await page.keyboard.press('Enter');
+  await expect(page.locator('#guide-anchor')).toBeFocused();
+  await page.keyboard.press('Escape');
+  await expect(anchorHelp).toBeFocused();
+  expect(await rules.evaluate(panel => panel.scrollTop)).toBe(beforeHelpScroll);
+  expect(await rules.evaluate(panel => panel.scrollWidth <= panel.clientWidth)).toBe(true);
+  await page.screenshot({ path: testInfo.outputPath('settings-mobile.png'), animations: 'disabled' });
   await page.locator('.model-settings summary').click();
   const key = page.locator('#ai-key');
   await key.pressSequentially('fghmrc');
   await expect(key).toHaveValue('fghmrc');
-  await key.fill('');
+  await page.locator('#ai-provider').selectOption('custom');
+  await page.locator('#ai-endpoint').fill('http://invalid.example/');
+  await page.locator('#ai-connect').click();
+  await expect(page.locator('#ai-message')).toContainText('配置无效');
+  await expect(key).toHaveValue('');
   await page.keyboard.press('Escape');
   await page.keyboard.press('m');
   await expect(page.locator('#library-panel')).toBeVisible();
@@ -102,6 +137,10 @@ test('standard gamepad navigates the title, nested menus, settings and flight', 
   await expect(page.locator('#title-screen').getByRole('link')).toBeFocused();
   await press(0);
   await expect(page.locator('#help-panel')).toBeVisible();
+  for (let index = 0; index < 3; index++) await press(13);
+  await expect(page.getByRole('link', { name: '快速开始' })).toBeFocused();
+  await press(0);
+  await expect(page.locator('#guide-start')).toBeFocused();
   await press(1);
   await press(12);
   await press(0);

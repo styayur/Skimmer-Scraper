@@ -43,6 +43,8 @@ export const bindCameraAnchorSettings = (hooks: Hooks): void => {
     preview.checked = false;
     hooks.preview(null);
   });
+  panel.addEventListener('skimmer:suspend', () => hooks.preview(null));
+  panel.addEventListener('skimmer:restore', refreshPreview);
   advanced.addEventListener('toggle', refreshPreview);
   details.addEventListener('toggle', refreshPreview);
   preview.addEventListener('change', refreshPreview);
