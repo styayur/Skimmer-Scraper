@@ -1,0 +1,126 @@
+{
+  "phase": 4,
+  "status": "TESTED",
+  "baseline": "413f24d99be05a344ac11d5cc8abb8b71673cfa5",
+  "sourceCommit": "ff66667d9c2c7c9f8937a45c212596ab964c4132",
+  "automated": {
+    "typecheck": "passed",
+    "build": "passed",
+    "unit": 181,
+    "chromium": 43,
+    "fullSuiteSource": "1886e59b473422f2363e911ce8fee7161604258d",
+    "latestSourceBrowserCases": 2
+  },
+  "separableCity": {
+    "assetSHA256": "68c8b5aaa5f34420bb651275e69bc9b81ca774538e65033ad2e0f3247df7e8c9",
+    "geometrySampling": "Independent SHA-256 of 1,734 nearest-surface probes, quantized to millimeters.",
+    "original": "b1a686e25ba55348f001b4d56945ef125c3669ad2c2fb3b1496f52604cf7ef1b",
+    "variantA": "226cac2f7c8d26f8c66a74f1995ebc77492eb8492d07fc97863d9616c4efca54",
+    "variantB": "14fe978ffcd53cb8eb501ffd1034ccdcf1363969dedaeaacd1c70abcc8727d41",
+    "variantAReproduced": [
+      "same active browser",
+      "kept reload",
+      "local library",
+      "fresh browser profile after GLB fingerprint check"
+    ],
+    "spawnMatched": true,
+    "joinedBridgeAndBVH": "A deterministic Three.js fixture checks that a deck and pier share their original joint after the same assembly transform, and the near query touches the transformed geometry."
+  },
+  "mergedAndAnimated": {
+    "mergedVariant": {
+      "seed": 1599967010,
+      "layout": "whole",
+      "movedGroups": 0
+    },
+    "mergedSourceMeshCount": 1,
+    "animatedShieldImpacts": 1,
+    "movingCollider": "glb:10",
+    "reclaimed": {
+      "seed": 3016777078,
+      "bvhBefore": 2,
+      "bvhAfter": 0,
+      "dynamicBvhBefore": 1,
+      "dynamicBvhAfter": 0,
+      "rootChildrenAfter": 0,
+      "disposedGeometryCount": 4
+    }
+  },
+  "stageLimits": [
+    "Merged and animated assets use a uniform scale, heading and takeoff change. Bridge grouping is conservative and independent parts next to an assembly may retain their relative positions.",
+    "The native timing uses a synthetic, texture-free 119,916 triangle city and short matched-position views. Geometry and texture counts are renderer objects. JS heap after collection is separate from GPU memory. The procedural observations include the active chunk count.",
+    "A stored variant seed requires its matching GLB. It contains the import options, layout identifier and source fingerprint."
+  ],
+  "native": {
+    "renderer": "ANGLE (AMD, AMD Radeon 780M Graphics (0x00001900) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+    "driver": "32.0.32029.2010",
+    "viewport": [
+      1920,
+      1080
+    ],
+    "importMs": 339.79,
+    "variantMs": [
+      453.75,
+      438.89,
+      424.79,
+      412.83,
+      412.6,
+      409.39
+    ],
+    "frameMeasurements": [
+      {
+        "label": "original-balanced",
+        "quality": "balanced",
+        "measurements": 710,
+        "meanFps": 118.16986502005558,
+        "p50Ms": 8.300000000000182,
+        "p95Ms": 8.400000000000546,
+        "p99Ms": 16.200000000000273,
+        "maxMs": 24.90000000000009
+      },
+      {
+        "label": "variant-balanced",
+        "quality": "balanced",
+        "measurements": 717,
+        "meanFps": 119.33889249513156,
+        "p50Ms": 8.300000000001091,
+        "p95Ms": 8.400000000001455,
+        "p99Ms": 8.5,
+        "maxMs": 24.899999999999636
+      },
+      {
+        "label": "variant-high",
+        "quality": "high",
+        "measurements": 720,
+        "meanFps": 120,
+        "p50Ms": 8.299999999999272,
+        "p95Ms": 8.5,
+        "p99Ms": 8.599999999998545,
+        "maxMs": 8.700000000000728
+      }
+    ],
+    "rawBytesAcrossKeep": {
+      "hash": "3840d52f81ec41216d57cae9bfc1bd73d763fad52dc532631641b9c0aa27136f",
+      "bytes": 50148,
+      "count": 1
+    },
+    "removedFile": {
+      "hash": null,
+      "bytes": 0,
+      "count": 0
+    },
+    "releasedWorlds": 7
+  },
+  "evidence": [
+    "evidence/v0.6/pr4-variants/variants.json",
+    "evidence/v0.6/pr4-variants/whole-and-motion.json",
+    "evidence/v0.6/pr4-variants/original-flight.png",
+    "evidence/v0.6/pr4-variants/variant-a-flight.png",
+    "evidence/v0.6/pr4-variants/variant-b-flight.png",
+    "evidence/v0.6/pr4-variants/merged-flight.png",
+    "evidence/v0.6/pr4-variants/moving-variant.png",
+    "evidence/v0.6/pr4-variants/gpu-variant.json",
+    "evidence/v0.6/pr4-variants/original-balanced.png",
+    "evidence/v0.6/pr4-variants/variant-balanced.png",
+    "evidence/v0.6/pr4-variants/variant-high.png"
+  ]
+}

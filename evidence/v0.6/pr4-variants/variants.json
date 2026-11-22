@@ -1,0 +1,985 @@
+{
+  "original": {
+    "manifest": {
+      "id": "68c8b5aaa5f34420bb651275e69bc9b81ca774538e65033ad2e0f3247df7e8c9",
+      "name": "variants",
+      "bytes": 3508,
+      "nodes": 16,
+      "triangles": 180,
+      "collisionTriangles": 168,
+      "materials": 5,
+      "textures": 0,
+      "texturePixels": 0,
+      "bounds": {
+        "x": 280,
+        "y": 90,
+        "z": 340
+      },
+      "animations": [],
+      "meshRoles": [
+        {
+          "id": "1",
+          "name": "Promenade",
+          "inferred": "SURFACE",
+          "role": "SURFACE"
+        },
+        {
+          "id": "2",
+          "name": "East Lantern Tower",
+          "inferred": "SURFACE",
+          "role": "SURFACE"
+        },
+        {
+          "id": "3",
+          "name": "West Atrium",
+          "inferred": "SURFACE",
+          "role": "SURFACE"
+        },
+        {
+          "id": "4",
+          "name": "Skybox far",
+          "inferred": "DECORATION",
+          "role": "DECORATION"
+        },
+        {
+          "id": "5",
+          "name": "Rose bridge pier east",
+          "inferred": "SURFACE",
+          "role": "SURFACE"
+        },
+        {
+          "id": "6",
+          "name": "Rose bridge pier west",
+          "inferred": "SURFACE",
+          "role": "SURFACE"
+        },
+        {
+          "id": "7",
+          "name": "Rose bridge deck",
+          "inferred": "SURFACE",
+          "role": "SURFACE"
+        },
+        {
+          "id": "8",
+          "name": "East overhang",
+          "inferred": "SURFACE",
+          "role": "SURFACE"
+        },
+        {
+          "id": "9",
+          "name": "Safety Block",
+          "inferred": "OBSTACLE",
+          "role": "OBSTACLE"
+        },
+        {
+          "id": "10",
+          "name": "North lantern",
+          "inferred": "SURFACE",
+          "role": "SURFACE"
+        },
+        {
+          "id": "11",
+          "name": "West terrace",
+          "inferred": "SURFACE",
+          "role": "SURFACE"
+        },
+        {
+          "id": "12",
+          "name": "East harbor",
+          "inferred": "SURFACE",
+          "role": "SURFACE"
+        },
+        {
+          "id": "13",
+          "name": "Emerald floating garden",
+          "inferred": "SURFACE",
+          "role": "SURFACE"
+        },
+        {
+          "id": "14",
+          "name": "Rose floating garden",
+          "inferred": "SURFACE",
+          "role": "SURFACE"
+        },
+        {
+          "id": "15",
+          "name": "West apartment",
+          "inferred": "SURFACE",
+          "role": "SURFACE"
+        }
+      ],
+      "options": {
+        "scale": 1,
+        "yaw": 0,
+        "up": "y",
+        "spawnYaw": 0,
+        "spawn": null
+      }
+    },
+    "spawn": {
+      "x": 0,
+      "y": 104,
+      "z": 180
+    },
+    "collisionVisible": false,
+    "clear": true,
+    "geometrySHA256": "b1a686e25ba55348f001b4d56945ef125c3669ad2c2fb3b1496f52604cf7ef1b"
+  },
+  "first": {
+    "manifest": {
+      "id": "68c8b5aaa5f34420bb651275e69bc9b81ca774538e65033ad2e0f3247df7e8c9",
+      "name": "variants",
+      "bytes": 3508,
+      "nodes": 16,
+      "triangles": 180,
+      "collisionTriangles": 168,
+      "materials": 5,
+      "textures": 0,
+      "texturePixels": 0,
+      "bounds": {
+        "x": 362.45672455839383,
+        "y": 90.26373050010596,
+        "z": 409.48032941942523
+      },
+      "animations": [],
+      "meshRoles": [
+        {
+          "id": "1",
+          "name": "Promenade",
+          "inferred": "SURFACE",
+          "role": "SURFACE"
+        },
+        {
+          "id": "2",
+          "name": "East Lantern Tower",
+          "inferred": "SURFACE",
+          "role": "SURFACE"
+        },
+        {
+          "id": "3",
+          "name": "West Atrium",
+          "inferred": "SURFACE",
+          "role": "SURFACE"
+        },
+        {
+          "id": "4",
+          "name": "Skybox far",
+          "inferred": "DECORATION",
+          "role": "DECORATION"
+        },
+        {
+          "id": "5",
+          "name": "Rose bridge pier east",
+          "inferred": "SURFACE",
+          "role": "SURFACE"
+        },
+        {
+          "id": "6",
+          "name": "Rose bridge pier west",
+          "inferred": "SURFACE",
+          "role": "SURFACE"
+        },
+        {
+          "id": "7",
+          "name": "Rose bridge deck",
+          "inferred": "SURFACE",
+          "role": "SURFACE"
+        },
+        {
+          "id": "8",
+          "name": "East overhang",
+          "inferred": "SURFACE",
+          "role": "SURFACE"
+        },
+        {
+          "id": "9",
+          "name": "Safety Block",
+          "inferred": "OBSTACLE",
+          "role": "OBSTACLE"
+        },
+        {
+          "id": "10",
+          "name": "North lantern",
+          "inferred": "SURFACE",
+          "role": "SURFACE"
+        },
+        {
+          "id": "11",
+          "name": "West terrace",
+          "inferred": "SURFACE",
+          "role": "SURFACE"
+        },
+        {
+          "id": "12",
+          "name": "East harbor",
+          "inferred": "SURFACE",
+          "role": "SURFACE"
+        },
+        {
+          "id": "13",
+          "name": "Emerald floating garden",
+          "inferred": "SURFACE",
+          "role": "SURFACE"
+        },
+        {
+          "id": "14",
+          "name": "Rose floating garden",
+          "inferred": "SURFACE",
+          "role": "SURFACE"
+        },
+        {
+          "id": "15",
+          "name": "West apartment",
+          "inferred": "SURFACE",
+          "role": "SURFACE"
+        }
+      ],
+      "options": {
+        "scale": 1,
+        "yaw": 0,
+        "up": "y",
+        "spawnYaw": 0,
+        "spawn": null
+      },
+      "variant": {
+        "seed": 2850027086,
+        "layout": "grouped",
+        "movedGroups": 9
+      }
+    },
+    "spawn": {
+      "x": -126.50554434032287,
+      "y": 45.16531233307816,
+      "z": 214.74016470971262
+    },
+    "collisionVisible": false,
+    "clear": true,
+    "geometrySHA256": "226cac2f7c8d26f8c66a74f1995ebc77492eb8492d07fc97863d9616c4efca54"
+  },
+  "second": {
+    "manifest": {
+      "id": "68c8b5aaa5f34420bb651275e69bc9b81ca774538e65033ad2e0f3247df7e8c9",
+      "name": "variants",
+      "bytes": 3508,
+      "nodes": 16,
+      "triangles": 180,
+      "collisionTriangles": 168,
+      "materials": 5,
+      "textures": 0,
+      "texturePixels": 0,
+      "bounds": {
+        "x": 280.3728273484224,
+        "y": 76.55958109414729,
+        "z": 338.25593190423723
+      },
+      "animations": [],
+      "meshRoles": [
+        {
+          "id": "1",
+          "name": "Promenade",
+          "inferred": "SURFACE",
+          "role": "SURFACE"
+        },
+        {
+          "id": "2",
+          "name": "East Lantern Tower",
+          "inferred": "SURFACE",
+          "role": "SURFACE"
+        },
+        {
+          "id": "3",
+          "name": "West Atrium",
+          "inferred": "SURFACE",
+          "role": "SURFACE"
+        },
+        {
+          "id": "4",
+          "name": "Skybox far",
+          "inferred": "DECORATION",
+          "role": "DECORATION"
+        },
+        {
+          "id": "5",
+          "name": "Rose bridge pier east",
+          "inferred": "SURFACE",
+          "role": "SURFACE"
+        },
+        {
+          "id": "6",
+          "name": "Rose bridge pier west",
+          "inferred": "SURFACE",
+          "role": "SURFACE"
+        },
+        {
+          "id": "7",
+          "name": "Rose bridge deck",
+          "inferred": "SURFACE",
+          "role": "SURFACE"
+        },
+        {
+          "id": "8",
+          "name": "East overhang",
+          "inferred": "SURFACE",
+          "role": "SURFACE"
+        },
+        {
+          "id": "9",
+          "name": "Safety Block",
+          "inferred": "OBSTACLE",
+          "role": "OBSTACLE"
+        },
+        {
+          "id": "10",
+          "name": "North lantern",
+          "inferred": "SURFACE",
+          "role": "SURFACE"
+        },
+        {
+          "id": "11",
+          "name": "West terrace",
+          "inferred": "SURFACE",
+          "role": "SURFACE"
+        },
+        {
+          "id": "12",
+          "name": "East harbor",
+          "inferred": "SURFACE",
+          "role": "SURFACE"
+        },
+        {
+          "id": "13",
+          "name": "Emerald floating garden",
+          "inferred": "SURFACE",
+          "role": "SURFACE"
+        },
+        {
+          "id": "14",
+          "name": "Rose floating garden",
+          "inferred": "SURFACE",
+          "role": "SURFACE"
+        },
+        {
+          "id": "15",
+          "name": "West apartment",
+          "inferred": "SURFACE",
+          "role": "SURFACE"
+        }
+      ],
+      "options": {
+        "scale": 1,
+        "yaw": 0,
+        "up": "y",
+        "spawnYaw": 0,
+        "spawn": null
+      },
+      "variant": {
+        "seed": 4027010034,
+        "layout": "grouped",
+        "movedGroups": 10
+      }
+    },
+    "spawn": {
+      "x": 88.66490985772745,
+      "y": 35.329149747257226,
+      "z": 179.12796595211861
+    },
+    "collisionVisible": false,
+    "clear": true,
+    "geometrySHA256": "14fe978ffcd53cb8eb501ffd1034ccdcf1363969dedaeaacd1c70abcc8727d41"
+  },
+  "completeSeed": "glb-world:WzEsIjY4YzhiNWFhYTVmMzQ0MjBiYjY1MTI3NWU2OWJjOWI4MWNhNzc0NTM4ZTY1MDMzYWQyZTBmMzI0N2RmN2U4YzkiLDI4NTAwMjcwODYseyJzY2FsZSI6MSwieWF3IjowLCJ1cCI6InkiLCJzcGF3bllhdyI6MCwic3Bhd24iOm51bGx9XQ",
+  "replay": {
+    "manifest": {
+      "id": "68c8b5aaa5f34420bb651275e69bc9b81ca774538e65033ad2e0f3247df7e8c9",
+      "name": "variants",
+      "bytes": 3508,
+      "nodes": 16,
+      "triangles": 180,
+      "collisionTriangles": 168,
+      "materials": 5,
+      "textures": 0,
+      "texturePixels": 0,
+      "bounds": {
+        "x": 362.45672455839383,
+        "y": 90.26373050010596,
+        "z": 409.48032941942523
+      },
+      "animations": [],
+      "meshRoles": [
+        {
+          "id": "1",
+          "name": "Promenade",
+          "inferred": "SURFACE",
+          "role": "SURFACE"
+        },
+        {
+          "id": "2",
+          "name": "East Lantern Tower",
+          "inferred": "SURFACE",
+          "role": "SURFACE"
+        },
+        {
+          "id": "3",
+          "name": "West Atrium",
+          "inferred": "SURFACE",
+          "role": "SURFACE"
+        },
+        {
+          "id": "4",
+          "name": "Skybox far",
+          "inferred": "DECORATION",
+          "role": "DECORATION"
+        },
+        {
+          "id": "5",
+          "name": "Rose bridge pier east",
+          "inferred": "SURFACE",
+          "role": "SURFACE"
+        },
+        {
+          "id": "6",
+          "name": "Rose bridge pier west",
+          "inferred": "SURFACE",
+          "role": "SURFACE"
+        },
+        {
+          "id": "7",
+          "name": "Rose bridge deck",
+          "inferred": "SURFACE",
+          "role": "SURFACE"
+        },
+        {
+          "id": "8",
+          "name": "East overhang",
+          "inferred": "SURFACE",
+          "role": "SURFACE"
+        },
+        {
+          "id": "9",
+          "name": "Safety Block",
+          "inferred": "OBSTACLE",
+          "role": "OBSTACLE"
+        },
+        {
+          "id": "10",
+          "name": "North lantern",
+          "inferred": "SURFACE",
+          "role": "SURFACE"
+        },
+        {
+          "id": "11",
+          "name": "West terrace",
+          "inferred": "SURFACE",
+          "role": "SURFACE"
+        },
+        {
+          "id": "12",
+          "name": "East harbor",
+          "inferred": "SURFACE",
+          "role": "SURFACE"
+        },
+        {
+          "id": "13",
+          "name": "Emerald floating garden",
+          "inferred": "SURFACE",
+          "role": "SURFACE"
+        },
+        {
+          "id": "14",
+          "name": "Rose floating garden",
+          "inferred": "SURFACE",
+          "role": "SURFACE"
+        },
+        {
+          "id": "15",
+          "name": "West apartment",
+          "inferred": "SURFACE",
+          "role": "SURFACE"
+        }
+      ],
+      "options": {
+        "scale": 1,
+        "yaw": 0,
+        "up": "y",
+        "spawnYaw": 0,
+        "spawn": null
+      },
+      "variant": {
+        "seed": 2850027086,
+        "layout": "grouped",
+        "movedGroups": 9
+      }
+    },
+    "spawn": {
+      "x": -126.50554434032287,
+      "y": 45.16531233307816,
+      "z": 214.74016470971262
+    },
+    "collisionVisible": false,
+    "clear": true,
+    "geometrySHA256": "226cac2f7c8d26f8c66a74f1995ebc77492eb8492d07fc97863d9616c4efca54"
+  },
+  "kept": {
+    "manifest": {
+      "id": "68c8b5aaa5f34420bb651275e69bc9b81ca774538e65033ad2e0f3247df7e8c9",
+      "name": "variants",
+      "bytes": 3508,
+      "nodes": 16,
+      "triangles": 180,
+      "collisionTriangles": 168,
+      "materials": 5,
+      "textures": 0,
+      "texturePixels": 0,
+      "bounds": {
+        "x": 362.45672455839383,
+        "y": 90.26373050010596,
+        "z": 409.48032941942523
+      },
+      "animations": [],
+      "meshRoles": [
+        {
+          "id": "1",
+          "name": "Promenade",
+          "inferred": "SURFACE",
+          "role": "SURFACE"
+        },
+        {
+          "id": "2",
+          "name": "East Lantern Tower",
+          "inferred": "SURFACE",
+          "role": "SURFACE"
+        },
+        {
+          "id": "3",
+          "name": "West Atrium",
+          "inferred": "SURFACE",
+          "role": "SURFACE"
+        },
+        {
+          "id": "4",
+          "name": "Skybox far",
+          "inferred": "DECORATION",
+          "role": "DECORATION"
+        },
+        {
+          "id": "5",
+          "name": "Rose bridge pier east",
+          "inferred": "SURFACE",
+          "role": "SURFACE"
+        },
+        {
+          "id": "6",
+          "name": "Rose bridge pier west",
+          "inferred": "SURFACE",
+          "role": "SURFACE"
+        },
+        {
+          "id": "7",
+          "name": "Rose bridge deck",
+          "inferred": "SURFACE",
+          "role": "SURFACE"
+        },
+        {
+          "id": "8",
+          "name": "East overhang",
+          "inferred": "SURFACE",
+          "role": "SURFACE"
+        },
+        {
+          "id": "9",
+          "name": "Safety Block",
+          "inferred": "OBSTACLE",
+          "role": "OBSTACLE"
+        },
+        {
+          "id": "10",
+          "name": "North lantern",
+          "inferred": "SURFACE",
+          "role": "SURFACE"
+        },
+        {
+          "id": "11",
+          "name": "West terrace",
+          "inferred": "SURFACE",
+          "role": "SURFACE"
+        },
+        {
+          "id": "12",
+          "name": "East harbor",
+          "inferred": "SURFACE",
+          "role": "SURFACE"
+        },
+        {
+          "id": "13",
+          "name": "Emerald floating garden",
+          "inferred": "SURFACE",
+          "role": "SURFACE"
+        },
+        {
+          "id": "14",
+          "name": "Rose floating garden",
+          "inferred": "SURFACE",
+          "role": "SURFACE"
+        },
+        {
+          "id": "15",
+          "name": "West apartment",
+          "inferred": "SURFACE",
+          "role": "SURFACE"
+        }
+      ],
+      "options": {
+        "scale": 1,
+        "yaw": 0,
+        "up": "y",
+        "spawnYaw": 0,
+        "spawn": null
+      },
+      "variant": {
+        "seed": 2850027086,
+        "layout": "grouped",
+        "movedGroups": 9
+      }
+    },
+    "spawn": {
+      "x": -126.50554434032287,
+      "y": 45.16531233307816,
+      "z": 214.74016470971262
+    },
+    "collisionVisible": false,
+    "clear": true,
+    "geometrySHA256": "226cac2f7c8d26f8c66a74f1995ebc77492eb8492d07fc97863d9616c4efca54"
+  },
+  "reopened": {
+    "manifest": {
+      "id": "68c8b5aaa5f34420bb651275e69bc9b81ca774538e65033ad2e0f3247df7e8c9",
+      "name": "variants",
+      "bytes": 3508,
+      "nodes": 16,
+      "triangles": 180,
+      "collisionTriangles": 168,
+      "materials": 5,
+      "textures": 0,
+      "texturePixels": 0,
+      "bounds": {
+        "x": 362.45672455839383,
+        "y": 90.26373050010596,
+        "z": 409.48032941942523
+      },
+      "animations": [],
+      "meshRoles": [
+        {
+          "id": "1",
+          "name": "Promenade",
+          "inferred": "SURFACE",
+          "role": "SURFACE"
+        },
+        {
+          "id": "2",
+          "name": "East Lantern Tower",
+          "inferred": "SURFACE",
+          "role": "SURFACE"
+        },
+        {
+          "id": "3",
+          "name": "West Atrium",
+          "inferred": "SURFACE",
+          "role": "SURFACE"
+        },
+        {
+          "id": "4",
+          "name": "Skybox far",
+          "inferred": "DECORATION",
+          "role": "DECORATION"
+        },
+        {
+          "id": "5",
+          "name": "Rose bridge pier east",
+          "inferred": "SURFACE",
+          "role": "SURFACE"
+        },
+        {
+          "id": "6",
+          "name": "Rose bridge pier west",
+          "inferred": "SURFACE",
+          "role": "SURFACE"
+        },
+        {
+          "id": "7",
+          "name": "Rose bridge deck",
+          "inferred": "SURFACE",
+          "role": "SURFACE"
+        },
+        {
+          "id": "8",
+          "name": "East overhang",
+          "inferred": "SURFACE",
+          "role": "SURFACE"
+        },
+        {
+          "id": "9",
+          "name": "Safety Block",
+          "inferred": "OBSTACLE",
+          "role": "OBSTACLE"
+        },
+        {
+          "id": "10",
+          "name": "North lantern",
+          "inferred": "SURFACE",
+          "role": "SURFACE"
+        },
+        {
+          "id": "11",
+          "name": "West terrace",
+          "inferred": "SURFACE",
+          "role": "SURFACE"
+        },
+        {
+          "id": "12",
+          "name": "East harbor",
+          "inferred": "SURFACE",
+          "role": "SURFACE"
+        },
+        {
+          "id": "13",
+          "name": "Emerald floating garden",
+          "inferred": "SURFACE",
+          "role": "SURFACE"
+        },
+        {
+          "id": "14",
+          "name": "Rose floating garden",
+          "inferred": "SURFACE",
+          "role": "SURFACE"
+        },
+        {
+          "id": "15",
+          "name": "West apartment",
+          "inferred": "SURFACE",
+          "role": "SURFACE"
+        }
+      ],
+      "options": {
+        "scale": 1,
+        "yaw": 0,
+        "up": "y",
+        "spawnYaw": 0,
+        "spawn": null
+      },
+      "variant": {
+        "seed": 2850027086,
+        "layout": "grouped",
+        "movedGroups": 9
+      }
+    },
+    "spawn": {
+      "x": -126.50554434032287,
+      "y": 45.16531233307816,
+      "z": 214.74016470971262
+    },
+    "collisionVisible": false,
+    "clear": true,
+    "geometrySHA256": "226cac2f7c8d26f8c66a74f1995ebc77492eb8492d07fc97863d9616c4efca54"
+  },
+  "onAnotherProfile": {
+    "manifest": {
+      "id": "68c8b5aaa5f34420bb651275e69bc9b81ca774538e65033ad2e0f3247df7e8c9",
+      "name": "variants",
+      "bytes": 3508,
+      "nodes": 16,
+      "triangles": 180,
+      "collisionTriangles": 168,
+      "materials": 5,
+      "textures": 0,
+      "texturePixels": 0,
+      "bounds": {
+        "x": 362.45672455839383,
+        "y": 90.26373050010596,
+        "z": 409.48032941942523
+      },
+      "animations": [],
+      "meshRoles": [
+        {
+          "id": "1",
+          "name": "Promenade",
+          "inferred": "SURFACE",
+          "role": "SURFACE"
+        },
+        {
+          "id": "2",
+          "name": "East Lantern Tower",
+          "inferred": "SURFACE",
+          "role": "SURFACE"
+        },
+        {
+          "id": "3",
+          "name": "West Atrium",
+          "inferred": "SURFACE",
+          "role": "SURFACE"
+        },
+        {
+          "id": "4",
+          "name": "Skybox far",
+          "inferred": "DECORATION",
+          "role": "DECORATION"
+        },
+        {
+          "id": "5",
+          "name": "Rose bridge pier east",
+          "inferred": "SURFACE",
+          "role": "SURFACE"
+        },
+        {
+          "id": "6",
+          "name": "Rose bridge pier west",
+          "inferred": "SURFACE",
+          "role": "SURFACE"
+        },
+        {
+          "id": "7",
+          "name": "Rose bridge deck",
+          "inferred": "SURFACE",
+          "role": "SURFACE"
+        },
+        {
+          "id": "8",
+          "name": "East overhang",
+          "inferred": "SURFACE",
+          "role": "SURFACE"
+        },
+        {
+          "id": "9",
+          "name": "Safety Block",
+          "inferred": "OBSTACLE",
+          "role": "OBSTACLE"
+        },
+        {
+          "id": "10",
+          "name": "North lantern",
+          "inferred": "SURFACE",
+          "role": "SURFACE"
+        },
+        {
+          "id": "11",
+          "name": "West terrace",
+          "inferred": "SURFACE",
+          "role": "SURFACE"
+        },
+        {
+          "id": "12",
+          "name": "East harbor",
+          "inferred": "SURFACE",
+          "role": "SURFACE"
+        },
+        {
+          "id": "13",
+          "name": "Emerald floating garden",
+          "inferred": "SURFACE",
+          "role": "SURFACE"
+        },
+        {
+          "id": "14",
+          "name": "Rose floating garden",
+          "inferred": "SURFACE",
+          "role": "SURFACE"
+        },
+        {
+          "id": "15",
+          "name": "West apartment",
+          "inferred": "SURFACE",
+          "role": "SURFACE"
+        }
+      ],
+      "options": {
+        "scale": 1,
+        "yaw": 0,
+        "up": "y",
+        "spawnYaw": 0,
+        "spawn": null
+      },
+      "variant": {
+        "seed": 2850027086,
+        "layout": "grouped",
+        "movedGroups": 9
+      }
+    },
+    "spawn": {
+      "x": -126.50554434032287,
+      "y": 45.16531233307816,
+      "z": 214.74016470971262
+    },
+    "collisionVisible": false,
+    "clear": true,
+    "geometrySHA256": "226cac2f7c8d26f8c66a74f1995ebc77492eb8492d07fc97863d9616c4efca54"
+  },
+  "originalRender": {
+    "calls": 109,
+    "triangles": 7816,
+    "points": 560,
+    "lines": 0,
+    "fps": 25.00560087026586,
+    "geometries": 22,
+    "textures": 19,
+    "inversionAngle": 0,
+    "mirrorSky": {
+      "seed": null,
+      "triangles": 0,
+      "cameraOffset": 0,
+      "ground": null
+    }
+  },
+  "firstRender": {
+    "calls": 109,
+    "triangles": 7816,
+    "points": 560,
+    "lines": 0,
+    "fps": 12.801205753351933,
+    "geometries": 22,
+    "textures": 19,
+    "inversionAngle": 0,
+    "mirrorSky": {
+      "seed": null,
+      "triangles": 0,
+      "cameraOffset": 0,
+      "ground": null
+    }
+  },
+  "secondRender": {
+    "calls": 109,
+    "triangles": 7816,
+    "points": 560,
+    "lines": 0,
+    "fps": 85.42478855485604,
+    "geometries": 22,
+    "textures": 19,
+    "inversionAngle": 0,
+    "mirrorSky": {
+      "seed": null,
+      "triangles": 0,
+      "cameraOffset": 0,
+      "ground": null
+    }
+  },
+  "released": [
+    {
+      "seed": 1757984170,
+      "bvhBefore": 2,
+      "bvhAfter": 0,
+      "dynamicBvhBefore": 0,
+      "dynamicBvhAfter": 0,
+      "rootChildrenAfter": 0,
+      "disposedGeometryCount": 3
+    },
+    {
+      "seed": 1757984170,
+      "bvhBefore": 2,
+      "bvhAfter": 0,
+      "dynamicBvhBefore": 0,
+      "dynamicBvhAfter": 0,
+      "rootChildrenAfter": 0,
+      "disposedGeometryCount": 3
+    }
+  ],
+  "errors": [],
+  "remote": []
+}
