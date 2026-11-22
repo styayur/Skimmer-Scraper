@@ -26,11 +26,13 @@ The scheduler uses this order.
 4. Nearby visible terrain, ordered toward the aircraft's heading.
 5. The rest of the predicted route and recently used edge chunks when there is room.
 
-Nearby active geometry can stay for up to 1.25 seconds when it leaves the requested set. That gives
+Nearby active geometry can stay for about 1.25 seconds when it leaves the requested set. That gives
 the scheduler room to reuse edges after rapid bank reversals and boundary backtracking. Higher
 priority cells can reclaim the slot immediately. The active cap stays at 41 chunks. As activation
 latency rises, the scheduler reduces peripheral visual detail while giving the safety tiers first
-claim on that budget.
+claim on that budget. The planner reuses its queue for up to 90 ms when the pilot stays in a chunk,
+velocity changes gradually, and no wingmate safety envelope crosses a boundary. New collision
+neighborhoods are planned on the same update.
 
 ## Chunk lifecycle
 
@@ -50,6 +52,7 @@ UNLOADED -> QUEUED -> GENERATING -> ACTIVE -> RETIRING -> DISPOSED
 The current source yields one browser task before synchronously building one chunk. This prevents the
 whole city from being generated in a physics tick. Source generation time includes the browser task
 yield. Total activation time also includes creating the collision BVH and attaching the render group.
+The inline source separately measures time spent in the synchronous generator on the main thread.
 Geometry size and mesh counts are measured when a chunk activates and reused for runtime statistics.
 
 ## Collision safety and buffering

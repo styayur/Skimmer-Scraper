@@ -57,6 +57,7 @@ export interface StreamerStats {
   generationMinMs: number;
   generationMaxMs: number;
   generationSampleCount: number;
+  synchronousBuildP95Ms: number | null;
   activationP95Ms: number;
   maxLoadedChunks: number;
   coverageComplete: boolean;
@@ -90,6 +91,7 @@ const SPAWN_Z = 120;
 const ORIGIN_REBASE_THRESHOLD = 12_000;
 const ORIGIN_REBASE_STEP = 10_000;
 const MAX_FORECAST_SECONDS = 4.5;
+const PLAN_INTERVAL_MS = 90;
 const RETENTION_MS = 1_250;
 const RETENTION_PRIORITY = 30;
 
@@ -161,13 +163,19 @@ export class WorldStreamer implements RenderableWorld {
   private readonly onChunkActivated: (event: ChunkStreamEvent) => void;
   private readonly onChunkRetired: (event: ChunkStreamEvent) => void;
   private readonly generationTimes: number[] = [];
+  private readonly synchronousBuildTimes: number[] = [];
   private readonly activationTimes: number[] = [];
   private generationTiming = summarizeGenerationTimes([]);
+  private synchronousBuildP95Ms: number | null = null;
   private activationP95Ms = 0;
   private readonly renderOrigin = { x: 0, y: 0, z: 0 };
   private lastPosition = { x: 0, y: 24, z: SPAWN_Z };
   private lastVelocity = { x: 0, y: 0, z: -1 };
   private lastForecast: (() => StreamForecast) | undefined;
+  private planAfter = 0;
+  private plannedCenter = '';
+  private plannedVelocity = { x: 0, z: 0 };
+  private companionFootprint = '';
   private companionPositions: Array<{ x: number; y: number; z: number }> = [];
   private requestToken = 0;
   private inFlight = 0;
@@ -225,11 +233,30 @@ export class WorldStreamer implements RenderableWorld {
     const rebaseDelta = this.maybeRebase(position);
     this.architecture?.cover(position, this.companionPositions);
     const now = performance.now();
-    const desired = this.buildDesiredChunks(position, velocity, forecast?.(), now);
+    const centerX = Math.floor(position.x / CHUNK_SIZE);
+    const centerZ = Math.floor(position.z / CHUNK_SIZE);
+    const center = chunkKey(centerX, centerZ);
+    if (center !== this.plannedCenter || now >= this.planAfter
+      || Math.hypot(velocity.x - this.plannedVelocity.x, velocity.z - this.plannedVelocity.z) >= 10) {
+      this.plannedCenter = center;
+      this.plannedVelocity = { x: velocity.x, z: velocity.z };
+      this.planAfter = now + PLAN_INTERVAL_MS;
+      this.reconcileDesiredChunks(this.buildDesiredChunks(position, velocity, forecast?.(), now, centerX, centerZ), now);
+    }
+
+    return {
+      coverageComplete: this.isCollisionCovered(position),
+      rebaseDelta,
+      stats: this.getStreamerStats(),
+    };
+  }
+
+  private reconcileDesiredChunks(desired: Map<string, number>, now: number): void {
 
     for (const record of [...this.chunks.values()]) {
-      if (desired.has(record.key)) {
-        record.priority = desired.get(record.key)!;
+      const priority = desired.get(record.key);
+      if (priority !== undefined) {
+        record.priority = priority;
         if (record.priority < RETENTION_PRIORITY) record.lastUsed = now;
         if (record.state === 'RETIRING') record.state = 'GENERATING';
       } else if (record.state === 'QUEUED') {
@@ -257,14 +284,15 @@ export class WorldStreamer implements RenderableWorld {
     }
 
     this.processQueue();
-    return {
-      coverageComplete: this.isCollisionCovered(position),
-      rebaseDelta,
-      stats: this.getStreamerStats(),
-    };
   }
   public setCompanionPositions(positions: readonly { x: number; y: number; z: number }[]): void {
     this.companionPositions = positions.filter(position => Object.values(position).every(Number.isFinite)).slice(0, 3).map(position => ({ ...position }));
+    const footprint = this.companionPositions.map(({ x, z }) => [x - 80, x + 80, z - 80, z + 80]
+      .map(edge => Math.floor(edge / CHUNK_SIZE)).join(':')).join(';');
+    if (footprint !== this.companionFootprint) {
+      this.companionFootprint = footprint;
+      this.planAfter = 0;
+    }
   }
 
   public async prime(position = this.defaultSpawn.position, timeoutMs = 30_000): Promise<void> {
@@ -398,6 +426,7 @@ export class WorldStreamer implements RenderableWorld {
       generationMinMs: timing.min,
       generationMaxMs: timing.max,
       generationSampleCount: timing.count,
+      synchronousBuildP95Ms: this.synchronousBuildP95Ms,
       activationP95Ms: this.activationP95Ms,
       maxLoadedChunks: this.maxLoadedChunks,
       coverageComplete: this.isCollisionCovered(this.lastPosition),
@@ -439,10 +468,10 @@ export class WorldStreamer implements RenderableWorld {
     velocity: Vec3,
     forecast: StreamForecast | undefined,
     now: number,
+    centerX: number,
+    centerZ: number,
   ): Map<string, number> {
     const desired = new Map<string, number>();
-    const centerX = Math.floor(position.x / CHUNK_SIZE);
-    const centerZ = Math.floor(position.z / CHUNK_SIZE);
     const add = (x: number, z: number, priority: number): void => {
       const key = chunkKey(x, z);
       const current = desired.get(key);
@@ -526,6 +555,9 @@ export class WorldStreamer implements RenderableWorld {
       .then((generated) => {
         const duration = performance.now() - started;
         this.generationTiming = addTiming(this.generationTimes, duration);
+        if (generated.synchronousBuildMs !== undefined) {
+          this.synchronousBuildP95Ms = addTiming(this.synchronousBuildTimes, generated.synchronousBuildMs).p95;
+        }
         if (this.disposed || record.requestToken === 0 || record.state !== 'GENERATING') {
           this.disposeGenerated(generated);
           if (record.state === 'RETIRING') this.retiredTotal += 1;
