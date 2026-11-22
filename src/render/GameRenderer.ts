@@ -131,6 +131,7 @@ export class GameRenderer {
 
     this.atmosphere = createSkyAtmosphere();
     if (!world.kind) this.mirrorSky.setWorld(world.settings, 0x21152e, 0x9f4f66);
+    this.atmosphere.setMirrorGround(this.mirrorSky.ground);
     this.scene.add(this.atmosphere.group, this.mirrorSky.group);
 
     const hemisphere = new THREE.HemisphereLight(0xffc1a1, 0x17131f, 1.45);
@@ -232,6 +233,7 @@ export class GameRenderer {
     if (this.world) this.scene.remove(this.world.root);
     this.world = null;
     this.mirrorSky.clear();
+    this.atmosphere.setMirrorGround(null);
     this.journeyGate.group.visible = false;
   }
   public setWorld(world:RenderableWorld,index:number):void {
@@ -239,6 +241,7 @@ export class GameRenderer {
     const profile=index>0?journeyProfile(index):null;
     this.atmosphere.palette(profile?.top??0x21152e,profile?.mid??0x9f4f66,profile?.horizon??0xffb58f);
     if (!world.kind) this.mirrorSky.setWorld(world.settings, profile?.top ?? 0x21152e, profile?.mid ?? 0x9f4f66);
+    this.atmosphere.setMirrorGround(this.mirrorSky.ground);
     this.scene.fog=new THREE.FogExp2(profile?.mid??0x6f4152,world.settings.config.fogDensity);
     this.journeyGate.group.visible=index===5;
     const spawn=world.getSpawn();this.journeyGate.group.position.set(spawn.position.x,spawn.position.y+30,spawn.position.z-260);

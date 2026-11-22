@@ -3,52 +3,11 @@ import { cityDistrictAt } from '../world/cityDistricts';
 import { seededRandom } from '../world/deterministic';
 import type { WorldSettings } from '../world/worldConfig';
 
-const GROUND_HEIGHT = 650;
-const GROUND_RADIUS = 1530;
-const GROUND_SEGMENTS = 64;
+export const MIRROR_GROUND = Object.freeze({ height: 650, radius: 1530 });
 
-function createGround() {
-  const geometry = new THREE.CircleGeometry(GROUND_RADIUS, GROUND_SEGMENTS).rotateX(-Math.PI / 2);
-  const material = new THREE.ShaderMaterial({
-    side: THREE.BackSide,
-    transparent: true,
-    depthWrite: false,
-    fog: false,
-    uniforms: {
-      uStone: { value: new THREE.Color() },
-      uHaze: { value: new THREE.Color() },
-    },
-    vertexShader: `
-      varying vec2 vGround;
-      void main() {
-        vGround = 2.0 * uv - 1.0;
-        gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-      }
-    `,
-    fragmentShader: `
-      uniform vec3 uStone;
-      uniform vec3 uHaze;
-      varying vec2 vGround;
-      void main() {
-        float radius = length(vGround);
-        float air = smoothstep(0.22, 0.96, radius);
-        vec3 color = mix(uStone, uHaze, air);
-        vec2 grid = vGround * 10.0;
-        vec2 distanceToStreet = abs(fract(grid + 0.5) - 0.5);
-        vec2 filtered = max(fwidth(grid), vec2(0.009));
-        vec2 street = 1.0 - smoothstep(vec2(0.012), filtered + 0.023, distanceToStreet);
-        color = mix(color, uHaze, max(street.x, street.y) * (1.0 - air) * 0.24);
-        float opacity = 0.96 * (1.0 - smoothstep(0.56, 0.99, radius));
-        gl_FragColor = vec4(color, opacity);
-        #include <tonemapping_fragment>
-        #include <colorspace_fragment>
-      }
-    `,
-  });
-  const ground = new THREE.Mesh(geometry, material);
-  ground.name = 'upside-down-city-ground';
-  ground.position.y = GROUND_HEIGHT;
-  return ground;
+export interface MirrorGroundPalette {
+  stone: THREE.Color;
+  haze: THREE.Color;
 }
 
 /** Seeded, inverted city above the viewer. The renderer owns all of its geometry. */
@@ -58,7 +17,11 @@ export class MirrorSky {
   private seed: number | null = null;
   private triangles = 0;
   private readonly material = new THREE.MeshBasicMaterial({ vertexColors: true, fog: false });
-  private readonly ground = createGround();
+  private readonly groundPalette: MirrorGroundPalette = { stone: new THREE.Color(), haze: new THREE.Color() };
+
+  public get ground(): MirrorGroundPalette | null {
+    return this.seed === null ? null : this.groundPalette;
+  }
 
   public setWorld(settings: WorldSettings, top: number, mid: number): void {
     this.clear();
@@ -75,8 +38,8 @@ export class MirrorSky {
     const stone = base.clone().lerp(blue, 0.22);
     const glow = new THREE.Color(mid).lerp(new THREE.Color(0xb5a1bc), 0.15);
     const shade = new THREE.Color();
-    this.ground.material.uniforms.uStone!.value.copy(stone).lerp(new THREE.Color(top), 0.34);
-    this.ground.material.uniforms.uHaze!.value.copy(base).lerp(glow, 0.53);
+    this.groundPalette.stone.copy(stone).lerp(new THREE.Color(top), 0.34);
+    this.groundPalette.haze.copy(base).lerp(glow, 0.53);
     const addBox = (x: number, y: number, z: number, w: number, h: number, d: number, haze: number) => {
       for (let index = 0; index < indices.count; index++) {
         const vertex = indices.getX(index);
@@ -97,9 +60,9 @@ export class MirrorSky {
         const z = Math.sin(angle) * radius;
         const district = cityDistrictAt(settings.seed, x, z);
         const foundationDepth = 14 + random() * 18;
-        const elevation = GROUND_HEIGHT - foundationDepth - 8;
+        const elevation = MIRROR_GROUND.height - foundationDepth - 8;
         const width = 110 + 125 * district.gardens;
-        addBox(x, GROUND_HEIGHT - foundationDepth / 2, z, width * 1.07, foundationDepth, 142, haze);
+        addBox(x, MIRROR_GROUND.height - foundationDepth / 2, z, width * 1.07, foundationDepth, 142, haze);
         addBox(x, elevation + 4, z, width * 0.9, 12, 112, haze + 0.06);
         let shortestTower = Infinity;
         for (const offset of [-0.3, 0, 0.31]) {
@@ -128,7 +91,7 @@ export class MirrorSky {
     this.triangles = positions.length / 9;
     this.mesh = new THREE.Mesh(geometry, this.material);
     this.mesh.name = 'upside-down-skyline';
-    this.group.add(this.mesh, this.ground);
+    this.group.add(this.mesh);
   }
 
   public follow(camera: THREE.Camera): void {
@@ -137,13 +100,12 @@ export class MirrorSky {
 
   public snapshot(camera: THREE.Camera) {
     return { seed: this.seed, triangles: this.triangles, cameraOffset: this.group.position.distanceTo(camera.position),
-      ground: this.mesh ? { height: GROUND_HEIGHT, radius: GROUND_RADIUS, triangles: GROUND_SEGMENTS } : null };
+      ground: this.ground ? MIRROR_GROUND : null };
   }
 
   public clear(): void {
     if (this.mesh) {
       this.group.remove(this.mesh);
-      this.group.remove(this.ground);
       this.mesh.geometry.dispose();
       this.mesh = null;
     }
@@ -154,7 +116,5 @@ export class MirrorSky {
   public dispose(): void {
     this.clear();
     this.material.dispose();
-    this.ground.geometry.dispose();
-    this.ground.material.dispose();
   }
 }
