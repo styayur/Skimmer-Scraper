@@ -93,7 +93,15 @@ export class SystemSpeech implements VoiceProvider {
     let voices = listSystemVoices(language);
     if (!voices.length && !synth.getVoices().length) voices = await this.awaitVoices(synth, language, signal);
     if (!voices.length) throw new Error('local-tts-unavailable');
-    const voice = voices.find(item => item.voiceURI === identity.preferredSystemVoice) ?? voices[(identity.agent - 1) % voices.length]!;
+    // Some Windows browsers list a desktop and a platform alias for the same voice.
+    const named = new Map<string, SpeechSynthesisVoice>();
+    for (const voice of voices) {
+      const key = voice.name.split(' - ', 1)[0]!.replace(/\bdesktop\b/gi, '').trim().toLowerCase();
+      if (!named.has(key)) named.set(key, voice);
+    }
+    const automatic = [...named.values()];
+    const voice = voices.find(item => item.voiceURI === identity.preferredSystemVoice)
+      ?? automatic[(identity.agent - 1) % automatic.length]!;
     signal.throwIfAborted();
     await new Promise<void>((resolve, reject) => {
       const utterance = new SpeechSynthesisUtterance(line.text);
