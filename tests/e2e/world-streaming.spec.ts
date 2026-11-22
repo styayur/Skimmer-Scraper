@@ -68,13 +68,16 @@ const setPose = (page: Page, position: { x: number; y: number; z: number }): Pro
     return bridge.setPose(target);
   }, position);
 
-const waitReady = async (page: Page): Promise<void> => {
-  await page.waitForFunction(() => {
-    const bridge = (window as unknown as {
-      __SKIMMER_SCRAPER__?: { snapshot(): { ready: boolean; mode: string } };
-    }).__SKIMMER_SCRAPER__;
-    return bridge?.snapshot().ready === true && bridge.snapshot().mode === 'running';
-  }, { timeout: 90_000 });
+const waitReady = async (page: Page): Promise<StreamingSnapshot> => {
+  const handle = await page.waitForFunction(() => {
+    const bridge = (window as unknown as { __SKIMMER_SCRAPER__?: StreamingBridge }).__SKIMMER_SCRAPER__;
+    const state = bridge?.snapshot();
+    return state?.ready && state.mode === 'running' && !state.buffering && state.streaming?.coverageComplete ? state : false;
+  }, null, { timeout: 90_000 });
+  const state = await handle.jsonValue();
+  await handle.dispose();
+  if (!state) throw new Error('Spawn collision coverage was not ready.');
+  return state;
 };
 
 test.describe('v0.2 phase 3 infinite world streaming', () => {
@@ -89,9 +92,7 @@ test.describe('v0.2 phase 3 infinite world streaming', () => {
 
     await page.setViewportSize({ width: 1440, height: 900 });
     await page.goto('/?autostart=1&seed=phase-3-stream&preset=neon&world=stable');
-    await waitReady(page);
-
-    const initial = await snapshot(page);
+    const initial = await waitReady(page);
     expect(initial.streaming).not.toBeNull();
     expect(initial.streaming!.activeChunks).toBeLessThanOrEqual(41);
     expect(initial.streaming!.bvhCount).toBe(initial.streaming!.activeChunks);
@@ -112,31 +113,29 @@ test.describe('v0.2 phase 3 infinite world streaming', () => {
       const label = document.querySelector('#surface-state')?.textContent ?? '';
       if (!state?.buffering || !label.includes('WORLD STREAM')) return false;
       return { runTime: state.runTime, label };
-    }, { timeout: 15_000 });
-    await page.evaluate((target) => {
-      const bridge = (window as unknown as {
-        __SKIMMER_SCRAPER__?: { setPose(position: typeof target): Promise<unknown> };
-      }).__SKIMMER_SCRAPER__;
-      if (!bridge) throw new Error('Debug bridge unavailable.');
-      void bridge.setPose(target);
-    }, { x: 12_105, y: 85, z: 0 });
-
-    const bufferedAt = await (await bufferedState).jsonValue() as { runTime: number; label: string };
+    }, null, { timeout: 15_000 });
+    const [buffer, committed] = await Promise.all([
+      bufferedState, setPose(page, { x: 12_105, y: 85, z: 0 }),
+    ]);
+    const bufferedAt = await buffer.jsonValue();
+    await buffer.dispose();
+    if (!bufferedAt) throw new Error('Did not observe the collision buffering state.');
     expect(bufferedAt.label).toContain('WORLD STREAM');
+    expect(committed.buffering).toBe(false);
+    expect(committed.position.x).toBeCloseTo(12_105, 2);
 
-    await page.waitForFunction(() => {
+    const resumed = await page.waitForFunction(() => {
       const bridge = (window as unknown as { __SKIMMER_SCRAPER__?: StreamingBridge })
         .__SKIMMER_SCRAPER__;
       const state = bridge?.snapshot();
-      return state?.buffering === false &&
-        Math.abs(state.position.x - 12_105) < 0.01 &&
-        state.streaming?.coverageComplete === true;
-    }, { timeout: 90_000 });
-
-    const afterTeleport = await snapshot(page);
+      return state?.mode === 'running' && !state.buffering && state.streaming?.coverageComplete && state.surfaceLocked ? state : false;
+    }, null, { timeout: 90_000 });
+    const afterTeleport = await resumed.jsonValue();
+    await resumed.dispose();
+    if (!afterTeleport) throw new Error('Covered flight did not resume after teleport.');
     const bufferedTimerDeltaSeconds = Math.max(
       0,
-      Math.round((afterTeleport.runTime - bufferedAt.runTime) * 1000) / 1000,
+      Math.round((committed.runTime - bufferedAt.runTime) * 1000) / 1000,
     );
     expect(bufferedTimerDeltaSeconds).toBeLessThanOrEqual(0.5);
     expect(afterTeleport.streaming!.coverageComplete).toBe(true);
@@ -163,7 +162,7 @@ test.describe('v0.2 phase 3 infinite world streaming', () => {
       return streaming !== null && streaming !== undefined &&
         streaming.queuedChunks === 0 &&
         streaming.generatingChunks === 0;
-    }, { timeout: 60_000 });
+    }, null, { timeout: 60_000 });
 
     const final = await snapshot(page);
     expect(afterFlight.runTime).toBeGreaterThanOrEqual(afterHighPose.runTime + 1);
