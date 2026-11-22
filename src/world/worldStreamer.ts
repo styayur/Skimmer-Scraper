@@ -501,7 +501,11 @@ export class WorldStreamer implements RenderableWorld {
       const radius = Math.max(Math.abs(record.chunkX - centerX), Math.abs(record.chunkZ - centerZ));
       if (radius <= viewRadius) add(record.chunkX, record.chunkZ, RETENTION_PRIORITY + radius);
     }
-    return new Map([...desired.entries()].sort((a, b) => a[1] - b[1]).slice(0, this.maxLoadedChunks));
+    const ordered = [...desired.entries()].sort((a, b) => a[1] - b[1]);
+    const safetyChunks = ordered.filter(([, priority]) => priority < 10).length;
+    const visualLimit = Math.max(30, 36 - Math.floor(Math.max(0, this.activationP95Ms - 70) / 18));
+    const budget = Math.min(this.maxLoadedChunks, Math.max(safetyChunks, visualLimit));
+    return new Map(ordered.slice(0, budget));
   }
 
   private processQueue(): void {

@@ -1163,17 +1163,19 @@ const frame = (now: number): void => {
     renderer.setCompanions(mode === 'title' ? [] : companions.agents, activeWorld.getRenderOrigin());
     renderer.setRelay(symbiosis.relayFlash,symbiosis.time,activeWorld.getRenderOrigin());
     updateCompanionHud(companions.agents, symbiosis.planner);
-    const streaming = streamPreparationCount === 0 ? syncWorldStreaming(flightState) : null;
+    const preparingWorld = streamPreparationCount > 0;
+    if (!preparingWorld && (mode !== 'running' || debugAdvancing)) syncWorldStreaming(flightState);
     if (mode === 'running') {
       if (debugAdvancing) {
         stepRunner.reset();
-      } else if (streamPreparationCount > 0 || (streaming && !streaming.coverageComplete)) {
+      } else if (preparingWorld || (activeWorld instanceof WorldStreamer && !activeWorld.isCollisionCovered(flightState.position))) {
+        if (!preparingWorld) syncWorldStreaming(flightState);
         buffering = true;
         stepRunner.reset();
       } else {
         buffering = false;
         stepRunner.advance(delta, simulateFixedStep);
-        if (flightState && !pendingWorldSwap) syncWorldStreaming(flightState);
+        if (flightState && !pendingWorldSwap && !neededCoverage) syncWorldStreaming(flightState);
       }
       syncHud();
       if (runRules.status === 'failed') finishRun();

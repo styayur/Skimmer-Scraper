@@ -28,7 +28,9 @@ The scheduler uses this order.
 
 Nearby active geometry can stay for up to 1.25 seconds when it leaves the requested set. That gives
 the scheduler room to reuse edges after rapid bank reversals and boundary backtracking. Higher
-priority cells can reclaim the slot immediately. The active cap stays at 41 chunks.
+priority cells can reclaim the slot immediately. The active cap stays at 41 chunks. As activation
+latency rises, the scheduler reduces peripheral visual detail while giving the safety tiers first
+claim on that budget.
 
 ## Chunk lifecycle
 
