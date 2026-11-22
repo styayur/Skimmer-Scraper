@@ -62,9 +62,9 @@ emphasis while keeping urban density.
 ## Streaming
 
 The runtime no longer generates the complete 5 x 5 world during boot. `WorldStreamer` maintains a
-collision ring, a larger render ring and a velocity-directed prefetch corridor while disposing chunks
-that leave the desired set. See [STREAMING.md](STREAMING.md) for lifecycle, coordinate, buffering and
-resource-accounting details.
+collision ring, a larger render ring and predictive prefetch based on motion and controls. Recent
+nearby chunks can stay briefly to support backtracking. See [STREAMING.md](STREAMING.md) for lifecycle,
+coordinate, buffering and resource-accounting details.
 
 ## Mirror city
 

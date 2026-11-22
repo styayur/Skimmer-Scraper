@@ -34,6 +34,7 @@ import type { CameraMode, VisualStimulation } from './config/experience';
 import { EXPERIENCE_CONFIG } from './config/experience';
 import { FixedStepRunner } from './core/fixedStep';
 import { FLIGHT, createFlightState, stepFlight, type FlightState } from './flight/flightModel';
+import { streamingForecast } from './flight/streamingForecast';
 import {
   KeyboardInputSource,
   ScriptedInputSource,
@@ -232,13 +233,14 @@ const delay = (milliseconds: number): Promise<void> => new Promise((resolve) => 
 });
 
 const syncWorldStreaming = (
-  state: Pick<FlightState, 'position' | 'velocity'>,
+  state: FlightState | Pick<FlightState, 'position' | 'velocity'>,
   includeCompanions = true,
 ): StreamerUpdate | null => {
   if (!(activeWorld instanceof WorldStreamer)) return null;
   activeWorld.setCompanionPositions(includeCompanions
     ? companions.agents.filter(agent => agent.deployed).map(agent => agent.flight.position) : []);
-  const update = activeWorld.update(state.position, state.velocity);
+  const forecast = 'attitude' in state ? () => streamingForecast(state, controls) : undefined;
+  const update = activeWorld.update(state.position, state.velocity, forecast);
   if (update.rebaseDelta) renderer?.shiftRenderOrigin(update.rebaseDelta);
   return update;
 };

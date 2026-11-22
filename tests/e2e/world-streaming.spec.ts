@@ -17,6 +17,7 @@ interface StreamerSnapshot {
   generationMinMs: number;
   generationMaxMs: number;
   generationSampleCount: number;
+  activationP95Ms: number;
   maxLoadedChunks: number;
   coverageComplete: boolean;
   rebaseCount: number;
@@ -176,6 +177,7 @@ test.describe('v0.2 phase 3 infinite world streaming', () => {
     expect(final.streaming!.retiredTotal).toBeGreaterThan(0);
     expect(final.streaming!.disposedGeometryCount).toBeGreaterThan(0);
     expect(final.streaming!.generationAvgMs).toBeGreaterThan(0);
+    expect(final.streaming!.activationP95Ms).toBeGreaterThan(0);
     expect(final.streaming!.generationSampleCount).toBeGreaterThan(0);
     expect(final.streaming!.generationMinMs).toBeLessThanOrEqual(final.streaming!.generationAvgMs);
     expect(final.streaming!.generationAvgMs).toBeLessThanOrEqual(final.streaming!.generationMaxMs);

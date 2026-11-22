@@ -11,13 +11,24 @@ The collision and render working sets are deliberately different:
 | Ring | Default | Purpose |
 | --- | --- | --- |
 | Collision | 3 x 3 chunks | Guarantees that the current chunk and every immediate neighbour can be queried. |
-| Render | 5 x 5 chunks plus directional prefetch | Supplies visible detail around the aircraft and along its projected path. |
+| Render | 5 x 5 neighborhood plus the forward edge | Supplies nearby visual detail and starts work on the visible side first. |
 | Hard active budget | 41 chunks | Bounds render geometry and per-chunk BVH count. |
 
-A chunk is 220 m square. At the 116 m/s maximum flight speed, the streamer predicts roughly four
-seconds ahead plus measured generation latency. The horizon is capped at 720 m and uses the current
-velocity direction, so it follows straight lines and curves without relying on an untested fixed
-preload ring.
+A chunk is 220 m square. The flight model forecasts 4.5 seconds using the current attitude, velocity,
+thrust and eased controls, with a route sample every half-second. The forecast reuses the flight
+integration for acceleration, banking and pitch. The active flight continues stepping at 120 Hz.
+The scheduler uses this order.
+
+1. The pilot's current collision neighborhood.
+2. The next collision neighborhoods along the predicted path. A longer measured activation time
+   starts collision prefetch earlier, within a 2.7-second limit for this tier.
+3. The safety envelopes around deployed wingmates.
+4. Nearby visible terrain, ordered toward the aircraft's heading.
+5. The rest of the predicted route and recently used edge chunks when there is room.
+
+Nearby active geometry can stay for up to 1.25 seconds when it leaves the requested set. That gives
+the scheduler room to reuse edges after rapid bank reversals and boundary backtracking. Higher
+priority cells can reclaim the slot immediately. The active cap stays at 41 chunks.
 
 ## Chunk lifecycle
 
@@ -28,14 +39,16 @@ UNLOADED -> QUEUED -> GENERATING -> ACTIVE -> RETIRING -> DISPOSED
 - `QUEUED`: desired but not generating.
 - `GENERATING`: exactly one inline generation task is allowed in flight in v0.2.
 - `ACTIVE`: render group is under the streamed root and the local collision geometry has a BVH.
-- `RETIRING`: the chunk left the desired set while generation was still in flight. Its result is
-  disposed instead of being attached to the scene.
+- `RETIRING`: the chunk left the desired set while generation was still in flight. The same request
+  can return to `GENERATING` if the aircraft turns back before it finishes. Otherwise its result is
+  disposed when it arrives.
 - Queued chunks that become stale are removed before generation starts.
 - Revisiting a chunk never creates a duplicate active record; the chunk key is `chunkX:chunkZ`.
 
 The current source yields one browser task before synchronously building one chunk. This prevents the
-whole city from being generated in a physics tick, but it is not a Web Worker. Chunk generation time
-is measured and exposed so the remaining main-thread cost is visible rather than hidden.
+whole city from being generated in a physics tick. Source generation time includes the browser task
+yield. Total activation time also includes creating the collision BVH and attaching the render group.
+Geometry size and mesh counts are measured when a chunk activates and reused for runtime statistics.
 
 ## Collision safety and buffering
 
@@ -79,7 +92,8 @@ driver reclaimed every allocation. Real GPU memory profiling remains a separate 
 ## Automated evidence
 
 - `tests/unit/worldStreamer.test.ts` runs a deterministic 15-minute curved flight, checks the active and
-  BVH bounds, forces A -> B movement, cancels an in-flight generation and verifies geometry disposal.
+  BVH bounds, forces A -> B movement, tests priority and edge retention, cancels an in-flight generation
+  and verifies geometry disposal.
 - `tests/e2e/world-streaming.spec.ts` exercises the real browser scene, verifies the load HUD while
   buffering is true, checks that buffering freezes the run timer, checks the hard chunk budget and
   validates a 10,000 m floating-origin rebase.
