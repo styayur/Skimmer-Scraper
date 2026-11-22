@@ -1,0 +1,276 @@
+{
+  "status": "TESTED",
+  "phase": 6,
+  "title": "Browser-local Kokoro and voice integration",
+  "verifiedSource": "df7b41715fba24170765093794aaa02775096eb5",
+  "featureBase": "bc4ef2420dedd3604f0238d227455d6c9f673455",
+  "siteBeforeRelease": {
+    "version": "0.5.0",
+    "sourceCommit": "eb284103ec26c7a8333e4fb69797e72684c46302"
+  },
+  "localVerification": {
+    "windowsFreshInstall": true,
+    "wslDebianFreshInstallNode": "24.22.3",
+    "typecheck": true,
+    "unitTests": 186,
+    "productionBuild": true,
+    "fullChromiumFeatureRun": {
+      "source": "a81d2250658edf0c6492a2ba1f78c64844a02c95",
+      "passed": 47,
+      "minutes": 27.1
+    },
+    "targetedLatestChromiumTests": 5,
+    "notes": "The final network adjustments are covered by the three separate native browser checks. The earlier complete browser suite contains both added official integration tests. Concurrent benchmarking caused a 5s timeout in the pre-existing dense city seed test; the subsequent quiet default run passed all assertions."
+  },
+  "nativeWebGPU": {
+    "browser": "157.0.8103.79",
+    "renderer": {
+      "webgpu": {
+        "vendor": "amd",
+        "architecture": "rdna-3",
+        "device": "",
+        "description": "",
+        "isFallbackAdapter": false,
+        "f16": true
+      },
+      "webgl": "ANGLE (AMD, AMD Radeon 780M Graphics (0x00001900) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "cores": 16
+    },
+    "viewport": [
+      1920,
+      1080
+    ],
+    "readyMilliseconds": 134165.79999999702,
+    "directHuggingFaceRangeResponses": 143,
+    "previousUnassistedPartialPercent": 17,
+    "downloadNote": "The public HF source transferred ranges directly in Chrome and resumed ranges retained from the earlier interrupted WAN attempt. Browser-side integrity checks assembled the 177,437,791-byte file before loading it. No route interception or preloading was used on this pass.",
+    "previews": [
+      {
+        "length": 98400,
+        "rate": 24000,
+        "peak": 0.395263671875,
+        "rms": 0.0595682330408643,
+        "startsAt": 141.05066666666667,
+        "ended": true,
+        "stopped": false,
+        "endsAt": 145.18133333333333,
+        "role": 1,
+        "voiceId": "zf_001",
+        "inferenceMs": 5622.5
+      },
+      {
+        "length": 103800,
+        "rate": 24000,
+        "peak": 0.58349609375,
+        "rms": 0.05579529254726757,
+        "startsAt": 146.66133333333335,
+        "ended": true,
+        "stopped": false,
+        "endsAt": 151.02133333333333,
+        "role": 2,
+        "voiceId": "zm_010",
+        "inferenceMs": 1394.0999999940395
+      },
+      {
+        "length": 101400,
+        "rate": 24000,
+        "peak": 0.451171875,
+        "rms": 0.0634132177519569,
+        "startsAt": 152.312,
+        "ended": true,
+        "stopped": false,
+        "endsAt": 156.57866666666666,
+        "role": 3,
+        "voiceId": "zf_006",
+        "inferenceMs": 1133.0999999940395
+      }
+    ],
+    "flightVoices": [
+      {
+        "agent": 1,
+        "voiceId": "zf_001",
+        "companions": 3,
+        "dynamicStructures": 8,
+        "inferenceMs": 1387.5,
+        "audioSeconds": 5.825,
+        "buffered": false
+      },
+      {
+        "agent": 2,
+        "voiceId": "zm_010",
+        "companions": 3,
+        "dynamicStructures": 8,
+        "inferenceMs": 1652.7999999970198,
+        "audioSeconds": 6.35,
+        "buffered": false
+      },
+      {
+        "agent": 3,
+        "voiceId": "zf_006",
+        "companions": 3,
+        "dynamicStructures": 8,
+        "inferenceMs": 1405.9000000059605,
+        "audioSeconds": 5.7,
+        "buffered": false
+      }
+    ],
+    "cancelledPreviewStoppedNode": true,
+    "cacheReloadMilliseconds": 3465,
+    "remoteDownloadsAfterUnload": 0,
+    "releasedOnIdle": true,
+    "pageErrors": [],
+    "shortFlightFrameIntervals": {
+      "flight-default": {
+        "samples": 649,
+        "meanFps": 107.12752962926287,
+        "p50": 8.300000000000182,
+        "p95": 16.5,
+        "p99": 33.69999999999982,
+        "max": 50
+      },
+      "flight-with-model": {
+        "samples": 2356,
+        "meanFps": 100.93739824859043,
+        "p50": 8.300000000017462,
+        "p95": 16.79999999998836,
+        "p99": 41.70000000001164,
+        "max": 191.89999999999418
+      },
+      "flight-inference": {
+        "samples": 276,
+        "meanFps": 61.794734013971066,
+        "p50": 8.39999999999418,
+        "p95": 50,
+        "p99": 150.10000000000582,
+        "max": 191.89999999999418
+      }
+    },
+    "meanFpsBetweenInferences": 110.19984317714614,
+    "totalInferenceSecondsWithinFrameSample": 4.466399999999994,
+    "totalModelFlightFrameSampleSeconds": 23.34120000000001,
+    "comparisonScope": "1080p headed Chromium and the live city. The default and inference sample windows cover different parts of the same flight, so these measurements show scope and duration of frame-time spikes and do not isolate a hardware-wide causal regression."
+  },
+  "fallback": {
+    "noCompatibleWebGPU": "Real browser with its Worker WebGPU API unavailable. No Hugging Face download. Native KITE-2 system speech ended.",
+    "noNetwork": "Browser network fault injection interrupted the HTTP model request. Worker released and real native KITE-2 speech ended.",
+    "slowWasmExperiment": {
+      "source": "7b6c3af8fa10f2e7373878135e8c4a687b3bc4de",
+      "backend": "wasm",
+      "shortInferenceMs": 13295,
+      "invalidWaveform": true
+    },
+    "oldQuantizedWebGPUExperiment": {
+      "invalidWaveform": true
+    },
+    "decision": "Reject nonfinite and silent waveform output in the Worker. Unsupported hardware falls back to system speech or subtitles. WASM-only model inference is excluded from the supported path."
+  },
+  "voiceProviders": {
+    "downloadedVoiceIds": [
+      "zf_001",
+      "zm_010",
+      "zf_006"
+    ],
+    "defaultOutput": "local",
+    "defaultInput": "off",
+    "volumeAndRolePreview": true,
+    "cloudSimulation": "Existing mocked integration tests remain separate from the paid HTTP case."
+  },
+  "paidDeepSeek": {
+    "input": "Authorized Windows-synthesized Mandarin WAV through Chromium microphone fixture",
+    "physicalMicrophone": false,
+    "endpoints": [
+      {
+        "path": "/chat/completions",
+        "status": 200
+      },
+      {
+        "path": "/v1/tools/asr",
+        "status": 200
+      },
+      {
+        "path": "/chat/completions",
+        "status": 200
+      },
+      {
+        "path": "/v1/tools/tts",
+        "status": 200
+      },
+      {
+        "path": "/v1/tools/tts",
+        "network": "net::ERR_ABORTED"
+      }
+    ],
+    "source": "7b6c3af8fa10f2e7373878135e8c4a687b3bc4de",
+    "result": "Validated SCOUT order, actual KITE-2 movement, PCM playback completion, subsequent TTS interrupted."
+  },
+  "privacy": {
+    "exactOperatorCredentialMatches": 0,
+    "filesScanned": 52,
+    "scope": "Local production distribution and this phase evidence. The operator credential was read from the process environment for comparison only."
+  },
+  "licensing": {
+    "project": "AGPL-3.0-only",
+    "historicalMitNotice": "licenses/PROJECT-MIT-v0.2.0.txt",
+    "nativeBuildNotices": [
+      "licenses/ONNX-RUNTIME-MIT.txt",
+      "licenses/ONNX-RUNTIME-THIRD-PARTY.txt",
+      "licenses/HUGGINGFACE-JINJA-MIT.txt",
+      "licenses/PINYIN-PRO-MIT.txt"
+    ],
+    "model": {
+      "license": "Apache-2.0",
+      "revision": "cf37b65bbce28544e5cecc6ab826b05548c590d8",
+      "bytes": 177437791,
+      "sha256": "165c7c730c7d75ef0b563f3af690eda32d385eb7386eb613f3b5e6fe02dcc60d"
+    },
+    "embeddings": {
+      "license": "Apache-2.0",
+      "revision": "6cc0f0d2ebe369a68b0df87c2b65c1af8c0ac3e3",
+      "sha256": {
+        "zf_001": "0a89ec12bb93fb9c74077924daf02568baad64e1f869389f5aaee01a386035f8",
+        "zf_006": "52dee405a0e609d6d2869eef05984745db435a73aea49db7418494d5cb53bf9d",
+        "zm_010": "73b088f7e0dc47adca4d6a642ee68843df90ff56ec2800c29d96609989d6de0a"
+      }
+    },
+    "gplEspeakModuleInDistribution": false,
+    "npmAuditReportedVulnerabilities": 0
+  },
+  "evidence": [
+    {
+      "path": "evidence/v0.6/pr6-kokoro/authorized-deepseek-ptt.png",
+      "sha256": "9b12df71ba09d237150951a68348f29f6413afa9c70fd4f8f4d1bbfd92d13f04"
+    },
+    {
+      "path": "evidence/v0.6/pr6-kokoro/download-interruption.png",
+      "sha256": "42d16147be82f4fea3dd891abfad48b082a632c8dc4c833c5a68947a002f0a48"
+    },
+    {
+      "path": "evidence/v0.6/pr6-kokoro/fallback.json",
+      "sha256": "a616ec8710a752b0cf7f07858fd3e491b2549b87643613d6ac4cb77b5819d1af"
+    },
+    {
+      "path": "evidence/v0.6/pr6-kokoro/hardware-warm.json",
+      "sha256": "9350d9132d78ef8abba09964b82afcb3daf7cb48d6aaee767d4ab3dcb6c2684a"
+    },
+    {
+      "path": "evidence/v0.6/pr6-kokoro/native-webgpu-ready.png",
+      "sha256": "94490df45aee51a23e669a8f586ad939d3460bdd48029fc793d213f7c542b2bb"
+    },
+    {
+      "path": "evidence/v0.6/pr6-kokoro/native-webgpu.json",
+      "sha256": "4f68abbf900b20079e15627cde46cf375db6b84a313830531fba5297350c99a7"
+    },
+    {
+      "path": "evidence/v0.6/pr6-kokoro/no-compatible-webgpu.png",
+      "sha256": "d414cb7de0a93e7b15ce76de8916be446ec4884f904238e907d633a63e6dffc6"
+    },
+    {
+      "path": "evidence/v0.6/pr6-kokoro/paid-deepseek.json",
+      "sha256": "5a745d2c2271a8601cd1bf6fbd6fb722cb0a72728be82bf99985b8b63ea3b4bf"
+    },
+    {
+      "path": "evidence/v0.6/pr6-kokoro/range-resume.json",
+      "sha256": "bbfc58107a0d0a09b75c79811047aad71c0b0cf663aa477ddcab7126cc9b10f6"
+    }
+  ]
+}

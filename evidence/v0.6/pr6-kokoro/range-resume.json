@@ -1,0 +1,134 @@
+{
+  "recording": {
+    "source": {
+      "version": "0.5.0",
+      "sourceCommit": "df7b41715fba24170765093794aaa02775096eb5",
+      "sourceCommitTime": "2026-11-23T00:12:32+08:00",
+      "dirty": false,
+      "sourceUrl": "https://github.com/styayur/Skimmer-Scraper/tree/df7b41715fba24170765093794aaa02775096eb5",
+      "toolchain": {
+        "node": "v26.7.0",
+        "platform": "win32",
+        "architecture": "x64"
+      }
+    },
+    "mode": "chrome",
+    "workload": "smoke",
+    "version": "157.0.8103.79",
+    "gpu": {
+      "webgpu": {
+        "vendor": "amd",
+        "architecture": "rdna-3",
+        "device": "",
+        "description": "",
+        "isFallbackAdapter": false,
+        "f16": true
+      },
+      "webgl": "ANGLE (AMD, AMD Radeon 780M Graphics (0x00001900) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "cores": 16
+    },
+    "loaded": {
+      "phase": "ready",
+      "backend": "webgpu",
+      "device": "amd rdna-3",
+      "percent": 100,
+      "loads": 1,
+      "releases": 1,
+      "generated": 0,
+      "completed": 0,
+      "loadMs": 14198.40000000596,
+      "inferenceMs": null,
+      "audioSeconds": null,
+      "lastVoice": null,
+      "error": null,
+      "detail": "",
+      "resident": true,
+      "idleMs": 45000
+    },
+    "previews": [
+      {
+        "role": 1,
+        "preview": {
+          "phase": "completed",
+          "error": null,
+          "speech": {
+            "provider": "high-quality",
+            "voiceId": "zf_001",
+            "rate": 0.99
+          }
+        },
+        "model": {
+          "phase": "ready",
+          "backend": "webgpu",
+          "device": "amd rdna-3",
+          "percent": 100,
+          "loads": 1,
+          "releases": 1,
+          "generated": 1,
+          "completed": 1,
+          "loadMs": 14198.40000000596,
+          "inferenceMs": 10989.89999999106,
+          "audioSeconds": 4.1,
+          "lastVoice": "zf_001",
+          "error": null,
+          "detail": "",
+          "resident": true,
+          "idleMs": 45000
+        },
+        "actual": {
+          "length": 98400,
+          "rate": 24000,
+          "peak": 0.3896484375,
+          "rms": 0.05956343251628318,
+          "startsAt": 28.061333333333334,
+          "ended": true,
+          "stopped": false,
+          "endsAt": 32.192
+        }
+      }
+    ],
+    "flight": [],
+    "errors": [],
+    "performance": {
+      "flight-default": {
+        "samples": 266,
+        "meanFps": 43.907431250206336,
+        "p50": 24.899999999999636,
+        "p95": 41.600000000000364,
+        "p99": 58.29999999999927,
+        "max": 75.19999999999982
+      }
+    }
+  },
+  "rangeTransportFixture": {
+    "pinnedSha256": "165c7c730c7d75ef0b563f3af690eda32d385eb7386eb613f3b5e6fe02dcc60d",
+    "automaticRangeRetry": [
+      5242880
+    ],
+    "sizeBytes": 177437791,
+    "uniqueOffsets": 170,
+    "totalRangeRequests": 177,
+    "retainedRanges": [
+      0,
+      1048576,
+      2097152,
+      3145728,
+      4194304,
+      6291456,
+      5242880,
+      7340032,
+      8388608,
+      10485760,
+      9437184,
+      11534336,
+      12582912,
+      13631488,
+      14680064,
+      15728640,
+      16777216,
+      17825792,
+      18874368
+    ],
+    "scope": "Only the ONNX weight requests were intercepted. The response body used the actual SHA-verified official public model. Chromium then assembled and loaded the complete model and the real WebGPU backend produced playable PCM."
+  }
+}
