@@ -66,6 +66,16 @@ collision ring, a larger render ring and a velocity-directed prefetch corridor w
 that leave the desired set. See [STREAMING.md](STREAMING.md) for lifecycle, coordinate, buffering and
 resource-accounting details.
 
+## Mirror city
+
+The renderer builds a small upside-down skyline from the active procedural
+world's seed and district fields. Its foundations meet a continuous ground
+with a street grid and an atmospheric edge that fades into the current sky
+palette. The ground follows camera translation in world-aligned sky space
+as the player climbs, dives or rolls. The skyline and its 64-triangle ground
+live in the renderer. They use the physical world's seed and palette and
+contribute zero collision surfaces or BVHs.
+
 ## World memory modes
 
 Stable World always uses revision 0. Ephemeral World advances a chunk revision only after complete

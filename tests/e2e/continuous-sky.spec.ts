@@ -17,6 +17,7 @@ test('five crossings carry both camera modes and keep the changing mirror skylin
   const evidence = 'evidence/v0.5/pr4-sky';
   mkdirSync(evidence, { recursive: true });
   const initial = await page.evaluate(() => window.__SKIMMER_SCRAPER__!.snapshot());
+  expect(initial.render.mirrorSky.ground?.triangles).toBe(64);
   const trace = [];
   for (const [offset, attitude] of approach.entries()) {
     if (offset > 0) await page.keyboard.press('c');
@@ -83,6 +84,7 @@ test('five crossings carry both camera modes and keep the changing mirror skylin
     expect(after.worldReleases.every(world => world.bvhAfter === 0 && world.rootChildrenAfter === 0)).toBe(true);
     expect(after.streaming!.bvhCount).toBeLessThanOrEqual(41);
     expect(after.render.mirrorSky.triangles).toBe(initial.render.mirrorSky.triangles);
+    expect(after.render.mirrorSky.ground).toEqual(initial.render.mirrorSky.ground);
     expect(after.render.mirrorSky.seed).toBe(after.seed);
     expect(after.render.mirrorSky.seed).not.toBe(before.render.mirrorSky.seed);
     expect(before.render.mirrorSky.cameraOffset).toBe(0);
