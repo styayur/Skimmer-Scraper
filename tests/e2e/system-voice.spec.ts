@@ -93,7 +93,7 @@ const openSettings = async (page: Page) => {
 };
 
 test('default offline companion speech follows the actual speaker and cancels on pause or device changes', async ({ page }) => {
-  test.setTimeout(150_000);
+  test.setTimeout(210_000);
   const remote: string[] = [];
   const errors: string[] = [];
   page.on('request', request => { if (request.url().startsWith('https:')) remote.push(request.url()); });
@@ -140,6 +140,13 @@ test('default offline companion speech follows the actual speaker and cancels on
   await expectSpeaking(page, 3, 'Explorer', 'fixture-delta');
   await page.keyboard.press('r');
   await expect.poll(async () => (await probe(page)).events.some(event => event.phase === 'cancel' && event.voice === 'fixture-delta')).toBe(true);
+  await expectSpeaking(page, 1, 'Navigator', 'fixture-alpha');
+  await page.evaluate(() => window.__SKIMMER_SCRAPER__!.setPose({ x: 0, y: 519.5, z: 120 }, { yaw: 0, pitch: 0.75, roll: 0 }));
+  await expect.poll(async () => (await state(page)).journey.active).toBe(true);
+  await expect.poll(async () => (await state(page)).voice.speaking).toBeNull();
+  expect(await probe(page)).toMatchObject({ active: false, overlaps: 0 });
+  expect((await probe(page)).events.at(-1)).toMatchObject({ phase: 'cancel', voice: 'fixture-alpha' });
+  await expect.poll(async () => (await state(page)).journey.crossings, { timeout: 45_000 }).toBe(1);
   expect((await probe(page)).overlaps).toBe(0);
   expect(errors).toEqual([]);
   expect(remote).toEqual([]);
