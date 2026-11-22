@@ -28,8 +28,11 @@ running on the same page remain inside the browser's trust boundary. Model
 errors, spent budgets and unsupported cross-origin requests leave local flight
 and radio commands available.
 
-See [Voice radio](VOICE.md) for microphone permissions, push-to-talk controls,
-speech budgets and local browser options.
+Subtitles remain available with speech off. The three wingmates have separate
+system voice preferences and dedicated Mandarin Kokoro voices. The Voice radio
+panel controls volume, preview and provider fallback. See [Voice radio](VOICE.md)
+for push-to-talk controls, microphone permissions, speech budgets and browser
+support.
 
 The browser tests exercise local dialogue and synthetic provider responses.
 For the paid DeepSeek Flash check, serve the production build on port 4175,

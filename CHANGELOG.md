@@ -2,6 +2,22 @@
 
 ## Unreleased
 
+## 0.6.0 — 2026-11-23
+
+### Added
+
+- A continuous atmospheric ground plane for the mirrored city above the flight world.
+- Predictive chunk preparation for high-speed flight and rapid turns, with priority for collision coverage, wingmates and the nearby view.
+- Portable seeds for generated GLB layouts. Keep a layout, or replay it with the same imported GLB and import configuration.
+- Default system speech with distinct wingmate roles, a speech volume control and voice previews.
+- Opt-in Mandarin Kokoro synthesis on compatible WebGPU hardware, with resumable downloads, SHA-256 verification and idle model release.
+
+### Changed
+
+- The title offers direct entry to flight or the searchable 19-chapter tutorial. Contextual help links settings to matching chapters.
+- Hardware or network failures in local Kokoro can fall back to system speech or subtitles. Windows Firefox uses the fallback before downloading model weights.
+- The stable release archives use the exact manually deployed Pages distribution and its corresponding source.
+
 ## 0.5.0
 
 ### Added

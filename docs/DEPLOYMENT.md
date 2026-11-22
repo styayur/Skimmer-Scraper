@@ -28,32 +28,39 @@ and building. After the deployment and public browser smoke test pass for the
 same commit and version, create the stable tag on that commit and publish the
 GitHub Release with its archives and checksums. Tags serve as release references.
 
-Verify a candidate under the project subpath before publishing. For a local
-build, run `npm ci`, `npm run test:all`, and `npm run preview -- --base
-/Skimmer-Scraper/`. Run `node scripts/verify-v050.mjs` with `SKIMMER_URL` set to
-that preview URL, `SKIMMER_EXPECTED_VERSION` set to the candidate version and
-`SKIMMER_EXPECTED_COMMIT` set to the built revision. Set `SKIMMER_JOURNEY_SETS=2`
-for two complete five-world runs in Chrome. The real GPU matrix and sustained
-flight are exercised by `node scripts/v050-gpu.mjs matrix` and `soak`.
+Verify the v0.6.0 candidate under the project subpath. For a local build,
+run `npm ci`, `npm run test:all`, and `npm run preview -- --base /Skimmer-Scraper/`.
+Run `node scripts/verify-v060.mjs` with `SKIMMER_URL` set to that preview URL,
+`SKIMMER_EXPECTED_VERSION` set to the candidate version,
+`SKIMMER_EXPECTED_COMMIT` set to the built revision and `SKIMMER_EVIDENCE_DIR`
+set to a writable directory. Set `SKIMMER_FULL_JOURNEY=1` to run all five worlds.
+The real GPU matrix and sustained flight are exercised by
+`node scripts/v050-gpu.mjs matrix` and `soak`.
 
-From the clean, verified release commit, use `npm run release:package -- <output>`
-to create the static and source ZIPs, the release manifest and `SHA256SUMS.txt`.
+After Pages reports success, download the workflow's `github-pages` artifact
+and extract `artifact.tar`. Run the same verifier against the public project
+URL with the final version and commit, and set `SKIMMER_DEPLOY_ARTIFACT_DIR`
+to the extracted directory. The verifier compares hashes of the served
+`build-info.json` and runtime entry bundle against the artifact. Complete native
+Kokoro playback and authorized DeepSeek speech and fallback checks separately.
+[Public build metadata](https://styayur.github.io/Skimmer-Scraper/build-info.json)
+
+Place the extracted deployment artifact at `dist/` in a clean checkout of the
+verified release commit. Run `npm run release:package -- <output>` to create the
+static and source ZIPs, the release manifest and `SHA256SUMS.txt`.
 On Windows, create the packaging checkout with
-`git -c core.autocrlf=false worktree add --detach <directory> <commit>` before
-installing and building so the workspace and source archive use the same bytes.
+`git -c core.autocrlf=false worktree add --detach <directory> <commit>` so the
+workspace and source archive use the same bytes.
 Keep the lockfile and the build toolchain recorded in the manifest. Source ZIPs
-retain `SOURCE_REVISION.json` for a build without `.git`. The release's
-`v0.5.0.json` is generated beside the archives so it can include their hashes
-and the verified production SHA. Run `python scripts/verify-release-package.py
-<output>` to check both archives and their embedded revision data.
+retain `SOURCE_REVISION.json` for a build without `.git`. Rebuild the extracted
+Source ZIP with the recorded toolchain and compare it to the deployed files.
+Add the release's `v0.6.0.json` acceptance report alongside the archives and
+include its digest in `SHA256SUMS.txt`. Run
+`python scripts/verify-release-package.py <output>` on the bundle and again
+on a fresh download from the published GitHub Release.
 The distribution links to its complete corresponding source. It omits
 bundler source maps because their synthetic asset references can differ
 between builds from the same files.
-
-After Pages reports a successful deployment, verify the public project URL with
-`node scripts/verify-v050.mjs` and the expected version and commit. The smoke
-loads real WebGL2, exercises flight, voice settings, local radio, a sky crossing
-and GLB loading, and checks asset URLs and source provenance. [Public build metadata](https://styayur.github.io/Skimmer-Scraper/build-info.json)
 
 The v0.3.0-rc.1 candidate is a GitHub prerelease with static/source ZIPs and
 SHA256 manifests; it does not dispatch Pages or change the latest stable release.

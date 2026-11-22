@@ -1,4 +1,14 @@
-# v0.5.0 acceptance
+# Release acceptance
+
+## v0.6.0
+
+[Integrated verification](../acceptance/v0.6/integrated.json) records the
+tested feature tree, five world crossings, GLB replay, browser voice behavior
+and 18-minute native flight. The stable GitHub Release includes the public
+Pages verification and the source and archive hashes in `v0.6.0.json`.
+[GitHub Releases](https://github.com/styayur/Skimmer-Scraper/releases)
+
+## v0.5.0
 
 The release requires full Chromium regression, native moving-flight GPU
 measurements, two complete Sky Inversion journeys, import and disposal checks,

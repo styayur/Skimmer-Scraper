@@ -22,11 +22,19 @@ for line in (folder / 'SHA256SUMS.txt').read_text(encoding='utf-8').splitlines()
         raise SystemExit('Release checksum failure')
     checksums[name] = checksum
 
-if set(checksums) != {manifest_name, *(asset['name'] for asset in manifest['assets'])}:
+archive_checksums = {manifest_name, *(asset['name'] for asset in manifest['assets'])}
+report_name = f"v{manifest['version']}.json"
+if set(checksums) not in (archive_checksums, archive_checksums | {report_name}):
     raise SystemExit('Release checksum list does not match the manifest')
 
 secrets = [os.environ[name].encode() for name in ('DEEPSEEK_API_KEY', 'OPENAI_API_KEY') if len(os.getenv(name, '')) >= 8]
-if any(secret in (folder / name).read_bytes() for name in (manifest_name, 'SHA256SUMS.txt') for secret in secrets):
+metadata_names = [manifest_name, 'SHA256SUMS.txt']
+if report_name in checksums:
+    report = json.loads((folder / report_name).read_bytes())
+    if any(report[field] != manifest[field] for field in ('sourceCommit', 'version')):
+        raise SystemExit('Acceptance report does not match the release revision')
+    metadata_names.append(report_name)
+if any(secret in (folder / name).read_bytes() for name in metadata_names for secret in secrets):
     raise SystemExit('An operator credential matched release metadata')
 
 results = []
@@ -65,4 +73,5 @@ for asset in manifest['assets']:
         results.append({ 'name': name, 'entriesScanned': scanned, 'audioFiles': audio_files, 'sha256': checksums[name] })
 
 print(json.dumps({ 'status': 'passed', 'version': manifest['version'], 'sourceCommit': manifest['sourceCommit'],
-    'operatorCredentialsChecked': len(secrets), 'credentialMatches': 0, 'archives': results }, indent=2))
+    'operatorCredentialsChecked': len(secrets), 'credentialMatches': 0,
+    'acceptanceReportSha256': checksums.get(report_name), 'archives': results }, indent=2))
