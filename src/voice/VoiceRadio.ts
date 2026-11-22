@@ -1,15 +1,19 @@
 import type { ModelClient } from '../ai/modelClient';
 import { radioLanguageOf, radioText, type RadioLanguage, type RadioLine } from '../ai/radioDialogue';
-import { openLocalSpeech, speakLocally } from './browserSpeech';
+import { openLocalSpeech, SystemSpeech } from './browserSpeech';
 import { DeepSeekVoice, VOICE_LIMITS, type SpeechStreamStats } from './deepSeekVoice';
 import { openMicrophone } from './microphone';
-import { StreamedRadioPlayback } from './playback';
+import { RadioAudio } from './playback';
+import { SpeechQueue } from './SpeechQueue';
+import {
+  resolveVoiceIdentity, type SpeakingProvider, type SpeechStart, type VoiceIdentity, type VoiceInput,
+  type VoiceLifecycle, type VoicePreferences, type VoiceProvider,
+} from './voiceContracts';
+import { loadVoicePreferences, saveVoicePreferences } from './voicePreferences';
 import { MAX_CLIP_SECONDS } from './wave';
 
-export type VoiceMode = 'off' | 'local' | 'deepseek';
 type VoicePhase = 'idle' | 'opening' | 'recording' | 'transcribing';
 export type PushToTalkSource = 'keyboard' | 'gamepad' | 'touch';
-export interface VoiceSettings { input: VoiceMode; output: VoiceMode; language: RadioLanguage; localFallback: boolean }
 interface Capture {
   source: PushToTalkSource;
   controller: AbortController;
@@ -17,7 +21,7 @@ interface Capture {
   finish?: () => void;
   timer: number;
 }
-interface CompletedSpeech { id: number; agent: number; provider: 'local' | 'deepseek'; stream?: SpeechStreamStats }
+interface CompletedSpeech extends SpeechStart { id: number; agent: number; stream?: SpeechStreamStats }
 interface Hooks {
   available(): boolean;
   send(text: string, useModel: boolean): boolean;
@@ -45,12 +49,14 @@ const messages: Record<string, string> = {
 };
 
 export class VoiceRadio {
-  private settings: VoiceSettings = { input: 'off', output: 'off', language: 'zh-CN', localFallback: true };
+  private settings: VoicePreferences;
   private readonly deepSeek: DeepSeekVoice;
+  private readonly providers: Partial<Record<SpeakingProvider, VoiceProvider>>;
+  private readonly speech = new SpeechQueue((line, signal) => this.announce(line, signal));
   private capture: Capture | null = null;
-  private playback: { controller: AbortController; line: RadioLine } | null = null;
-  private pendingLine: RadioLine | null = null;
+  private speechStart: (SpeechStart & { id: number }) | null = null;
   private seenLine: number | null = null;
+  private activated = false;
   private context: AudioContext | null = null;
   private captures = 0;
   private commands = 0;
@@ -58,28 +64,48 @@ export class VoiceRadio {
   private completed = 0;
   private readonly playbackHistory: CompletedSpeech[] = [];
   private lastError: string | null = null;
+  private lastOutputError: string | null = null;
+  private lastOutputFallback: SpeakingProvider | null = null;
 
-  public constructor(model: ModelClient, private readonly hooks: Hooks) { this.deepSeek = new DeepSeekVoice(model); }
-  public get inputMode(): VoiceMode { return this.settings.input; }
-  public get preferredLanguage(): RadioLanguage | undefined {
-    return this.settings.input === 'off' && this.settings.output === 'off' ? undefined : this.settings.language;
+  public constructor(model: ModelClient, private readonly hooks: Hooks, highQuality?: VoiceProvider) {
+    this.deepSeek = new DeepSeekVoice(model);
+    this.providers = { local: new SystemSpeech(), deepseek: { speak: this.speakCloud }, 'high-quality': highQuality };
+    this.settings = loadVoicePreferences(window.localStorage);
+    if (!highQuality && this.settings.output === 'high-quality') this.settings.output = 'local';
   }
-  public get ducking(): boolean { return !!this.playback || this.capture?.phase === 'opening' || this.capture?.phase === 'recording'; }
+
+  public get inputMode(): VoiceInput { return this.settings.input; }
+  public get preferences(): VoicePreferences { return { ...this.settings, voices: { ...this.settings.voices } }; }
+  public get hasHighQuality(): boolean { return !!this.providers['high-quality']; }
+  public get preferredLanguage(): RadioLanguage | undefined {
+    return this.settings.input === 'off' && this.settings.language === 'zh-CN' ? undefined : this.settings.language;
+  }
+  public get spokenLine(): RadioLine | null {
+    const line = this.speech.current;
+    return line && line.id === this.speechStart?.id ? line : null;
+  }
+  public get ducking(): boolean { return !!this.spokenLine || this.capture?.phase === 'opening' || this.capture?.phase === 'recording'; }
   public snapshot() {
-    return { ...this.settings, phase: this.capture?.phase ?? 'idle', played: this.played, completed: this.completed,
-      speaking: this.playback?.line.agent ?? null, captures: this.captures, commands: this.commands, lastError: this.lastError,
+    return { ...this.preferences, phase: this.capture?.phase ?? 'idle', played: this.played, completed: this.completed,
+      speaking: this.spokenLine?.agent ?? null, activeSpeech: this.spokenLine ? this.speechStart : null, queuedSpeech: this.speech.count,
+      captures: this.captures, commands: this.commands, lastError: this.lastError, lastOutputError: this.lastOutputError,
+      lastOutputFallback: this.lastOutputFallback,
       lastCompleted: this.playbackHistory.at(-1) ?? null, playbackHistory: this.playbackHistory.slice(),
       cloud: this.deepSeek.snapshot(), limits: VOICE_LIMITS };
   }
 
-  public configure(settings: VoiceSettings): void {
+  public configure(settings: VoicePreferences): void {
     this.cancel(false);
     this.silence();
-    this.settings = { ...settings };
-    this.unlock();
+    this.settings = { ...settings, voices: { ...settings.voices } };
+    this.lastOutputError = null;
+    this.lastOutputFallback = null;
+    saveVoicePreferences(window.localStorage, this.settings);
+    if (this.activated) this.unlock();
   }
 
   public unlock(): void {
+    this.activated = true;
     if (this.settings.output !== 'deepseek' || typeof AudioContext === 'undefined') return;
     try {
       this.context ??= new AudioContext();
@@ -116,7 +142,7 @@ export class VoiceRadio {
     return true;
   }
 
-  private async record(capture: Capture, input: VoiceMode, language: RadioLanguage): Promise<void> {
+  private async record(capture: Capture, input: VoiceInput, language: RadioLanguage): Promise<void> {
     const { signal } = capture.controller;
     try {
       const session = input === 'deepseek' ? await openMicrophone(signal) : await openLocalSpeech(language, signal);
@@ -183,59 +209,60 @@ export class VoiceRadio {
     this.hooks.status('idle', messages[code] ?? '语音暂不可用。按 T 可以输入文字。');
   }
 
-  public update(inFlight: boolean, line: RadioLine | null): void {
-    if (!inFlight) { this.cancel(false); this.silence(); return; }
-    if (!line || line.id === this.seenLine) return;
-    this.seenLine = line.id;
-    if (this.capture || this.settings.output === 'off' || line.agent === null) return;
-    if (line.priority === 'risk') this.silence();
-    if (this.playback) {
-      if (this.pendingLine?.priority !== 'reply' || line.priority === 'reply') this.pendingLine = line;
-      return;
-    }
-    this.play(line);
-  }
-
-  private play(line: RadioLine): void {
-    const controller = new AbortController();
-    this.playback = { controller, line };
-    void this.announce(line, controller.signal).finally(() => {
-      if (this.playback?.controller !== controller) return;
-      this.playback = null;
-      const next = this.pendingLine;
-      this.pendingLine = null;
-      if (next && this.hooks.available() && !this.capture) this.play(next);
-    });
+  public update(inFlight: boolean, line: RadioLine | null, muted = false): void {
+    const unseen = line && line.id !== this.seenLine;
+    if (line) this.seenLine = line.id;
+    if (!inFlight) { this.suspend(); return; }
+    if (muted) { this.silence(); return; }
+    if (unseen && !this.capture && this.activated && this.settings.output !== 'off' && line.agent !== null) this.speech.enqueue(line);
   }
 
   private async announce(line: RadioLine, signal: AbortSignal): Promise<void> {
-    const agent = line.agent ?? 1;
+    const identity = resolveVoiceIdentity(line.agent, this.settings.voices);
+    const selected = this.settings.output;
+    if (!identity || selected === 'off') return;
     const language = radioLanguageOf(line.text);
-    let began = false;
-    try {
-      if (this.settings.output === 'deepseek' && this.deepSeek.connected && this.context?.state === 'running') {
-        const stream = new StreamedRadioPlayback(this.context, agent, signal);
-        try {
-          const stats = await this.deepSeek.speak(line.text, agent === 2 ? 'tide' : 'stella', signal, async chunk => {
-            if (!began) { began = true; this.played++; }
-            await stream.append(chunk);
-          });
-          await stream.finish();
-          this.finishSpeech({ id: line.id, agent, provider: 'deepseek', stream: stats });
-          return;
-        } catch (error) {
-          if (signal.aborted || began || !this.settings.localFallback) throw error;
-          this.lastError = failure(error);
-        } finally { stream.close(); }
-      } else if (this.settings.output === 'deepseek' && !this.settings.localFallback) return;
-      if (signal.aborted || this.settings.output === 'off') return;
-      await speakLocally(line.text, language, agent, signal);
+    const fallBack = selected !== 'local' && this.settings.localFallback;
+    const order: SpeakingProvider[] = fallBack ? [selected, 'local'] : [selected];
+    const lifecycle: VoiceLifecycle = { signal, start: info => {
+      if (signal.aborted || this.speechStart?.id === line.id) return;
+      this.speechStart = { ...info, id: line.id };
+      if (info.provider !== selected) this.lastOutputFallback = info.provider;
       this.played++;
-      this.finishSpeech({ id: line.id, agent, provider: 'local' });
-    } catch (error) {
-      if (!signal.aborted) this.lastError = failure(error);
+    } };
+    this.lastOutputError = null;
+    this.lastOutputFallback = null;
+    for (const mode of order) {
+      try {
+        signal.throwIfAborted();
+        const provider = this.providers[mode];
+        if (!provider) throw new Error('voice-provider-unavailable');
+        const stream = await provider.speak(line, language, identity, lifecycle);
+        signal.throwIfAborted();
+        const started = this.speechStart;
+        if (!started || started.id !== line.id) throw new Error('playback-blocked');
+        this.finishSpeech({ ...started, agent: identity.agent, ...(stream ? { stream } : {}) });
+        return;
+      } catch (error) {
+        if (signal.aborted) return;
+        this.lastOutputError = failure(error);
+        if (this.speechStart?.id === line.id) return;
+      }
     }
   }
+
+  private speakCloud = async (line: RadioLine, _language: RadioLanguage, identity: VoiceIdentity,
+    { signal, start }: VoiceLifecycle): Promise<SpeechStreamStats> => {
+    if (!this.deepSeek.connected) throw new Error('voice-disconnected');
+    if (this.context?.state !== 'running') throw new Error('playback-blocked');
+    const playback = new RadioAudio(this.context, identity, signal,
+      () => start({ provider: 'deepseek', voiceId: identity.cloudVoice, rate: identity.rate }));
+    try {
+      const stats = await this.deepSeek.speak(line.text, identity.cloudVoice, signal, chunk => playback.append(chunk));
+      await playback.finish();
+      return stats;
+    } finally { playback.close(); }
+  };
 
   private finishSpeech(speech: CompletedSpeech): void {
     this.completed++;
@@ -244,17 +271,23 @@ export class VoiceRadio {
   }
 
   public silence(): boolean {
-    const active = this.playback;
-    this.pendingLine = null;
-    if (!active) return false;
-    this.playback = null;
-    active.controller.abort();
-    return true;
+    this.speechStart = null;
+    return this.speech.clear();
+  }
+
+  public suspend(): void {
+    this.cancel(false);
+    this.silence();
+  }
+
+  public reset(): void {
+    this.suspend();
+    this.speech.reset();
   }
 
   public dispose(): void {
-    this.cancel(false);
-    this.silence();
+    this.reset();
+    this.providers['high-quality']?.dispose?.();
     if (this.context) void this.context.close().catch(() => {});
     this.context = null;
   }

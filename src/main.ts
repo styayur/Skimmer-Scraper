@@ -295,6 +295,7 @@ const ui: GameUI = new GameUI({
   onMuteToggle: () => {
     muted = !muted;
     audio.setMuted(muted);
+    if (muted) voiceRadio.silence();
     return muted;
   },
   onQualityChange: () => {
@@ -683,11 +684,16 @@ const simulateFixedStep = (dt: number, holdPosition = false): boolean => {
     ? flightWouldCollide(flightState, nextState, activeWorld) ? COLLISION_RADIUS : null : undefined;
   const previousY=flightState.position.y;
   flightState = nextState;
+  const previousSurface = lastSurfaceHit;
   lastSurfaceHit = queryFlightSurface(activeWorld, flightState.position, SURFACE_QUERY_RANGE);
   runRules = updateRunRules(runRules, { distance: lastSurfaceHit?.distance ?? null, collisionDistance }, dt);
   if (runRules.status === 'running') {
     companions.step(flightState, activeWorld, dt);
     runRules = symbiosis.step(flightState, runRules, activeWorld, worldSettings.seed, dt);
+    if (lastSurfaceHit?.surfaceId.endsWith(':garden') && lastSurfaceHit.distance < 70
+      && (previousSurface?.surfaceId !== lastSurfaceHit.surfaceId || previousSurface.distance >= 70)) {
+      symbiosis.flightReport(3, ['发现一座浮空花园。留意它的升降轨迹。', 'Floating garden ahead. Watch its vertical motion.']);
+    }
   }
   if(activeWorld instanceof WorldStreamer && journey.observe(previousY,flightState,runRules,dt)){
     pendingRadio=null;
@@ -706,6 +712,7 @@ const simulateFixedStep = (dt: number, holdPosition = false): boolean => {
 const finishRun = (): void => {
   if (!flightState || runRules.status !== 'failed' || mode === 'failed') return;
   mode = 'failed';
+  voiceRadio.reset();
   symbiosis.suspend();
   keyboard.setEnabled(false);
   stepRunner.reset();
@@ -757,6 +764,7 @@ const resetFlightState = (): void => {
 
 const startRun = async (): Promise<void> => {
   if (!renderer || !activeWorld) return;
+  voiceRadio.reset();
   runGeneration++;
   const transition = ++worldTransition;
   actionRouter.clear();
@@ -787,6 +795,7 @@ const startRun = async (): Promise<void> => {
   lastSurfaceHit = queryFlightSurface(activeWorld, flightState.position, SURFACE_QUERY_RANGE);
   lastFrameTime = performance.now();
   mode = 'running';
+  symbiosis.flightReport(1, ['编队已就位。沿前方航线出发。', 'Formation ready. Continue ahead.']);
   keyboard.setEnabled(!debugInputEnabled);
   audio.start();
   audio.setMuted(muted);
@@ -799,6 +808,7 @@ const startRun = async (): Promise<void> => {
 const debugPause = (): boolean => {
   if (mode !== 'running') return mode === 'paused';
   mode = 'paused';
+  voiceRadio.suspend();
   pendingRadio = null;
   symbiosis.suspend();
   keyboard.setEnabled(false);
@@ -822,6 +832,7 @@ const returnToTitle = async (): Promise<void> => {
   const transition = ++worldTransition;
   actionRouter.clear();
   mode = 'title';
+  voiceRadio.reset();
   symbiosis.suspend();
   keyboard.setEnabled(false);
   stepRunner.reset();
@@ -1074,6 +1085,7 @@ const activateWorld = (world: ImportedWorldAdapter | WorldStreamer, history: Chu
   ++worldTransition;
   actionRouter.clear();
   mode = 'title';
+  voiceRadio.reset();
   keyboard.setEnabled(false);
   stepRunner.reset();
   audio.stop();
@@ -1132,9 +1144,9 @@ const frame = (now: number): void => {
       ui.showToast('伴机电台暂不可用。', true);
     }
   }
-  radioPanel.update(mode === 'running' && !journey.active);
   const voiceInFlight = voiceAvailable();
-  voiceRadio.update(voiceInFlight, symbiosis.radio.current());
+  voiceRadio.update(voiceInFlight, symbiosis.radio.current(), muted || symbiosis.radio.muted);
+  radioPanel.update(mode === 'running' && !journey.active, voiceRadio.spokenLine);
   audio.setDucked(voiceInFlight && voiceRadio.ducking);
   updateVoicePanel(voiceInFlight);
   updateModelStatus();
@@ -1281,12 +1293,13 @@ document.addEventListener('visibilitychange', () => {
   if (document.visibilityState === 'visible') {
     lastFrameTime = performance.now();
     stepRunner.reset();
-  } else voiceRadio.update(false, null);
+  } else voiceRadio.update(false, symbiosis.radio.current());
 });
 
-window.addEventListener('blur', () => voiceRadio.update(false, null));
+window.addEventListener('blur', () => voiceRadio.update(false, symbiosis.radio.current()));
 window.addEventListener('pointerdown', event => { if (event.isTrusted) voiceRadio.unlock(); });
 window.addEventListener('keydown', event => { if (event.isTrusted && !event.repeat) voiceRadio.unlock(); });
+navigator.mediaDevices?.addEventListener('devicechange', () => voiceRadio.update(voiceAvailable(), symbiosis.radio.current(), true));
 window.addEventListener('pagehide', () => voiceRadio.dispose());
 
 window.addEventListener('skimmer:webgl-context-lost', () => {

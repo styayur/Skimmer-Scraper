@@ -14,7 +14,7 @@ const openVoice = async (page: Page, mode: 'local' | 'deepseek') => {
     await page.locator('#ai-key').fill(credential);
     await page.locator('#ai-connect').click();
   }
-  await page.locator('.voice-settings summary').click();
+  await page.locator('.voice-settings > summary').click();
   await page.locator('#voice-input').selectOption(mode);
   await page.locator('#voice-output').selectOption(mode);
   await page.locator('#rules-close').click();
@@ -188,13 +188,19 @@ test('no-key mode requires on-device recognition and preserves typed input and s
       public stop() { this.onresult?.({ results: [[{ transcript: '二号去侦察左侧' }]] }); this.onend?.(); }
       public abort() { this.onend?.(); }
     }
-    class LocalUtterance { public onend: (() => void) | null = null; }
+    class LocalUtterance {
+      public onstart: (() => void) | null = null;
+      public onend: (() => void) | null = null;
+    }
     Object.defineProperties(window, {
       SpeechRecognition: { value: MockLocalRecognition },
       SpeechSynthesisUtterance: { value: LocalUtterance },
       speechSynthesis: { value: {
-        getVoices: () => [{ lang: 'zh-CN', localService: true }],
-        speak: (value: LocalUtterance) => setTimeout(() => value.onend?.(), 30),
+        getVoices: () => [{ lang: 'zh-CN', voiceURI: 'fixture-local-mandarin', name: 'Local Mandarin', localService: true }],
+        speak: (value: LocalUtterance) => {
+          value.onstart?.();
+          setTimeout(() => value.onend?.(), 30);
+        },
         cancel: () => {},
       } },
     });

@@ -1,9 +1,10 @@
 import type { GameAction } from '../flight/input';
-import type { RadioLanguage } from '../ai/radioDialogue';
-import { prepareLocalSpeech } from '../voice/browserSpeech';
-import type { VoiceMode, VoiceRadio } from '../voice/VoiceRadio';
+import { COMPANION_PROFILES, type RadioLanguage } from '../ai/radioDialogue';
+import { listSystemVoices, prepareLocalSpeech } from '../voice/browserSpeech';
+import type { VoiceRadio } from '../voice/VoiceRadio';
+import type { VoiceInput, VoiceOutput, VoiceOverrides } from '../voice/voiceContracts';
 
-const modes = '<option value="off">关闭</option><option value="local">本机</option><option value="deepseek">DeepSeek</option>';
+const inputModes = '<option value="off">关闭</option><option value="local">本机识别</option><option value="deepseek">DeepSeek</option>';
 const status = document.getElementById('voice-status')!;
 let dismiss = 0;
 
@@ -20,12 +21,18 @@ export const bindVoicePanel = (voice: VoiceRadio, action: (action: GameAction) =
   const panel = document.createElement('details');
   panel.className = 'voice-settings';
   panel.innerHTML = `<summary>语音电台</summary>
-    <div class="setting-heading"><label>语音输入 <select id="voice-input">${modes}</select></label><button class="setting-help" type="button" aria-label="语音电台帮助" data-help-section="guide-voice">?</button></div>
-    <label>伴机播报 <select id="voice-output">${modes}</select></label>
+    <div class="setting-heading"><label>语音输入 <select id="voice-input">${inputModes}</select></label><button class="setting-help" type="button" aria-label="语音电台帮助" data-help-section="guide-voice">?</button></div>
+    <label>伴机播报 <select id="voice-output"><option value="off">关闭</option><option value="local">系统语音</option>
+      ${voice.hasHighQuality ? '<option value="high-quality">本地高质量语音</option>' : ''}
+      <option value="deepseek">DeepSeek</option></select></label>
     <label>语言 <select id="voice-language"><option value="zh-CN">中文</option><option value="en-US">English</option></select></label>
-    <label><input type="checkbox" id="voice-fallback" checked> DeepSeek 播报失败时使用本机语音</label>
+    <label id="voice-fallback-row"><input type="checkbox" id="voice-fallback" checked> 播报失败时使用系统语音</label>
+    <details id="voice-identities"><summary>伴机声线</summary>
+      ${COMPANION_PROFILES.map(profile => `<label>${profile.callsign} <select id="voice-agent-${profile.id}"></select></label>`).join('')}
+    </details>
     <div><button id="voice-language-prepare" class="utility-button" type="button">准备本机语言包</button></div>
-    <p id="voice-language-status" class="setting-status" role="status"></p><p id="voice-usage" class="setting-status" hidden></p>`;
+    <p id="voice-language-status" class="setting-status" role="status"></p>
+    <p id="voice-output-status" class="setting-status" role="status"></p><p id="voice-usage" class="setting-status" hidden></p>`;
   document.querySelector('#advanced-flight-settings')!.append(panel);
   const input = panel.querySelector<HTMLSelectElement>('#voice-input')!;
   const output = panel.querySelector<HTMLSelectElement>('#voice-output')!;
@@ -33,15 +40,47 @@ export const bindVoicePanel = (voice: VoiceRadio, action: (action: GameAction) =
   const fallback = panel.querySelector<HTMLInputElement>('#voice-fallback')!;
   const prepare = panel.querySelector<HTMLButtonElement>('#voice-language-prepare')!;
   const languageStatus = panel.querySelector('#voice-language-status')!;
+  const outputStatus = panel.querySelector<HTMLElement>('#voice-output-status')!;
   const usage = panel.querySelector<HTMLElement>('#voice-usage')!;
-  const configure = () => {
-    voice.configure({ input: input.value as VoiceMode, output: output.value as VoiceMode,
-      language: language.value as RadioLanguage, localFallback: fallback.checked });
-    changeLanguage(voice.preferredLanguage);
+  const identities = panel.querySelector<HTMLDetailsElement>('#voice-identities')!;
+  const fields = COMPANION_PROFILES.map(({ id }) => [id, panel.querySelector<HTMLSelectElement>(`#voice-agent-${id}`)!] as const);
+  const initial = voice.preferences;
+  input.value = initial.input;
+  output.value = initial.output;
+  language.value = initial.language;
+  fallback.checked = initial.localFallback;
+  const renderOptions = () => {
+    const voices = listSystemVoices(language.value as RadioLanguage);
+    const overrides = voice.preferences.voices;
+    for (const [id, field] of fields) {
+      field.replaceChildren(new Option('自动', ''), ...voices.map(item => new Option(item.name, item.voiceURI)));
+      field.value = voices.some(item => item.voiceURI === overrides[id]) ? overrides[id]! : '';
+    }
+  };
+  const updateControls = () => {
+    prepare.hidden = input.value !== 'local';
+    identities.hidden = output.value === 'off';
+    panel.querySelector<HTMLElement>('#voice-fallback-row')!.hidden = output.value === 'off' || output.value === 'local';
     usage.hidden = input.value !== 'deepseek' && output.value !== 'deepseek';
   };
-  for (const field of [input, output, language, fallback]) field.addEventListener('change', configure);
-  language.addEventListener('change', () => { languageStatus.textContent = ''; });
+  const configure = (voices: VoiceOverrides = voice.preferences.voices) => {
+    voice.configure({ input: input.value as VoiceInput, output: output.value as VoiceOutput,
+      language: language.value as RadioLanguage, localFallback: fallback.checked, voices });
+    changeLanguage(voice.preferredLanguage);
+    updateControls();
+  };
+  for (const field of [input, output, language, fallback]) field.addEventListener('change', () => configure());
+  for (const [agent, field] of fields) field.addEventListener('change', () => {
+    const overrides = voice.preferences.voices;
+    if (field.value) overrides[agent] = field.value;
+    else delete overrides[agent];
+    configure(overrides);
+  });
+  language.addEventListener('change', () => { languageStatus.textContent = ''; renderOptions(); });
+  window.speechSynthesis?.addEventListener?.('voiceschanged', renderOptions);
+  renderOptions();
+  updateControls();
+  changeLanguage(voice.preferredLanguage);
   prepare.addEventListener('click', async () => {
     const selected = language.value as RadioLanguage;
     prepare.disabled = true;
@@ -75,8 +114,13 @@ export const bindVoicePanel = (voice: VoiceRadio, action: (action: GameAction) =
     const hidden = !inFlight || voice.inputMode === 'off';
     if (button.hidden !== hidden) button.hidden = hidden;
     if (!inFlight && !status.hidden) showVoiceStatus('idle', '');
-    if (usage.hidden || !panel.open || !panel.getClientRects().length) return;
-    const { cloud, limits } = voice.snapshot();
+    if (!panel.open || !panel.getClientRects().length) return;
+    const { cloud, limits, lastOutputError, lastOutputFallback } = voice.snapshot();
+    const message = lastOutputError === 'local-tts-unavailable' ? '系统缺少可用的本机音色。'
+      : lastOutputFallback === 'local' ? '已切换到系统语音。'
+      : lastOutputError ? '播报暂不可用，请查看字幕。' : '';
+    if (outputStatus.textContent !== message) outputStatus.textContent = message;
+    if (usage.hidden) return;
     const text = `本页 DeepSeek 用量 · 转写 ${cloud.asrRequests}/${limits.asrRequests} 次，${cloud.asrSeconds}/${limits.asrSeconds} 秒 · 播报 ${cloud.ttsRequests}/${limits.ttsRequests} 次，${cloud.ttsCharacters}/${limits.ttsCharacters} 计费字符`;
     if (usage.textContent !== text) usage.textContent = text;
   };

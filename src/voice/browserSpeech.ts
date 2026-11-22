@@ -1,4 +1,5 @@
-import type { RadioLanguage } from '../ai/radioDialogue';
+import type { RadioLanguage, RadioLine } from '../ai/radioDialogue';
+import type { VoiceIdentity, VoiceLifecycle, VoiceProvider } from './voiceContracts';
 interface LocalResult extends Event { results: ArrayLike<ArrayLike<{ transcript: string }>> }
 interface LocalError extends Event { error: string }
 interface LocalRecognition {
@@ -76,24 +77,64 @@ export const openLocalSpeech = async (language: RadioLanguage, signal: AbortSign
   return { result, finish: () => recognition.stop() };
 };
 
-export const speakLocally = (text: string, language: RadioLanguage, agent: number, signal: AbortSignal): Promise<void> => {
+export const listSystemVoices = (language: RadioLanguage): SpeechSynthesisVoice[] => {
   const synth = window.speechSynthesis;
-  const voices = synth?.getVoices().filter(voice => voice.localService && voice.lang.toLowerCase().startsWith(language.slice(0, 2))) ?? [];
-  if (!voices.length || typeof SpeechSynthesisUtterance === 'undefined') return Promise.reject(new Error('local-tts-unavailable'));
-  signal.throwIfAborted();
-  return new Promise((resolve, reject) => {
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.voice = voices[(agent - 1) % voices.length];
-    utterance.lang = language;
-    utterance.rate = 1.06;
-    utterance.pitch = agent === 2 ? 0.9 : agent === 3 ? 1.1 : 1;
-    const clear = () => { window.clearTimeout(timer); signal.removeEventListener('abort', abort); };
-    const fail = (error: unknown) => { clear(); reject(error); };
-    const abort = () => { fail(signal.reason); synth.cancel(); };
-    const timer = window.setTimeout(() => { fail(new Error('voice-timeout')); synth.cancel(); }, 18_000);
-    signal.addEventListener('abort', abort, { once: true });
-    utterance.onend = () => { clear(); resolve(); };
-    utterance.onerror = () => fail(new Error('playback-blocked'));
-    synth.speak(utterance);
-  });
+  const prefix = language.slice(0, 2);
+  return synth?.getVoices().filter(voice => voice.localService && voice.lang.toLowerCase().slice(0, 2) === prefix)
+    .sort((a, b) => Number(b.lang === language) - Number(a.lang === language) || a.voiceURI.localeCompare(b.voiceURI)) ?? [];
 };
+
+export class SystemSpeech implements VoiceProvider {
+  public async speak(line: RadioLine, language: RadioLanguage, identity: VoiceIdentity, lifecycle: VoiceLifecycle): Promise<void> {
+    const synth = window.speechSynthesis;
+    if (!synth || typeof SpeechSynthesisUtterance === 'undefined') throw new Error('local-tts-unavailable');
+    const { signal, start } = lifecycle;
+    signal.throwIfAborted();
+    let voices = listSystemVoices(language);
+    if (!voices.length && !synth.getVoices().length) voices = await this.awaitVoices(synth, language, signal);
+    if (!voices.length) throw new Error('local-tts-unavailable');
+    const voice = voices.find(item => item.voiceURI === identity.preferredSystemVoice) ?? voices[(identity.agent - 1) % voices.length]!;
+    signal.throwIfAborted();
+    await new Promise<void>((resolve, reject) => {
+      const utterance = new SpeechSynthesisUtterance(line.text);
+      utterance.voice = voice;
+      utterance.lang = voice.lang;
+      utterance.rate = identity.rate;
+      utterance.pitch = identity.pitch;
+      utterance.volume = 0.83;
+      let started = false;
+      const clear = () => {
+        window.clearTimeout(timer);
+        signal.removeEventListener('abort', abort);
+        utterance.onstart = utterance.onend = utterance.onerror = null;
+      };
+      const fail = (error: unknown) => { clear(); reject(error); };
+      const abort = () => { fail(signal.reason); synth.cancel(); };
+      const timer = window.setTimeout(() => { fail(new Error('voice-timeout')); synth.cancel(); }, 22_000);
+      signal.addEventListener('abort', abort, { once: true });
+      utterance.onstart = () => {
+        if (signal.aborted) return;
+        started = true;
+        start({ provider: 'local', voiceId: voice.voiceURI, rate: utterance.rate, pitch: utterance.pitch });
+      };
+      utterance.onend = () => { clear(); if (started) resolve(); else reject(new Error('playback-blocked')); };
+      utterance.onerror = () => fail(new Error('playback-blocked'));
+      try { synth.speak(utterance); } catch (error) { fail(error); }
+    });
+  }
+
+  private awaitVoices(synth: SpeechSynthesis, language: RadioLanguage, signal: AbortSignal): Promise<SpeechSynthesisVoice[]> {
+    return new Promise((resolve, reject) => {
+      const clear = () => {
+        window.clearTimeout(timer);
+        signal.removeEventListener('abort', abort);
+        synth.removeEventListener('voiceschanged', available);
+      };
+      const abort = () => { clear(); reject(signal.reason); };
+      const available = () => { clear(); resolve(listSystemVoices(language)); };
+      const timer = window.setTimeout(available, 800);
+      signal.addEventListener('abort', abort, { once: true });
+      synth.addEventListener('voiceschanged', available, { once: true });
+    });
+  }
+}

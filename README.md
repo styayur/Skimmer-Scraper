@@ -22,7 +22,8 @@ camera into the dive. The distant mirrored skyline changes with each world.
 Five arrivals reveal a light sculpture and signature. [World generation](docs/WORLD.md) · [World import](docs/WORLD-IMPORT.md) · [Moving structures](docs/DYNAMIC-WORLD.md)
 
 Press **T** for text commands and replies. Each wingmate has a callsign and
-role. Flight settings provide optional model cooperation and voice. When
+role. Wingmates use on-device system speech by default when a matching voice
+is available. Flight settings provide optional model cooperation and speech input. When
 voice input is enabled, hold **V** to speak and release to send. BYOK keys
 live in page memory. The local controller works without an account or key.
 DeepSeek voice sends only the opted-in audio or playback text and may incur
