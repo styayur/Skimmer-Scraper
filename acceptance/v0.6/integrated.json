@@ -1,0 +1,719 @@
+{
+  "status": "TESTED",
+  "sourceCommit": "e9e390c2c72e89df1ba33cf731f1fabc60e1e40a",
+  "gitTree": "17f4e27ee75b4fc6b431aa5236a9f8de4f86d75b",
+  "ci": "https://github.com/styayur/Skimmer-Scraper/actions/runs/45046871394",
+  "hardware": {
+    "driver": "32.0.32029.2010",
+    "capture": {
+      "error": null,
+      "surface": "browser",
+      "audioTracks": 0,
+      "captureFps": 60
+    },
+    "chromium": {
+      "renderer": "ANGLE (AMD, AMD Radeon 780M Graphics (0x00001900) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "webgl": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/157.0.0.0 Safari/537.36",
+      "viewport": [
+        1920,
+        1080
+      ],
+      "build": {
+        "version": "0.5.0",
+        "sourceCommit": "e9e390c2c72e89df1ba33cf731f1fabc60e1e40a",
+        "sourceCommitTime": "2026-11-22T16:56:56Z",
+        "dirty": false,
+        "sourceUrl": "https://github.com/styayur/Skimmer-Scraper/tree/e9e390c2c72e89df1ba33cf731f1fabc60e1e40a",
+        "toolchain": {
+          "node": "v26.7.0",
+          "platform": "win32",
+          "architecture": "x64"
+        }
+      }
+    },
+    "soak": {
+      "wallSeconds": 1080.0011000000002,
+      "simulatedSeconds": 1080.0249999999578,
+      "distanceMeters": 110130.4456403853,
+      "frameCount": 99738,
+      "p50Ms": 8.399999999965075,
+      "p95Ms": 16.800000000046566,
+      "p99Ms": 33.5,
+      "maximumMs": 66.70000000000437,
+      "fps": 92.34990593991061,
+      "peaks": {
+        "chunks": 36,
+        "staticBvhs": 36,
+        "dynamicBvhs": 8,
+        "movingStructures": 8,
+        "drawCalls": 603,
+        "triangles": 519788,
+        "geometries": 585,
+        "textures": 26,
+        "heap": 127445741,
+        "generationP95Ms": 141.30000001192093,
+        "activationP95Ms": 208,
+        "rebaseCount": 10,
+        "generatedTotal": 3638,
+        "retiredTotal": 3608,
+        "completedSpeech": 0
+      },
+      "pageErrors": [],
+      "bufferedSamples": 0,
+      "uncoveredSamples": 0,
+      "sampleCount": 1075,
+      "maximumShieldImpacts": 0
+    },
+    "streamingMatrix": [
+      {
+        "quality": "balanced",
+        "cpuThrottle": 1,
+        "cold": false,
+        "meanFps": 105.84859493317158,
+        "frameTimesMs": [
+          8.30000000000291,
+          16.699999999999818,
+          33.400000000001455
+        ],
+        "frames": 4659,
+        "visibleFrames": 4565,
+        "incompleteFrames": 172,
+        "incompletePercentOfVisibleFrames": 3.7677984665936473,
+        "maxMissingProjectedChunks": 2,
+        "bufferingEntries": 0,
+        "bufferingMs": 0,
+        "distanceTraveledMeters": 4105.735777233909,
+        "generationP95Ms": 45.900000005960464,
+        "activationP95Ms": 47.80000001192093,
+        "peakActiveChunks": 36,
+        "world": 0,
+        "moving": 8
+      },
+      {
+        "quality": "high",
+        "cpuThrottle": 1,
+        "cold": false,
+        "meanFps": 104.2809724711864,
+        "frameTimesMs": [
+          8.30000000000291,
+          16.700000000000728,
+          33.400000000001455
+        ],
+        "frames": 4590,
+        "visibleFrames": 4420,
+        "incompleteFrames": 182,
+        "incompletePercentOfVisibleFrames": 4.117647058823529,
+        "maxMissingProjectedChunks": 2,
+        "bufferingEntries": 0,
+        "bufferingMs": 0,
+        "distanceTraveledMeters": 4104.877540588478,
+        "generationP95Ms": 47.79999999701977,
+        "activationP95Ms": 49.5,
+        "peakActiveChunks": 36,
+        "world": 0,
+        "moving": 8
+      },
+      {
+        "quality": "balanced",
+        "cpuThrottle": 4,
+        "cold": false,
+        "meanFps": 8.750937859633796,
+        "frameTimesMs": [
+          66.70000000000073,
+          300,
+          333.3999999999978
+        ],
+        "frames": 603,
+        "visibleFrames": 602,
+        "incompleteFrames": 102,
+        "incompletePercentOfVisibleFrames": 16.943521594684384,
+        "maxMissingProjectedChunks": 2,
+        "bufferingEntries": 0,
+        "bufferingMs": 0,
+        "distanceTraveledMeters": 4122.4436919412465,
+        "generationP95Ms": 350.3999999910593,
+        "activationP95Ms": 359.90000000596046,
+        "peakActiveChunks": 32,
+        "world": 0,
+        "moving": 8
+      },
+      {
+        "quality": "balanced",
+        "cpuThrottle": 4,
+        "cold": true,
+        "meanFps": 6.063597264330538,
+        "frameTimesMs": [
+          67,
+          367.2000000000007,
+          433.3000000000029
+        ],
+        "frames": 172,
+        "visibleFrames": 172,
+        "incompleteFrames": 19,
+        "incompletePercentOfVisibleFrames": 11.046511627906977,
+        "maxMissingProjectedChunks": 6,
+        "bufferingEntries": 0,
+        "bufferingMs": 0,
+        "distanceTraveledMeters": 1403.8687036039569,
+        "generationP95Ms": 483.5,
+        "activationP95Ms": 487.09999999403954,
+        "peakActiveChunks": 30,
+        "world": 0,
+        "moving": 8
+      }
+    ],
+    "pairedSyntheticCpuStress": {
+      "previousSource": "bc4ef2420dedd3604f0238d227455d6c9f673455",
+      "previous": {
+        "quality": "balanced",
+        "cpuThrottle": 4,
+        "cold": false,
+        "meanFps": 8.549901914830825,
+        "frameTimesMs": [
+          66.70000000000073,
+          299.90000000000146,
+          358.3000000000029
+        ],
+        "frames": 591,
+        "visibleFrames": 590,
+        "incompleteFrames": 37,
+        "incompletePercentOfVisibleFrames": 6.271186440677966,
+        "maxMissingProjectedChunks": 1,
+        "bufferingEntries": 0,
+        "bufferingMs": 0,
+        "distanceTraveledMeters": 4110.18744397678,
+        "generationP95Ms": 342.5,
+        "activationP95Ms": 351.20000000298023,
+        "peakActiveChunks": 30,
+        "world": 0,
+        "moving": 8
+      },
+      "integratedSource": "e9e390c2c72e89df1ba33cf731f1fabc60e1e40a",
+      "integrated": {
+        "quality": "balanced",
+        "cpuThrottle": 4,
+        "cold": false,
+        "meanFps": 9.089086217520421,
+        "frameTimesMs": [
+          66.69999999999709,
+          291.3000000000002,
+          333.40000000000146
+        ],
+        "frames": 621,
+        "visibleFrames": 569,
+        "incompleteFrames": 93,
+        "incompletePercentOfVisibleFrames": 16.344463971880494,
+        "maxMissingProjectedChunks": 2,
+        "bufferingEntries": 0,
+        "bufferingMs": 0,
+        "distanceTraveledMeters": 4110.919397079003,
+        "generationP95Ms": 329.8999999910593,
+        "activationP95Ms": 342.09999999403954,
+        "peakActiveChunks": 30,
+        "world": 0,
+        "moving": 8
+      },
+      "observation": "Both current host runs were about nine FPS under CDP x4. The integrated run had more near-city projected missing-frame samples in this matched pair. Normal GPU runs stayed above 100 average FPS with no collision buffering."
+    },
+    "visibilityMetric": "Projection probes are evaluated against loaded chunks at three near-city heights. Occlusion by intervening buildings is outside the metric."
+  },
+  "core": {
+    "1": {
+      "name": "HTTP entry",
+      "result": "TESTED",
+      "status": 200,
+      "transport": {},
+      "secureContext": true
+    },
+    "2": {
+      "name": "Version provenance",
+      "result": "TESTED",
+      "version": "0.5.0"
+    },
+    "3": {
+      "name": "Exact source commit",
+      "result": "TESTED",
+      "sourceCommit": "e9e390c2c72e89df1ba33cf731f1fabc60e1e40a"
+    },
+    "4": {
+      "name": "Runtime bundle identity",
+      "result": "TESTED",
+      "path": "/Skimmer-Scraper/assets/index-9C7f9TgN.js",
+      "sha256": "8fc3c92181fb94a60797394544ae481605c9be903dae3c0cabe680fd374a0000",
+      "artifactCompared": false
+    },
+    "5": {
+      "name": "Live 3D title",
+      "result": "TESTED",
+      "webgl": {
+        "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+        "renderer": "ANGLE (AMD, AMD Radeon 780M Graphics (0x00001900) Direct3D11 vs_5_0 ps_5_0, D3D11)"
+      },
+      "triangles": 280890
+    },
+    "6": {
+      "name": "Minimal title",
+      "result": "TESTED",
+      "items": [
+        "SKIMMER\nSCRAPER",
+        "开始游戏",
+        "游戏教程"
+      ]
+    },
+    "7": {
+      "name": "Complete tutorial, search and direct navigation",
+      "result": "TESTED",
+      "chapters": 19,
+      "mobileViewport": [
+        360,
+        680
+      ]
+    },
+    "8": {
+      "name": "Minimal settings, responsive layout and contextual help",
+      "result": "TESTED",
+      "primary": [
+        "玩法",
+        "视角",
+        "伴机数量"
+      ]
+    },
+    "9": {
+      "name": "Analytical mirror city ground",
+      "result": "TESTED",
+      "mirror": {
+        "seed": 334458,
+        "triangles": 2640,
+        "cameraOffset": 0,
+        "ground": {
+          "height": 650,
+          "radius": 1530
+        }
+      },
+      "screenshot": "mirror-ground.png"
+    },
+    "10": {
+      "name": "High-speed infinite streaming",
+      "result": "TESTED",
+      "elapsed": 18.049999999998974,
+      "speed": 101.99999999906089,
+      "mode": "running",
+      "distance": 1814.6381707923233,
+      "activePeak": 36,
+      "maxStaticBvhs": 36,
+      "maxMoving": 8,
+      "buffered": 0,
+      "coveredSamples": 119,
+      "samples": 119,
+      "generated": 68,
+      "retired": 64,
+      "activationP95Ms": 50.79999999701977,
+      "generationP95Ms": 48.79999999701977,
+      "fps": 98.41054747810716,
+      "p50Ms": 8.39999999999418,
+      "p95Ms": 16.799999999999272,
+      "p99Ms": 41.69999999999709
+    },
+    "11": {
+      "name": "Local GLB import and collision BVH",
+      "result": "TESTED",
+      "fixtureSha": "68c8b5aaa5f34420bb651275e69bc9b81ca774538e65033ad2e0f3247df7e8c9",
+      "triangles": 168
+    },
+    "12": {
+      "name": "GLB variant replay with identical collision geometry",
+      "result": "TESTED",
+      "fixtureSha": "68c8b5aaa5f34420bb651275e69bc9b81ca774538e65033ad2e0f3247df7e8c9",
+      "probes": 1734,
+      "geometry": "76913852aae983e5ce21b7c8d9bf1511bb03d3fa65a6e20a937daafabe41a595",
+      "alternateGeometry": "31120d6a110748bc470eb104413373c50c1f3267f756d28fb9a62e7ad787a3af",
+      "movedGroups": 8
+    },
+    "13": {
+      "name": "Three companions and dynamic colliders",
+      "result": "TESTED",
+      "deployed": 3,
+      "dynamic": 8,
+      "dynamicBvhs": 8
+    },
+    "14": {
+      "name": "Native system speech completes by default",
+      "result": "TESTED",
+      "speech": {
+        "provider": "local",
+        "voiceId": "Microsoft Kangkang - Chinese (Simplified, PRC)",
+        "rate": 0.9300000071525574,
+        "pitch": 0.8799999952316284,
+        "id": 2,
+        "agent": 2
+      },
+      "input": "off"
+    },
+    "17": {
+      "name": "Historical score, settings, cockpit migration and stable URL",
+      "result": "TESTED",
+      "seed": 334458,
+      "grace": 7.4,
+      "camera": "cockpit",
+      "oldScore": 24.7
+    },
+    "18": {
+      "name": "All loaded game assets under the Pages project path",
+      "result": "TESTED",
+      "assets": 9
+    },
+    "19": {
+      "name": "No runtime errors in the core browser suite",
+      "result": "TESTED",
+      "pageErrors": 0,
+      "consoleErrors": 0,
+      "warnings": [
+        "THREE.WebGLShadowMap: PCFSoftShadowMap has been removed. Using PCFShadowMap instead.",
+        "THREE.WebGLShadowMap: PCFSoftShadowMap has been removed. Using PCFShadowMap instead."
+      ]
+    },
+    "20": {
+      "name": "No sustained slowdown in controlled native flight",
+      "result": "TESTED",
+      "seconds": 18.049999999998974,
+      "fps": 98.41054747810716,
+      "p50Ms": 8.39999999999418,
+      "p95Ms": 16.799999999999272,
+      "p99Ms": 41.69999999999709,
+      "scope": "18 second live smoke. Longer hardware runs recorded separately."
+    }
+  },
+  "fiveWorlds": [
+    {
+      "index": 1,
+      "camera": "chase",
+      "signature": false,
+      "release": {
+        "seed": 334458,
+        "bvhBefore": 32,
+        "bvhAfter": 0,
+        "dynamicBvhBefore": 8,
+        "dynamicBvhAfter": 0,
+        "rootChildrenAfter": 0,
+        "disposedGeometryCount": 2957
+      }
+    },
+    {
+      "index": 2,
+      "camera": "cockpit",
+      "signature": false,
+      "release": {
+        "seed": 3628620643,
+        "bvhBefore": 32,
+        "bvhAfter": 0,
+        "dynamicBvhBefore": 8,
+        "dynamicBvhAfter": 0,
+        "rootChildrenAfter": 0,
+        "disposedGeometryCount": 824
+      }
+    },
+    {
+      "index": 3,
+      "camera": "chase",
+      "signature": false,
+      "release": {
+        "seed": 1725424397,
+        "bvhBefore": 32,
+        "bvhAfter": 0,
+        "dynamicBvhBefore": 8,
+        "dynamicBvhAfter": 0,
+        "rootChildrenAfter": 0,
+        "disposedGeometryCount": 707
+      }
+    },
+    {
+      "index": 4,
+      "camera": "cockpit",
+      "signature": false,
+      "release": {
+        "seed": 433022510,
+        "bvhBefore": 32,
+        "bvhAfter": 0,
+        "dynamicBvhBefore": 8,
+        "dynamicBvhAfter": 0,
+        "rootChildrenAfter": 0,
+        "disposedGeometryCount": 679
+      }
+    },
+    {
+      "index": 5,
+      "camera": "chase",
+      "signature": true,
+      "release": {
+        "seed": 4192331915,
+        "bvhBefore": 31,
+        "bvhAfter": 0,
+        "dynamicBvhBefore": 8,
+        "dynamicBvhAfter": 0,
+        "rootChildrenAfter": 0,
+        "disposedGeometryCount": 712
+      }
+    }
+  ],
+  "localVoiceCompatibility": {
+    "chrome": {
+      "sourceCommit": "d54855a9bbceb97ce43c12e20c3437fbfcb61968",
+      "browser": "157.0.8103.79",
+      "backend": "webgpu",
+      "startupMs": 479952.700000003,
+      "artifactPreseeded": false,
+      "playback": [
+        {
+          "speaker": 1,
+          "voiceId": "zf_001",
+          "inferMs": 5850.0999999940395,
+          "seconds": 4.1,
+          "waveform": {
+            "length": 98400,
+            "rate": 24000,
+            "peak": 0.394775390625,
+            "rms": 0.05968377296214498,
+            "startsAt": 486.66133333333335,
+            "ended": true,
+            "stopped": false,
+            "endsAt": 490.792
+          }
+        }
+      ],
+      "completedFlightSpeakers": [],
+      "performance": {
+        "flight-default": {
+          "samples": 216,
+          "meanFps": 35.604786865789734,
+          "p50": 25.099999999999454,
+          "p95": 50,
+          "p99": 58.399999999999636,
+          "max": 66.59999999999854
+        }
+      }
+    },
+    "edge": {
+      "sourceCommit": "d54855a9bbceb97ce43c12e20c3437fbfcb61968",
+      "browser": "158.0.4370.33",
+      "backend": "webgpu",
+      "startupMs": 6867.0999999940395,
+      "artifactPreseeded": true,
+      "playback": [
+        {
+          "speaker": 1,
+          "voiceId": "zf_001",
+          "inferMs": 10697.70000000298,
+          "seconds": 4.1,
+          "waveform": {
+            "length": 98400,
+            "rate": 24000,
+            "peak": 0.38427734375,
+            "rms": 0.059616977740994594,
+            "startsAt": 18.912,
+            "ended": true,
+            "stopped": false,
+            "endsAt": 23.04
+          }
+        },
+        {
+          "speaker": 2,
+          "voiceId": "zm_010",
+          "inferMs": 1888.4000000059605,
+          "seconds": 4.325,
+          "waveform": {
+            "length": 103800,
+            "rate": 24000,
+            "peak": 0.57861328125,
+            "rms": 0.05573017344492694,
+            "startsAt": 25.072,
+            "ended": true,
+            "stopped": false,
+            "endsAt": 29.432
+          }
+        },
+        {
+          "speaker": 3,
+          "voiceId": "zf_006",
+          "inferMs": 1313.9000000059605,
+          "seconds": 4.225,
+          "waveform": {
+            "length": 101400,
+            "rate": 24000,
+            "peak": 0.46240234375,
+            "rms": 0.06341997511895163,
+            "startsAt": 30.901333333333334,
+            "ended": true,
+            "stopped": false,
+            "endsAt": 35.17066666666667
+          }
+        }
+      ],
+      "completedFlightSpeakers": [
+        1,
+        2,
+        3
+      ],
+      "performance": {
+        "flight-default": {
+          "samples": 570,
+          "meanFps": 92.68443389323404,
+          "p50": 8.399999999999636,
+          "p95": 16.799999999999272,
+          "p99": 41.600000000000364,
+          "max": 342
+        },
+        "flight-with-model": {
+          "samples": 2223,
+          "meanFps": 91.92483914186944,
+          "p50": 8.39999999999418,
+          "p95": 24.89999999999418,
+          "p99": 50,
+          "max": 191.6999999999971
+        },
+        "flight-inference": {
+          "samples": 322,
+          "meanFps": 58.9031573555776,
+          "p50": 8.400000000001455,
+          "p95": 50.099999999998545,
+          "p99": 91.69999999999709,
+          "max": 191.6999999999971
+        }
+      }
+    },
+    "firefoxWindows": {
+      "browser": "159.0",
+      "errors": [],
+      "requests": [],
+      "source": {
+        "version": "0.5.0",
+        "sourceCommit": "6ae72d8a2fa4acba7fa85fea3699ce7a7e7270cf",
+        "sourceCommitTime": "2026-11-23T00:31:02+08:00",
+        "dirty": false,
+        "sourceUrl": "https://github.com/styayur/Skimmer-Scraper/tree/6ae72d8a2fa4acba7fa85fea3699ce7a7e7270cf",
+        "toolchain": {
+          "node": "v26.7.0",
+          "platform": "win32",
+          "architecture": "x64"
+        }
+      },
+      "webgpu": {
+        "exposed": true,
+        "hasAdapter": true,
+        "shaderF16": true,
+        "vendor": "",
+        "fallback": false
+      },
+      "nativeDefault": {
+        "provider": "local",
+        "voiceId": "urn:moz-tts:sapi:Microsoft Kangkang - Chinese (Simplified, PRC)?zh-CN",
+        "rate": 0.9300000071525574,
+        "pitch": 0.8799999952316284,
+        "id": 2,
+        "agent": 2
+      },
+      "outcome": {
+        "phase": "error",
+        "backend": null,
+        "device": "",
+        "percent": null,
+        "loads": 0,
+        "releases": 1,
+        "generated": 0,
+        "completed": 0,
+        "loadMs": null,
+        "inferenceMs": null,
+        "audioSeconds": null,
+        "lastVoice": null,
+        "error": "kokoro-device",
+        "detail": "",
+        "resident": false,
+        "idleMs": 45000
+      },
+      "fallbackSpeech": {
+        "provider": "local",
+        "voiceId": "urn:moz-tts:sapi:Microsoft Kangkang - Chinese (Simplified, PRC)?zh-CN",
+        "rate": 0.9300000071525574,
+        "pitch": 0.8799999952316284,
+        "id": 4,
+        "agent": 2
+      },
+      "status": "passed"
+    },
+    "pauseAndWorldSwitch": {
+      "status": "passed",
+      "errors": [],
+      "source": {
+        "version": "0.5.0",
+        "sourceCommit": "d54855a9bbceb97ce43c12e20c3437fbfcb61968",
+        "sourceCommitTime": "2026-11-23T00:33:12+08:00",
+        "dirty": false,
+        "sourceUrl": "https://github.com/styayur/Skimmer-Scraper/tree/d54855a9bbceb97ce43c12e20c3437fbfcb61968",
+        "toolchain": {
+          "node": "v26.7.0",
+          "platform": "win32",
+          "architecture": "x64"
+        }
+      },
+      "paused": {
+        "before": {
+          "provider": "high-quality",
+          "voiceId": "zm_010",
+          "rate": 0.93,
+          "id": 3
+        },
+        "stops": [
+          {
+            "time": 20449.70000000298,
+            "length": 152400
+          }
+        ]
+      },
+      "crossing": {
+        "before": {
+          "provider": "high-quality",
+          "voiceId": "zf_006",
+          "rate": 1.1,
+          "id": 5
+        },
+        "countBefore": 0,
+        "countAfter": 1,
+        "stops": [
+          {
+            "time": 20449.70000000298,
+            "length": 152400
+          },
+          {
+            "time": 22551.59999999404,
+            "length": 136800
+          }
+        ]
+      }
+    },
+    "scope": "The fresh Chrome download, Edge runtime and voice interruption checks were measured on the final PR #42 tree, equal to the merged feature tree. Edge used an independently hash-verified CacheStorage seed after the external download was slow on this host."
+  },
+  "defaultEntrySize": {
+    "previous": {
+      "entry": "index-kQ9oAcsI.js",
+      "bytes": 1013884,
+      "gzipBytes": 287798,
+      "onDemand": []
+    },
+    "candidate": {
+      "entry": "index-9C7f9TgN.js",
+      "bytes": 1019851,
+      "gzipBytes": 289504,
+      "onDemand": [
+        "kokoro.worker-BO2p0TY4.js",
+        "KokoroVoice-ChIMEDc0.js",
+        "ort-wasm-simd-threaded.asyncify-CxOG5pUO.wasm",
+        "ort-wasm-simd-threaded.asyncify-DXIbolS2.mjs"
+      ]
+    }
+  },
+  "siteBeforeRelease": {
+    "version": "0.5.0",
+    "sha": "eb284103ec26c7a8333e4fb69797e72684c46302",
+    "workflow": "https://github.com/styayur/Skimmer-Scraper/actions/runs/44962361465"
+  }
+}

@@ -18,12 +18,16 @@ The seeded city mixes tower canyons, stacked bridges and floating districts.
 Static and animated GLB worlds can be imported from your device. Generate a
 fresh layout or keep it with a single portable seed and the original GLB. A climb
 through **520 m** can lead to the next sky, carrying the aircraft's bank and
-camera into the dive. The distant mirrored skyline changes with each world.
+camera into the dive. The distant mirrored skyline changes with each world
+and meets a continuous atmospheric ground plane. Ahead of the aircraft, a
+predictive streamer prepares nearby views and collision coverage.
 Five arrivals reveal a light sculpture and signature. [World generation](docs/WORLD.md) · [World import](docs/WORLD-IMPORT.md) · [Moving structures](docs/DYNAMIC-WORLD.md)
 
 Press **T** for text commands and replies. Each wingmate has a callsign and
 role. Wingmates use on-device system speech by default when a matching voice
-is available. Flight settings provide optional model cooperation and speech input. When
+is available. Flight settings include voice previews, speech volume, optional
+model cooperation and speech input. Local Mandarin Kokoro is available on
+compatible WebGPU hardware and downloads its weights after opt-in. When
 voice input is enabled, hold **V** to speak and release to send. BYOK keys
 live in page memory. The local controller works without an account or key.
 DeepSeek voice sends only the opted-in audio or playback text and may incur
@@ -33,9 +37,9 @@ Run `npm ci`, `npm run build`, and `npm run preview` to play locally. The
 static ZIP runs on a static HTTP server. The build uses WebGL2 and contains
 its source revision, licenses and credits. [Releases](https://github.com/styayur/Skimmer-Scraper/releases) · [Deployment](docs/DEPLOYMENT.md) · [Acceptance](docs/ACCEPTANCE.md)
 
-<img src="evidence/v0.5/pr9-release/candidate-chrome-title.png" alt="Skimmer-Scraper title screen over the sakura-dusk city" width="100%">
+<img src="evidence/v0.6/pr3-tutorial/title-desktop.png" alt="Skimmer-Scraper title screen over the sakura-dusk city" width="100%">
 
-<img src="evidence/v0.5/pr9-release/gpu-matrix-balanced.png" alt="Three wingmates in flight across the dense city" width="100%">
+<img src="evidence/v0.6/pr2-streaming/after-balanced-1x.png" alt="Three wingmates in high-speed flight over the streamed city" width="100%">
 
 ## Challenge mode
 
