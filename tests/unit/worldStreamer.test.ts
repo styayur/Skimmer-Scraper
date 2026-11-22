@@ -155,9 +155,9 @@ describe('world streamer lifecycle', () => {
     const predicted = { x: -225, y: 175, z: 19 };
     const follower = { x: 1_100, y: 205, z: 950 };
     streamer.setCompanionPositions([follower]);
-    streamer.update(current, { x: 0, y: -20, z: -98 }, () => ({
-      heading: { x: -1, y: -0.2, z: 0 }, samples: [{ position: predicted, seconds: 1.5 }],
-    }));
+    streamer.update(current, { x: 0, y: -20, z: -98 }, {
+      forecast: () => ({ heading: { x: -1, y: -0.2, z: 0 }, samples: [{ position: predicted, seconds: 1.5 }] }),
+    });
     try {
       expect(streamer.isCollisionCovered(current)).toBe(false);
       await waitUntil(() => {

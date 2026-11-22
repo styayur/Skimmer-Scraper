@@ -240,7 +240,7 @@ const syncWorldStreaming = (
   activeWorld.setCompanionPositions(includeCompanions
     ? companions.agents.filter(agent => agent.deployed).map(agent => agent.flight.position) : []);
   const forecast = 'attitude' in state ? () => streamingForecast(state, controls) : undefined;
-  const update = activeWorld.update(state.position, state.velocity, forecast);
+  const update = activeWorld.update(state.position, state.velocity, { forecast, inFlight: mode === 'running' });
   if (update.rebaseDelta) renderer?.shiftRenderOrigin(update.rebaseDelta);
   return update;
 };

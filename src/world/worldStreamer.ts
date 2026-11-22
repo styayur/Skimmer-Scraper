@@ -39,6 +39,11 @@ interface StreamForecast {
   samples: ReadonlyArray<{ seconds: number; position: Vec3 }>;
 }
 
+interface StreamIntent {
+  forecast?: () => StreamForecast;
+  inFlight?: boolean;
+}
+
 export interface StreamerStats {
   stateCounts: Record<ChunkLifecycleState, number>;
   loadedChunks: number;
@@ -171,9 +176,10 @@ export class WorldStreamer implements RenderableWorld {
   private readonly renderOrigin = { x: 0, y: 0, z: 0 };
   private lastPosition = { x: 0, y: 24, z: SPAWN_Z };
   private lastVelocity = { x: 0, y: 0, z: -1 };
-  private lastForecast: (() => StreamForecast) | undefined;
+  private lastIntent: StreamIntent = {};
   private planAfter = 0;
   private plannedCenter = '';
+  private plannedInFlight = false;
   private plannedVelocity = { x: 0, z: 0 };
   private companionFootprint = '';
   private companionPositions: Array<{ x: number; y: number; z: number }> = [];
@@ -222,26 +228,28 @@ export class WorldStreamer implements RenderableWorld {
   public update(
     position: Vec3,
     velocity: Vec3,
-    forecast?: () => StreamForecast,
+    intent: StreamIntent = {},
   ): StreamerUpdate {
     if (this.disposed) {
       return { coverageComplete: false, rebaseDelta: null, stats: this.getStreamerStats() };
     }
     this.lastPosition = { ...position };
     this.lastVelocity = { ...velocity };
-    this.lastForecast = forecast;
+    this.lastIntent = intent;
     const rebaseDelta = this.maybeRebase(position);
     this.architecture?.cover(position, this.companionPositions);
     const now = performance.now();
     const centerX = Math.floor(position.x / CHUNK_SIZE);
     const centerZ = Math.floor(position.z / CHUNK_SIZE);
     const center = chunkKey(centerX, centerZ);
-    if (center !== this.plannedCenter || now >= this.planAfter
+    const inFlight = intent.inFlight !== false;
+    if (center !== this.plannedCenter || inFlight !== this.plannedInFlight || now >= this.planAfter
       || Math.hypot(velocity.x - this.plannedVelocity.x, velocity.z - this.plannedVelocity.z) >= 10) {
       this.plannedCenter = center;
+      this.plannedInFlight = inFlight;
       this.plannedVelocity = { x: velocity.x, z: velocity.z };
       this.planAfter = now + PLAN_INTERVAL_MS;
-      this.reconcileDesiredChunks(this.buildDesiredChunks(position, velocity, forecast?.(), now, centerX, centerZ), now);
+      this.reconcileDesiredChunks(this.buildDesiredChunks(position, velocity, intent.forecast?.(), now, centerX, centerZ, inFlight), now);
     }
 
     return {
@@ -298,7 +306,7 @@ export class WorldStreamer implements RenderableWorld {
   public async prime(position = this.defaultSpawn.position, timeoutMs = 30_000): Promise<void> {
     const started = performance.now();
     while (!this.isCollisionCovered(position)) {
-      this.update(position, { x: 0, y: 0, z: -1 });
+      this.update(position, { x: 0, y: 0, z: -1 }, { inFlight: false });
       if (performance.now() - started > timeoutMs) {
         throw new Error('Timed out while preparing collision chunks around the spawn.');
       }
@@ -470,6 +478,7 @@ export class WorldStreamer implements RenderableWorld {
     now: number,
     centerX: number,
     centerZ: number,
+    inFlight: boolean,
   ): Map<string, number> {
     const desired = new Map<string, number>();
     const add = (x: number, z: number, priority: number): void => {
@@ -494,7 +503,8 @@ export class WorldStreamer implements RenderableWorld {
     })) : []);
     // The collision index becomes usable only after the BVH is registered. Predict
     // the same neighborhood the physics gate needs, with extra lead for slower devices.
-    const lead = Math.min(2.7, 1.35 + 5 * (this.activationP95Ms || 90) / 1000);
+    const activationLatency = inFlight ? this.activationP95Ms : 0;
+    const lead = Math.min(2.7, 1.35 + 5 * (activationLatency || 90) / 1000);
     for (const sample of path) {
       const x = Math.floor(sample.position.x / CHUNK_SIZE);
       const z = Math.floor(sample.position.z / CHUNK_SIZE);
@@ -525,14 +535,16 @@ export class WorldStreamer implements RenderableWorld {
 
     // Preserve recent nearby geometry when the player crosses back or reverses.
     // These entries cannot displace any requested collision or visible cell.
-    for (const record of this.chunks.values()) {
-      if (!isActive(record) || now - record.lastUsed > RETENTION_MS) continue;
-      const radius = Math.max(Math.abs(record.chunkX - centerX), Math.abs(record.chunkZ - centerZ));
-      if (radius <= viewRadius) add(record.chunkX, record.chunkZ, RETENTION_PRIORITY + radius);
+    if (inFlight) {
+      for (const record of this.chunks.values()) {
+        if (!isActive(record) || now - record.lastUsed > RETENTION_MS) continue;
+        const radius = Math.max(Math.abs(record.chunkX - centerX), Math.abs(record.chunkZ - centerZ));
+        if (radius <= viewRadius) add(record.chunkX, record.chunkZ, RETENTION_PRIORITY + radius);
+      }
     }
     const ordered = [...desired.entries()].sort((a, b) => a[1] - b[1]);
     const safetyChunks = ordered.filter(([, priority]) => priority < 10).length;
-    const visualLimit = Math.max(30, 36 - Math.floor(Math.max(0, this.activationP95Ms - 70) / 18));
+    const visualLimit = Math.max(30, 36 - Math.floor(Math.max(0, activationLatency - 70) / 18));
     const budget = Math.min(this.maxLoadedChunks, Math.max(safetyChunks, visualLimit));
     return new Map(ordered.slice(0, budget));
   }
@@ -617,7 +629,7 @@ export class WorldStreamer implements RenderableWorld {
         if (this.retryTimer !== null) clearTimeout(this.retryTimer);
         this.retryTimer = setTimeout(() => {
           this.retryTimer = null;
-          if (!this.disposed) this.update(this.lastPosition, this.lastVelocity, this.lastForecast);
+          if (!this.disposed) this.update(this.lastPosition, this.lastVelocity, this.lastIntent);
         }, 400);
       })
       .finally(() => {

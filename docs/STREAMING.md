@@ -29,10 +29,11 @@ The scheduler uses this order.
 Nearby active geometry can stay for about 1.25 seconds when it leaves the requested set. That gives
 the scheduler room to reuse edges after rapid bank reversals and boundary backtracking. Higher
 priority cells can reclaim the slot immediately. The active cap stays at 41 chunks. As activation
-latency rises, the scheduler reduces peripheral visual detail while giving the safety tiers first
-claim on that budget. The planner reuses its queue for up to 90 ms when the pilot stays in a chunk,
-velocity changes gradually, and no wingmate safety envelope crosses a boundary. New collision
-neighborhoods are planned on the same update.
+latency rises during flight, the scheduler reduces peripheral visual detail while giving the safety
+tiers first claim on that budget. The title and paused views use a fixed visual budget so the same
+view settles to the same working set after a retry. The planner reuses its queue for up to 90 ms when
+the pilot stays in a chunk, velocity changes gradually, and no wingmate safety envelope crosses a
+boundary. New collision neighborhoods are planned on the same update.
 
 ## Chunk lifecycle
 
