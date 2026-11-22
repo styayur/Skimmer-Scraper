@@ -27,6 +27,7 @@ export class KokoroVoice implements VoiceProvider {
   private idleTimer = 0;
   private serial = 0;
   private generation = 0;
+  private generatedThisSession = false;
   private retryAt = 0;
   private stats = {
     phase: 'idle' as 'idle' | 'loading' | 'ready' | 'generating' | 'playing' | 'error',
@@ -104,9 +105,10 @@ export class KokoroVoice implements VoiceProvider {
     let playback: RadioAudio | undefined;
     try {
       const result = await this.call(id => ({ type: 'generate', id, text, voice, speed: identity.rate }),
-        preview ? 25_000 : 9000);
+        preview ? 25_000 : this.generatedThisSession ? 9000 : 15_000);
       signal.throwIfAborted();
       if (result.type !== 'audio') throw new Error('kokoro-inference');
+      this.generatedThisSession = true;
       this.stats.generated++;
       this.stats.inferenceMs = result.inferenceMs;
       this.stats.audioSeconds = result.samples.length / result.sampleRate;
@@ -197,6 +199,7 @@ export class KokoroVoice implements VoiceProvider {
 
   private stopWorker(error: Error = new Error('kokoro-cancelled')): void {
     window.clearTimeout(this.idleTimer);
+    this.generatedThisSession = false;
     if (this.pending) {
       window.clearTimeout(this.pending.timer);
       window.clearTimeout(this.pending.stallTimer);
