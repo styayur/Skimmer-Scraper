@@ -1293,13 +1293,22 @@ document.addEventListener('visibilitychange', () => {
   if (document.visibilityState === 'visible') {
     lastFrameTime = performance.now();
     stepRunner.reset();
-  } else voiceRadio.update(false, symbiosis.radio.current());
+  } else {
+    voiceRadio.cancelPreview();
+    voiceRadio.update(false, symbiosis.radio.current());
+  }
 });
 
-window.addEventListener('blur', () => voiceRadio.update(false, symbiosis.radio.current()));
+window.addEventListener('blur', () => {
+  voiceRadio.cancelPreview();
+  voiceRadio.update(false, symbiosis.radio.current());
+});
 window.addEventListener('pointerdown', event => { if (event.isTrusted) voiceRadio.unlock(); });
 window.addEventListener('keydown', event => { if (event.isTrusted && !event.repeat) voiceRadio.unlock(); });
-navigator.mediaDevices?.addEventListener('devicechange', () => voiceRadio.update(voiceAvailable(), symbiosis.radio.current(), true));
+navigator.mediaDevices?.addEventListener('devicechange', () => {
+  voiceRadio.cancelPreview();
+  voiceRadio.update(voiceAvailable(), symbiosis.radio.current(), true);
+});
 window.addEventListener('pagehide', () => voiceRadio.dispose());
 
 window.addEventListener('skimmer:webgl-context-lost', () => {

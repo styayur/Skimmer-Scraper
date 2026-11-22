@@ -25,11 +25,20 @@ line through the end of playback.
   to check or download one. Device transcripts go to the local wingmate
   controller. Browsers without on-device recognition still support text.
 - **System speech** uses local voices from the browser and operating system.
-  Choose a preferred voice for each companion under **伴机声线**. Automatic
+  Choose a preferred voice for each companion under **系统声线**. Automatic
   selection assigns distinct voices when available and varies rate and pitch
   by role. A missing local voice leaves captions available. The microphone
   language pack applies to recognition. System speech goes directly through
   SpeechSynthesis and the platform audio output.
+- **Local high-quality speech** runs the Mandarin Kokoro model in a dedicated
+  Worker. Opt in with **本地高质量语音** to download a model from Hugging Face.
+  Compatible hardware WebGPU uses 166 MB of q4f16 weights. The single-thread
+  WASM path uses 127 MB of int8 weights. There is also a 27 MB runtime and
+  about 0.5 MB per Kokoro voice. The first use needs internet access.
+  The browser can cache the downloads for later use. **卸载模型** frees the
+  inference Worker while leaving the cache available. The Worker also exits
+  after 45 seconds idle. Download or inference failure can fall back to local
+  system speech or captions. Non-Mandarin lines use the same fallback.
 - **DeepSeek input** sends the released recording directly to the DeepSeek
   ASR endpoint. The transcript goes through the same dialogue and validated
   flight orders as typed requests. **DeepSeek output** sends wingmate lines to
@@ -50,6 +59,12 @@ stay available.
 
 The browser keeps audio in memory for the active clip or transmission.
 Local preferences store output mode, language and preferred system voices.
+Speech volume applies to all voices. Previews select the companion and use
+the same audio output path as in flight. Kokoro model downloads contact
+Hugging Face and its asset hosts. Local Kokoro inference keeps each line and
+its generated audio inside the browser.
+The npm build skips ONNX Runtime's Node postinstall, which would otherwise
+fetch platform GPU packages. The browser uses the separately pinned Web runtime.
 Keys travel in HTTPS authorization headers to the selected provider.
 The game has no credentials or recording server. Same-page scripts remain a
 browser trust boundary. Disconnect to remove the key and abort voice requests.
@@ -65,6 +80,8 @@ companions keep their own collision and route safeguards during all requests.
 - [DeepSeek speech recognition](https://api-docs.deepseek.com/guides/asr/)
 - [DeepSeek speech synthesis](https://api-docs.deepseek.com/guides/tts/)
 - [On-device speech recognition in Chromium](https://developer.chrome.com/release-notes/139)
+- [Browser Kokoro implementation and license](https://github.com/uzen-zone/kokoro-js/tree/bbc3b5da19965257db0c8e6c9fb9381175b165a7)
+- [Pinned Mandarin model and voices](https://huggingface.co/onnx-community/Kokoro-82M-v1.1-zh-ONNX/tree/6cc0f0d2ebe369a68b0df87c2b65c1af8c0ac3e3)
 
 ## Design reference
 

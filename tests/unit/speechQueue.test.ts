@@ -3,6 +3,7 @@ import type { RadioLine, RadioPriority } from '../../src/ai/radioDialogue';
 import { SpeechQueue } from '../../src/voice/SpeechQueue';
 import { resolveVoiceIdentity } from '../../src/voice/voiceContracts';
 import { loadVoicePreferences, saveVoicePreferences } from '../../src/voice/voicePreferences';
+import { KOKORO_VOICES, mandarinSpeechText } from '../../src/voice/kokoroProtocol';
 
 const line = (id: number, priority: RadioPriority = 'notice', text = `call ${id}`, agent = 1): RadioLine =>
   ({ id, agent, text, source: 'local', priority });
@@ -79,4 +80,15 @@ it('ties distinct profiles and saved preferences to the real companion identity 
   saveVoicePreferences(storage, { ...settings, input: 'deepseek', output: 'deepseek', voices: lookup });
   expect(loadVoicePreferences(storage)).toMatchObject({ input: 'off', output: 'local', voices: lookup });
   expect(stored).not.toContain('deepseek');
+  saveVoicePreferences(storage, { ...settings, output: 'high-quality', volume: 0.48, localFallback: false, voices: lookup });
+  expect(loadVoicePreferences(storage)).toMatchObject({ input: 'off', output: 'high-quality', volume: 0.48, localFallback: false });
+  expect(resolveVoiceIdentity(1, {}, 0)?.volume).toBe(0);
+});
+
+it('keeps Kokoro Mandarin-only with bounded text and a voice per speaker', () => {
+  expect(new Set(Object.values(KOKORO_VOICES)).size).toBe(3);
+  expect(mandarinSpeechText('KITE-2，Guardian 已就位。', 'zh-CN')).toBe('凯特2号,守护员 已就位。');
+  expect(() => mandarinSpeechText('航向 Oregon。', 'zh-CN')).toThrow('kokoro-language');
+  expect(() => mandarinSpeechText('Clear to proceed.', 'en-US')).toThrow('kokoro-language');
+  expect(() => mandarinSpeechText('飞'.repeat(93), 'zh-CN')).toThrow('kokoro-sentence-limit');
 });

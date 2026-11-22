@@ -38,9 +38,15 @@
     "url": "https://github.com/styayur/Skimmer-Scraper/issues"
   },
   "homepage": "https://styayur.github.io/Skimmer-Scraper/",
+  "allowScripts": {
+    "onnxruntime-node": false
+  },
   "dependencies": {
     "@fontsource-variable/ibm-plex-sans": "^5.3.0",
     "@fontsource-variable/syne": "^5.3.0",
+    "@huggingface/transformers": "4.3.2",
+    "@uzen/kokoro-js": "1.2.4",
+    "onnxruntime-web": "1.31.0-dev.20260914-8d85527a0",
     "three": "^0.187.0",
     "three-mesh-bvh": "^0.9.18"
   },

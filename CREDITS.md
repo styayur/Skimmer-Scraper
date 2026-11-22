@@ -62,6 +62,16 @@ Optional DeepSeek speech uses the provider's HTTPS endpoints. Release testing
 used a locally generated Windows speech fixture for an English scout command.
 The distributable contains no recorded voice assets. [Voice radio](docs/VOICE.md)
 
+Local high-quality Mandarin speech uses `@uzen/kokoro-js` (Apache-2.0),
+Hugging Face Transformers.js (Apache-2.0), ONNX Runtime Web (MIT) and
+`pinyin-pro` (MIT). Opt-in model and voice downloads come from the
+Apache-2.0 ONNX conversion of hexgrad's Kokoro-82M-v1.1-zh. Its model card
+credits LongMaoData for the permissively supplied Mandarin training data.
+Model weights and voice embeddings are downloaded directly by the browser.
+[Kokoro JS](https://github.com/uzen-zone/kokoro-js/tree/bbc3b5da19965257db0c8e6c9fb9381175b165a7) ·
+[ONNX model and voices](https://huggingface.co/onnx-community/Kokoro-82M-v1.1-zh-ONNX/tree/6cc0f0d2ebe369a68b0df87c2b65c1af8c0ac3e3) ·
+[Original model](https://huggingface.co/hexgrad/Kokoro-82M-v1.1-zh/tree/01e7505bd6a7a2ac4975463114c3a7650a9f7218)
+
 The v0.3 model planner adapter, validator, Trust/Relay rules and relay line effect
 are original repository code; no external AI/steering SDK or hosted proxy was added.
 Paid evidence uses DeepSeek Flash/V4 Pro through its official HTTPS API with an
