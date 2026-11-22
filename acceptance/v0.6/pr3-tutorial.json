@@ -1,0 +1,70 @@
+{
+  "phase": 3,
+  "status": "TESTED",
+  "baseline": "2956ad499d02a63c0e9b8555ffa4dcc70a0b7ceb",
+  "sourceCommit": "752df892a247a7cbec84c24ea6123d70e0d80729",
+  "automated": {
+    "typecheck": "passed",
+    "unit": 178,
+    "build": "passed",
+    "chromium": 41
+  },
+  "browserUi": {
+    "method": "Python Playwright, desktop Chromium browser with software WebGL for UI compatibility.",
+    "title": [
+      "SKIMMER SCRAPER",
+      "开始游戏",
+      "游戏教程"
+    ],
+    "chapters": 19,
+    "exactHelpTargets": 17,
+    "horizontalOverflow": false,
+    "screens": [
+      {
+        "viewport": [
+          1920,
+          1080
+        ],
+        "restoredScrollPixels": 0,
+        "liveTitleSceneTriangles": 459114
+      },
+      {
+        "viewport": [
+          880,
+          600
+        ],
+        "restoredScrollPixels": 435,
+        "liveTitleSceneTriangles": 209950
+      },
+      {
+        "viewport": [
+          360,
+          680
+        ],
+        "restoredScrollPixels": 355,
+        "liveTitleSceneTriangles": 165834
+      }
+    ],
+    "checks": [
+      "Title continues rendering the 3D city.",
+      "Chapter content is searched locally, including body text and a no-results state.",
+      "Mouse, keyboard shortcuts, and a standard Gamepad API fixture navigate the tutorial.",
+      "Every gray help button focuses its specified chapter and returns exact scroll and focus.",
+      "A locally imported city keeps its unsaved manual spawn and collision type after visiting help.",
+      "Flight settings open with three controls. Copy Seed remains available and the legacy gen=2 link loads its world.",
+      "An invalid custom HTTP endpoint shows a configuration error and clears the typed fixture key."
+    ],
+    "files": [
+      "evidence/v0.6/pr3-tutorial/layout.json",
+      "evidence/v0.6/pr3-tutorial/help-links.json",
+      "evidence/v0.6/pr3-tutorial/title-desktop.png",
+      "evidence/v0.6/pr3-tutorial/title-mobile.png",
+      "evidence/v0.6/pr3-tutorial/tutorial-desktop.png",
+      "evidence/v0.6/pr3-tutorial/tutorial-mobile.png",
+      "evidence/v0.6/pr3-tutorial/tutorial-search.png",
+      "evidence/v0.6/pr3-tutorial/settings-desktop.png",
+      "evidence/v0.6/pr3-tutorial/settings-window.png",
+      "evidence/v0.6/pr3-tutorial/settings-mobile.png"
+    ]
+  }
+}

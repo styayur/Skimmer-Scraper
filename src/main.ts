@@ -1,5 +1,6 @@
 import { ActionRouter } from './ui/ActionRouter';
 import { OverlayManager } from './ui/OverlayManager';
+import { bindGameTutorial } from './ui/GameTutorial';
 import { RadioPanel } from './ui/RadioPanel';
 import { bindVoicePanel, showVoiceStatus } from './ui/VoicePanel';
 import { VoiceRadio } from './voice/VoiceRadio';
@@ -319,7 +320,6 @@ const ui: GameUI = new GameUI({
   onWorldApply: (seedValue, worldMode, upgrade) => applyWorldSettings(seedValue, worldMode, upgrade),
   onWorldRandom: () => createRandomSeed(),
   onWorldCopySeed: (seedValue) => { void copyWorldText(seedValue.trim(), '种子已复制。'); },
-  onWorldCopyLink: (seedValue, worldMode) => { void copyWorldLink(seedValue, worldMode); },
   onWorldReset: () => ({ seed: String(DEFAULT_WORLD_SEED), mode: 'stable' }),
 });
 
@@ -391,17 +391,6 @@ const applyWorldSettings = (
     generatorVersion: upgrade ? GENERATOR_VERSION : baseWorldSettings.generatorVersion,
   });
   window.location.assign(buildWorldShareUrl(window.location.href, next));
-};
-
-const copyWorldLink = async (
-  seedValue: string,
-  worldMode: WorldMode,
-): Promise<void> => {
-  const next = resolveWorldSettings({
-    seed: seedValue, preset: baseWorldSettings.preset, mode: worldMode,
-    generatorVersion: baseWorldSettings.generatorVersion,
-  });
-  await copyWorldText(buildWorldShareUrl(window.location.href, next), '分享链接已复制。');
 };
 
 const refreshModelOptions = (): void => {
@@ -1032,12 +1021,14 @@ const bindFlightOptions = (): void => {
 };
 const updateModelStatus = bindModelSettings(symbiosis, error => ui.showToast(error, true));
 const journeyHud = new JourneyHud(()=>journey.skip());
+const tutorialPanel = document.getElementById('help-panel')!;
+bindGameTutorial(tutorialPanel);
 const overlays = new OverlayManager({
   menu: document.getElementById('pause-panel')!,
   rules: document.getElementById('rules-panel')!,
   world: document.getElementById('world-panel')!,
   library: document.getElementById('library-panel')!,
-  help: document.getElementById('help-panel')!,
+  help: tutorialPanel,
   radio: document.getElementById('radio-panel')!,
 });
 const radioAvailable = () => companionSettings.count > 0 && !journey.active;

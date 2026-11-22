@@ -35,7 +35,7 @@
           <button id="start-button" class="primary-button" type="button" data-action="start">
             <span>开始游戏</span>
           </button>
-          <p class="title-tip">TIP · W / S 控制俯仰，更多见 <a href="#help-panel" data-action="help">操作指南</a>。</p>
+          <a class="title-guide" href="#help-panel" data-action="help">游戏教程</a>
         </div>
       </section>
 
@@ -102,7 +102,7 @@
           <button id="rules-open" type="button" class="secondary-button" data-action="rules">飞行设置 <kbd>F</kbd></button>
           <button id="world-open" type="button" class="secondary-button" data-action="world">世界 <kbd>G</kbd></button>
           <button id="library-open" type="button" class="secondary-button" data-action="library">机库 <kbd>M</kbd></button>
-          <button type="button" class="secondary-button" data-action="help">操作指南 <kbd>H</kbd></button>
+          <button type="button" class="secondary-button" data-action="help">游戏教程 <kbd>H</kbd></button>
           <button id="radio-open" type="button" class="secondary-button" data-action="radio" hidden>伴机电台 <kbd>T</kbd></button>
         </div>
           <button id="camera-button" class="utility-button" type="button" data-action="camera">视角 · 追尾 <kbd>C</kbd></button>
@@ -133,65 +133,28 @@
       </aside>
       <aside id="help-panel" class="library-panel guide-panel" role="dialog" aria-modal="true" aria-labelledby="help-title" hidden>
         <div class="library-header">
-          <h2 id="help-title">操作指南</h2>
+          <h2 id="help-title">游戏教程</h2>
           <button id="help-close" class="utility-button" type="button" data-action="close" data-panel-focus>关闭</button>
         </div>
-        <button class="secondary-button" type="button" data-action="menu">游戏菜单</button>
-        <nav class="guide-index" aria-label="指南目录">
-          <a href="#guide-start" data-help-section="guide-start">快速开始</a>
-          <a href="#guide-flight" data-help-section="guide-flight">飞行控制</a>
-          <a href="#guide-pad" data-help-section="guide-pad">手柄操作</a>
-          <a href="#guide-view" data-help-section="guide-view">视角与座舱</a>
-          <a href="#guide-world" data-help-section="guide-world">世界与模型</a>
-          <a href="#guide-ai" data-help-section="guide-ai">AI 伴机与语音</a>
-          <a href="#guide-advanced" data-help-section="guide-advanced">高级设置</a>
-          <a href="#guide-privacy" data-help-section="guide-privacy">开源许可与隐私</a>
-        </nav>
-        <section>
-          <h3 id="guide-start" tabindex="-1">快速开始</h3>
-          <p>点击开始游戏、按 Enter 或手柄 A 起飞。首次起飞默认带三台伴机自由探索。挑战模式要保持在建筑、地面、桥面或岛屿的 32 米内。脱离后开始倒数，重新贴近就会恢复全部宽限。自由飞行可以离开建筑，不记录挑战成绩。</p>
-        </section>
-        <section>
-          <h3 id="guide-flight" tabindex="-1">飞行控制</h3>
-          <p>W / S 或 ↑ / ↓ 俯仰，A / D 或 ← / → 滚转，Q / E 偏航，Shift 加速。R 重试，Esc 暂停或返回。</p>
-          <p>F 打开飞行设置，G 打开世界，M 打开机库，H 打开本指南。</p>
-        </section>
-        <section>
-          <h3 id="guide-pad" tabindex="-1">手柄操作</h3>
-          <p>方向键或左摇杆移动焦点，A 确认，B 返回，Menu 暂停，View 打开游戏菜单。用左右方向调整选项和数字。</p>
-          <p>飞行时左摇杆俯仰和滚转，右摇杆偏航，RT 加速。默认 Y 切换视角，X 重试。可在飞行设置中重新映射飞行按钮。</p>
-        </section>
-        <section>
-          <h3 id="guide-view" tabindex="-1">视角与座舱</h3>
-          <p>按 C 在追尾与驾驶舱间切换。高级设置提供座舱位置预设、实时预览和手动坐标。每架飞机可单独保存。</p>
-        </section>
-        <section>
-          <h3 id="guide-world" tabindex="-1">世界与模型</h3>
-          <p>城市的街谷、空中高架和浮岛随种子排布。稳定世界可重现，短暂世界的区块卸载后会变化。旧链接会打开对应的旧版城市。</p>
-          <p>在程序城市中，天空里的倒置城市是远景。向上爬升穿过 520 米会触发天穹翻转，进入新世界。</p>
-          <p>在世界设置可导入自包含 GLB 城市，调整比例、出生点并标记可贴近表面。GLB 保存在此浏览器。机库单独管理 GLB 飞机。</p>
-          <p><a href="?seed=334458&amp;preset=sakura&amp;world=stable&amp;gen=2">打开旧版默认城市</a></p>
-        </section>
-        <section>
-          <h3 id="guide-ai" tabindex="-1">AI 伴机与语音</h3>
-          <p>按 T 打开伴机电台。可请求跟随、领航、侦察左侧、集合、保持队形、寻找安全路线或准备地表接力。未连接模型时，常用指令由本地伴机执行。</p>
-          <p>在飞行设置的高级选项中启用语音后，按住 V 讲话，松开发送，Esc 取消。手柄可分配独立按钮。本机语音由设备处理，DeepSeek 模式使用你连接的 Key，服务商可能收费。</p>
-        </section>
-        <section>
-          <h3 id="guide-advanced" tabindex="-1">高级设置</h3>
-          <p>在飞行设置的高级选项中调整宽限、防护罩、操控、声音、视觉和模型预算。进入一场飞行后，规则在返回标题前锁定。</p>
-          <div id="record-hint">
-            <p>录制飞行可使用系统录屏。Windows 上可尝试 Win + Alt + R。</p>
-            <button id="record-hint-close" class="text-button" type="button">隐藏录屏提示</button>
+        <div class="guide-tools">
+          <button class="secondary-button" type="button" data-action="menu">游戏菜单</button>
+          <input id="guide-search" type="search" placeholder="搜索教程" aria-label="搜索教程" autocomplete="off" />
+        </div>
+        <div class="guide-layout">
+          <nav id="guide-index" class="guide-index" aria-label="教程目录"></nav>
+          <div id="guide-content" class="guide-content">
+            <p id="guide-empty" role="status" hidden>没有匹配的章节。</p>
+            <div id="record-hint">
+              <p>录制飞行可使用系统录屏。Windows 上可尝试 Win + Alt + R。</p>
+              <button id="record-hint-close" class="text-button" type="button">隐藏录屏提示</button>
+            </div>
+            <p id="guide-legacy-link"><a href="?seed=334458&amp;preset=sakura&amp;world=stable&amp;gen=2">打开旧版默认城市</a></p>
+            <p id="guide-source-links"><a href="%SKIMMER_SOURCE_URL%" target="_blank" rel="noopener">源码 · AGPL-3.0</a> ·
+              <a href="./LICENSE" target="_blank" rel="noopener">许可证全文</a> ·
+              <a href="./licenses/THIRD-PARTY-NOTICES.txt" target="_blank" rel="noopener">第三方许可</a> ·
+              <span id="game-version">v%SKIMMER_VERSION%</span></p>
           </div>
-        </section>
-        <section>
-          <h3 id="guide-privacy" tabindex="-1">开源许可与隐私</h3>
-          <p>无需账号。成绩和设置保存在本机，GLB 飞机保存在浏览器中。连接模型后，必要的飞行状态直接发送给所选服务商。Key 仅在当前页面内存中使用。</p>
-          <p><a href="%SKIMMER_SOURCE_URL%" target="_blank" rel="noopener">源码 · AGPL-3.0</a> ·
-            <a href="./LICENSE" target="_blank" rel="noopener">许可证全文</a> ·
-            <span id="game-version">v%SKIMMER_VERSION%</span></p>
-        </section>
+        </div>
       </aside>
       <section id="fail-screen" class="fail-screen" aria-labelledby="fail-title" hidden>
         <div class="fail-panel">
@@ -221,24 +184,24 @@
 
       <aside id="rules-panel" role="dialog" aria-modal="true" class="library-panel flight-settings" aria-label="飞行设置" hidden>
         <div class="library-header"><h2>飞行设置</h2><button id="rules-close" data-action="close" data-panel-focus class="utility-button" type="button">关闭</button></div>
-        <p id="rules-note"></p>
-        <div class="setting-heading"><label>玩法 <select id="run-mode"><option value="challenge">Challenge · 近距挑战</option><option value="free">Free Flight · 自由飞行</option></select></label><details class="setting-help"><summary aria-label="玩法帮助">?</summary><p>挑战记录个人时间，自由飞行允许远离地面。 <a href="#guide-start" data-help-section="guide-start">阅读指南</a></p></details></div>
-        <label>视角 <select id="camera-mode"><option value="chase">追尾</option><option value="cockpit">驾驶舱</option></select></label>
-        <label>伴机数量 <select id="companion-count"><option value="0">关闭</option><option value="1">1 台</option><option value="2">2 台</option><option value="3">3 台</option></select></label>
+        <p id="rules-note" class="setting-status" hidden></p>
+        <div class="setting-heading"><label>玩法 <select id="run-mode"><option value="challenge">Challenge · 近距挑战</option><option value="free">Free Flight · 自由飞行</option></select></label><button class="setting-help" type="button" aria-label="玩法帮助" data-help-section="guide-modes">?</button></div>
+        <div class="setting-heading"><label>视角 <select id="camera-mode"><option value="chase">追尾</option><option value="cockpit">驾驶舱</option></select></label><button class="setting-help" type="button" aria-label="视角帮助" data-help-section="guide-view">?</button></div>
+        <div class="setting-heading"><label>伴机数量 <select id="companion-count"><option value="0">关闭</option><option value="1">1 台</option><option value="2">2 台</option><option value="3">3 台</option></select></label><button class="setting-help" type="button" aria-label="伴机数量帮助" data-help-section="guide-companions">?</button></div>
         <details id="advanced-flight-settings">
           <summary>高级设置</summary>
-          <div class="setting-heading"><label>宽限秒数（1–15）<input id="run-grace" type="number" min="1" max="15" step="0.1" value="5" /></label><details class="setting-help"><summary aria-label="宽限帮助">?</summary><p>脱离所有近距表面后，可继续飞行的秒数。 <a href="#guide-advanced" data-help-section="guide-advanced">阅读指南</a></p></details></div>
-          <div class="setting-heading"><label><input id="run-shield" type="checkbox" /> 自由模式防护罩</label><details class="setting-help"><summary aria-label="防护罩帮助">?</summary><p>自由飞行碰撞时，防护罩使飞机减速并反弹。 <a href="#guide-advanced" data-help-section="guide-advanced">阅读指南</a></p></details></div>
-          <p>标准 5 秒个人挑战、自定义规则和 AI 辅助挑战分别记录；自由模式不计成绩。</p>
+          <div class="setting-heading"><label>宽限时间<input id="run-grace" type="number" min="1" max="15" step="0.1" value="5" /></label><button class="setting-help" type="button" aria-label="宽限时间帮助" data-help-section="guide-rules">?</button></div>
+          <div class="setting-heading"><label><input id="run-shield" type="checkbox" /> 防护罩</label><button class="setting-help" type="button" aria-label="防护罩帮助" data-help-section="guide-rules">?</button></div>
+
           <details><summary>自主伴机</summary>
-            <p>本地自主伴飞 · Local Autonomous Controller。无需 API；连接模型后可接收经安全校验的团队规划。</p>
-            <label>编队 <select id="companion-formation"><option value="wedge">楔形</option><option value="line">纵队</option><option value="spread">展开</option></select></label>
+
+            <div class="setting-heading"><label>编队 <select id="companion-formation"><option value="wedge">楔形</option><option value="line">纵队</option><option value="spread">展开</option></select></label><button class="setting-help" type="button" aria-label="伴机帮助" data-help-section="guide-companions">?</button></div>
             <label>自主任务 <select id="companion-behavior"><option value="formation">编队跟随</option><option value="independent">独立跟随</option><option value="lead">1 号领航</option></select></label>
-            <p>数量在起飞前选择，带伴机的挑战单独计分。青色 KITE-1、金色 KITE-2、玫红 KITE-3。</p>
+
           </details>
           <details><summary>操控与手柄</summary>
-            <p id="input-device">Keyboard</p>
-            <label>操控方案 <select data-control="profile"><option value="precision">Precision · 高速精确操控</option><option value="classic">Classic · 经典操控</option></select></label>
+            <p id="input-device" class="setting-status">Keyboard</p>
+            <div class="setting-heading"><label>操控方案 <select data-control="profile"><option value="precision">Precision · 高速精确操控</option><option value="classic">Classic · 经典操控</option></select></label><button class="setting-help" type="button" aria-label="操控与手柄帮助" data-help-section="guide-pad">?</button></div>
             <label>灵敏度 <input data-control="sensitivity" type="number" min="0.2" max="2" step="0.1" /></label>
             <label>响应曲线 <input data-control="curve" type="number" min="1" max="3" step="0.1" /></label>
             <label>手柄死区 <input data-control="deadZone" type="number" min="0" max="0.4" step="0.01" /></label>
@@ -247,7 +210,7 @@
             <label><input data-control="invertPitch" type="checkbox" /> 反转俯仰</label>
             <label><input data-control="invertRoll" type="checkbox" /> 反转滚转</label>
             <label><input data-control="invertYaw" type="checkbox" /> 反转偏航</label>
-            <p>标准 XInput：左摇杆俯仰/滚转、右摇杆偏航、RT 加速、Y 视角、X 重试、Menu 暂停。键盘有输入时优先使用键盘。</p>
+
             <label>俯仰轴 <input data-control="pitchAxis" type="number" min="0" max="7" /></label>
             <label>滚转轴 <input data-control="rollAxis" type="number" min="0" max="7" /></label>
             <label>偏航轴 <input data-control="yawAxis" type="number" min="0" max="7" /></label>
@@ -259,19 +222,19 @@
             <label>菜单返回按钮 <input data-control="backButton" type="number" min="0" max="31" /></label>
             <label>游戏菜单按钮 <input data-control="menuButton" type="number" min="0" max="31" /></label>
             <label>按住讲话按钮 <input id="voice-gamepad-button" data-control="voiceButton" type="number" min="-1" max="31" /></label>
-            <p class="world-description">选择一个未分配的按钮编号。−1 关闭手柄语音快捷键。</p>
+
           </details>
-          <details id="camera-anchor-settings"><summary>当前机型座舱位置</summary>
-            <label>座舱预设 <select id="anchor-preset">
+          <details id="camera-anchor-settings"><summary>座舱位置</summary>
+            <div class="setting-heading"><label>座舱预设 <select id="anchor-preset">
               <option value="standard">标准座舱</option>
               <option value="fighter">战斗机座舱</option>
               <option value="glider">滑翔机座舱</option>
               <option value="high">高位座舱</option>
               <option value="custom">自定义锚点</option>
-            </select></label>
+            </select></label><button class="setting-help" type="button" aria-label="座舱位置帮助" data-help-section="guide-anchor">?</button></div>
             <label><input id="anchor-preview" type="checkbox" /> 实时预览</label>
             <div id="anchor-coordinates" hidden>
-              <p>X 向右，Y 向上，负 Z 向前。单位为米。</p>
+
               <label>X <input id="anchor-x" type="number" min="-8" max="8" step="0.01" /></label>
               <label>Y <input id="anchor-y" type="number" min="-8" max="8" step="0.01" /></label>
               <label>Z <input id="anchor-z" type="number" min="-8" max="8" step="0.01" /></label>
@@ -280,11 +243,14 @@
             <button id="anchor-save" class="utility-button" type="button">保存当前机型锚点</button>
             <p id="anchor-message" role="status"></p>
           </details>
-          <details id="comfort-settings"><summary>视觉与音频</summary>
+          <details id="comfort-settings"><summary>画质与音频</summary>
+            <div class="setting-heading settings-actions">
             <div class="quick-controls">
               <button id="mute-button" class="utility-button" type="button" aria-pressed="false">声音 · 开</button>
               <button id="effects-button" class="utility-button" type="button" aria-pressed="false">视觉 · 标准</button>
               <button id="quality-button" class="utility-button" type="button">画质 · 平衡</button>
+            </div>
+            <button class="setting-help" type="button" aria-label="画质与音频帮助" data-help-section="guide-graphics">?</button>
             </div>
           </details>
         </details>
@@ -292,18 +258,15 @@
       <aside id="library-panel" role="dialog" aria-modal="true" class="library-panel" aria-labelledby="library-title" hidden>
         <div class="library-header">
           <div>
-            <p class="kicker">LOCAL AIRCRAFT</p>
             <h2 id="library-title">机库</h2>
           </div>
           <button id="library-close" data-action="close" data-panel-focus class="icon-button" type="button" aria-label="关闭机库">关闭</button>
         </div>
-        <p class="library-copy">
-          导入本机 <code>.glb</code> 模型。文件只保存在此浏览器，不会上传，也不需要账号。
-        </p>
         <div id="model-list" class="model-list" role="listbox" aria-label="可选机型"></div>
         <div class="library-actions">
           <input id="model-file" type="file" accept=".glb,model/gltf-binary" hidden />
           <button id="import-model-button" class="secondary-button" type="button">导入本机 GLB</button>
+          <button class="setting-help" type="button" aria-label="导入飞机帮助" data-help-section="guide-aircraft">?</button>
           <button id="rotate-model-button" class="text-button" type="button" disabled>旋转 180°</button>
           <button id="remove-model-button" class="text-button" type="button" disabled>移除当前导入</button>
         </div>
@@ -332,7 +295,7 @@
           <details id="local-world-library">
             <summary>本地 GLB 世界</summary>
             <div id="local-world-drop" class="world-drop">
-              <label class="world-field">选择或拖放自包含 GLB<input id="local-world-file" type="file" accept=".glb,model/gltf-binary" /></label>
+              <div class="setting-heading"><label class="world-field">GLB 文件<input id="local-world-file" type="file" accept=".glb,model/gltf-binary" /></label><button class="setting-help" type="button" aria-label="导入城市帮助" data-help-section="guide-import">?</button></div>
             </div>
             <div id="local-world-saved" hidden>
               <label class="world-field">已保存的世界<select id="local-world-select"></select></label>
@@ -362,12 +325,12 @@
               </details>
               <details class="world-import-transform">
                 <summary>网格语义</summary>
-                <label class="world-field">网格<select id="local-world-mesh"></select></label>
+                <div class="setting-heading"><label class="world-field">网格<select id="local-world-mesh"></select></label><button class="setting-help" type="button" aria-label="碰撞分类帮助" data-help-section="guide-motion">?</button></div>
                 <label class="world-field">类型<select id="local-world-role"><option value="SURFACE">可贴近表面</option><option value="OBSTACLE">仅碰撞障碍</option><option value="DECORATION">装饰</option></select></label>
               </details>
               <details class="world-import-transform">
                 <summary>动画与运动路径</summary>
-                <label class="world-field">动画片段<select id="local-world-motion-clip"></select></label>
+                <div class="setting-heading"><label class="world-field">动画片段<select id="local-world-motion-clip"></select></label><button class="setting-help" type="button" aria-label="动画与运动路径帮助" data-help-section="guide-motion">?</button></div>
                 <p id="local-world-motion-channels" class="world-description"></p>
                 <label><input id="local-world-motion-loop" type="checkbox" checked /> 循环播放片段</label>
                 <label class="world-field">运动网格<select id="local-world-motion-mesh"></select></label>
@@ -385,40 +348,19 @@
             <button id="local-world-cancel" class="text-button" type="button" hidden>取消导入</button>
           </details>
         </section>
-        <p class="library-copy">
-          使用种子重新生成城市。分享链接会保留原有种子、世界模式和生成器版本。
-        </p>
         <form id="world-form" class="world-form">
-          <label class="world-field">
-            <span class="data-label">WORLD SEED</span>
-            <input id="world-seed-input" name="seed" type="text" maxlength="64" autocomplete="off" spellcheck="false" />
-          </label>
+          <div class="setting-heading"><label class="world-field">输入种子<input id="world-seed-input" name="seed" type="text" maxlength="64" autocomplete="off" spellcheck="false" /></label><button class="setting-help" type="button" aria-label="种子帮助" data-help-section="guide-world">?</button></div>
           <div id="world-legacy" hidden>
             <p id="world-legacy-note" class="world-description"></p>
             <button id="world-upgrade" class="secondary-button" type="button">用此种子生成新版城市</button>
           </div>
-          <div class="setting-heading"><label class="world-field">
-            <span class="data-label">WORLD MEMORY</span>
-            <select id="world-mode-select" name="world">
-              <option value="stable">Stable World</option>
-              <option value="ephemeral">Ephemeral World</option>
-            </select>
-          </label><details class="setting-help"><summary aria-label="世界记忆帮助">?</summary><p>稳定世界可复现，短暂世界卸载后可能改变。 <a href="#guide-world" data-help-section="guide-world">阅读指南</a></p></details></div>
-          <p id="world-mode-description" class="world-description"></p>
+          <div class="setting-heading"><label class="world-field">世界记忆<select id="world-mode-select" name="world"><option value="stable">稳定世界</option><option value="ephemeral">短暂世界</option></select></label><button class="setting-help" type="button" aria-label="世界记忆帮助" data-help-section="guide-world">?</button></div>
           <div class="world-inline-actions">
             <button id="world-random" class="text-button" type="button">随机种子</button>
             <button id="world-copy-seed" class="text-button" type="button">复制种子</button>
-            <button id="world-copy-link" class="text-button" type="button">复制分享链接</button>
-          </div>
-          <div class="world-stability">
-            <span class="data-label">LOCAL WORLD MEMORY</span>
-            <p>Ephemeral 修订历史仅保存在当前页面会话，最多记录最近 256 个卸载区块；不会上传，也不会无限增长。</p>
           </div>
           <div class="world-actions">
-            <button class="primary-button" type="submit">
-              <span>生成并重载</span>
-              <span class="button-meta">APPLY</span>
-            </button>
+            <button class="primary-button" type="submit">生成并重载</button>
             <button id="world-reset" class="secondary-button" type="button">恢复默认种子</button>
           </div>
         </form>

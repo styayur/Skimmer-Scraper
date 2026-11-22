@@ -59,13 +59,14 @@ const waitSettled = async (page: Page): Promise<void> => {
 const sampleFrames = (page: Page, durationMs: number): Promise<number[]> =>
   page.evaluate(async (sampleDurationMs) => new Promise<number[]>((resolve) => {
     const samples: number[] = [];
-    const started = performance.now();
-    let previous = started;
+    let started: number | undefined;
+    let previous: number | undefined;
     const tick = (now: number): void => {
-      const delta = now - previous;
+      started ??= now;
+      if (previous !== undefined && now > previous) samples.push(now - previous);
       previous = now;
-      if (delta > 0 && delta < 1_000) samples.push(delta);
-      if (now - started >= sampleDurationMs) resolve(samples);
+      // Include slow frames from the software renderer and measure between actual callbacks.
+      if (now - started >= sampleDurationMs && samples.length >= 3) resolve(samples);
       else requestAnimationFrame(tick);
     };
     requestAnimationFrame(tick);
@@ -200,8 +201,8 @@ test.describe('v0.2.0 final QA', () => {
 
     expect(errors).toEqual([]);
     expect(failedRequests).toEqual([]);
-    expect(balancedPerformance.sampleCount).toBeGreaterThan(0);
-    expect(highPerformance.sampleCount).toBeGreaterThan(0);
+    expect(balancedPerformance.sampleCount).toBeGreaterThanOrEqual(3);
+    expect(highPerformance.sampleCount).toBeGreaterThanOrEqual(3);
     expect(balanced.render.calls).toBeGreaterThan(0);
     expect(high.render.triangles).toBeGreaterThan(10_000);
     expect(runtime.resourceBounds.activeChunks).toBeLessThanOrEqual(41);

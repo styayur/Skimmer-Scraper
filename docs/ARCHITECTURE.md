@@ -255,6 +255,15 @@ browser input -> FixedStepRunner (120 Hz)
   timing. If collision coverage is unavailable, simulation and rule time pause behind an explicit
   stream-buffering state.
 
+## Settings and tutorial
+
+The title pairs the live scene with a start control and the searchable game tutorial.
+`GameTutorial` provides the chapter index and searches the full chapter text locally.
+Settings help buttons route directly to a chapter through `ActionRouter`. The
+`OverlayManager` preserves focus, scroll and in-progress settings when a tutorial
+covers another panel. Closing the settings panel releases its previews and import
+drafts through the existing lifecycle handlers.
+
 ## Deterministic diagnostics
 
 The debug bridge (`window.__SKIMMER_SCRAPER__`) exposes snapshots, start/retry, pose reset and fixed

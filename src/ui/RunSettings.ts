@@ -8,13 +8,15 @@ export class RunSettingsPanel {
     const mode = document.querySelector<HTMLSelectElement>('#run-mode')!;
     const grace = document.querySelector<HTMLInputElement>('#run-grace')!;
     const shield = document.querySelector<HTMLInputElement>('#run-shield')!;
+    const note = document.getElementById('rules-note')!;
     mode.value = rules.mode;
     grace.value = String(rules.graceSeconds);
     shield.checked = rules.shield;
     panel.addEventListener('skimmer:open', () => {
-      for (const field of [mode, grace, shield]) field.disabled = !canEdit();
-      document.querySelector('#rules-note')!.textContent = !canEdit()
-        ? '本次飞行规则已锁定；返回标题后可修改。' : '规则在起飞后锁定，重试沿用当前选择。';
+      const locked = !canEdit();
+      for (const field of [mode, grace, shield]) field.disabled = locked;
+      note.hidden = !locked;
+      note.textContent = locked ? '规则已锁定，返回标题可修改。' : '';
     });
     const change = (): void => {
       if (!canEdit()) return;
