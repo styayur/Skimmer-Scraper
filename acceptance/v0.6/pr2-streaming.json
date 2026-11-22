@@ -1,0 +1,571 @@
+{
+  "phase": 2,
+  "status": "TESTED",
+  "baseline": "4d891b990c0d8d43eeb32464c4b72700266aa60f",
+  "sourceCommit": "7daecb99be06007f1506f554e773d4a57b7ad0a4",
+  "seed": 334458,
+  "automated": {
+    "typecheck": "passed",
+    "build": "passed",
+    "unit": 178,
+    "chromium": 41
+  },
+  "graphics": {
+    "device": "ANGLE (AMD, AMD Radeon 780M Graphics (0x00001900) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+    "browser": "157.0.8103.79",
+    "driver": "32.0.32029.2010",
+    "viewport": [
+      1920,
+      1080
+    ],
+    "notes": "Headed Chrome on real Radeon hardware, with state sampled each RAF. CPU throttling is a separate CDP stress case and leaves the GPU enabled. Each warm pass uses 44 simulated seconds with straight boost, two bank reversals, climb and dive. The cold pass moves to an unseen neighborhood and resumes as soon as the current collision ring is ready. Inputs are scheduled by simulation time at animation frame boundaries, so nominal trajectories match with small frame-quantization differences.",
+    "coverageMethod": "For every rendered frame with a near-city view, project camera rays across three city heights and check readiness of intersected 220 m chunks 90–620 m away. This measures coverage risk from the actual camera and ignores occlusion by nearer structures. Buffering is measured independently from the actual flight gate.",
+    "timerAvailability": "The baseline recorded elapsed source time, including browser task delay. The new build also records synchronous generation and time to register the BVH. Baseline samples have null values for those new timers.",
+    "limitations": "The 4x CPU-throttled flights showed lower mean FPS and longer frame tails while the forward working set increased. This is a synthetic CPU stress result on the same renderer. Native Balanced and High retained similar frame pacing at 1920 x 1080. The cold repeat used fresh browser processes; the final candidate repeat followed the preceding cases on the same machine.",
+    "raw": [
+      "evidence/v0.6/pr2-streaming/before.json",
+      "evidence/v0.6/pr2-streaming/before-cold.json",
+      "evidence/v0.6/pr2-streaming/after.json",
+      "evidence/v0.6/pr2-streaming/before-repeat.json",
+      "evidence/v0.6/pr2-streaming/after-repeat.json"
+    ],
+    "runs": [
+      {
+        "quality": "balanced",
+        "cpuThrottle": 1,
+        "cold": false,
+        "preview": [
+          {
+            "fps": 116.91,
+            "frameMs": {
+              "p50": 8.3,
+              "p95": 8.5,
+              "p99": 16.7
+            },
+            "simulatedSeconds": 44.01,
+            "wallSeconds": 44.02,
+            "distanceMeters": 4104.9,
+            "capture": "evidence/v0.6/pr2-streaming/before-balanced-1x.png",
+            "shieldImpacts": 0,
+            "projectedCoverage": {
+              "eligibleFrames": 4961,
+              "incompleteFrames": 1149,
+              "incompleteFramePercent": 23.16,
+              "maxMissingCells": 4
+            },
+            "collisionEntrance": {
+              "transitions": 18,
+              "coveredBeforeEntry": 18,
+              "readyPercent": 100,
+              "bufferingEntries": 0,
+              "bufferingFrames": 0,
+              "bufferingMs": 0
+            },
+            "generation": {
+              "p95SourceMs": 31.6,
+              "p95SynchronousBuildMs": null,
+              "p95ActivationMs": null,
+              "generated": 105,
+              "retired": 105
+            },
+            "peak": {
+              "activeChunks": 28,
+              "staticBvh": 28,
+              "dynamicBvh": 8,
+              "dynamicStructures": 8,
+              "geometryMiB": 37.02,
+              "renderGeometries": 467,
+              "drawCalls": 434,
+              "textures": 26
+            },
+            "consoleErrors": []
+          },
+          {
+            "fps": 116.69,
+            "frameMs": {
+              "p50": 8.3,
+              "p95": 8.5,
+              "p99": 16.7
+            },
+            "simulatedSeconds": 44.01,
+            "wallSeconds": 44.02,
+            "distanceMeters": 4104.89,
+            "capture": "evidence/v0.6/pr2-streaming/after-balanced-1x.png",
+            "shieldImpacts": 0,
+            "projectedCoverage": {
+              "eligibleFrames": 4951,
+              "incompleteFrames": 152,
+              "incompleteFramePercent": 3.07,
+              "maxMissingCells": 1
+            },
+            "collisionEntrance": {
+              "transitions": 18,
+              "coveredBeforeEntry": 18,
+              "readyPercent": 100,
+              "bufferingEntries": 0,
+              "bufferingFrames": 0,
+              "bufferingMs": 0
+            },
+            "generation": {
+              "p95SourceMs": 28.5,
+              "p95SynchronousBuildMs": 22.1,
+              "p95ActivationMs": 29.1,
+              "generated": 146,
+              "retired": 142
+            },
+            "peak": {
+              "activeChunks": 36,
+              "staticBvh": 36,
+              "dynamicBvh": 8,
+              "dynamicStructures": 8,
+              "geometryMiB": 46.42,
+              "renderGeometries": 593,
+              "drawCalls": 612,
+              "textures": 26
+            },
+            "consoleErrors": []
+          }
+        ]
+      },
+      {
+        "quality": "high",
+        "cpuThrottle": 1,
+        "cold": false,
+        "preview": [
+          {
+            "fps": 117.25,
+            "frameMs": {
+              "p50": 8.3,
+              "p95": 8.5,
+              "p99": 16.7
+            },
+            "simulatedSeconds": 44.01,
+            "wallSeconds": 44.02,
+            "distanceMeters": 4104.88,
+            "capture": "evidence/v0.6/pr2-streaming/before-high-1x.png",
+            "shieldImpacts": 0,
+            "projectedCoverage": {
+              "eligibleFrames": 4976,
+              "incompleteFrames": 1137,
+              "incompleteFramePercent": 22.85,
+              "maxMissingCells": 4
+            },
+            "collisionEntrance": {
+              "transitions": 18,
+              "coveredBeforeEntry": 18,
+              "readyPercent": 100,
+              "bufferingEntries": 0,
+              "bufferingFrames": 0,
+              "bufferingMs": 0
+            },
+            "generation": {
+              "p95SourceMs": 30.2,
+              "p95SynchronousBuildMs": null,
+              "p95ActivationMs": null,
+              "generated": 105,
+              "retired": 105
+            },
+            "peak": {
+              "activeChunks": 28,
+              "staticBvh": 28,
+              "dynamicBvh": 8,
+              "dynamicStructures": 8,
+              "geometryMiB": 37.02,
+              "renderGeometries": 467,
+              "drawCalls": 428,
+              "textures": 26
+            },
+            "consoleErrors": []
+          },
+          {
+            "fps": 115.23,
+            "frameMs": {
+              "p50": 8.3,
+              "p95": 8.5,
+              "p99": 16.8
+            },
+            "simulatedSeconds": 44.01,
+            "wallSeconds": 44.02,
+            "distanceMeters": 4104.88,
+            "capture": "evidence/v0.6/pr2-streaming/after-high-1x.png",
+            "shieldImpacts": 0,
+            "projectedCoverage": {
+              "eligibleFrames": 4887,
+              "incompleteFrames": 156,
+              "incompleteFramePercent": 3.19,
+              "maxMissingCells": 1
+            },
+            "collisionEntrance": {
+              "transitions": 18,
+              "coveredBeforeEntry": 18,
+              "readyPercent": 100,
+              "bufferingEntries": 0,
+              "bufferingFrames": 0,
+              "bufferingMs": 0
+            },
+            "generation": {
+              "p95SourceMs": 31.7,
+              "p95SynchronousBuildMs": 22.2,
+              "p95ActivationMs": 32.9,
+              "generated": 146,
+              "retired": 142
+            },
+            "peak": {
+              "activeChunks": 36,
+              "staticBvh": 36,
+              "dynamicBvh": 8,
+              "dynamicStructures": 8,
+              "geometryMiB": 46.42,
+              "renderGeometries": 593,
+              "drawCalls": 612,
+              "textures": 26
+            },
+            "consoleErrors": []
+          }
+        ]
+      },
+      {
+        "quality": "balanced",
+        "cpuThrottle": 4,
+        "cold": false,
+        "preview": [
+          {
+            "fps": 33.84,
+            "frameMs": {
+              "p50": 25,
+              "p95": 108.3,
+              "p99": 150
+            },
+            "simulatedSeconds": 44.01,
+            "wallSeconds": 46.87,
+            "distanceMeters": 4102.38,
+            "capture": "evidence/v0.6/pr2-streaming/before-balanced-4x.png",
+            "shieldImpacts": 0,
+            "projectedCoverage": {
+              "eligibleFrames": 1452,
+              "incompleteFrames": 347,
+              "incompleteFramePercent": 23.9,
+              "maxMissingCells": 4
+            },
+            "collisionEntrance": {
+              "transitions": 19,
+              "coveredBeforeEntry": 19,
+              "readyPercent": 100,
+              "bufferingEntries": 0,
+              "bufferingFrames": 0,
+              "bufferingMs": 0
+            },
+            "generation": {
+              "p95SourceMs": 159.6,
+              "p95SynchronousBuildMs": null,
+              "p95ActivationMs": null,
+              "generated": 107,
+              "retired": 108
+            },
+            "peak": {
+              "activeChunks": 28,
+              "staticBvh": 28,
+              "dynamicBvh": 8,
+              "dynamicStructures": 8,
+              "geometryMiB": 39.53,
+              "renderGeometries": 464,
+              "drawCalls": 412,
+              "textures": 26
+            },
+            "consoleErrors": []
+          },
+          {
+            "fps": 25.09,
+            "frameMs": {
+              "p50": 25,
+              "p95": 133.3,
+              "p99": 175
+            },
+            "simulatedSeconds": 44.04,
+            "wallSeconds": 48.83,
+            "distanceMeters": 4102.42,
+            "capture": "evidence/v0.6/pr2-streaming/after-balanced-4x.png",
+            "shieldImpacts": 0,
+            "projectedCoverage": {
+              "eligibleFrames": 1119,
+              "incompleteFrames": 8,
+              "incompleteFramePercent": 0.71,
+              "maxMissingCells": 1
+            },
+            "collisionEntrance": {
+              "transitions": 18,
+              "coveredBeforeEntry": 18,
+              "readyPercent": 100,
+              "bufferingEntries": 0,
+              "bufferingFrames": 0,
+              "bufferingMs": 0
+            },
+            "generation": {
+              "p95SourceMs": 189.2,
+              "p95SynchronousBuildMs": 138.9,
+              "p95ActivationMs": 195.6,
+              "generated": 169,
+              "retired": 173
+            },
+            "peak": {
+              "activeChunks": 30,
+              "staticBvh": 30,
+              "dynamicBvh": 8,
+              "dynamicStructures": 8,
+              "geometryMiB": 38.8,
+              "renderGeometries": 485,
+              "drawCalls": 558,
+              "textures": 26
+            },
+            "consoleErrors": []
+          }
+        ]
+      },
+      {
+        "quality": "balanced",
+        "cpuThrottle": 4,
+        "cold": true,
+        "preview": [
+          {
+            "fps": 39.78,
+            "frameMs": {
+              "p50": 16.7,
+              "p95": 99.8,
+              "p99": 142.3
+            },
+            "simulatedSeconds": 14.01,
+            "wallSeconds": 14.96,
+            "distanceMeters": 1402.35,
+            "capture": "evidence/v0.6/pr2-streaming/before-cold-balanced-4x-cold.png",
+            "shieldImpacts": 0,
+            "projectedCoverage": {
+              "eligibleFrames": 595,
+              "incompleteFrames": 128,
+              "incompleteFramePercent": 21.51,
+              "maxMissingCells": 7
+            },
+            "collisionEntrance": {
+              "transitions": 6,
+              "coveredBeforeEntry": 5,
+              "readyPercent": 83.33,
+              "bufferingEntries": 1,
+              "bufferingFrames": 1,
+              "bufferingMs": 150
+            },
+            "generation": {
+              "p95SourceMs": 181.5,
+              "p95SynchronousBuildMs": null,
+              "p95ActivationMs": null,
+              "generated": 43,
+              "retired": 29
+            },
+            "peak": {
+              "activeChunks": 28,
+              "staticBvh": 28,
+              "dynamicBvh": 8,
+              "dynamicStructures": 8,
+              "geometryMiB": 37.2,
+              "renderGeometries": 426,
+              "drawCalls": 356,
+              "textures": 25
+            },
+            "consoleErrors": []
+          },
+          {
+            "fps": 22.13,
+            "frameMs": {
+              "p50": 25,
+              "p95": 133.3,
+              "p99": 150.1
+            },
+            "simulatedSeconds": 14.02,
+            "wallSeconds": 15.59,
+            "distanceMeters": 1403.05,
+            "capture": "evidence/v0.6/pr2-streaming/after-balanced-4x-cold.png",
+            "shieldImpacts": 0,
+            "projectedCoverage": {
+              "eligibleFrames": 345,
+              "incompleteFrames": 23,
+              "incompleteFramePercent": 6.67,
+              "maxMissingCells": 6
+            },
+            "collisionEntrance": {
+              "transitions": 6,
+              "coveredBeforeEntry": 6,
+              "readyPercent": 100,
+              "bufferingEntries": 0,
+              "bufferingFrames": 0,
+              "bufferingMs": 0
+            },
+            "generation": {
+              "p95SourceMs": 194.8,
+              "p95SynchronousBuildMs": 116.2,
+              "p95ActivationMs": 196.1,
+              "generated": 78,
+              "retired": 58
+            },
+            "peak": {
+              "activeChunks": 30,
+              "staticBvh": 30,
+              "dynamicBvh": 8,
+              "dynamicStructures": 8,
+              "geometryMiB": 39,
+              "renderGeometries": 453,
+              "drawCalls": 523,
+              "textures": 26
+            },
+            "consoleErrors": []
+          }
+        ]
+      }
+    ],
+    "coldRepeat": {
+      "quality": "balanced",
+      "cpuThrottle": 4,
+      "cold": true,
+      "preview": [
+        {
+          "fps": 37.37,
+          "frameMs": {
+            "p50": 16.8,
+            "p95": 99.9,
+            "p99": 141.7
+          },
+          "simulatedSeconds": 14.02,
+          "wallSeconds": 14.8,
+          "distanceMeters": 1403.19,
+          "capture": "evidence/v0.6/pr2-streaming/before-repeat-balanced-4x-cold.png",
+          "shieldImpacts": 0,
+          "projectedCoverage": {
+            "eligibleFrames": 553,
+            "incompleteFrames": 117,
+            "incompleteFramePercent": 21.16,
+            "maxMissingCells": 7
+          },
+          "collisionEntrance": {
+            "transitions": 6,
+            "coveredBeforeEntry": 5,
+            "readyPercent": 83.33,
+            "bufferingEntries": 0,
+            "bufferingFrames": 0,
+            "bufferingMs": 0
+          },
+          "generation": {
+            "p95SourceMs": 168.6,
+            "p95SynchronousBuildMs": null,
+            "p95ActivationMs": null,
+            "generated": 41,
+            "retired": 26
+          },
+          "peak": {
+            "activeChunks": 28,
+            "staticBvh": 28,
+            "dynamicBvh": 8,
+            "dynamicStructures": 8,
+            "geometryMiB": 37.2,
+            "renderGeometries": 426,
+            "drawCalls": 362,
+            "textures": 25
+          },
+          "consoleErrors": []
+        },
+        {
+          "fps": 15.72,
+          "frameMs": {
+            "p50": 41.6,
+            "p95": 158.3,
+            "p99": 174.9
+          },
+          "simulatedSeconds": 14.01,
+          "wallSeconds": 16.42,
+          "distanceMeters": 1402.2,
+          "capture": "evidence/v0.6/pr2-streaming/after-repeat-balanced-4x-cold.png",
+          "shieldImpacts": 0,
+          "projectedCoverage": {
+            "eligibleFrames": 257,
+            "incompleteFrames": 22,
+            "incompleteFramePercent": 8.56,
+            "maxMissingCells": 6
+          },
+          "collisionEntrance": {
+            "transitions": 6,
+            "coveredBeforeEntry": 6,
+            "readyPercent": 100,
+            "bufferingEntries": 0,
+            "bufferingFrames": 0,
+            "bufferingMs": 0
+          },
+          "generation": {
+            "p95SourceMs": 192.9,
+            "p95SynchronousBuildMs": 130.9,
+            "p95ActivationMs": 197,
+            "generated": 79,
+            "retired": 59
+          },
+          "peak": {
+            "activeChunks": 30,
+            "staticBvh": 30,
+            "dynamicBvh": 8,
+            "dynamicStructures": 8,
+            "geometryMiB": 39,
+            "renderGeometries": 454,
+            "drawCalls": 510,
+            "textures": 26
+          },
+          "consoleErrors": []
+        }
+      ]
+    }
+  },
+  "simulationHz": 120,
+  "activeChunkCap": 41,
+  "staticBvhPerActiveChunk": 1,
+  "skyInversionCrossings": 5,
+  "pausedResourceRegression": {
+    "matchingFiveWorldCycles": 2,
+    "settled": {
+      "textures": 23,
+      "bytes": 37978600,
+      "objects": 377,
+      "staticBvh": 32,
+      "activeChunkKeys": [
+        "-1:-1",
+        "-1:-2",
+        "-1:-3",
+        "-1:0",
+        "-1:1",
+        "-1:2",
+        "-2:-1",
+        "-2:-2",
+        "-2:-3",
+        "-2:0",
+        "-2:1",
+        "-2:2",
+        "-3:-3",
+        "0:-1",
+        "0:-2",
+        "0:-3",
+        "0:0",
+        "0:1",
+        "0:2",
+        "1:-1",
+        "1:-2",
+        "1:-3",
+        "1:0",
+        "1:1",
+        "1:2",
+        "2:-1",
+        "2:-2",
+        "2:-3",
+        "2:0",
+        "2:1",
+        "2:2",
+        "3:-3"
+      ]
+    },
+    "p95ActivationMs": [
+      501.2,
+      433.8
+    ]
+  }
+}
