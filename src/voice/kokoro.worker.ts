@@ -2,6 +2,7 @@ import { KokoroTTS } from '@uzen/kokoro-js';
 import { env, type ProgressInfo } from '@huggingface/transformers';
 import ortFactory from 'onnxruntime-web/ort-wasm-simd-threaded.asyncify.mjs?url';
 import ortWasm from 'onnxruntime-web/ort-wasm-simd-threaded.asyncify.wasm?url';
+import { cacheKokoroWeights, KOKORO_CACHE } from './kokoroWeights';
 import {
   KOKORO_MODEL, KOKORO_REVISION, KOKORO_VOICES, KOKORO_VOICE_PATH, usableKokoroAudio,
   type KokoroBackend, type KokoroReply, type KokoroRequest,
@@ -59,7 +60,7 @@ const prepare = async (request: Extract<KokoroRequest, { type: 'prepare' }>): Pr
   env.remoteHost = 'https://huggingface.co/';
   env.remotePathTemplate = `{model}/resolve/${KOKORO_REVISION}/`;
   env.useBrowserCache = typeof caches !== 'undefined';
-  env.cacheKey = 'skimmer-kokoro-zh-mixed-v1';
+  env.cacheKey = KOKORO_CACHE;
   env.useWasmCache = false;
   if (env.backends.onnx.wasm) {
     env.backends.onnx.wasm.numThreads = 1;
@@ -68,18 +69,30 @@ const prepare = async (request: Extract<KokoroRequest, { type: 'prepare' }>): Pr
   }
   worker.postMessage({ type: 'progress', id: request.id, backend, percent: null });
   let lastUpdate = -Infinity;
+  let lastPercent = 0;
+  const modelBackend = backend;
+  const reportProgress = (percent: number): void => {
+    lastPercent = Math.max(lastPercent, Math.min(100, Math.round(percent)));
+    worker.postMessage({ type: 'progress', id: request.id, backend: modelBackend, percent: lastPercent });
+  };
   const progress_callback = (progress: ProgressInfo) => {
-    if (progress.status !== 'progress' || !progress.file.endsWith('.onnx') || performance.now() - lastUpdate < 220 || !backend) return;
+    if (progress.status !== 'progress' || !progress.file.endsWith('.onnx') || !Number.isFinite(progress.progress)
+        || performance.now() - lastUpdate < 220) return;
     lastUpdate = performance.now();
-    worker.postMessage({ type: 'progress', id: request.id, backend,
-      percent: Number.isFinite(progress.progress) ? Math.min(100, Math.round(progress.progress)) : null });
+    reportProgress(progress.progress);
   };
   try {
-    const [loaded] = await Promise.all([KokoroTTS.from_pretrained(KOKORO_MODEL, {
-      device: backend, dtype: 'fp16',
-      voicePath: KOKORO_VOICE_PATH,
-      progress_callback,
-    }), cacheVoices().catch(() => { /* Kokoro can fetch an uncached voice on demand. */ })]);
+    const loadModel = async () => {
+      try {
+        await cacheKokoroWeights(reportProgress);
+      } catch (error) {
+        throw new Error(`Kokoro download: ${error instanceof Error ? error.message : 'asset unavailable'}`);
+      }
+      return KokoroTTS.from_pretrained(KOKORO_MODEL, {
+        device: modelBackend, dtype: 'fp16', voicePath: KOKORO_VOICE_PATH, progress_callback,
+      });
+    };
+    const [loaded] = await Promise.all([loadModel(), cacheVoices().catch(() => { /* An uncached voice can load on demand. */ })]);
     model = loaded;
     worker.postMessage({ type: 'ready', id: request.id, backend, loadMs: performance.now() - started, device: deviceName });
   } catch (error) {

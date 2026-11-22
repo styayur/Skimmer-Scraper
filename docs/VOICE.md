@@ -35,6 +35,8 @@ line through the end of playback.
   Compatible hardware WebGPU with `shader-f16` runs the 177 MB mixed-precision
   weights. There is also a 27 MB runtime and
   about 0.5 MB per Kokoro voice. The first use needs internet access.
+  Where supported, the browser downloads the weights in at most six ranges at
+  once, verifies the pinned SHA-256 and stores the complete file in its cache.
   The browser can cache the downloads for later use. **卸载模型** frees the
   inference Worker while leaving the cache available. The Worker also exits
   after 45 seconds idle. Download or inference failure can fall back to local
