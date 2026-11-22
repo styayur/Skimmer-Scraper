@@ -2,11 +2,19 @@
 
 Open **World** (`G`) and expand **Local GLB worlds**. Choose or drop a self-contained glTF 2.0 GLB, analyze it, and enable it. The title screen then opens with the chosen scene ready for a new run. Edit scale, up axis and yaw before enabling. The analysis shows the automatic spawn coordinates. Use manual coordinates to start inside a street or below a bridge. The game rejects spawn points with insufficient clearance along the first 22 m of flight.
 
-The model can stay available for the session or be saved in the browser. After reload, open the saved world from the library. Procedural share links still select the indicated procedural seed. World files, settings and save manifests never leave the browser. Draco and KTX2 decoder binaries come from the same deployment. Meshopt is loaded with the import code.
+The model can stay available for the session or be saved in the browser. Procedural share links still select the indicated procedural seed. World files, settings and save manifests stay on the device. Draco and KTX2 decoder binaries come from the same deployment. Meshopt is loaded with the import code.
+
+## Variants and seeds
+
+- **生成新变体** prepares another playable layout from the current GLB. When the source file is saved, refreshing the current tab or opening an unlocked world from the library also generates a new layout.
+- **保留当前世界** saves the original GLB and current layout for later. Refresh the tab or open the saved world to replay that layout.
+- **复制种子** copies one code for the active layout. Paste it into **输入种子** and choose **使用种子** or **生成并重载**. If this browser lacks the source, choose the matching GLB and analyze it. The app checks the file's SHA-256 against the code and applies the saved import settings.
+
+Separable static pieces can change height, placement and orientation. Connected assemblies such as bridge decks and piers stay together. A merged mesh or a scene with active motion uses a bounded scene-wide change to scale, heading and approach. Static and moving colliders are built from the resulting scene. Variant approaches check clearance along the first 60 m, including sampled moving geometry over the first second. If a generated variant falls outside the import bounds or lacks a safe approach, the app opens the original layout. Numeric and text seeds still generate procedural cities.
 
 ## Collision and proximity
 
-The visual scene retains its original meshes and materials. The import builds local triangle indices after applying the scene scale, rotation and origin. The finite world has complete collision coverage and uses no chunk streaming or Sky Inversion. Free Flight can continue beyond the scene. Challenge still uses the ordinary proximity range and grace timer. Saved records for imported scenes have their own score keys.
+The visual scene retains its original meshes and materials. The import builds local triangle indices after applying the selected layout, scale, rotation and origin. The finite world has complete collision coverage and uses no chunk streaming or Sky Inversion. Free Flight can continue beyond the scene. Challenge still uses the ordinary proximity range and grace timer. Saved records for each imported layout have their own score keys.
 
 | Mesh role | Collision | Proximity and Surface Relay |
 | --- | --- | --- |

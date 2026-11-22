@@ -3,6 +3,7 @@ import { WORLD_IMPORT_LIMITS as limits, type WorldManifest } from './worldManife
 interface SavedWorld {
   manifest: WorldManifest;
   savedAt: number;
+  keptVariant?: number;
 }
 
 const manifests = 'manifests';
@@ -30,7 +31,7 @@ export class WorldResourceManager {
     return entries.sort((a, b) => b.savedAt - a.savedAt).map(entry => entry.manifest);
   }
 
-  public async get(id: string): Promise<{ manifest: WorldManifest; data: ArrayBuffer } | null> {
+  public async get(id: string): Promise<{ manifest: WorldManifest; data: ArrayBuffer; keptVariant?: number } | null> {
     const db = await this.open();
     const transaction = db.transaction([manifests, files], 'readonly');
     const [entry, data] = await Promise.all([
@@ -38,10 +39,10 @@ export class WorldResourceManager {
       result<ArrayBuffer | undefined>(transaction.objectStore(files).get(id)),
       complete(transaction),
     ]);
-    return entry && data ? { manifest: entry.manifest, data } : null;
+    return entry && data ? { manifest: entry.manifest, data, keptVariant: entry.keptVariant } : null;
   }
 
-  public async save(manifest: WorldManifest, data: ArrayBuffer): Promise<void> {
+  public async save(manifest: WorldManifest, data: ArrayBuffer, keptVariant?: number): Promise<void> {
     const db = await this.open();
     const transaction = db.transaction([manifests, files], 'readwrite');
     const store = transaction.objectStore(manifests);
@@ -53,7 +54,7 @@ export class WorldResourceManager {
         transaction.abort();
         throw new Error('本地世界库已满，最多保存 6 个世界和 256 MB 的 GLB。');
       }
-      store.put({ manifest, savedAt: Date.now() } satisfies SavedWorld, manifest.id);
+      store.put({ manifest, savedAt: Date.now(), keptVariant } satisfies SavedWorld, manifest.id);
       transaction.objectStore(files).put(data, manifest.id);
     })]);
   }

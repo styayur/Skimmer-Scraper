@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import type { DrivenMesh, ImportedMotion } from './importedMotion';
+import { applyImportedVariant, type VariantLayout } from './worldVariantLayout';
 import {
   isWorldRole, validateWorldOptions, WORLD_IMPORT_LIMITS as limits, type WorldImportOptions, type WorldMeshRole, type WorldRole,
 } from './worldManifest';
@@ -16,6 +17,7 @@ export interface AnalyzedWorldScene {
   meshRoles: WorldMeshRole[];
   dynamic: DrivenMesh[];
   collisionTriangles: number;
+  variant?: VariantLayout;
 }
 
 const inferRole = (object: THREE.Object3D): WorldRole => {
@@ -28,7 +30,10 @@ const inferRole = (object: THREE.Object3D): WorldRole => {
 };
 
 /** Keep the GLB materials and scene hierarchy while baking the currently visible triangle positions. */
-export const analyzeWorldScene = (scene: THREE.Group, options: WorldImportOptions, motion?: ImportedMotion): AnalyzedWorldScene => {
+export const analyzeWorldScene = (
+  scene: THREE.Group, options: WorldImportOptions, motion?: ImportedMotion,
+  variant?: { fingerprint: string; seed: number },
+): AnalyzedWorldScene => {
   validateWorldOptions(options);
   const root = new THREE.Group();
   root.name = 'local-world';
@@ -86,6 +91,7 @@ export const analyzeWorldScene = (scene: THREE.Group, options: WorldImportOption
 
   root.updateMatrixWorld(true);
   const sourceBounds = new THREE.Box3();
+  const solidMeshes: Array<{ mesh: THREE.Mesh; localBounds: THREE.Box3; bounds: THREE.Box3 }> = [];
   for (const { mesh, role } of meshes) {
     if (role === 'DECORATION') continue;
     const localBounds = new THREE.Box3();
@@ -98,12 +104,26 @@ export const analyzeWorldScene = (scene: THREE.Group, options: WorldImportOption
       const attribute = mesh.geometry.getAttribute('position');
       for (let i = 0; i < attribute.count; i++) localBounds.expandByPoint(mesh.getVertexPosition(i, point));
     }
-    sourceBounds.union(localBounds.applyMatrix4(mesh.matrixWorld));
+    const bounds = localBounds.clone().applyMatrix4(mesh.matrixWorld);
+    sourceBounds.union(bounds);
+    solidMeshes.push({ mesh, localBounds, bounds });
   }
-  const size = sourceBounds.getSize(new THREE.Vector3());
-  const span = Math.max(size.x, size.y, size.z);
-  if (!Number.isFinite(span) || span < 0.05 || span > limits.dimension) {
-    throw new Error('转换后的场景尺寸无效或超过 12000 米，请调整比例。');
+  const validateBounds = (): void => {
+    const size = sourceBounds.getSize(new THREE.Vector3());
+    const span = Math.max(size.x, size.y, size.z);
+    if (!Number.isFinite(span) || span < 0.05 || span > limits.dimension) {
+      throw new Error('转换后的场景尺寸无效或超过 12000 米，请调整比例。');
+    }
+  };
+  validateBounds();
+  const preserveMotion = meshes.some(({ mesh }) => mesh instanceof THREE.SkinnedMesh || mesh.morphTargetInfluences?.length)
+    || meshRoles.some(role => role.motion) || !!motion?.clips.length && options.motion?.clip !== -1;
+  const layout = variant && applyImportedVariant(scene, root, solidMeshes, sourceBounds,
+    variant.fingerprint, variant.seed, preserveMotion);
+  if (layout) {
+    sourceBounds.makeEmpty();
+    for (const { mesh, localBounds, bounds } of solidMeshes) sourceBounds.union(bounds.copy(localBounds).applyMatrix4(mesh.matrixWorld));
+    validateBounds();
   }
   const center = sourceBounds.getCenter(new THREE.Vector3());
   root.position.set(-center.x, -sourceBounds.min.y, -center.z);
@@ -156,7 +176,7 @@ export const analyzeWorldScene = (scene: THREE.Group, options: WorldImportOption
   };
   return { root, surfaces: collisionGeometry(positions.SURFACE), obstacles: collisionGeometry(positions.OBSTACLE),
     bounds: sourceBounds.translate(root.position), nodes, triangles: vertices / 3, materials: materials.size, textures: textures.size,
-    meshRoles, dynamic, collisionTriangles: solidTriangles };
+    meshRoles, dynamic, collisionTriangles: solidTriangles, ...(layout ? { variant: layout } : {}) };
 };
 
 /** A glTF can share its geometry, materials and decoded images between primitives and scenes. */

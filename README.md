@@ -15,7 +15,8 @@ Stable builds are deployed to Pages by a manual run from `main`. GitHub
 Releases provides the verified build and its corresponding source.
 
 The seeded city mixes tower canyons, stacked bridges and floating districts.
-Static and animated GLB worlds can be imported from your device. A climb
+Static and animated GLB worlds can be imported from your device. Generate a
+fresh layout or keep it with a single portable seed and the original GLB. A climb
 through **520 m** can lead to the next sky, carrying the aircraft's bank and
 camera into the dive. The distant mirrored skyline changes with each world.
 Five arrivals reveal a light sculpture and signature. [World generation](docs/WORLD.md) · [World import](docs/WORLD-IMPORT.md) · [Moving structures](docs/DYNAMIC-WORLD.md)

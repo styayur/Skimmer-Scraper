@@ -1,6 +1,7 @@
 import { BoxGeometry, CylinderGeometry, type BufferGeometry } from 'three';
+import { mergeGeometries } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 
-export type WorldFixture = 'building' | 'arches' | 'detailed' | 'animated';
+export type WorldFixture = 'building' | 'arches' | 'detailed' | 'animated' | 'variants' | 'merged';
 
 export const encodeGlb = (metadata: object, bytes = Buffer.alloc(0)): Buffer => {
   const json = Buffer.from(JSON.stringify(metadata), 'utf8');
@@ -45,6 +46,23 @@ export const createWorldFixture = (style: WorldFixture, withExternalUri = false)
       indices: attribute(geometry.index!.array as Uint16Array, 'SCALAR', 1),
     };
   };
+  const asset = { version: '2.0', generator: 'Skimmer-Scraper original world fixtures' };
+  if (style === 'merged') {
+    const source = [
+      new BoxGeometry(200, 1, 240).translate(0, 0.5, 0),
+      new BoxGeometry(20, 66, 24).translate(50, 33, -36),
+      new BoxGeometry(30, 42, 32).translate(-50, 21, -32),
+      new BoxGeometry(25, 8, 40).translate(-58, 22, 38),
+    ];
+    const merged = mergeGeometries(source);
+    const mesh = primitive(merged);
+    for (const geometry of [...source, merged]) geometry.dispose();
+    const data = Buffer.concat(parts);
+    return encodeGlb({
+      asset, scene: 0, scenes: [{ nodes: [0] }], nodes: [{ name: 'Single joined mesh', mesh: 0 }],
+      meshes: [{ primitives: [mesh] }], accessors, bufferViews: views, buffers: [{ byteLength: data.length }],
+    }, data);
+  }
   const box = primitive(new BoxGeometry(1, 1, 1));
   const tower = style === 'detailed' ? primitive(new CylinderGeometry(0.33, 0.5, 1, 72, 12)) : box;
   const meshes = [box, box, box, box, tower].map((mesh, material) => ({ primitives: [{ ...mesh, material }] }));
@@ -68,6 +86,14 @@ export const createWorldFixture = (style: WorldFixture, withExternalUri = false)
       add(`Faceted tower ${row}-${column}`, 4, [(column - 3.5) * 29, height / 2, -36 - row * 23], [17, height, 17]);
     }
   }
+  if (style === 'variants') {
+    add('North lantern', 4, [97, 45, -96], [24, 90, 32]);
+    add('West terrace', 1, [-99, 31, -92], [28, 62, 26]);
+    add('East harbor', 2, [91, 15, 54], [33, 30, 36]);
+    add('Emerald floating garden', 1, [-75, 51, 62], [36, 9, 33]);
+    add('Rose floating garden', 4, [49, 57, 80], [35, 11, 28]);
+    add('West apartment', 2, [-98, 35, 103], [24, 70, 22]);
+  }
   const animations = [];
   if (style === 'animated') {
     const lift = add('Lift', 1, [78, 9, 30], [14, 10, 18]);
@@ -81,7 +107,7 @@ export const createWorldFixture = (style: WorldFixture, withExternalUri = false)
     pbrMetallicRoughness: { baseColorFactor, metallicFactor: 0.15, roughnessFactor: 0.66 },
   }));
   return encodeGlb({
-    asset: { version: '2.0', generator: 'Skimmer-Scraper original world fixtures' },
+    asset,
     scene: 0, scenes: [{ nodes: nodes.map((_, index) => index) }], nodes, meshes, materials, animations,
     accessors, bufferViews: views, buffers: [{ byteLength: data.length, ...(withExternalUri ? { uri: 'https://example.invalid/scene.bin' } : {}) }],
   }, data);
