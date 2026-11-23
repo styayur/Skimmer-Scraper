@@ -1,0 +1,24 @@
+{
+  "phase": "PR1",
+  "status": "TESTED",
+  "platform": "Windows x64 / WebView2",
+  "source": "f85fcd9406589179c43bfcbf69a9b1aba56bc057",
+  "version": "0.8.0-dev.1",
+  "installer": {
+    "authenticode": "NotSigned",
+    "type": "current-user NSIS",
+    "sha256": "6ac4519d750bf4b9baa7f6d50d8defa76c3ad39d3dda8c315bbecccb4a70930d",
+    "installVolume": "E:"
+  },
+  "renderer": "AMD Radeon 780M / D3D11",
+  "smoke": "evidence/v0.8/pr1/desktop-smoke.json",
+  "screenshot": "evidence/v0.8/pr1/city-webview2.png",
+  "unverified": [
+    "real controller input",
+    "Kokoro inference in WebView2",
+    "DeepSeek voice in WebView2",
+    "real microphone in WebView2",
+    "desktop world crossing",
+    "uninstall data retention"
+  ]
+}
