@@ -30,7 +30,8 @@ test('minimal live title, guide and keyboard navigation', async ({ page }, testI
   await expect(closeHelp).toBeFocused();
   await page.keyboard.press('Tab');
   await expect(page.getByRole('button', { name: '游戏菜单' })).toBeFocused();
-  await expect(page.locator('#guide-content section')).toHaveCount(19);
+  await expect(page.locator('#guide-content section')).toHaveCount(20);
+  await expect(page.locator('section:has(> #guide-dragon)')).toContainText('world-pack.json');
   expect(await page.locator('button[data-help-section]').evaluateAll(buttons => buttons
     .map(button => (button as HTMLButtonElement).dataset.helpSection!)
     .filter(id => !document.getElementById(id)))).toEqual([]);
