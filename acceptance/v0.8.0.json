@@ -1,548 +1,783 @@
 {
-  "targetVersion": "0.8.0",
-  "reportScope": "RC2 qualification snapshot. Production observations and gate status below refer to the snapshot date.",
-  "finalAcceptanceReport": "https://github.com/styayur/Skimmer-Scraper/releases/download/v0.8.0/v0.8.0.json",
-  "status": "BLOCKED",
-  "evaluatedOn": "2026-11-23",
-  "timeZone": "Asia/Singapore",
-  "finalMainCommit": null,
-  "observedMainCommit": "773a831a17d390bc2aeec466820ae1e31c218b9e",
+  "version": "0.8.0",
+  "sourceCommit": "4fb542fc8081dc99cbcbc0919bb174272d90d4e9",
+  "finalMainCommit": "4fb542fc8081dc99cbcbc0919bb174272d90d4e9",
+  "sourceUrl": "https://github.com/styayur/Skimmer-Scraper/tree/4fb542fc8081dc99cbcbc0919bb174272d90d4e9",
+  "asOf": "2026-11-23T16:09:36+00:00",
+  "status": "RELEASED",
   "pullRequests": [
     {
+      "baseRefName": "main",
+      "headRefOid": "09a553e6dbb1d382346424888271c75b2434f7a8",
+      "mergeCommit": {
+        "oid": "70b6dc17d42c064c27a58b97136198f4a3079dc0"
+      },
+      "mergedAt": "2026-11-23T12:53:45Z",
+      "number": 49,
+      "state": "MERGED",
       "url": "https://github.com/styayur/Skimmer-Scraper/pull/49",
-      "scope": "Tauri desktop foundation"
+      "checks": [
+        {
+          "name": "enable",
+          "conclusion": "SKIPPED",
+          "url": "https://github.com/styayur/Skimmer-Scraper/actions/runs/45158834979/job/137638665597"
+        },
+        {
+          "name": "security Actions CodeQL",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/styayur/Skimmer-Scraper/actions/runs/45158835001/job/137638662065"
+        },
+        {
+          "name": "Chromium shard 1/3",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/styayur/Skimmer-Scraper/actions/runs/45158837734/job/137638674227"
+        },
+        {
+          "name": "enable",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/styayur/Skimmer-Scraper/actions/runs/45178584506/job/137706175799"
+        },
+        {
+          "name": "windows",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/styayur/Skimmer-Scraper/actions/runs/45158835206/job/137638662087"
+        },
+        {
+          "name": "Chromium shard 2/3",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/styayur/Skimmer-Scraper/actions/runs/45158837734/job/137638674291"
+        },
+        {
+          "name": "Chromium shard 3/3",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/styayur/Skimmer-Scraper/actions/runs/45158837734/job/137638674081"
+        },
+        {
+          "name": "Typecheck, unit tests, build, browser tests",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/styayur/Skimmer-Scraper/actions/runs/45158837734/job/137647845936"
+        },
+        {
+          "name": "CodeQL",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/styayur/Skimmer-Scraper/runs/137638951869"
+        }
+      ]
     },
     {
+      "baseRefName": "main",
+      "headRefOid": "33bc0ef2bf6d4cb041c31783d4603bccc6c13fd2",
+      "mergeCommit": {
+        "oid": "8b87f3b689fce8bd03fbc99e502b546247a92404"
+      },
+      "mergedAt": "2026-11-23T13:17:42Z",
+      "number": 50,
+      "state": "MERGED",
       "url": "https://github.com/styayur/Skimmer-Scraper/pull/50",
-      "scope": "Local GLB library"
+      "checks": [
+        {
+          "name": "enable",
+          "conclusion": "SKIPPED",
+          "url": "https://github.com/styayur/Skimmer-Scraper/actions/runs/45178765349/job/137706858273"
+        },
+        {
+          "name": "security Actions CodeQL",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/styayur/Skimmer-Scraper/actions/runs/45178765518/job/137706790973"
+        },
+        {
+          "name": "Chromium shard 1/3",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/styayur/Skimmer-Scraper/actions/runs/45178765579/job/137706791659"
+        },
+        {
+          "name": "enable",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/styayur/Skimmer-Scraper/actions/runs/45178775184/job/137706824854"
+        },
+        {
+          "name": "windows",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/styayur/Skimmer-Scraper/actions/runs/45178765466/job/137706790404"
+        },
+        {
+          "name": "Chromium shard 2/3",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/styayur/Skimmer-Scraper/actions/runs/45178765579/job/137706792245"
+        },
+        {
+          "name": "Chromium shard 3/3",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/styayur/Skimmer-Scraper/actions/runs/45178765579/job/137706792112"
+        },
+        {
+          "name": "Typecheck, unit tests, build, browser tests",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/styayur/Skimmer-Scraper/actions/runs/45178765579/job/137719301836"
+        },
+        {
+          "name": "CodeQL",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/styayur/Skimmer-Scraper/runs/137707030303"
+        }
+      ]
     },
     {
+      "baseRefName": "main",
+      "headRefOid": "53834d90a4846f7ebf3a7263dbdc1f8fd1d312ae",
+      "mergeCommit": {
+        "oid": "828f61509291f648f5ed2abaa4ab87088972105e"
+      },
+      "mergedAt": "2026-11-23T13:49:51Z",
+      "number": 51,
+      "state": "MERGED",
       "url": "https://github.com/styayur/Skimmer-Scraper/pull/51",
-      "scope": "Streaming, Dragonspine Realm, living dragons and cinematic transitions"
+      "checks": [
+        {
+          "name": "enable",
+          "conclusion": "SKIPPED",
+          "url": "https://github.com/styayur/Skimmer-Scraper/actions/runs/45182638728/job/137720073353"
+        },
+        {
+          "name": "security Actions CodeQL",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/styayur/Skimmer-Scraper/actions/runs/45182638858/job/137720071506"
+        },
+        {
+          "name": "Chromium shard 1/3",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/styayur/Skimmer-Scraper/actions/runs/45182638844/job/137720131737"
+        },
+        {
+          "name": "enable",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/styayur/Skimmer-Scraper/actions/runs/45182645037/job/137720092734"
+        },
+        {
+          "name": "windows",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/styayur/Skimmer-Scraper/actions/runs/45182638901/job/137720071570"
+        },
+        {
+          "name": "Chromium shard 2/3",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/styayur/Skimmer-Scraper/actions/runs/45182638844/job/137720132004"
+        },
+        {
+          "name": "Chromium shard 3/3",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/styayur/Skimmer-Scraper/actions/runs/45182638844/job/137720132076"
+        },
+        {
+          "name": "Typecheck, unit tests, build, browser tests",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/styayur/Skimmer-Scraper/actions/runs/45182638844/job/137737281947"
+        },
+        {
+          "name": "CodeQL",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/styayur/Skimmer-Scraper/runs/137720393057"
+        }
+      ]
     },
     {
+      "baseRefName": "main",
+      "headRefOid": "0dc99a13534a95d119505067332be33d9c607694",
+      "mergeCommit": {
+        "oid": "2537523112d73a84c6984c91e9388927734cd347"
+      },
+      "mergedAt": "2026-11-23T14:21:31Z",
+      "number": 52,
+      "state": "MERGED",
       "url": "https://github.com/styayur/Skimmer-Scraper/pull/52",
-      "scope": "Frozen dual-platform release candidate"
+      "checks": [
+        {
+          "name": "enable",
+          "conclusion": "SKIPPED",
+          "url": "https://github.com/styayur/Skimmer-Scraper/actions/runs/45187888292/job/137738260006"
+        },
+        {
+          "name": "security Actions CodeQL",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/styayur/Skimmer-Scraper/actions/runs/45187888313/job/137738168848"
+        },
+        {
+          "name": "Chromium shard 1/3",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/styayur/Skimmer-Scraper/actions/runs/45187888376/job/137738167984"
+        },
+        {
+          "name": "enable",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/styayur/Skimmer-Scraper/actions/runs/45187908312/job/137738238869"
+        },
+        {
+          "name": "windows",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/styayur/Skimmer-Scraper/actions/runs/45187887960/job/137738166996"
+        },
+        {
+          "name": "Chromium shard 2/3",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/styayur/Skimmer-Scraper/actions/runs/45187888376/job/137738168744"
+        },
+        {
+          "name": "Chromium shard 3/3",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/styayur/Skimmer-Scraper/actions/runs/45187888376/job/137738168654"
+        },
+        {
+          "name": "Typecheck, unit tests, build, browser tests",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/styayur/Skimmer-Scraper/actions/runs/45187888376/job/137756431157"
+        },
+        {
+          "name": "CodeQL",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/styayur/Skimmer-Scraper/runs/137738492736"
+        }
+      ]
     },
     {
+      "baseRefName": "main",
+      "headRefOid": "15956413a75caa1283b4f63e5ef4e7aa39703e90",
+      "mergeCommit": {
+        "oid": "4fb542fc8081dc99cbcbc0919bb174272d90d4e9"
+      },
+      "mergedAt": "2026-11-23T14:52:52Z",
+      "number": 53,
+      "state": "MERGED",
       "url": "https://github.com/styayur/Skimmer-Scraper/pull/53",
-      "scope": "Integration, performance and release acceptance"
-    }
-  ],
-  "web": {
-    "production": {
-      "version": "0.7.0",
-      "sourceCommit": "773a831a17d390bc2aeec466820ae1e31c218b9e",
-      "status": "VERIFIED LIVE WEB",
-      "url": "https://styayur.github.io/Skimmer-Scraper/build-info.json"
-    },
-    "candidate": {
-      "version": "0.8.0-rc.2",
-      "sourceCommit": "322ecad6b72976fb80863163640a63e51196843c",
-      "scope": "Headless Chromium / SwiftShader; extracted static ZIP under /Skimmer-Scraper/, tested city and Dragonspine",
-      "evidence": "evidence/v0.8/rc2/static-subpath.json"
-    },
-    "finalDeploymentSha": null
-  },
-  "desktop": {
-    "version": "0.8.0-rc.2",
-    "sourceCommit": "322ecad6b72976fb80863163640a63e51196843c",
-    "status": "VERIFIED WINDOWS DESKTOP",
-    "evidence": "evidence/v0.8/rc2/desktop-smoke.json",
-    "tauri": "2.12.7",
-    "rust": "1.98.1",
-    "webView2": "157.0.4341.60",
-    "os": "Windows 11 x64 build 26300",
-    "gpu": "AMD Radeon 780M, ANGLE Direct3D11",
-    "finalBuildSha": null,
-    "windowControls": {
-      "osEscapeWithCapturedPointer": "paused and released pointer",
-      "minimize": "paused",
-      "restoreAndResume": "running",
-      "evidence": "evidence/v0.8/rc2/os-window.json"
-    },
-    "portable": {
-      "version": "0.8.0-rc.2",
-      "evidence": "evidence/v0.8/rc2/portable/portable-verification.json",
-      "requires": "Windows x64 with WebView2 installed. Player data remains in the per-user app data directory."
-    }
-  },
-  "installation": {
-    "evidence": "evidence/v0.8/rc2/install.json",
-    "currentUser": true,
-    "volume": "E:",
-    "installed": true,
-    "launched": true,
-    "closedNormally": true,
-    "developmentUninstallVerified": true,
-    "preservedUserDatabase": true,
-    "rcUninstallVerified": true,
-    "reinstalledFromPublicDownload": true,
-    "originalWorldRecoveredAfterReinstall": true,
-    "rcUninstallEvidence": "evidence/v0.8/rc2/portable/portable-verification.json",
-    "previousCandidateEvidence": "evidence/v0.8/rc1/install.json"
-  },
-  "automation": {
-    "unit": {
-      "rc1Passed": 196,
-      "rc2RequiredCiPassed": 197,
-      "qualificationWithOptionalHighPackPassed": 198
-    },
-    "native": {
-      "runner": "cargo test --release",
-      "passed": 3
-    },
-    "localBrowser": {
-      "runner": "Playwright Headless Chromium, SwiftShader",
-      "realmAndLegacyJourneyPassed": 4,
-      "postCandidateKokoroPassed": 2,
-      "qualificationNavigationPassed": 1,
-      "integration": {
-        "status": "TESTED",
-        "sourceCommit": "297642981afa480f99a3d13a7822f02bc34ed7bd",
-        "scope": "Full local pre-RC2 integration suite before the OS pointer-lock fix",
-        "runtime": "Playwright headless Chromium / SwiftShader",
-        "passed": 48,
-        "failed": 0,
-        "durationMinutes": 19.5,
-        "evidence": "evidence/v0.8/rc2/local-integration.json"
-      }
-    },
-    "remoteWindows": {
-      "prs": [
-        49,
-        50,
-        51,
-        52
-      ],
-      "result": "passed",
-      "rc2": "322ecad6b72976fb80863163640a63e51196843c"
-    },
-    "remoteBrowser": {
-      "allRequiredPassed": [
-        49,
-        50
-      ],
-      "frozenCandidateFailure": "Tutorial section-count assertion expected 19 after Dragonspine added section 20",
-      "correction": "1b4030e4e9114a854c882251c48970a68085cfd5",
-      "correctedTargetedRegression": "passed",
-      "qualificationPr": 53,
-      "candidateCi": {
-        "pr": "https://github.com/styayur/Skimmer-Scraper/pull/53",
-        "candidateHead": "322ecad6b72976fb80863163640a63e51196843c",
-        "method": "GitHub pull request merge checks against the stacked base",
-        "checks": [
-          {
-            "bucket": "pass",
-            "link": "https://github.com/styayur/Skimmer-Scraper/actions/runs/45169404507/job/137686611832",
-            "name": "Typecheck, unit tests, build, browser tests"
-          },
-          {
-            "bucket": "pass",
-            "link": "https://github.com/styayur/Skimmer-Scraper/actions/runs/45169404507/job/137675079452",
-            "name": "Chromium shard 1/3"
-          },
-          {
-            "bucket": "pass",
-            "link": "https://github.com/styayur/Skimmer-Scraper/actions/runs/45169404507/job/137675079028",
-            "name": "Chromium shard 2/3"
-          },
-          {
-            "bucket": "pass",
-            "link": "https://github.com/styayur/Skimmer-Scraper/actions/runs/45169404507/job/137675079509",
-            "name": "Chromium shard 3/3"
-          },
-          {
-            "bucket": "pass",
-            "link": "https://github.com/styayur/Skimmer-Scraper/runs/137674992201",
-            "name": "CodeQL"
-          },
-          {
-            "bucket": "pass",
-            "link": "https://github.com/styayur/Skimmer-Scraper/actions/runs/45169404409/job/137674690234",
-            "name": "windows"
-          },
-          {
-            "bucket": "pass",
-            "link": "https://github.com/styayur/Skimmer-Scraper/actions/runs/45169404443/job/137674690226",
-            "name": "security Actions CodeQL"
-          },
-          {
-            "bucket": "skipping",
-            "link": "https://github.com/styayur/Skimmer-Scraper/actions/runs/45169404319/job/137674693609",
-            "name": "enable"
-          }
-        ],
-        "requiredResults": {
-          "unitPassed": 197,
-          "unitFiles": 33,
-          "windowsRustPassed": 3,
-          "windowsRustFailed": 0,
-          "nsisBuild": "passed",
-          "chromiumShardsPassed": 3
-        }
-      }
-    },
-    "fullQualification": false
-  },
-  "baseline": {
-    "version": "0.7.0",
-    "device": "780M / 1080p / Balanced / three companions",
-    "shortFps": 107.8,
-    "longFps": 102.8,
-    "bufferEvents": 31,
-    "bufferSeconds": 4.79
-  },
-  "browserPerformance": {
-    "status": "TESTED",
-    "protocol": "Headed Edge / 780M / candidate static build served locally",
-    "matrix": "evidence/v0.8/rc1/browser-matrix.json",
-    "scope": "Seed 334458, 1080p, 12 seconds per condition, scripted yaw and boost, all 0–3 companions",
-    "qualityFps": {
-      "city": {
-        "balanced": [
-          93.6,
-          88.58,
-          92.27,
-          87.36
-        ],
-        "high": [
-          94.52,
-          88.77,
-          94.19,
-          91.52
-        ]
-      },
-      "dragon": {
-        "balanced": [
-          118.67,
-          119.25,
-          117.75,
-          111.01
-        ],
-        "high": [
-          112.09,
-          119.42,
-          112.92,
-          118.84
-        ]
-      }
-    },
-    "matchedCityControl": {
-      "method": "Balanced, three companions, local clean archived v0.7.0 and RC1, same machine and scripted route, alternating ABBA order",
-      "runs": [
+      "checks": [
         {
-          "version": "0.7.0",
-          "sourceCommit": "773a831a17d390bc2aeec466820ae1e31c218b9e",
-          "fps": 89.607,
-          "evidence": "evidence/v0.8/rc1/paired-city-0.json"
+          "name": "enable",
+          "conclusion": "SKIPPED",
+          "url": "https://github.com/styayur/Skimmer-Scraper/actions/runs/45193416981/job/137757429731"
         },
         {
-          "version": "0.8.0-rc.1",
-          "sourceCommit": "c499b443195e810e6c42f5f74be7f1cb12d33d75",
-          "fps": 89.024,
-          "evidence": "evidence/v0.8/rc1/paired-city-1.json"
+          "name": "security Actions CodeQL",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/styayur/Skimmer-Scraper/actions/runs/45193417062/job/137757423837"
         },
         {
-          "version": "0.8.0-rc.1",
-          "sourceCommit": "c499b443195e810e6c42f5f74be7f1cb12d33d75",
-          "fps": 91.189,
-          "evidence": "evidence/v0.8/rc1/paired-city-2.json"
+          "name": "Chromium shard 1/3",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/styayur/Skimmer-Scraper/actions/runs/45193417009/job/137757424979"
         },
         {
-          "version": "0.7.0",
-          "sourceCommit": "773a831a17d390bc2aeec466820ae1e31c218b9e",
-          "fps": 87.858,
-          "evidence": "evidence/v0.8/rc1/paired-city-3.json"
-        }
-      ],
-      "meanFps": {
-        "0.7.0": 88.733,
-        "0.8.0-rc.1": 90.106
-      }
-    },
-    "matrixBuild": "0.8.0-rc.1"
-  },
-  "desktopPerformance": {
-    "status": "VERIFIED WINDOWS DESKTOP",
-    "developmentMixedWorld": {
-      "requestedWallSeconds": 905,
-      "averageFps": 102.52,
-      "simSeconds": 815.56,
-      "dragonWindows": 14,
-      "totalWindows": 891,
-      "evidence": "evidence/v0.8/pr3/high-streaming.json"
-    },
-    "samplingNotes": "A full headless regression overlapped the RC2 long flight until approximately 20:09 SGT. Frame times varied across both builds in later short trials. These measurements cannot isolate the cause. Buffering between one-second state samples was not measured.",
-    "matrix": "evidence/v0.8/rc1/desktop-matrix.json",
-    "scope": "Seed 334458, 1080p, 12 seconds per condition, scripted yaw and boost, all 0–3 companions",
-    "qualityFps": {
-      "city": {
-        "balanced": [
-          97.1,
-          100.1,
-          96.1,
-          81.22
-        ],
-        "high": [
-          82.33,
-          103.93,
-          104.18,
-          104.18
-        ]
-      },
-      "dragon": {
-        "balanced": [
-          119.0,
-          115.34,
-          119.5,
-          113.17
-        ],
-        "high": [
-          115.67,
-          98.43,
-          119.34,
-          116.84
-        ]
-      }
-    },
-    "matrixBuild": "0.8.0-rc.1",
-    "rc1Soak": {
-      "realms": [
-        "Dragonspine Realm"
-      ],
-      "profile": "Balanced, 1920x1080, three companions, scripted boosted yaw, one initial pose",
-      "sampleWindows": 893,
-      "sampledSeconds": 895.7305,
-      "simulationSecondsFirstToLast": 900.1583,
-      "averageRenderedFps": 118.903,
-      "worstSampledFrameMs": 33.4,
-      "bufferingAtSampleBoundary": 0,
-      "detailPeak": 12,
-      "detailLoads": 1812,
-      "detailReleases": 1803,
-      "finalResident": 9,
-      "windowsWithHighDetail": 708,
-      "evidence": "evidence/v0.8/rc1/high-streaming.json",
-      "jsHeapMiB": {
-        "min": 20.42,
-        "max": 79.71,
-        "first": 58.22,
-        "last": 53.91
-      }
-    },
-    "soak": {
-      "version": "0.8.0-rc.2",
-      "sourceCommit": "322ecad6b72976fb80863163640a63e51196843c",
-      "profile": "Balanced, 1080p, three companions, 780M, Tauri WebView2, Dragonspine with high-detail pack",
-      "controller": "Scripted keyboard boost and yaw in the shipping flight loop, one initial pose at 290 m",
-      "requestedWallAndSimulationSeconds": 901,
-      "firstToLastSampleSimulationSeconds": 900.5,
-      "frameSampleSeconds": 891.928,
-      "sampledFrames": 54735,
-      "averageFps": 61.367,
-      "worstFrameMs": 91.6,
-      "sampleWindows": 884,
-      "windowsWithHighDetail": 698,
-      "bufferingAtSampleBoundary": 0,
-      "peakResident": 12,
-      "finalStreaming": {
-        "loaded": 1812,
-        "released": 1803,
-        "resident": 9,
-        "peak": 12,
-        "pending": 0,
-        "high": 3
-      },
-      "jsHeapMiB": {
-        "min": 19.94,
-        "max": 81.65,
-        "first": 38.16,
-        "last": 56.57
-      },
-      "evidence": "evidence/v0.8/rc2/high-streaming.json"
-    },
-    "shortPairedFlights": {
-      "method": "Same host, 18-second boosted route, same high-detail pack. Sequential RC1, RC2, RC2, RC1. RC1 executable extracted from its verified NSIS and RC2 installed. Display refresh 120 Hz.",
-      "trials": [
-        {
-          "version": "0.8.0-rc.1",
-          "averageFps": 75.814,
-          "worstFrameMs": 33.4,
-          "evidence": "evidence/v0.8/rc2/comparison-1/high-streaming.json"
+          "name": "enable",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/styayur/Skimmer-Scraper/actions/runs/45193429080/job/137757465860"
         },
         {
-          "version": "0.8.0-rc.2",
-          "averageFps": 120.628,
-          "worstFrameMs": 16.6,
-          "evidence": "evidence/v0.8/rc2/comparison-2/high-streaming.json"
+          "name": "windows",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/styayur/Skimmer-Scraper/actions/runs/45193417022/job/137757425191"
         },
         {
-          "version": "0.8.0-rc.2",
-          "averageFps": 73.033,
-          "worstFrameMs": 33.4,
-          "evidence": "evidence/v0.8/rc2/comparison-3/high-streaming.json"
+          "name": "Chromium shard 2/3",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/styayur/Skimmer-Scraper/actions/runs/45193417009/job/137757424786"
         },
         {
-          "version": "0.8.0-rc.1",
-          "averageFps": 120.712,
-          "worstFrameMs": 8.6,
-          "evidence": "evidence/v0.8/rc2/comparison-4/high-streaming.json"
+          "name": "Chromium shard 3/3",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/styayur/Skimmer-Scraper/actions/runs/45193417009/job/137757424157"
+        },
+        {
+          "name": "Typecheck, unit tests, build, browser tests",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/styayur/Skimmer-Scraper/actions/runs/45193417009/job/137776117656"
+        },
+        {
+          "name": "CodeQL",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/styayur/Skimmer-Scraper/runs/137757753301"
         }
       ]
     }
+  ],
+  "candidateHistory": {
+    "rc2Source": "322ecad6b72976fb80863163640a63e51196843c",
+    "immutableAcceptance": "https://github.com/styayur/Skimmer-Scraper/blob/961d04a5c4ca97e021faf16f610f5a3054936c12/acceptance/v0.8.0.json",
+    "rc1": "https://github.com/styayur/Skimmer-Scraper/releases/tag/v0.8.0-rc.1",
+    "rc2": "https://github.com/styayur/Skimmer-Scraper/releases/tag/v0.8.0-rc.2"
   },
-  "realm": {
-    "status": "IMPLEMENTED",
-    "description": "Seeded ridges, canyon, cloud sea, arches, floating islands, ruins, shrine, nest and broken bridges.",
-    "guide": "docs/dragonspine-realm.md",
-    "seed": 334458
-  },
-  "dragons": {
-    "status": "TESTED",
-    "model": "public/realms/dragonspine/bronze-crest.glb",
-    "modelLod": "public/realms/dragonspine/bronze-crest-far.glb",
-    "behaviors": [
-      "perch",
-      "takeoff",
-      "circling",
-      "dive",
-      "glide",
-      "landing"
-    ],
-    "nearCollisionProxies": 5,
-    "headedFlight": "evidence/v0.8/realm/web-flight.json",
-    "screenshot": "evidence/v0.8/realm/dragon-flight.png",
-    "motionSequence": "evidence/v0.8/rc1/motion/motion.json",
-    "wingbeat": "evidence/v0.8/rc1/motion/wingbeat.webp"
-  },
-  "streaming": {
-    "status": "VERIFIED WINDOWS DESKTOP",
-    "tileMeters": 220,
-    "maxInFlightDecodes": 1,
-    "maxResidentDetailTiles": 12,
-    "sharedCollision": "dragonspine-base-1",
-    "manifest": "public/realms/dragonspine/web/world-pack.json"
-  },
-  "highPack": {
-    "status": "VERIFIED WINDOWS DESKTOP",
-    "glbCount": 100,
-    "glbBytes": 161225960,
-    "evidence": "evidence/v0.8/rc2/high-streaming.json",
-    "extent": "100 tiles at seed 334458, continuous generated terrain outside this region",
-    "databaseUsageBytes": {
-      "installed": 161697792,
-      "removed": 32768
+  "web": {
+    "status": "VERIFIED LIVE WEB",
+    "entry": "https://styayur.github.io/Skimmer-Scraper/",
+    "metadata": {
+      "version": "0.8.0",
+      "sourceCommit": "4fb542fc8081dc99cbcbc0919bb174272d90d4e9",
+      "sourceCommitTime": "2026-11-23T22:52:51+08:00",
+      "dirty": false,
+      "sourceUrl": "https://github.com/styayur/Skimmer-Scraper/tree/4fb542fc8081dc99cbcbc0919bb174272d90d4e9",
+      "toolchain": {
+        "node": "v24.22.3",
+        "platform": "linux",
+        "architecture": "x64"
+      }
     },
-    "usageEvidence": [
-      "evidence/v0.8/rc1/installed-pack-usage.json",
-      "evidence/v0.8/rc1/removed-pack-usage.json"
-    ]
-  },
-  "collisionAndRoutes": {
-    "status": "TESTED",
-    "evidence": "tests/unit/dragonRealm.test.ts",
-    "checks": [
-      "independent generation order",
-      "neighboring collision vertices",
-      "high and medium visuals retain shared base collision"
-    ],
-    "shippedGlbMeasurements": {
-      "method": "21 vertex raycasts per tile against the actual generated collision mesh",
-      "tilesPerPack": 100,
-      "raysPerPack": 2100,
-      "maximumVerticalErrorMeters": {
-        "web": 0.07497406005859375,
-        "desktop": 0.0749359130859375
+    "workflow": {
+      "conclusion": "success",
+      "event": "workflow_dispatch",
+      "headBranch": "main",
+      "headSha": "4fb542fc8081dc99cbcbc0919bb174272d90d4e9",
+      "url": "https://github.com/styayur/Skimmer-Scraper/actions/runs/45206134187",
+      "workflowName": "Deploy GitHub Pages Release"
+    },
+    "city": {
+      "companions": 3,
+      "mode": "running",
+      "triangles": 513364,
+      "renderer": "ANGLE (AMD, AMD Radeon 780M Graphics (0x00001900) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "performance": {
+        "frames": 229,
+        "ms": 4007.1000000000004,
+        "fps": 57.14856130368595,
+        "p95Ms": 50,
+        "mode": "running",
+        "companions": 3
+      }
+    },
+    "skyInversion": {
+      "worldIndex": 1,
+      "companions": 3
+    },
+    "dragonspine": {
+      "detail": {
+        "loaded": 1,
+        "released": 0,
+        "resident": 1,
+        "peak": 1,
+        "pending": 0,
+        "high": 0
       },
-      "test": "tests/unit/dragonPackCollision.test.ts"
-    }
+      "actor": {
+        "id": "bronze-crest",
+        "type": "俯冲",
+        "position": {
+          "x": 231.31061956508495,
+          "y": 127.43680832124319,
+          "z": -11.552516326016303
+        },
+        "yaw": 3.244442413082316
+      },
+      "companions": 3,
+      "performance": {
+        "frames": 314,
+        "ms": 4008.0000000000005,
+        "fps": 78.34331337325348,
+        "p95Ms": 16.800000000000182,
+        "mode": "running",
+        "companions": 3
+      }
+    },
+    "returnedToCity": true,
+    "guideSections": 20,
+    "systemVoice": {
+      "phase": "completed",
+      "error": null,
+      "speech": {
+        "provider": "local",
+        "voiceId": "Microsoft Huihui - Chinese (Simplified, PRC)",
+        "rate": 0.9900000095367432,
+        "pitch": 1
+      }
+    },
+    "glbResponses": 9,
+    "pageErrors": [],
+    "consoleErrors": [],
+    "failedHttpResponses": [],
+    "predeploymentSubpath": true,
+    "servedFilesVerified": 146,
+    "buildInputFilesCompared": 146
   },
-  "worldSwitchAndRelease": {
-    "status": "TESTED",
-    "evidence": "tests/e2e/dragon-realm.spec.ts",
-    "checks": [
-      "city to Dragonspine and back",
-      "moving dragon",
-      "tile load",
-      "realm detail absent after return"
-    ]
+  "desktop": {
+    "status": "VERIFIED WINDOWS DESKTOP",
+    "build": {
+      "sourceCommit": "4fb542fc8081dc99cbcbc0919bb174272d90d4e9",
+      "version": "0.8.0",
+      "installer": "Skimmer-Scraper_0.8.0_x64-setup.exe",
+      "bytes": 12713603,
+      "installerSha256": "B73F383386E3F3DEE5CED2CF161C5F6C1F4DD25A8CC649063E2F9CCC5C4F9C8E",
+      "signing": "NotSigned",
+      "windows": {
+        "Caption": "Microsoft Windows 11 家庭版 中文版",
+        "Version": "10.0.26300",
+        "BuildNumber": "26300",
+        "OSArchitecture": "64 位"
+      },
+      "rust": "rustc 1.98.1 (48a229cea 2026-09-01)",
+      "node": "v26.7.0",
+      "npm": "11.19.0",
+      "completed": "2026-11-23T23:07:15.5105442+08:00"
+    },
+    "webView2": {
+      "version": "157.0.4341.60",
+      "application": "msedgewebview2.exe"
+    },
+    "smoke": {
+      "runtime": {
+        "origin": "http://tauri.localhost",
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/157.0.0.0 Safari/537.36 Edg/157.0.0.0",
+        "renderer": "ANGLE (AMD, AMD Radeon 780M Graphics (0x00001900) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+        "app": {
+          "version": "0.8.0",
+          "sourceCommit": "4fb542fc8081dc99cbcbc0919bb174272d90d4e9",
+          "sourceCommitTime": "2026-11-23T22:52:51+08:00",
+          "dirty": false,
+          "sourceUrl": "https://github.com/styayur/Skimmer-Scraper/tree/4fb542fc8081dc99cbcbc0919bb174272d90d4e9",
+          "toolchain": {
+            "node": "v26.7.0",
+            "platform": "win32",
+            "architecture": "x64"
+          }
+        },
+        "wasm": true,
+        "webgpu": true,
+        "voiceCount": 3
+      },
+      "flight": {
+        "time": 2.016666666666662,
+        "speed": 66.09529397851279,
+        "companions": 3
+      },
+      "escapePause": true,
+      "fullscreenRoundTrip": true,
+      "errors": []
+    },
+    "installation": {
+      "sha": "4fb542fc8081dc99cbcbc0919bb174272d90d4e9",
+      "version": "0.8.0",
+      "installer": "Skimmer-Scraper_0.8.0_x64-setup.exe",
+      "installerSha256": "B73F383386E3F3DEE5CED2CF161C5F6C1F4DD25A8CC649063E2F9CCC5C4F9C8E",
+      "signing": "NotSigned",
+      "priorUninstallExit": 0,
+      "installExit": 0,
+      "worldDatabaseSha256BeforeUninstall": "899DF176F092F95AE9135E8A0FF72E36147710B9E18D7A08A59D7525449489E1",
+      "worldDatabaseSha256AfterUninstall": "899DF176F092F95AE9135E8A0FF72E36147710B9E18D7A08A59D7525449489E1",
+      "installedExecutableSha256": "4307A58C76B65FA50825D8CB4743AACE85D66AD0D505A61EA4D7019E554214ED"
+    },
+    "saveRestored": {
+      "runtime": {
+        "origin": "http://tauri.localhost",
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/157.0.0.0 Safari/537.36 Edg/157.0.0.0",
+        "renderer": "ANGLE (AMD, AMD Radeon 780M Graphics (0x00001900) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+        "app": {
+          "version": "0.8.0",
+          "sourceCommit": "4fb542fc8081dc99cbcbc0919bb174272d90d4e9",
+          "sourceCommitTime": "2026-11-23T22:52:51+08:00",
+          "dirty": false,
+          "sourceUrl": "https://github.com/styayur/Skimmer-Scraper/tree/4fb542fc8081dc99cbcbc0919bb174272d90d4e9",
+          "toolchain": {
+            "node": "v26.7.0",
+            "platform": "win32",
+            "architecture": "x64"
+          }
+        },
+        "wasm": true,
+        "webgpu": true,
+        "voiceCount": 3
+      },
+      "libraryCheck": "restore",
+      "id": "f081067586fa34c8cc796153bfedaf872061454f9ef54f0e1660d0c104b5a4d4",
+      "bytes": 3004
+    },
+    "osFocusAndFullscreen": {
+      "initial": {
+        "app": {
+          "version": "0.8.0",
+          "sourceCommit": "4fb542fc8081dc99cbcbc0919bb174272d90d4e9",
+          "sourceCommitTime": "2026-11-23T22:52:51+08:00",
+          "dirty": false,
+          "sourceUrl": "https://github.com/styayur/Skimmer-Scraper/tree/4fb542fc8081dc99cbcbc0919bb174272d90d4e9",
+          "toolchain": {
+            "node": "v26.7.0",
+            "platform": "win32",
+            "architecture": "x64"
+          }
+        },
+        "mode": "running",
+        "focus": true,
+        "lock": true
+      },
+      "osEscape": {
+        "app": {
+          "version": "0.8.0",
+          "sourceCommit": "4fb542fc8081dc99cbcbc0919bb174272d90d4e9",
+          "sourceCommitTime": "2026-11-23T22:52:51+08:00",
+          "dirty": false,
+          "sourceUrl": "https://github.com/styayur/Skimmer-Scraper/tree/4fb542fc8081dc99cbcbc0919bb174272d90d4e9",
+          "toolchain": {
+            "node": "v26.7.0",
+            "platform": "win32",
+            "architecture": "x64"
+          }
+        },
+        "mode": "paused",
+        "focus": true,
+        "lock": false
+      },
+      "beforeMinimize": {
+        "app": {
+          "version": "0.8.0",
+          "sourceCommit": "4fb542fc8081dc99cbcbc0919bb174272d90d4e9",
+          "sourceCommitTime": "2026-11-23T22:52:51+08:00",
+          "dirty": false,
+          "sourceUrl": "https://github.com/styayur/Skimmer-Scraper/tree/4fb542fc8081dc99cbcbc0919bb174272d90d4e9",
+          "toolchain": {
+            "node": "v26.7.0",
+            "platform": "win32",
+            "architecture": "x64"
+          }
+        },
+        "mode": "running",
+        "focus": true,
+        "lock": false
+      },
+      "osMinimize": {
+        "app": {
+          "version": "0.8.0",
+          "sourceCommit": "4fb542fc8081dc99cbcbc0919bb174272d90d4e9",
+          "sourceCommitTime": "2026-11-23T22:52:51+08:00",
+          "dirty": false,
+          "sourceUrl": "https://github.com/styayur/Skimmer-Scraper/tree/4fb542fc8081dc99cbcbc0919bb174272d90d4e9",
+          "toolchain": {
+            "node": "v26.7.0",
+            "platform": "win32",
+            "architecture": "x64"
+          }
+        },
+        "mode": "paused",
+        "focus": true,
+        "lock": false
+      },
+      "afterRestoreAndResume": {
+        "app": {
+          "version": "0.8.0",
+          "sourceCommit": "4fb542fc8081dc99cbcbc0919bb174272d90d4e9",
+          "sourceCommitTime": "2026-11-23T22:52:51+08:00",
+          "dirty": false,
+          "sourceUrl": "https://github.com/styayur/Skimmer-Scraper/tree/4fb542fc8081dc99cbcbc0919bb174272d90d4e9",
+          "toolchain": {
+            "node": "v26.7.0",
+            "platform": "win32",
+            "architecture": "x64"
+          }
+        },
+        "mode": "running",
+        "focus": true,
+        "lock": false
+      }
+    },
+    "portable": {
+      "version": "0.8.0",
+      "sourceCommit": "4fb542fc8081dc99cbcbc0919bb174272d90d4e9",
+      "installedExeAbsentDuringTest": true,
+      "zipSha256": "D90F2AEBA2F9696242DF87DAC606E73DACF571FFE1CDE402D5EF7DE2FB3C9826",
+      "extractedExeSha256": "4307A58C76B65FA50825D8CB4743AACE85D66AD0D505A61EA4D7019E554214ED",
+      "desktopUninstallExit": 0,
+      "worldDatabaseIdenticalAfterUninstall": true,
+      "cityFlightVerified": true,
+      "dragonPackVerified": true,
+      "currentUserWorldRestored": true,
+      "reinstallExit": 0,
+      "dataLocation": "Windows current-user app data"
+    },
+    "tauriVersion": "2.12.7"
   },
-  "historicalCompatibility": {
-    "status": "TESTED",
-    "checks": [
-      "legacy seed URLs",
-      "five sky crossings",
-      "fifth-sky unlock",
-      "one and two companions survive crossing",
-      "local GLB persistence and manual transfer"
+  "gamepad": {
+    "status": "VERIFIED WINDOWS DESKTOP",
+    "method": "Existing physical RC2 run, tied to clean final source and matching installed native runtime.",
+    "version": "0.8.0",
+    "sourceCommit": "4fb542fc8081dc99cbcbc0919bb174272d90d4e9",
+    "rc2Commit": "322ecad6b72976fb80863163640a63e51196843c",
+    "evidenceCommit": "961d04a5c4ca97e021faf16f610f5a3054936c12",
+    "evidencePath": "evidence/v0.8/rc2/physical-20261123124449/gamepad.json",
+    "evidenceSha256": "0354fda684631b0154b80cde8fcf18593632452063699e25d8b0a8e850841b17",
+    "original": {
+      "device": "Xbox 360 Controller (XInput STANDARD GAMEPAD)",
+      "axisDelta": 1.6922560463874265,
+      "startDown": true,
+      "pausedAfterStart": true,
+      "startMode": "running"
+    },
+    "identicalRuntimePaths": [
+      "src",
+      "public",
+      "index.html",
+      "src-tauri/src",
+      "src-tauri/build.rs",
+      "src-tauri/capabilities",
+      "src-tauri/permissions",
+      "vite.config.ts"
     ],
-    "desktopSaved": "evidence/v0.8/rc1/save.json",
-    "desktopRestored": "evidence/v0.8/rc1/restore.json"
+    "dependencyLocks": "Identical after normalizing the root application version",
+    "renderer": "ANGLE (AMD, AMD Radeon 780M Graphics (0x00001900) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+    "webView2": "157.0.4341.60",
+    "stableExeSha256": "4307A58C76B65FA50825D8CB4743AACE85D66AD0D505A61EA4D7019E554214ED",
+    "testedAt": "2026-11-23T15:10:22.550845+00:00"
   },
-  "voiceAndInput": {
-    "systemVoice": "Microsoft Huihui, native WebView2 preview completed",
-    "kokoro": "Native WebGPU / AMD RDNA 3, local preview completed",
-    "voiceEvidence": "evidence/v0.8/pr1/webview2-compat.json",
-    "microphone": {
+  "voice": {
+    "systemPreviewOnLiveWeb": {
+      "phase": "completed",
+      "error": null,
+      "speech": {
+        "provider": "local",
+        "voiceId": "Microsoft Huihui - Chinese (Simplified, PRC)",
+        "rate": 0.9900000095367432,
+        "pitch": 1
+      }
+    },
+    "localKokoroWebGPU": {
+      "runtime": {
+        "origin": "http://tauri.localhost",
+        "app": {
+          "version": "0.8.0",
+          "sourceCommit": "4fb542fc8081dc99cbcbc0919bb174272d90d4e9",
+          "sourceCommitTime": "2026-11-23T22:52:51+08:00",
+          "dirty": false,
+          "sourceUrl": "https://github.com/styayur/Skimmer-Scraper/tree/4fb542fc8081dc99cbcbc0919bb174272d90d4e9",
+          "toolchain": {
+            "node": "v26.7.0",
+            "platform": "win32",
+            "architecture": "x64"
+          }
+        }
+      },
+      "prepared": {
+        "phase": "ready",
+        "backend": "webgpu",
+        "device": "amd rdna-3",
+        "percent": 100,
+        "loads": 1,
+        "releases": 0,
+        "generated": 0,
+        "cacheHits": 0,
+        "completed": 0,
+        "loadMs": 5385.10000000149,
+        "inferenceMs": null,
+        "audioSeconds": null,
+        "lastVoice": null,
+        "error": null,
+        "detail": "",
+        "resident": true,
+        "cachedClipBytes": 0,
+        "idleMs": 45000
+      },
+      "samples": [
+        {
+          "phase": "ready",
+          "backend": "webgpu",
+          "device": "amd rdna-3",
+          "percent": 100,
+          "loads": 1,
+          "releases": 0,
+          "generated": 1,
+          "cacheHits": 0,
+          "completed": 1,
+          "loadMs": 5385.10000000149,
+          "inferenceMs": 8653.60000000149,
+          "audioSeconds": 4.1,
+          "lastVoice": "zf_001",
+          "error": null,
+          "detail": "",
+          "resident": true,
+          "cachedClipBytes": 393600,
+          "idleMs": 45000
+        },
+        {
+          "phase": "ready",
+          "backend": "webgpu",
+          "device": "amd rdna-3",
+          "percent": 100,
+          "loads": 1,
+          "releases": 0,
+          "generated": 1,
+          "cacheHits": 1,
+          "completed": 2,
+          "loadMs": 5385.10000000149,
+          "inferenceMs": 0,
+          "audioSeconds": 4.1,
+          "lastVoice": "zf_001",
+          "error": null,
+          "detail": "",
+          "resident": true,
+          "cachedClipBytes": 393600,
+          "idleMs": 45000
+        }
+      ],
+      "method": "Two completed same-speaker previews in the installed Windows app, real local WebGPU model and Web Audio."
+    },
+    "cloudServices": [
+      {
+        "path": "/chat/completions",
+        "status": 200
+      },
+      {
+        "path": "/v1/tools/asr",
+        "status": 200
+      },
+      {
+        "path": "/chat/completions",
+        "status": 200
+      },
+      {
+        "path": "/v1/tools/tts",
+        "status": 200
+      },
+      {
+        "path": "/v1/tools/tts",
+        "network": "net::ERR_ABORTED"
+      }
+    ],
+    "cloudInput": "Generated speech fixture on final Linux distribution with headed Chrome",
+    "exactModelReplyPlayback": {
+      "provider": "deepseek",
+      "voiceId": "tide",
+      "rate": 0.93,
+      "id": 3,
+      "agent": 2,
+      "stream": {
+        "firstByteMs": 881.1000000014901,
+        "streamMs": 4778.29999999702,
+        "audioBytes": 199680
+      }
+    },
+    "fixtureFlightFrames": {
+      "baseline": {
+        "frames": 789,
+        "p50Ms": 8.399999999999636,
+        "p95Ms": 16.799999999999272,
+        "p99Ms": 24.900000000000546,
+        "fps": 96.61421661666564
+      },
+      "playback": {
+        "frames": 393,
+        "p50Ms": 8.399999999997817,
+        "p95Ms": 16.799999999999272,
+        "p99Ms": 17,
+        "fps": 93.39131674627517
+      },
+      "movementMeters": {
+        "baseline": 537.3688394917533,
+        "duringReply": 359.1499999999873
+      },
+      "pcmScheduled": 42
+    },
+    "fallback": {
+      "connected": false,
+      "action": "REGROUP",
+      "source": "local"
+    },
+    "physicalMicrophonePreviousBuild": {
       "mode": "Real Device (profile permission grant), live 48 kHz mono track",
       "evidence": "evidence/v0.8/rc1/microphone.json"
     },
-    "cloudVoice": {
-      "mode": "Real API, generated test sentence",
-      "ttsHttp": 200,
-      "pcmBytes": 59520,
-      "evidence": "evidence/v0.8/pr3/webview2-tts-transport.json"
-    },
-    "gamepad": {
-      "status": "VERIFIED WINDOWS DESKTOP",
-      "device": "Physical USB Xbox 360 XInput controller",
-      "axisDetected": true,
-      "physicalStartConfirmed": true,
-      "syntheticNavigationPassed": true,
-      "evidence": "evidence/v0.8/pr1/controller-webview2.json",
-      "rcObservedAxisDelta": 0.048218509193560743,
-      "rcEvidence": "evidence/v0.8/rc1/live-input.json",
-      "rc2Evidence": "evidence/v0.8/rc2/physical-20261123124449/gamepad.json",
-      "rc2Observation": {
-        "device": "Xbox 360 Controller (XInput STANDARD GAMEPAD)",
-        "axisDelta": 1.6922560463874265,
-        "startDown": true,
-        "pausedAfterStart": true,
-        "startMode": "running"
-      },
-      "previousRc2Observation": {
-        "evidence": "evidence/v0.8/rc2/gamepad.json",
-        "observation": {
-          "device": "Xbox 360 Controller (XInput STANDARD GAMEPAD)",
-          "axisDelta": 0.048218509193560743,
-          "startDown": false,
-          "pausedAfterStart": false,
-          "startMode": "running"
-        }
-      }
-    },
-    "deepseekCompanion": {
-      "mode": "Real API in installed RC via settings UI",
-      "requests": 1,
-      "httpStatus": 200,
-      "successes": 1,
-      "evidence": "evidence/v0.8/rc1/live-input.json"
-    },
-    "flightInference": {
-      "device": "Tauri WebView2, 780M WebGPU",
-      "elapsedSimulation": 20.674999999999386,
-      "generatedUtterances": 1,
-      "inferenceMs": 7349.79999999702,
-      "generatedAudioSeconds": 4.55,
-      "worstFrameWhileGeneratingMs": 58.30000000000291,
-      "previewCancelledOnSettingsClose": true
-    },
-    "browserVoiceLoop": {
-      "status": "TESTED",
-      "input": "Synthetic English Windows system speech WAV, captured with Chrome fake microphone",
-      "api": "Real DeepSeek ASR, chat and TTS",
-      "responses": [
+    "firstAttempt": {
+      "stage": "speech playback",
+      "serviceResponses": [
         {
           "path": "/chat/completions",
           "status": 200
@@ -561,45 +796,144 @@
         },
         {
           "path": "/v1/tools/tts",
-          "network": "net::ERR_ABORTED"
+          "status": 200
+        },
+        {
+          "path": "/v1/tools/tts",
+          "status": 200
+        },
+        {
+          "path": "/v1/tools/tts",
+          "status": 200
         }
       ],
-      "afterDisconnect": {
-        "connected": false,
-        "action": "REGROUP",
-        "source": "local"
-      },
-      "evidence": "evidence/v0.8/rc1/radio/deepseek-voice.json"
-    },
-    "realRepeatSpeech": {
-      "version": "0.8.0-rc.2",
-      "device": "amd rdna-3",
-      "firstInferenceMs": 6727.69999999553,
-      "firstGenerated": 1,
-      "secondGenerated": 1,
-      "secondCacheHits": 1,
-      "secondInferenceMs": 0,
-      "cachedBytes": 393600,
-      "completed": 2,
-      "evidence": "evidence/v0.8/rc2/kokoro-cache.json",
-      "modelWeights": "Returning QA WebView2 profile with the downloaded weights and an empty synthesized-clip cache. A fresh-profile download exceeded the 200-second test wait."
+      "specificReplyTimeout": true,
+      "requestedAgentMoved": [
+        {
+          "id": 2,
+          "action": "SCOUT",
+          "task": "SCOUT",
+          "position": {
+            "x": -30.253543233388186,
+            "y": 357.50983482859516,
+            "z": -418.5846365327897
+          },
+          "meters": 52.81392284510651
+        }
+      ],
+      "completedLines": 3,
+      "notes": "ASR, model action and three speech playbacks completed. The exact model reply ID did not reach the completed history in the first run. The full successful run is recorded separately."
     }
   },
-  "blender": {
-    "status": "TESTED",
-    "version": "5.2.4 LTS",
-    "source": "art/dragonspine/bronze-crest.blend",
-    "rebuild": "art/dragonspine/author_dragon.py",
-    "preview": "art/dragonspine/bronze-crest-preview.png"
+  "tests": {
+    "typecheck": "passed",
+    "vitestPassed": 198,
+    "cargoPassed": 3,
+    "hostedChromium": {
+      "sourceCommit": "4fb542fc8081dc99cbcbc0919bb174272d90d4e9",
+      "shards": [
+        {
+          "name": "Chromium shard 3/3",
+          "url": "https://github.com/styayur/Skimmer-Scraper/actions/runs/45198964700/job/137776951932",
+          "passed": 14,
+          "summaryLines": []
+        },
+        {
+          "name": "Chromium shard 2/3",
+          "url": "https://github.com/styayur/Skimmer-Scraper/actions/runs/45198964700/job/137776952033",
+          "passed": 18,
+          "summaryLines": []
+        },
+        {
+          "name": "Chromium shard 1/3",
+          "url": "https://github.com/styayur/Skimmer-Scraper/actions/runs/45198964700/job/137776952125",
+          "passed": 16,
+          "summaryLines": []
+        }
+      ],
+      "passed": 48
+    },
+    "hostedFinalChecks": [
+      {
+        "sourceCommit": "4fb542fc8081dc99cbcbc0919bb174272d90d4e9",
+        "workflow": "ci.yml",
+        "event": "push",
+        "url": "https://github.com/styayur/Skimmer-Scraper/actions/runs/45198964700",
+        "conclusion": "success",
+        "jobs": [
+          {
+            "name": "Chromium shard 3/3",
+            "conclusion": "success",
+            "html_url": "https://github.com/styayur/Skimmer-Scraper/actions/runs/45198964700/job/137776951932"
+          },
+          {
+            "name": "Chromium shard 2/3",
+            "conclusion": "success",
+            "html_url": "https://github.com/styayur/Skimmer-Scraper/actions/runs/45198964700/job/137776952033"
+          },
+          {
+            "name": "Chromium shard 1/3",
+            "conclusion": "success",
+            "html_url": "https://github.com/styayur/Skimmer-Scraper/actions/runs/45198964700/job/137776952125"
+          },
+          {
+            "name": "Typecheck, unit tests, build, browser tests",
+            "conclusion": "success",
+            "html_url": "https://github.com/styayur/Skimmer-Scraper/actions/runs/45198964700/job/137791964515"
+          }
+        ]
+      },
+      {
+        "sourceCommit": "4fb542fc8081dc99cbcbc0919bb174272d90d4e9",
+        "workflow": "agentic-actions-security.yml",
+        "event": "push",
+        "url": "https://github.com/styayur/Skimmer-Scraper/actions/runs/45198964677",
+        "conclusion": "success",
+        "jobs": [
+          {
+            "name": "security Actions CodeQL",
+            "conclusion": "success",
+            "html_url": "https://github.com/styayur/Skimmer-Scraper/actions/runs/45198964677/job/137776950166"
+          }
+        ]
+      },
+      {
+        "sourceCommit": "4fb542fc8081dc99cbcbc0919bb174272d90d4e9",
+        "workflow": "windows-desktop.yml",
+        "event": "workflow_dispatch",
+        "url": "https://github.com/styayur/Skimmer-Scraper/actions/runs/45199168671",
+        "conclusion": "success",
+        "jobs": [
+          {
+            "name": "windows",
+            "conclusion": "success",
+            "html_url": "https://github.com/styayur/Skimmer-Scraper/actions/runs/45199168671/job/137777690602"
+          }
+        ]
+      }
+    ]
   },
   "securityAndLicense": {
-    "status": "TESTED",
-    "license": "AGPL-3.0-only",
+    "project": "AGPL-3.0-only",
     "notices": [
       "CREDITS.md",
-      "licenses/",
+      "LICENSE",
+      "licenses",
       "src-tauri/desktop-notices.txt"
     ],
+    "codeQL": "GitHub Actions language",
+    "npmRuntimeAudit": {
+      "info": 0,
+      "low": 0,
+      "moderate": 0,
+      "high": 0,
+      "critical": 0,
+      "total": 0
+    },
+    "rustAdvisory": {
+      "id": "GHSA-wrw7-89jp-8q8g",
+      "scope": "glib 0.18.5 appears in the multiplatform Cargo.lock. cargo tree for x86_64-pc-windows-msvc omits glib."
+    },
     "controls": [
       "main-window capability allowlist",
       "private SQLite library and scoped IDs",
@@ -607,126 +941,766 @@
       "transactional staging and quota",
       "GLB preflight and hash verification",
       "CSP and exact service origins"
+    ]
+  },
+  "worlds": {
+    "historicQualification": {
+      "realm": {
+        "status": "IMPLEMENTED",
+        "description": "Seeded ridges, canyon, cloud sea, arches, floating islands, ruins, shrine, nest and broken bridges.",
+        "guide": "docs/dragonspine-realm.md",
+        "seed": 334458
+      },
+      "dragons": {
+        "status": "TESTED",
+        "model": "public/realms/dragonspine/bronze-crest.glb",
+        "modelLod": "public/realms/dragonspine/bronze-crest-far.glb",
+        "behaviors": [
+          "perch",
+          "takeoff",
+          "circling",
+          "dive",
+          "glide",
+          "landing"
+        ],
+        "nearCollisionProxies": 5,
+        "headedFlight": "evidence/v0.8/realm/web-flight.json",
+        "screenshot": "evidence/v0.8/realm/dragon-flight.png",
+        "motionSequence": "evidence/v0.8/rc1/motion/motion.json",
+        "wingbeat": "evidence/v0.8/rc1/motion/wingbeat.webp"
+      },
+      "blender": {
+        "status": "TESTED",
+        "version": "5.2.4 LTS",
+        "source": "art/dragonspine/bronze-crest.blend",
+        "rebuild": "art/dragonspine/author_dragon.py",
+        "preview": "art/dragonspine/bronze-crest-preview.png"
+      },
+      "historicalCompatibility": {
+        "status": "TESTED",
+        "checks": [
+          "legacy seed URLs",
+          "five sky crossings",
+          "fifth-sky unlock",
+          "one and two companions survive crossing",
+          "local GLB persistence and manual transfer"
+        ],
+        "desktopSaved": "evidence/v0.8/rc1/save.json",
+        "desktopRestored": "evidence/v0.8/rc1/restore.json"
+      }
+    },
+    "sourceRelationship": "Original art, Web assets, game source and native source match the verified RC2 build.",
+    "pack": {
+      "tiles": 100,
+      "bytes": 161225960,
+      "id": "dragonspine-high-1",
+      "highDetailWindows": 697,
+      "peakResident": 12
+    },
+    "collisionTests": [
+      "dragonspine-web-1 tiles 100 rays 2100 maximum vertical separation (m) 0.07497406005859375",
+      "dragonspine-high-1 tiles 100 rays 2100 maximum vertical separation (m) 0.0749359130859375"
     ],
-    "artifacts": "evidence/v0.8/rc2/public-download-complete.json",
-    "knownOperatorCredentialMatches": 0
-  },
-  "windowsSigning": {
-    "authenticode": "NotSigned",
-    "update": "Manual installation",
-    "publisherWarningPossible": true
-  },
-  "productionAcceptance": {
-    "target": "0.8.0",
-    "status": "BLOCKED",
-    "stableTag": null,
-    "reason": "The RC2 physical controller gate passed. Final-source Web and Windows qualification is pending.",
-    "baselineChecked": "2026-11-23T20:26:00+08:00",
-    "latestStableTag": "v0.7.0"
-  },
-  "releaseDownloadVerification": {
-    "stable": null,
-    "candidate": {
-      "version": "0.8.0-rc.2",
-      "status": "TESTED",
-      "assets": 5,
-      "evidence": "evidence/v0.8/rc2/public-download-complete.json",
-      "result": "passed"
+    "cityAndWorldSwitch": true,
+    "blenderRebuild": {
+      "sourceCommit": "4fb542fc8081dc99cbcbc0919bb174272d90d4e9",
+      "models": {
+        "bronze-crest.glb": {
+          "shipped": {
+            "sha256": "99c591050a264fe644411235a65081c7436accaee5e40a4a4cda6f6a0ad7f6ad",
+            "bytes": 103268,
+            "nodes": 60,
+            "meshes": 55,
+            "animations": 3,
+            "channels": 3,
+            "triangles": 1762,
+            "materials": 6
+          },
+          "rebuilt": {
+            "sha256": "99c591050a264fe644411235a65081c7436accaee5e40a4a4cda6f6a0ad7f6ad",
+            "bytes": 103268,
+            "nodes": 60,
+            "meshes": 55,
+            "animations": 3,
+            "channels": 3,
+            "triangles": 1762,
+            "materials": 6
+          },
+          "byteIdentical": true
+        },
+        "bronze-crest-far.glb": {
+          "shipped": {
+            "sha256": "c2f4518d1557178d180481f3c402f925942de28c5490043117ac362315756122",
+            "bytes": 37380,
+            "nodes": 1,
+            "meshes": 1,
+            "animations": 0,
+            "channels": 0,
+            "triangles": 537,
+            "materials": 1
+          },
+          "rebuilt": {
+            "sha256": "c2f4518d1557178d180481f3c402f925942de28c5490043117ac362315756122",
+            "bytes": 37380,
+            "nodes": 1,
+            "meshes": 1,
+            "animations": 0,
+            "channels": 0,
+            "triangles": 537,
+            "materials": 1
+          },
+          "byteIdentical": true
+        }
+      },
+      "sourceScript": "art/dragonspine/author_dragon.py"
     }
   },
-  "assets": {
-    "candidateManifest": "https://github.com/styayur/Skimmer-Scraper/releases/download/v0.8.0-rc.2/release-manifest.json",
-    "candidate": [
+  "performance": {
+    "desktopLongFlight": {
+      "device": "ANGLE (AMD, AMD Radeon 780M Graphics (0x00001900) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "resolution": "1920x1080 CSS / DPR 1",
+      "durationSeconds": 901,
+      "simulatedSecondsFirstToLast": 900.1749999993381,
+      "averageFps": 59.82804452211576,
+      "worstSampledFrameMs": 50.09999999997672,
+      "sampleWindows": 884,
+      "control": "Scripted keyboard boost and yaw in the shipping flight loop, one initial pose at 290 m"
+    },
+    "earlierQualityMatrix": {
+      "version": "0.8.0-rc.1",
+      "web": {
+        "city": {
+          "balanced": [
+            93.6,
+            88.58,
+            92.27,
+            87.36
+          ],
+          "high": [
+            94.52,
+            88.77,
+            94.19,
+            91.52
+          ]
+        },
+        "dragon": {
+          "balanced": [
+            118.67,
+            119.25,
+            117.75,
+            111.01
+          ],
+          "high": [
+            112.09,
+            119.42,
+            112.92,
+            118.84
+          ]
+        }
+      },
+      "desktop": {
+        "city": {
+          "balanced": [
+            97.1,
+            100.1,
+            96.1,
+            81.22
+          ],
+          "high": [
+            82.33,
+            103.93,
+            104.18,
+            104.18
+          ]
+        },
+        "dragon": {
+          "balanced": [
+            119.0,
+            115.34,
+            119.5,
+            113.17
+          ],
+          "high": [
+            115.67,
+            98.43,
+            119.34,
+            116.84
+          ]
+        }
+      }
+    },
+    "desktopFinalMatrix": {
+      "sourceCommit": "4fb542fc8081dc99cbcbc0919bb174272d90d4e9",
+      "method": "Scripted boosted yaw, one initial pose per scenario, 12 seconds per scenario. Wall-clock rAF intervals.",
+      "device": "ANGLE (AMD, AMD Radeon 780M Graphics (0x00001900) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "rows": [
+        {
+          "theme": "city",
+          "quality": "balanced",
+          "count": 0,
+          "averageFps": 80.19453211528692,
+          "p95Ms": 24.699999999999818,
+          "p99Ms": 25.100000000000364,
+          "worstMs": 125.09999999999991,
+          "elapsedSimulation": 11.96666666666657
+        },
+        {
+          "theme": "city",
+          "quality": "balanced",
+          "count": 1,
+          "averageFps": 71.45177005521273,
+          "p95Ms": 25,
+          "p99Ms": 33.19999999999891,
+          "worstMs": 58.399999999999636,
+          "elapsedSimulation": 11.958333333333238
+        },
+        {
+          "theme": "city",
+          "quality": "balanced",
+          "count": 2,
+          "averageFps": 80.41713791497573,
+          "p95Ms": 25,
+          "p99Ms": 33.09999999999991,
+          "worstMs": 41.80000000000109,
+          "elapsedSimulation": 11.941666666666572
+        },
+        {
+          "theme": "city",
+          "quality": "balanced",
+          "count": 3,
+          "averageFps": 83.69420386409061,
+          "p95Ms": 24.899999999999636,
+          "p99Ms": 25.100000000000364,
+          "worstMs": 33.5,
+          "elapsedSimulation": 11.958333333333238
+        },
+        {
+          "theme": "city",
+          "quality": "high",
+          "count": 0,
+          "averageFps": 84.27644673178939,
+          "p95Ms": 24.800000000000182,
+          "p99Ms": 25.199999999999818,
+          "worstMs": 41.5,
+          "elapsedSimulation": 11.96666666666657
+        },
+        {
+          "theme": "city",
+          "quality": "high",
+          "count": 1,
+          "averageFps": 75.11596339137749,
+          "p95Ms": 24.900000000001455,
+          "p99Ms": 25.100000000000364,
+          "worstMs": 49.80000000000109,
+          "elapsedSimulation": 11.96666666666657
+        },
+        {
+          "theme": "city",
+          "quality": "high",
+          "count": 2,
+          "averageFps": 82.35970120666539,
+          "p95Ms": 24.899999999999636,
+          "p99Ms": 25.300000000000182,
+          "worstMs": 41.69999999999891,
+          "elapsedSimulation": 11.949999999999905
+        },
+        {
+          "theme": "city",
+          "quality": "high",
+          "count": 3,
+          "averageFps": 82.52831445702864,
+          "p95Ms": 24.899999999999636,
+          "p99Ms": 25.19999999999891,
+          "worstMs": 41.900000000001455,
+          "elapsedSimulation": 11.958333333333238
+        },
+        {
+          "theme": "dragon",
+          "quality": "balanced",
+          "count": 0,
+          "averageFps": 114.58931887642508,
+          "p95Ms": 9,
+          "p99Ms": 16.700000000000728,
+          "worstMs": 25,
+          "elapsedSimulation": 12.008333333333226
+        },
+        {
+          "theme": "dragon",
+          "quality": "balanced",
+          "count": 1,
+          "averageFps": 106.26249167221852,
+          "p95Ms": 16.700000000000273,
+          "p99Ms": 24.80000000000109,
+          "worstMs": 33.399999999999636,
+          "elapsedSimulation": 12.008333333333228
+        },
+        {
+          "theme": "dragon",
+          "quality": "balanced",
+          "count": 2,
+          "averageFps": 110.17471394547059,
+          "p95Ms": 16.69999999999891,
+          "p99Ms": 16.800000000000182,
+          "worstMs": 33.40000000000009,
+          "elapsedSimulation": 12.016666666666561
+        },
+        {
+          "theme": "dragon",
+          "quality": "balanced",
+          "count": 3,
+          "averageFps": 110.01539549785711,
+          "p95Ms": 16.69999999999891,
+          "p99Ms": 16.800000000000182,
+          "worstMs": 25,
+          "elapsedSimulation": 12.024999999999892
+        },
+        {
+          "theme": "dragon",
+          "quality": "high",
+          "count": 0,
+          "averageFps": 109.84252296366618,
+          "p95Ms": 16.699999999999818,
+          "p99Ms": 16.800000000000182,
+          "worstMs": 25.09999999999991,
+          "elapsedSimulation": 12.016666666666563
+        },
+        {
+          "theme": "dragon",
+          "quality": "high",
+          "count": 1,
+          "averageFps": 113.34509503678305,
+          "p95Ms": 16.5,
+          "p99Ms": 16.799999999999272,
+          "worstMs": 25.5,
+          "elapsedSimulation": 12.049999999999894
+        },
+        {
+          "theme": "dragon",
+          "quality": "high",
+          "count": 2,
+          "averageFps": 112.84425826761161,
+          "p95Ms": 16.599999999999454,
+          "p99Ms": 16.800000000000182,
+          "worstMs": 25.100000000000364,
+          "elapsedSimulation": 12.016666666666556
+        },
+        {
+          "theme": "dragon",
+          "quality": "high",
+          "count": 3,
+          "averageFps": 114.75778445856477,
+          "p95Ms": 9,
+          "p99Ms": 16.799999999999272,
+          "worstMs": 33.29999999999973,
+          "elapsedSimulation": 12.016666666666561
+        }
+      ]
+    },
+    "webFinalMatrix": {
+      "sourceCommit": "4fb542fc8081dc99cbcbc0919bb174272d90d4e9",
+      "method": "Scripted boosted yaw, one initial pose per scenario, 12 seconds per scenario. Wall-clock rAF intervals.",
+      "device": "ANGLE (AMD, AMD Radeon 780M Graphics (0x00001900) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "rows": [
+        {
+          "theme": "city",
+          "quality": "balanced",
+          "count": 0,
+          "averageFps": 75.03331112591606,
+          "p95Ms": 25,
+          "p99Ms": 33.30000000000109,
+          "worstMs": 183.10000000000036,
+          "elapsedSimulation": 11.916666666666574
+        },
+        {
+          "theme": "city",
+          "quality": "balanced",
+          "count": 1,
+          "averageFps": 57.92084151659398,
+          "p95Ms": 41.69999999999982,
+          "p99Ms": 50.19999999999982,
+          "worstMs": 75.10000000000036,
+          "elapsedSimulation": 11.891666666666575
+        },
+        {
+          "theme": "city",
+          "quality": "balanced",
+          "count": 2,
+          "averageFps": 69.9050456463304,
+          "p95Ms": 33.20000000000027,
+          "p99Ms": 41.5,
+          "worstMs": 42.30000000000018,
+          "elapsedSimulation": 11.866666666666577
+        },
+        {
+          "theme": "city",
+          "quality": "balanced",
+          "count": 3,
+          "averageFps": 70.82046886312759,
+          "p95Ms": 25,
+          "p99Ms": 33.399999999999636,
+          "worstMs": 49.80000000000018,
+          "elapsedSimulation": 11.949999999999905
+        },
+        {
+          "theme": "city",
+          "quality": "high",
+          "count": 0,
+          "averageFps": 72.16666666666667,
+          "p95Ms": 25.100000000000364,
+          "p99Ms": 33.5,
+          "worstMs": 58.399999999999636,
+          "elapsedSimulation": 11.87499999999991
+        },
+        {
+          "theme": "city",
+          "quality": "high",
+          "count": 1,
+          "averageFps": 60.29213370863244,
+          "p95Ms": 41.600000000000364,
+          "p99Ms": 50.100000000000364,
+          "worstMs": 83.30000000000018,
+          "elapsedSimulation": 11.858333333333244
+        },
+        {
+          "theme": "city",
+          "quality": "high",
+          "count": 2,
+          "averageFps": 69.07514210337969,
+          "p95Ms": 33.20000000000027,
+          "p99Ms": 33.5,
+          "worstMs": 49.899999999999636,
+          "elapsedSimulation": 11.799999999999914
+        },
+        {
+          "theme": "city",
+          "quality": "high",
+          "count": 3,
+          "averageFps": 68.85712147294365,
+          "p95Ms": 25.299999999999272,
+          "p99Ms": 33.400000000000546,
+          "worstMs": 50,
+          "elapsedSimulation": 11.949999999999905
+        },
+        {
+          "theme": "dragon",
+          "quality": "balanced",
+          "count": 0,
+          "averageFps": 103.9404152623476,
+          "p95Ms": 16.700000000000728,
+          "p99Ms": 16.800000000000182,
+          "worstMs": 33.29999999999927,
+          "elapsedSimulation": 12.024999999999814
+        },
+        {
+          "theme": "dragon",
+          "quality": "balanced",
+          "count": 1,
+          "averageFps": 88.19194030596525,
+          "p95Ms": 25,
+          "p99Ms": 49.899999999999636,
+          "worstMs": 133.19999999999982,
+          "elapsedSimulation": 11.891666666666575
+        },
+        {
+          "theme": "dragon",
+          "quality": "balanced",
+          "count": 2,
+          "averageFps": 107.67731781047794,
+          "p95Ms": 16.699999999999818,
+          "p99Ms": 16.900000000001455,
+          "worstMs": 41.80000000000018,
+          "elapsedSimulation": 11.974999999999904
+        },
+        {
+          "theme": "dragon",
+          "quality": "balanced",
+          "count": 3,
+          "averageFps": 107.67642111223996,
+          "p95Ms": 16.699999999999818,
+          "p99Ms": 16.899999999999636,
+          "worstMs": 108.39999999999964,
+          "elapsedSimulation": 12.024999999999897
+        },
+        {
+          "theme": "dragon",
+          "quality": "high",
+          "count": 0,
+          "averageFps": 107.84387205303086,
+          "p95Ms": 16.699999999999818,
+          "p99Ms": 16.800000000000182,
+          "worstMs": 25.100000000000364,
+          "elapsedSimulation": 12.016666666666563
+        },
+        {
+          "theme": "dragon",
+          "quality": "high",
+          "count": 1,
+          "averageFps": 89.10651976582473,
+          "p95Ms": 25,
+          "p99Ms": 49.899999999999636,
+          "worstMs": 66.69999999999982,
+          "elapsedSimulation": 12.049999999999896
+        },
+        {
+          "theme": "dragon",
+          "quality": "high",
+          "count": 2,
+          "averageFps": 107.59314468446561,
+          "p95Ms": 16.699999999999818,
+          "p99Ms": 16.800000000000182,
+          "worstMs": 25,
+          "elapsedSimulation": 12.041666666666563
+        },
+        {
+          "theme": "dragon",
+          "quality": "high",
+          "count": 3,
+          "averageFps": 105.99911667402773,
+          "p95Ms": 16.699999999999818,
+          "p99Ms": 16.80000000000109,
+          "worstMs": 50.20000000000027,
+          "elapsedSimulation": 11.883333333333242
+        }
+      ]
+    }
+  },
+  "reproducibility": {
+    "matchedFiles": 146,
+    "allHostedBytesMatched": true
+  },
+  "releaseUrl": "https://github.com/styayur/Skimmer-Scraper/releases/tag/v0.8.0",
+  "assets": [
+    {
+      "name": "skimmer-scraper-v0.8.0-static.zip",
+      "bytes": 12666513,
+      "sha256": "6fde3429df0fa0e6cc9241b286f7489302f83fd0bf78fb2d72943d73a9b490e5",
+      "url": "https://github.com/styayur/Skimmer-Scraper/releases/download/v0.8.0/skimmer-scraper-v0.8.0-static.zip"
+    },
+    {
+      "name": "skimmer-scraper-v0.8.0-source.zip",
+      "bytes": 60146007,
+      "sha256": "f7e714a0ca2545329d057f299d213c7ad5f6a9f20317e751676b4dcdb2327103",
+      "url": "https://github.com/styayur/Skimmer-Scraper/releases/download/v0.8.0/skimmer-scraper-v0.8.0-source.zip"
+    },
+    {
+      "name": "Skimmer-Scraper_0.8.0_x64-setup.exe",
+      "kind": "windows-nsis",
+      "bytes": 12713603,
+      "sha256": "b73f383386e3f3dee5ced2cf161c5f6c1f4dd25a8cc649063e2f9ccc5c4f9c8e",
+      "authenticode": "NotSigned",
+      "url": "https://github.com/styayur/Skimmer-Scraper/releases/download/v0.8.0/Skimmer-Scraper_0.8.0_x64-setup.exe"
+    },
+    {
+      "name": "skimmer-scraper-v0.8.0-dragonspine-high.zip",
+      "kind": "world-pack",
+      "bytes": 112674389,
+      "sha256": "b71809dd42002004e8e7585626fde5c12fe0cf85980010d7166ac4a045bee6ae",
+      "url": "https://github.com/styayur/Skimmer-Scraper/releases/download/v0.8.0/skimmer-scraper-v0.8.0-dragonspine-high.zip"
+    },
+    {
+      "name": "skimmer-scraper-v0.8.0-windows-x64-portable.zip",
+      "kind": "windows-portable",
+      "bytes": 14242530,
+      "sha256": "d90f2aeba2f9696242df87dac606e73dacf571ffe1cde402d5ef7de2fb3c9826",
+      "executableSha256": "4307a58c76b65fa50825d8cb4743aace85d66ad0d505a61ea4d7019e554214ed",
+      "requires": "Windows x64 and WebView2 Runtime",
+      "url": "https://github.com/styayur/Skimmer-Scraper/releases/download/v0.8.0/skimmer-scraper-v0.8.0-windows-x64-portable.zip"
+    }
+  ],
+  "visualComparisonSha256": "9698fb4a1d4199c4215e8b68d0f2247aa304de1d0dd7f30d150343d7a6302ea9",
+  "limitations": [
+    "Windows binaries are unsigned. SmartScreen can show an unknown publisher. Updates use manual installation.",
+    "Portable uses the installed system WebView2 Runtime and the current-user application data directory.",
+    "Physical device and GPU evidence covers one Xbox 360 XInput controller and one AMD Radeon 780M Windows 11 host.",
+    "High-detail terrain pack covers 100 tiles at seed 334458. External pack v1 contains static terrain refinements."
+  ],
+  "postMergeChecks": [
+    {
+      "pr": 49,
+      "mergeCommit": "70b6dc17d42c064c27a58b97136198f4a3079dc0",
+      "base": "main",
+      "headAndSquashTreesIdentical": true,
+      "checks": [
+        {
+          "workflow": "ci.yml",
+          "event": "push",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/styayur/Skimmer-Scraper/actions/runs/45178613893"
+        },
+        {
+          "workflow": "agentic-actions-security.yml",
+          "event": "push",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/styayur/Skimmer-Scraper/actions/runs/45178613920"
+        }
+      ]
+    },
+    {
+      "pr": 50,
+      "mergeCommit": "8b87f3b689fce8bd03fbc99e502b546247a92404",
+      "base": "main",
+      "headAndSquashTreesIdentical": true,
+      "checks": [
+        {
+          "workflow": "ci.yml",
+          "event": "workflow_dispatch",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/styayur/Skimmer-Scraper/actions/runs/45182760710"
+        },
+        {
+          "workflow": "agentic-actions-security.yml",
+          "event": "workflow_dispatch",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/styayur/Skimmer-Scraper/actions/runs/45182772578"
+        }
+      ]
+    },
+    {
+      "pr": 51,
+      "mergeCommit": "828f61509291f648f5ed2abaa4ab87088972105e",
+      "base": "main",
+      "headAndSquashTreesIdentical": true,
+      "checks": [
+        {
+          "workflow": "ci.yml",
+          "event": "push",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/styayur/Skimmer-Scraper/actions/runs/45187812775"
+        },
+        {
+          "workflow": "agentic-actions-security.yml",
+          "event": "push",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/styayur/Skimmer-Scraper/actions/runs/45187812652"
+        }
+      ]
+    },
+    {
+      "pr": 52,
+      "mergeCommit": "2537523112d73a84c6984c91e9388927734cd347",
+      "base": "main",
+      "headAndSquashTreesIdentical": true,
+      "checks": [
+        {
+          "workflow": "ci.yml",
+          "event": "push",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/styayur/Skimmer-Scraper/actions/runs/45193341732"
+        },
+        {
+          "workflow": "agentic-actions-security.yml",
+          "event": "push",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/styayur/Skimmer-Scraper/actions/runs/45193342089"
+        }
+      ]
+    },
+    {
+      "pr": 53,
+      "mergeCommit": "4fb542fc8081dc99cbcbc0919bb174272d90d4e9",
+      "base": "main",
+      "headAndSquashTreesIdentical": true,
+      "checks": [
+        {
+          "workflow": "ci.yml",
+          "event": "push",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/styayur/Skimmer-Scraper/actions/runs/45198964700"
+        },
+        {
+          "workflow": "agentic-actions-security.yml",
+          "event": "push",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/styayur/Skimmer-Scraper/actions/runs/45198964677"
+        }
+      ]
+    }
+  ],
+  "pagesArtifact": {
+    "id": 14834825524,
+    "name": "github-pages",
+    "size_in_bytes": 13303251,
+    "digest": "sha256:c3724536c849107b05b389a4ba49e6247f75e97f02d232d25b6ee1838ef7bf13",
+    "workflowRun": "45206134187",
+    "sourceCommit": "4fb542fc8081dc99cbcbc0919bb174272d90d4e9",
+    "tarSha256": "13c1eea7a726f7995231443f783cd12d1c2a7b2cdc97c0a11228e718b1d0c061"
+  },
+  "deploymentAttempts": [
+    {
+      "url": "https://github.com/styayur/Skimmer-Scraper/actions/runs/45205869714",
+      "result": "GitHub Pages initially could not find the newly uploaded artifact. Production remained on 0.7.0."
+    },
+    {
+      "url": "https://github.com/styayur/Skimmer-Scraper/actions/runs/45206134187",
+      "result": "success"
+    }
+  ],
+  "sourceEvidence": "https://github.com/styayur/Skimmer-Scraper/tree/codex/v080-stable-evidence/evidence/v0.8/stable",
+  "releaseDownloadVerification": {
+    "sourceCommit": "4fb542fc8081dc99cbcbc0919bb174272d90d4e9",
+    "verifiedAt": "2026-11-23T16:09:36.107783+00:00",
+    "method": "Fresh anonymous HTTPS download, local and GitHub asset digests compared",
+    "assets": [
       {
-        "name": "skimmer-scraper-v0.8.0-rc.2-static.zip",
-        "bytes": 12667532,
-        "sha256": "08bf26970233e4b90783b0c1e553dfbec33b26947072945533d7c40cc2a00610",
-        "url": "https://github.com/styayur/Skimmer-Scraper/releases/download/v0.8.0-rc.2/skimmer-scraper-v0.8.0-rc.2-static.zip"
+        "name": "release-manifest.json",
+        "bytes": 3191,
+        "sha256": "18c75d6571732df05eba77fd3e3278ee471908c5d4d371cc52b5ee2d71daecbb",
+        "url": "https://github.com/styayur/Skimmer-Scraper/releases/download/v0.8.0/release-manifest.json",
+        "verified": true
       },
       {
-        "name": "skimmer-scraper-v0.8.0-rc.2-source.zip",
-        "bytes": 33666134,
-        "sha256": "f9d106d273befeaa69ec6237c077861046ec5cf501ce2b4724530f805663df11",
-        "url": "https://github.com/styayur/Skimmer-Scraper/releases/download/v0.8.0-rc.2/skimmer-scraper-v0.8.0-rc.2-source.zip"
+        "name": "skimmer-scraper-v0.8.0-dragonspine-high.zip",
+        "bytes": 112674389,
+        "sha256": "b71809dd42002004e8e7585626fde5c12fe0cf85980010d7166ac4a045bee6ae",
+        "url": "https://github.com/styayur/Skimmer-Scraper/releases/download/v0.8.0/skimmer-scraper-v0.8.0-dragonspine-high.zip",
+        "verified": true
       },
       {
-        "name": "Skimmer-Scraper_0.8.0-rc.2_x64-setup.exe",
-        "bytes": 12719697,
-        "sha256": "f9d5b3ffd8f6d0d5e47c549f1f332cfa0bda65d5ce41bdf09b27ef2964f26eaf",
-        "url": "https://github.com/styayur/Skimmer-Scraper/releases/download/v0.8.0-rc.2/Skimmer-Scraper_0.8.0-rc.2_x64-setup.exe"
+        "name": "skimmer-scraper-v0.8.0-source.zip",
+        "bytes": 60146007,
+        "sha256": "f7e714a0ca2545329d057f299d213c7ad5f6a9f20317e751676b4dcdb2327103",
+        "url": "https://github.com/styayur/Skimmer-Scraper/releases/download/v0.8.0/skimmer-scraper-v0.8.0-source.zip",
+        "verified": true
       },
       {
-        "name": "skimmer-scraper-v0.8.0-rc.2-dragonspine-high.zip",
-        "bytes": 112674618,
-        "sha256": "72471adcd9681a53b71ea5babd435459cdd3ec1004898567f4741b010f367ebf",
-        "url": "https://github.com/styayur/Skimmer-Scraper/releases/download/v0.8.0-rc.2/skimmer-scraper-v0.8.0-rc.2-dragonspine-high.zip"
+        "name": "skimmer-scraper-v0.8.0-static.zip",
+        "bytes": 12666513,
+        "sha256": "6fde3429df0fa0e6cc9241b286f7489302f83fd0bf78fb2d72943d73a9b490e5",
+        "url": "https://github.com/styayur/Skimmer-Scraper/releases/download/v0.8.0/skimmer-scraper-v0.8.0-static.zip",
+        "verified": true
       },
       {
-        "name": "skimmer-scraper-v0.8.0-rc.2-windows-x64-portable.zip",
-        "bytes": 14245986,
-        "sha256": "221a68862c29e1028e5f4b492548764cbc259648072cba370fdf77663c6e4d9f",
-        "url": "https://github.com/styayur/Skimmer-Scraper/releases/download/v0.8.0-rc.2/skimmer-scraper-v0.8.0-rc.2-windows-x64-portable.zip"
+        "name": "skimmer-scraper-v0.8.0-windows-x64-portable.zip",
+        "bytes": 14242530,
+        "sha256": "d90f2aeba2f9696242df87dac606e73dacf571ffe1cde402d5ef7de2fb3c9826",
+        "url": "https://github.com/styayur/Skimmer-Scraper/releases/download/v0.8.0/skimmer-scraper-v0.8.0-windows-x64-portable.zip",
+        "verified": true
+      },
+      {
+        "name": "Skimmer-Scraper_0.8.0_x64-setup.exe",
+        "bytes": 12713603,
+        "sha256": "b73f383386e3f3dee5ced2cf161c5f6c1f4dd25a8cc649063e2f9ccc5c4f9c8e",
+        "url": "https://github.com/styayur/Skimmer-Scraper/releases/download/v0.8.0/Skimmer-Scraper_0.8.0_x64-setup.exe",
+        "verified": true
+      },
+      {
+        "name": "visual-comparison.jpg",
+        "bytes": 327922,
+        "sha256": "9698fb4a1d4199c4215e8b68d0f2247aa304de1d0dd7f30d150343d7a6302ea9",
+        "url": "https://github.com/styayur/Skimmer-Scraper/releases/download/v0.8.0/visual-comparison.jpg",
+        "verified": true
       }
     ],
-    "stable": [],
-    "candidateRelease": {
-      "status": "RELEASED",
-      "prerelease": true,
-      "latest": false,
-      "url": "https://github.com/styayur/Skimmer-Scraper/releases/tag/v0.8.0-rc.2"
-    }
-  },
-  "limitations": [
-    "Formal production qualification requires a common final main SHA for the Web and Windows builds.",
-    "Windows packages are unsigned and the portable distribution requires the system WebView2 Runtime.",
-    "World pack v1 restricts external refinements to static terrain. Built-in assets provide actors and materials.",
-    "GPU results cover one Windows 11 device. The 32-scenario matrix, real cloud voice test and paired city baseline used RC1. The RC2 long flight and local speech-cache test used the installed RC2.",
-    "RC1 real Kokoro inference during flight took 7.35 seconds and included a 58.3 ms frame. The bounded cache only removes inference when repeating a cached clip."
-  ],
-  "evidenceUpdatedAt": "2026-11-23T20:46:39+08:00",
-  "candidateHistory": [
-    {
-      "version": "0.8.0-rc.1",
-      "sourceCommit": "c499b443195e810e6c42f5f74be7f1cb12d33d75",
-      "release": {
-        "status": "RELEASED",
-        "prerelease": true,
-        "latest": false,
-        "url": "https://github.com/styayur/Skimmer-Scraper/releases/tag/v0.8.0-rc.1"
-      },
-      "attachments": [
-        {
-          "name": "skimmer-scraper-v0.8.0-rc.1-static.zip",
-          "bytes": 12667291,
-          "sha256": "94299d50565328230041a70aa1ea90e26b248342f0e86380d0854c73ca9795da",
-          "url": "https://github.com/styayur/Skimmer-Scraper/releases/download/v0.8.0-rc.1/skimmer-scraper-v0.8.0-rc.1-static.zip"
-        },
-        {
-          "name": "skimmer-scraper-v0.8.0-rc.1-source.zip",
-          "bytes": 16871817,
-          "sha256": "698f812f9ff3b89d2f1e420cd27badaede890896328433be0659539f5bbcbc87",
-          "url": "https://github.com/styayur/Skimmer-Scraper/releases/download/v0.8.0-rc.1/skimmer-scraper-v0.8.0-rc.1-source.zip"
-        },
-        {
-          "name": "Skimmer-Scraper_0.8.0-rc.1_x64-setup.exe",
-          "bytes": 12719364,
-          "sha256": "3f81a7f9ca9ec92f630dcdfd8011204fb187d23593abfbc7948b23d6ccafd9fb",
-          "url": "https://github.com/styayur/Skimmer-Scraper/releases/download/v0.8.0-rc.1/Skimmer-Scraper_0.8.0-rc.1_x64-setup.exe"
-        },
-        {
-          "name": "skimmer-scraper-v0.8.0-rc.1-dragonspine-high.zip",
-          "bytes": 112674617,
-          "sha256": "3d8a6cc4b443840f5e85daf21a46782e035bbb1288cc45bf323bf1ee3ea9f267",
-          "url": "https://github.com/styayur/Skimmer-Scraper/releases/download/v0.8.0-rc.1/skimmer-scraper-v0.8.0-rc.1-dragonspine-high.zip"
-        }
-      ],
-      "acceptanceAt": "https://github.com/styayur/Skimmer-Scraper/blob/caaefd4b507fc5745a5869ae0aaefe4c236ccc80/acceptance/v0.8.0.json",
-      "publicVerification": {
-        "status": "TESTED",
-        "result": "All four publicly downloaded release binaries/archives, manifest and SHA256SUMS matched. The high pack was downloaded by HTTP ranges.",
-        "evidence": "evidence/v0.8/rc1/public-download-verified.json"
-      },
-      "knownIssue": "OS-level Escape unlocked a captured mouse without pausing. Corrected and verified in RC2."
-    }
-  ]
+    "verificationOfReportAndChecksumList": "https://github.com/styayur/Skimmer-Scraper/blob/codex/v080-stable-evidence/evidence/v0.8/stable/final-public-downloads.json"
+  }
 }

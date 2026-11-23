@@ -1,0 +1,80 @@
+{
+  "runtime": {
+    "origin": "http://tauri.localhost",
+    "app": {
+      "version": "0.8.0",
+      "sourceCommit": "4fb542fc8081dc99cbcbc0919bb174272d90d4e9",
+      "sourceCommitTime": "2026-11-23T22:52:51+08:00",
+      "dirty": false,
+      "sourceUrl": "https://github.com/styayur/Skimmer-Scraper/tree/4fb542fc8081dc99cbcbc0919bb174272d90d4e9",
+      "toolchain": {
+        "node": "v26.7.0",
+        "platform": "win32",
+        "architecture": "x64"
+      }
+    }
+  },
+  "prepared": {
+    "phase": "ready",
+    "backend": "webgpu",
+    "device": "amd rdna-3",
+    "percent": 100,
+    "loads": 1,
+    "releases": 0,
+    "generated": 0,
+    "cacheHits": 0,
+    "completed": 0,
+    "loadMs": 5385.10000000149,
+    "inferenceMs": null,
+    "audioSeconds": null,
+    "lastVoice": null,
+    "error": null,
+    "detail": "",
+    "resident": true,
+    "cachedClipBytes": 0,
+    "idleMs": 45000
+  },
+  "samples": [
+    {
+      "phase": "ready",
+      "backend": "webgpu",
+      "device": "amd rdna-3",
+      "percent": 100,
+      "loads": 1,
+      "releases": 0,
+      "generated": 1,
+      "cacheHits": 0,
+      "completed": 1,
+      "loadMs": 5385.10000000149,
+      "inferenceMs": 8653.60000000149,
+      "audioSeconds": 4.1,
+      "lastVoice": "zf_001",
+      "error": null,
+      "detail": "",
+      "resident": true,
+      "cachedClipBytes": 393600,
+      "idleMs": 45000
+    },
+    {
+      "phase": "ready",
+      "backend": "webgpu",
+      "device": "amd rdna-3",
+      "percent": 100,
+      "loads": 1,
+      "releases": 0,
+      "generated": 1,
+      "cacheHits": 1,
+      "completed": 2,
+      "loadMs": 5385.10000000149,
+      "inferenceMs": 0,
+      "audioSeconds": 4.1,
+      "lastVoice": "zf_001",
+      "error": null,
+      "detail": "",
+      "resident": true,
+      "cachedClipBytes": 393600,
+      "idleMs": 45000
+    }
+  ],
+  "method": "Two completed same-speaker previews in the installed Windows app, real local WebGPU model and Web Audio."
+}

@@ -1,0 +1,735 @@
+{
+  "url": "https://styayur.github.io/Skimmer-Scraper/",
+  "files": [
+    {
+      "file": "_headers",
+      "bytes": 257,
+      "sha256": "42641a173db573217e3ae3bd3372acae94d8aaf48f0941bf81a00e7047fc5997"
+    },
+    {
+      "file": "assets/basis_transcoder-o4Hde_L7.js",
+      "bytes": 57529,
+      "sha256": "8478b5b6d6b74e7d3082b89f6417321d8d1dc0307f2b30d4484bb11b441696a1"
+    },
+    {
+      "file": "assets/basis_transcoder-VXdx5NbI.wasm",
+      "bytes": 527333,
+      "sha256": "6cf17dc889352c42e9acf8897107978d127005fe3386c36a0e3845e27967630a"
+    },
+    {
+      "file": "assets/draco_decoder-C32yEggz.wasm",
+      "bytes": 285747,
+      "sha256": "c55a594e8ffd18426d36b27fea9618af3df5e173640a3e56d46f09d76f0574f2"
+    },
+    {
+      "file": "assets/draco_decoder-fzg4nYZr.js",
+      "bytes": 719410,
+      "sha256": "30e4d486fa020737af10e3c56197693e5b904bdc05b8bfa5d7b06751dec6da04"
+    },
+    {
+      "file": "assets/draco_decoder-Z1_iN-Ht.wasm",
+      "bytes": 192420,
+      "sha256": "a680d927bed9cb864ddbd63521868891af2bfbe755092761b4837487618df8ac"
+    },
+    {
+      "file": "assets/draco_wasm_wrapper-DxJM36Ib.js",
+      "bytes": 58763,
+      "sha256": "e8049906ef3f8f75d3456c22a3f31bfdfe5b5b5bd09ccdec613b9e9a49d554d8"
+    },
+    {
+      "file": "assets/draco_wasm_wrapper-fZCQGLGb.js",
+      "bytes": 58456,
+      "sha256": "8bb2952d2ba7d67e1414f8df819410cb0434a666be53f671fff75f68843d76f6"
+    },
+    {
+      "file": "assets/ibm-plex-sans-cyrillic-ext-wght-normal-d45eAU9y.woff2",
+      "bytes": 23568,
+      "sha256": "7d0037a170882a49e65a45c38ef195237bb07b1cc791d078379f0ac0d7ae1935"
+    },
+    {
+      "file": "assets/ibm-plex-sans-cyrillic-wght-normal-BAAhND-U.woff2",
+      "bytes": 29512,
+      "sha256": "9409ee21811f0f5272b7e1d828fe8838005b0573481ef906e7e55b63f6610ab0"
+    },
+    {
+      "file": "assets/ibm-plex-sans-greek-wght-normal-CmyJS8uq.woff2",
+      "bytes": 19500,
+      "sha256": "f598dd0700f155e2facfaa8ecfacace397d4c2c153e9ce37ab7ad310e8505bc2"
+    },
+    {
+      "file": "assets/ibm-plex-sans-latin-ext-wght-normal-CIII54If.woff2",
+      "bytes": 30964,
+      "sha256": "d160e20920ae4d6556518d352d3af27a74e9b0de3d8fe17b1c1044fc75aa2f81"
+    },
+    {
+      "file": "assets/ibm-plex-sans-latin-wght-normal-IvpUvPa2.woff2",
+      "bytes": 45712,
+      "sha256": "e2291e842cf5af167122a22881a740c7f2dda7716f1e8cd76680264f4a859470"
+    },
+    {
+      "file": "assets/ibm-plex-sans-vietnamese-wght-normal-Dg1JeJN0.woff2",
+      "bytes": 13160,
+      "sha256": "73e7f7b1c980416ae0c2461268b14c7cfcce0668e683dc43fbb11a82a227b9f2"
+    },
+    {
+      "file": "assets/index-BC4RjHXT.js",
+      "bytes": 1085453,
+      "sha256": "eb620b0600ec5709579a781c46eeeebffaa568c535f15e260cfff5397f73afb4"
+    },
+    {
+      "file": "assets/index-CRsSw1ta.css",
+      "bytes": 28486,
+      "sha256": "cf7ae46e01fbf36073572f5599467019bc50e53034f467a2a0953529cb647935"
+    },
+    {
+      "file": "assets/kokoro.worker-BO2p0TY4.js",
+      "bytes": 875583,
+      "sha256": "f8e3ce46101c0f66334b8f9fbacfe4ca60bbcd7639e3d0fffc431adfcb0761dc"
+    },
+    {
+      "file": "assets/KokoroVoice-Dh3M_35J.js",
+      "bytes": 6083,
+      "sha256": "7f263cf0b90634cfe1db20b39bc05724d9da364b2b7c4ce0646bf572c4ecedd6"
+    },
+    {
+      "file": "assets/micWorklet-BcEDFlTe.js",
+      "bytes": 1715,
+      "sha256": "66509ca9315952c7e8aaa7931070b92b9b5814de4795bbcc407bf17e2b3fe381"
+    },
+    {
+      "file": "assets/ort-wasm-simd-threaded.asyncify-CxOG5pUO.wasm",
+      "bytes": 26861777,
+      "sha256": "49871f5a4409519797e127440868a6d1923339d9185907f301a5b2a1d90af082"
+    },
+    {
+      "file": "assets/ort-wasm-simd-threaded.asyncify-DXIbolS2.mjs",
+      "bytes": 53057,
+      "sha256": "0966b6105cd936744498aa60df7a22cbd47af3374dbc64a9ab561c08a71e3611"
+    },
+    {
+      "file": "assets/syne-greek-wght-normal-5tOOQDeJ.woff2",
+      "bytes": 11200,
+      "sha256": "b9ade823e28b34c3a9c038ae698e659f64b66dabeed6c979e0bc347bfcc891a7"
+    },
+    {
+      "file": "assets/syne-latin-ext-wght-normal-JjI8ZrW1.woff2",
+      "bytes": 14724,
+      "sha256": "83885b130cf2a67bc2fd6175d6f3c2875833552c1762b5943b51335038ae01f2"
+    },
+    {
+      "file": "assets/syne-latin-wght-normal-BVsvWWA4.woff2",
+      "bytes": 34608,
+      "sha256": "68b623f0e45b905041b2edb9b2e4f563a505f13db1cd06b5f1946eb2e1f47048"
+    },
+    {
+      "file": "assets/worldCodecs-CcXQoqTL.js",
+      "bytes": 94290,
+      "sha256": "f1b49d03457c135f209bc2119aa155f37c0e09d729a1683e3e01e9587efb3f71"
+    },
+    {
+      "file": "build-info.json",
+      "bytes": 360,
+      "sha256": "1cb3ad443754dbee760dbf51b89d271d964288a637a2f80ae4c867657fb9ee20"
+    },
+    {
+      "file": "CREDITS.md",
+      "bytes": 8912,
+      "sha256": "14e8e6cbea28f30265e36f5b4962c3f9dea61ca59d7ca17e024479edba801817"
+    },
+    {
+      "file": "favicon.svg",
+      "bytes": 490,
+      "sha256": "de2e3ebff5ce6d0eb77cdbb141d4e7df910236c9aba904a11ad5bf79379dcb2c"
+    },
+    {
+      "file": "index.html",
+      "bytes": 29385,
+      "sha256": "8c7597e105c66dd531ba35e671f6afa1ba3da1784d2d994568a61731e4f9468b"
+    },
+    {
+      "file": "LICENSE",
+      "bytes": 34523,
+      "sha256": "0d96a4ff68ad6d4b6f1f30f713b18d5184912ba8dd389f86aa7710db079abcb0"
+    },
+    {
+      "file": "licenses/APACHE-2.0.txt",
+      "bytes": 11358,
+      "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+    },
+    {
+      "file": "licenses/BASIS-UNIVERSAL-NOTICE.txt",
+      "bytes": 996,
+      "sha256": "6ca45ad1bcf5da7f0e11cca722670868e2298f4f0862319e1d1b5cd82b55acc1"
+    },
+    {
+      "file": "licenses/DEPENDENCIES.json",
+      "bytes": 24929,
+      "sha256": "5b1565d3d41286ff603668f55ad3dd6dac55e1187932cd90b77d31aff6c1afb2"
+    },
+    {
+      "file": "licenses/HUGGINGFACE-JINJA-MIT.txt",
+      "bytes": 1069,
+      "sha256": "d6e7b19451c1b3d1d66353bb4b1274138953b3bfd9ae60c56e77b1f548796982"
+    },
+    {
+      "file": "licenses/KTX-PARSE-LICENSE.txt",
+      "bytes": 1078,
+      "sha256": "79847431f9ecef9cf399085cb863452e71a6dab99738f4f0c1ea06c6484b5692"
+    },
+    {
+      "file": "licenses/MESHOPTIMIZER-MIT.txt",
+      "bytes": 1079,
+      "sha256": "f03037ca7bad1e3eb7f4a63fa6084a8baabd5ba30d3c239a9a7f35705d873e26"
+    },
+    {
+      "file": "licenses/ONNX-RUNTIME-MIT.txt",
+      "bytes": 1073,
+      "sha256": "2f07c72751aed99790b8a4869cf2311df85a860b22ded05fa22803587a48922c"
+    },
+    {
+      "file": "licenses/ONNX-RUNTIME-THIRD-PARTY.txt",
+      "bytes": 338088,
+      "sha256": "143764b952fdb1a7c69ce653bfba74a7744d6a8a573bfb73e235fba356c83de3"
+    },
+    {
+      "file": "licenses/PINYIN-PRO-MIT.txt",
+      "bytes": 1070,
+      "sha256": "824f6069c5a59b0c1650d0fb9f8d091866c6019eb761c8e658dfc03f001eabd2"
+    },
+    {
+      "file": "licenses/PROJECT-MIT-v0.2.0.txt",
+      "bytes": 1064,
+      "sha256": "ee4a749db280a4e552f2a7f13cce158a5509d30f3b9b52c1d837e65a428df9c1"
+    },
+    {
+      "file": "licenses/THIRD-PARTY-NOTICES.txt",
+      "bytes": 11151,
+      "sha256": "93c88df5726b6d83f74b476e6ab7eb22818cd01893a78b2156d829627461e5f4"
+    },
+    {
+      "file": "licenses/ZSTDDEC-LICENSE.txt",
+      "bytes": 2617,
+      "sha256": "8d078b49fc02bd63c1beaf4ddc629a8b48e4ba6a435415408c8209e2a5c3aacf"
+    },
+    {
+      "file": "realms/dragonspine/bronze-crest-far.glb",
+      "bytes": 37380,
+      "sha256": "c2f4518d1557178d180481f3c402f925942de28c5490043117ac362315756122"
+    },
+    {
+      "file": "realms/dragonspine/bronze-crest.glb",
+      "bytes": 103268,
+      "sha256": "99c591050a264fe644411235a65081c7436accaee5e40a4a4cda6f6a0ad7f6ad"
+    },
+    {
+      "file": "realms/dragonspine/strata-normal.png",
+      "bytes": 141267,
+      "sha256": "4bf584f302232c42e5d193261d6e3e9b6c0a0b55c109850bda0b5c55257ab937"
+    },
+    {
+      "file": "realms/dragonspine/web/ridge_-1_-1.glb",
+      "bytes": 67284,
+      "sha256": "a534d7b0e8213e606180512cced7540fce7923e9c4c61556a9ea071648e73580"
+    },
+    {
+      "file": "realms/dragonspine/web/ridge_-1_-10.glb",
+      "bytes": 67284,
+      "sha256": "26d85affc3cefc6bb5ebe373eac5b9618b98d76ab189336e37b60397fd2057f8"
+    },
+    {
+      "file": "realms/dragonspine/web/ridge_-1_-11.glb",
+      "bytes": 67284,
+      "sha256": "1f9c2268e102dce160c4e93c44af749777e7a145714a1170fce551c19c973f3a"
+    },
+    {
+      "file": "realms/dragonspine/web/ridge_-1_-12.glb",
+      "bytes": 67284,
+      "sha256": "2b7c9fe2164d75cb12013b1fb209b6244c0e13f806ee6aad9de1748c5e69fe10"
+    },
+    {
+      "file": "realms/dragonspine/web/ridge_-1_-13.glb",
+      "bytes": 67284,
+      "sha256": "0fc37f7dc666bf5f79d09b0847f3ac33bb700827eedc2e08823a7dd76f495f9c"
+    },
+    {
+      "file": "realms/dragonspine/web/ridge_-1_-14.glb",
+      "bytes": 67284,
+      "sha256": "fecf88c3eded825f292e88236f269e10f5453120992537a22033e5e5dd29a0bb"
+    },
+    {
+      "file": "realms/dragonspine/web/ridge_-1_-15.glb",
+      "bytes": 67284,
+      "sha256": "24d336b50c1255f81bc039c5bed0d5515e117796ecb10f182beb6ec0a0f5f4a5"
+    },
+    {
+      "file": "realms/dragonspine/web/ridge_-1_-16.glb",
+      "bytes": 67284,
+      "sha256": "fa15ba6aa18e3cc65dc97e2dc776fac85cbfa50a5629d8e8317e77eb44a4681b"
+    },
+    {
+      "file": "realms/dragonspine/web/ridge_-1_-17.glb",
+      "bytes": 67284,
+      "sha256": "c3e18fffce25a523bc2fbe835e684c311dffe570a3565c3ce9976c677f52f4aa"
+    },
+    {
+      "file": "realms/dragonspine/web/ridge_-1_-2.glb",
+      "bytes": 67284,
+      "sha256": "83246c7af207c4babb9a907099b47d637a90ec242eace70b7aabd6ecf8826076"
+    },
+    {
+      "file": "realms/dragonspine/web/ridge_-1_-3.glb",
+      "bytes": 67284,
+      "sha256": "f745f8f57a2dcce30d7e95156ce160a20ab4fde8b5c2a39147b01adf1eb1f977"
+    },
+    {
+      "file": "realms/dragonspine/web/ridge_-1_-4.glb",
+      "bytes": 67284,
+      "sha256": "1285d14d6fb152053785d5ff5fead04d8823586ad77e3593a813bb6f2c4108e6"
+    },
+    {
+      "file": "realms/dragonspine/web/ridge_-1_-5.glb",
+      "bytes": 67284,
+      "sha256": "30ba627e64ef49263fd200bf7a6280a4ba90d207983b6bc2da5b6d10532c9e30"
+    },
+    {
+      "file": "realms/dragonspine/web/ridge_-1_-6.glb",
+      "bytes": 67284,
+      "sha256": "17b2e88241be435edf500aee2febc8db55410dc87974b5d64224c7e53b1fd0df"
+    },
+    {
+      "file": "realms/dragonspine/web/ridge_-1_-7.glb",
+      "bytes": 67284,
+      "sha256": "dea3f52fe73bb318e9da823ff9503dc7d38fec08fc78a865f36abc019ef045e6"
+    },
+    {
+      "file": "realms/dragonspine/web/ridge_-1_-8.glb",
+      "bytes": 67280,
+      "sha256": "7410f1fd946f8b819c07fa8688e39d5d3e4f53c779e2362c550cc3a9b61feaa9"
+    },
+    {
+      "file": "realms/dragonspine/web/ridge_-1_-9.glb",
+      "bytes": 67284,
+      "sha256": "e68354a75e65187b31575f041a4df3479db69ccb9adbfc7484b1d1538662e88f"
+    },
+    {
+      "file": "realms/dragonspine/web/ridge_-1_0.glb",
+      "bytes": 67284,
+      "sha256": "ba297b042d69e288d1ab67385f467a29f7411b5801a2561c1637b3f8dd1f29dd"
+    },
+    {
+      "file": "realms/dragonspine/web/ridge_-1_1.glb",
+      "bytes": 67284,
+      "sha256": "74419b6de1538d3e6a14c7ab3e3d3723d43d64cd063064d9782b1730e0fba6f4"
+    },
+    {
+      "file": "realms/dragonspine/web/ridge_-1_2.glb",
+      "bytes": 67284,
+      "sha256": "cf4b81a2fafd094f7a1f6d8ff5399d4e6daae196710655b9380280e9c77c589d"
+    },
+    {
+      "file": "realms/dragonspine/web/ridge_-2_-1.glb",
+      "bytes": 67280,
+      "sha256": "7892ab3a10ed4cbf09ba3bf031b34b10de09fa259a0b18777423950afe673a07"
+    },
+    {
+      "file": "realms/dragonspine/web/ridge_-2_-10.glb",
+      "bytes": 67284,
+      "sha256": "ca6d1406855e650caa58013402cb87178bbaecf99271c82a1abcda80cddcb63b"
+    },
+    {
+      "file": "realms/dragonspine/web/ridge_-2_-11.glb",
+      "bytes": 67280,
+      "sha256": "b0d5c4902746499becedc5ecf529d73667690ecb9458599dfa50eaf514823f8d"
+    },
+    {
+      "file": "realms/dragonspine/web/ridge_-2_-12.glb",
+      "bytes": 67284,
+      "sha256": "ca8d4f6979a1d94c39d0625360087c8a640080b6ccdc8b83658de2a511e26ecb"
+    },
+    {
+      "file": "realms/dragonspine/web/ridge_-2_-13.glb",
+      "bytes": 67284,
+      "sha256": "2669adb93d393a19051f9d408a5327ead7d9c7bcb774b0164ea84bb5448de658"
+    },
+    {
+      "file": "realms/dragonspine/web/ridge_-2_-14.glb",
+      "bytes": 67284,
+      "sha256": "ba9e57f0959c50bad11429818ebb611a93274741385e34ee074bfed0c41165d2"
+    },
+    {
+      "file": "realms/dragonspine/web/ridge_-2_-15.glb",
+      "bytes": 67284,
+      "sha256": "0401908e7ccd2fd1fb7b786b0c17b7997a41fd86c85e7f3918a6191b59bc6a89"
+    },
+    {
+      "file": "realms/dragonspine/web/ridge_-2_-16.glb",
+      "bytes": 67284,
+      "sha256": "d9f945807023bfed40210a0f4d156d475d31ea927d1371b2476532f58f93805f"
+    },
+    {
+      "file": "realms/dragonspine/web/ridge_-2_-17.glb",
+      "bytes": 67284,
+      "sha256": "44f08e41e959bc7414240ae649956d181f7bcd0c21bbe1913cdc66ebf71ded91"
+    },
+    {
+      "file": "realms/dragonspine/web/ridge_-2_-2.glb",
+      "bytes": 67284,
+      "sha256": "83d767f5080f264db3f9508f1e0c313c1c01ab44baf3b383f900a309c04eeeff"
+    },
+    {
+      "file": "realms/dragonspine/web/ridge_-2_-3.glb",
+      "bytes": 67284,
+      "sha256": "9ff7ee3ac7e1c774c2166b9c4f1222675a1da540fdc633ef68aea4370c8b6c30"
+    },
+    {
+      "file": "realms/dragonspine/web/ridge_-2_-4.glb",
+      "bytes": 67284,
+      "sha256": "9d68b21e5b5f6b77b52adca818e37b77a49686fd246b6bbc8363f5191bfd2f99"
+    },
+    {
+      "file": "realms/dragonspine/web/ridge_-2_-5.glb",
+      "bytes": 67284,
+      "sha256": "2e67c105ae65b1fea786e09a0d2eb63fbb4f13fe74289f9f617f83157dec1bab"
+    },
+    {
+      "file": "realms/dragonspine/web/ridge_-2_-6.glb",
+      "bytes": 67280,
+      "sha256": "539396330c170b98b542d514f3081283300637bed24fd297689107b42051a590"
+    },
+    {
+      "file": "realms/dragonspine/web/ridge_-2_-7.glb",
+      "bytes": 67284,
+      "sha256": "8e78df7b22b3bcd97f470f97e95019b296b7bd81daf2f3d8aa4f89e691725a6a"
+    },
+    {
+      "file": "realms/dragonspine/web/ridge_-2_-8.glb",
+      "bytes": 67284,
+      "sha256": "6c47a6f90bcca1290e22b0de0fbd7085e9bbf4826cbd8f0b05522ee6401bcce1"
+    },
+    {
+      "file": "realms/dragonspine/web/ridge_-2_-9.glb",
+      "bytes": 67284,
+      "sha256": "b298e3e5d81b141eb4ca85401d26a0921f350756e511e3e61cd23c84b4175aff"
+    },
+    {
+      "file": "realms/dragonspine/web/ridge_-2_0.glb",
+      "bytes": 67284,
+      "sha256": "dcb6c7cad1adf19924b29106169e2ca38f79bf902e93be7bc46e47099c9dcb16"
+    },
+    {
+      "file": "realms/dragonspine/web/ridge_-2_1.glb",
+      "bytes": 67284,
+      "sha256": "2015a4121659e2bf281252a933a86e1a81fc693247ab8e1ad7a86f1f744c511a"
+    },
+    {
+      "file": "realms/dragonspine/web/ridge_-2_2.glb",
+      "bytes": 67284,
+      "sha256": "9f347f4882c8ddbe38c8e8b4cbba0b53c304646533781fed89e83ee3bf387e94"
+    },
+    {
+      "file": "realms/dragonspine/web/ridge_0_-1.glb",
+      "bytes": 67284,
+      "sha256": "4e05c44e3c8cd01e59d3257b29556ae92cbdb2a314775e90d7af2152d1310aff"
+    },
+    {
+      "file": "realms/dragonspine/web/ridge_0_-10.glb",
+      "bytes": 67284,
+      "sha256": "687b88336835356572f53fad1e93dd9a7cdbf8a4eb20f7fafe76d6634f7e965f"
+    },
+    {
+      "file": "realms/dragonspine/web/ridge_0_-11.glb",
+      "bytes": 67284,
+      "sha256": "32a51b6208476065b7e75b70b3c053598b9528419853cdc2052ff774d604d551"
+    },
+    {
+      "file": "realms/dragonspine/web/ridge_0_-12.glb",
+      "bytes": 67284,
+      "sha256": "03b899533a8dd4dbdef8d7da76f0270c1ad5d5a8fd10166c68a6f1a180d2478f"
+    },
+    {
+      "file": "realms/dragonspine/web/ridge_0_-13.glb",
+      "bytes": 67284,
+      "sha256": "4acafd1fed82f3fe1ba35d6b9d481948c0599de3b5afef8f2a1a33b9bdca0a76"
+    },
+    {
+      "file": "realms/dragonspine/web/ridge_0_-14.glb",
+      "bytes": 67280,
+      "sha256": "5cb5b7983de29151224908e7050a735dd1e9529d5a6a37bd40ef379c3f299dc0"
+    },
+    {
+      "file": "realms/dragonspine/web/ridge_0_-15.glb",
+      "bytes": 67284,
+      "sha256": "8be591e1f820c81fa38b1d35918892de66945781352090e8bfd5436c10eca84a"
+    },
+    {
+      "file": "realms/dragonspine/web/ridge_0_-16.glb",
+      "bytes": 67280,
+      "sha256": "8428b1df6e7045b3439873b91e238655a06b4a89e95b0be5b3243f6c3db01103"
+    },
+    {
+      "file": "realms/dragonspine/web/ridge_0_-17.glb",
+      "bytes": 67284,
+      "sha256": "122d7441060afa9b982ab57cdade110beae462f3e40cd96483419aa5a4e2c240"
+    },
+    {
+      "file": "realms/dragonspine/web/ridge_0_-2.glb",
+      "bytes": 67284,
+      "sha256": "40e34318d4cce81b93fd15698a1775933733ed40486812954200cad6c9a8f8b2"
+    },
+    {
+      "file": "realms/dragonspine/web/ridge_0_-3.glb",
+      "bytes": 67284,
+      "sha256": "fe9eaa909cfc36120ec231013934edad46b5819849a5d895108cb5d53d12798f"
+    },
+    {
+      "file": "realms/dragonspine/web/ridge_0_-4.glb",
+      "bytes": 67284,
+      "sha256": "9b7d4243772d2a0fe38604318219d6ad3c4fd66b7cccffece03fe98c05e142ea"
+    },
+    {
+      "file": "realms/dragonspine/web/ridge_0_-5.glb",
+      "bytes": 67284,
+      "sha256": "c49582cf44d6367ccc48e7c89c8ac75221337c72b546e78bdf47cf1e7140ccf1"
+    },
+    {
+      "file": "realms/dragonspine/web/ridge_0_-6.glb",
+      "bytes": 67284,
+      "sha256": "73d09cfa852553c7d118e9cd49ec245c9397876074e20f50bc97b8b5e4eec756"
+    },
+    {
+      "file": "realms/dragonspine/web/ridge_0_-7.glb",
+      "bytes": 67284,
+      "sha256": "406e066edfa2a35deb087a280813985f09ad8c50f0a19266536a9127e26b3146"
+    },
+    {
+      "file": "realms/dragonspine/web/ridge_0_-8.glb",
+      "bytes": 67284,
+      "sha256": "142fb51a0eb7447f3fa1af45a5e028846c2fa2dfde9ca5419d6c52c1f3d230de"
+    },
+    {
+      "file": "realms/dragonspine/web/ridge_0_-9.glb",
+      "bytes": 67284,
+      "sha256": "3e4eb6551e6780ebdd6308e56431b3d37f44ea907302c2f8542dcb80eeb89085"
+    },
+    {
+      "file": "realms/dragonspine/web/ridge_0_0.glb",
+      "bytes": 67284,
+      "sha256": "dd5718a582bb15689a414a159d8356c141aaa1f30693c1c8bd5b2d135510f43c"
+    },
+    {
+      "file": "realms/dragonspine/web/ridge_0_1.glb",
+      "bytes": 67284,
+      "sha256": "8b836598db28b0eba6dafa5c02bef9ff6c6246ff63b84d949d8bafa67dca06eb"
+    },
+    {
+      "file": "realms/dragonspine/web/ridge_0_2.glb",
+      "bytes": 67284,
+      "sha256": "701d7b3ad2c75529a5e0c9f5ae5db6ced2d7e2426cbf7d5a5f41ce5c47608614"
+    },
+    {
+      "file": "realms/dragonspine/web/ridge_1_-1.glb",
+      "bytes": 67284,
+      "sha256": "ac9e8d92b5ff43f0d54d2c0dee3d8cee670373e2f3752346c9a2dd5d54d189be"
+    },
+    {
+      "file": "realms/dragonspine/web/ridge_1_-10.glb",
+      "bytes": 67284,
+      "sha256": "b2bd02c6854d6dd091f54db994e462f0274455e141b546733e814f83ffcc5cde"
+    },
+    {
+      "file": "realms/dragonspine/web/ridge_1_-11.glb",
+      "bytes": 67284,
+      "sha256": "5b1ed8feb80ad0f1a90adb7a88dd5064996f2486e8a97d86d159511cf084d830"
+    },
+    {
+      "file": "realms/dragonspine/web/ridge_1_-12.glb",
+      "bytes": 67280,
+      "sha256": "adbd1305fde5ff8570741094587e8492be82234ec818bd4443c153144711b807"
+    },
+    {
+      "file": "realms/dragonspine/web/ridge_1_-13.glb",
+      "bytes": 67284,
+      "sha256": "787c609e8e8594e8c8247268a6ad64ca21e2d1e694d9fa5ce3656ed9d3c16605"
+    },
+    {
+      "file": "realms/dragonspine/web/ridge_1_-14.glb",
+      "bytes": 67284,
+      "sha256": "a19879c70e134e8d913c7261a18922b347bd7bc1156d5023dda752d61a5e0b08"
+    },
+    {
+      "file": "realms/dragonspine/web/ridge_1_-15.glb",
+      "bytes": 67284,
+      "sha256": "9491b10d161a5d8d3b7e8dda1733bff0bba6fd9b8a043ca156aece0fd4b7b3a6"
+    },
+    {
+      "file": "realms/dragonspine/web/ridge_1_-16.glb",
+      "bytes": 67284,
+      "sha256": "8a8a37dfa1c12ef45dd90d5c1bef73f935be060863546a6c1c8df6c9291ff1c2"
+    },
+    {
+      "file": "realms/dragonspine/web/ridge_1_-17.glb",
+      "bytes": 67284,
+      "sha256": "d1bf0d2acc86f0ca7232fe538c6c365eafe51881057fa543b58ba99042c32c3e"
+    },
+    {
+      "file": "realms/dragonspine/web/ridge_1_-2.glb",
+      "bytes": 67284,
+      "sha256": "924093fd385bae6a3c9e5badafe0d05cdaad92d3f54d5215c2434a7e16a2b4b7"
+    },
+    {
+      "file": "realms/dragonspine/web/ridge_1_-3.glb",
+      "bytes": 67284,
+      "sha256": "250015c89f6717ae83a9aa692990f94c71fa35561e5676e3452b380daa73c302"
+    },
+    {
+      "file": "realms/dragonspine/web/ridge_1_-4.glb",
+      "bytes": 67284,
+      "sha256": "38a16d11376c1bdfff1a29bdc71ad0fc1823b8db7a80ec46591fa27ddc1772ef"
+    },
+    {
+      "file": "realms/dragonspine/web/ridge_1_-5.glb",
+      "bytes": 67284,
+      "sha256": "ccba5c8221af0318ef4a49d7fa21b0402ab3988fdd47aa7dd2610aa45bd86548"
+    },
+    {
+      "file": "realms/dragonspine/web/ridge_1_-6.glb",
+      "bytes": 67284,
+      "sha256": "c3a7ca3fcf4619b2b2f4131677b1cb050ede1817e3b58471d1568710b016ab4b"
+    },
+    {
+      "file": "realms/dragonspine/web/ridge_1_-7.glb",
+      "bytes": 67284,
+      "sha256": "f1ce8dba9b59c6a41eb37b21ac08d8e6d468959a9202ad4571db4fda004f41d3"
+    },
+    {
+      "file": "realms/dragonspine/web/ridge_1_-8.glb",
+      "bytes": 67280,
+      "sha256": "b8c7cda69a302f517311d567718b88aa9fd6345827bf2da873c6992caef668ee"
+    },
+    {
+      "file": "realms/dragonspine/web/ridge_1_-9.glb",
+      "bytes": 67284,
+      "sha256": "934989769b94c30fc8665b6fc0a30296537b4c244ceccfab8236ccb9dec6a693"
+    },
+    {
+      "file": "realms/dragonspine/web/ridge_1_0.glb",
+      "bytes": 67284,
+      "sha256": "baefbf99cf8ab813c6e18d57fbf47856aed08d76f44bb222e43ddebad2625c91"
+    },
+    {
+      "file": "realms/dragonspine/web/ridge_1_1.glb",
+      "bytes": 67284,
+      "sha256": "9f5939ffe3c94555db6d6220effd4a9fb3051cbe8111282da7d11a3468ad6162"
+    },
+    {
+      "file": "realms/dragonspine/web/ridge_1_2.glb",
+      "bytes": 67284,
+      "sha256": "ec3e21c7b24b213f1924f4497a0fa3674bea7eab62aab4fb1bc6b99c8c7040e9"
+    },
+    {
+      "file": "realms/dragonspine/web/ridge_2_-1.glb",
+      "bytes": 67284,
+      "sha256": "fbb9f40dcfdea0d3e4749ec382d3ebadcc23e270b147945c47623eb78e3d083b"
+    },
+    {
+      "file": "realms/dragonspine/web/ridge_2_-10.glb",
+      "bytes": 67284,
+      "sha256": "22494921c3fec9536ac095e901873d963b2d89a28b28a86d4a4f3a4545518186"
+    },
+    {
+      "file": "realms/dragonspine/web/ridge_2_-11.glb",
+      "bytes": 67284,
+      "sha256": "8fc30209347370e9ca34fbae168c8b8b8ff120b6bfff4fb3a9b9722adcfe46e0"
+    },
+    {
+      "file": "realms/dragonspine/web/ridge_2_-12.glb",
+      "bytes": 67284,
+      "sha256": "4b2d4cacc3cf274b9bc6fb58dc177e24776d3827b336544f97d2f7b679da5467"
+    },
+    {
+      "file": "realms/dragonspine/web/ridge_2_-13.glb",
+      "bytes": 67284,
+      "sha256": "207b7cea7dd3ed44be455758dc9a378618130f54437c074ef5d39dc3f2a3d1c6"
+    },
+    {
+      "file": "realms/dragonspine/web/ridge_2_-14.glb",
+      "bytes": 67284,
+      "sha256": "2e2e37703e86f4c511ce990a75bbf711840dab6884a39686b5c3a60813f73afa"
+    },
+    {
+      "file": "realms/dragonspine/web/ridge_2_-15.glb",
+      "bytes": 67284,
+      "sha256": "682b85283847f23bc22ef04bafdf37c3c3b128c1594f7334638d1b85031862f3"
+    },
+    {
+      "file": "realms/dragonspine/web/ridge_2_-16.glb",
+      "bytes": 67284,
+      "sha256": "91285010919650edfcf213844fa00f6c0607d6ce8744f02a21ffeabe30042fad"
+    },
+    {
+      "file": "realms/dragonspine/web/ridge_2_-17.glb",
+      "bytes": 67284,
+      "sha256": "046a3cd1276d706346cbb52d47995825497487f8fe02d2ce5b7d1827f473bb7b"
+    },
+    {
+      "file": "realms/dragonspine/web/ridge_2_-2.glb",
+      "bytes": 67284,
+      "sha256": "500c8e9a67a7b1133ac2935c1cd43129db55143f4d2163048afbea7b80e33659"
+    },
+    {
+      "file": "realms/dragonspine/web/ridge_2_-3.glb",
+      "bytes": 67284,
+      "sha256": "1dfe9ad0eba42aa86ba754e9e1e1517026e425452c8fa5c00eceb50fd44033cd"
+    },
+    {
+      "file": "realms/dragonspine/web/ridge_2_-4.glb",
+      "bytes": 67284,
+      "sha256": "8ed9b0a6cd95bbf39d1a034680faf638b059e3ff30ff0d7a94b2d8a34ceeaf44"
+    },
+    {
+      "file": "realms/dragonspine/web/ridge_2_-5.glb",
+      "bytes": 67284,
+      "sha256": "002c95d73fcc813421d41445f7d40c5de3654b7a4bfde6a0098ed7a3a42b2d34"
+    },
+    {
+      "file": "realms/dragonspine/web/ridge_2_-6.glb",
+      "bytes": 67284,
+      "sha256": "61bb53f4880b7bf12614899fc25f0d66b46f1efe2193b2a36ca1be65db20d843"
+    },
+    {
+      "file": "realms/dragonspine/web/ridge_2_-7.glb",
+      "bytes": 67284,
+      "sha256": "b9986d90bc9337a73c9b05730f790525b0290d7a02e8b003df74cf28a1994b22"
+    },
+    {
+      "file": "realms/dragonspine/web/ridge_2_-8.glb",
+      "bytes": 67284,
+      "sha256": "efebd163e08970e1d9eefb18a40b71695a671b732ac05268a2bebee57d4d2cb8"
+    },
+    {
+      "file": "realms/dragonspine/web/ridge_2_-9.glb",
+      "bytes": 67284,
+      "sha256": "f9130b9687f7150bb64cf137664757f36bb2954111733e068bb79ccb0c58653c"
+    },
+    {
+      "file": "realms/dragonspine/web/ridge_2_0.glb",
+      "bytes": 67284,
+      "sha256": "b2cf48128752dadd92d4f16c99b2bb42334b20ba8dc21dca2ed7093c51a2bd53"
+    },
+    {
+      "file": "realms/dragonspine/web/ridge_2_1.glb",
+      "bytes": 67284,
+      "sha256": "a7a2f3789d08ba4f23ee6dc19bddd318d97761f3001917b18323f03cbdebb7f3"
+    },
+    {
+      "file": "realms/dragonspine/web/ridge_2_2.glb",
+      "bytes": 67284,
+      "sha256": "78f5fa497d6964b238a52a506aec4ebb97c0d3e4b7edf35b8cc59dca128e5569"
+    },
+    {
+      "file": "realms/dragonspine/web/world-pack.json",
+      "bytes": 33294,
+      "sha256": "1f2cbbab8f612eaf660b917ea98d69d38f250b7e2eefa835104f6d9b1d5d9785"
+    }
+  ]
+}

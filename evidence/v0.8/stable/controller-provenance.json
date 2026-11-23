@@ -1,0 +1,32 @@
+{
+  "status": "VERIFIED WINDOWS DESKTOP",
+  "method": "Existing physical RC2 run, tied to clean final source and matching installed native runtime.",
+  "version": "0.8.0",
+  "sourceCommit": "4fb542fc8081dc99cbcbc0919bb174272d90d4e9",
+  "rc2Commit": "322ecad6b72976fb80863163640a63e51196843c",
+  "evidenceCommit": "961d04a5c4ca97e021faf16f610f5a3054936c12",
+  "evidencePath": "evidence/v0.8/rc2/physical-20261123124449/gamepad.json",
+  "evidenceSha256": "0354fda684631b0154b80cde8fcf18593632452063699e25d8b0a8e850841b17",
+  "original": {
+    "device": "Xbox 360 Controller (XInput STANDARD GAMEPAD)",
+    "axisDelta": 1.6922560463874265,
+    "startDown": true,
+    "pausedAfterStart": true,
+    "startMode": "running"
+  },
+  "identicalRuntimePaths": [
+    "src",
+    "public",
+    "index.html",
+    "src-tauri/src",
+    "src-tauri/build.rs",
+    "src-tauri/capabilities",
+    "src-tauri/permissions",
+    "vite.config.ts"
+  ],
+  "dependencyLocks": "Identical after normalizing the root application version",
+  "renderer": "ANGLE (AMD, AMD Radeon 780M Graphics (0x00001900) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+  "webView2": "157.0.4341.60",
+  "stableExeSha256": "4307A58C76B65FA50825D8CB4743AACE85D66AD0D505A61EA4D7019E554214ED",
+  "testedAt": "2026-11-23T15:10:22.550845+00:00"
+}
