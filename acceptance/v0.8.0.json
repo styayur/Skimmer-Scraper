@@ -493,21 +493,31 @@
       "evidence": "evidence/v0.8/pr3/webview2-tts-transport.json"
     },
     "gamepad": {
-      "status": "BLOCKED",
+      "status": "VERIFIED WINDOWS DESKTOP",
       "device": "Physical USB Xbox 360 XInput controller",
       "axisDetected": true,
-      "physicalStartConfirmed": false,
+      "physicalStartConfirmed": true,
       "syntheticNavigationPassed": true,
       "evidence": "evidence/v0.8/pr1/controller-webview2.json",
       "rcObservedAxisDelta": 0.048218509193560743,
       "rcEvidence": "evidence/v0.8/rc1/live-input.json",
-      "rc2Evidence": "evidence/v0.8/rc2/gamepad.json",
+      "rc2Evidence": "evidence/v0.8/rc2/physical-20261123124449/gamepad.json",
       "rc2Observation": {
         "device": "Xbox 360 Controller (XInput STANDARD GAMEPAD)",
-        "axisDelta": 0.048218509193560743,
-        "startDown": false,
-        "pausedAfterStart": false,
+        "axisDelta": 1.6922560463874265,
+        "startDown": true,
+        "pausedAfterStart": true,
         "startMode": "running"
+      },
+      "previousRc2Observation": {
+        "evidence": "evidence/v0.8/rc2/gamepad.json",
+        "observation": {
+          "device": "Xbox 360 Controller (XInput STANDARD GAMEPAD)",
+          "axisDelta": 0.048218509193560743,
+          "startDown": false,
+          "pausedAfterStart": false,
+          "startMode": "running"
+        }
       }
     },
     "deepseekCompanion": {
@@ -608,7 +618,7 @@
     "target": "0.8.0",
     "status": "BLOCKED",
     "stableTag": null,
-    "reason": "Physical controller and final-source qualification gates remain open",
+    "reason": "The RC2 physical controller gate passed. Final-source Web and Windows qualification is pending.",
     "baselineChecked": "2026-11-23T20:26:00+08:00",
     "latestStableTag": "v0.7.0"
   },
@@ -665,14 +675,13 @@
     }
   },
   "limitations": [
-    "Final production release requires verified physical gamepad input and a common final main SHA.",
+    "Formal production qualification requires a common final main SHA for the Web and Windows builds.",
     "Windows packages are unsigned and the portable distribution requires the system WebView2 Runtime.",
     "World pack v1 restricts external refinements to static terrain. Built-in assets provide actors and materials.",
     "GPU results cover one Windows 11 device. The 32-scenario matrix, real cloud voice test and paired city baseline used RC1. The RC2 long flight and local speech-cache test used the installed RC2.",
-    "RC1 real Kokoro inference during flight took 7.35 seconds and included a 58.3 ms frame. The bounded cache only removes inference when repeating a cached clip.",
-    "The physical controller was enumerated on RC2. Its maximum observed axis delta was 0.0482. No Start press was received during the observation window."
+    "RC1 real Kokoro inference during flight took 7.35 seconds and included a 58.3 ms frame. The bounded cache only removes inference when repeating a cached clip."
   ],
-  "evidenceUpdatedAt": "2026-11-23T20:25:51+08:00",
+  "evidenceUpdatedAt": "2026-11-23T20:46:39+08:00",
   "candidateHistory": [
     {
       "version": "0.8.0-rc.1",
