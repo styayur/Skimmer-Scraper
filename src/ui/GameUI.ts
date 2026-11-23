@@ -1,7 +1,7 @@
 import type { CameraMode } from '../config/experience';
 import { formatTime } from '../game/storage';
 import type { WorldMode, WorldSettings } from '../world/worldConfig';
-import { LEGACY_GENERATOR_VERSION, WORLD_PRESET_OPTIONS } from '../world/worldConfig';
+import { GENERATOR_VERSION, WORLD_PRESET_OPTIONS } from '../world/worldConfig';
 
 export interface FlightHudSnapshot {
   runTime: number;
@@ -285,9 +285,9 @@ export class GameUI {
   public setWorldSettings(settings: WorldSettings): void {
     this.worldSeedInput.value = settings.seedText;
     this.worldModeSelect.value = settings.mode;
-    this.worldLegacy.hidden = settings.generatorVersion !== LEGACY_GENERATOR_VERSION;
+    this.worldLegacy.hidden = settings.generatorVersion === GENERATOR_VERSION;
     const legacy = WORLD_PRESET_OPTIONS.find(option => option.id === settings.preset);
-    this.worldLegacyNote.textContent = legacy ? '旧版城市 · ' + legacy.label : '';
+    this.worldLegacyNote.textContent = legacy ? '旧版城市 · ' + legacy.label : '统一城市 · 第 3 版';
   }
 
   public setModels(models: ModelListItem[], selectedId: string): void {

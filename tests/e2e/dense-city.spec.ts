@@ -19,10 +19,10 @@ test('reproduces legacy URLs and flies through five dense-city worlds with three
   await page.keyboard.press('g');
   await expect(page.locator('#world-legacy-note')).toContainText('Sakura Dusk');
   await page.locator('#world-upgrade').click();
-  await page.waitForURL(/gen=3/);
+  await page.waitForURL(/gen=4/);
   await ready();
   const city = await snapshot();
-  expect(city.generatorVersion).toBe(3);
+  expect(city.generatorVersion).toBe(4);
   expect(city.seed).toBe(legacy.seed);
   expect(city.worldPreset).toBe('city');
   expect(city.best).toBe(0);
@@ -59,7 +59,7 @@ test('reproduces legacy URLs and flies through five dense-city worlds with three
     }, index);
     expect(arrival.mode).toBe('running');
     expect(arrival.journey.worldIndex).toBe(index);
-    expect(arrival.generatorVersion).toBe(3);
+    expect(arrival.generatorVersion).toBe(4);
     expect(arrival.worldPreset).toBe('city');
     expect(arrival.companions).toHaveLength(3);
     expect(arrival.streaming!.bvhCount).toBeLessThanOrEqual(41);

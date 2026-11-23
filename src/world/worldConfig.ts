@@ -4,7 +4,8 @@ import { mulberry32 } from './rng';
 export const CHUNK_SIZE = 220;
 export const CITY_SHADOW_LAYER = 5;
 export const LEGACY_GENERATOR_VERSION = 2;
-export const GENERATOR_VERSION = 3;
+export const DENSE_GENERATOR_VERSION = 3;
+export const GENERATOR_VERSION = 4;
 export const DEFAULT_WORLD_SEED = 0x51a7a;
 
 export type WorldMode = 'stable' | 'ephemeral';
@@ -15,6 +16,7 @@ export type ConcretePresetId = Exclude<LegacyPresetId, 'randomized'>;
 export interface CityGenerationConfig {
   preset: WorldPresetId;
   architecture?: 'setback' | 'faceted' | 'lantern';
+  landmark?: import('./architectureLibrary').TowerModel;
   buildingDensity: number;
   buildingHeightMin: number;
   buildingHeightMax: number;
@@ -200,7 +202,8 @@ export const resolveWorldSettings = (options: {
     ...parsedSeed,
     preset,
     mode,
-    generatorVersion: legacy ? LEGACY_GENERATOR_VERSION : GENERATOR_VERSION,
+    generatorVersion: legacy ? LEGACY_GENERATOR_VERSION
+      : options.generatorVersion === DENSE_GENERATOR_VERSION ? DENSE_GENERATOR_VERSION : GENERATOR_VERSION,
     config: resolveGenerationConfig(preset, parsedSeed.seed),
   };
 };
@@ -211,7 +214,7 @@ export const worldSettingsFromSearch = (search: string | URLSearchParams): World
   const hasLegacyFields = params.has('seed') || params.has('preset') || params.has('world');
   const generatorVersion = explicit === String(GENERATOR_VERSION) || (!explicit && !hasLegacyFields)
     ? GENERATOR_VERSION
-    : LEGACY_GENERATOR_VERSION;
+    : explicit === String(DENSE_GENERATOR_VERSION) ? DENSE_GENERATOR_VERSION : LEGACY_GENERATOR_VERSION;
   return resolveWorldSettings({
     seed: params.get('seed'),
     preset: params.get('preset'),

@@ -2,7 +2,7 @@ import { fingerprintValues, seededRandom } from './deterministic';
 import { range } from './rng';
 import { terrainHeightAt } from './terrain';
 import { cityDistrictAt } from './cityDistricts';
-import { CHUNK_SIZE, GENERATOR_VERSION, type WorldSettings } from './worldConfig';
+import { CHUNK_SIZE, DENSE_GENERATOR_VERSION, type WorldSettings } from './worldConfig';
 
 export interface BridgeLineDefinition {
   axis: 'x' | 'z';
@@ -36,7 +36,7 @@ export const bridgeLineAt = (
     axis === 'x' ? 1 : 2,
     lineIndex,
   );
-  if (settings.generatorVersion === GENERATOR_VERSION) {
+  if (settings.generatorVersion >= DENSE_GENERATOR_VERSION) {
     const location = lineIndex * settings.config.streetSpacing;
     const district = axis === 'x'
       ? cityDistrictAt(settings.seed, 0, location)
@@ -56,7 +56,7 @@ export const bridgeTiersAt = (
   settings: WorldSettings, axis: 'x' | 'z', lineIndex: number,
 ): BridgeLineDefinition[] => {
   const primary = { axis, lineIndex, ...bridgeLineAt(settings, axis, lineIndex) };
-  if (!primary.enabled || settings.generatorVersion !== GENERATOR_VERSION) return [primary];
+  if (!primary.enabled || settings.generatorVersion < DENSE_GENERATOR_VERSION) return [primary];
   const random = seededRandom(settings.seed, settings.generatorVersion, 'upper-bridge', axis, lineIndex);
   const upper = primary.height + 74;
   if (random() >= 0.48 || upper > settings.config.bridgeHeightMax) return [primary];

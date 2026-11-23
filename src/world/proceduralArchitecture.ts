@@ -2,7 +2,9 @@ import * as THREE from 'three';
 import type { Vec3 } from '../core/math';
 import { seededRandom } from './deterministic';
 import type { DynamicColliderRegistry } from './dynamicColliderRegistry';
-import { CHUNK_SIZE, type WorldSettings } from './worldConfig';
+import { CHUNK_SIZE, GENERATOR_VERSION, type WorldSettings } from './worldConfig';
+import { ArchitectureLibrary, type ArchitectureModel } from './architectureLibrary';
+import { mergeGeometries } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 
 const areaSize = CHUNK_SIZE * 2;
 const types = ['garden', 'shuttle', 'ring', 'lift'] as const;
@@ -34,7 +36,33 @@ export class ProceduralArchitecture {
         roughness: 0.62, metalness: 0.25, emissive: new THREE.Color().setHSL(hue, 0.72, 0.22), emissiveIntensity: 0.48 }),
     });
     const hue = world.paletteHue ?? 0.49;
-    this.archetypes = {
+    if (world.generatorVersion === GENERATOR_VERSION) {
+      const library = new ArchitectureLibrary();
+      const colors: Record<string, number> = {
+        shellIvory: 0xecc3a2, shellPlum: 0x744358, shellCeladon: 0x59998c, glass: 0x356975,
+        teal: 0x82ecce, rose: 0xf77896, windowWarm: 0xffce8e, wood: 0x725052,
+        blossom: 0xf6a1bc, bridge: 0x6a656b, soil: 0x829579, rock: 0x684f64,
+      };
+      const station = (name: ArchitectureModel, sx: number, sy: number, sz: number, tilt = 0) => {
+        const parts = library.parts(name).map(({geometry, material}) => {
+          const mesh = geometry.clone().scale(sx,sy,sz).rotateX(tilt);
+          const color = new THREE.Color(colors[material]).offsetHSL(world.paletteHue ?? 0,0,0);
+          const data = new Float32Array(mesh.getAttribute('position').count * 3);
+          for (let i=0; i<data.length; i+=3) color.toArray(data,i);
+          mesh.setAttribute('color',new THREE.BufferAttribute(data,3));
+          return mesh;
+        });
+        const geometry = mergeGeometries(parts)!;
+        for (const part of parts) part.dispose();
+        geometry.center();
+        return { geometry, material: new THREE.MeshStandardMaterial({vertexColors:true,roughness:0.49,metalness:0.25}) };
+      };
+      this.archetypes = {
+        garden: station('skyGarden',.83,.72,.83), shuttle: station('lanternCourt',1.45,.26,.55),
+        ring: station('orbit',1.38,1.4,1.38,Math.PI/2), lift: station('terraceOrchard',.78,.41,.78),
+      };
+      library.dispose();
+    } else this.archetypes = {
       garden: finish(new THREE.CylinderGeometry(21, 14, 11, 9, 1), hue),
       shuttle: finish(new THREE.CapsuleGeometry(5.8, 36, 3, 9).rotateZ(Math.PI / 2), (hue + 0.37) % 1),
       ring: finish(new THREE.TorusGeometry(23, 3.2, 8, 32), (hue + 0.48) % 1),
