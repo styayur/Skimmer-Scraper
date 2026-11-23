@@ -14,9 +14,11 @@ import {
 import { terrainHeightAt } from './terrain';
 import { bridgeTiersAt, type BridgeLineDefinition } from './stableBoundary';
 import { cityDistrictAt } from './cityDistricts';
+import { ArchitectureLibrary, towerModel, type ArchitectureModel } from './architectureLibrary';
 import {
   CHUNK_SIZE,
   CITY_SHADOW_LAYER,
+  DENSE_GENERATOR_VERSION,
   GENERATOR_VERSION,
   type WorldSettings,
 } from './worldConfig';
@@ -137,18 +139,19 @@ export class ChunkGenerator {
   // Keep cached shadow uniforms inside the world's lifetime. A renderer-shared
   // depth material can re-upload a disposed ground map when the next city casts shadows.
   private readonly shadowDepthMaterial = new THREE.MeshDepthMaterial();
+  private readonly library = new ArchitectureLibrary();
   private disposed = false;
   private readonly materials: WorldMaterials;
   private readonly billboardMaterials: BillboardMaterialSet;
 
   public constructor(
     public readonly settings: WorldSettings,
-    materials = createWorldMaterials(settings.paletteHue ?? 0),
+    materials = createWorldMaterials(settings.paletteHue ?? 0, settings.generatorVersion === GENERATOR_VERSION),
     billboardMaterials = createBillboardMaterialSet(),
   ) {
     this.materials = materials;
     this.billboardMaterials = billboardMaterials;
-    if (settings.generatorVersion === GENERATOR_VERSION) {
+    if (settings.generatorVersion >= DENSE_GENERATOR_VERSION) {
       // The illuminated windows are individual flat planes with no volume.
       this.materials.byKey.windowWarm.forceSinglePass = true;
     }
@@ -158,7 +161,8 @@ export class ChunkGenerator {
     if (this.disposed) throw new Error('Chunk generator is disposed.');
     const key = `chunk:${chunkX}:${chunkZ}:r${revision}`;
     const origin = { x: chunkX * CHUNK_SIZE, y: 0, z: chunkZ * CHUNK_SIZE };
-    const denseCity = this.settings.generatorVersion === GENERATOR_VERSION;
+    const denseCity = this.settings.generatorVersion >= DENSE_GENERATOR_VERSION;
+    const authored = this.settings.generatorVersion === GENERATOR_VERSION;
     const bevelSegments = denseCity ? 1 : 2;
     const work: ChunkWork = {
       render: new Map(),
@@ -196,6 +200,12 @@ export class ChunkGenerator {
       }
     };
 
+    const addModel = (model: ArchitectureModel, matrix: THREE.Matrix4): void => {
+      for (const part of this.library.parts(model)) {
+        addPiece(part.material, part.geometry.clone(), matrix, part.collides);
+      }
+    };
+
     const addBox = (
       materialKey: WorldMaterialKey,
       width: number,
@@ -220,7 +230,7 @@ export class ChunkGenerator {
         const end = Math.ceil(((axis === 'x' ? x0 : z0) + CHUNK_SIZE) / spacing) + 1;
         for (let line = start; line <= end; line += 1) {
           const worldPosition = line * spacing;
-          const markings = denseCity ? seededRandom(this.settings.seed, GENERATOR_VERSION, 'lane', axis, line) : lineRandom;
+          const markings = denseCity ? seededRandom(this.settings.seed, this.settings.generatorVersion, 'lane', axis, line) : lineRandom;
           if (axis === 'x' && worldPosition >= x0 && worldPosition < x0 + CHUNK_SIZE) {
             if (chance(markings, 0.72)) {
               addBox(color, 0.12, 0.06, CHUNK_SIZE + 1.2, worldPosition - x0, terrainHeightAt(worldPosition, z0 + CHUNK_SIZE * 0.5, this.settings) + 0.06, CHUNK_SIZE * 0.5, 0, false);
@@ -293,6 +303,20 @@ export class ChunkGenerator {
         terrainHeightAt(worldX + width * 0.5, worldZ + depth * 0.5, this.settings),
       ];
       const baseY = Math.max(...groundValues);
+      if (authored && district) {
+        const dominant = this.settings.config.landmark ?? (district.gardens > 0.58 ? 'terraceOrchard'
+          : district.towers > 0.54 ? 'needleExchange' : 'moonGate');
+        const model = towerModel(dominant, hashNumbers(this.settings.seed, revision, lotSignature), district.gardens);
+        // Rotate the opening onto one of the two street axes. Width and depth remain inside the lot.
+        const turn = (lotSignature % 4) * Math.PI / 2;
+        const landmark = model === dominant && lotSignature % 11 === 0;
+        const scale = landmark ? Math.min(1.24, lotSize * 0.91 / Math.max(width, depth)) : 1;
+        addModel(model, matrixAt(localX, baseY, localZ, 0, turn, 0, width * scale / 32,
+          height * (landmark ? 1.1 : 1) / 100, depth * scale / 32));
+        work.buildings++;
+        work.signature.push('loft', model, lotSignature, height, scale);
+        return;
+      }
       const foundationDepth = baseY - Math.min(...groundValues) + 5;
       const materialKey = pick(random, ['shellCeladon', 'shellPlum', 'shellIvory'] as const);
       const accent: WorldMaterialKey = chance(random, 0.5) ? 'rose' : 'teal';
@@ -430,7 +454,17 @@ export class ChunkGenerator {
       const length = CHUNK_SIZE + 4;
       // Keep deck continuity while leaving the street center open below it.
       const offset = denseCity ? 8.2 : 0;
-      if (axis === 'x') {
+      if (authored) {
+        for (const center of [CHUNK_SIZE * 0.25, CHUNK_SIZE * 0.75]) {
+          const alongX = axis === 'x';
+          addModel('span', matrixAt(alongX ? center : localLine, y - 0.85, alongX ? localLine : center,
+            0, alongX ? 0 : Math.PI/2, 0, CHUNK_SIZE/80, 1.2, 1.25));
+          const ground = supportBase ?? terrainHeightAt(alongX ? x0+center : lineWorld, alongX ? lineWorld : z0+center, this.settings);
+          const h = y-ground;
+          addBox('bridge', 2.1, h, 2.1, alongX ? center : localLine+offset, ground+h/2, alongX ? localLine+offset : center);
+          addBox('bridge', alongX ? 3 : 10, 1.6, alongX ? 10 : 3, alongX ? center : localLine+4.5, y-1.5, alongX ? localLine+4.5 : center);
+        }
+      } else if (axis === 'x') {
         addBox('bridge', length, 1.7, 7.5, centerLocal, y, localLine, 0, true);
         addBox('teal', length, 0.12, 0.18, centerLocal, y + 0.95, localLine + 3.6, 0, false);
         addBox('rose', length, 0.12, 0.18, centerLocal, y + 0.95, localLine - 3.6, 0, false);
@@ -480,6 +514,10 @@ export class ChunkGenerator {
           const minimumY = Math.max(this.settings.config.suspendedHeightMin, floor + height * 0.5 + 15);
           if (minimumY <= this.settings.config.suspendedHeightMax) {
             const y = range(islandRandom, minimumY, this.settings.config.suspendedHeightMax);
+            if (authored) {
+              addModel('skyGarden', matrixAt(localX, y+height/2, localZ, 0, islandRandom()*Math.PI, 0,
+                radius/30, height/22, radius/30));
+            } else {
             addPiece('rock', createIslandGeometry(islandRandom, radius, height), matrixAt(localX, y, localZ), true);
             addPiece('soil', new THREE.CylinderGeometry(radius * 0.84, radius * 0.8, 2.4, 12), matrixAt(localX, y + height * 0.5 + 0.9, localZ), true);
             addPiece('teal', new THREE.TorusGeometry(radius * 0.62, 0.22, 5, 32), matrixAt(localX, y - height * 0.2, localZ, Math.PI * 0.5), false);
@@ -503,6 +541,7 @@ export class ChunkGenerator {
               for (const offset of [-platformWidth * 0.32, platformWidth * 0.32]) {
                 addBox('bridge', 1.8, 13, 1.8, localX + offset, deckHeight - 6.5, localZ);
               }
+            }
             }
             work.islands += 1;
             work.signature.push('island', Math.round(localX), Math.round(localZ), Math.round(y), Math.round(radius));
@@ -581,6 +620,7 @@ export class ChunkGenerator {
   public dispose(): void {
     if (this.disposed) return;
     this.disposed = true;
+    this.library.dispose();
     this.shadowDepthMaterial.dispose();
     this.materials.dispose();
     this.billboardMaterials.dispose();

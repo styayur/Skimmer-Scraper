@@ -42,12 +42,13 @@ describe('world settings', () => {
     expect(worldSettingsFromSearch('?world=unknown').mode).toBe('stable');
   });
 
-  it('keeps existing seed-only links and emits a unified v3 link for new worlds', () => {
+  it('keeps existing seed-only links and emits versioned links for new worlds', () => {
     expect(worldSettingsFromSearch('?seed=334458').generatorVersion).toBe(LEGACY_GENERATOR_VERSION);
     expect(worldSettingsFromSearch('?seed=334458').preset).toBe('sakura');
     expect(worldSettingsFromSearch('').preset).toBe('city');
     const city = worldSettingsFromSearch('?gen=3&seed=334458&preset=archipelago&world=ephemeral');
-    expect(city).toMatchObject({ generatorVersion: GENERATOR_VERSION, mode: 'ephemeral', preset: 'city' });
+    expect(worldSettingsFromSearch('').generatorVersion).toBe(GENERATOR_VERSION);
+    expect(city).toMatchObject({ generatorVersion: 3, mode: 'ephemeral', preset: 'city' });
     const share = new URL(buildWorldShareUrl('https://example.com/Skimmer-Scraper/', city));
     expect(share.searchParams.has('preset')).toBe(false);
     expect(worldSettingsFromSearch(share.search)).toEqual(city);

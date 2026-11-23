@@ -1,5 +1,5 @@
 import { hashNumbers } from './deterministic';
-import { GENERATOR_VERSION, resolveWorldSettings, type CityGenerationConfig, type WorldSettings } from './worldConfig';
+import { DENSE_GENERATOR_VERSION, GENERATOR_VERSION, resolveWorldSettings, type CityGenerationConfig, type WorldSettings } from './worldConfig';
 export const JOURNEY_PROFILES=[
  {name:'钴蓝霓虹',preset:'neon',hue:.18,top:0x101e42,mid:0x426c98,horizon:0x99e5e8},
  {name:'翡翠群岛',preset:'archipelago',hue:.3,top:0x102e37,mid:0x427f7e,horizon:0xc9e8b3},
@@ -23,8 +23,9 @@ export const journeyWorld=(base:WorldSettings,index:number):WorldSettings=>{
  const profile=journeyProfile(index);const seed=hashNumbers(base.seed,index,base.generatorVersion,0x534b5933);
  const world=resolveWorldSettings({seed:String(seed),preset:profile.preset,mode:base.mode,generatorVersion:base.generatorVersion});
  world.paletteHue=profile.hue;
- if(base.generatorVersion===GENERATOR_VERSION){
+ if(base.generatorVersion>=DENSE_GENERATOR_VERSION){
   Object.assign(world.config,denseWorldStyles[(index-1)%5]);
+  if(base.generatorVersion===GENERATOR_VERSION) world.config.landmark = (['foldedFan','terraceOrchard','lanternCourt','needleExchange','moonGate'] as const)[(index-1)%5];
   return world;
  }
  if((index-1)%5===2){world.config.buildingHeightMax=155;world.config.bridgeFrequency=.65;world.config.buildingDensity=.3;}

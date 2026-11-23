@@ -66,7 +66,7 @@ import {
 } from './world/chunkRevisionHistory';
 import { WorldStreamer, type StreamerStats, type StreamerUpdate } from './world/worldStreamer';
 import type { WorldMode, WorldPresetId } from './world/worldConfig';
-import { buildWorldShareUrl, DEFAULT_WORLD_SEED, GENERATOR_VERSION, resolveWorldSettings, worldSettingsFromSearch } from './world/worldConfig';
+import { buildWorldShareUrl, DEFAULT_WORLD_SEED, DENSE_GENERATOR_VERSION, GENERATOR_VERSION, resolveWorldSettings, worldSettingsFromSearch } from './world/worldConfig';
 import { queryFlightSurface, type SurfaceQuery, type WorldStats } from './world/worldTypes';
 import { ImportedWorldAdapter } from './world/imports/importedWorldAdapter';
 import type { WorldManifest } from './world/imports/worldManifest';
@@ -680,7 +680,7 @@ const simulateFixedStep = (dt: number, holdPosition = false): boolean => {
     }
   }
   const collisionDistance = !runRules.config.shield
-    && (activeWorld instanceof ImportedWorldAdapter || worldSettings.generatorVersion === GENERATOR_VERSION)
+    && (activeWorld instanceof ImportedWorldAdapter || worldSettings.generatorVersion >= DENSE_GENERATOR_VERSION)
     ? flightWouldCollide(flightState, nextState, activeWorld) ? COLLISION_RADIUS : null : undefined;
   const previousY=flightState.position.y;
   flightState = nextState;
