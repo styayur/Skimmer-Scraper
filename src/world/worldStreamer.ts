@@ -1,3 +1,4 @@
+import { RealmDragonFlight } from './dragonFlight';
 import * as THREE from 'three';
 import { CHUNK_SIZE, DENSE_GENERATOR_VERSION, type WorldSettings } from './worldConfig';
 import { chunkKey, type ChunkSource } from './chunkSource';
@@ -154,7 +155,7 @@ export class WorldStreamer implements RenderableWorld {
   public readonly root = new THREE.Group();
   public readonly adapter = new ChunkedWorldAdapter();
   private readonly surfaces = new UnifiedSurfaceQuery(this.adapter);
-  private readonly architecture: ProceduralArchitecture | null;
+  private readonly architecture: ProceduralArchitecture | RealmDragonFlight | null;
   public readonly source: ChunkSource;
   public readonly settings: WorldSettings;
   public readonly fingerprint: number;
@@ -202,7 +203,7 @@ export class WorldStreamer implements RenderableWorld {
     this.onChunkActivated = options.onChunkActivated ?? (() => {});
     this.onChunkRetired = options.onChunkRetired ?? (() => {});
     this.root.name = `world-stream-${settings.seed}`;
-    this.architecture = settings.generatorVersion >= DENSE_GENERATOR_VERSION
+    this.architecture = settings.theme === 'dragon' ? new RealmDragonFlight(settings.seed,this.surfaces.dynamic) : settings.generatorVersion >= DENSE_GENERATOR_VERSION
       ? new ProceduralArchitecture(settings, this.surfaces.dynamic) : null;
     if (this.architecture) this.root.add(this.architecture.group);
     const ground = terrainHeightAt(SPAWN_X, SPAWN_Z, settings);

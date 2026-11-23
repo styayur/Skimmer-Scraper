@@ -394,6 +394,7 @@ const applyWorldSettings = (
     seed: seedValue, preset: baseWorldSettings.preset, mode: worldMode,
     generatorVersion: upgrade ? GENERATOR_VERSION : baseWorldSettings.generatorVersion,
   });
+  if (document.querySelector<HTMLSelectElement>('#world-theme')?.value === 'dragon') next.theme = 'dragon';
   worldPanel.clearVisit();
   window.location.assign(buildWorldShareUrl(window.location.href, next));
 };
