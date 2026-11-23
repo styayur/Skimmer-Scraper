@@ -42,6 +42,8 @@ paths += [
     'evidence/v0.6/pr3-tutorial/title-desktop.png',
     'evidence/v0.6/pr2-streaming/after-balanced-1x.png',
 ]
+if git('ls-files', 'src-tauri'):
+    paths.extend(['src-tauri', 'evidence/v0.8'])
 if git('ls-files', 'automation'):
     paths.append('automation')
 subprocess.run(['git', '-c', 'core.autocrlf=false', 'archive', '--format=zip', '-o', str(source),

@@ -45,11 +45,20 @@ export async function checkPack(page, output, directory) {
   await page.waitForFunction(
     () => window.__SKIMMER_SCRAPER__?.snapshot().runTime > 2,
   );
+  await page.evaluate(async () => {
+    const game=window.__SKIMMER_SCRAPER__;
+    game.pause();await game.setPose({x:-100,y:290,z:-440},{yaw:0,pitch:0,roll:0});game.resume();
+  });
+  await page.keyboard.down('q');
+  await page.keyboard.down('Shift');
+  await page.waitForFunction(()=>window.__SKIMMER_SCRAPER__.snapshot().streaming?.realmDetail?.high>0);
   await page.screenshot({ path: path.join(output, 'high-streaming.png') });
   const samples = [];
   const duration = Number(process.env.SKIMMER_SOAK_SECONDS ?? 20);
   const until = Date.now() + duration * 1000;
-  while (Date.now() < until) {
+  const startTime = await page.evaluate(()=>window.__SKIMMER_SCRAPER__.snapshot().runTime);
+  while (Date.now() < until || (samples.at(-1)?.runTime ?? startTime)-startTime < duration) {
+    assert(Date.now()<until+300000,'Simulation could not sustain the requested flight time');
     const sample = await page.evaluate(async () => {
       const start = performance.now(),
         deltas = [];
@@ -74,6 +83,7 @@ export async function checkPack(page, output, directory) {
       };
     });
     assert.equal(sample.mode, 'running');
+    assert.ok(sample.detail,'Flight left Dragonspine Realm');
     samples.push(sample);
   }
   const report = {
@@ -82,6 +92,7 @@ export async function checkPack(page, output, directory) {
     bytes,
     tiles: manifest.files.length,
     device: 'Tauri WebView2',
+    control: 'Scripted keyboard boost and yaw in the shipping flight loop, one initial pose at 290 m',
     resolution: '1920x1080 CSS / DPR 1',
     durationSeconds: duration,
     samples,
