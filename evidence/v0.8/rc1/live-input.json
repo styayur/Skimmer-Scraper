@@ -1,0 +1,96 @@
+{
+  "build": {
+    "version": "0.8.0-rc.1",
+    "sourceCommit": "c499b443195e810e6c42f5f74be7f1cb12d33d75",
+    "sourceCommitTime": "2026-11-23T19:12:39+08:00",
+    "dirty": false,
+    "sourceUrl": "https://github.com/styayur/Skimmer-Scraper/tree/c499b443195e810e6c42f5f74be7f1cb12d33d75",
+    "toolchain": {
+      "node": "v26.7.0",
+      "platform": "win32",
+      "architecture": "x64"
+    }
+  },
+  "byok": {
+    "requests": 1,
+    "successes": 1,
+    "pending": false,
+    "httpStatus": [
+      200
+    ]
+  },
+  "kokoro": {
+    "phase": "ready",
+    "backend": "webgpu",
+    "device": "amd rdna-3",
+    "percent": 100,
+    "loads": 1,
+    "releases": 0,
+    "generated": 0,
+    "completed": 0,
+    "loadMs": 103577.10000000149,
+    "inferenceMs": null,
+    "audioSeconds": null,
+    "lastVoice": null,
+    "error": null,
+    "detail": "",
+    "resident": true,
+    "idleMs": 45000
+  },
+  "inferenceFlight": {
+    "phases": {
+      "idle": {
+        "frames": 396,
+        "totalMs": 4258.199999999997,
+        "worstMs": 33.5
+      },
+      "loading": {
+        "frames": 303,
+        "totalMs": 3766.5,
+        "worstMs": 58.19999999999709
+      },
+      "ready": {
+        "frames": 152,
+        "totalMs": 1575.199999999997,
+        "worstMs": 50
+      },
+      "generating": {
+        "frames": 703,
+        "totalMs": 7366.399999999994,
+        "worstMs": 58.30000000000291
+      },
+      "playing": {
+        "frames": 446,
+        "totalMs": 3716.600000000006,
+        "worstMs": 8.60000000000582
+      }
+    },
+    "elapsedSimulation": 20.674999999999386,
+    "preview": "cancelled",
+    "kokoro": {
+      "phase": "playing",
+      "backend": "webgpu",
+      "device": "amd rdna-3",
+      "percent": 100,
+      "loads": 2,
+      "releases": 1,
+      "generated": 1,
+      "completed": 0,
+      "loadMs": 3599.39999999851,
+      "inferenceMs": 7349.79999999702,
+      "audioSeconds": 4.55,
+      "lastVoice": "zm_010",
+      "error": null,
+      "detail": "",
+      "resident": true,
+      "idleMs": 45000
+    }
+  },
+  "gamepad": {
+    "device": "Xbox 360 Controller (XInput STANDARD GAMEPAD)",
+    "axisDelta": 0.048218509193560743,
+    "startDown": false,
+    "pausedAfterStart": false,
+    "startMode": "running"
+  }
+}

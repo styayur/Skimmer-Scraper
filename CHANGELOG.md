@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased — 0.8.0
+## 0.8.0
 
 - Shared Windows x64 Tauri client, per-user NSIS build, fullscreen and window-focus controls.
 - Native transactional GLB library, player-initiated export and independently installed terrain packs.

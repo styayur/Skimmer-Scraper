@@ -28,6 +28,14 @@ export function bindDesktopWindow(canvas: HTMLCanvasElement, flying: () => boole
   window.addEventListener('blur', () => {
     if (flying()) pause();
   });
+  // WebView2 consumes the first physical Escape itself when the pointer is locked.
+  let canvasHadLock = false;
+  document.addEventListener('pointerlockchange', () => {
+    const locked = document.pointerLockElement === canvas;
+    const released = canvasHadLock && !locked;
+    canvasHadLock = locked;
+    if (released && flying()) pause();
+  });
   canvas.addEventListener('click', () => {
     if (flying() && !document.pointerLockElement) {
       void canvas.requestPointerLock().catch(() => report('无法锁定鼠标。'));

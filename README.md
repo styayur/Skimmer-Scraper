@@ -1,6 +1,6 @@
 # Skimmer-Scraper
 
-## v0.8.0 development
+## v0.8.0
 
 The Windows x64 client and GitHub Pages share the flight simulation, renderer, city generator, Sky Inversion and local voice systems. Dragonspine Realm adds seed-driven canyons, stone arches, floating shrines and an animated bronze-crested dragon. Windows can install independent high-detail world packs into its private asset library.
 

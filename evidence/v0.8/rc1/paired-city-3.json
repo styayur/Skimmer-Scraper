@@ -1,0 +1,69 @@
+{
+  "device": {
+    "renderer": "ANGLE (AMD, AMD Radeon 780M Graphics (0x00001900) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+    "native": false,
+    "build": {
+      "version": "0.7.0",
+      "sourceCommit": "773a831a17d390bc2aeec466820ae1e31c218b9e",
+      "sourceCommitTime": "2026-11-23T05:59:50Z",
+      "dirty": false,
+      "sourceUrl": "https://github.com/styayur/Skimmer-Scraper/tree/773a831a17d390bc2aeec466820ae1e31c218b9e",
+      "toolchain": {
+        "node": "v24.22.3",
+        "platform": "linux",
+        "architecture": "x64"
+      }
+    }
+  },
+  "seed": 334458,
+  "method": "Scripted boosted yaw, one initial pose per scenario, 12 seconds per scenario. Wall-clock rAF intervals.",
+  "rows": [
+    {
+      "theme": "city",
+      "quality": "balanced",
+      "count": 3,
+      "canvas": [
+        1920,
+        1080
+      ],
+      "qualityLabel": "画质 · 平衡",
+      "frames": 1055,
+      "averageFps": 87.8580946035976,
+      "p95Ms": 16.800000000000182,
+      "p99Ms": 24.90000000000009,
+      "worstMs": 25.200000000000728,
+      "elapsedSimulation": 11.958333333333238,
+      "mode": "running",
+      "companions": 3,
+      "render": {
+        "calls": 533,
+        "triangles": 468404,
+        "points": 560,
+        "lines": 64,
+        "fps": 97.54907953959655,
+        "geometries": 456,
+        "textures": 25,
+        "inversionAngle": 0,
+        "mirrorSky": {
+          "seed": 334458,
+          "triangles": 2880,
+          "cameraOffset": 0,
+          "ground": {
+            "height": 650,
+            "radius": 1530
+          }
+        }
+      },
+      "startPosition": {
+        "x": -100,
+        "y": 290,
+        "z": -440
+      },
+      "endPosition": {
+        "x": -554.3263799772027,
+        "y": 85.32784233059533,
+        "z": -505.2490416631859
+      }
+    }
+  ]
+}

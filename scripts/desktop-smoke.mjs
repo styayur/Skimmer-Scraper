@@ -65,7 +65,38 @@ try {
     };
   });
   assert.match(runtime.origin, /^https?:\/\/tauri\.localhost$/);
-  if (libraryCheck === 'compat') {
+  if (libraryCheck === 'kokoro-cache') {
+    const { checkKokoroCache } = await import('./desktop-kokoro-cache.mjs');
+    await checkKokoroCache(page, output, runtime);
+  } else if (libraryCheck === 'gamepad') {
+    const { observeGamepad } = await import('./desktop-live-input.mjs');
+    await page.locator('#start-button').click();
+    await page.waitForFunction(
+      () => window.__SKIMMER_SCRAPER__.snapshot().mode === 'running',
+    );
+    const gamepad = await observeGamepad(
+      page,
+      Number(process.env.SKIMMER_PAD_SECONDS ?? 90),
+    );
+    await writeFile(
+      path.join(output, 'gamepad.json'),
+      JSON.stringify({ runtime, gamepad }, null, 2),
+    );
+    assert.ok(
+      gamepad.axisDelta > 0.25 && gamepad.pausedAfterStart,
+      'Move a stick and press Start during flight',
+    );
+  } else if (libraryCheck === 'live-input') {
+    const { liveInput } = await import('./desktop-live-input.mjs');
+    await liveInput(page, output);
+  } else if (libraryCheck === 'matrix') {
+    const { qualityMatrix } = await import('./realm-quality-matrix.mjs');
+    await qualityMatrix(
+      page,
+      path.join(output, 'desktop-matrix.json'),
+      process.argv[5],
+    );
+  } else if (libraryCheck === 'compat') {
     const { checkCompatibility } = await import('./desktop-compat.mjs');
     await checkCompatibility(page, output);
   } else if (libraryCheck === 'pack') {

@@ -1,0 +1,481 @@
+{
+  "auth": [
+    {
+      "path": "/chat/completions",
+      "status": 200
+    },
+    {
+      "path": "/v1/tools/asr",
+      "status": 200
+    },
+    {
+      "path": "/chat/completions",
+      "status": 200
+    },
+    {
+      "path": "/v1/tools/tts",
+      "status": 200
+    },
+    {
+      "path": "/v1/tools/tts",
+      "network": "net::ERR_ABORTED"
+    }
+  ],
+  "captures": [
+    {
+      "stage": "before",
+      "mode": "running",
+      "position": {
+        "x": -0.00026698398496044327,
+        "y": 340,
+        "z": 119.45000006301217
+      },
+      "elapsed": 8.250000000000172,
+      "voice": {
+        "input": "deepseek",
+        "output": "deepseek",
+        "language": "en-US",
+        "localFallback": false,
+        "volume": 0.84,
+        "voices": {},
+        "phase": "idle",
+        "played": 0,
+        "completed": 0,
+        "speaking": null,
+        "activeSpeech": null,
+        "queuedSpeech": 0,
+        "captures": 0,
+        "commands": 0,
+        "lastError": null,
+        "lastOutputError": null,
+        "lastOutputFallback": null,
+        "lastCompleted": null,
+        "playbackHistory": [],
+        "kokoro": null,
+        "preview": {
+          "phase": "idle",
+          "error": null,
+          "speech": null
+        },
+        "cloud": {
+          "asrRequests": 0,
+          "asrSeconds": 0,
+          "lastAsrMs": null,
+          "lastAudioMs": null,
+          "ttsRequests": 0,
+          "ttsCharacters": 0,
+          "lastTtsFirstByteMs": null,
+          "lastTtsMs": null,
+          "lastTtsBytes": 0
+        },
+        "limits": {
+          "asrRequests": 10,
+          "asrSeconds": 60,
+          "ttsRequests": 18,
+          "ttsCharacters": 1200
+        }
+      },
+      "model": {
+        "connected": true,
+        "pending": false,
+        "requests": 0,
+        "successes": 0,
+        "failures": 0,
+        "cancellations": 0,
+        "reservedTokens": 0,
+        "usage": {
+          "input": 0,
+          "output": 0,
+          "total": 0,
+          "cached": 0
+        },
+        "lastLatencyMs": null,
+        "error": null
+      },
+      "agents": [
+        {
+          "id": 1,
+          "position": {
+            "x": -17.43060542760786,
+            "y": 342.8939662601732,
+            "z": 115.09798246017435
+          },
+          "task": "FORMATION_FOLLOW"
+        },
+        {
+          "id": 2,
+          "position": {
+            "x": 12.421216651442712,
+            "y": 344.8907077683471,
+            "z": 112.45324350698023
+          },
+          "task": "FORMATION_FOLLOW"
+        },
+        {
+          "id": 3,
+          "position": {
+            "x": 5.974132810904904,
+            "y": 348.0282571694657,
+            "z": 130.99925419005854
+          },
+          "task": "FORMATION_FOLLOW"
+        }
+      ]
+    },
+    {
+      "stage": "transcription",
+      "mode": "running",
+      "position": {
+        "x": -90.30404990462989,
+        "y": 340,
+        "z": -320.4183113839187
+      },
+      "elapsed": 15.099999999999783,
+      "voice": {
+        "input": "deepseek",
+        "output": "deepseek",
+        "language": "en-US",
+        "localFallback": false,
+        "volume": 0.84,
+        "voices": {},
+        "phase": "idle",
+        "played": 0,
+        "completed": 0,
+        "speaking": null,
+        "activeSpeech": null,
+        "queuedSpeech": 0,
+        "captures": 1,
+        "commands": 1,
+        "lastError": null,
+        "lastOutputError": null,
+        "lastOutputFallback": null,
+        "lastCompleted": null,
+        "playbackHistory": [],
+        "kokoro": null,
+        "preview": {
+          "phase": "idle",
+          "error": null,
+          "speech": null
+        },
+        "cloud": {
+          "asrRequests": 1,
+          "asrSeconds": 7,
+          "lastAsrMs": 867.3999999985099,
+          "lastAudioMs": 6040,
+          "ttsRequests": 0,
+          "ttsCharacters": 0,
+          "lastTtsFirstByteMs": null,
+          "lastTtsMs": null,
+          "lastTtsBytes": 0
+        },
+        "limits": {
+          "asrRequests": 10,
+          "asrSeconds": 60,
+          "ttsRequests": 18,
+          "ttsCharacters": 1200
+        }
+      },
+      "model": {
+        "connected": true,
+        "pending": true,
+        "requests": 2,
+        "successes": 1,
+        "failures": 0,
+        "cancellations": 0,
+        "reservedTokens": 11048,
+        "usage": {
+          "input": 891,
+          "output": 79,
+          "total": 970,
+          "cached": 128
+        },
+        "lastLatencyMs": 1265.2999999970198,
+        "error": null
+      },
+      "agents": [
+        {
+          "id": 1,
+          "position": {
+            "x": -104.62875312389595,
+            "y": 343.18079854866903,
+            "z": -318.9170103637823
+          },
+          "task": "FORMATION_FOLLOW"
+        },
+        {
+          "id": 2,
+          "position": {
+            "x": -76.63672705689224,
+            "y": 341.97889709910174,
+            "z": -326.19536778057113
+          },
+          "task": "FORMATION_FOLLOW"
+        },
+        {
+          "id": 3,
+          "position": {
+            "x": -84.68962555427382,
+            "y": 344.64371489393324,
+            "z": -307.7993478129777
+          },
+          "task": "FORMATION_FOLLOW"
+        }
+      ]
+    },
+    {
+      "stage": "speech playback",
+      "mode": "running",
+      "position": {
+        "x": -339.2212562912906,
+        "y": 340,
+        "z": -683.0964481532383
+      },
+      "elapsed": 21.808333333332737,
+      "voice": {
+        "input": "deepseek",
+        "output": "deepseek",
+        "language": "en-US",
+        "localFallback": false,
+        "volume": 0.84,
+        "voices": {},
+        "phase": "idle",
+        "played": 1,
+        "completed": 1,
+        "speaking": null,
+        "activeSpeech": null,
+        "queuedSpeech": 0,
+        "captures": 1,
+        "commands": 1,
+        "lastError": null,
+        "lastOutputError": null,
+        "lastOutputFallback": null,
+        "lastCompleted": {
+          "provider": "deepseek",
+          "voiceId": "tide",
+          "rate": 0.93,
+          "id": 3,
+          "agent": 2,
+          "stream": {
+            "firstByteMs": 1201.6000000014901,
+            "streamMs": 4878.19999999553,
+            "audioBytes": 190080
+          }
+        },
+        "playbackHistory": [
+          {
+            "provider": "deepseek",
+            "voiceId": "tide",
+            "rate": 0.93,
+            "id": 3,
+            "agent": 2,
+            "stream": {
+              "firstByteMs": 1201.6000000014901,
+              "streamMs": 4878.19999999553,
+              "audioBytes": 190080
+            }
+          }
+        ],
+        "kokoro": null,
+        "preview": {
+          "phase": "idle",
+          "error": null,
+          "speech": null
+        },
+        "cloud": {
+          "asrRequests": 1,
+          "asrSeconds": 7,
+          "lastAsrMs": 867.3999999985099,
+          "lastAudioMs": 6040,
+          "ttsRequests": 2,
+          "ttsCharacters": 80,
+          "lastTtsFirstByteMs": null,
+          "lastTtsMs": null,
+          "lastTtsBytes": 0
+        },
+        "limits": {
+          "asrRequests": 10,
+          "asrSeconds": 60,
+          "ttsRequests": 18,
+          "ttsCharacters": 1200
+        }
+      },
+      "model": {
+        "connected": true,
+        "pending": false,
+        "requests": 2,
+        "successes": 2,
+        "failures": 0,
+        "cancellations": 0,
+        "reservedTokens": 11048,
+        "usage": {
+          "input": 2409,
+          "output": 172,
+          "total": 2581,
+          "cached": 768
+        },
+        "lastLatencyMs": 1156.5,
+        "error": null
+      },
+      "agents": [
+        {
+          "id": 1,
+          "position": {
+            "x": -352.8644884789586,
+            "y": 345.9653474439045,
+            "z": -677.222419502955
+          },
+          "task": "FORMATION_FOLLOW"
+        },
+        {
+          "id": 2,
+          "position": {
+            "x": -241.82787128576294,
+            "y": 359.4455650758303,
+            "z": -567.1178430441655
+          },
+          "task": "REGROUP"
+        },
+        {
+          "id": 3,
+          "position": {
+            "x": -328.16115861632153,
+            "y": 345.6735809247227,
+            "z": -672.5727254172197
+          },
+          "task": "FORMATION_FOLLOW"
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "physical": false,
+  "build": {
+    "provenance": {
+      "version": "0.8.0-rc.1",
+      "sourceCommit": "c499b443195e810e6c42f5f74be7f1cb12d33d75",
+      "sourceCommitTime": "2026-11-23T19:12:39+08:00",
+      "dirty": false,
+      "sourceUrl": "https://github.com/styayur/Skimmer-Scraper/tree/c499b443195e810e6c42f5f74be7f1cb12d33d75",
+      "toolchain": {
+        "node": "v26.7.0",
+        "platform": "win32",
+        "architecture": "x64"
+      }
+    },
+    "renderer": "ANGLE (AMD, AMD Radeon 780M Graphics (0x00001900) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+    "agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/157.0.0.0 Safari/537.36",
+    "permissionBefore": "granted"
+  },
+  "microphone": {
+    "permission": "granted",
+    "liveTracks": 1,
+    "attempts": 1
+  },
+  "interpretation": {
+    "source": "model",
+    "intent": "scout-left",
+    "requestId": "4-2",
+    "agent": 2,
+    "action": [
+      {
+        "agents": [
+          2
+        ],
+        "action": "SCOUT",
+        "targetId": "route-left"
+      }
+    ],
+    "latencyMs": 1156.5,
+    "usage": {
+      "input": 1518,
+      "output": 93,
+      "total": 1611,
+      "cached": 640
+    }
+  },
+  "dialogue": [
+    {
+      "id": 2,
+      "agent": null,
+      "text": "Wingman two, scout the route on the left. Please confirm.",
+      "source": "player",
+      "priority": "reply"
+    },
+    {
+      "id": 3,
+      "agent": 2,
+      "text": "KITE-2 copies, scouting the route on the left now.",
+      "source": "model",
+      "priority": "reply"
+    }
+  ],
+  "validation": [
+    {
+      "provider": "deepseek",
+      "validation": "accepted",
+      "orders": [
+        {
+          "agents": [
+            2
+          ],
+          "action": "SCOUT",
+          "targetId": "route-left"
+        }
+      ]
+    }
+  ],
+  "outcome": {
+    "requestId": "4-2",
+    "positions": [
+      {
+        "id": 2,
+        "action": "SCOUT",
+        "task": "SCOUT",
+        "position": {
+          "x": -169.05794867652781,
+          "y": 361.86487632591894,
+          "z": -406.2352985108101
+        },
+        "meters": 64.14062105377401
+      }
+    ]
+  },
+  "modelReplyPlayback": {
+    "provider": "deepseek",
+    "voiceId": "tide",
+    "rate": 0.93,
+    "id": 3,
+    "agent": 2,
+    "stream": {
+      "firstByteMs": 1201.6000000014901,
+      "streamMs": 4878.19999999553,
+      "audioBytes": 190080
+    }
+  },
+  "flightFrames": {
+    "baseline": {
+      "frames": 915,
+      "p50Ms": 8.300000000000182,
+      "p95Ms": 16.599999999999454,
+      "p99Ms": 16.800000000000182,
+      "fps": 112.38715224467236
+    },
+    "playback": {
+      "frames": 466,
+      "p50Ms": 8.299999999999272,
+      "p95Ms": 8.5,
+      "p99Ms": 16.799999999999272,
+      "fps": 117.73623041940353
+    },
+    "movementMeters": {
+      "baseline": 516.0240042997636,
+      "duringReply": 293.4638249361188
+    },
+    "pcmScheduled": 40
+  },
+  "disconnect": {
+    "connected": false,
+    "action": "REGROUP",
+    "source": "local"
+  }
+}
