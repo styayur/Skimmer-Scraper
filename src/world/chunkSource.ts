@@ -1,3 +1,4 @@
+import { DragonChunkGenerator } from './dragonRealm';
 import { ChunkGenerator } from './chunkGenerator';
 import type { GeneratedChunk } from './worldTypes';
 import type { WorldSettings } from './worldConfig';
@@ -24,11 +25,11 @@ const yieldToBrowser = (): Promise<void> => new Promise((resolve) => {
  * but the streamer can cancel queued work and never generates the whole city in a physics tick.
  */
 export class InlineChunkSource implements ChunkSource {
-  private readonly generator: ChunkGenerator;
+  private readonly generator: ChunkGenerator | DragonChunkGenerator;
   private disposed = false;
 
   public constructor(settings: WorldSettings) {
-    this.generator = new ChunkGenerator(settings);
+    this.generator = settings.theme === 'dragon' ? new DragonChunkGenerator(settings) : new ChunkGenerator(settings);
   }
 
   public async generate(request: ChunkSourceRequest): Promise<GeneratedChunk> {

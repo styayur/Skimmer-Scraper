@@ -1,3 +1,4 @@
+import { bindPackPanel } from './ui/WorldPackPanel';
 import { ActionRouter } from './ui/ActionRouter';
 import { OverlayManager } from './ui/OverlayManager';
 import { bindGameTutorial } from './ui/GameTutorial';
@@ -394,6 +395,7 @@ const applyWorldSettings = (
     seed: seedValue, preset: baseWorldSettings.preset, mode: worldMode,
     generatorVersion: upgrade ? GENERATOR_VERSION : baseWorldSettings.generatorVersion,
   });
+  if (document.querySelector<HTMLSelectElement>('#world-theme')?.value === 'dragon') next.theme = 'dragon';
   worldPanel.clearVisit();
   window.location.assign(buildWorldShareUrl(window.location.href, next));
 };
@@ -1036,7 +1038,14 @@ const bindFlightOptions = (): void => {
   });
 };
 const updateModelStatus = bindModelSettings(symbiosis, error => ui.showToast(error, true));
-const journeyHud = new JourneyHud(()=>journey.skip());
+const journeyHud = new JourneyHud();
+const transitionSpeed = document.querySelector<HTMLSelectElement>('#transition-speed')!;
+try { journey.fast = localStorage.getItem('skimmer-scraper.transition-speed') === 'fast'; } catch { /* optional preference */ }
+transitionSpeed.value = journey.fast ? 'fast' : 'full';
+transitionSpeed.addEventListener('change', () => {
+  journey.fast = transitionSpeed.value === 'fast';
+  try { localStorage.setItem('skimmer-scraper.transition-speed', transitionSpeed.value); } catch { /* session setting still applies */ }
+});
 const tutorialPanel = document.getElementById('help-panel')!;
 bindGameTutorial(tutorialPanel);
 const overlays = new OverlayManager({
@@ -1104,6 +1113,7 @@ const activateWorld = (world: ImportedWorldAdapter | WorldStreamer, history: Chu
   ui.showTitle();
 };
 
+bindPackPanel();
 const worldPanel = new WorldImportPanel(worldResources, {
   read: file => worldImporter.read(file),
   open: (data, name, options, variant) => worldImporter.load(data, name, options, loader => {
@@ -1152,7 +1162,7 @@ const frame = (now: number): void => {
   audio.setDucked(voiceInFlight && voiceRadio.ducking);
   updateVoicePanel(voiceInFlight);
   updateModelStatus();
-  journeyHud.update(journey, mode === 'running' && activeWorld instanceof WorldStreamer, runRules.config.mode === 'challenge' || (flightState?.position.y ?? 0) > 420);
+  journeyHud.update(journey, mode === 'running' && activeWorld instanceof WorldStreamer);
   const reducedRotation=preferences.visualStimulation==='reduced'||window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const inversion=journey.phase==='INVERSION'?Math.PI*journey.progress:journey.phase==='WORLD_SWAP'?Math.PI:journey.phase==='DIVE'?Math.PI*(1-journey.progress):0;
   renderer?.setInversion(reducedRotation?0:inversion);

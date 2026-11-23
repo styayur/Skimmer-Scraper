@@ -119,3 +119,7 @@ Original pre-v0.3 MIT copyright and permission notice: [licenses/PROJECT-MIT-v0.
 Tauri, tauri-build and the Tauri CLI are provided by the Tauri contributors under MIT or Apache-2.0 (https://github.com/tauri-apps/tauri). The Windows application icon derives from this project's flight mark. WebView2 Runtime is distributed by Microsoft under its own license.
 
 The local world library uses rusqlite (MIT), bundled SQLite (public domain), RustCrypto SHA-2 (MIT or Apache-2.0) and serde_json (MIT or Apache-2.0).
+
+### Dragonspine Realm
+
+The bronze-crested dragon, editable Blender scene and Geometry Nodes, generated terrain, normal map, landmarks, animation and preview are original Skimmer-Scraper assets under AGPL-3.0-only. Windows dependency notices are collected from Cargo's resolved packages in src-tauri/desktop-notices.txt. The desktop application uses Microsoft Edge WebView2 Runtime. NSIS packages are unsigned unless the release report explicitly records a verified Authenticode signature.

@@ -15,7 +15,7 @@ const MAX_GLB: usize = 128 << 20;
 const MAX_METADATA: usize = 2 << 20;
 const MAX_LIBRARY: i64 = 2 << 30;
 type Failure = Box<dyn std::error::Error + Send + Sync>;
-type Result<T> = std::result::Result<T, Failure>;
+pub(crate) type Result<T> = std::result::Result<T, Failure>;
 
 fn check_path(path: &Path) -> Result<()> {
     for component in path.ancestors() {
@@ -56,10 +56,11 @@ fn connect(directory: &Path) -> Result<Connection> {
         CREATE TABLE IF NOT EXISTS worlds (
             id TEXT PRIMARY KEY, metadata TEXT NOT NULL, glb BLOB NOT NULL, saved_at INTEGER NOT NULL
         );")?;
+    crate::packs::init(&db)?;
     Ok(db)
 }
 
-fn check_id(id: &str) -> Result<()> {
+pub(crate) fn check_id(id: &str) -> Result<()> {
     if id.len() != 64
         || !id
             .bytes()
@@ -119,7 +120,7 @@ fn directory(app: &AppHandle) -> std::result::Result<PathBuf, String> {
         .map_err(|e| e.to_string())
 }
 
-async fn run<T: Send + 'static>(
+pub(crate) async fn run<T: Send + 'static>(
     app: AppHandle,
     operation: impl FnOnce(&mut Connection) -> Result<T> + Send + 'static,
 ) -> std::result::Result<T, String> {

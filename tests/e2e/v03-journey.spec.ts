@@ -23,7 +23,7 @@ test('five valid sky crossings exchange worlds, preserve the team and unlock the
   await page.screenshot({path:`evidence/v0.3/phase-5-world-${index}.png`});
  }
  const fifth=worlds.at(-1)!.after;expect(fifth.journey.easterEggUnlocked).toBe(true);expect(fifth.journey.easterEggTriggers).toBe(1);
- await expect(page.locator('#journey-easter-egg')).toBeVisible();await page.locator('#journey-egg-dismiss').click();
+ await expect(page.locator('#journey-easter-egg')).toBeVisible();await expect(page.locator('#journey-skip')).toHaveCount(0);
  expect(new Set(worlds.map(w=>w.after.seed)).size).toBe(5);
  await page.evaluate(()=>window.__SKIMMER_SCRAPER__!.retry());const retry=await page.evaluate(()=>window.__SKIMMER_SCRAPER__!.snapshot());
  expect(retry.journey.worldIndex).toBe(0);expect(retry.seed).toBe(initial.seed);expect(retry.cooperation.relay.charges).toBe(2);

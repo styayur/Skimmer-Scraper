@@ -13,6 +13,7 @@ export interface RenderableWorld {
   kind?: 'imported';
   root: Group;
   settings: WorldSettings;
+  setRenderQuality?(name:'balanced'|'high'): void;
   getSpawn(): SpawnState;
   getStats(): WorldStats;
   getFingerprint(): number;

@@ -87,7 +87,6 @@
 
         <div class="hud-bottom">
           <p id="flight-status" class="flight-status">原型飞行 · 近距规则将在下一阶段接入</p>
-          <button class="utility-button flight-menu" type="button" data-action="menu">暂停 <kbd>Esc</kbd></button>
           <p class="hud-hint"><span id="hud-view">CHASE / 追尾</span> <i></i> <kbd>C</kbd> 视角 <i></i> <kbd>R</kbd> 重试 <i></i> <kbd>M</kbd> 机库</p>
         </div>
       </section>
@@ -190,6 +189,7 @@
         <div class="setting-heading"><label>伴机数量 <select id="companion-count"><option value="0">关闭</option><option value="1">1 台</option><option value="2">2 台</option><option value="3">3 台</option></select></label><button class="setting-help" type="button" aria-label="伴机数量帮助" data-help-section="guide-companions">?</button></div>
         <details id="advanced-flight-settings">
           <summary>高级设置</summary>
+          <label class="world-field">转场动画<select id="transition-speed"><option value="full">完整</option><option value="fast">快速</option></select></label>
           <div class="setting-heading"><label>宽限时间<input id="run-grace" type="number" min="1" max="15" step="0.1" value="5" /></label><button class="setting-help" type="button" aria-label="宽限时间帮助" data-help-section="guide-rules">?</button></div>
           <div class="setting-heading"><label><input id="run-shield" type="checkbox" /> 防护罩</label><button class="setting-help" type="button" aria-label="防护罩帮助" data-help-section="guide-rules">?</button></div>
 
@@ -296,6 +296,17 @@
               <label id="local-world-motion-preview-label"><input id="local-world-motion-preview" type="checkbox" /> 起飞前预览</label>
             </div>
           </div>
+          <details id="world-packs" hidden>
+            <summary>高精度世界包</summary>
+            <label class="world-field">安装资源包目录<input type="file" webkitdirectory multiple /></label>
+            <label class="world-field">已安装资源包<select disabled></select></label>
+            <div class="world-inline-actions">
+              <button class="text-button" type="button" data-pack-open disabled>进入世界</button>
+              <button class="text-button" type="button" data-pack-remove disabled>移除副本</button>
+              <button class="text-button" type="button" data-pack-cancel hidden>取消安装</button>
+            </div>
+            <p class="world-description" role="status"></p>
+          </details>
           <details id="local-world-library">
             <summary>本地 GLB 世界</summary>
             <div id="local-world-drop" class="world-drop">
@@ -354,6 +365,7 @@
           </details>
         </section>
         <form id="world-form" class="world-form">
+          <label class="world-field">世界主题<select id="world-theme"><option value="city">樱色巨城</option><option value="dragon">龙脊幻境</option></select></label>
           <div class="setting-heading"><label class="world-field">输入种子<input id="world-seed-input" name="seed" type="text" maxlength="64" autocomplete="off" spellcheck="false" /></label><button class="setting-help" type="button" aria-label="种子帮助" data-help-section="guide-world">?</button></div>
           <div id="world-legacy" data-procedural-world hidden>
             <p id="world-legacy-note" class="world-description"></p>

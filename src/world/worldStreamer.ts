@@ -1,3 +1,6 @@
+import { RealmHorizon } from './realmHorizon';
+import { RealmDetail } from './realmDetail';
+import { RealmDragonFlight } from './dragonFlight';
 import * as THREE from 'three';
 import { CHUNK_SIZE, DENSE_GENERATOR_VERSION, type WorldSettings } from './worldConfig';
 import { chunkKey, type ChunkSource } from './chunkSource';
@@ -45,6 +48,7 @@ interface StreamIntent {
 }
 
 export interface StreamerStats {
+  realmDetail?: ReturnType<RealmDetail['snapshot']>;
   stateCounts: Record<ChunkLifecycleState, number>;
   loadedChunks: number;
   activeChunks: number;
@@ -154,7 +158,9 @@ export class WorldStreamer implements RenderableWorld {
   public readonly root = new THREE.Group();
   public readonly adapter = new ChunkedWorldAdapter();
   private readonly surfaces = new UnifiedSurfaceQuery(this.adapter);
-  private readonly architecture: ProceduralArchitecture | null;
+  private readonly detail?: RealmDetail;
+  private readonly horizon?: RealmHorizon;
+  private readonly architecture: ProceduralArchitecture | RealmDragonFlight | null;
   public readonly source: ChunkSource;
   public readonly settings: WorldSettings;
   public readonly fingerprint: number;
@@ -194,6 +200,11 @@ export class WorldStreamer implements RenderableWorld {
 
   public constructor(settings: WorldSettings, options: WorldStreamerOptions = {}) {
     this.settings = settings;
+    if (settings.theme === 'dragon') {
+      this.detail = new RealmDetail(settings.seed);
+      this.horizon = new RealmHorizon(settings.seed);
+      this.root.add(this.horizon.group);
+    }
     this.source = options.source ?? new InlineChunkSource(settings);
     this.renderRadius = Math.max(1, Math.trunc(options.renderRadius ?? 2));
     this.collisionRadius = Math.max(1, Math.trunc(options.collisionRadius ?? 1));
@@ -202,7 +213,7 @@ export class WorldStreamer implements RenderableWorld {
     this.onChunkActivated = options.onChunkActivated ?? (() => {});
     this.onChunkRetired = options.onChunkRetired ?? (() => {});
     this.root.name = `world-stream-${settings.seed}`;
-    this.architecture = settings.generatorVersion >= DENSE_GENERATOR_VERSION
+    this.architecture = settings.theme === 'dragon' ? new RealmDragonFlight(settings.seed,this.surfaces.dynamic) : settings.generatorVersion >= DENSE_GENERATOR_VERSION
       ? new ProceduralArchitecture(settings, this.surfaces.dynamic) : null;
     if (this.architecture) this.root.add(this.architecture.group);
     const ground = terrainHeightAt(SPAWN_X, SPAWN_Z, settings);
@@ -238,6 +249,8 @@ export class WorldStreamer implements RenderableWorld {
     this.lastIntent = intent;
     const rebaseDelta = this.maybeRebase(position);
     this.architecture?.cover(position, this.companionPositions);
+    if(this.detail) this.detail.update(position, velocity, this.isCollisionCovered(position));
+    this.horizon?.cover(position);
     const now = performance.now();
     const centerX = Math.floor(position.x / CHUNK_SIZE);
     const centerZ = Math.floor(position.z / CHUNK_SIZE);
@@ -362,6 +375,7 @@ export class WorldStreamer implements RenderableWorld {
   public queryProximity(position: Vec3, range: number) { return this.surfaces.queryProximity(position, range); }
   public queryStatic(position: Vec3, range: number) { return this.surfaces.queryStatic(position, range); }
   public sweepDynamic(from: Vec3, to: Vec3, radius: number) { return this.surfaces.sweepDynamic(from, to, radius); }
+  public setRenderQuality(name:'balanced'|'high'): void { if(this.architecture instanceof RealmDragonFlight)this.architecture.setQuality(name); }
   public stepMotion(dt: number): void { this.architecture?.step(dt); }
   public resetMotion(): void { this.architecture?.reset(); }
   public getDynamicSnapshot() { return this.architecture?.snapshot() ?? []; }
@@ -417,6 +431,7 @@ export class WorldStreamer implements RenderableWorld {
     }
     const timing = this.generationTiming;
     return {
+      ...(this.detail ? {realmDetail:this.detail.snapshot()} : {}),
       stateCounts,
       loadedChunks: active,
       activeChunks: active,
@@ -467,6 +482,8 @@ export class WorldStreamer implements RenderableWorld {
     this.chunks.clear();
     this.adapter.dispose();
     this.architecture?.dispose();
+    this.horizon?.dispose();
+    this.detail?.dispose();
     this.source.dispose();
     this.root.clear();
   }
@@ -605,6 +622,7 @@ export class WorldStreamer implements RenderableWorld {
         record.geometryBytes = bytes;
         record.renderObjects = renderObjects;
         this.root.add(generated.group);
+        this.detail?.attach(generated.key,generated.group);
         record.state = 'ACTIVE';
         record.generated = generated;
         this.generatedTotal += 1;
@@ -646,6 +664,7 @@ export class WorldStreamer implements RenderableWorld {
     }
     if (record.generated) {
       this.adapter.removeChunk(record.generated.key);
+      this.detail?.detach(record.generated.key);
       this.root.remove(record.generated.group);
       this.disposeGenerated(record.generated);
       this.retiredTotal += 1;
@@ -688,6 +707,7 @@ export class WorldStreamer implements RenderableWorld {
     this.renderOrigin.x = nextX;
     this.renderOrigin.z = nextZ;
     this.architecture?.shiftOrigin(this.renderOrigin);
+    this.horizon?.shiftOrigin(this.renderOrigin);
     this.rebaseCount += 1;
     for (const record of this.chunks.values()) {
       if (!record.generated) continue;

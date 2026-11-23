@@ -130,7 +130,7 @@ export class GameRenderer {
     this.cameraRig = new FlightCameraRig(this.camera);
 
     this.atmosphere = createSkyAtmosphere();
-    if (!world.kind) this.mirrorSky.setWorld(world.settings, 0x21152e, 0x9f4f66);
+    if (!world.kind && !world.settings.theme) this.mirrorSky.setWorld(world.settings, 0x21152e, 0x9f4f66);
     this.atmosphere.setMirrorGround(this.mirrorSky.ground);
     this.scene.add(this.atmosphere.group, this.mirrorSky.group);
 
@@ -169,6 +169,7 @@ export class GameRenderer {
 
     this.petals = createPetalField();
     this.scene.add(this.petals.points);
+    this.applyRealmAtmosphere(world);
 
     this.composer = new EffectComposer(this.renderer);
     this.composer.addPass(new RenderPass(this.scene, this.camera));
@@ -191,6 +192,7 @@ export class GameRenderer {
 
   public setQuality(name: RenderQuality['name']): void {
     this.quality = QUALITY_PRESETS[name];
+    this.world?.setRenderQuality?.(name);
     this.bloomPass.enabled = this.quality.bloom;
     this.resize();
   }
@@ -237,14 +239,25 @@ export class GameRenderer {
     this.journeyGate.group.visible = false;
   }
   public setWorld(world:RenderableWorld,index:number):void {
-    this.releaseWorld();this.world=world;this.scene.add(world.root);
+    this.releaseWorld();this.world=world;this.scene.add(world.root);world.setRenderQuality?.(this.quality.name);
     const profile=index>0?journeyProfile(index):null;
     this.atmosphere.palette(profile?.top??0x21152e,profile?.mid??0x9f4f66,profile?.horizon??0xffb58f);
-    if (!world.kind) this.mirrorSky.setWorld(world.settings, profile?.top ?? 0x21152e, profile?.mid ?? 0x9f4f66);
+    if (!world.kind && !world.settings.theme) this.mirrorSky.setWorld(world.settings, profile?.top ?? 0x21152e, profile?.mid ?? 0x9f4f66);
     this.atmosphere.setMirrorGround(this.mirrorSky.ground);
     this.scene.fog=new THREE.FogExp2(profile?.mid??0x6f4152,world.settings.config.fogDensity);
+    this.applyRealmAtmosphere(world);
     this.journeyGate.group.visible=index===5;
     const spawn=world.getSpawn();this.journeyGate.group.position.set(spawn.position.x,spawn.position.y+30,spawn.position.z-260);
+  }
+  private applyRealmAtmosphere(world: RenderableWorld): void {
+    const dragon = world.settings.theme === 'dragon';
+    this.petals.points.visible = !dragon;
+    this.mirrorSky.group.visible = !dragon;
+    if (dragon) {
+      this.atmosphere.palette(0x183849, 0xa1b5a1, 0xffce8e);
+      this.atmosphere.setMirrorGround(null);
+      this.scene.fog = new THREE.FogExp2(0xc0bd9f, 0.0016);
+    }
   }
   public setInversion(angle:number):void {this.inversion=angle;}
   public configureWorldTextures(loader: KTX2Loader): void { loader.detectSupport(this.renderer); }

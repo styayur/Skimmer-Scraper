@@ -2,7 +2,7 @@
 
 ## Product contract
 
-Skimmer-Scraper is a static, account-free browser game. The player flies an aircraft close to a
+Skimmer-Scraper shares one account-free flight client between GitHub Pages and a Windows x64 Tauri 2 application. The player flies an aircraft close to a
 continuous procedural city, with optional local GLB worlds. New pilots start in shielded Free Flight
 with three local wingmates. Challenge uses surface grace, impact failure and a local personal best.
 Keep previous settings, world URLs and score records compatible.
@@ -77,3 +77,9 @@ Never claim real-GPU performance from CI/headless Chromium.
 ## v0.3 product revision
 
 The authorized v0.3 upgrade adds configurable grace, Free Flight, shields, three camera views, gamepad controls, local/model companions and Sky Inversion. Keep historical solo scores and seeds compatible. Publish production only after release gates pass; an RC must not replace the current site.
+
+## Windows and world packs
+
+Use the platform adapters for native world storage. Keep the flight and rule modules independent of Tauri. Browser exports are player-initiated. Desktop commands operate on application-owned data and validated content IDs. A terrain detail tile may refine rendering only after base collision is ready.
+
+Run Cargo tests and a current-user NSIS installation on a Windows machine for desktop changes. Record the actual WebView2 GPU renderer, source SHA, installer hash and scope of device tests. A production release requires acceptance of both builds from the same merged commit.

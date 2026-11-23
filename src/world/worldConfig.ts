@@ -35,6 +35,7 @@ export interface CityGenerationConfig {
 }
 
 export interface WorldSettings {
+  theme?: 'dragon';
   paletteHue?: number;
   seed: number;
   seedText: string;
@@ -211,22 +212,26 @@ export const resolveWorldSettings = (options: {
 export const worldSettingsFromSearch = (search: string | URLSearchParams): WorldSettings => {
   const params = typeof search === 'string' ? new URLSearchParams(search) : search;
   const explicit = params.get('gen');
+  const dragon = params.get('theme') === 'dragon';
   const hasLegacyFields = params.has('seed') || params.has('preset') || params.has('world');
   const generatorVersion = explicit === String(GENERATOR_VERSION) || (!explicit && !hasLegacyFields)
     ? GENERATOR_VERSION
     : explicit === String(DENSE_GENERATOR_VERSION) ? DENSE_GENERATOR_VERSION : LEGACY_GENERATOR_VERSION;
-  return resolveWorldSettings({
+  const settings = resolveWorldSettings({
     seed: params.get('seed'),
     preset: params.get('preset'),
     mode: params.get('world'),
-    generatorVersion,
+    generatorVersion: dragon ? GENERATOR_VERSION : generatorVersion,
   });
+  if (dragon) settings.theme = 'dragon';
+  return settings;
 };
 
-export const buildWorldShareUrl = (baseHref: string, settings: Pick<WorldSettings, 'seedText' | 'preset' | 'mode' | 'generatorVersion'>): string => {
+export const buildWorldShareUrl = (baseHref: string, settings: Pick<WorldSettings, 'theme' | 'seedText' | 'preset' | 'mode' | 'generatorVersion'>): string => {
   const url = new URL(baseHref);
   url.search = '';
   url.hash = '';
+  if (settings.theme) url.searchParams.set('theme', settings.theme);
   url.searchParams.set('seed', settings.seedText);
   if (settings.generatorVersion === LEGACY_GENERATOR_VERSION) url.searchParams.set('preset', settings.preset);
   url.searchParams.set('world', settings.mode);

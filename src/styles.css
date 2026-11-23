@@ -606,7 +606,6 @@ kbd {
 }
 .quick-links, .quick-controls { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.5rem; }
 .quick-links .secondary-button { justify-content: space-between; gap: 0.4rem; text-align: left; }
-.flight-menu { pointer-events: auto; background: var(--ink-soft); color: var(--paper); }
 .guide-panel { width: min(51rem, 100vw); padding: 1.3rem clamp(1rem, 4vw, 1.7rem); overflow-y: auto; gap: 0.7rem; }
 .guide-panel > * { flex-shrink: 0; }
 .guide-panel > .library-header { position: sticky; top: -1.3rem; z-index: 2; padding: 0.45rem 0; background: var(--ink); }
@@ -671,10 +670,5 @@ kbd {
 #advanced-flight-settings { margin-top: 0.6rem; }
 #advanced-flight-settings > details { margin: 0.35rem 0; border-top: 1px solid var(--line); padding-top: 0.27rem; }
 .flight-settings details > summary { padding: 0.36rem 0; font-size: 0.88rem; cursor: pointer; }
-.journey-status { position:fixed; left:50%; top:150px; transform:translateX(-50%); display:flex; gap:16px; align-items:center; padding:8px 14px; background:#191d2cbb; color:#eee0cb; font-size:12px; border:1px solid #c7ba8e55; z-index:20; max-width:90vw; }
-.journey-status[hidden], .journey-egg[hidden] { display:none; }
-.journey-status button,.journey-egg button { border:1px solid #bfa66b; background:#303137; color:#ffdf9a; padding:8px 12px; cursor:pointer; }
-.journey-egg { position:fixed; top:300px; right:28px; max-width:320px; padding:16px 20px; background:#201e2be8; color:#ffdf9a; text-align:center; border:1px solid #c8ad79; z-index:25; white-space:pre-line; }
-@media(max-width:600px){.journey-status{top:auto;bottom:150px;font-size:10px;max-width:95vw;padding:6px 8px;}.journey-egg{right:12px;max-width:calc(100vw - 24px);}}
+.journey-halo { position:fixed; inset:0; z-index:2; pointer-events:none; background:radial-gradient(ellipse, transparent 54%, #f4cd692e 80%, #e5985552 100%); }
 .sky-veil { position:fixed;inset:0;background:#101720;opacity:0;pointer-events:none;z-index:2; }
-.journey-status button:disabled {opacity:.45;cursor:wait;}
