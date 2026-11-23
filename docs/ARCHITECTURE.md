@@ -1,5 +1,25 @@
 # Architecture
 
+## Streamed architecture
+
+Generator 4 compiles Blender loft profiles into flat-shaded geometry batches on
+first use. Each generator owns its prototypes. Each 220 m chunk transforms a
+copy for a lot, bridge or island and merges copies by material. Collision
+buffers take the structural triangles, including both piers and the lintel of
+a gate. The hole stays open for aircraft and nearest-surface queries.
+Moving gardens, shuttles, rings and lifts share model geometry across regions.
+Their collision registration follows the existing fixed-step transform.
+
+A seeded lot selects a dominant silhouette from the district field or the
+destination's architectural profile. Dimensions and quarter-turn placement
+vary per lot. Cross-boundary bridge decks share the line's height and tier
+schedule. The inverted sky uses a separate camera-relative mesh of hanging
+courts and orbital viaducts. It has one draw call and no flight collider.
+
+Versions 2 and 3 remain selectable through existing share URLs. Unversioned
+historical seed links resolve to version 2. A fresh entry opens version 4.
+Generator version is part of the score context.
+
 ## Distribution and verification
 
 The package version appears in the in-game guide and debug bridge. Build provenance

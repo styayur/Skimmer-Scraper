@@ -1,3 +1,4 @@
+import { createHash } from 'node:crypto';
 import * as THREE from 'three';
 import { describe, expect, it } from 'vitest';
 import { ChunkGenerator } from '../../src/world/chunkGenerator';
@@ -45,6 +46,21 @@ const disposeChunk = (chunk: ReturnType<ChunkGenerator['generate']>): void => {
 };
 
 describe('deterministic chunk generation', () => {
+  it.each([
+    [2,0,2587000363,'29dc317e85468b7b9193c6310f539debf93f2ab35f7bc768ab6c3a3599eaa4e7'],
+    [2,3,812230528,'25b784652963a630078c87c47c5375be7162c301b5b0bd68f72d36cc493056df'],
+    [3,0,3437653468,'ee515595ab1af15b3b86aff18a1b7454a6af6d234c8302bb2d7f2b3115e41f3b'],
+    [3,3,204067496,'ec0e2dbe79f9c614f44c71f8ce1ac54c6dbbdba567aaa4dcb3f0c164fa744252'],
+  ] as const)('preserves tagged v0.6 collision buffers for gen %i, journey %i', (generatorVersion, index, fingerprint, hash) => {
+    const settings = journeyWorld(resolveWorldSettings({ seed: '334458', generatorVersion }), index);
+    const generator = new ChunkGenerator(settings, fakeMaterials(), fakeBillboards());
+    const chunk = generator.generate(-2,1,3);
+    const bytes = chunk.collisionGeometry.getAttribute('position').array;
+    expect(chunk.fingerprint).toBe(fingerprint);
+    expect(createHash('sha256').update(Buffer.from(bytes.buffer,bytes.byteOffset,bytes.byteLength)).digest('hex')).toBe(hash);
+    disposeChunk(chunk);
+    generator.dispose();
+  });
   it('keeps the launch corridor clear across 16 fixed dense-city seeds', () => {
     let buildings = 0;
     let bridges = 0;

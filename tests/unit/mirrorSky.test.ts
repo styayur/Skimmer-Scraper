@@ -6,7 +6,7 @@ import { resolveWorldSettings } from '../../src/world/worldConfig';
 it('keeps the seeded city anchored to a bounded camera-relative visual ground', () => {
   const sky = new MirrorSky();
   const camera = new PerspectiveCamera();
-  const setWorld = (seed: string) => sky.setWorld(resolveWorldSettings({ seed }), 0x21152e, 0x9f4f66);
+  const setWorld = (seed: string) => sky.setWorld(resolveWorldSettings({ seed, generatorVersion: 3 }), 0x21152e, 0x9f4f66);
   const cityGeometry = () => (sky.group.getObjectByName('upside-down-skyline') as Mesh<BufferGeometry>).geometry;
 
   try {
@@ -33,6 +33,13 @@ it('keeps the seeded city anchored to a bounded camera-relative visual ground', 
     const originalColors = sky.ground!.haze.clone();
     sky.setWorld(resolveWorldSettings({ seed: '334459' }), 0x142e48, 0x476f9c);
     expect(sky.ground!.haze).not.toEqual(originalColors);
+    expect(sky.snapshot(camera).triangles).toBe(2880);
+    const upgraded = cityGeometry().getAttribute('position');
+    let overheadVertices = 0;
+    for (let i=0; i<upgraded.count; i++) {
+      if (Math.hypot(upgraded.getX(i),upgraded.getZ(i)) < 180) overheadVertices++;
+    }
+    expect(overheadVertices).toBeGreaterThan(100);
 
     camera.position.set(4000, 480, -1700);
     camera.rotation.set(0.7, 2, Math.PI);

@@ -170,9 +170,41 @@ for name,x,y,h,s in [
     ("needleExchange",-65,45,1.55,1),("terraceOrchard",-72,86,.83,.84),
     ("lanternCourt",66,84,1.02,.85),("foldedFan",77,-83,.6,.7)]:
     place(name,(x,y,0),(s,s,h))
-place("span",(-40.5,42,65),(1.225,1,1))
-place("span",(33.5,42,110),(1.675,1,1))
-place("span",(66,5,51),(1.85,1,1),math.pi/2)
+# Keep an editable metre-based span controller on each deck in the blend.
+# The glTF exporter evaluates it to ordinary triangles at the chosen span.
+truss = bpy.data.node_groups.new("Viaduct span in metres", "GeometryNodeTree")
+truss.interface.new_socket(name="Geometry", in_out="INPUT", socket_type="NodeSocketGeometry")
+truss.interface.new_socket(name="Geometry", in_out="OUTPUT", socket_type="NodeSocketGeometry")
+dimensions = []
+for label, nominal in [("Length",40),("Deck width",6),("Arch rise",6)]:
+    socket = truss.interface.new_socket(name=label, in_out="INPUT", socket_type="NodeSocketFloat")
+    socket.default_value = nominal
+    socket.min_value = .1
+    dimensions.append((socket.identifier,nominal))
+inputs = truss.nodes.new("NodeGroupInput")
+inputs.location = (-500,120)
+outputs = truss.nodes.new("NodeGroupOutput")
+outputs.location = (360,120)
+combine = truss.nodes.new("ShaderNodeCombineXYZ")
+combine.location = (-50,-60)
+transform = truss.nodes.new("GeometryNodeTransform")
+transform.location = (160,120)
+for axis,(_,nominal) in enumerate(dimensions):
+    divide = truss.nodes.new("ShaderNodeMath")
+    divide.operation = "DIVIDE"
+    divide.inputs[1].default_value = nominal
+    divide.location = (-270,-axis*150)
+    truss.links.new(inputs.outputs[axis+1],divide.inputs[0])
+    truss.links.new(divide.outputs[0],combine.inputs[axis])
+truss.links.new(inputs.outputs["Geometry"],transform.inputs["Geometry"])
+truss.links.new(combine.outputs[0],transform.inputs["Scale"])
+truss.links.new(transform.outputs["Geometry"],outputs.inputs["Geometry"])
+for location,length,yaw in [((-40.5,42,65),49,0),((33.5,42,110),67,0),((66,5,51),74,math.pi/2)]:
+    obj = place("span",location,yaw=yaw)
+    modifier = obj.modifiers.new("Viaduct dimensions","NODES")
+    modifier.node_group = truss
+    length_input = getattr(modifier.properties.inputs, dimensions[0][0])
+    length_input.value = float(length)
 place("skyGarden",(-35,-72,131))
 station=place("orbit",(8,-39,65))
 station.rotation_euler.x=math.radians(70)
@@ -181,7 +213,7 @@ for frame in [1,97,193]:
     station.keyframe_insert(data_path="rotation_euler",frame=frame)
 scene.frame_set(1)
 scene["generator"]="Skimmer-Scraper district 0.7.0 / AGPL-3.0-only"
-bpy.ops.export_scene.gltf(filepath=str(ART/"district.glb"),export_format="GLB",export_yup=True)
+bpy.ops.export_scene.gltf(filepath=str(ART/"district.glb"),export_format="GLB",export_yup=True,export_apply=True)
 # The same rings are the editable geometric contract for the streamer.
 (ART/"profiles.json").write_text(json.dumps({k:v for k,v in recipes.items() if k!="plaza"},separators=(",",":"))+"\n")
 

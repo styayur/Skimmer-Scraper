@@ -28,8 +28,9 @@ try {
     await page.screenshot({path:dir+'/'+label+'.jpg',quality:86});
     const record=await page.evaluate(()=>{
       const s=window.__SKIMMER_SCRAPER__.snapshot();
+      const { fps: _stagedFrameRate, ...renderCounts } = s.render;
       return {world:s.journey.worldIndex,gen:s.generatorVersion, position:s.position,camera:s.cameraPosition,
-        quaternion:s.cameraOrientation,mode:s.cameraMode,stream:s.streaming,stats:s.world,frame:s.render};
+        quaternion:s.cameraOrientation,fov:s.fov,mode:s.cameraMode,stream:s.streaming,stats:s.world,frame:renderCounts};
     });
     assert.equal(record.gen,gen);
     records.push({label,...record});
@@ -43,7 +44,9 @@ try {
     await page.evaluate(async ({x,y,z,yaw,pitch,mode})=>{
       const g=window.__SKIMMER_SCRAPER__;
       g.setCameraMode(mode);
+      // Let one frame consume the timestamp before taking the measurement pose.
       window.reviewFrame=performance.now();
+      await new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));
       await g.setPose({x,y,z},{yaw,pitch,roll:0});
     },{x,y,z,yaw,pitch,mode});
     await capture(label);
@@ -51,7 +54,7 @@ try {
   await pose('canyon',110,31,40,0,.14);
   await pose('bridges',110,42,60,.28,.31);
   await pose('floating-garden',352,379,415,.12,-.21);
-  await pose('moving-station',220,296,310,0,.04);
+  await pose('moving-station',244,299,280,.39,-.38,'cockpit');
   await pose('inverted',0,286,120,0,1.13);
   await pose('dusk',112,194,110,.66,-.14);
   await pose('chase',0,26,100,0,.05);
@@ -69,6 +72,7 @@ try {
     await pose('world-'+world,110,114,120,.24,-.05);
   }
   assert.deepEqual(errors,[]);
-  writeFileSync('acceptance/v0.7/'+name+'.json',JSON.stringify({seed:334458,browser:browser.version(),records,errors},null,2)+'\n');
+  const build=await (await page.request.get(new URL('build-info.json',origin).href)).json();
+  writeFileSync('acceptance/v0.7/'+name+'.json',JSON.stringify({seed:334458,build,browser:browser.version(),records,errors},null,2)+'\n');
 } finally {await browser.close();}
 

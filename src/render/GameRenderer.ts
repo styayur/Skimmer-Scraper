@@ -134,7 +134,7 @@ export class GameRenderer {
     this.atmosphere.setMirrorGround(this.mirrorSky.ground);
     this.scene.add(this.atmosphere.group, this.mirrorSky.group);
 
-    const hemisphere = new THREE.HemisphereLight(0xffc1a1, 0x17131f, 1.45);
+    const hemisphere = new THREE.HemisphereLight(0xffd5bd, 0x5c5365, 1.65);
     this.scene.add(hemisphere);
     const sun = new THREE.DirectionalLight(0xffd3ac, 3.4);
     sun.position.copy(this.atmosphere.sunDirection).multiplyScalar(480);
@@ -172,7 +172,7 @@ export class GameRenderer {
 
     this.composer = new EffectComposer(this.renderer);
     this.composer.addPass(new RenderPass(this.scene, this.camera));
-    this.bloomPass = new UnrealBloomPass(new THREE.Vector2(1, 1), 0.52, 0.34, 0.74);
+    this.bloomPass = new UnrealBloomPass(new THREE.Vector2(1, 1), 0.36, 0.31, 0.86);
     this.composer.addPass(this.bloomPass);
     this.composer.addPass(new OutputPass());
 
@@ -384,6 +384,7 @@ export class GameRenderer {
   }
 
   private draw(now: number): void {
+    this.atmosphere.follow(this.camera);
     this.mirrorSky.follow(this.camera);
     const instantFps = 1000 / Math.max(1, now - this.lastFrameTime);
     this.lastFrameTime = now;

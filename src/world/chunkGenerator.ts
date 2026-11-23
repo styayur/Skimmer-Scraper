@@ -193,7 +193,8 @@ export class ChunkGenerator {
       }
       bucket.push(geometry);
       if (collides) {
-        const collider = geometry.clone();
+        const collider = authored ? new THREE.BufferGeometry() : geometry.clone();
+        if (authored) collider.setAttribute('position', geometry.getAttribute('position'));
         collider.computeBoundingBox();
         if (collider.boundingBox) work.bounds.union(collider.boundingBox);
         work.collision.push(collider);
@@ -518,30 +519,30 @@ export class ChunkGenerator {
               addModel('skyGarden', matrixAt(localX, y+height/2, localZ, 0, islandRandom()*Math.PI, 0,
                 radius/30, height/22, radius/30));
             } else {
-            addPiece('rock', createIslandGeometry(islandRandom, radius, height), matrixAt(localX, y, localZ), true);
-            addPiece('soil', new THREE.CylinderGeometry(radius * 0.84, radius * 0.8, 2.4, 12), matrixAt(localX, y + height * 0.5 + 0.9, localZ), true);
-            addPiece('teal', new THREE.TorusGeometry(radius * 0.62, 0.22, 5, 32), matrixAt(localX, y - height * 0.2, localZ, Math.PI * 0.5), false);
-            const treeCount = Math.max(2, Math.floor(radius / 12));
-            for (let tree = 0; tree < treeCount; tree += 1) {
-              const angle = range(islandRandom, 0, Math.PI * 2);
-              const distance = range(islandRandom, radius * 0.2, radius * 0.68);
-              const treeX = localX + Math.cos(angle) * distance;
-              const treeZ = localZ + Math.sin(angle) * distance;
-              const treeHeight = range(islandRandom, 5, 10);
-              addPiece('wood', new THREE.CylinderGeometry(0.25, 0.5, treeHeight, 5), matrixAt(treeX, y + height * 0.5 + 2 + treeHeight * 0.5, treeZ), false);
-              for (let crown = 0; crown < 3; crown += 1) {
-                addPiece('blossom', new THREE.IcosahedronGeometry(range(islandRandom, 1.4, 3), 1), matrixAt(treeX + range(islandRandom, -1.8, 1.8), y + height * 0.5 + treeHeight + range(islandRandom, 1, 3), treeZ + range(islandRandom, -1.8, 1.8), 0, 0, 0, 1.1, 0.75, 1.1), false);
+              addPiece('rock', createIslandGeometry(islandRandom, radius, height), matrixAt(localX, y, localZ), true);
+              addPiece('soil', new THREE.CylinderGeometry(radius * 0.84, radius * 0.8, 2.4, 12), matrixAt(localX, y + height * 0.5 + 0.9, localZ), true);
+              addPiece('teal', new THREE.TorusGeometry(radius * 0.62, 0.22, 5, 32), matrixAt(localX, y - height * 0.2, localZ, Math.PI * 0.5), false);
+              const treeCount = Math.max(2, Math.floor(radius / 12));
+              for (let tree = 0; tree < treeCount; tree += 1) {
+                const angle = range(islandRandom, 0, Math.PI * 2);
+                const distance = range(islandRandom, radius * 0.2, radius * 0.68);
+                const treeX = localX + Math.cos(angle) * distance;
+                const treeZ = localZ + Math.sin(angle) * distance;
+                const treeHeight = range(islandRandom, 5, 10);
+                addPiece('wood', new THREE.CylinderGeometry(0.25, 0.5, treeHeight, 5), matrixAt(treeX, y + height * 0.5 + 2 + treeHeight * 0.5, treeZ), false);
+                for (let crown = 0; crown < 3; crown += 1) {
+                  addPiece('blossom', new THREE.IcosahedronGeometry(range(islandRandom, 1.4, 3), 1), matrixAt(treeX + range(islandRandom, -1.8, 1.8), y + height * 0.5 + treeHeight + range(islandRandom, 1, 3), treeZ + range(islandRandom, -1.8, 1.8), 0, 0, 0, 1.1, 0.75, 1.1), false);
+                }
               }
-            }
-            if (islandDistrict && islandDistrict.crossings > 0.46) {
-              const deckHeight = y + height * 0.5 + 14;
-              const platformWidth = radius * 0.92;
-              addBox('bridge', platformWidth, 1.6, 12, localX, deckHeight, localZ);
-              addBox('rose', platformWidth, 0.15, 0.32, localX, deckHeight + 0.86, localZ - 5.8, 0, false);
-              for (const offset of [-platformWidth * 0.32, platformWidth * 0.32]) {
-                addBox('bridge', 1.8, 13, 1.8, localX + offset, deckHeight - 6.5, localZ);
+              if (islandDistrict && islandDistrict.crossings > 0.46) {
+                const deckHeight = y + height * 0.5 + 14;
+                const platformWidth = radius * 0.92;
+                addBox('bridge', platformWidth, 1.6, 12, localX, deckHeight, localZ);
+                addBox('rose', platformWidth, 0.15, 0.32, localX, deckHeight + 0.86, localZ - 5.8, 0, false);
+                for (const offset of [-platformWidth * 0.32, platformWidth * 0.32]) {
+                  addBox('bridge', 1.8, 13, 1.8, localX + offset, deckHeight - 6.5, localZ);
+                }
               }
-            }
             }
             work.islands += 1;
             work.signature.push('island', Math.round(localX), Math.round(localZ), Math.round(y), Math.round(radius));

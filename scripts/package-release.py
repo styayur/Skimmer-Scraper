@@ -37,7 +37,7 @@ with zipfile.ZipFile(static, 'w', compression=zipfile.ZIP_DEFLATED, compressleve
             archive.writestr(info, path.read_bytes(), compress_type=zipfile.ZIP_DEFLATED, compresslevel=9)
 source = destination / f'skimmer-scraper-v{version}-source.zip'
 paths = [p for p in git('ls-files').splitlines() if '/' not in p]
-paths += ['.github', 'src', 'public', 'tests', 'scripts', 'docs', 'licenses', 'acceptance']
+paths += ['.github', 'src', 'public', 'tests', 'scripts', 'docs', 'licenses', 'acceptance', 'art', 'evidence/v0.7']
 paths += [
     'evidence/v0.6/pr3-tutorial/title-desktop.png',
     'evidence/v0.6/pr2-streaming/after-balanced-1x.png',
