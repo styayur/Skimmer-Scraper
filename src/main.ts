@@ -72,7 +72,7 @@ import { queryFlightSurface, type SurfaceQuery, type WorldStats } from './world/
 import { ImportedWorldAdapter } from './world/imports/importedWorldAdapter';
 import type { WorldManifest } from './world/imports/worldManifest';
 import { WorldImporter } from './world/imports/worldImporter';
-import { WorldResourceManager } from './world/imports/worldResourceManager';
+import { createWorldLibrary } from './platform/worldLibrary';
 import { WorldImportPanel, type ImportedWorldSource } from './ui/WorldImportPanel';
 
 type GameMode = 'title' | 'running' | 'paused' | 'failed';
@@ -286,7 +286,7 @@ const waitForCollisionCoverage = async (
 const audio = new FlightAudio();
 const aircraftLibrary = new AircraftLibrary();
 const worldImporter = new WorldImporter();
-const worldResources = new WorldResourceManager(window.indexedDB);
+const worldResources = createWorldLibrary();
 const keyboard = new KeyboardInputSource();
 keyboard.setEnabled(false);
 const scripted = new ScriptedInputSource(demoInput);
