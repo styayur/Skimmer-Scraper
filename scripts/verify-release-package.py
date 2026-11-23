@@ -45,6 +45,12 @@ for asset in manifest['assets']:
     name = asset['name']
     if asset['sha256'] != checksums[name] or (folder / name).stat().st_size != asset['bytes']:
         raise SystemExit('Archive size or digest does not match the manifest')
+    if asset.get('kind') == 'windows-nsis':
+        binary=(folder/name).read_bytes()
+        if binary[:2] != b'MZ' or not name.endswith('.exe') or any(secret in binary for secret in secrets):
+            raise SystemExit('Unexpected Windows installer')
+        results.append({'name':name,'kind':'windows-nsis','sha256':checksums[name]})
+        continue
     with zipfile.ZipFile(folder / name) as archive:
         if archive.testzip():
             raise SystemExit('Release archive failed its integrity check')
@@ -59,6 +65,12 @@ for asset in manifest['assets']:
             hashlib.sha256(archive.read('package-lock.json')).hexdigest() != manifest['toolchain']['lockfileSha256']
         ):
             raise SystemExit('Source lockfile does not match the manifest')
+        if asset.get('kind') == 'world-pack':
+            pack=json.loads(archive.read('world-pack.json'))
+            for tile in pack['files']:
+                data=archive.read(tile['name'])
+                if len(data)!=tile['bytes'] or hashlib.sha256(data).hexdigest()!=tile['sha256']:
+                    raise SystemExit('World pack integrity mismatch')
         audio_files = []
         scanned = 0
         for member in archive.infolist():

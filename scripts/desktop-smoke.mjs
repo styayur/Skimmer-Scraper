@@ -65,7 +65,17 @@ try {
     };
   });
   assert.match(runtime.origin, /^https?:\/\/tauri\.localhost$/);
-  if (libraryCheck === 'compat') {
+  if (libraryCheck === 'live-input') {
+    const { liveInput } = await import('./desktop-live-input.mjs');
+    await liveInput(page, output);
+  } else if (libraryCheck === 'matrix') {
+    const { qualityMatrix } = await import('./realm-quality-matrix.mjs');
+    await qualityMatrix(
+      page,
+      path.join(output, 'desktop-matrix.json'),
+      process.argv[5],
+    );
+  } else if (libraryCheck === 'compat') {
     const { checkCompatibility } = await import('./desktop-compat.mjs');
     await checkCompatibility(page, output);
   } else if (libraryCheck === 'pack') {

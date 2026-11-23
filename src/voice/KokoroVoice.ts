@@ -28,6 +28,8 @@ export class KokoroVoice implements VoiceProvider {
   private serial = 0;
   private generation = 0;
   private generatedThisSession = false;
+  private readonly clips = new Map<string, Extract<KokoroReply, {type:'audio'}>>();
+  private clipBytes = 0;
   private retryAt = 0;
   private stats = {
     phase: 'idle' as 'idle' | 'loading' | 'ready' | 'generating' | 'playing' | 'error',
@@ -37,6 +39,7 @@ export class KokoroVoice implements VoiceProvider {
     loads: 0,
     releases: 0,
     generated: 0,
+    cacheHits: 0,
     completed: 0,
     loadMs: null as number | null,
     inferenceMs: null as number | null,
@@ -47,7 +50,7 @@ export class KokoroVoice implements VoiceProvider {
   };
 
   public constructor(private readonly getContext: () => AudioContext | null) {}
-  public snapshot() { return { ...this.stats, resident: this.worker !== null, idleMs }; }
+  public snapshot() { return { ...this.stats, resident: this.worker !== null, cachedClipBytes: this.clipBytes, idleMs }; }
 
   public prepare(explicit = false): Promise<void> {
     if (this.worker && (this.stats.phase === 'ready' || this.stats.phase === 'generating' || this.stats.phase === 'playing')) return Promise.resolve();
@@ -104,13 +107,34 @@ export class KokoroVoice implements VoiceProvider {
     signal.addEventListener('abort', interrupted, { once: true });
     let playback: RadioAudio | undefined;
     try {
-      const result = await this.call(id => ({ type: 'generate', id, text, voice, speed: identity.rate }),
-        preview ? 25_000 : this.generatedThisSession ? 9000 : 15_000);
-      signal.throwIfAborted();
-      if (result.type !== 'audio') throw new Error('kokoro-inference');
-      this.generatedThisSession = true;
-      this.stats.generated++;
-      this.stats.inferenceMs = result.inferenceMs;
+      const key = JSON.stringify([voice, identity.rate, text]);
+      let result = this.clips.get(key);
+      if (result) {
+        this.clips.delete(key);
+        this.clips.set(key, result);
+        this.stats.cacheHits++;
+        this.stats.inferenceMs = 0;
+      } else {
+        const reply = await this.call(id => ({ type: 'generate', id, text, voice, speed: identity.rate }),
+          preview ? 25_000 : this.generatedThisSession ? 9000 : 15_000);
+        signal.throwIfAborted();
+        if (reply.type !== 'audio') throw new Error('kokoro-inference');
+        result = reply;
+        this.generatedThisSession = true;
+        this.stats.generated++;
+        this.stats.inferenceMs = result.inferenceMs;
+        const bytes = result.samples.byteLength;
+        const budget = 4 * 1024 * 1024;
+        if (bytes <= budget) {
+          for (const [oldKey, clip] of this.clips) {
+            if (this.clipBytes + bytes <= budget && this.clips.size < 8) break;
+            this.clipBytes -= clip.samples.byteLength;
+            this.clips.delete(oldKey);
+          }
+          this.clips.set(key, result);
+          this.clipBytes += bytes;
+        }
+      }
       this.stats.audioSeconds = result.samples.length / result.sampleRate;
       this.stats.lastVoice = voice;
       this.stats.phase = 'playing';
@@ -198,6 +222,8 @@ export class KokoroVoice implements VoiceProvider {
   }
 
   private stopWorker(error: Error = new Error('kokoro-cancelled')): void {
+    this.clips.clear();
+    this.clipBytes = 0;
     window.clearTimeout(this.idleTimer);
     this.generatedThisSession = false;
     if (this.pending) {

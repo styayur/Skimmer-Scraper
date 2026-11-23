@@ -67,6 +67,11 @@ test('Kokoro opt-in lazily opens one worker and previews through cancellable Web
   await expect.poll(async () => (await voice(page)).preview.phase).toBe('completed');
   expect((await voice(page)).preview.speech).toMatchObject({ provider: 'high-quality', voiceId: 'zm_010' });
 
+  await page.locator('#voice-preview').click();
+  await expect.poll(async () => (await voice(page)).kokoro?.cacheHits).toBe(1);
+  await expect.poll(async () => (await voice(page)).preview.phase).toBe('completed');
+  expect(await calls(page)).toEqual(['prepare', 'zm_010']);
+
   await page.locator('#voice-preview-agent').selectOption('3');
   await page.locator('#voice-preview').click();
   await page.waitForFunction(() => window.__SKIMMER_SCRAPER__!.snapshot().voice.preview.phase === 'playing');
@@ -75,6 +80,7 @@ test('Kokoro opt-in lazily opens one worker and previews through cancellable Web
   await expect.poll(async () => (await voice(page)).preview.phase).toBe('cancelled');
   await page.locator('#voice-unload').click();
   expect((await voice(page)).kokoro?.resident).toBe(false);
+  expect((await voice(page)).kokoro?.cachedClipBytes).toBe(0);
   expect(await calls(page)).toEqual(['prepare', 'zm_010', 'zf_006', 'terminated']);
 
   const volume = page.locator('#voice-volume');
