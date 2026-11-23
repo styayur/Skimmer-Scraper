@@ -17,13 +17,13 @@ const putFixture = async (page: Page, style: WorldFixture, external = false) => 
   await page.locator('#local-world-analyze').click();
 };
 
-test('flies an imported arch with three companions, collides with an obstacle and restores the procedural world', async ({ page }) => {
+test('flies an imported arch with three companions, collides with an obstacle and restores the procedural world', async ({ page, baseURL }) => {
   test.setTimeout(150_000);
   const errors: string[] = [];
   const outbound: string[] = [];
   page.on('pageerror', error => errors.push(error.message));
   page.on('request', request => {
-    if (!/^(http:\/\/127\.0\.0\.1:4173\/|blob:|data:)/.test(request.url())) outbound.push(request.url());
+    if (new URL(request.url()).origin !== baseURL && !/^(blob:|data:)/.test(request.url())) outbound.push(request.url());
   });
   await page.goto('/?seed=334458&gen=3');
   await page.waitForFunction(() => window.__SKIMMER_SCRAPER__?.snapshot().ready);

@@ -80,7 +80,7 @@ const captureFlight = async (page: Page, file: string) => {
   return result.render;
 };
 
-test('copies and replays real separable city layouts, refreshing unlocked visits and retaining a kept layout', async ({ page, browser }, testInfo) => {
+test('copies and replays real separable city layouts, refreshing unlocked visits and retaining a kept layout', async ({ page, browser, baseURL }, testInfo) => {
   test.setTimeout(300_000);
   await page.setViewportSize({ width: 920, height: 620 });
   await page.context().grantPermissions(['clipboard-read', 'clipboard-write']);
@@ -89,7 +89,7 @@ test('copies and replays real separable city layouts, refreshing unlocked visits
   const monitor = (tab: Page) => {
     tab.on('pageerror', error => errors.push(error.message));
     tab.on('request', request => {
-      if (!/^(http:\/\/127\.0\.0\.1:4173\/|data:|blob:)/.test(request.url())) remote.push(request.url());
+      if (new URL(request.url()).origin !== baseURL && !/^(blob:|data:)/.test(request.url())) remote.push(request.url());
     });
   };
   monitor(page);
