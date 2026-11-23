@@ -111,14 +111,26 @@ export async function liveInput(page, output) {
     });
   } else await page.locator('#rules-close').click();
   await save();
+  report.gamepad = await observeGamepad(page);
+  await save();
+  assert.ok(
+    report.gamepad.pausedAfterStart,
+    'Physical Start input was not observed pausing the game',
+  );
+}
+
+export async function observeGamepad(page, seconds = 90) {
   await page.evaluate(() => {
     document.title = 'Skimmer-Scraper · Xbox 手柄验收 · 请按 Start 暂停';
   });
   console.log('Physical controller observation started');
-  report.gamepad = await page.evaluate(async () => {
+  return page.evaluate(async (seconds) => {
     const g = window.__SKIMMER_SCRAPER__,
       begin = performance.now(),
       baseline = new Map();
+    let lastMode = g.snapshot().mode;
+    let observedStart = false;
+    let pressedDuringFlight = -Infinity;
     const result = {
       device: null,
       axisDelta: 0,
@@ -126,7 +138,8 @@ export async function liveInput(page, output) {
       pausedAfterStart: false,
       startMode: g.snapshot().mode,
     };
-    while (performance.now() - begin < 90000) {
+    while (performance.now() - begin < seconds * 1000) {
+      let down = false;
       for (const pad of navigator.getGamepads()) {
         if (!pad) continue;
         result.device = pad.id;
@@ -137,19 +150,30 @@ export async function liveInput(page, output) {
             Math.abs(v - baseline.get(pad.index)[i]),
           );
         });
-        if (pad.buttons[9]?.pressed) result.startDown = true;
+        down ||= !!pad.buttons[9]?.pressed;
       }
-      if (result.startDown && g.snapshot().mode === 'paused') {
+      const mode = g.snapshot().mode;
+      if (
+        down &&
+        !observedStart &&
+        lastMode === 'running' &&
+        document.hasFocus()
+      ) {
+        pressedDuringFlight = performance.now();
+        result.startDown = true;
+      }
+      if (
+        performance.now() - pressedDuringFlight < 300 &&
+        document.hasFocus() &&
+        mode === 'paused'
+      ) {
         result.pausedAfterStart = true;
         break;
       }
+      observedStart = down;
+      lastMode = mode;
       await new Promise((resolve) => setTimeout(resolve, 8));
     }
     return result;
-  });
-  await save();
-  assert.ok(
-    report.gamepad.pausedAfterStart,
-    'Physical Start input was not observed pausing the game',
-  );
+  }, seconds);
 }

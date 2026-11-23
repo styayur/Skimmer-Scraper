@@ -4,7 +4,12 @@ import path from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { chromium } from '@playwright/test';
 
-export async function qualityMatrix(page, output, packDirectory, cityComparison = false) {
+export async function qualityMatrix(
+  page,
+  output,
+  packDirectory,
+  cityComparison = false,
+) {
   const base = new URL(page.url());
   base.search = '';
   const device = await page.evaluate(async () => {
@@ -71,7 +76,9 @@ export async function qualityMatrix(page, output, packDirectory, cityComparison 
       );
     }
     for (const theme of cityComparison ? ['city'] : ['city', 'dragon'])
-      for (const quality of cityComparison ? ['balanced'] : ['balanced', 'high'])
+      for (const quality of cityComparison
+        ? ['balanced']
+        : ['balanced', 'high'])
         for (const count of cityComparison ? [3] : [0, 1, 2, 3]) {
           const url = new URL(base);
           url.searchParams.set('seed', '334458');
@@ -183,7 +190,12 @@ if (
     });
     await page.goto(url);
     await page.waitForFunction(() => !!window.__SKIMMER_SCRAPER__);
-    await qualityMatrix(page, output, undefined, process.argv[4] === 'city-comparison');
+    await qualityMatrix(
+      page,
+      output,
+      undefined,
+      process.argv[4] === 'city-comparison',
+    );
   } finally {
     await browser.close();
   }
