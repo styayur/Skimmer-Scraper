@@ -129,7 +129,7 @@ export interface WorldMaterials {
   dispose(): void;
 }
 
-export const createWorldMaterials = (paletteHue = 0): WorldMaterials => {
+export const createWorldMaterials = (paletteHue = 0, architecturalFacades = false): WorldMaterials => {
   const groundMap = createGroundTexture();
   const celadonMap = createFacadeTexture('#5c8881', '#a3d6ca', '#53e5cf');
   const plumMap = createFacadeTexture('#79506d', '#d397b3', '#ff5d8f');
@@ -213,6 +213,22 @@ export const createWorldMaterials = (paletteHue = 0): WorldMaterials => {
       metalness: 0.17,
     }),
   };
+
+  if (architecturalFacades) {
+    for (const [key, map] of [['shellCeladon', celadonMap], ['shellPlum', plumMap], ['shellIvory', ivoryMap]] as const) {
+      const shell = byKey[key] as THREE.MeshStandardMaterial;
+      shell.map = map;
+      shell.color.setHex(0xffffff);
+      map.wrapT = THREE.RepeatWrapping;
+    }
+    // Tinted reflective cladding can share the opaque pass with the stone piers.
+    const glass = byKey.glass as THREE.MeshPhysicalMaterial;
+    glass.transmission = 0;
+    glass.transparent = false;
+    glass.opacity = 1;
+    glass.color.setHex(0x31595f);
+    glass.roughness = 0.31;
+  }
 
   if (paletteHue !== 0) for (const material of Object.values(byKey)) {
     if (material instanceof THREE.MeshStandardMaterial) {
