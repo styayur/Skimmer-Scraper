@@ -1,0 +1,37 @@
+{
+  "note": "Two clean candidate runs using the dedicated warm Chrome profile; each includes one settings preview and one reply during flight.",
+  "runs": [
+    {
+      "commit": "79c1c58919f2c9467251e7f831ef28ba356e8316",
+      "quality": "high",
+      "companions": 3,
+      "fps": 112.61812218567948,
+      "frameMs": [
+        8.30000000000291,
+        8.700000000004366,
+        16.799999999999272
+      ],
+      "inferenceFrames": 100,
+      "worstInferenceFrameMs": 116.70000000000073,
+      "inferenceMs": 1646.7999999970198,
+      "lastVoice": "zf_001",
+      "completed": 2
+    },
+    {
+      "commit": "79c1c58919f2c9467251e7f831ef28ba356e8316",
+      "quality": "high",
+      "companions": 3,
+      "fps": 113.2774380234525,
+      "frameMs": [
+        8.30000000000291,
+        8.5,
+        16.799999999995634
+      ],
+      "inferenceFrames": 92,
+      "worstInferenceFrameMs": 175.09999999999854,
+      "inferenceMs": 1531,
+      "lastVoice": "zf_001",
+      "completed": 2
+    }
+  ]
+}

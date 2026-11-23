@@ -2,6 +2,13 @@
 
 ## Unreleased
 
+## 0.7.0 — 2026-11-23
+
+- Generator 4 brings open moon gates, folded towers, terraced orchards, lantern courts and needle exchanges to the infinite city. Regional landmarks, sky gardens, layered bridge spans and moving orbital stations share the Blender district’s loft profiles.
+- The five Sky Inversions have distinct architecture. Overhead viaducts connect hanging courtyards, and the atmosphere follows the camera during climbs and origin changes.
+- Existing generator 2 and 3 links retain their historical collision geometry. New cities use generator 4 with the existing 220 m streamer and fixed-step flight.
+- The editable Blender scene, Geometry Nodes bridge controls, generating script and importable demonstration GLB are included in the source distribution. [Art and flight measurements](docs/WORLD-ART.md)
+
 ## 0.6.0 — 2026-11-23
 
 ### Added

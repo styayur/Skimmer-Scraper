@@ -12,18 +12,23 @@ const scenarios = suite==='soak' ? [[3,'balanced',1,905]] : suite==='voice' ? [[
   : suite==='reference' ? [[3,'balanced',1,44],[3,'high',1,44],[3,'balanced',4,44],[3,'balanced',4,14]]
   : [...[0,1,2,3].flatMap(count=>['balanced','high'].map(quality=>[count,quality,1,44])),[3,'balanced',4,44],[3,'balanced',4,14]];
 const proxy = suite === 'voice' && process.env.HTTPS_PROXY ? new URL(process.env.HTTPS_PROXY) : null;
-const browser = await chromium.launch({channel:'chrome',headless:false,
+const launch = {channel:'chrome',headless:false,
   ...(proxy ? {proxy:{server:proxy.origin,bypass:'localhost,127.0.0.1',
     username:decodeURIComponent(proxy.username),password:decodeURIComponent(proxy.password)}} : {}),
   args:['--use-angle=d3d11',
   '--disable-software-rasterizer','--disable-background-timer-throttling','--disable-renderer-backgrounding',
-  '--disable-backgrounding-occluded-windows','--enable-precise-memory-info']});
+  '--disable-backgrounding-occluded-windows','--enable-precise-memory-info']};
+const profile = suite==='voice' && process.env.SKIMMER_KOKORO_PROFILE;
+const viewport = {width:1920,height:1080};
+const persistent = profile ? await chromium.launchPersistentContext(profile,{...launch,viewport}) : null;
+const browser = persistent ? persistent.browser() : await chromium.launch(launch);
 try{
   for(const [count,quality,rate,seconds] of scenarios){
-    const page=await browser.newPage({viewport:{width:1920,height:1080}});
+    const page=persistent ? await persistent.newPage() : await browser.newPage({viewport});
     const errors=[];
     page.on('pageerror',err=>errors.push(err.message));
     await page.addInitScript(count=>{
+      localStorage.removeItem('skimmer-scraper.voice.v1');
       localStorage.setItem('skimmer-scraper.companions.v3',JSON.stringify({count}));
       localStorage.setItem('skimmer-scraper.rules.v3',JSON.stringify({mode:'free',shield:true}));
     },count);
@@ -32,6 +37,7 @@ try{
     await page.locator('#start-button').click();
     await page.waitForFunction(()=>window.__SKIMMER_SCRAPER__.snapshot().mode==='running');
     let weightDigest = null;
+    let previewCompletions = 0;
     if (suite === 'voice' && process.env.SKIMMER_KOKORO_WEIGHTS) {
       const weights = process.env.SKIMMER_KOKORO_WEIGHTS;
       const server = createServer((request,response) => {
@@ -64,7 +70,13 @@ try{
       if(suite==='voice'){
         await page.locator('.voice-settings > summary').click();
         await page.locator('#voice-output').selectOption('high-quality');
-        await page.waitForFunction(()=>['ready','error'].includes(window.__SKIMMER_SCRAPER__.snapshot().voice.kokoro?.phase),null,{timeout:240000});
+        await page.waitForFunction(()=>window.__SKIMMER_SCRAPER__.snapshot().voice.kokoro?.phase === 'ready',null,{timeout:240000});
+        await page.locator('#voice-preview-agent').selectOption('1');
+        await page.locator('#voice-preview').click();
+        await page.waitForFunction(()=>['completed','error'].includes(window.__SKIMMER_SCRAPER__.snapshot().voice.preview.phase),null,{timeout:120000});
+        const preview = await page.evaluate(()=>window.__SKIMMER_SCRAPER__.snapshot().voice);
+        assert.equal(preview.preview.phase,'completed',JSON.stringify(preview.kokoro));
+        previewCompletions = preview.kokoro.completed;
       }
       await page.locator('#rules-close').click();
     }
@@ -80,7 +92,7 @@ try{
       await page.waitForFunction(()=>Number.isFinite(window.flightSampleStart) &&
         window.__SKIMMER_SCRAPER__.snapshot().runTime > window.flightSampleStart + 5);
       await page.keyboard.press('t');
-      await page.locator('#radio-input').fill('二号，你是谁？');
+      await page.locator('#radio-input').fill('一号，你是谁？');
       await page.locator('#radio-input').press('Enter');
     };
     if (suite === 'voice') await page.evaluate(() => window.addEventListener('skimmer-flight-sample-start',
@@ -97,7 +109,8 @@ try{
     writeFileSync(path,JSON.stringify(record,null,2)+'\n');
     console.log(JSON.stringify({path,fps:result.fps,frameMs:result.frameMs,incomplete:result.incompleteFrames,frames:result.visibleFrames}));
     if (suite === 'voice') {
-      assert(state.voice.kokoro?.generated > 0 && state.voice.kokoro?.completed > 0,
+      assert(result.inferenceFrames > 0 && state.voice.kokoro?.completed > previewCompletions &&
+        state.voice.playbackHistory.some(line=>line.provider==='high-quality' && line.agent===1),
         'A WebGPU Kokoro line must be generated and played during hardware acceptance');
     }
     assert.equal(state.generatorVersion,Number(version));
@@ -106,5 +119,5 @@ try{
     assert.deepEqual(errors,[]);
     await page.close();
   }
-}finally{await browser.close();}
+}finally{if(persistent) await persistent.close(); else await browser.close();}
 

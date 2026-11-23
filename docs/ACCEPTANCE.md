@@ -1,5 +1,9 @@
 # Release acceptance
 
+## v0.7.0
+
+The hardware report covers the release candidate, all eight native quality and wingmate combinations, CPU throttling, concurrent Kokoro speech and sustained flight. The release attachment `v0.7.0.json` records the deployed revision, public browser checks, hosted file digests and independent source rebuild. [Hardware and flight results](V070-ACCEPTANCE.md) · [Matched camera views](../evidence/v0.7/visual-comparison.jpg)
+
 ## v0.6.0
 
 [Integrated verification](../acceptance/v0.6/integrated.json) records the
