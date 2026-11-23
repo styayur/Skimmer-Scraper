@@ -9,7 +9,7 @@ player-owned local models retain their original terms.
 
 The Blender district, loft profiles, materials, GLB, procedural tower library and
 inverted city geometry introduced for v0.7 are original work licensed under
-AGPL-3.0-only. Blender 5.2.4 generated the reference scene and Cycles renders.
+AGPL-3.0-only. Blender 5.2.4 generated the reference scene and Cycles renders. The three bridge spans share an original metre-scaled Geometry Nodes group.
 The game builds its meshes from the same profiles. The source and generation
 instructions are in [art/district](art/district/README.md).
 

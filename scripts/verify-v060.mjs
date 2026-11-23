@@ -50,6 +50,13 @@ const monitor = tab => {
   });
 };
 monitor(page);
+const sameOriginBytes = (href, readJson = false) => page.evaluate(async ({ href, readJson }) => {
+  const response = await fetch(href, { cache: 'no-store' });
+  const body = await response.arrayBuffer();
+  const digest = new Uint8Array(await crypto.subtle.digest('SHA-256', body));
+  return { status: response.status, sha256: [...digest].map(byte => byte.toString(16).padStart(2, '0')).join(''),
+    json: readJson ? JSON.parse(new TextDecoder().decode(body)) : null };
+}, { href, readJson });
 let stage = 'entry';
 
 try {
@@ -59,10 +66,9 @@ try {
   if (isLive) assert(transport?.protocol?.includes('TLS'), JSON.stringify(transport));
   done(1, 'HTTP entry', { status: response.status(), transport, secureContext: await page.evaluate(() => isSecureContext) });
   await wait(() => window.__SKIMMER_SCRAPER__?.snapshot().ready);
-  const metadata = await page.request.get(new URL('build-info.json', base).href);
-  assert(metadata.ok());
-  const metaBytes = await metadata.body();
-  report.build = JSON.parse(metaBytes.toString());
+  const metadata = await sameOriginBytes(new URL('build-info.json', base).href, true);
+  assert.equal(metadata.status, 200);
+  report.build = metadata.json;
   assert.equal(report.build.version, SKIMMER_EXPECTED_VERSION);
   assert.equal(report.build.dirty, false);
   done(2, 'Version provenance', { version: report.build.version });
@@ -71,15 +77,15 @@ try {
   const module = await page.locator('script[type=module][src]').getAttribute('src');
   const url = new URL(module, base);
   assert(url.origin === base.origin && url.pathname.startsWith(base.pathname + 'assets/'));
-  const script = await page.request.get(url.href);
-  assert(script.ok());
-  const entrySha = hash(await script.body());
+  const script = await sameOriginBytes(url.href);
+  assert.equal(script.status, 200);
+  const entrySha = script.sha256;
   const rel = url.pathname.slice(base.pathname.length);
   if (SKIMMER_DEPLOY_ARTIFACT_DIR) {
     assert.equal(entrySha, hash(readFileSync(join(SKIMMER_DEPLOY_ARTIFACT_DIR, rel))));
-    assert.equal(hash(metaBytes), hash(readFileSync(join(SKIMMER_DEPLOY_ARTIFACT_DIR, 'build-info.json'))));
+    assert.equal(metadata.sha256, hash(readFileSync(join(SKIMMER_DEPLOY_ARTIFACT_DIR, 'build-info.json'))));
   }
-  done(4, 'Runtime bundle identity', { path: url.pathname, sha256: entrySha, artifactCompared: Boolean(SKIMMER_DEPLOY_ARTIFACT_DIR) });
+  done(4, 'Runtime bundle identity', { path: url.pathname, sha256: entrySha, metadataSha256: metadata.sha256, artifactCompared: Boolean(SKIMMER_DEPLOY_ARTIFACT_DIR), transport: 'Same-origin Chrome fetch of raw response bytes' });
 
   stage = 'title and tutorial';
   const webgl = await page.evaluate(() => {

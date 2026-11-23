@@ -215,7 +215,8 @@ scene.frame_set(1)
 scene["generator"]="Skimmer-Scraper district 0.7.0 / AGPL-3.0-only"
 bpy.ops.export_scene.gltf(filepath=str(ART/"district.glb"),export_format="GLB",export_yup=True,export_apply=True)
 # The same rings are the editable geometric contract for the streamer.
-(ART/"profiles.json").write_text(json.dumps({k:v for k,v in recipes.items() if k!="plaza"},separators=(",",":"))+"\n")
+profile_data = json.dumps({k:v for k,v in recipes.items() if k!="plaza"},separators=(",",":"))
+(ART/"profiles.json").write_bytes((profile_data+"\n").encode("utf-8"))
 
 world=bpy.data.worlds.new("Apricot haze")
 scene.world=world

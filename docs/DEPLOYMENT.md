@@ -28,14 +28,14 @@ and building. After the deployment and public browser smoke test pass for the
 same commit and version, create the stable tag on that commit and publish the
 GitHub Release with its archives and checksums. Tags serve as release references.
 
-Verify the v0.6.0 candidate under the project subpath. For a local build,
+Verify the release candidate under the project subpath. For a local build,
 run `npm ci`, `npm run test:all`, and `npm run preview -- --base /Skimmer-Scraper/`.
 Run `node scripts/verify-v060.mjs` with `SKIMMER_URL` set to that preview URL,
 `SKIMMER_EXPECTED_VERSION` set to the candidate version,
 `SKIMMER_EXPECTED_COMMIT` set to the built revision and `SKIMMER_EVIDENCE_DIR`
 set to a writable directory. Set `SKIMMER_FULL_JOURNEY=1` to run all five worlds.
 The real GPU matrix and sustained flight are exercised by
-`node scripts/v050-gpu.mjs matrix` and `soak`.
+`node scripts/benchmark-world-art.mjs <local-preview-url> matrix 4`. Use `soak` for sustained flight and `voice` for concurrent Kokoro inference.
 
 After Pages reports success, download the workflow's `github-pages` artifact
 and extract `artifact.tar`. Run the same verifier against the public project
@@ -54,8 +54,7 @@ workspace and source archive use the same bytes.
 Keep the lockfile and the build toolchain recorded in the manifest. Source ZIPs
 retain `SOURCE_REVISION.json` for a build without `.git`. Rebuild the extracted
 Source ZIP with the recorded toolchain and compare it to the deployed files.
-Add the release's `v0.6.0.json` acceptance report alongside the archives and
-include its digest in `SHA256SUMS.txt`. Run
+Place the versioned acceptance JSON and `visual-comparison.jpg` alongside the archives. Record the image digest in `visualComparisonSha256` in the report. Include both files in `SHA256SUMS.txt`. Run
 `python scripts/verify-release-package.py <output>` on the bundle and again
 on a fresh download from the published GitHub Release.
 The distribution links to its complete corresponding source. It omits

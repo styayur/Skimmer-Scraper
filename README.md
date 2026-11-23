@@ -14,7 +14,8 @@ wedge formation. Existing settings, aircraft, seeds and scores carry forward.
 Stable builds are deployed to Pages by a manual run from `main`. GitHub
 Releases provides the verified build and its corresponding source.
 
-The seeded city mixes tower canyons, stacked bridges and floating districts.
+In v0.7.0 a seeded district can open into a moon gate, a folded tower canyon or a terraced orchard. Fly through the open cores, skim the sky bridges and look up during inversion to see suspended courts linked by viaducts. The five arrivals each favor a different tower silhouette. Earlier links retain their original layouts. [Building the city](docs/WORLD-ART.md)
+
 Static and animated GLB worlds can be imported from your device. Generate a
 fresh layout or keep it with a single portable seed and the original GLB. A climb
 through **520 m** can lead to the next sky, carrying the aircraft's bank and
@@ -37,9 +38,9 @@ Run `npm ci`, `npm run build`, and `npm run preview` to play locally. The
 static ZIP runs on a static HTTP server. The build uses WebGL2 and contains
 its source revision, licenses and credits. [Releases](https://github.com/styayur/Skimmer-Scraper/releases) · [Deployment](docs/DEPLOYMENT.md) · [Acceptance](docs/ACCEPTANCE.md)
 
-<img src="evidence/v0.6/pr3-tutorial/title-desktop.png" alt="Skimmer-Scraper title screen over the sakura-dusk city" width="100%">
+<img src="evidence/v0.7/pr4/title.jpg" alt="Title screen above the new sakura-dusk district" width="100%">
 
-<img src="evidence/v0.6/pr2-streaming/after-balanced-1x.png" alt="Three wingmates in high-speed flight over the streamed city" width="100%">
+<img src="evidence/v0.7/pr4/chase.jpg" alt="Chase view approaching the streamed tower district" width="100%">
 
 ## Challenge mode
 

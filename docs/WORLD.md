@@ -9,12 +9,12 @@
 ## URL parameters
 
 ```text
-?seed=334458&world=stable&gen=3
+?seed=334458&world=stable&gen=4
 ```
 
 - `seed` — numeric or textual world seed.
 - `world` — `stable` or `ephemeral`. Stable is the default and remains reproducible.
-- `gen` — generator version. New games and shares use the unified city in version 3.
+- `gen` selects the geometry used by the seed. New games use generator 4. A share saves the active version, including versions 2 and 3.
 
 The world panel can randomize a seed, copy the raw seed, copy a complete share URL and restore the
 default seed. Applying a world reloads the static app with the same URL parameters, which keeps GitHub
@@ -22,7 +22,7 @@ Pages project paths intact.
 
 Version 2 links keep their original seed, preset and mode. Links with seed, preset or
 world parameters and no generator version also open version 2. The world panel shows the
-legacy preset and can use the same seed in version 3. Legacy shares continue to include
+legacy preset and can use the same seed in the current city. Explicit version 3 links reproduce the v0.6.0 city. Legacy preset shares continue to include
 `preset`. Player records are scoped by generator version, so a version 2 record remains
 available on the corresponding legacy link. To open the old default city, use
 `?seed=334458&preset=sakura&world=stable&gen=2`. Older release tags retain their original
@@ -47,7 +47,7 @@ floating-island frequency, suspended-structure heights, terrain amplitude, archi
 density and far-detail density. Version 3 samples independent continuous fields for towers, bridges,
 and gardens. Dense canyons, layered bridge districts, floating gardens and open terraces share the
 global street grid. Each of the five Sky Inversion worlds adds its own seed, palette and architectural
-emphasis while keeping urban density.
+emphasis while keeping urban density. Version 4 adds shared loft profiles, world-specific tower silhouettes, flying garden pavilions and a moving orbital station to these districts. [Architecture and visual evidence](WORLD-ART.md)
 
 ## Continuity
 
