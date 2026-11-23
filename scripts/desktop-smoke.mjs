@@ -65,7 +65,10 @@ try {
     };
   });
   assert.match(runtime.origin, /^https?:\/\/tauri\.localhost$/);
-  if (libraryCheck === 'gamepad') {
+  if (libraryCheck === 'kokoro-cache') {
+    const { checkKokoroCache } = await import('./desktop-kokoro-cache.mjs');
+    await checkKokoroCache(page, output, runtime);
+  } else if (libraryCheck === 'gamepad') {
     const { observeGamepad } = await import('./desktop-live-input.mjs');
     await page.locator('#start-button').click();
     await page.waitForFunction(

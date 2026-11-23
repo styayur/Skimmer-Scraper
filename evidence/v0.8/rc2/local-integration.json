@@ -1,0 +1,251 @@
+{
+  "status": "TESTED",
+  "sourceCommit": "297642981afa480f99a3d13a7822f02bc34ed7bd",
+  "scope": "Full local pre-RC2 integration suite before the OS pointer-lock fix",
+  "runtime": "Playwright headless Chromium / SwiftShader",
+  "passed": 48,
+  "failed": 0,
+  "durationMinutes": 19.5,
+  "tests": [
+    {
+      "index": 1,
+      "name": "tests\\e2e\\continuous-sky.spec.ts:4:1 › five crossings carry both camera modes and keep the changing mirror skyline out of the collision world",
+      "duration": "1.4m"
+    },
+    {
+      "index": 2,
+      "name": "tests\\e2e\\default-experience.spec.ts:6:1 › new players take off with a shield, chase view and three offline companions",
+      "duration": "13.4s"
+    },
+    {
+      "index": 3,
+      "name": "tests\\e2e\\default-experience.spec.ts:43:1 › old pilot data is retained and imported models get independent live cockpit presets",
+      "duration": "14.1s"
+    },
+    {
+      "index": 4,
+      "name": "tests\\e2e\\dense-city.spec.ts:3:1 › reproduces legacy URLs and flies through five dense-city worlds with three companions",
+      "duration": "29.7s"
+    },
+    {
+      "index": 5,
+      "name": "tests\\e2e\\dragon-realm.spec.ts:2:1 › opens Dragonspine from the world menu, streams local tiles and restores the city",
+      "duration": "19.6s"
+    },
+    {
+      "index": 6,
+      "name": "tests\\e2e\\dynamic-world.spec.ts:12:1 › moves seeded architecture during close flight and resets its phase on retry",
+      "duration": "11.4s"
+    },
+    {
+      "index": 7,
+      "name": "tests\\e2e\\dynamic-world.spec.ts:60:1 › imports an animated lift, previews and pauses it, then uses its moving collider during flight",
+      "duration": "35.8s"
+    },
+    {
+      "index": 8,
+      "name": "tests\\e2e\\ephemeral-world.spec.ts:112:3 › v0.2 phase 4 ephemeral world › keeps stable maps repeatable and changes Ephemeral interiors only after full unload",
+      "duration": "1.1m"
+    },
+    {
+      "index": 9,
+      "name": "tests\\e2e\\final-qa.spec.ts:104:3 › v0.2.0 final QA › records software-rendered frame proxies and scene budgets without claiming hardware certification",
+      "duration": "26.1s"
+    },
+    {
+      "index": 10,
+      "name": "tests\\e2e\\flight-experience.spec.ts:49:3 › v0.2 phase 1 flight experience › switches views, feeds proximity continuously and remembers comfort choices",
+      "duration": "22.5s"
+    },
+    {
+      "index": 11,
+      "name": "tests\\e2e\\flight.spec.ts:25:3 › phase 1 flight prototype › renders the title and a controllable WebGL2 flight scene",
+      "duration": "13.0s"
+    },
+    {
+      "index": 12,
+      "name": "tests\\e2e\\kokoro-voice.spec.ts:49:1 › Kokoro opt-in lazily opens one worker and previews through cancellable Web Audio",
+      "duration": "15.1s"
+    },
+    {
+      "index": 13,
+      "name": "tests\\e2e\\kokoro-voice.spec.ts:97:1 › a failed model download releases the worker and preserves flight and subtitles",
+      "duration": "9.7s"
+    },
+    {
+      "index": 14,
+      "name": "tests\\e2e\\local-world.spec.ts:20:1 › flies an imported arch with three companions, collides with an obstacle and restores the procedural world",
+      "duration": "28.8s"
+    },
+    {
+      "index": 15,
+      "name": "tests\\e2e\\local-world.spec.ts:130:1 › imports simple, high-detail and animated GLB worlds with local-only decoding",
+      "duration": "14.4s"
+    },
+    {
+      "index": 16,
+      "name": "tests\\e2e\\model-import.spec.ts:21:3 › phase 3 local GLB aircraft library › imports, renders, persists, rotates and removes a local GLB without network transfer",
+      "duration": "24.2s"
+    },
+    {
+      "index": 17,
+      "name": "tests\\e2e\\navigation.spec.ts:7:1 › minimal live title, guide and keyboard navigation",
+      "duration": "23.6s"
+    },
+    {
+      "index": 18,
+      "name": "tests\\e2e\\navigation.spec.ts:115:1 › standard gamepad navigates the title, nested menus, settings and flight",
+      "duration": "13.3s"
+    },
+    {
+      "index": 19,
+      "name": "tests\\e2e\\proximity.spec.ts:38:3 › phase 2 proximity and collision rules › enforces surface lock, grace expiry, impact and instant retry",
+      "duration": "17.3s"
+    },
+    {
+      "index": 20,
+      "name": "tests\\e2e\\radio-dialogue.spec.ts:25:1 › local radio responds to text, changes a scout route and keeps concise muted history",
+      "duration": "14.5s"
+    },
+    {
+      "index": 21,
+      "name": "tests\\e2e\\radio-dialogue.spec.ts:70:1 › a mocked model validates orders, disconnect restores local radio, and reconnect resumes model orders",
+      "duration": "15.8s"
+    },
+    {
+      "index": 22,
+      "name": "tests\\e2e\\release.spec.ts:60:3 › v0.1.0 release acceptance › passes desktop, mobile, WebGL2 and runtime evidence gates",
+      "duration": "21.2s"
+    },
+    {
+      "index": 23,
+      "name": "tests\\e2e\\release.spec.ts:172:3 › v0.1.0 release acceptance › shows a clear fallback when WebGL2 is unavailable",
+      "duration": "2.4s"
+    },
+    {
+      "index": 24,
+      "name": "tests\\e2e\\system-voice.spec.ts:95:1 › default offline companion speech follows the actual speaker and cancels on pause or device changes",
+      "duration": "42.2s"
+    },
+    {
+      "index": 25,
+      "name": "tests\\e2e\\system-voice.spec.ts:155:1 › system voices require local availability and an explicit off choice survives a reload",
+      "duration": "22.5s"
+    },
+    {
+      "index": 26,
+      "name": "tests\\e2e\\v03-ai.spec.ts:3:1 › BYOK validates real game state, executes a synthetic test response, forgets the key and falls back",
+      "duration": "22.2s"
+    },
+    {
+      "index": 27,
+      "name": "tests\\e2e\\v03-ai.spec.ts:23:1 › pause cancels an in-flight plan synchronously and rejects its late response",
+      "duration": "14.9s"
+    },
+    {
+      "index": 28,
+      "name": "tests\\e2e\\v03-companions.spec.ts:4:1 › three companions retain shared geometry and recover during 120 seconds of boost",
+      "duration": "28.5s"
+    },
+    {
+      "index": 29,
+      "name": "tests\\e2e\\v03-companions.spec.ts:28:3 › 1 local autonomous companions fly, regroup after rebase and release on retry",
+      "duration": "23.8s"
+    },
+    {
+      "index": 30,
+      "name": "tests\\e2e\\v03-companions.spec.ts:28:3 › 2 local autonomous companions fly, regroup after rebase and release on retry",
+      "duration": "19.0s"
+    },
+    {
+      "index": 31,
+      "name": "tests\\e2e\\v03-companions.spec.ts:28:3 › 3 local autonomous companions fly, regroup after rebase and release on retry",
+      "duration": "19.7s"
+    },
+    {
+      "index": 32,
+      "name": "tests\\e2e\\v03-flight.spec.ts:4:1 › two views and a real shield contact keep free flight playable",
+      "duration": "10.5s"
+    },
+    {
+      "index": 33,
+      "name": "tests\\e2e\\v03-flight.spec.ts:36:1 › browser Gamepad API input hotplug, camera, pause, retry and keyboard fallback",
+      "duration": "19.8s"
+    },
+    {
+      "index": 34,
+      "name": "tests\\e2e\\v03-flight.spec.ts:87:1 › audio resume rejection keeps flight and page teardown usable",
+      "duration": "15.3s"
+    },
+    {
+      "index": 35,
+      "name": "tests\\e2e\\v03-journey.spec.ts:3:1 › five valid sky crossings exchange worlds, preserve the team and unlock the original fifth-sky signature",
+      "duration": "40.8s"
+    },
+    {
+      "index": 36,
+      "name": "tests\\e2e\\v03-journey.spec.ts:34:26 › 1 companions survive a challenge crossing, skip, and a cancelled retry",
+      "duration": "12.2s"
+    },
+    {
+      "index": 37,
+      "name": "tests\\e2e\\v03-journey.spec.ts:34:26 › 2 companions survive a challenge crossing, skip, and a cancelled retry",
+      "duration": "11.5s"
+    },
+    {
+      "index": 38,
+      "name": "tests\\e2e\\v03-relay.spec.ts:3:1 › earned Trust and a real nearby surface partner provide only a finite challenge rescue",
+      "duration": "9.3s"
+    },
+    {
+      "index": 39,
+      "name": "tests\\e2e\\v03-release.spec.ts:6:1 › static distribution includes full licenses, exact source provenance and the candidate version",
+      "duration": "9.5s"
+    },
+    {
+      "index": 40,
+      "name": "tests\\e2e\\v03-resources.spec.ts:3:1 › repeated journeys release shadow-map texture references at the same normalized base view",
+      "duration": "32.1s"
+    },
+    {
+      "index": 41,
+      "name": "tests\\e2e\\v03-rules.spec.ts:3:1 › free flight, custom grace persistence and retry rule lock",
+      "duration": "23.7s"
+    },
+    {
+      "index": 42,
+      "name": "tests\\e2e\\voice-radio.spec.ts:80:1 › the AudioWorklet supplies a WAV to mocked DeepSeek, flies the scout order and plays streamed PCM",
+      "duration": "26.6s"
+    },
+    {
+      "index": 43,
+      "name": "tests\\e2e\\voice-radio.spec.ts:168:1 › no-key mode requires on-device recognition and preserves typed input and subtitles",
+      "duration": "13.7s"
+    },
+    {
+      "index": 44,
+      "name": "tests\\e2e\\voice-radio.spec.ts:227:1 › Escape and leaving flight release the microphone without uploading or reusing a cancelled clip",
+      "duration": "14.6s"
+    },
+    {
+      "index": 45,
+      "name": "tests\\e2e\\world-seed.spec.ts:34:3 › v0.2 phase 2 seeded city › reproduces shared URLs and changes the city for another seed",
+      "duration": "46.9s"
+    },
+    {
+      "index": 46,
+      "name": "tests\\e2e\\world-streaming.spec.ts:86:3 › v0.2 phase 3 infinite world streaming › streams collision coverage across chunks, releases resources and rebases locally",
+      "duration": "23.6s"
+    },
+    {
+      "index": 47,
+      "name": "tests\\e2e\\world-variant.spec.ts:83:1 › copies and replays real separable city layouts, refreshing unlocked visits and retaining a kept layout",
+      "duration": "1.6m"
+    },
+    {
+      "index": 48,
+      "name": "tests\\e2e\\world-variant.spec.ts:197:1 › uses whole-layout variation for a merged mesh and preserves the real moving GLB BVH",
+      "duration": "23.2s"
+    }
+  ]
+}

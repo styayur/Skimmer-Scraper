@@ -65,6 +65,10 @@ for asset in manifest['assets']:
             hashlib.sha256(archive.read('package-lock.json')).hexdigest() != manifest['toolchain']['lockfileSha256']
         ):
             raise SystemExit('Source lockfile does not match the manifest')
+        if asset.get('kind') == 'windows-portable':
+            executable = archive.read('skimmer-scraper.exe')
+            if not executable.startswith(b'MZ') or hashlib.sha256(executable).hexdigest() != asset['executableSha256']:
+                raise SystemExit('Portable executable differs from the tested binary')
         if asset.get('kind') == 'world-pack':
             pack=json.loads(archive.read('world-pack.json'))
             for tile in pack['files']:

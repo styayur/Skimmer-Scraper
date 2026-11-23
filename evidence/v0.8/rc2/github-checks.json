@@ -1,0 +1,55 @@
+{
+  "pr": "https://github.com/styayur/Skimmer-Scraper/pull/53",
+  "candidateHead": "322ecad6b72976fb80863163640a63e51196843c",
+  "method": "GitHub pull request merge checks against the stacked base",
+  "checks": [
+    {
+      "bucket": "pass",
+      "link": "https://github.com/styayur/Skimmer-Scraper/actions/runs/45169404507/job/137686611832",
+      "name": "Typecheck, unit tests, build, browser tests"
+    },
+    {
+      "bucket": "pass",
+      "link": "https://github.com/styayur/Skimmer-Scraper/actions/runs/45169404507/job/137675079452",
+      "name": "Chromium shard 1/3"
+    },
+    {
+      "bucket": "pass",
+      "link": "https://github.com/styayur/Skimmer-Scraper/actions/runs/45169404507/job/137675079028",
+      "name": "Chromium shard 2/3"
+    },
+    {
+      "bucket": "pass",
+      "link": "https://github.com/styayur/Skimmer-Scraper/actions/runs/45169404507/job/137675079509",
+      "name": "Chromium shard 3/3"
+    },
+    {
+      "bucket": "pass",
+      "link": "https://github.com/styayur/Skimmer-Scraper/runs/137674992201",
+      "name": "CodeQL"
+    },
+    {
+      "bucket": "pass",
+      "link": "https://github.com/styayur/Skimmer-Scraper/actions/runs/45169404409/job/137674690234",
+      "name": "windows"
+    },
+    {
+      "bucket": "pass",
+      "link": "https://github.com/styayur/Skimmer-Scraper/actions/runs/45169404443/job/137674690226",
+      "name": "security Actions CodeQL"
+    },
+    {
+      "bucket": "skipping",
+      "link": "https://github.com/styayur/Skimmer-Scraper/actions/runs/45169404319/job/137674693609",
+      "name": "enable"
+    }
+  ],
+  "requiredResults": {
+    "unitPassed": 197,
+    "unitFiles": 33,
+    "windowsRustPassed": 3,
+    "windowsRustFailed": 0,
+    "nsisBuild": "passed",
+    "chromiumShardsPassed": 3
+  }
+}

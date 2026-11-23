@@ -1,0 +1,82 @@
+{
+  "runtime": {
+    "app": {
+      "version": "0.8.0-rc.2",
+      "sourceCommit": "322ecad6b72976fb80863163640a63e51196843c",
+      "sourceCommitTime": "2026-11-23T19:54:51+08:00",
+      "dirty": false,
+      "sourceUrl": "https://github.com/styayur/Skimmer-Scraper/tree/322ecad6b72976fb80863163640a63e51196843c",
+      "toolchain": {
+        "node": "v26.7.0",
+        "platform": "win32",
+        "architecture": "x64"
+      }
+    },
+    "renderer": "ANGLE (AMD, AMD Radeon 780M Graphics (0x00001900) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+    "origin": "http://tauri.localhost",
+    "modelWeights": "Returning isolated QA WebView2 profile previously used to download official model weights. Synthesized clip cache starts empty in this process."
+  },
+  "prepared": {
+    "phase": "ready",
+    "backend": "webgpu",
+    "device": "amd rdna-3",
+    "percent": 100,
+    "loads": 1,
+    "releases": 0,
+    "generated": 0,
+    "cacheHits": 0,
+    "completed": 0,
+    "loadMs": 4072.60000000149,
+    "inferenceMs": null,
+    "audioSeconds": null,
+    "lastVoice": null,
+    "error": null,
+    "detail": "",
+    "resident": true,
+    "cachedClipBytes": 0,
+    "idleMs": 45000
+  },
+  "samples": [
+    {
+      "phase": "ready",
+      "backend": "webgpu",
+      "device": "amd rdna-3",
+      "percent": 100,
+      "loads": 1,
+      "releases": 0,
+      "generated": 1,
+      "cacheHits": 0,
+      "completed": 1,
+      "loadMs": 4072.60000000149,
+      "inferenceMs": 6727.69999999553,
+      "audioSeconds": 4.1,
+      "lastVoice": "zf_001",
+      "error": null,
+      "detail": "",
+      "resident": true,
+      "cachedClipBytes": 393600,
+      "idleMs": 45000
+    },
+    {
+      "phase": "ready",
+      "backend": "webgpu",
+      "device": "amd rdna-3",
+      "percent": 100,
+      "loads": 1,
+      "releases": 0,
+      "generated": 1,
+      "cacheHits": 1,
+      "completed": 2,
+      "loadMs": 4072.60000000149,
+      "inferenceMs": 0,
+      "audioSeconds": 4.1,
+      "lastVoice": "zf_001",
+      "error": null,
+      "detail": "",
+      "resident": true,
+      "cachedClipBytes": 393600,
+      "idleMs": 45000
+    }
+  ],
+  "method": "Two completed same-speaker previews in the installed Windows app, real local WebGPU model and Web Audio."
+}

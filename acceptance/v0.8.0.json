@@ -35,26 +35,38 @@
       "url": "https://styayur.github.io/Skimmer-Scraper/build-info.json"
     },
     "candidate": {
-      "version": "0.8.0-rc.1",
-      "sourceCommit": "c499b443195e810e6c42f5f74be7f1cb12d33d75",
-      "origin": "Local HTTP server serving the extracted candidate distribution"
+      "version": "0.8.0-rc.2",
+      "sourceCommit": "322ecad6b72976fb80863163640a63e51196843c",
+      "scope": "Headless Chromium / SwiftShader; extracted static ZIP under /Skimmer-Scraper/, tested city and Dragonspine",
+      "evidence": "evidence/v0.8/rc2/static-subpath.json"
     },
     "finalDeploymentSha": null
   },
   "desktop": {
-    "version": "0.8.0-rc.1",
-    "sourceCommit": "c499b443195e810e6c42f5f74be7f1cb12d33d75",
+    "version": "0.8.0-rc.2",
+    "sourceCommit": "322ecad6b72976fb80863163640a63e51196843c",
     "status": "VERIFIED WINDOWS DESKTOP",
-    "evidence": "evidence/v0.8/rc1/desktop-smoke.json",
+    "evidence": "evidence/v0.8/rc2/desktop-smoke.json",
     "tauri": "2.12.7",
     "rust": "1.98.1",
     "webView2": "157.0.4341.60",
     "os": "Windows 11 x64 build 26300",
     "gpu": "AMD Radeon 780M, ANGLE Direct3D11",
-    "finalBuildSha": null
+    "finalBuildSha": null,
+    "windowControls": {
+      "osEscapeWithCapturedPointer": "paused and released pointer",
+      "minimize": "paused",
+      "restoreAndResume": "running",
+      "evidence": "evidence/v0.8/rc2/os-window.json"
+    },
+    "portable": {
+      "version": "0.8.0-rc.2",
+      "evidence": "evidence/v0.8/rc2/portable/portable-verification.json",
+      "requires": "Windows x64 with WebView2 installed. Player data remains in the per-user app data directory."
+    }
   },
   "installation": {
-    "evidence": "evidence/v0.8/rc1/install.json",
+    "evidence": "evidence/v0.8/rc2/install.json",
     "currentUser": true,
     "volume": "E:",
     "installed": true,
@@ -65,13 +77,14 @@
     "rcUninstallVerified": true,
     "reinstalledFromPublicDownload": true,
     "originalWorldRecoveredAfterReinstall": true,
-    "rcUninstallEvidence": "evidence/v0.8/rc1/reinstall/uninstall.json"
+    "rcUninstallEvidence": "evidence/v0.8/rc2/portable/portable-verification.json",
+    "previousCandidateEvidence": "evidence/v0.8/rc1/install.json"
   },
   "automation": {
     "unit": {
-      "runner": "Vitest",
-      "candidatePassed": 196,
-      "qualificationIncludingOptionalHighPackPassed": 198
+      "rc1Passed": 196,
+      "rc2RequiredCiPassed": 197,
+      "qualificationWithOptionalHighPackPassed": 198
     },
     "native": {
       "runner": "cargo test --release",
@@ -81,7 +94,17 @@
       "runner": "Playwright Headless Chromium, SwiftShader",
       "realmAndLegacyJourneyPassed": 4,
       "postCandidateKokoroPassed": 2,
-      "qualificationNavigationPassed": 1
+      "qualificationNavigationPassed": 1,
+      "integration": {
+        "status": "TESTED",
+        "sourceCommit": "297642981afa480f99a3d13a7822f02bc34ed7bd",
+        "scope": "Full local pre-RC2 integration suite before the OS pointer-lock fix",
+        "runtime": "Playwright headless Chromium / SwiftShader",
+        "passed": 48,
+        "failed": 0,
+        "durationMinutes": 19.5,
+        "evidence": "evidence/v0.8/rc2/local-integration.json"
+      }
     },
     "remoteWindows": {
       "prs": [
@@ -90,7 +113,8 @@
         51,
         52
       ],
-      "result": "passed"
+      "result": "passed",
+      "rc2": "322ecad6b72976fb80863163640a63e51196843c"
     },
     "remoteBrowser": {
       "allRequiredPassed": [
@@ -100,7 +124,62 @@
       "frozenCandidateFailure": "Tutorial section-count assertion expected 19 after Dragonspine added section 20",
       "correction": "1b4030e4e9114a854c882251c48970a68085cfd5",
       "correctedTargetedRegression": "passed",
-      "qualificationPr": 53
+      "qualificationPr": 53,
+      "candidateCi": {
+        "pr": "https://github.com/styayur/Skimmer-Scraper/pull/53",
+        "candidateHead": "322ecad6b72976fb80863163640a63e51196843c",
+        "method": "GitHub pull request merge checks against the stacked base",
+        "checks": [
+          {
+            "bucket": "pass",
+            "link": "https://github.com/styayur/Skimmer-Scraper/actions/runs/45169404507/job/137686611832",
+            "name": "Typecheck, unit tests, build, browser tests"
+          },
+          {
+            "bucket": "pass",
+            "link": "https://github.com/styayur/Skimmer-Scraper/actions/runs/45169404507/job/137675079452",
+            "name": "Chromium shard 1/3"
+          },
+          {
+            "bucket": "pass",
+            "link": "https://github.com/styayur/Skimmer-Scraper/actions/runs/45169404507/job/137675079028",
+            "name": "Chromium shard 2/3"
+          },
+          {
+            "bucket": "pass",
+            "link": "https://github.com/styayur/Skimmer-Scraper/actions/runs/45169404507/job/137675079509",
+            "name": "Chromium shard 3/3"
+          },
+          {
+            "bucket": "pass",
+            "link": "https://github.com/styayur/Skimmer-Scraper/runs/137674992201",
+            "name": "CodeQL"
+          },
+          {
+            "bucket": "pass",
+            "link": "https://github.com/styayur/Skimmer-Scraper/actions/runs/45169404409/job/137674690234",
+            "name": "windows"
+          },
+          {
+            "bucket": "pass",
+            "link": "https://github.com/styayur/Skimmer-Scraper/actions/runs/45169404443/job/137674690226",
+            "name": "security Actions CodeQL"
+          },
+          {
+            "bucket": "skipping",
+            "link": "https://github.com/styayur/Skimmer-Scraper/actions/runs/45169404319/job/137674693609",
+            "name": "enable"
+          }
+        ],
+        "requiredResults": {
+          "unitPassed": 197,
+          "unitFiles": 33,
+          "windowsRustPassed": 3,
+          "windowsRustFailed": 0,
+          "nsisBuild": "passed",
+          "chromiumShardsPassed": 3
+        }
+      }
     },
     "fullQualification": false
   },
@@ -179,34 +258,11 @@
         "0.7.0": 88.733,
         "0.8.0-rc.1": 90.106
       }
-    }
+    },
+    "matrixBuild": "0.8.0-rc.1"
   },
   "desktopPerformance": {
     "status": "VERIFIED WINDOWS DESKTOP",
-    "soak": {
-      "realms": [
-        "Dragonspine Realm"
-      ],
-      "profile": "Balanced, 1920x1080, three companions, scripted boosted yaw, one initial pose",
-      "sampleWindows": 893,
-      "sampledSeconds": 895.7305,
-      "simulationSecondsFirstToLast": 900.1583,
-      "averageRenderedFps": 118.903,
-      "worstSampledFrameMs": 33.4,
-      "bufferingAtSampleBoundary": 0,
-      "detailPeak": 12,
-      "detailLoads": 1812,
-      "detailReleases": 1803,
-      "finalResident": 9,
-      "windowsWithHighDetail": 708,
-      "evidence": "evidence/v0.8/rc1/high-streaming.json",
-      "jsHeapMiB": {
-        "min": 20.42,
-        "max": 79.71,
-        "first": 58.22,
-        "last": 53.91
-      }
-    },
     "developmentMixedWorld": {
       "requestedWallSeconds": 905,
       "averageFps": 102.52,
@@ -215,7 +271,7 @@
       "totalWindows": 891,
       "evidence": "evidence/v0.8/pr3/high-streaming.json"
     },
-    "samplingNotes": "Each soak sample measured about one second of rAF intervals and then captured state. Buffering between state samples is unmeasured. Short headless software-rendered tests overlapped part of the workstation measurements. Historical scores use a different route.",
+    "samplingNotes": "A full headless regression overlapped the RC2 long flight until approximately 20:09 SGT. Frame times varied across both builds in later short trials. These measurements cannot isolate the cause. Buffering between one-second state samples was not measured.",
     "matrix": "evidence/v0.8/rc1/desktop-matrix.json",
     "scope": "Seed 334458, 1080p, 12 seconds per condition, scripted yaw and boost, all 0–3 companions",
     "qualityFps": {
@@ -247,6 +303,91 @@
           116.84
         ]
       }
+    },
+    "matrixBuild": "0.8.0-rc.1",
+    "rc1Soak": {
+      "realms": [
+        "Dragonspine Realm"
+      ],
+      "profile": "Balanced, 1920x1080, three companions, scripted boosted yaw, one initial pose",
+      "sampleWindows": 893,
+      "sampledSeconds": 895.7305,
+      "simulationSecondsFirstToLast": 900.1583,
+      "averageRenderedFps": 118.903,
+      "worstSampledFrameMs": 33.4,
+      "bufferingAtSampleBoundary": 0,
+      "detailPeak": 12,
+      "detailLoads": 1812,
+      "detailReleases": 1803,
+      "finalResident": 9,
+      "windowsWithHighDetail": 708,
+      "evidence": "evidence/v0.8/rc1/high-streaming.json",
+      "jsHeapMiB": {
+        "min": 20.42,
+        "max": 79.71,
+        "first": 58.22,
+        "last": 53.91
+      }
+    },
+    "soak": {
+      "version": "0.8.0-rc.2",
+      "sourceCommit": "322ecad6b72976fb80863163640a63e51196843c",
+      "profile": "Balanced, 1080p, three companions, 780M, Tauri WebView2, Dragonspine with high-detail pack",
+      "controller": "Scripted keyboard boost and yaw in the shipping flight loop, one initial pose at 290 m",
+      "requestedWallAndSimulationSeconds": 901,
+      "firstToLastSampleSimulationSeconds": 900.5,
+      "frameSampleSeconds": 891.928,
+      "sampledFrames": 54735,
+      "averageFps": 61.367,
+      "worstFrameMs": 91.6,
+      "sampleWindows": 884,
+      "windowsWithHighDetail": 698,
+      "bufferingAtSampleBoundary": 0,
+      "peakResident": 12,
+      "finalStreaming": {
+        "loaded": 1812,
+        "released": 1803,
+        "resident": 9,
+        "peak": 12,
+        "pending": 0,
+        "high": 3
+      },
+      "jsHeapMiB": {
+        "min": 19.94,
+        "max": 81.65,
+        "first": 38.16,
+        "last": 56.57
+      },
+      "evidence": "evidence/v0.8/rc2/high-streaming.json"
+    },
+    "shortPairedFlights": {
+      "method": "Same host, 18-second boosted route, same high-detail pack. Sequential RC1, RC2, RC2, RC1. RC1 executable extracted from its verified NSIS and RC2 installed. Display refresh 120 Hz.",
+      "trials": [
+        {
+          "version": "0.8.0-rc.1",
+          "averageFps": 75.814,
+          "worstFrameMs": 33.4,
+          "evidence": "evidence/v0.8/rc2/comparison-1/high-streaming.json"
+        },
+        {
+          "version": "0.8.0-rc.2",
+          "averageFps": 120.628,
+          "worstFrameMs": 16.6,
+          "evidence": "evidence/v0.8/rc2/comparison-2/high-streaming.json"
+        },
+        {
+          "version": "0.8.0-rc.2",
+          "averageFps": 73.033,
+          "worstFrameMs": 33.4,
+          "evidence": "evidence/v0.8/rc2/comparison-3/high-streaming.json"
+        },
+        {
+          "version": "0.8.0-rc.1",
+          "averageFps": 120.712,
+          "worstFrameMs": 8.6,
+          "evidence": "evidence/v0.8/rc2/comparison-4/high-streaming.json"
+        }
+      ]
     }
   },
   "realm": {
@@ -285,7 +426,7 @@
     "status": "VERIFIED WINDOWS DESKTOP",
     "glbCount": 100,
     "glbBytes": 161225960,
-    "evidence": "evidence/v0.8/rc1/high-streaming.json",
+    "evidence": "evidence/v0.8/rc2/high-streaming.json",
     "extent": "100 tiles at seed 334458, continuous generated terrain outside this region",
     "databaseUsageBytes": {
       "installed": 161697792,
@@ -359,7 +500,15 @@
       "syntheticNavigationPassed": true,
       "evidence": "evidence/v0.8/pr1/controller-webview2.json",
       "rcObservedAxisDelta": 0.048218509193560743,
-      "rcEvidence": "evidence/v0.8/rc1/live-input.json"
+      "rcEvidence": "evidence/v0.8/rc1/live-input.json",
+      "rc2Evidence": "evidence/v0.8/rc2/gamepad.json",
+      "rc2Observation": {
+        "device": "Xbox 360 Controller (XInput STANDARD GAMEPAD)",
+        "axisDelta": 0.048218509193560743,
+        "startDown": false,
+        "pausedAfterStart": false,
+        "startMode": "running"
+      }
     },
     "deepseekCompanion": {
       "mode": "Real API in installed RC via settings UI",
@@ -409,6 +558,19 @@
         "source": "local"
       },
       "evidence": "evidence/v0.8/rc1/radio/deepseek-voice.json"
+    },
+    "realRepeatSpeech": {
+      "version": "0.8.0-rc.2",
+      "device": "amd rdna-3",
+      "firstInferenceMs": 6727.69999999553,
+      "firstGenerated": 1,
+      "secondGenerated": 1,
+      "secondCacheHits": 1,
+      "secondInferenceMs": 0,
+      "cachedBytes": 393600,
+      "completed": 2,
+      "evidence": "evidence/v0.8/rc2/kokoro-cache.json",
+      "modelWeights": "Returning QA WebView2 profile with the downloaded weights and an empty synthesized-clip cache. A fresh-profile download exceeded the 200-second test wait."
     }
   },
   "blender": {
@@ -434,7 +596,7 @@
       "GLB preflight and hash verification",
       "CSP and exact service origins"
     ],
-    "artifacts": "evidence/v0.8/rc1/attachments.json",
+    "artifacts": "evidence/v0.8/rc2/public-download-complete.json",
     "knownOperatorCredentialMatches": 0
   },
   "windowsSigning": {
@@ -446,42 +608,52 @@
     "target": "0.8.0",
     "status": "BLOCKED",
     "stableTag": null,
-    "reason": "Physical controller and final-source qualification gates remain open"
+    "reason": "Physical controller and final-source qualification gates remain open",
+    "baselineChecked": "2026-11-23T20:26:00+08:00",
+    "latestStableTag": "v0.7.0"
   },
   "releaseDownloadVerification": {
     "stable": null,
     "candidate": {
+      "version": "0.8.0-rc.2",
       "status": "TESTED",
-      "result": "All four publicly downloaded release binaries/archives, manifest and SHA256SUMS matched. The high pack was downloaded by HTTP ranges.",
-      "evidence": "evidence/v0.8/rc1/public-download-verified.json"
+      "assets": 5,
+      "evidence": "evidence/v0.8/rc2/public-download-complete.json",
+      "result": "passed"
     }
   },
   "assets": {
-    "candidateManifest": "evidence/v0.8/rc1/attachments.json",
+    "candidateManifest": "https://github.com/styayur/Skimmer-Scraper/releases/download/v0.8.0-rc.2/release-manifest.json",
     "candidate": [
       {
-        "name": "skimmer-scraper-v0.8.0-rc.1-static.zip",
-        "bytes": 12667291,
-        "sha256": "94299d50565328230041a70aa1ea90e26b248342f0e86380d0854c73ca9795da",
-        "url": "https://github.com/styayur/Skimmer-Scraper/releases/download/v0.8.0-rc.1/skimmer-scraper-v0.8.0-rc.1-static.zip"
+        "name": "skimmer-scraper-v0.8.0-rc.2-static.zip",
+        "bytes": 12667532,
+        "sha256": "08bf26970233e4b90783b0c1e553dfbec33b26947072945533d7c40cc2a00610",
+        "url": "https://github.com/styayur/Skimmer-Scraper/releases/download/v0.8.0-rc.2/skimmer-scraper-v0.8.0-rc.2-static.zip"
       },
       {
-        "name": "skimmer-scraper-v0.8.0-rc.1-source.zip",
-        "bytes": 16871817,
-        "sha256": "698f812f9ff3b89d2f1e420cd27badaede890896328433be0659539f5bbcbc87",
-        "url": "https://github.com/styayur/Skimmer-Scraper/releases/download/v0.8.0-rc.1/skimmer-scraper-v0.8.0-rc.1-source.zip"
+        "name": "skimmer-scraper-v0.8.0-rc.2-source.zip",
+        "bytes": 33666134,
+        "sha256": "f9d106d273befeaa69ec6237c077861046ec5cf501ce2b4724530f805663df11",
+        "url": "https://github.com/styayur/Skimmer-Scraper/releases/download/v0.8.0-rc.2/skimmer-scraper-v0.8.0-rc.2-source.zip"
       },
       {
-        "name": "Skimmer-Scraper_0.8.0-rc.1_x64-setup.exe",
-        "bytes": 12719364,
-        "sha256": "3f81a7f9ca9ec92f630dcdfd8011204fb187d23593abfbc7948b23d6ccafd9fb",
-        "url": "https://github.com/styayur/Skimmer-Scraper/releases/download/v0.8.0-rc.1/Skimmer-Scraper_0.8.0-rc.1_x64-setup.exe"
+        "name": "Skimmer-Scraper_0.8.0-rc.2_x64-setup.exe",
+        "bytes": 12719697,
+        "sha256": "f9d5b3ffd8f6d0d5e47c549f1f332cfa0bda65d5ce41bdf09b27ef2964f26eaf",
+        "url": "https://github.com/styayur/Skimmer-Scraper/releases/download/v0.8.0-rc.2/Skimmer-Scraper_0.8.0-rc.2_x64-setup.exe"
       },
       {
-        "name": "skimmer-scraper-v0.8.0-rc.1-dragonspine-high.zip",
-        "bytes": 112674617,
-        "sha256": "3d8a6cc4b443840f5e85daf21a46782e035bbb1288cc45bf323bf1ee3ea9f267",
-        "url": "https://github.com/styayur/Skimmer-Scraper/releases/download/v0.8.0-rc.1/skimmer-scraper-v0.8.0-rc.1-dragonspine-high.zip"
+        "name": "skimmer-scraper-v0.8.0-rc.2-dragonspine-high.zip",
+        "bytes": 112674618,
+        "sha256": "72471adcd9681a53b71ea5babd435459cdd3ec1004898567f4741b010f367ebf",
+        "url": "https://github.com/styayur/Skimmer-Scraper/releases/download/v0.8.0-rc.2/skimmer-scraper-v0.8.0-rc.2-dragonspine-high.zip"
+      },
+      {
+        "name": "skimmer-scraper-v0.8.0-rc.2-windows-x64-portable.zip",
+        "bytes": 14245986,
+        "sha256": "221a68862c29e1028e5f4b492548764cbc259648072cba370fdf77663c6e4d9f",
+        "url": "https://github.com/styayur/Skimmer-Scraper/releases/download/v0.8.0-rc.2/skimmer-scraper-v0.8.0-rc.2-windows-x64-portable.zip"
       }
     ],
     "stable": [],
@@ -489,14 +661,61 @@
       "status": "RELEASED",
       "prerelease": true,
       "latest": false,
-      "url": "https://github.com/styayur/Skimmer-Scraper/releases/tag/v0.8.0-rc.1"
+      "url": "https://github.com/styayur/Skimmer-Scraper/releases/tag/v0.8.0-rc.2"
     }
   },
   "limitations": [
-    "No final-source desktop or production Web build has passed the stable gates.",
-    "No independently qualified portable build or signed updater.",
-    "World pack v1 restricts imported refinements to bounded static terrain. Shared built-in assets supply dynamic actors and materials.",
-    "The candidate hardware results are for one Windows 11 Radeon 780M system.",
-    "RC1 real Kokoro inference took 7.35 seconds with a 58.3 ms peak frame during generation. The post-RC repeat-clip cache has automated coverage."
+    "Final production release requires verified physical gamepad input and a common final main SHA.",
+    "Windows packages are unsigned and the portable distribution requires the system WebView2 Runtime.",
+    "World pack v1 restricts external refinements to static terrain. Built-in assets provide actors and materials.",
+    "GPU results cover one Windows 11 device. The 32-scenario matrix, real cloud voice test and paired city baseline used RC1. The RC2 long flight and local speech-cache test used the installed RC2.",
+    "RC1 real Kokoro inference during flight took 7.35 seconds and included a 58.3 ms frame. The bounded cache only removes inference when repeating a cached clip.",
+    "The physical controller was enumerated on RC2. Its maximum observed axis delta was 0.0482. No Start press was received during the observation window."
+  ],
+  "evidenceUpdatedAt": "2026-11-23T20:25:51+08:00",
+  "candidateHistory": [
+    {
+      "version": "0.8.0-rc.1",
+      "sourceCommit": "c499b443195e810e6c42f5f74be7f1cb12d33d75",
+      "release": {
+        "status": "RELEASED",
+        "prerelease": true,
+        "latest": false,
+        "url": "https://github.com/styayur/Skimmer-Scraper/releases/tag/v0.8.0-rc.1"
+      },
+      "attachments": [
+        {
+          "name": "skimmer-scraper-v0.8.0-rc.1-static.zip",
+          "bytes": 12667291,
+          "sha256": "94299d50565328230041a70aa1ea90e26b248342f0e86380d0854c73ca9795da",
+          "url": "https://github.com/styayur/Skimmer-Scraper/releases/download/v0.8.0-rc.1/skimmer-scraper-v0.8.0-rc.1-static.zip"
+        },
+        {
+          "name": "skimmer-scraper-v0.8.0-rc.1-source.zip",
+          "bytes": 16871817,
+          "sha256": "698f812f9ff3b89d2f1e420cd27badaede890896328433be0659539f5bbcbc87",
+          "url": "https://github.com/styayur/Skimmer-Scraper/releases/download/v0.8.0-rc.1/skimmer-scraper-v0.8.0-rc.1-source.zip"
+        },
+        {
+          "name": "Skimmer-Scraper_0.8.0-rc.1_x64-setup.exe",
+          "bytes": 12719364,
+          "sha256": "3f81a7f9ca9ec92f630dcdfd8011204fb187d23593abfbc7948b23d6ccafd9fb",
+          "url": "https://github.com/styayur/Skimmer-Scraper/releases/download/v0.8.0-rc.1/Skimmer-Scraper_0.8.0-rc.1_x64-setup.exe"
+        },
+        {
+          "name": "skimmer-scraper-v0.8.0-rc.1-dragonspine-high.zip",
+          "bytes": 112674617,
+          "sha256": "3d8a6cc4b443840f5e85daf21a46782e035bbb1288cc45bf323bf1ee3ea9f267",
+          "url": "https://github.com/styayur/Skimmer-Scraper/releases/download/v0.8.0-rc.1/skimmer-scraper-v0.8.0-rc.1-dragonspine-high.zip"
+        }
+      ],
+      "acceptanceAt": "https://github.com/styayur/Skimmer-Scraper/blob/caaefd4b507fc5745a5869ae0aaefe4c236ccc80/acceptance/v0.8.0.json",
+      "publicVerification": {
+        "status": "TESTED",
+        "result": "All four publicly downloaded release binaries/archives, manifest and SHA256SUMS matched. The high pack was downloaded by HTTP ranges.",
+        "evidence": "evidence/v0.8/rc1/public-download-verified.json"
+      },
+      "knownIssue": "OS-level Escape unlocked a captured mouse without pausing. Corrected and verified in RC2."
+    }
   ]
 }
