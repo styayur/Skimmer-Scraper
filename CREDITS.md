@@ -113,3 +113,7 @@ meshes, textures, shaders, audio or other assets from them are included here.
 See [docs/RESEARCH.md](docs/RESEARCH.md) for the concrete design conclusions and rejected shortcuts.
 
 Original pre-v0.3 MIT copyright and permission notice: [licenses/PROJECT-MIT-v0.2.0.txt](licenses/PROJECT-MIT-v0.2.0.txt). Third-party package and font licenses remain independent; see licenses/DEPENDENCIES.json.
+
+### Desktop runtime
+
+Tauri, tauri-build and the Tauri CLI are provided by the Tauri contributors under MIT or Apache-2.0 (https://github.com/tauri-apps/tauri). The Windows application icon derives from this project's flight mark. WebView2 Runtime is distributed by Microsoft under its own license.

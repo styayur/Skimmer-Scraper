@@ -30,6 +30,7 @@ import { SkyJourney } from './game/skyJourney';
 import { planSkyPassage, stepSkyDive, translateWingForSky, type SkyPassage } from './game/skyFlight';
 import { journeyWorld } from './world/journeyWorlds';
 import { JourneyHud } from './ui/JourneyHud';
+import { bindDesktopWindow } from './platform/desktopWindow';
 
 import type { CameraMode, VisualStimulation } from './config/experience';
 import { EXPERIENCE_CONFIG } from './config/experience';
@@ -808,6 +809,7 @@ const startRun = async (): Promise<void> => {
 const debugPause = (): boolean => {
   if (mode !== 'running') return mode === 'paused';
   mode = 'paused';
+  if (document.pointerLockElement) document.exitPointerLock();
   voiceRadio.suspend();
   pendingRadio = null;
   symbiosis.suspend();
@@ -1213,6 +1215,7 @@ const boot = async (): Promise<void> => {
 
   const canvas = document.getElementById('game-canvas');
   if (!(canvas instanceof HTMLCanvasElement)) throw new Error('Missing game canvas.');
+  bindDesktopWindow(canvas, () => mode === 'running', () => actionRouter.route('menu'), message => ui.showToast(message, true));
 
   const streamer = createStreamer(worldSettings);
   activeWorld = streamer;
