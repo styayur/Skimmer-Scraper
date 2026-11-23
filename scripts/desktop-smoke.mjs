@@ -7,7 +7,7 @@ import path from 'node:path';
 import { setTimeout as delay } from 'node:timers/promises';
 import { chromium } from '@playwright/test';
 
-const [executable, output] = process.argv.slice(2);
+const [executable, output, libraryCheck] = process.argv.slice(2);
 if (!executable || !output) throw Error('Usage: node scripts/desktop-smoke.mjs <installed executable> <evidence directory>');
 await mkdir(output, { recursive: true });
 const profile = await mkdtemp(path.join(tmpdir(), 'skimmer-webview-'));
@@ -44,25 +44,54 @@ try {
     };
   });
   assert.match(runtime.origin, /^https?:\/\/tauri\.localhost$/);
-  await page.locator('#start-button').click();
-  await page.waitForFunction(() => window.__SKIMMER_SCRAPER__.snapshot().runTime > 2);
-  const flight = await page.evaluate(() => {
-    const s = window.__SKIMMER_SCRAPER__.snapshot();
-    return { time: s.runTime, speed: s.speed, companions: s.companions.filter(a => a.deployed).length };
-  });
-  assert.equal(flight.companions, 3);
-  await page.screenshot({ path: path.join(output, 'city-webview2.png') });
-  await page.keyboard.press('Escape');
-  await page.locator('#pause-panel').waitFor({state:'visible'});
-  await page.keyboard.press('Alt+Enter');
-  await page.waitForFunction(() => window.__TAURI__.window.getCurrentWindow().isFullscreen());
-  await page.keyboard.press('Alt+Enter');
-  await page.waitForFunction(async () => !await window.__TAURI__.window.getCurrentWindow().isFullscreen());
-  await page.locator('#pause-resume').click();
-  await page.keyboard.press('r');
-  await page.waitForFunction(() => window.__SKIMMER_SCRAPER__.snapshot().mode === 'running');
-  assert.deepEqual(errors, []);
-  await writeFile(path.join(output, 'desktop-smoke.json'), JSON.stringify({ runtime, flight, escapePause: true, fullscreenRoundTrip: true, errors }, null, 2) + '\n');
+  if (libraryCheck) {
+    const { createWorldFixture } = await import('../tests/fixtures/worldGlb.ts');
+    const { createHash } = await import('node:crypto');
+    const buffer = createWorldFixture('arches');
+    const id = createHash('sha256').update(buffer).digest('hex');
+    await page.keyboard.press('g');
+    await page.locator('#local-world-library > summary').click();
+    const invokeList = () => page.evaluate(() => window.__TAURI__.core.invoke('world_list'));
+    if (libraryCheck === 'save') {
+      assert(!(await invokeList()).some(r => r.manifest.id === id), 'Fixture already installed');
+      const fixture = path.join(output, 'qa-arches.glb');
+      await writeFile(fixture, buffer);
+      await page.locator('#local-world-file').setInputFiles(fixture);
+      await page.locator('#local-world-analyze').click();
+      await page.locator('#local-world-apply').click();
+      await page.waitForFunction(id => window.__SKIMMER_SCRAPER__.snapshot().localWorld?.manifest.id === id, id);
+      assert((await invokeList()).some(r => r.manifest.id === id));
+    } else if (libraryCheck === 'restore') {
+      const row = (await invokeList()).find(r => r.manifest.id === id);
+      assert.equal(row?.manifest.name, 'qa-arches');
+      await page.locator('#local-world-select').selectOption(id);
+      await page.locator('#local-world-load').click();
+      await page.locator('#local-world-apply').waitFor({state:'visible'});
+      await page.locator('#local-world-remove').click();
+      await page.waitForFunction(async id => !(await window.__TAURI__.core.invoke('world_list')).some(r => r.manifest.id === id), id);
+    } else throw Error('Unknown library check');
+    await writeFile(path.join(output, libraryCheck+'.json'), JSON.stringify({runtime, libraryCheck, id, bytes:buffer.length}, null, 2));
+  } else {
+    await page.locator('#start-button').click();
+    await page.waitForFunction(() => window.__SKIMMER_SCRAPER__.snapshot().runTime > 2);
+    const flight = await page.evaluate(() => {
+      const s = window.__SKIMMER_SCRAPER__.snapshot();
+      return { time: s.runTime, speed: s.speed, companions: s.companions.filter(a => a.deployed).length };
+    });
+    assert.equal(flight.companions, 3);
+    await page.screenshot({ path: path.join(output, 'city-webview2.png') });
+    await page.keyboard.press('Escape');
+    await page.locator('#pause-panel').waitFor({state:'visible'});
+    await page.keyboard.press('Alt+Enter');
+    await page.waitForFunction(() => window.__TAURI__.window.getCurrentWindow().isFullscreen());
+    await page.keyboard.press('Alt+Enter');
+    await page.waitForFunction(async () => !await window.__TAURI__.window.getCurrentWindow().isFullscreen());
+    await page.locator('#pause-resume').click();
+    await page.keyboard.press('r');
+    await page.waitForFunction(() => window.__SKIMMER_SCRAPER__.snapshot().mode === 'running');
+    assert.deepEqual(errors, []);
+    await writeFile(path.join(output, 'desktop-smoke.json'), JSON.stringify({ runtime, flight, escapePause: true, fullscreenRoundTrip: true, errors }, null, 2) + '\n');
+  }
 } finally {
   await browser?.close().catch(() => {});
   if (app.exitCode === null) {

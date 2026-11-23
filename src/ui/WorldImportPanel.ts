@@ -1,6 +1,6 @@
 import type { ImportedWorldAdapter } from '../world/imports/importedWorldAdapter';
 import type { ImportVariantRequest, WorldImporter } from '../world/imports/worldImporter';
-import type { WorldResourceManager } from '../world/imports/worldResourceManager';
+import type { WorldLibrary } from '../platform/worldLibrary';
 import { WorldMotionSettings } from './WorldMotionSettings';
 import {
   defaultWorldImportOptions, isWorldRole, WORLD_IMPORT_LIMITS, type WorldImportOptions, type WorldRole,
@@ -64,7 +64,7 @@ export class WorldImportPanel {
   private generation = 0;
   private busy = false;
 
-  public constructor(private readonly store: WorldResourceManager, private readonly hooks: Hooks) {
+  public constructor(private readonly store: WorldLibrary, private readonly hooks: Hooks) {
     this.seedInput.maxLength = MAX_IMPORTED_SEED_LENGTH;
     const drop = get('drop');
     this.file.addEventListener('change', () => this.selectFile(this.file.files?.[0]));
@@ -138,6 +138,20 @@ export class WorldImportPanel {
         if (!record) throw new Error('此世界已从本机移除。');
         if (current()) await this.prepare(record.data, record.manifest.name, record.manifest.options, current,
           { keptVariant: record.keptVariant });
+      });
+    });
+    get('export').addEventListener('click', () => {
+      void this.run('正在导出 GLB…', async current => {
+        const record = await this.store.get(this.select.value);
+        if (!record) throw new Error('此世界已从本机移除。');
+        if (!current()) return;
+        const link = document.createElement('a');
+        const url = URL.createObjectURL(new Blob([record.data], { type: 'model/gltf-binary' }));
+        link.href = url;
+        link.download = record.manifest.name + '.glb';
+        link.click();
+        setTimeout(() => URL.revokeObjectURL(url), 30000);
+        this.status.textContent = '已导出 GLB。可在另一端导入，并粘贴原世界种子复现布局。';
       });
     });
     get('remove').addEventListener('click', () => {

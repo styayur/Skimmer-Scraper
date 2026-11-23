@@ -305,6 +305,7 @@
               <label class="world-field">已保存的世界<select id="local-world-select"></select></label>
               <div class="world-inline-actions">
                 <button id="local-world-load" type="button" class="text-button">打开</button>
+                <button id="local-world-export" type="button" class="text-button">导出 GLB</button>
                 <button id="local-world-remove" type="button" class="text-button">从本机移除</button>
               </div>
             </div>
@@ -346,7 +347,7 @@
                   <label class="world-field">往返周期（秒）<input id="local-world-motion-seconds" type="number" step="any" min="0.25" max="300" required /></label>
                 </fieldset>
               </details>
-              <label><input id="local-world-save" type="checkbox" checked /> 保存到此浏览器</label>
+              <label><input id="local-world-save" type="checkbox" checked /> 保存到本机世界库</label>
               <button id="local-world-apply" class="secondary-button" type="submit">启用世界</button>
             </form>
             <button id="local-world-cancel" class="text-button" type="button" hidden>取消导入</button>
