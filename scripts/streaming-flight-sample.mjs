@@ -1,4 +1,4 @@
-export const collectFlight = async (page, { seconds, altitude, cold }) => {
+export const collectFlight = async (page, { seconds, altitude, cold, allowRadioPause = false }) => {
   await page.evaluate(async ({ altitude, cold }) => {
     const game = window.__SKIMMER_SCRAPER__;
     game.pause();
@@ -10,7 +10,7 @@ export const collectFlight = async (page, { seconds, altitude, cold }) => {
     return streaming.queuedChunks === 0 && streaming.generatingChunks === 0;
   }, null, { timeout: 30_000 });
 
-  return page.evaluate(async seconds => {
+  return page.evaluate(async ({ seconds, allowRadioPause }) => {
     const game = window.__SKIMMER_SCRAPER__;
     const controlAt = t => {
       // Accelerate, reverse twice using opposite banks, then climb and dive briefly.
@@ -59,7 +59,9 @@ export const collectFlight = async (page, { seconds, altitude, cold }) => {
     };
 
     const initial = game.snapshot();
+    window.dispatchEvent(new CustomEvent("skimmer-flight-sample-start", { detail: initial.runTime }));
     const frames = [];
+    const inferenceFrames = [];
     const samples = [];
     let last = await new Promise(requestAnimationFrame);
     const started = last;
@@ -85,7 +87,8 @@ export const collectFlight = async (page, { seconds, altitude, cold }) => {
     oldState = game.snapshot();
     press(controlAt(0));
     try {
-      while (oldState.runTime - initial.runTime < seconds && oldState.mode === 'running') {
+      while (oldState.runTime - initial.runTime < seconds &&
+        (oldState.mode === 'running' || (allowRadioPause && oldState.mode === 'paused'))) {
         const now = await new Promise(requestAnimationFrame);
         const frameTime = now - last;
         if (now - started > (seconds * 1.5 + 50) * 1000) throw new Error('Scripted flight did not progress.');
@@ -115,6 +118,7 @@ export const collectFlight = async (page, { seconds, altitude, cold }) => {
           maxMissing = Math.max(maxMissing, coverage.missing.length);
         }
         frames.push(frameTime);
+        if (state.voice.kokoro?.phase === 'generating' || oldState.voice.kokoro?.phase === 'generating') inferenceFrames.push(frameTime);
         press(controlAt(state.runTime - initial.runTime));
         oldState = state;
       }
@@ -129,7 +133,8 @@ export const collectFlight = async (page, { seconds, altitude, cold }) => {
       fps: sorted.length * 1000 / (last - started), frameCount: sorted.length, frameMs: [percentile(.5), percentile(.95), percentile(.99)],
       visibleFrames, incompleteFrames, maxMissing, bufferingEntries, bufferingFrames, bufferingMs, collisionCellEntries,
       readyAtPreviousFrame, distanceTraveled,
+      inferenceFrames: inferenceFrames.length, inferenceWorstMs: inferenceFrames.length ? Math.max(...inferenceFrames) : null,
       samples };
-  }, seconds);
+  }, { seconds, allowRadioPause });
 };
 

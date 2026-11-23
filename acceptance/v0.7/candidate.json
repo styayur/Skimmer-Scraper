@@ -1,0 +1,29 @@
+{
+  "license": "AGPL-3.0-only",
+  "baseline": "6e1d3f5837909c9f6937872663f4f5648d7fdc30",
+  "blender": "5.2.4 LTS cd5dc428cce1",
+  "rebuild": [
+    {
+      "file": "district.glb",
+      "bytes": 319268,
+      "sha256": "5b1e9767c2b30ec8077baac742b2e401d843fe709c5339371a159211da5a317e"
+    },
+    {
+      "file": "profiles.json",
+      "bytes": 44246,
+      "sha256": "0a4fb4717bdf494967278eaf2ae3b8bce291fa59063d6060c0f4b5c230d50c8c"
+    }
+  ],
+  "gpu": {
+    "Name": "AMD Radeon 780M Graphics",
+    "DriverVersion": "32.0.32029.2010"
+  },
+  "candidate": "79c1c58919f2c9467251e7f831ef28ba356e8316",
+  "tests": {
+    "taggedCollisionBuffers": 4,
+    "unit": 192,
+    "unitSuites": 31,
+    "typecheck": "passed",
+    "productionBuild": "passed"
+  }
+}

@@ -1,0 +1,350 @@
+{
+  "status": "passed",
+  "url": "http://127.0.0.1:5190/Skimmer-Scraper/",
+  "browser": "157.0.8103.79",
+  "checks": {
+    "1": {
+      "name": "HTTP entry",
+      "result": "TESTED",
+      "status": 200,
+      "transport": {},
+      "secureContext": true
+    },
+    "2": {
+      "name": "Version provenance",
+      "result": "TESTED",
+      "version": "0.7.0-rc.1"
+    },
+    "3": {
+      "name": "Exact source commit",
+      "result": "TESTED",
+      "sourceCommit": "79c1c58919f2c9467251e7f831ef28ba356e8316"
+    },
+    "4": {
+      "name": "Runtime bundle identity",
+      "result": "TESTED",
+      "path": "/Skimmer-Scraper/assets/index-Dm3fgxIA.js",
+      "sha256": "35200c34b82df5e3a624099210989f1790a29997549cd24469abd497feecbf00",
+      "artifactCompared": false
+    },
+    "5": {
+      "name": "Live 3D title",
+      "result": "TESTED",
+      "webgl": {
+        "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+        "renderer": "ANGLE (AMD, AMD Radeon 780M Graphics (0x00001900) Direct3D11 vs_5_0 ps_5_0, D3D11)"
+      },
+      "triangles": 398662
+    },
+    "6": {
+      "name": "Minimal title",
+      "result": "TESTED",
+      "items": [
+        "SKIMMER\nSCRAPER",
+        "开始游戏",
+        "游戏教程"
+      ]
+    },
+    "7": {
+      "name": "Complete tutorial, search and direct navigation",
+      "result": "TESTED",
+      "chapters": 19,
+      "mobileViewport": [
+        360,
+        680
+      ]
+    },
+    "8": {
+      "name": "Minimal settings, responsive layout and contextual help",
+      "result": "TESTED",
+      "primary": [
+        "玩法",
+        "视角",
+        "伴机数量"
+      ]
+    },
+    "9": {
+      "name": "Analytical mirror city ground",
+      "result": "TESTED",
+      "mirror": {
+        "seed": 334458,
+        "triangles": 2880,
+        "cameraOffset": 0,
+        "ground": {
+          "height": 650,
+          "radius": 1530
+        }
+      },
+      "screenshot": "mirror-ground.png"
+    },
+    "10": {
+      "name": "High-speed infinite streaming",
+      "result": "TESTED",
+      "elapsed": 17.999999999999087,
+      "speed": 101.99999999870694,
+      "mode": "running",
+      "distance": 1801.943695678664,
+      "activePeak": 36,
+      "maxStaticBvhs": 36,
+      "maxMoving": 8,
+      "buffered": 0,
+      "coveredSamples": 142,
+      "samples": 142,
+      "generated": 63,
+      "retired": 62,
+      "activationP95Ms": 21.5,
+      "generationP95Ms": 20.199999999254942,
+      "fps": 119.109125958997,
+      "p50Ms": 8.300000000001091,
+      "p95Ms": 8.400000000001455,
+      "p99Ms": 8.599999999998545
+    },
+    "11": {
+      "name": "Local GLB import and collision BVH",
+      "result": "TESTED",
+      "fixtureSha": "68c8b5aaa5f34420bb651275e69bc9b81ca774538e65033ad2e0f3247df7e8c9",
+      "triangles": 168
+    },
+    "12": {
+      "name": "GLB variant replay with identical collision geometry",
+      "result": "TESTED",
+      "fixtureSha": "68c8b5aaa5f34420bb651275e69bc9b81ca774538e65033ad2e0f3247df7e8c9",
+      "probes": 1734,
+      "geometry": "b68dbb58753a6dacf4e29c0b8d66dcea5749c00b425382c55b3d791eac359b0c",
+      "alternateGeometry": "19aacdf778317a0b5a0cfbf86e827c8e15e63c6684c6952b1e58635975316e39",
+      "movedGroups": 9
+    },
+    "13": {
+      "name": "Three companions and dynamic colliders",
+      "result": "TESTED",
+      "deployed": 3,
+      "dynamic": 8,
+      "dynamicBvhs": 8
+    },
+    "14": {
+      "name": "Native system speech completes by default",
+      "result": "TESTED",
+      "speech": {
+        "provider": "local",
+        "voiceId": "Microsoft Huihui - Chinese (Simplified, PRC)",
+        "rate": 0.9900000095367432,
+        "pitch": 1,
+        "id": 1,
+        "agent": 1
+      },
+      "input": "off"
+    },
+    "17": {
+      "name": "Historical score, settings, cockpit migration and stable URL",
+      "result": "TESTED",
+      "seed": 334458,
+      "grace": 7.4,
+      "camera": "cockpit",
+      "oldScore": 24.7
+    },
+    "18": {
+      "name": "All loaded game assets under the Pages project path",
+      "result": "TESTED",
+      "assets": 9
+    },
+    "19": {
+      "name": "No runtime errors in the core browser suite",
+      "result": "TESTED",
+      "pageErrors": 0,
+      "consoleErrors": 0,
+      "warnings": [
+        "THREE.WebGLShadowMap: PCFSoftShadowMap has been removed. Using PCFShadowMap instead.",
+        "THREE.WebGLShadowMap: PCFSoftShadowMap has been removed. Using PCFShadowMap instead."
+      ]
+    },
+    "20": {
+      "name": "No sustained slowdown in controlled native flight",
+      "result": "TESTED",
+      "seconds": 17.999999999999087,
+      "fps": 119.109125958997,
+      "p50Ms": 8.300000000001091,
+      "p95Ms": 8.400000000001455,
+      "p99Ms": 8.599999999998545,
+      "scope": "18 second local flight. Longer hardware runs are recorded separately."
+    },
+    "21": {
+      "name": "Streamed v4 gate at flight speed, BVH pier contact and companion coverage",
+      "result": "TESTED",
+      "center": {
+        "distance": 5.718462340079292,
+        "point": {
+          "x": 39.210541887873,
+          "y": 35.6991297925134,
+          "z": -186.5
+        },
+        "chunkId": "chunk:0:-1:r0",
+        "surfaceId": "chunk:0:-1:r0"
+      },
+      "pier": {
+        "distance": 0,
+        "point": {
+          "x": 39.210541887873,
+          "y": 35.6991297925134,
+          "z": -186.5
+        },
+        "chunkId": "chunk:0:-1:r0",
+        "surfaceId": "chunk:0:-1:r0"
+      },
+      "initialImpacts": 0,
+      "clear": {
+        "z": -222.35684543938763,
+        "impacts": 0
+      },
+      "blocked": {
+        "impacts": 1
+      },
+      "companions": [
+        {
+          "deployed": true,
+          "uncovered": false
+        },
+        {
+          "deployed": true,
+          "uncovered": false
+        },
+        {
+          "deployed": true,
+          "uncovered": false
+        }
+      ]
+    }
+  },
+  "pageErrors": [],
+  "consoleErrors": [],
+  "warnings": [
+    "THREE.WebGLShadowMap: PCFSoftShadowMap has been removed. Using PCFShadowMap instead.",
+    "THREE.WebGLShadowMap: PCFSoftShadowMap has been removed. Using PCFShadowMap instead."
+  ],
+  "siteErrors": [],
+  "assets": [
+    {
+      "path": "/Skimmer-Scraper/assets/index-L9NeWA-9.css",
+      "status": 200
+    },
+    {
+      "path": "/Skimmer-Scraper/assets/index-Dm3fgxIA.js",
+      "status": 200
+    },
+    {
+      "path": "/Skimmer-Scraper/assets/syne-latin-wght-normal-BVsvWWA4.woff2",
+      "status": 200
+    },
+    {
+      "path": "/Skimmer-Scraper/assets/ibm-plex-sans-latin-wght-normal-IvpUvPa2.woff2",
+      "status": 200
+    },
+    {
+      "path": "/Skimmer-Scraper/assets/worldCodecs-B780mIZ2.js",
+      "status": 200
+    },
+    {
+      "path": "/Skimmer-Scraper/assets/index-L9NeWA-9.css",
+      "status": 200
+    },
+    {
+      "path": "/Skimmer-Scraper/assets/index-Dm3fgxIA.js",
+      "status": 200
+    },
+    {
+      "path": "/Skimmer-Scraper/assets/syne-latin-wght-normal-BVsvWWA4.woff2",
+      "status": 200
+    },
+    {
+      "path": "/Skimmer-Scraper/assets/ibm-plex-sans-latin-wght-normal-IvpUvPa2.woff2",
+      "status": 200
+    }
+  ],
+  "transmissions": [],
+  "build": {
+    "version": "0.7.0-rc.1",
+    "sourceCommit": "79c1c58919f2c9467251e7f831ef28ba356e8316",
+    "sourceCommitTime": "2026-11-23T12:30:00+08:00",
+    "dirty": false,
+    "sourceUrl": "https://github.com/styayur/Skimmer-Scraper/tree/79c1c58919f2c9467251e7f831ef28ba356e8316",
+    "toolchain": {
+      "node": "v26.7.0",
+      "platform": "win32",
+      "architecture": "x64"
+    }
+  },
+  "crossings": [
+    {
+      "index": 1,
+      "camera": "chase",
+      "signature": false,
+      "release": {
+        "seed": 334458,
+        "bvhBefore": 32,
+        "bvhAfter": 0,
+        "dynamicBvhBefore": 8,
+        "dynamicBvhAfter": 0,
+        "rootChildrenAfter": 0,
+        "disposedGeometryCount": 2161
+      }
+    },
+    {
+      "index": 2,
+      "camera": "cockpit",
+      "signature": false,
+      "release": {
+        "seed": 479568308,
+        "bvhBefore": 32,
+        "bvhAfter": 0,
+        "dynamicBvhBefore": 8,
+        "dynamicBvhAfter": 0,
+        "rootChildrenAfter": 0,
+        "disposedGeometryCount": 660
+      }
+    },
+    {
+      "index": 3,
+      "camera": "chase",
+      "signature": false,
+      "release": {
+        "seed": 501763084,
+        "bvhBefore": 32,
+        "bvhAfter": 0,
+        "dynamicBvhBefore": 8,
+        "dynamicBvhAfter": 0,
+        "rootChildrenAfter": 0,
+        "disposedGeometryCount": 639
+      }
+    },
+    {
+      "index": 4,
+      "camera": "cockpit",
+      "signature": false,
+      "release": {
+        "seed": 3038270385,
+        "bvhBefore": 32,
+        "bvhAfter": 0,
+        "dynamicBvhBefore": 8,
+        "dynamicBvhAfter": 0,
+        "rootChildrenAfter": 0,
+        "disposedGeometryCount": 614
+      }
+    },
+    {
+      "index": 5,
+      "camera": "chase",
+      "signature": true,
+      "release": {
+        "seed": 4293657168,
+        "bvhBefore": 31,
+        "bvhAfter": 0,
+        "dynamicBvhBefore": 8,
+        "dynamicBvhAfter": 0,
+        "rootChildrenAfter": 0,
+        "disposedGeometryCount": 758
+      }
+    }
+  ],
+  "externalEvidenceRequired": {
+    "15": "Native GPU flight matrix and concurrent Kokoro inference"
+  }
+}

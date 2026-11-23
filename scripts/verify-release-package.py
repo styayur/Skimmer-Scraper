@@ -24,7 +24,8 @@ for line in (folder / 'SHA256SUMS.txt').read_text(encoding='utf-8').splitlines()
 
 archive_checksums = {manifest_name, *(asset['name'] for asset in manifest['assets'])}
 report_name = f"v{manifest['version']}.json"
-if set(checksums) not in (archive_checksums, archive_checksums | {report_name}):
+visual_name = 'visual-comparison.jpg'
+if set(checksums) not in (archive_checksums, archive_checksums | {report_name}, archive_checksums | {report_name, visual_name}):
     raise SystemExit('Release checksum list does not match the manifest')
 
 secrets = [os.environ[name].encode() for name in ('DEEPSEEK_API_KEY', 'OPENAI_API_KEY') if len(os.getenv(name, '')) >= 8]
@@ -34,6 +35,8 @@ if report_name in checksums:
     if any(report[field] != manifest[field] for field in ('sourceCommit', 'version')):
         raise SystemExit('Acceptance report does not match the release revision')
     metadata_names.append(report_name)
+    if visual_name in checksums and checksums[visual_name] != report.get("visualComparisonSha256"):
+        raise SystemExit("Visual comparison digest differs from the acceptance report")
 if any(secret in (folder / name).read_bytes() for name in metadata_names for secret in secrets):
     raise SystemExit('An operator credential matched release metadata')
 

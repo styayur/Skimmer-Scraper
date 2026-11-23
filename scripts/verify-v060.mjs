@@ -141,6 +141,33 @@ try {
   assert(system.voice.kokoro === null && system.cooperation.model.requests === 0);
   done(14, 'Native system speech completes by default', { speech: system.voice.lastCompleted, input: system.voice.input });
 
+  if (SKIMMER_EXPECTED_VERSION.startsWith('0.7.')) {
+    stage = 'v4 moon gate and side pier';
+    assert.equal(defaults.generatorVersion,4);
+    assert.equal(defaults.render.mirrorSky.triangles,2880);
+    const traverse = await page.evaluate(async () => {
+      const game = window.__SKIMMER_SCRAPER__;
+      game.pause();
+      const start = {x:33.5,y:36,z:-153};
+      await game.setPose(start,{yaw:0,pitch:0,roll:0});
+      const center = game.surface({x:33.5,y:36,z:-186.5},10,true);
+      const pier = center && game.surface(center.point,1,true);
+      const initialImpacts = game.snapshot().shieldImpacts;
+      game.resume();
+      const clear = await game.advance(1.05);
+      game.pause();
+      await game.setPose({...start,x:43},{yaw:0,pitch:0,roll:0});
+      game.resume();
+      const blocked = await game.advance(1.05);
+      return { center,pier,initialImpacts,clear:{z:clear.position.z,impacts:clear.shieldImpacts},
+        blocked:{impacts:blocked.shieldImpacts},companions:clear.companions.map(a=>({deployed:a.deployed,uncovered:a.uncovered})) };
+    });
+    assert(Math.abs(traverse.center.distance-5.71846)<0.01 && traverse.pier.distance<.001);
+    assert(traverse.clear.z < -210 && traverse.clear.impacts===traverse.initialImpacts && traverse.blocked.impacts>traverse.clear.impacts,JSON.stringify(traverse));
+    assert(traverse.companions.every(a=>a.deployed&&!a.uncovered));
+    done(21,'Streamed v4 gate at flight speed, BVH pier contact and companion coverage',traverse);
+  }
+
   stage = 'mirror and high-speed flight';
   const mirror = await page.evaluate(async () => {
     const game = window.__SKIMMER_SCRAPER__;
@@ -324,7 +351,9 @@ try {
   assert.deepEqual(report.pageErrors, []);
   assert.deepEqual(report.consoleErrors, []);
   done(19, 'No runtime errors in the core browser suite', { pageErrors: 0, consoleErrors: 0, warnings: report.warnings });
-  report.externalEvidenceRequired = { 15: 'Native Kokoro production browser report', 16: 'Authorized paid DeepSeek browser plus fallback reports' };
+  report.externalEvidenceRequired = SKIMMER_EXPECTED_VERSION.startsWith('0.7.')
+    ? { 15: 'Native GPU flight matrix and concurrent Kokoro inference' }
+    : { 15: 'Native Kokoro production browser report', 16: 'Authorized paid DeepSeek browser plus fallback reports' };
   report.status = 'passed';
 } catch (error) {
   report.status = 'failed';
