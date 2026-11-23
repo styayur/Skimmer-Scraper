@@ -64,7 +64,7 @@ test.describe('phase 3 local GLB aircraft library', () => {
 
     expect(requestedUrls.some((url) => url.includes('test-aircraft'))).toBe(false);
     const nonLocalRequests = requestedUrls.filter((url) =>
-      !url.startsWith('http://127.0.0.1:4173') &&
+      new URL(url).origin !== new URL(page.url()).origin &&
       !url.startsWith('data:') &&
       !url.startsWith('blob:'),
     );
