@@ -1,5 +1,14 @@
 # Changelog
 
+## Unreleased — 0.8.0
+
+- Shared Windows x64 Tauri client, per-user NSIS build, fullscreen and window-focus controls.
+- Native transactional GLB library, player-initiated export and independently installed terrain packs.
+- Dragonspine Realm, cloud sea, floating shrines, natural arches and animated dragons with near-flight collision proxies.
+- Predictive terrain detail loading with bounded residency and shared collision across platforms.
+- Reduced in-flight text, full and fast Sky Inversion transitions and fifth-crossing records in the tutorial.
+
+
 ## Unreleased
 
 ## 0.7.0 — 2026-11-23

@@ -1,5 +1,12 @@
 # Skimmer-Scraper
 
+## v0.8.0 development
+
+The Windows x64 client and GitHub Pages share the flight simulation, renderer, city generator, Sky Inversion and local voice systems. Dragonspine Realm adds seed-driven canyons, stone arches, floating shrines and an animated bronze-crested dragon. Windows can install independent high-detail world packs into its private asset library.
+
+See [Windows build and installation](docs/windows-desktop.md), [Dragonspine flight guide](docs/dragonspine-realm.md) and [world pack schema](docs/world-pack-v1.md). The published release and production page identify the currently available stable build.
+
+
 [![CI](https://github.com/styayur/Skimmer-Scraper/actions/workflows/ci.yml/badge.svg)](https://github.com/styayur/Skimmer-Scraper/actions/workflows/ci.yml)
 [![WebGL2](https://img.shields.io/badge/renderer-WebGL2-53e5cf)](https://github.com/styayur/Skimmer-Scraper)
 [![License: AGPL-3.0-only](https://img.shields.io/badge/code-AGPL--3.0--only-ffb58f)](LICENSE)

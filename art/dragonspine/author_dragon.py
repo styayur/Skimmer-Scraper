@@ -8,6 +8,7 @@ root = Path(__file__).resolve().parents[2]
 out = root / "public" / "realms" / "dragonspine"
 out.mkdir(parents=True, exist_ok=True)
 bpy.ops.wm.read_factory_settings(use_empty=True)
+bpy.context.preferences.filepaths.save_version=0
 
 def material(name, rgb, metal=0):
     m = bpy.data.materials.new(name)
@@ -111,7 +112,59 @@ for side,label in [(-1,"Left"),(1,"Right")]:
 for frame,angle in [(1,0),(10,.065),(19,0),(28,-.065),(37,0)]:
     tail.rotation_euler.z=angle
     tail.keyframe_insert(data_path="rotation_euler",frame=frame)
+# An editable row of small bronze scutes across the back.
+scutes=mesh("Nuchal scutes",[],[],crest,rig)
+nodes=bpy.data.node_groups.new("Bronze crest scute spacing","GeometryNodeTree")
+nodes.interface.new_socket(name="Geometry",in_out='OUTPUT',socket_type='NodeSocketGeometry')
+line=nodes.nodes.new('GeometryNodeMeshLine')
+line.inputs['Count'].default_value=11
+line.inputs['Start Location'].default_value=(0,-4.8,1.79)
+line.inputs['Offset'].default_value=(0,.58,-.025)
+cone=nodes.nodes.new('GeometryNodeMeshCone')
+cone.inputs['Vertices'].default_value=5
+cone.inputs['Radius Bottom'].default_value=.32
+cone.inputs['Radius Top'].default_value=.025
+cone.inputs['Depth'].default_value=.82
+inst=nodes.nodes.new('GeometryNodeInstanceOnPoints')
+real=nodes.nodes.new('GeometryNodeRealizeInstances')
+shade=nodes.nodes.new('GeometryNodeSetMaterial');shade.inputs['Material'].default_value=crest
+output=nodes.nodes.new('NodeGroupOutput')
+for left,right in [(line.outputs['Mesh'],inst.inputs['Points']),(cone.outputs['Mesh'],inst.inputs['Instance']),(inst.outputs['Instances'],real.inputs['Geometry']),(real.outputs['Geometry'],shade.inputs['Geometry']),(shade.outputs['Geometry'],output.inputs['Geometry'])]:
+    nodes.links.new(left,right)
+scutes.modifiers.new("Parametric scutes","NODES").node_group=nodes
 scene=bpy.context.scene
 scene.render.fps=24;scene.frame_start=1;scene.frame_end=37;scene.frame_set(1)
 bpy.ops.wm.save_as_mainfile(filepath=str(root/"art/dragonspine/bronze-crest.blend"))
 bpy.ops.export_scene.gltf(filepath=str(out/"bronze-crest.glb"),export_format="GLB",export_animations=True, export_animation_mode="SCENE",export_yup=True)
+
+# Bake a distant glide proxy from the evaluated authored asset.
+scene.frame_set(12)
+deps=bpy.context.evaluated_depsgraph_get()
+verts=[]; faces=[]
+for source in list(scene.objects):
+    if source.type != 'MESH': continue
+    evaluated=source.evaluated_get(deps)
+    evaluated_mesh=evaluated.to_mesh()
+    offset=len(verts)
+    verts.extend(tuple(evaluated.matrix_world @ v.co) for v in evaluated_mesh.vertices)
+    faces.extend(tuple(offset+i for i in face.vertices) for face in evaluated_mesh.polygons)
+    evaluated.to_mesh_clear()
+proxy=mesh("Distant gliding wyvern",verts,faces,hide)
+bpy.ops.object.select_all(action='DESELECT')
+proxy.select_set(True);bpy.context.view_layer.objects.active=proxy
+dec=proxy.modifiers.new("Distant silhouette","DECIMATE");dec.ratio=.28
+bpy.ops.object.modifier_apply(modifier=dec.name)
+bpy.ops.export_scene.gltf(filepath=str(out/"bronze-crest-far.glb"),export_format="GLB",use_selection=True,export_animations=False)
+proxy.hide_render=True
+bpy.ops.object.camera_add(location=(26,-28,17))
+camera=bpy.context.object
+camera.rotation_euler=(Vector((0,0,.6))-camera.location).to_track_quat('-Z','Y').to_euler()
+camera.data.type='ORTHO';camera.data.ortho_scale=43;scene.camera=camera
+scene.render.engine='BLENDER_WORKBENCH'
+scene.display.shading.color_type='MATERIAL'
+scene.display.shading.light='STUDIO'
+scene.display.shading.show_shadows=True
+scene.display.shading.show_cavity=True
+scene.render.resolution_x=900;scene.render.resolution_y=620;scene.render.resolution_percentage=100
+scene.render.filepath=str(root/"art/dragonspine/bronze-crest-preview.png")
+bpy.ops.render.render(write_still=True)

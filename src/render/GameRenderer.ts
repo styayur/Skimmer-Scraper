@@ -192,6 +192,7 @@ export class GameRenderer {
 
   public setQuality(name: RenderQuality['name']): void {
     this.quality = QUALITY_PRESETS[name];
+    this.world?.setRenderQuality?.(name);
     this.bloomPass.enabled = this.quality.bloom;
     this.resize();
   }
@@ -238,7 +239,7 @@ export class GameRenderer {
     this.journeyGate.group.visible = false;
   }
   public setWorld(world:RenderableWorld,index:number):void {
-    this.releaseWorld();this.world=world;this.scene.add(world.root);
+    this.releaseWorld();this.world=world;this.scene.add(world.root);world.setRenderQuality?.(this.quality.name);
     const profile=index>0?journeyProfile(index):null;
     this.atmosphere.palette(profile?.top??0x21152e,profile?.mid??0x9f4f66,profile?.horizon??0xffb58f);
     if (!world.kind && !world.settings.theme) this.mirrorSky.setWorld(world.settings, profile?.top ?? 0x21152e, profile?.mid ?? 0x9f4f66);
