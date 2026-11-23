@@ -7,6 +7,12 @@ player-owned local models retain their original terms.
 
 ## Project code and generated art
 
+The Blender district, loft profiles, materials, GLB, procedural tower library and
+inverted city geometry introduced for v0.7 are original work licensed under
+AGPL-3.0-only. Blender 5.2.4 generated the reference scene and Cycles renders.
+The game builds its meshes from the same profiles. The source and generation
+instructions are in [art/district](art/district/README.md).
+
 The five Sky Journey palettes/parameter profiles, inversion choreography and fifth-sky
 light sculpture/signature are original procedural work. No third-party models, world
 generation service, textures or runtime dependencies were added for this feature.

@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import { cityDistrictAt } from '../world/cityDistricts';
 import { seededRandom } from '../world/deterministic';
-import type { WorldSettings } from '../world/worldConfig';
+import { GENERATOR_VERSION, type WorldSettings } from '../world/worldConfig';
 
 export const MIRROR_GROUND = Object.freeze({ height: 650, radius: 1530 });
 
@@ -40,10 +40,16 @@ export class MirrorSky {
     const shade = new THREE.Color();
     this.groundPalette.stone.copy(stone).lerp(new THREE.Color(top), 0.34);
     this.groundPalette.haze.copy(base).lerp(glow, 0.53);
-    const addBox = (x: number, y: number, z: number, w: number, h: number, d: number, haze: number) => {
+    const addBox = (x: number, y: number, z: number, w: number, h: number, d: number, haze: number,
+      bottomScale = 1, lean = 0, yaw = 0) => {
+      const cos = Math.cos(yaw), sin = Math.sin(yaw);
       for (let index = 0; index < indices.count; index++) {
         const vertex = indices.getX(index);
-        positions.push(x + w * vertices.getX(vertex), y + h * vertices.getY(vertex), z + d * vertices.getZ(vertex));
+        const vy = vertices.getY(vertex);
+        const scale = vy < 0 ? bottomScale : 1;
+        const vx = w * vertices.getX(vertex) * scale + (vy < 0 ? lean : 0);
+        const vz = d * vertices.getZ(vertex) * scale;
+        positions.push(x + vx*cos - vz*sin, y + h*vy, z + vx*sin + vz*cos);
         const litFace = normals.getY(vertex) < 0 ? 0.09 : normals.getX(vertex) < 0 ? -0.045 : 0.01;
         shade.copy(stone).lerp(glow, haze + litFace);
         colors.push(shade.r, shade.g, shade.b);
@@ -51,7 +57,33 @@ export class MirrorSky {
     };
 
     const rotation = random() * Math.PI * 2;
-    for (let layer = 0; layer < 2; layer++) {
+    if (settings.generatorVersion === GENERATOR_VERSION) {
+      // Radial viaduct districts meet at their deck endpoints. Each hanging pair
+      // converges around an open court, with a lantern suspended from the keystone.
+      for (const [layer, radius] of [122, 350, 635, 950].entries()) {
+        const sectors = 4 + layer*4;
+        const phase = rotation + layer * .29;
+        for (let sector = 0; sector < sectors; sector++) {
+          const angle = phase + sector * Math.PI*2 / sectors;
+          const next = angle + Math.PI*2/sectors;
+          const x = Math.cos(angle)*radius, z = Math.sin(angle)*radius;
+          const dx = Math.cos(next)*radius-x, dz = Math.sin(next)*radius-z;
+          const haze = .19 + .075*layer;
+          const length = 74 + random()*85 + layer*14;
+          const width = 41 + random()*28;
+          const roof = MIRROR_GROUND.height - 16;
+          addBox(x,roof+8,z,width*1.65,16,60,haze,.89,0,angle);
+          addBox(x+dx/2,roof-8,z+dz/2,Math.hypot(dx,dz),8,14,haze+.09,1,0,Math.atan2(dz,dx));
+          for (const side of [-1,1]) {
+            const offset = side*width*.34;
+            addBox(x+Math.cos(angle)*offset,roof-length/2,z+Math.sin(angle)*offset,
+              width*.38,length,36,haze,.72,-offset*.37,angle);
+          }
+          addBox(x,roof-length-3,z,width*.85,12,32,haze+.08,.83,0,angle);
+          addBox(x,roof-length-19,z,width*.44,23,22,haze+.03,.53,4,angle);
+        }
+      }
+    } else for (let layer = 0; layer < 2; layer++) {
       const radius = 510 + layer * 340;
       const haze = 0.14 + layer * 0.15;
       for (let sector = 0; sector < 10; sector++) {

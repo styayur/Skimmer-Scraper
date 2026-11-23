@@ -5,6 +5,7 @@ export interface SkyAtmosphere {
   group: THREE.Group;
   sunDirection: THREE.Vector3;
   update(time: number): void;
+  follow(camera: THREE.Camera): void;
   palette(top:number,mid:number,horizon:number):void;
   setMirrorGround(palette: MirrorGroundPalette | null): void;
   dispose(): void;
@@ -152,6 +153,7 @@ export const createSkyAtmosphere = (): SkyAtmosphere => {
         (skyMaterial.uniforms.uGroundHaze!.value as THREE.Color).copy(palette.haze);
       }
     },
+    follow: camera => sky.position.copy(camera.position),
     update: (time) => {
       skyMaterial.uniforms.uTime!.value = time;
       cloudLayer.rotation.y = time * 0.0018;

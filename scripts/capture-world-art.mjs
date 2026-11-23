@@ -43,7 +43,9 @@ try {
     await page.evaluate(async ({x,y,z,yaw,pitch,mode})=>{
       const g=window.__SKIMMER_SCRAPER__;
       g.setCameraMode(mode);
+      // Let one frame consume the timestamp before taking the measurement pose.
       window.reviewFrame=performance.now();
+      await new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));
       await g.setPose({x,y,z},{yaw,pitch,roll:0});
     },{x,y,z,yaw,pitch,mode});
     await capture(label);

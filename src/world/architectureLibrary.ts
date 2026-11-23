@@ -37,9 +37,23 @@ function buildModel(model: ArchitectureModel): ArchitecturePart[] {
       const projectX = Math.abs(b.x-a.x) >= Math.abs(b.z-a.z);
       for (const p of [a,b,c]) {
         batch.positions.push(p.x,p.y,p.z);
-        batch.uvs.push(cap || projectX ? p.x/22 : p.z/22, cap ? p.z/22 : p.y/44);
+        if (cap) batch.uvs.push(0.014,0.98);
+        else batch.uvs.push(projectX ? p.x/22 : p.z/22, p.y/44);
       }
     };
+    if (key === 'windowWarm' && model !== 'orbit' && model !== 'skyGarden') {
+      // These lights sit flush with the south facade. A single luminous quad
+      // replaces the bevelled prism after baking, without adding collision faces.
+      const front = Math.max(...layers[0].map(p => p.z));
+      const edge = layers[0].map((p,i) => ({ p,i })).filter(({p}) => p.z === front);
+      if (edge.length === 2) {
+        const [left,right] = edge;
+        const upper = layers[layers.length-1];
+        emit(left.p,right.p,upper[right.i],false);
+        emit(upper[right.i],upper[left.i],left.p,false);
+        continue;
+      }
+    }
     const last = layers.at(-1)!;
     for (let i=1; i<outline.length-1; i++) {
       emit(layers[0][0], layers[0][i+1], layers[0][i], true);
