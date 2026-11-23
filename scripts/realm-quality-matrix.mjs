@@ -4,7 +4,7 @@ import path from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { chromium } from '@playwright/test';
 
-export async function qualityMatrix(page, output, packDirectory) {
+export async function qualityMatrix(page, output, packDirectory, cityComparison = false) {
   const base = new URL(page.url());
   base.search = '';
   const device = await page.evaluate(async () => {
@@ -35,7 +35,7 @@ export async function qualityMatrix(page, output, packDirectory) {
           device,
           seed: 334458,
           method:
-            'Scripted boosted yaw, one initial pose per scenario, 12 seconds per scenario. Balanced and High, all four companion counts. Wall-clock rAF intervals.',
+            'Scripted boosted yaw, one initial pose per scenario, 12 seconds per scenario. Wall-clock rAF intervals.',
           rows,
         },
         null,
@@ -70,9 +70,9 @@ export async function qualityMatrix(page, output, packDirectory) {
         id,
       );
     }
-    for (const theme of ['city', 'dragon'])
-      for (const quality of ['balanced', 'high'])
-        for (const count of [0, 1, 2, 3]) {
+    for (const theme of cityComparison ? ['city'] : ['city', 'dragon'])
+      for (const quality of cityComparison ? ['balanced'] : ['balanced', 'high'])
+        for (const count of cityComparison ? [3] : [0, 1, 2, 3]) {
           const url = new URL(base);
           url.searchParams.set('seed', '334458');
           url.searchParams.set('gen', '4');
@@ -183,7 +183,7 @@ if (
     });
     await page.goto(url);
     await page.waitForFunction(() => !!window.__SKIMMER_SCRAPER__);
-    await qualityMatrix(page, output);
+    await qualityMatrix(page, output, undefined, process.argv[4] === 'city-comparison');
   } finally {
     await browser.close();
   }

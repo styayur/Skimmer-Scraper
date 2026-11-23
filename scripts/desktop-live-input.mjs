@@ -60,7 +60,7 @@ export async function liveInput(page, output) {
   }
   const voice = page.locator('.voice-settings');
   if (!(await voice.evaluate((e) => e.open)))
-    await voice.locator('summary').click();
+    await voice.locator(':scope > summary').click();
   await page.locator('#voice-output').selectOption('high-quality');
   await page
     .waitForFunction(
