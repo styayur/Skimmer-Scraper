@@ -107,7 +107,7 @@ export class InlineChunkSource implements ChunkSource {
   private disposed = false;
 
   public constructor(settings: WorldSettings) {
-    this.generator = settings.theme === 'dragon' ? new DragonChunkGenerator(settings) : new ChunkGenerator(settings);
+    this.generator = settings.theme ? new DragonChunkGenerator(settings) : new ChunkGenerator(settings);
   }
 
   public async generate(request: ChunkSourceRequest): Promise<GeneratedChunk> {

@@ -35,7 +35,7 @@ export interface CityGenerationConfig {
 }
 
 export interface WorldSettings {
-  theme?: 'dragon';
+  theme?: 'dragon' | 'ascendant';
   paletteHue?: number;
   seed: number;
   seedText: string;
@@ -212,7 +212,8 @@ export const resolveWorldSettings = (options: {
 export const worldSettingsFromSearch = (search: string | URLSearchParams): WorldSettings => {
   const params = typeof search === 'string' ? new URLSearchParams(search) : search;
   const explicit = params.get('gen');
-  const dragon = params.get('theme') === 'dragon';
+  const theme = params.get('theme');
+  const dragon = theme === 'dragon' || theme === 'ascendant';
   const hasLegacyFields = params.has('seed') || params.has('preset') || params.has('world');
   const generatorVersion = explicit === String(GENERATOR_VERSION) || (!explicit && !hasLegacyFields)
     ? GENERATOR_VERSION
@@ -223,7 +224,7 @@ export const worldSettingsFromSearch = (search: string | URLSearchParams): World
     mode: params.get('world'),
     generatorVersion: dragon ? GENERATOR_VERSION : generatorVersion,
   });
-  if (dragon) settings.theme = 'dragon';
+  if (dragon) settings.theme = theme;
   return settings;
 };
 
