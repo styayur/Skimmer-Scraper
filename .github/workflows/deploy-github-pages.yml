@@ -10,23 +10,23 @@ on:
 
 permissions: {}
 
+concurrency:
+  group: github-pages
+  cancel-in-progress: false
+
 jobs:
-  deploy:
+  build:
     if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main'
-    name: Build and publish GitHub Pages
+    name: Build verified Pages artifact
     runs-on: ubuntu-latest
     timeout-minutes: 20
     permissions:
       contents: read
       actions: read
-      pages: write
-      id-token: write
-    concurrency:
-      group: github-pages
-      cancel-in-progress: false
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+      pages: read
+    outputs:
+      artifact_name: ${{ steps.artifact.outputs.name }}
+      artifact_id: ${{ steps.upload.outputs.artifact_id }}
     steps:
       - name: Verify requested commit
         env:
@@ -65,11 +65,54 @@ jobs:
       - name: Configure Pages
         uses: actions/configure-pages@v5
 
+      - name: Name this build
+        id: artifact
+        run: echo "name=github-pages-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}" >> "$GITHUB_OUTPUT"
+
       - name: Upload Pages artifact
+        id: upload
         uses: actions/upload-pages-artifact@v3
         with:
+          name: ${{ steps.artifact.outputs.name }}
           path: dist
+
+  deploy:
+    needs: build
+    if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main'
+    name: Publish verified Pages artifact
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      actions: read
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Verify deployed artifact and revision
+        env:
+          GH_TOKEN: ${{ github.token }}
+          EXPECTED_SHA: ${{ inputs.expected_sha }}
+          ARTIFACT_ID: ${{ needs.build.outputs.artifact_id }}
+          ARTIFACT_NAME: ${{ needs.build.outputs.artifact_name }}
+        run: |
+          test "$GITHUB_SHA" = "$EXPECTED_SHA"
+          test "$(gh api "repos/$GITHUB_REPOSITORY/branches/main" --jq .commit.sha)" = "$EXPECTED_SHA"
+          for attempt in {1..12}; do
+            if metadata=$(gh api "repos/$GITHUB_REPOSITORY/actions/artifacts/$ARTIFACT_ID") &&
+               jq -e --arg name "$ARTIFACT_NAME" --arg sha "$EXPECTED_SHA" --arg run "$GITHUB_RUN_ID" \
+                 '.name == $name and .expired == false and .workflow_run.head_sha == $sha and (.workflow_run.id|tostring) == $run' <<< "$metadata" >/dev/null; then
+              exit 0
+            fi
+            sleep 5
+          done
+          echo "::error::The uploaded artifact is unavailable for this run and source commit."
+          exit 1
 
       - name: Deploy Pages
         id: deployment
         uses: actions/deploy-pages@v4
+        with:
+          artifact_name: ${{ needs.build.outputs.artifact_name }}
