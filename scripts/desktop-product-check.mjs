@@ -15,6 +15,18 @@ export async function checkDesktopProduct(page, output, runtime) {
   report.webview2 = env.webview2;
   assert.match(report.webview2, /^\d+\.\d+\.\d+\.\d+/);
   report.namedLibrary = path.basename(env.directory);
+  if (process.env.SKIMMER_QA_LIBRARY_PARENT) {
+    const expected = path.join(process.env.SKIMMER_QA_LIBRARY_PARENT, 'Skimmer-Scraper-Worlds');
+    const original = await page.evaluate(() => window.__TAURI__.core.invoke('world_list'));
+    await panel.locator('[data-directory]').click();
+    await page.waitForFunction(() => !document.querySelector('[data-directory]').disabled, null, { timeout: 240000 });
+    const current = await page.evaluate(() => window.__TAURI__.core.invoke('desktop_environment'));
+    assert.equal(path.resolve(current.directory), path.resolve(expected));
+    assert.deepEqual(await page.evaluate(() => window.__TAURI__.core.invoke('world_list')), original);
+    report.selectedDirectory = path.basename(current.directory);
+    report.retainedWorldCount = original.length;
+    await save();
+  }
   await panel.locator('[data-check]').click();
   await page.waitForFunction(() => !document.querySelector('[data-check]').disabled, null, { timeout: 20000 });
   report.updateStatus = await panel.locator('[role=status]').textContent();

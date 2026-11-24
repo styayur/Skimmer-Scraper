@@ -12,16 +12,19 @@ export async function checkDownloadCancellation(page, output, runtime) {
   const attempts = [];
   for (let i = 0; i < 2; i++) {
     await panel.locator('[data-pack-download]').click();
-    const progress = await page.waitForFunction(async () => {
-      const status = await window.__TAURI__.core.invoke('official_pack_progress');
-      return status?.received > 0 && status;
-    }, null, {timeout: 90000});
+    const deadline = Date.now() + 90000;
+    let progress;
+    while (!(progress?.received > 0) && Date.now() < deadline) {
+      progress = await page.evaluate(() => window.__TAURI__.core.invoke('official_pack_progress'));
+      if (!(progress?.received > 0)) await page.waitForTimeout(250);
+    }
+    assert(progress?.received > 0, 'The official download must transfer bytes before cancellation');
     const started = Date.now();
     await panel.locator('[data-pack-cancel]').click();
     await panel.locator('[data-pack-cancel]').waitFor({state:'hidden',timeout:90000});
     assert.match(await panel.locator('[role=status]').textContent(), /已取消/);
     assert.deepEqual(await list(), before);
-    attempts.push({ progress: await progress.jsonValue(), cancelMs: Date.now() - started });
+    attempts.push({ progress, cancelMs: Date.now() - started });
   }
   await writeFile(path.join(output, 'pack-cancellation.json'), JSON.stringify({runtime, attempts, preservedPackages: before.length}, null, 2));
 }
