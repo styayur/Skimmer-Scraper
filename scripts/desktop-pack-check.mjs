@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import path from 'node:path';
 import { readFile, writeFile } from 'node:fs/promises';
 
-export async function checkPack(page, output, directory) {
+export async function checkPack(page, output, directory, runtime) {
   const manifest = JSON.parse(
     await readFile(path.join(directory, 'world-pack.json'), 'utf8'),
   );
@@ -54,13 +54,15 @@ export async function checkPack(page, output, directory) {
   await page.waitForFunction(()=>window.__SKIMMER_SCRAPER__.snapshot().streaming?.realmDetail?.high>0);
   await page.screenshot({ path: path.join(output, 'high-streaming.png') });
   const samples = [];
+  const frameTimes = [];
+  let bufferingEntries = 0, bufferingMs = 0, wasBuffering = false;
   const duration = Number(process.env.SKIMMER_SOAK_SECONDS ?? 20);
   const until = Date.now() + duration * 1000;
   const startTime = await page.evaluate(()=>window.__SKIMMER_SCRAPER__.snapshot().runTime);
   while (Date.now() < until || (samples.at(-1)?.runTime ?? startTime)-startTime < duration) {
     assert(Date.now()<until+300000,'Simulation could not sustain the requested flight time');
     const sample = await page.evaluate(async () => {
-      const start = performance.now(),
+      const start = await new Promise(requestAnimationFrame),
         deltas = [];
       let last = start;
       while (last - start < 1000) {
@@ -72,6 +74,7 @@ export async function checkPack(page, output, directory) {
       return {
         ms: last - start,
         frames: deltas.length,
+        deltas,
         worstMs: Math.max(...deltas),
         mode: s.mode,
         runTime: s.runTime,
@@ -79,14 +82,30 @@ export async function checkPack(page, output, directory) {
         detail: s.streaming.realmDetail,
         buffering: s.buffering,
         triangles: s.streaming.renderTriangles,
+        activationP95Ms: s.streaming.activationP95Ms,
+        gpuMs: s.render.gpuMs,
+        drawCalls: s.render.drawCalls,
+        dynamicEntities: s.streaming.dynamicBvhCount,
+        deployed: s.companions.filter(agent => agent.deployed).length,
         heapBytes: performance.memory?.usedJSHeapSize,
       };
     });
     assert.equal(sample.mode, 'running');
     assert.ok(sample.detail,'Flight left Dragonspine Realm');
+    frameTimes.push(...sample.deltas);
+    delete sample.deltas;
+    if (sample.buffering && !wasBuffering) bufferingEntries++;
+    if (sample.buffering) bufferingMs += sample.ms;
+    wasBuffering = sample.buffering;
     samples.push(sample);
   }
+  frameTimes.sort((a,b) => a-b);
+  const percentile = q => frameTimes[Math.floor((frameTimes.length-1)*q)];
   const report = {
+    runtime,
+    frameMs: { p50: percentile(.5), p95: percentile(.95), p99: percentile(.99), worst: percentile(1) },
+    fps: 1000 * frameTimes.length / frameTimes.reduce((sum, ms) => sum + ms, 0),
+    sampledBuffering: { entries: bufferingEntries, ms: bufferingMs, intervalSeconds: 1 },
     version: manifest.packVersion,
     id: manifest.id,
     bytes,

@@ -56,8 +56,10 @@ export class KokoroVoice implements VoiceProvider {
     private readonly flightBusy: () => boolean = () => false,
     private readonly canUseSystemVoice: (language: RadioLanguage) => boolean = () => false) {}
   public observeFlightFrame(frameMs: number): void {
-    if (this.stats.phase === 'generating' && frameMs > 45)
-      this.protectFlightUntil = performance.now() + 12_000;
+    if (this.stats.phase === 'generating' && frameMs > 45) {
+      // Three spoken replies can span 20–30 seconds even when inference has finished.
+      this.protectFlightUntil = performance.now() + 45_000;
+    }
   }
   public snapshot() { return { ...this.stats, resident: this.worker !== null, cachedClipBytes: this.clipBytes, idleMs }; }
 

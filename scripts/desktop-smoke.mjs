@@ -111,7 +111,7 @@ try {
     await checkCompatibility(page, output);
   } else if (libraryCheck === 'pack') {
     const { checkPack } = await import('./desktop-pack-check.mjs');
-    await checkPack(page, output, process.argv[5]);
+    await checkPack(page, output, process.argv[5], runtime);
   } else if (libraryCheck) {
     const { createWorldFixture } =
       await import('../tests/fixtures/worldGlb.ts');
