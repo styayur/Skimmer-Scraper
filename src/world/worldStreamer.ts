@@ -1,3 +1,5 @@
+import { CrownbackFlight } from './crownbackFlight';
+import { IslandHorizon } from './islandHorizon';
 import { RealmHorizon } from './realmHorizon';
 import { RealmDetail } from './realmDetail';
 import { RealmDragonFlight } from './dragonFlight';
@@ -161,7 +163,8 @@ export class WorldStreamer implements RenderableWorld {
   private readonly surfaces = new UnifiedSurfaceQuery(this.adapter);
   private readonly detail?: RealmDetail;
   private readonly horizon?: RealmHorizon;
-  private readonly architecture: ProceduralArchitecture | RealmDragonFlight | null;
+  private readonly islands?: IslandHorizon;
+  private readonly architecture: ProceduralArchitecture | RealmDragonFlight | CrownbackFlight | null;
   public readonly source: ChunkSource;
   public readonly settings: WorldSettings;
   public readonly fingerprint: number;
@@ -204,12 +207,16 @@ export class WorldStreamer implements RenderableWorld {
 
   public constructor(settings: WorldSettings, options: WorldStreamerOptions = {}) {
     this.settings = settings;
-    if (settings.theme === 'dragon') {
-      this.detail = new RealmDetail(settings.seed);
-      this.horizon = new RealmHorizon(settings.seed);
+    if (settings.theme === 'ascendant') {
+      this.islands = new IslandHorizon(settings.seed);
+      this.root.add(this.islands.group);
+    }
+    if (settings.theme) this.detail = new RealmDetail(settings.seed,settings.theme);
+    if (settings.theme) {
+      this.horizon = new RealmHorizon(settings.seed, settings.theme === 'ascendant');
       this.root.add(this.horizon.group);
     }
-    this.source = options.source ?? (settings.theme !== 'dragon' && typeof Worker !== 'undefined'
+    this.source = options.source ?? (!settings.theme && typeof Worker !== 'undefined'
       ? new CityWorkerSource(settings) : new InlineChunkSource(settings));
     this.renderRadius = Math.max(1, Math.trunc(options.renderRadius ?? 2));
     this.collisionRadius = Math.max(1, Math.trunc(options.collisionRadius ?? 1));
@@ -218,7 +225,8 @@ export class WorldStreamer implements RenderableWorld {
     this.onChunkActivated = options.onChunkActivated ?? (() => {});
     this.onChunkRetired = options.onChunkRetired ?? (() => {});
     this.root.name = `world-stream-${settings.seed}`;
-    this.architecture = settings.theme === 'dragon' ? new RealmDragonFlight(settings.seed,this.surfaces.dynamic) : settings.generatorVersion >= DENSE_GENERATOR_VERSION
+    this.architecture = settings.theme === 'ascendant' ? new CrownbackFlight(settings.seed, this.surfaces.dynamic)
+      : settings.theme === 'dragon' ? new RealmDragonFlight(settings.seed,this.surfaces.dynamic) : settings.generatorVersion >= DENSE_GENERATOR_VERSION
       ? new ProceduralArchitecture(settings, this.surfaces.dynamic) : null;
     if (this.architecture) this.root.add(this.architecture.group);
     const ground = terrainHeightAt(SPAWN_X, SPAWN_Z, settings);
@@ -238,6 +246,7 @@ export class WorldStreamer implements RenderableWorld {
       settings.config.streetSpacing,
       settings.config.islandFrequency,
       settings.config.terrainAmplitude,
+      ...(settings.theme === 'ascendant' ? ['ascendant-2'] : []),
     );
   }
 
@@ -263,9 +272,11 @@ export class WorldStreamer implements RenderableWorld {
     const rebaseDelta = this.maybeRebase(position);
     this.architecture?.cover(position, this.companionPositions);
     if (this.detail) this.detail.update(position, velocity, this.isCollisionCovered(position),
-      this.companionPositions, this.architecture instanceof RealmDragonFlight ? this.architecture.residentPosition : undefined,
+      this.companionPositions, this.architecture instanceof RealmDragonFlight || this.architecture instanceof CrownbackFlight
+        ? this.architecture.residentPosition : undefined,
       this.synchronousBuildP95Ms ?? 0);
     this.horizon?.cover(position);
+    this.islands?.cover(position);
     const now = performance.now();
     const centerX = Math.floor(position.x / CHUNK_SIZE);
     const centerZ = Math.floor(position.z / CHUNK_SIZE);
@@ -390,7 +401,8 @@ export class WorldStreamer implements RenderableWorld {
   public queryStatic(position: Vec3, range: number) { return this.surfaces.queryStatic(position, range); }
   public sweepDynamic(from: Vec3, to: Vec3, radius: number) { return this.surfaces.sweepDynamic(from, to, radius); }
   public setRenderQuality(name:'balanced'|'high'): void {
-    if (this.architecture instanceof RealmDragonFlight) this.architecture.setQuality(name);
+    if (this.architecture instanceof RealmDragonFlight || this.architecture instanceof CrownbackFlight) this.architecture.setQuality(name);
+    this.islands?.setQuality(name);
     if (this.detail) this.detail.quality = name;
   }
   public observeRender(frameMs: number, gpuMs: number | null, forward: Vec3): void {
@@ -505,6 +517,7 @@ export class WorldStreamer implements RenderableWorld {
     this.adapter.dispose();
     this.architecture?.dispose();
     this.horizon?.dispose();
+    this.islands?.dispose();
     this.detail?.dispose();
     this.source.dispose();
     this.root.clear();
@@ -741,6 +754,7 @@ export class WorldStreamer implements RenderableWorld {
     this.renderOrigin.z = nextZ;
     this.architecture?.shiftOrigin(this.renderOrigin);
     this.horizon?.shiftOrigin(this.renderOrigin);
+    this.islands?.shiftOrigin(this.renderOrigin);
     this.rebaseCount += 1;
     for (const record of this.chunks.values()) {
       if (!record.generated) continue;

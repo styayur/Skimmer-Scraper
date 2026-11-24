@@ -59,19 +59,19 @@ export class RealmDetail {
   private loaded = 0;
   private released = 0;
   private peak = 0;
-  constructor(seed: number) {
+  constructor(seed: number, private readonly theme: WorldPack['theme'] = 'dragon') {
     this.normal = new T.TextureLoader().load(
       new URL('./realms/dragonspine/strata-normal.png', document.baseURI).href,
     );
     this.normal.wrapS = this.normal.wrapT = T.RepeatWrapping;
     this.normal.colorSpace = T.NoColorSpace;
     const index = (pack: WorldPack, target: Map<string, Asset>) => {
-      if (pack.seed !== seed || this.abort.signal.aborted) return;
+      if (pack.theme !== this.theme || pack.seed !== seed || this.abort.signal.aborted) return;
       for (const file of pack.files)
         target.set(file.cx + ':' + file.cz, { pack, file });
     };
     if (seed === 334458)
-      void webPack(this.abort.signal)
+      void webPack(this.abort.signal,this.theme)
         .then((pack) => index(pack, this.medium))
         .catch(() => {});
     void installedPacks()
@@ -86,7 +86,7 @@ export class RealmDetail {
       .catch(() => {});
   }
   attach(key: string, owner: T.Group): void {
-    const base = owner.getObjectByName('dragonspine-ground');
+    const base = owner.getObjectByName(this.theme === 'ascendant' ? 'ascendant-bedrock' : 'dragonspine-ground');
     if (base) this.chunks.set(key, { owner, base });
   }
   observeRender(frameMs: number, gpuMs: number | null, forward: Vec3): void {

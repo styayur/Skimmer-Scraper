@@ -1,4 +1,5 @@
 import { dragonHeight } from './dragonTerrain';
+import { ascendantFloor } from './ascendantTerrain';
 import { hashNumbers } from './deterministic';
 import type { WorldSettings } from './worldConfig';
 
@@ -30,6 +31,7 @@ const spawnClearFactor = (x: number, z: number): number => {
 };
 
 export const terrainHeightAt = (x: number, z: number, settings: WorldSettings): number => {
+  if (settings.theme === 'ascendant') return ascendantFloor(x, z, settings.seed);
   if (settings.theme === 'dragon') return dragonHeight(x, z, settings.seed);
   const amplitude = settings.config.terrainAmplitude;
   if (amplitude <= 0) return 0;

@@ -47,7 +47,8 @@ export async function qualityMatrix(
         2,
       ) + '\n',
     );
-  const id = 'dragonspine-high-1';
+  const realm=process.env.SKIMMER_QA_REALM==='ascendant'?'ascendant':'dragon';
+  const id=realm==='ascendant'?'ascendant-high-2-334458':'dragonspine-high-1';
   let installedHere = false;
   try {
     if (device.native) {
@@ -75,7 +76,7 @@ export async function qualityMatrix(
         id,
       );
     }
-    for (const theme of cityComparison ? ['city'] : ['city', 'dragon'])
+    for (const theme of cityComparison ? ['city'] : ['city', realm])
       for (const quality of cityComparison
         ? ['balanced']
         : ['balanced', 'high'])
@@ -83,7 +84,7 @@ export async function qualityMatrix(
           const url = new URL(base);
           url.searchParams.set('seed', '334458');
           url.searchParams.set('gen', '4');
-          if (theme === 'dragon') url.searchParams.set('theme', theme);
+          if (theme !== 'city') url.searchParams.set('theme', theme);
           await page.evaluate((count) => {
             localStorage.setItem(
               'skimmer-scraper.companions.v3',
@@ -102,18 +103,18 @@ export async function qualityMatrix(
           await page.waitForFunction(
             () => window.__SKIMMER_SCRAPER__.snapshot().runTime > 1,
           );
-          await page.evaluate(async () => {
+          await page.evaluate(async theme => {
             const g = window.__SKIMMER_SCRAPER__;
             g.pause();
             await g.setPose(
-              { x: -100, y: 290, z: -440 },
+              theme === 'ascendant' ? {x:340,y:410,z:125} : { x: -100, y: 290, z: -440 },
               { yaw: 0, pitch: 0, roll: 0 },
             );
             g.resume();
-          });
+          },theme);
           await page.keyboard.down('Shift');
           await page.keyboard.down('q');
-          if (theme === 'dragon')
+          if (theme !== 'city')
             await page.waitForFunction(
               (native) => {
                 const d =
@@ -129,9 +130,17 @@ export async function qualityMatrix(
             const frames = [];
             let previous = await new Promise(requestAnimationFrame);
             const origin = previous;
+            const samples=[];
+            let nextSample=0;
             while (previous - origin < 12000) {
               const now = await new Promise(requestAnimationFrame);
               frames.push(now - previous);
+              if(now-origin>=nextSample){
+                const s=g.snapshot();
+                samples.push({ms:now-origin,position:s.position,buffering:s.buffering,heap:performance.memory?.usedJSHeapSize??null,
+                  streaming:s.streaming,entities:s.dynamicStructures.length,gpu:s.render.gpuMs,geometries:s.render.geometries,textures:s.render.textures});
+                nextSample+=1000;
+              }
               previous = now;
             }
             const end = g.snapshot(),
@@ -143,7 +152,9 @@ export async function qualityMatrix(
               qualityLabel:
                 document.querySelector('#quality-button').textContent,
               frames: frames.length,
+              samples,
               averageFps: (1000 * frames.length) / (previous - origin),
+              p50Ms: p(0.5),
               p95Ms: p(0.95),
               p99Ms: p(0.99),
               worstMs: p(1),
@@ -161,7 +172,7 @@ export async function qualityMatrix(
           assert.equal(result.mode, 'running');
           assert.equal(result.companions, count);
           assert.ok(result.elapsedSimulation > 0);
-          assert.equal(!!result.detail, theme === 'dragon');
+          assert.equal(!!result.detail, theme !== 'city');
           rows.push({ theme, quality, count, ...result });
           await report();
           console.log(theme, quality, count, result.averageFps.toFixed(1));

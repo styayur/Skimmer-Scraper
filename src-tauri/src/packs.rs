@@ -29,12 +29,28 @@ pub(crate) fn init(db: &Connection) -> Result<()> {
 
 pub(crate) fn begin(db: &mut Connection, manifest: Value) -> Result<String> {
     let metadata = serde_json::to_string(&manifest)?;
-    if metadata.len() > 1 << 20
-        || manifest["schema"] != 1
-        || manifest["theme"] != "dragon"
-        || manifest["generatorVersion"] != 1
-        || manifest["collision"] != "dragonspine-base-1"
-    {
+    let compatible = match manifest["schema"].as_u64() {
+        Some(1) => {
+            manifest["theme"] == "dragon"
+                && manifest["generatorVersion"] == 1
+                && manifest["collision"] == "dragonspine-base-1"
+        }
+        Some(2) => {
+            let seed = manifest["seed"].as_u64().filter(|s| *s <= u32::MAX as u64);
+            let tier = manifest["tier"]
+                .as_str()
+                .filter(|s| matches!(*s, "web" | "high"));
+            manifest["theme"] == "ascendant"
+                && manifest["generatorVersion"] == 2
+                && manifest["collision"] == "dragonspine-ascendant-2"
+                && manifest["baseWorld"] == "dragonspine-ascendant-2"
+                && seed
+                    .zip(tier)
+                    .is_some_and(|(s, t)| manifest["id"] == format!("ascendant-{t}-2-{s}"))
+        }
+        _ => false,
+    };
+    if metadata.len() > 1 << 20 || !compatible {
         return Err("Incompatible world pack".into());
     }
     let id = manifest["id"].as_str().ok_or("Missing pack ID")?;

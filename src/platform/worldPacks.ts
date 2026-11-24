@@ -11,12 +11,12 @@ export interface PackFile {
   bounds: number[];
 }
 export interface WorldPack {
-  schema: 1;
+  schema: 1 | 2;
   id: string;
-  theme: 'dragon';
+  theme: 'dragon' | 'ascendant';
   seed: number;
   tier: 'web' | 'high';
-  generatorVersion: 1;
+  generatorVersion: 1 | 2;
   packVersion: string;
   minimumClient: string;
   maximumClient?: string;
@@ -47,15 +47,18 @@ function compareVersion(a: string, b: string): number {
 
 export function validatePack(input: unknown): WorldPack {
   const p = input as WorldPack | null;
+  const ascendant = p?.schema === 2;
+  const baseWorld = ascendant ? 'dragonspine-ascendant-2' : 'dragonspine-base-1';
   if (
     !p ||
-    p.schema !== 1 ||
-    p.theme !== 'dragon' ||
-    p.generatorVersion !== 1 ||
-    p.collision !== 'dragonspine-base-1' ||
+    (p.schema !== 1 && !ascendant) ||
+    p.theme !== (ascendant ? 'ascendant' : 'dragon') ||
+    p.generatorVersion !== p.schema ||
+    p.collision !== baseWorld ||
+    (ascendant && (p.id !== 'ascendant-'+p.tier+'-2-'+p.seed || p.baseWorld !== baseWorld || p.unpackedBytes === undefined)) ||
     compareVersion(clientVersion, p.minimumClient) < 0 ||
     (p.maximumClient !== undefined && compareVersion(clientVersion, p.maximumClient) > 0) ||
-    (p.baseWorld !== undefined && p.baseWorld !== 'dragonspine-base-1') ||
+    (p.baseWorld !== undefined && p.baseWorld !== baseWorld) ||
     p.chunkMeters !== 220 ||
     !Number.isSafeInteger(p.seed) ||
     p.seed < 0 ||
@@ -185,9 +188,10 @@ export async function installPack(
   }
 }
 
-const webBase = () => new URL('./realms/dragonspine/web/', document.baseURI);
-export async function webPack(signal: AbortSignal): Promise<WorldPack> {
-  const response = await fetch(new URL('world-pack.json', webBase()), {
+const webBase = (theme: WorldPack['theme']) => new URL(theme === 'ascendant'
+  ? './realms/ascendant/web/' : './realms/dragonspine/web/', document.baseURI);
+export async function webPack(signal: AbortSignal, theme: WorldPack['theme'] = 'dragon'): Promise<WorldPack> {
+  const response = await fetch(new URL('world-pack.json', webBase(theme)), {
     signal,
   });
   if (!response.ok) throw Error('无法读取内置分块清单。');
@@ -208,7 +212,7 @@ export async function loadPackTile(
       digest: file.sha256,
     });
   } else {
-    const response = await fetch(new URL(file.name, webBase()), { signal });
+    const response = await fetch(new URL(file.name, webBase(pack.theme)), { signal });
     if (!response.ok) throw Error('无法读取内置分块。');
     bytes = await response.arrayBuffer();
   }
@@ -232,7 +236,7 @@ export async function verifyPack(id: string): Promise<number> {
   return native.invoke<number>('pack_verify', { id });
 }
 
-export async function installOfficialPack(signal: AbortSignal, progress: (text: string) => void): Promise<WorldPack> {
+export async function installOfficialPack(signal: AbortSignal, progress: (text: string) => void, ascendant = false): Promise<WorldPack> {
   const native = host();
   if (!native) throw Error('需要 Windows 桌面版。');
   signal.throwIfAborted();
@@ -243,13 +247,13 @@ export async function installOfficialPack(signal: AbortSignal, progress: (text: 
   const poll = async () => {
     while (active) {
       const state = await native.invoke<Progress | null>('official_pack_progress').catch(() => null);
-      if (active && state) progress(state.verified ? '已校验 ' + state.verified + ' 个分块'
+      if (active && state?.total) progress(state.verified ? '已校验 ' + state.verified + ' 个分块'
         : '正在下载 ' + Math.floor(100 * state.received / state.total) + '%');
       await new Promise(resolve => setTimeout(resolve, 250));
     }
   };
   try {
-    const result = native.invoke<unknown>('official_pack_install');
+    const result = native.invoke<unknown>('official_pack_install',{ascendant});
     void poll();
     return validatePack(await result);
   } finally {

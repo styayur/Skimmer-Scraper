@@ -59,14 +59,16 @@ if target.resolve() != args.installer.resolve():
 installer = record(target.name, "windows-nsis")
 installer["authenticode"] = installation["signing"]
 pack = read(args.pack_directory / "world-pack.json")
-if pack["id"] != "dragonspine-high-1" or pack["tier"] != "high":
+ascendant = pack.get("schema") == 2 and pack.get("theme") == "ascendant"
+expected_id = f"ascendant-high-2-{pack['seed']}" if ascendant else "dragonspine-high-1"
+if pack["id"] != expected_id or pack["tier"] != "high":
     raise SystemExit("Unexpected world pack")
 pack_name = f"skimmer-scraper-v{manifest['version']}-dragonspine-high.zip"
 with zipfile.ZipFile(folder / web["name"]) as static, zipfile.ZipFile(
     folder / pack_name, "w", compression=zipfile.ZIP_DEFLATED, compresslevel=5
 ) as z:
     for asset in pack["builtinResources"]:
-        data = static.read("realms/dragonspine/" + asset["name"])
+        data = static.read(("realms/ascendant/" if ascendant else "realms/dragonspine/") + asset["name"])
         if hashlib.sha256(data).hexdigest() != asset["sha256"]:
             raise SystemExit("Bundled world asset differs from world manifest")
     for tile in sorted(pack["files"], key=lambda f: f["name"]):
