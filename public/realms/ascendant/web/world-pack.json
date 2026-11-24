@@ -1,0 +1,257 @@
+{
+  "schema": 2,
+  "id": "ascendant-web-2-334458",
+  "theme": "ascendant",
+  "seed": 334458,
+  "generatorVersion": 2,
+  "packVersion": "2.0.0",
+  "minimumClient": "0.8.2",
+  "maximumClient": "0.8.2",
+  "baseWorld": "dragonspine-ascendant-2",
+  "unpackedBytes": 807408,
+  "tier": "web",
+  "builtinResources": [
+    {
+      "name": "crownback-near.glb",
+      "role": "hero-dragon",
+      "provider": "bundled",
+      "bytes": 570524,
+      "sha256": "6f02502a7df928f5e4a2ef498f8ffef2495c287f886df36b0bf77a8d7a65b127"
+    },
+    {
+      "name": "crownback-middle.glb",
+      "role": "middle-dragon",
+      "provider": "bundled",
+      "bytes": 152668,
+      "sha256": "9166c8117578b0fa500c384b9d5f947314caa91bd688b42ec06f7f157b87dad1"
+    },
+    {
+      "name": "crownback-far.glb",
+      "role": "distant-dragon",
+      "provider": "bundled",
+      "bytes": 82068,
+      "sha256": "5a47e4f18b860ae32be31a5c301bcb9f2be2381cf7c92de2743201cd7d42a821"
+    }
+  ],
+  "space": {
+    "type": "terrain-grid",
+    "parent": "ascendant",
+    "landmarkTypes": [
+      "vault",
+      "citadel",
+      "ridge",
+      "chain",
+      "monolith",
+      "nest"
+    ]
+  },
+  "entities": [
+    {
+      "id": "crownback",
+      "animations": [
+        "Crownback soaring"
+      ],
+      "proxies": [
+        "body",
+        "neck",
+        "crown",
+        "tail",
+        "fan",
+        "wings"
+      ]
+    }
+  ],
+  "chunkMeters": 220,
+  "collision": "dragonspine-ascendant-2",
+  "source": "Skimmer-Scraper original",
+  "license": "AGPL-3.0-only",
+  "files": [
+    {
+      "name": "ridge_-1_-2.glb",
+      "sha256": "8f5bfd8f0bbab6a066046ad309da9fd8fb548d024bf92efcee78b93a1edec1a9",
+      "bytes": 67284,
+      "cx": -1,
+      "cz": -2,
+      "bounds": [
+        -220,
+        -188.22356512771657,
+        -440,
+        0,
+        174.5297750735411,
+        -220
+      ]
+    },
+    {
+      "name": "ridge_0_-2.glb",
+      "sha256": "c9b67345ffd6620c535446fa45a70f72791202c034a59377af1e95a1f1137a70",
+      "bytes": 67284,
+      "cx": 0,
+      "cz": -2,
+      "bounds": [
+        0,
+        -222.17271881329737,
+        -440,
+        220,
+        -34.28044008156025,
+        -220
+      ]
+    },
+    {
+      "name": "ridge_1_-2.glb",
+      "sha256": "49144bb84bc4025e141edd5291a60c723fd0aff22b602154cbdd33aafa9f135f",
+      "bytes": 67284,
+      "cx": 1,
+      "cz": -2,
+      "bounds": [
+        220,
+        -195.0516923228157,
+        -440,
+        440,
+        179.76094618866568,
+        -220
+      ]
+    },
+    {
+      "name": "ridge_-1_-1.glb",
+      "sha256": "44f7ee53b31d9c52db5c1ae8a147736509d70d35abb200cb47997ec8fcccc33e",
+      "bytes": 67284,
+      "cx": -1,
+      "cz": -1,
+      "bounds": [
+        -220,
+        -193.745344356941,
+        -220,
+        0,
+        174.60829237948036,
+        0
+      ]
+    },
+    {
+      "name": "ridge_0_-1.glb",
+      "sha256": "21661eeb8e325f89938a159c1acbaf3cb68d6c19e7c7c2d6b6aac3abee5c44cc",
+      "bytes": 67284,
+      "cx": 0,
+      "cz": -1,
+      "bounds": [
+        0,
+        -201.15233493167682,
+        -220,
+        220,
+        71.93492870458543,
+        0
+      ]
+    },
+    {
+      "name": "ridge_1_-1.glb",
+      "sha256": "6b8e54224624047340ee28b62c9691cdf40b02227ebeecdcba4f8410eb1b8612",
+      "bytes": 67284,
+      "cx": 1,
+      "cz": -1,
+      "bounds": [
+        220,
+        -43.73021209516571,
+        -220,
+        440,
+        250.38309071699612,
+        0
+      ]
+    },
+    {
+      "name": "ridge_-1_0.glb",
+      "sha256": "7dabbf128dac16da8a0cdaec0fc713bc008bf4fd27c39c4b955d77a8d45796d3",
+      "bytes": 67284,
+      "cx": -1,
+      "cz": 0,
+      "bounds": [
+        -220,
+        -169.60941740773677,
+        0,
+        0,
+        119.9913756613758,
+        220
+      ]
+    },
+    {
+      "name": "ridge_0_0.glb",
+      "sha256": "a0d666fd60b933969464df6e804373326127bc85234ec44576f847d695c5dcae",
+      "bytes": 67284,
+      "cx": 0,
+      "cz": 0,
+      "bounds": [
+        0,
+        -176.95106900953937,
+        0,
+        220,
+        147.97254035165912,
+        220
+      ]
+    },
+    {
+      "name": "ridge_1_0.glb",
+      "sha256": "adad7e77e742eebee84d7ad66976447916ad2a5de05c490463974e35e44c02b4",
+      "bytes": 67284,
+      "cx": 1,
+      "cz": 0,
+      "bounds": [
+        220,
+        71.93492870458543,
+        0,
+        440,
+        329.3269485537875,
+        220
+      ]
+    },
+    {
+      "name": "ridge_-1_1.glb",
+      "sha256": "db617ba5a92bf0c8610cb7206fe152db980f7b0e688bbe2dfac4a853c999bb81",
+      "bytes": 67284,
+      "cx": -1,
+      "cz": 1,
+      "bounds": [
+        -220,
+        -178.87177095196088,
+        220,
+        0,
+        116.05133361522141,
+        440
+      ]
+    },
+    {
+      "name": "ridge_0_1.glb",
+      "sha256": "5eafdf9ce6c5d6d90c9f429ae22338a4222f13118611091159d00e0002fa7638",
+      "bytes": 67284,
+      "cx": 0,
+      "cz": 1,
+      "bounds": [
+        0,
+        -184.6837172162584,
+        220,
+        220,
+        147.97254035165912,
+        440
+      ]
+    },
+    {
+      "name": "ridge_1_1.glb",
+      "sha256": "9fc3012dbdadd0b69b722ce73e547fce02af2d99d0446ae1156ec57dbd09a810",
+      "bytes": 67284,
+      "cx": 1,
+      "cz": 1,
+      "bounds": [
+        220,
+        108.43087146811443,
+        220,
+        440,
+        334.77722290138746,
+        440
+      ]
+    }
+  ],
+  "coverage": {
+    "seed": 334458,
+    "minChunkX": -1,
+    "maxChunkX": 1,
+    "minChunkZ": -2,
+    "maxChunkZ": 1
+  }
+}

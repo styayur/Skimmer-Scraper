@@ -47,7 +47,8 @@ export async function qualityMatrix(
         2,
       ) + '\n',
     );
-  const id = 'dragonspine-high-1';
+  const realm=process.env.SKIMMER_QA_REALM==='ascendant'?'ascendant':'dragon';
+  const id=realm==='ascendant'?'ascendant-high-2-334458':'dragonspine-high-1';
   let installedHere = false;
   try {
     if (device.native) {
@@ -75,7 +76,7 @@ export async function qualityMatrix(
         id,
       );
     }
-    for (const theme of cityComparison ? ['city'] : ['city', 'dragon'])
+    for (const theme of cityComparison ? ['city'] : ['city', realm])
       for (const quality of cityComparison
         ? ['balanced']
         : ['balanced', 'high'])
@@ -83,7 +84,7 @@ export async function qualityMatrix(
           const url = new URL(base);
           url.searchParams.set('seed', '334458');
           url.searchParams.set('gen', '4');
-          if (theme === 'dragon') url.searchParams.set('theme', theme);
+          if (theme !== 'city') url.searchParams.set('theme', theme);
           await page.evaluate((count) => {
             localStorage.setItem(
               'skimmer-scraper.companions.v3',
@@ -113,7 +114,7 @@ export async function qualityMatrix(
           });
           await page.keyboard.down('Shift');
           await page.keyboard.down('q');
-          if (theme === 'dragon')
+          if (theme !== 'city')
             await page.waitForFunction(
               (native) => {
                 const d =
@@ -144,6 +145,7 @@ export async function qualityMatrix(
                 document.querySelector('#quality-button').textContent,
               frames: frames.length,
               averageFps: (1000 * frames.length) / (previous - origin),
+              p50Ms: p(0.5),
               p95Ms: p(0.95),
               p99Ms: p(0.99),
               worstMs: p(1),
@@ -161,7 +163,7 @@ export async function qualityMatrix(
           assert.equal(result.mode, 'running');
           assert.equal(result.companions, count);
           assert.ok(result.elapsedSimulation > 0);
-          assert.equal(!!result.detail, theme === 'dragon');
+          assert.equal(!!result.detail, theme !== 'city');
           rows.push({ theme, quality, count, ...result });
           await report();
           console.log(theme, quality, count, result.averageFps.toFixed(1));

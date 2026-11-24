@@ -211,7 +211,7 @@ export class WorldStreamer implements RenderableWorld {
       this.islands = new IslandHorizon(settings.seed);
       this.root.add(this.islands.group);
     }
-    if (settings.theme === 'dragon') this.detail = new RealmDetail(settings.seed);
+    if (settings.theme) this.detail = new RealmDetail(settings.seed,settings.theme);
     if (settings.theme) {
       this.horizon = new RealmHorizon(settings.seed, settings.theme === 'ascendant');
       this.root.add(this.horizon.group);
@@ -272,7 +272,8 @@ export class WorldStreamer implements RenderableWorld {
     const rebaseDelta = this.maybeRebase(position);
     this.architecture?.cover(position, this.companionPositions);
     if (this.detail) this.detail.update(position, velocity, this.isCollisionCovered(position),
-      this.companionPositions, this.architecture instanceof RealmDragonFlight ? this.architecture.residentPosition : undefined,
+      this.companionPositions, this.architecture instanceof RealmDragonFlight || this.architecture instanceof CrownbackFlight
+        ? this.architecture.residentPosition : undefined,
       this.synchronousBuildP95Ms ?? 0);
     this.horizon?.cover(position);
     this.islands?.cover(position);

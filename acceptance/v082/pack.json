@@ -1,0 +1,48 @@
+{
+  "stage": "v0.8.2 pack integration",
+  "status": "TESTED",
+  "unitTests": 208,
+  "terrain": [
+    {
+      "id": "dragonspine-web-1",
+      "tiles": 100,
+      "sampleRays": 2100,
+      "maximumVerticalErrorMeters": 0.07497406005859375
+    },
+    {
+      "id": "ascendant-web-2-334458",
+      "tiles": 12,
+      "sampleRays": 252,
+      "maximumVerticalErrorMeters": 0.03731994628907387
+    },
+    {
+      "id": "ascendant-high-2-334458",
+      "tiles": 121,
+      "sampleRays": 2541,
+      "maximumVerticalErrorMeters": 0.07496692673726102
+    }
+  ],
+  "nativeArchive": "installed twice, cancelled a replacement, retained verified tiles and removed the pack from the isolated SQLite library",
+  "web": {
+    "manifestSha256": "1bfaf8aa40848f600498088cc1de90a0ed33db05eee243f9f4cd0109db3f63d7",
+    "coverage": {
+      "seed": 334458,
+      "minChunkX": -1,
+      "maxChunkX": 1,
+      "minChunkZ": -2,
+      "maxChunkZ": 1
+    },
+    "tileBytes": 807408
+  },
+  "high": {
+    "manifestSha256": "1f928dc502885002502d54bc882eebcef8a7c6694482e5e6304e6d8e829db788",
+    "coverage": {
+      "seed": 334458,
+      "minChunkX": -5,
+      "maxChunkX": 5,
+      "minChunkZ": -6,
+      "maxChunkZ": 4
+    },
+    "tileBytes": 195083388
+  }
+}

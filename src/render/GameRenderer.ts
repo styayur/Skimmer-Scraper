@@ -72,6 +72,9 @@ export class GameRenderer {
   private readonly petals: PetalField;
   private readonly speedRibbons: SpeedRibbons;
   private readonly proceduralAircraft: ProceduralAircraft;
+  private readonly canyonMist = new THREE.Color(0x708c91);
+  private readonly cloudMist = new THREE.Color(0xc9bb96);
+  private readonly upperMist = new THREE.Color(0x9cbac1);
   private readonly builtInAircraftBounds: THREE.Box3;
   private aircraftBounds: THREE.Box3;
   private readonly aircraftMount = new THREE.Group();
@@ -320,6 +323,13 @@ export class GameRenderer {
   }
 
   public renderFlight(state: FlightState, dt: number, now: number, proximity = 0): void {
+    if (this.world?.settings.theme === 'ascendant' && this.scene.fog instanceof THREE.FogExp2) {
+      const altitude=state.position.y;
+      const low=THREE.MathUtils.smoothstep(altitude,-110,420);
+      const high=THREE.MathUtils.smoothstep(altitude,470,910);
+      this.scene.fog.color.lerpColors(this.canyonMist,this.cloudMist,low).lerp(this.upperMist,high);
+      this.scene.fog.density=.00088-.00038*high+.00018*(1-low);
+    }
     this.aircraftModelMount.visible = this.cameraRig.getMode() === 'chase' && this.cameraRig.getSnapshot().blend < 0.96;
     this.atmosphere.update(now);
     this.cameraRig.update(dt, state, proximity, this.visualScale);
