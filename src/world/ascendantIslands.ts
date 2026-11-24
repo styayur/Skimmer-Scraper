@@ -166,8 +166,8 @@ export function islandFaces(site:Island,detail:'far'|'middle'|'near'): Face[]{
     }
   } else if(kind==='nest'){
     for(let k=0;k<9;k++) {
-      const a=k*Math.PI/4.5;
-      tower(x+rx*.79*Math.cos(a),z+rz*.79*Math.sin(a),y-3,9,23+8*Math.cos(a),5,bronze,.12);
+      const a=Math.PI*.68+k*Math.PI*.08;
+      tower(x+rx*.83*Math.cos(a),z+rz*.82*Math.sin(a),y-3,8,9+4*Math.cos(2*a),5,bronze,.12);
     }
   } else {
     tower(x+rx*.50,z,y-3,11,18,6,pale,.5);

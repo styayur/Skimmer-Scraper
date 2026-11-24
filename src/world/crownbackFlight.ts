@@ -28,28 +28,49 @@ export function crownbackPatrol(seed: number, tx: number, tz: number) {
   const course=new T.CatmullRomCurve3(waypoints,true,'centripetal');
   // Sample the swept wingspan, then anticipate the rising face of each ridge.
   // This work runs only when a new territory is acquired.
-  const centers=Array.from({length:96},(_,i)=>course.getPoint(i/96));
+  const stations=192;
+  const centers=Array.from({length:stations},(_,i)=>course.getPoint(i/stations));
   const floor=centers.map((center,i)=>{
-    const tangent=course.getTangent(i/96);
+    const tangent=course.getTangent(i/stations);
     const side=new T.Vector3(tangent.z,0,-tangent.x).normalize();
     let height=center.y;
-    for(const width of [-223,-140,-70,0,70,140,223]){
-      const xx=center.x+side.x*width,zz=center.z+side.z*width;
-      height=Math.max(height,ascendantFloor(xx,zz,seed)+57);
+    const range=Math.hypot(center.x-perch.x,center.z-perch.z);
+    const approach=Math.min(1,range/250);
+    if(range<500)height=Math.max(height,nest.y+24+170*T.MathUtils.smoothstep(range,0,300));
+    for(const width of [-230,-175,-115,-60,0,60,115,175,230])for(const fore of [-148,-75,0,45,118]){
+      const xx=center.x+side.x*width+side.z*fore,zz=center.z+side.z*width-side.x*fore;
+      height=Math.max(height,ascendantFloor(xx,zz,seed)+36+144*approach);
       for(const site of islands){
         if(site===nest)continue;
-        if(Math.abs(xx-site.x)<site.rx*1.18 && Math.abs(zz-site.z)<site.rz*1.18)
-          height=Math.max(height,site.y+(site.kind==='ridge'?145:117));
+        if(Math.abs(xx-site.x)<site.rx*1.22+26 && Math.abs(zz-site.z)<site.rz*1.22+26)
+          height=Math.max(height,site.y+(site.kind==='ridge'?145:117)+165);
       }
     }
     return height;
   });
   for(let i=0;i<centers.length;i++){
     let y=floor[i]!;
-    for(let k=-5;k<=5;k++)y=Math.max(y,floor[(i+k+96)%96]!-20*Math.abs(k));
+    for(let k=-7;k<=7;k++)y=Math.max(y,floor[(i+k+stations)%stations]!-12*Math.abs(k));
     centers[i]!.y=y;
   }
-  return new T.CatmullRomCurve3(centers,true,'centripetal');
+  // Interpolate XZ on the original course. Re-fitting a centripetal spline
+  // after lifting its control points also moves its horizontal tangents and wings.
+  const slopes=centers.map((p,i)=>{
+    const left=p.y-centers[(i+stations-1)%stations]!.y;
+    const right=centers[(i+1)%stations]!.y-p.y;
+    return left*right>0 ? 2*left*right/(left+right) : 0;
+  });
+  return new class extends T.Curve<T.Vector3> {
+    constructor(){super();}
+    getPoint(t:number,out=new T.Vector3()){
+      const wrapped=t-Math.floor(t),f=wrapped*stations,i=Math.floor(f),u=f-i;
+      course.getPoint(wrapped,out);
+      const a=centers[i]!.y,b=centers[(i+1)%stations]!.y;
+      out.y=T.MathUtils.lerp(a,b,u*u*(3-2*u))
+        +u*(1-u)*((1-u)*slopes[i]!-u*slopes[(i+1)%stations]!);
+      return out;
+    }
+  }();
 }
 
 export function patrolPhase(seconds: number) {
@@ -64,7 +85,15 @@ export function patrolPhase(seconds: number) {
 }
 
 type Tier = 'far' | 'middle' | 'near';
-interface Model { scene: T.Group; mixer: T.AnimationMixer; }
+export function crownbackPitch(verticalHeading:number,u:number) {
+  // Flare on the final approach: the centre of mass descends while the neck and
+  // tail level over the landing shelf.
+  return T.MathUtils.clamp(-Math.asin(verticalHeading),-.35,.35)*crownbackWingWeight(u);
+}
+export function crownbackWingWeight(u:number) {
+  return T.MathUtils.smoothstep(Math.min(u,1-u),.012,.07);
+}
+interface Model { scene: T.Group; mixer: T.AnimationMixer; actions:T.AnimationAction[]; }
 interface Probe { id: string; bone: T.Object3D; shape: T.Matrix4; }
 type Point = [number, number, number];
 type Segment = [string, Point, Point, number, number];
@@ -95,7 +124,7 @@ export class CrownbackFlight {
   private readonly transform = new T.Matrix4();
   private tx = 0;
   private tz = 0;
-  private route: T.CatmullRomCurve3;
+  private route: T.Curve<T.Vector3>;
   private seconds = 0;
   private interactive = false;
   private tier: Tier = 'far';
@@ -121,13 +150,14 @@ export class CrownbackFlight {
         if (this.abort.signal.aborted) { disposeObject3D(gltf.scene); return; }
         gltf.scene.updateMatrixWorld(true);
         const mixer = new T.AnimationMixer(gltf.scene);
-        const model={scene:gltf.scene,mixer};
+        const actions=gltf.animations.map(clip=>mixer.clipAction(clip).play());
+        const model={scene:gltf.scene,mixer,actions};
         if(!this.collisionModel){
           try { this.bindProbes(gltf.scene); }
           catch(error) { disposeObject3D(gltf.scene); throw error; }
           this.collisionModel=model;
         }
-        for (const clip of gltf.animations) mixer.clipAction(clip).play();
+
         gltf.scene.visible = false;
         this.actor.add(gltf.scene);
         this.models.set(tier,model);
@@ -170,7 +200,7 @@ export class CrownbackFlight {
     const u = patrolPhase(this.seconds);
     this.route.getPointAt(u,this.actor.position);
     this.route.getTangentAt(u,this.heading);
-    this.actor.rotation.set(-Math.asin(this.heading.y),Math.atan2(this.heading.x,this.heading.z),
+    this.actor.rotation.set(crownbackPitch(this.heading.y,u),Math.atan2(this.heading.x,this.heading.z),
       -.17*Math.sin(2*Math.PI*u), 'YXZ');
     const distance = this.pilot.distanceTo(this.actor.position);
     const near = (this.high ? 620 : 420) + (this.tier === 'near' ? 55 : 0);
@@ -185,9 +215,14 @@ export class CrownbackFlight {
       this.visibleModel = model;
     }
     const beat = u === 0 ? 0 : this.seconds % 8;
+    const weight=crownbackWingWeight(u);
+    for(const action of model.actions)action.setEffectiveWeight(weight);
     model.mixer.setTime(beat);
     if (distance > (this.interactive ? 365 : 330) || !coarse) { this.clearProbes(); return; }
-    if (model !== coarse) coarse.mixer.setTime(beat);
+    if (model !== coarse) {
+      for(const action of coarse.actions)action.setEffectiveWeight(weight);
+      coarse.mixer.setTime(beat);
+    }
     coarse.scene.updateWorldMatrix(true,true);
     for (const probe of this.probes) {
       this.transform.copy(probe.bone.matrixWorld).multiply(probe.shape);
