@@ -3,6 +3,8 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import type { Vec3 } from '../core/math';
 import { disposeObject3D } from '../model/glb';
 import { seededRandom } from './deterministic';
+import { ascendantFloor } from './ascendantTerrain';
+import { islandsAround } from './ascendantIslands';
 import type { DynamicColliderRegistry } from './dynamicColliderRegistry';
 
 // One closed patrol per territory. The still portion and eased departures keep the
@@ -16,8 +18,38 @@ export function crownbackPatrol(seed: number, tx: number, tz: number) {
     [350, 420, -850], [820, 650, -430], [900, 720, 110],
     [520, 645, 540], [10, 490, 690], [-530, 390, 640],
   ];
-  return new T.CatmullRomCurve3(stops.map(([dx, y, dz]) =>
-    new T.Vector3(x + dx!, y!, z + dz!)), true, 'centripetal');
+  const islands=islandsAround(seed,tx*3600,tz*3600,1550);
+  const nest=islands.find(site=>site.kind==='nest')!;
+  const waypoints=stops.map(([dx, y, dz])=>new T.Vector3(x+dx!,y!,z+dz!));
+  const perch=waypoints[0]!.set(nest.x+nest.rx*.48,nest.y+24,nest.z);
+  // Both legs follow the valley for a full wingspan before banking toward rock.
+  waypoints.splice(1,0,perch.clone().add(new T.Vector3(0,35,-245)));
+  waypoints.push(perch.clone().add(new T.Vector3(0,35,245)));
+  const course=new T.CatmullRomCurve3(waypoints,true,'centripetal');
+  // Sample the swept wingspan, then anticipate the rising face of each ridge.
+  // This work runs only when a new territory is acquired.
+  const centers=Array.from({length:96},(_,i)=>course.getPoint(i/96));
+  const floor=centers.map((center,i)=>{
+    const tangent=course.getTangent(i/96);
+    const side=new T.Vector3(tangent.z,0,-tangent.x).normalize();
+    let height=center.y;
+    for(const width of [-223,-140,-70,0,70,140,223]){
+      const xx=center.x+side.x*width,zz=center.z+side.z*width;
+      height=Math.max(height,ascendantFloor(xx,zz,seed)+57);
+      for(const site of islands){
+        if(site===nest)continue;
+        if(Math.abs(xx-site.x)<site.rx*1.18 && Math.abs(zz-site.z)<site.rz*1.18)
+          height=Math.max(height,site.y+(site.kind==='ridge'?145:117));
+      }
+    }
+    return height;
+  });
+  for(let i=0;i<centers.length;i++){
+    let y=floor[i]!;
+    for(let k=-5;k<=5;k++)y=Math.max(y,floor[(i+k+96)%96]!-20*Math.abs(k));
+    centers[i]!.y=y;
+  }
+  return new T.CatmullRomCurve3(centers,true,'centripetal');
 }
 
 export function patrolPhase(seconds: number) {
