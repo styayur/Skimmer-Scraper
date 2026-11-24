@@ -189,6 +189,19 @@
         <div class="setting-heading"><label>伴机数量 <select id="companion-count"><option value="0">关闭</option><option value="1">1 台</option><option value="2">2 台</option><option value="3">3 台</option></select></label><button class="setting-help" type="button" aria-label="伴机数量帮助" data-help-section="guide-companions">?</button></div>
         <details id="advanced-flight-settings">
           <summary>高级设置</summary>
+          <details id="desktop-settings" hidden>
+            <summary>Windows 桌面版 · v%SKIMMER_VERSION%</summary>
+            <p data-environment></p>
+            <div class="world-inline-actions">
+              <button type="button" class="text-button" data-check>检查更新</button>
+              <button type="button" class="text-button" data-release>打开正式发行页</button>
+              <button type="button" class="text-button" data-directory>选择资源库目录</button>
+              <button type="button" class="text-button" data-save-export>导出飞行存档</button>
+            </div>
+            <label class="world-field">导入飞行存档<input type="file" accept=".json,application/json" /></label>
+            <details hidden><summary>更新说明</summary><p data-notes></p></details>
+            <p role="status" class="setting-status"></p>
+          </details>
           <label class="world-field">转场动画<select id="transition-speed"><option value="full">完整</option><option value="fast">快速</option></select></label>
           <div class="setting-heading"><label>宽限时间<input id="run-grace" type="number" min="1" max="15" step="0.1" value="5" /></label><button class="setting-help" type="button" aria-label="宽限时间帮助" data-help-section="guide-rules">?</button></div>
           <div class="setting-heading"><label><input id="run-shield" type="checkbox" /> 防护罩</label><button class="setting-help" type="button" aria-label="防护罩帮助" data-help-section="guide-rules">?</button></div>

@@ -153,7 +153,6 @@ pub async fn official_pack_install(
     app: AppHandle,
     state: State<'_, PackDownload>,
 ) -> Result<Value, String> {
-    let dir = library::directory(&app)?;
     let transfer = Arc::new(Transfer::default());
     {
         let mut active = state.0.lock().map_err(|e| e.to_string())?;
@@ -162,7 +161,11 @@ pub async fn official_pack_install(
         }
         *active = Some(transfer.clone());
     }
-    let result = tauri::async_runtime::spawn_blocking(move || download(&dir, &transfer)).await;
+    let result = tauri::async_runtime::spawn_blocking(move || {
+        let _guard = library::LOCATION_LOCK.read().map_err(|_| "世界库忙。")?;
+        download(&library::directory(&app)?, &transfer)
+    })
+    .await;
     *state.0.lock().map_err(|e| e.to_string())? = None;
     result
         .map_err(|e| e.to_string())?
@@ -197,11 +200,20 @@ mod tests {
         assert_eq!(manifest["id"], "dragonspine-high-1");
         assert_eq!(transfer.verified.load(Ordering::Relaxed), 100);
         let db = library::connect(dir.path())?;
-        let size: u64 = db.query_row(
+        let size: i64 = db.query_row(
             "SELECT SUM(length(data)) FROM tiles JOIN packs USING(token) WHERE ready=1",
-            [], |row| row.get(0))?;
-        assert_eq!(size, manifest["files"].as_array().unwrap().iter()
-            .map(|f| f["bytes"].as_u64().unwrap()).sum::<u64>());
+            [],
+            |row| row.get(0),
+        )?;
+        assert_eq!(
+            size as u64,
+            manifest["files"]
+                .as_array()
+                .unwrap()
+                .iter()
+                .map(|f| f["bytes"].as_u64().unwrap())
+                .sum::<u64>()
+        );
         Ok(())
     }
 }

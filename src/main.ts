@@ -32,6 +32,7 @@ import { planSkyPassage, stepSkyDive, translateWingForSky, type SkyPassage } fro
 import { journeyWorld } from './world/journeyWorlds';
 import { JourneyHud } from './ui/JourneyHud';
 import { bindDesktopWindow } from './platform/desktopWindow';
+import { bindDesktopSettings } from './ui/DesktopSettings';
 
 import type { CameraMode, VisualStimulation } from './config/experience';
 import { EXPERIENCE_CONFIG } from './config/experience';
@@ -1228,6 +1229,7 @@ const boot = async (): Promise<void> => {
   const canvas = document.getElementById('game-canvas');
   if (!(canvas instanceof HTMLCanvasElement)) throw new Error('Missing game canvas.');
   bindDesktopWindow(canvas, () => mode === 'running', () => actionRouter.route('menu'), message => ui.showToast(message, true));
+  bindDesktopSettings(message => ui.showToast(message));
 
   const streamer = createStreamer(worldSettings);
   activeWorld = streamer;

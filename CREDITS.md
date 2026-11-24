@@ -125,3 +125,5 @@ The local world library uses rusqlite (MIT), bundled SQLite (public domain), Rus
 The bronze-crested dragon, editable Blender scene and Geometry Nodes, generated terrain, normal map, landmarks, animation and preview are original Skimmer-Scraper assets under AGPL-3.0-only. Windows dependency notices are collected from Cargo's resolved packages in src-tauri/desktop-notices.txt. The desktop application uses Microsoft Edge WebView2 Runtime. NSIS packages are unsigned unless the release report explicitly records a verified Authenticode signature.
 
 The Windows world library downloads the official terrain archive with reqwest (MIT or Apache-2.0, https://github.com/seanmonstar/reqwest), stages it with tempfile (MIT or Apache-2.0, https://github.com/Stebalien/tempfile), reads ZIP entries with zip (MIT, https://github.com/zip-rs/zip2), and checks disk space through windows-sys (MIT or Apache-2.0, https://github.com/microsoft/windows-rs).
+
+The native Windows folder picker uses rfd (MIT, https://github.com/PolyMeilex/rfd).

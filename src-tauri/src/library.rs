@@ -118,21 +118,36 @@ fn save(db: &mut Connection, packet: &[u8]) -> Result<()> {
 }
 
 pub(crate) fn directory(app: &AppHandle) -> std::result::Result<PathBuf, String> {
-    app.path()
-        .app_local_data_dir()
-        .map(|p| p.join("world-library-v1"))
-        .map_err(|e| e.to_string())
+    let root = app.path().app_local_data_dir().map_err(|e| e.to_string())?;
+    let pointer = root.join("library-location.json");
+    check_path(&pointer).map_err(|e| e.to_string())?;
+    match fs::read(&pointer) {
+        Ok(bytes) => {
+            let path: PathBuf = serde_json::from_slice(&bytes).map_err(|e| e.to_string())?;
+            if !path.is_absolute() || path.file_name() != Some("Skimmer-Scraper-Worlds".as_ref()) {
+                return Err("无效的世界库目录。".into());
+            }
+            check_path(&path).map_err(|e| e.to_string())?;
+            Ok(path)
+        }
+        Err(e) if e.kind() == std::io::ErrorKind::NotFound => Ok(root.join("world-library-v1")),
+        Err(e) => Err(e.to_string()),
+    }
 }
+
+pub(crate) static LOCATION_LOCK: std::sync::RwLock<()> = std::sync::RwLock::new(());
 
 pub(crate) async fn run<T: Send + 'static>(
     app: AppHandle,
     operation: impl FnOnce(&mut Connection) -> Result<T> + Send + 'static,
 ) -> std::result::Result<T, String> {
-    let dir = directory(&app)?;
-    tauri::async_runtime::spawn_blocking(move || operation(&mut connect(&dir)?))
-        .await
-        .map_err(|e| e.to_string())?
-        .map_err(|e| e.to_string())
+    tauri::async_runtime::spawn_blocking(move || {
+        let _guard = LOCATION_LOCK.read().map_err(|_| "世界库忙。")?;
+        operation(&mut connect(&directory(&app)?)?)
+    })
+    .await
+    .map_err(|e| e.to_string())?
+    .map_err(|e| e.to_string())
 }
 
 #[tauri::command]
