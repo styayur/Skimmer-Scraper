@@ -255,13 +255,13 @@ export class GameRenderer {
     const spawn=world.getSpawn();this.journeyGate.group.position.set(spawn.position.x,spawn.position.y+30,spawn.position.z-260);
   }
   private applyRealmAtmosphere(world: RenderableWorld): void {
-    const dragon = world.settings.theme === 'dragon';
+    const dragon = Boolean(world.settings.theme);
     this.petals.points.visible = !dragon;
     this.mirrorSky.group.visible = !dragon;
     if (dragon) {
       this.atmosphere.palette(0x183849, 0xa1b5a1, 0xffce8e);
       this.atmosphere.setMirrorGround(null);
-      this.scene.fog = new THREE.FogExp2(0xc0bd9f, 0.0016);
+      this.scene.fog = new THREE.FogExp2(0xc0bd9f, world.settings.theme === 'ascendant' ? .00075 : .0016);
     }
   }
   public setInversion(angle:number):void {this.inversion=angle;}

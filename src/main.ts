@@ -396,7 +396,8 @@ const applyWorldSettings = (
     seed: seedValue, preset: baseWorldSettings.preset, mode: worldMode,
     generatorVersion: upgrade ? GENERATOR_VERSION : baseWorldSettings.generatorVersion,
   });
-  if (document.querySelector<HTMLSelectElement>('#world-theme')?.value === 'dragon') next.theme = 'dragon';
+  const theme = document.querySelector<HTMLSelectElement>('#world-theme')?.value;
+  if (theme === 'dragon' || theme === 'ascendant') next.theme = theme;
   worldPanel.clearVisit();
   window.location.assign(buildWorldShareUrl(window.location.href, next));
 };
@@ -699,7 +700,7 @@ const simulateFixedStep = (dt: number, holdPosition = false): boolean => {
       symbiosis.flightReport(3, ['发现一座浮空花园。留意它的升降轨迹。', 'Floating garden ahead. Watch its vertical motion.']);
     }
   }
-  if(activeWorld instanceof WorldStreamer && journey.observe(previousY,flightState,runRules,dt)){
+  if(activeWorld instanceof WorldStreamer && activeWorld.settings.theme !== 'ascendant' && journey.observe(previousY,flightState,runRules,dt)){
     pendingRadio=null;
     symbiosis.invalidate();companions.clearTargets();
     for(const agent of companions.agents)companions.setTarget(agent.id,flightState.position,'REGROUP',12);
