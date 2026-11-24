@@ -1,0 +1,97 @@
+{
+  "tag": "v0.8.2-rc.1",
+  "sourceCommit": "52973903ad5156cae283243e8a8c9a0fdd2f022d",
+  "qualification": "Release candidate",
+  "platform": "Windows 11 x64, Radeon 780M, 1920 x 1080",
+  "scenariosPerPlatform": 16,
+  "sustainedFlight": {
+    "route": "Floating citadel, altitude 555 m",
+    "web": {
+      "worstMs": 50,
+      "averageFps": 119.955,
+      "p99Ms": 8.5,
+      "sampledBuffering": 0,
+      "p95Ms": 8.4,
+      "seconds": 901
+    },
+    "desktop": {
+      "averageFps": 119.934,
+      "totalSamples": 884,
+      "seconds": 901,
+      "p99Ms": 8.5,
+      "p95Ms": 8.5,
+      "highTileSamples": 883,
+      "worstMs": 58.3,
+      "sampledBuffering": 0
+    }
+  },
+  "comparisons": {
+    "matchedCameraPairs": 14,
+    "reproducibleBlenderLods": 3,
+    "independentPatrolSeeds": 32
+  },
+  "desktopHighPack": {
+    "installedAssetBytes": 195083388,
+    "seed": 334458,
+    "tiles": 121,
+    "z": [
+      -6,
+      4
+    ],
+    "x": [
+      -5,
+      5
+    ]
+  },
+  "physicalGamepad": {
+    "candidateEvidence": "Input implementation and native runtime compared with captured build",
+    "startPressed": true,
+    "device": "Xbox 360",
+    "capturedOn": "88c232e9fa566451a41e15a67845b9feb77bcc0c",
+    "runningToPaused": true,
+    "stickRange": 0.9516746776531624
+  },
+  "limitations": [
+    "Unsigned Windows installer",
+    "Forced concurrent Kokoro playback reached 200.1 ms worst frame"
+  ],
+  "publicRelease": "https://github.com/styayur/Skimmer-Scraper/releases/tag/v0.8.2-rc.1",
+  "verifiedDownloads": [
+    {
+      "name": "release-manifest.json",
+      "bytes": 1842,
+      "sha256": "f3296104ff704331759c55013cafbcb0f02f88dad07d800b941f6a29b14941bc",
+      "url": "https://github.com/styayur/Skimmer-Scraper/releases/download/v0.8.2-rc.1/release-manifest.json"
+    },
+    {
+      "name": "SHA256SUMS.txt",
+      "bytes": 505,
+      "sha256": "cdc805154119a50a4ba635e2ee596a90ab63dd6f41fc040f5219b4f1e957e1d8",
+      "url": "https://github.com/styayur/Skimmer-Scraper/releases/download/v0.8.2-rc.1/SHA256SUMS.txt"
+    },
+    {
+      "name": "skimmer-scraper-v0.8.2-dragonspine-high.zip",
+      "bytes": 133983220,
+      "sha256": "d5e23f33bd0c2d167be67cee744249b795c6c30b69fec628e803c226298bc3de",
+      "url": "https://github.com/styayur/Skimmer-Scraper/releases/download/v0.8.2-rc.1/skimmer-scraper-v0.8.2-dragonspine-high.zip"
+    },
+    {
+      "name": "skimmer-scraper-v0.8.2-source.zip",
+      "bytes": 90821525,
+      "sha256": "0bca451db528c3c847783c8af84fafdb5974c2737426ff0aa0e833b9d58815d3",
+      "url": "https://github.com/styayur/Skimmer-Scraper/releases/download/v0.8.2-rc.1/skimmer-scraper-v0.8.2-source.zip"
+    },
+    {
+      "name": "skimmer-scraper-v0.8.2-static.zip",
+      "bytes": 13441053,
+      "sha256": "8288c7cc925bca234baace2f4e8d5b2ac96231e522dd6a31c21018695be56c86",
+      "url": "https://github.com/styayur/Skimmer-Scraper/releases/download/v0.8.2-rc.1/skimmer-scraper-v0.8.2-static.zip"
+    },
+    {
+      "name": "Skimmer-Scraper_0.8.2_x64-setup.exe",
+      "bytes": 13889283,
+      "sha256": "61fef0dbaf72618edf6d3aac8d38e915965b4a50292fda1f90b47e669fd67cf9",
+      "url": "https://github.com/styayur/Skimmer-Scraper/releases/download/v0.8.2-rc.1/Skimmer-Scraper_0.8.2_x64-setup.exe"
+    }
+  ]
+}
