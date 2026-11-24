@@ -1,0 +1,32 @@
+{
+  "status": "HISTORICAL PHYSICAL EVIDENCE",
+  "candidateSource": "918c9194758e3a710a3ff3e639a5a78b262056cd",
+  "baselineSource": "4fb542fc8081dc99cbcbc0919bb174272d90d4e9",
+  "physicalEvidenceSource": "961d04a5c4ca97e021faf16f610f5a3054936c12",
+  "physicalEvidencePath": "evidence/v0.8/rc2/physical-20261123124449/gamepad.json",
+  "physicalEvidenceSha256": "0354fda684631b0154b80cde8fcf18593632452063699e25d8b0a8e850841b17",
+  "original": {
+    "device": "Xbox 360 Controller (XInput STANDARD GAMEPAD)",
+    "axisDelta": 1.6922560463874265,
+    "startDown": true,
+    "pausedAfterStart": true,
+    "startMode": "running"
+  },
+  "identicalSourceSha256": {
+    "src/flight/gamepad.ts": "5a4bb2c6ac8c006cb8bd9f77341461d65adab999e8aa5083b6fda3608c7b4c42",
+    "src/flight/input.ts": "98e32d13f8b31c9114f376379e660eef7721bfa4ba3985a8fe4b2b45260acc6e",
+    "src/ui/ActionRouter.ts": "a76cdfcc2f986a4f14dc260410d7cdab65ca9d54c5d6ac244a1e29ad01ef2e5d",
+    "src/platform/desktopWindow.ts": "bffe1585a7ce0e175991accff2f47a6f43980bd3f9c86db6df6f08a4a5261d32"
+  },
+  "matchingHostVersions": {
+    "tao": "0.37.3",
+    "tauri": "2.12.7",
+    "tauri-runtime-wry": "2.12.5",
+    "webview2-com": "0.39.1",
+    "wry": "0.57.3"
+  },
+  "installedWebView2": "157.0.4341.60",
+  "renderer": "ANGLE (AMD, AMD Radeon 780M Graphics (0x00001900) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+  "deviceEnumeration": "Windows PnP reported Xbox 360 for Windows present, status OK.",
+  "scope": "Polling, sampling, haptics and action-routing calls match. The input-device label skips identical DOM writes. Historical stick and Start observations come from RC2."
+}

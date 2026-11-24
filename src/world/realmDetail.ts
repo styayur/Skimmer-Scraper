@@ -6,6 +6,7 @@ import {
   inspectPackTile,
   installedPacks,
   loadPackTile,
+  nativePacksAvailable,
   webPack,
   type PackFile,
   type WorldPack,
@@ -25,6 +26,18 @@ interface Asset {
   pack: WorldPack;
   file: PackFile;
 }
+// Limits apply to optional visual tiles. Collision and the base mesh stay resident independently.
+const MiB = 1024 ** 2;
+const streamingBudgets = {
+  web: {
+    balanced: { tiles: 9, assetBytes: 8 * MiB, bytesPerSecond: 4 * MiB, decodeMs: 10, gpuMs: 14 },
+    high: { tiles: 12, assetBytes: 12 * MiB, bytesPerSecond: 8 * MiB, decodeMs: 12, gpuMs: 17 },
+  },
+  desktop: {
+    balanced: { tiles: 9, assetBytes: 24 * MiB, bytesPerSecond: 16 * MiB, decodeMs: 10, gpuMs: 14 },
+    high: { tiles: 12, assetBytes: 40 * MiB, bytesPerSecond: 24 * MiB, decodeMs: 12, gpuMs: 17 },
+  },
+};
 export class RealmDetail {
   quality: 'balanced' | 'high' = 'balanced';
   private readonly cache = new Map<string, { mesh: T.Object3D; bytes: number }>();
@@ -32,6 +45,9 @@ export class RealmDetail {
   private cacheHits = 0;
   private pressureUntil = 0;
   private lastDecodeMs = 0;
+  private readonly budgets = streamingBudgets[nativePacksAvailable() ? 'desktop' : 'web'];
+  private nextRead = 0;
+  private bytesRead = 0;
   private forward = new T.Vector3(0, 0, -1);
   private readonly chunks = new Map<string, Tile>();
   private readonly medium = new Map<string, Asset>();
@@ -75,7 +91,7 @@ export class RealmDetail {
   }
   observeRender(frameMs: number, gpuMs: number | null, forward: Vec3): void {
     this.forward.copy(forward);
-    if (frameMs > 32 || (gpuMs ?? 0) > 17) this.pressureUntil = performance.now() + 1200;
+    if (frameMs > 32 || (gpuMs ?? 0) > this.budgets[this.quality].gpuMs) this.pressureUntil = performance.now() + 1200;
   }
   private trimCache(limit: number): void {
     while (this.cache.size > Math.max(0, limit) || this.cachedBytes > 8 * 1024 ** 2) {
@@ -120,7 +136,8 @@ export class RealmDetail {
     if (!collisionReady || performance.now() < this.nextPlan) return;
     const now = performance.now();
     const busy = now < this.pressureUntil || generationMs > 14;
-    const budget = busy ? 5 : this.quality === 'high' ? 12 : 9;
+    const limits = this.budgets[this.quality];
+    const budget = busy ? 5 : limits.tiles;
     this.nextPlan = now + (busy ? 240 : 130);
     const targets: Array<{ tile: Tile; asset: Asset; distance: number }> = [];
     const lookahead = Math.min(1.4, 0.4 + Math.hypot(velocity.x, velocity.z) / 180);
@@ -147,10 +164,20 @@ export class RealmDetail {
       else this.release(tile);
     }
     targets.sort((a, b) => a.distance - b.distance);
-    for (const { tile } of targets.slice(budget)) this.release(tile);
-    for (const { tile, asset } of targets.slice(0, budget)) {
+    let selectedBytes = 0, selected = 0;
+    const eligible = targets.filter(({ tile, asset }) => {
+      if (selected >= budget || selectedBytes + asset.file.bytes > limits.assetBytes) {
+        this.release(tile);
+        return false;
+      }
+      selected++;
+      selectedBytes += asset.file.bytes;
+      return true;
+    });
+    for (const { tile, asset } of eligible) {
       if (tile.task && tile.requested !== asset.file) tile.task.abort();
       if (this.pending >= 1) continue;
+      if (now < this.nextRead && !this.cache.has(asset.file.cx + ':' + asset.file.cz + ':' + asset.file.sha256)) continue;
       if (
         tile.task ||
         tile.file === asset.file ||
@@ -190,7 +217,9 @@ export class RealmDetail {
       return;
     }
     this.trimCache(Math.min(3, 12 - (this.loaded - this.released) - 1));
+    this.nextRead = performance.now() + 1000 * asset.file.bytes / this.budgets[this.quality].bytesPerSecond;
     const bytes = await loadPackTile(asset.pack, asset.file, task.signal);
+    this.bytesRead += bytes.byteLength;
     task.signal.throwIfAborted();
     const started = performance.now();
     inspectPackTile(bytes);
@@ -221,7 +250,7 @@ export class RealmDetail {
       }
     });
     this.lastDecodeMs = performance.now() - started;
-    if (this.lastDecodeMs > 12) this.pressureUntil = performance.now() + 1200;
+    if (this.lastDecodeMs > this.budgets[this.quality].decodeMs) this.pressureUntil = performance.now() + 1200;
     this.activate(tile, asset, model.scene);
   }
   private activate(tile: Tile, asset: Asset, mesh: T.Object3D): void {
@@ -245,6 +274,7 @@ export class RealmDetail {
       high: [...this.chunks.values()].filter(t => t.tier === 'high').length,
       cached: this.cache.size, cachedBytes: this.cachedBytes, cacheHits: this.cacheHits,
       lastDecodeMs: this.lastDecodeMs, underPressure: performance.now() < this.pressureUntil,
+      bytesRead: this.bytesRead, limits: this.budgets[this.quality],
     };
   }
   dispose(): void {

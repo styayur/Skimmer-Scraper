@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import { mkdir, writeFile } from 'node:fs/promises';
 import path from 'node:path';
+import { gzipSync } from 'node:zlib';
 import { chromium } from '@playwright/test';
 import { collectFlight } from './streaming-flight-sample.mjs';
 
@@ -47,10 +48,21 @@ try {
           for (const entry of list.getEntries()) window.flightLongTasks.push([entry.startTime, entry.duration]);
         }).observe({ type: 'longtask' });
       }, { once: true }));
+      const name = theme + '-' + quality;
+      const cdp = await page.context().newCDPSession(page);
+      const captureCpu = process.env.SKIMMER_CPU_PROFILE === '1';
+      if (captureCpu) {
+        await cdp.send('Profiler.enable');
+        await cdp.send('Profiler.setSamplingInterval', { interval: 2000 });
+        await cdp.send('Profiler.start');
+      }
       const result = await collectFlight(page, { seconds: 44, altitude: 410, cold: false });
+      if (captureCpu) {
+        const { profile } = await cdp.send('Profiler.stop');
+        await writeFile(path.join(output, name + '.cpuprofile.gz'), gzipSync(JSON.stringify(profile)));
+      }
       const longTasks = await page.evaluate(() => window.flightLongTasks);
       const record = { environment, browser: browser.version(), theme, quality, errors, longTasks, ...result };
-      const name = theme + '-' + quality;
       await writeFile(path.join(output, name + '.json'), JSON.stringify(record) + '\n');
       await page.screenshot({ path: path.join(output, name + '.png') });
       console.log(name, result.frameMs, result.worstFrameMs, result.bufferingMs);

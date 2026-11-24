@@ -1,5 +1,7 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
+mod desktop;
+use desktop::*;
 mod library;
 mod official_pack;
 mod packs;
@@ -25,7 +27,11 @@ fn main() {
             pack_verify,
             official_pack_install,
             official_pack_progress,
-            official_pack_cancel
+            official_pack_cancel,
+            desktop_release,
+            desktop_open_release,
+            desktop_choose_library,
+            desktop_environment,
         ])
         .run(tauri::generate_context!())
         .expect("failed to run Skimmer-Scraper");

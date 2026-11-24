@@ -15,6 +15,10 @@ fn main() {
         "official_pack_install",
         "official_pack_progress",
         "official_pack_cancel",
+        "desktop_release",
+        "desktop_open_release",
+        "desktop_choose_library",
+        "desktop_environment",
     ]);
     tauri_build::try_build(tauri_build::Attributes::new().app_manifest(app))
         .expect("Tauri build configuration");

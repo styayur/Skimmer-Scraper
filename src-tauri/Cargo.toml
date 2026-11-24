@@ -1,6 +1,6 @@
 [package]
 name = "skimmer-scraper"
-version = "0.8.0"
+version = "0.8.1"
 edition = "2021"
 license = "AGPL-3.0-only"
 publish = false
@@ -15,10 +15,11 @@ sha2 = "0.11.1"
 tauri = { version = "2", features = [] }
 reqwest = { version = "0.13.5", default-features = false, features = ["blocking", "native-tls", "system-proxy"] }
 tempfile = "3.27"
-zip = { version = "4.6.1", default-features = false, features = ["deflate"] }
+zip = { version = "9.8.2", default-features = false, features = ["deflate"] }
 
 [target.'cfg(windows)'.dependencies]
-windows-sys = { version = "0.61.2", features = ["Win32_Storage_FileSystem"] }
+windows-sys = { version = "0.61.2", features = ["Win32_Storage_FileSystem", "Win32_UI_Shell", "Win32_UI_WindowsAndMessaging"] }
+rfd = { version = "0.17.2", default-features = false }
 
 [features]
 custom-protocol = ["tauri/custom-protocol"]

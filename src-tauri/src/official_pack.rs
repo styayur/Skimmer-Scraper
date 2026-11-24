@@ -201,7 +201,6 @@ pub async fn official_pack_install(
     app: AppHandle,
     state: State<'_, PackDownload>,
 ) -> Result<Value, String> {
-    let dir = library::directory(&app)?;
     let transfer = Arc::new(Transfer::default());
     {
         let mut active = state.0.lock().map_err(|e| e.to_string())?;
@@ -210,7 +209,11 @@ pub async fn official_pack_install(
         }
         *active = Some(transfer.clone());
     }
-    let result = tauri::async_runtime::spawn_blocking(move || download(&dir, &transfer)).await;
+    let result = tauri::async_runtime::spawn_blocking(move || {
+        let _guard = library::LOCATION_LOCK.read().map_err(|_| "世界库忙。")?;
+        download(&library::directory(&app)?, &transfer)
+    })
+    .await;
     *state.0.lock().map_err(|e| e.to_string())? = None;
     result
         .map_err(|e| e.to_string())?
@@ -235,6 +238,50 @@ pub fn official_pack_cancel(state: State<PackDownload>) -> Result<(), String> {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    #[ignore = "requires the released ZIP at SKIMMER_QA_PUBLIC_PACK"]
+    fn reinstall_and_cancel_preserve_verified_tiles() -> library::Result<()> {
+        let archive = std::env::var_os("SKIMMER_QA_PUBLIC_PACK").ok_or("Missing released ZIP")?;
+        let mut original = File::open(&archive)?;
+        let mut digest = Sha256::new();
+        assert_eq!(original.metadata()?.len(), SIZE);
+        let mut buffer = vec![0; 128 << 10];
+        loop {
+            let count = original.read(&mut buffer)?;
+            if count == 0 {
+                break;
+            }
+            digest.update(&buffer[..count]);
+        }
+        assert_eq!(library::hex_digest(&digest.finalize()), SHA256);
+        let dir = tempfile::tempdir()?;
+        let mut db = library::connect(dir.path())?;
+        let count = |db: &Connection| -> rusqlite::Result<(i64, i64, i64)> {
+            db.query_row(
+                "SELECT (SELECT count(*) FROM packs WHERE ready=1),
+                (SELECT count(*) FROM packs WHERE ready=0), (SELECT count(*) FROM tiles)",
+                [],
+                |row| Ok((row.get(0)?, row.get(1)?, row.get(2)?)),
+            )
+        };
+        for _ in 0..2 {
+            let transfer = Transfer::default();
+            install_archive(&mut db, File::open(&archive)?, &transfer)?;
+            assert_eq!(transfer.verified.load(Ordering::Relaxed), 100);
+            assert_eq!(count(&db)?, (1, 0, 100));
+        }
+        let cancelled = Transfer::default();
+        cancelled.cancelled.store(true, Ordering::Relaxed);
+        assert!(install_archive(&mut db, File::open(&archive)?, &cancelled).is_err());
+        assert_eq!(count(&db)?, (1, 0, 100));
+        db.execute(
+            "DELETE FROM packs WHERE ready=1 AND id='dragonspine-high-1'",
+            [],
+        )?;
+        assert_eq!(count(&db)?, (0, 0, 0));
+        Ok(())
+    }
 
     #[test]
     #[ignore = "downloads the pinned GitHub Release archive"]

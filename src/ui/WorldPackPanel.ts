@@ -2,6 +2,7 @@ import {
   installedPacks,
   installPack,
   installOfficialPack,
+  libraryPacks,
   nativePacksAvailable,
   removePack,
   verifyPack,
@@ -22,21 +23,25 @@ export function bindPackPanel(): void {
   const download = panel.querySelector<HTMLButtonElement>('[data-pack-download]')!;
   const verify = panel.querySelector<HTMLButtonElement>('[data-pack-verify]')!;
   let install: AbortController | null = null;
+  const updateSelection = () => {
+    const compatible = select.selectedOptions[0]?.dataset.compatible === 'true';
+    open.disabled = !compatible || !!install;
+    verify.disabled = remove.disabled = !select.value || !!install;
+  };
+  select.onchange = updateSelection;
   async function refresh() {
-    const packs = await installedPacks();
+    const packs = await libraryPacks();
     select.replaceChildren(
-      ...packs.map(
-        (p) =>
-          new Option(
-            p.id + ' · v' + p.packVersion + ' · 安装时已校验' +
-              ' · ' +
-              (p.files.reduce((s, f) => s + f.bytes, 0) / 1048576).toFixed(1) +
-              ' MiB',
-            p.id,
-          ),
-      ),
+      ...packs.map(({ id, pack }) => {
+        const size = pack ? (pack.files.reduce((s, f) => s + f.bytes, 0) / 1048576).toFixed(1) : '';
+        const option = new Option(pack ? id + ' · v' + pack.packVersion + ' · ' + size + ' MiB · 安装时已校验'
+          : id + ' · 不兼容，建议修复', id);
+        option.dataset.compatible = String(!!pack);
+        return option;
+      }),
     );
-    open.disabled = remove.disabled = select.disabled = verify.disabled = packs.length === 0;
+    select.disabled = packs.length === 0;
+    updateSelection();
     download.textContent = packs.some(p => p.id === 'dragonspine-high-1')
       ? '修复官方 Dragonspine High Pack' : '安装官方 Dragonspine High Pack · 107.5 MiB';
   }
@@ -47,6 +52,12 @@ export function bindPackPanel(): void {
       });
   });
   cancel.onclick = () => install?.abort();
+  panel.querySelector<HTMLButtonElement>('[data-pack-imports]')!.onclick = () => {
+    const library = document.querySelector<HTMLDetailsElement>('#local-world-library')!;
+    library.open = true;
+    library.scrollIntoView({ block: 'nearest' });
+    library.querySelector('summary')!.focus();
+  };
   verify.onclick = async () => {
     verify.disabled = true;
     status.textContent = '正在校验…';
@@ -79,10 +90,10 @@ export function bindPackPanel(): void {
     } finally {
       file.disabled = false;
       download.disabled = false;
-      open.disabled = remove.disabled = verify.disabled = select.options.length === 0;
       file.value = '';
       cancel.hidden = true;
       install = null;
+      updateSelection();
     }
   }
   file.onchange = () => { void startInstall(false); };

@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.8.1
+
+- City chunks prepare geometry and collision indices in a worker. Prefetching covers the view and the flight path, with collision taking priority.
+- Dragonspine schedules visual tiles against the current device, quality preset and frame load. A bounded cache reuses recently decoded tiles.
+- Kokoro reuses short phrases across idle worker shutdowns. After an inference stalls flight, uncached replies can use an available local voice when the pilot enables fallback.
+- Windows can download, cancel, verify, repair and remove the official Dragonspine High Pack. The installer checks disk space, the release digest and each tile before replacing the installed pack.
+- Desktop settings show WebView2 and the latest stable version, open official release notes, move the world library, and export or import pilot saves. Windows updates use manual installation. The NSIS installer is unsigned.
+
 ## 0.8.0
 
 - Shared Windows x64 Tauri client, per-user NSIS build, fullscreen and window-focus controls.

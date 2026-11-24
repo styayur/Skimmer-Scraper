@@ -32,6 +32,7 @@ import { planSkyPassage, stepSkyDive, translateWingForSky, type SkyPassage } fro
 import { journeyWorld } from './world/journeyWorlds';
 import { JourneyHud } from './ui/JourneyHud';
 import { bindDesktopWindow } from './platform/desktopWindow';
+import { bindDesktopSettings } from './ui/DesktopSettings';
 
 import type { CameraMode, VisualStimulation } from './config/experience';
 import { EXPERIENCE_CONFIG } from './config/experience';
@@ -1159,7 +1160,7 @@ const frame = (now: number): void => {
   }
   const voiceInFlight = voiceAvailable();
   voiceRadio.update(voiceInFlight, symbiosis.radio.current(), muted || symbiosis.radio.muted,
-    buffering || now - lastFrameTime > 25);
+    now - lastFrameTime, buffering);
   radioPanel.update(mode === 'running' && !journey.active, voiceRadio.spokenLine);
   audio.setDucked(voiceInFlight && voiceRadio.ducking);
   updateVoicePanel(voiceInFlight);
@@ -1228,6 +1229,7 @@ const boot = async (): Promise<void> => {
   const canvas = document.getElementById('game-canvas');
   if (!(canvas instanceof HTMLCanvasElement)) throw new Error('Missing game canvas.');
   bindDesktopWindow(canvas, () => mode === 'running', () => actionRouter.route('menu'), message => ui.showToast(message, true));
+  bindDesktopSettings(message => ui.showToast(message));
 
   const streamer = createStreamer(worldSettings);
   activeWorld = streamer;

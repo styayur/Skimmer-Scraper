@@ -1,0 +1,45 @@
+{
+  "platform": "Windows 11 x64",
+  "zip": "9.8.2",
+  "lockSha256": "02c294fcf2c3233f4fad22d8385791bfa8075e64cfb67e275163cedacd5ccc82",
+  "fixedAdvisories": [
+    "GHSA-m665-v7pm-7grj",
+    "GHSA-q7v9-x93c-xqv3",
+    "GHSA-8hxf-qr8p-62x4"
+  ],
+  "rustsec": {
+    "database": {
+      "advisory-count": 1563,
+      "last-commit": "52384ab5581a4487b62c549eef95cf7ba7e8bad5",
+      "last-updated": "2026-11-23T17:01:22+01:00"
+    },
+    "vulnerabilities": 0,
+    "informationalWarnings": [
+      {
+        "package": "chrono",
+        "id": "RUSTSEC-2026-0543",
+        "presentInWindowsBuild": false
+      },
+      {
+        "package": "proc-macro-error",
+        "id": "RUSTSEC-2024-0370",
+        "presentInWindowsBuild": false
+      },
+      {
+        "package": "glib",
+        "id": "RUSTSEC-2024-0429",
+        "presentInWindowsBuild": false
+      }
+    ]
+  },
+  "archive": {
+    "source": "public v0.8.0 Dragonspine High Pack",
+    "sha256": "b71809dd42002004e8e7585626fde5c12fe0cf85980010d7166ac4a045bee6ae",
+    "bytes": 112674389,
+    "installations": 2,
+    "verifiedTilesPerInstall": 100,
+    "cancelPreservedReadyPack": true,
+    "explicitRemovalVerified": true
+  },
+  "rustTestsPassed": 5
+}

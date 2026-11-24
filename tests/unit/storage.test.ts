@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+import { exportPilot, importPilot } from '../../src/game/pilotSave';
 import {
   bestStorageKey,
   defaultScoreContext,
@@ -19,6 +20,24 @@ class MemoryStorage implements Storage {
   public removeItem(key: string): void { this.data.delete(key); }
   public setItem(key: string, value: string): void { this.data.set(key, value); }
 }
+
+it('restores pilot settings and preserves better scores and unrelated application data', () => {
+  const storage = new MemoryStorage();
+  storage.setItem('skimmer-scraper.best.v1', '80');
+  storage.setItem('skimmer-scraper.preferences.v2', '{"cameraMode":"cockpit"}');
+  storage.setItem('unrelated', 'private');
+  const backup = exportPilot(storage);
+  expect(backup).not.toContain('private');
+  storage.setItem('skimmer-scraper.best.v1', '120');
+  storage.removeItem('skimmer-scraper.preferences.v2');
+  importPilot(storage, backup);
+  expect(storage.getItem('skimmer-scraper.best.v1')).toBe('120');
+  expect(storage.getItem('skimmer-scraper.preferences.v2')).toContain('cockpit');
+  const invalid = JSON.parse(backup);
+  invalid.records.unrelated = 'modified';
+  expect(() => importPilot(storage, JSON.stringify(invalid))).toThrow();
+  expect(storage.getItem('unrelated')).toBe('private');
+});
 
 const context = (overrides: Partial<ScoreContext> = {}): ScoreContext => ({
   ...defaultScoreContext,

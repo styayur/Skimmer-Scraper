@@ -31,6 +31,7 @@ export class KokoroVoice implements VoiceProvider {
   private readonly clips = new Map<string, Extract<KokoroReply, {type:'audio'}>>();
   private clipBytes = 0;
   private retryAt = 0;
+  private protectFlightUntil = 0;
   private stats = {
     phase: 'idle' as 'idle' | 'loading' | 'ready' | 'generating' | 'playing' | 'error',
     backend: null as KokoroBackend | null,
@@ -41,6 +42,7 @@ export class KokoroVoice implements VoiceProvider {
     generated: 0,
     cacheHits: 0,
     deferredNotices: 0,
+    budgetFallbacks: 0,
     completed: 0,
     loadMs: null as number | null,
     inferenceMs: null as number | null,
@@ -51,7 +53,14 @@ export class KokoroVoice implements VoiceProvider {
   };
 
   public constructor(private readonly getContext: () => AudioContext | null,
-    private readonly flightBusy: () => boolean = () => false) {}
+    private readonly flightBusy: () => boolean = () => false,
+    private readonly canUseSystemVoice: (language: RadioLanguage) => boolean = () => false) {}
+  public observeFlightFrame(frameMs: number): void {
+    if (this.stats.phase === 'generating' && frameMs > 45) {
+      // Three spoken replies can span 20–30 seconds even when inference has finished.
+      this.protectFlightUntil = performance.now() + 45_000;
+    }
+  }
   public snapshot() { return { ...this.stats, resident: this.worker !== null, cachedClipBytes: this.clipBytes, idleMs }; }
 
   public prepare(explicit = false): Promise<void> {
@@ -84,6 +93,10 @@ export class KokoroVoice implements VoiceProvider {
     const voice = KOKORO_VOICES[identity.agent];
     const key = JSON.stringify([voice, identity.rate, text]);
     const cached = this.clips.get(key);
+    if (!cached && !preview && performance.now() < this.protectFlightUntil && this.canUseSystemVoice(language)) {
+      this.stats.budgetFallbacks++;
+      throw new Error('kokoro-flight-budget');
+    }
     if (!cached && !preview && line.priority === 'notice' && this.flightBusy()) {
       this.stats.deferredNotices++;
       const deadline = performance.now() + 650;

@@ -34,10 +34,39 @@ using System;
 using System.Runtime.InteropServices;
 public static class QAFlightWindow {
  [DllImport("user32.dll")] public static extern bool ShowWindowAsync(IntPtr hwnd,int cmd);
+ [DllImport("user32.dll")] public static extern bool SetForegroundWindow(IntPtr hwnd);
+ [DllImport("user32.dll")] public static extern bool BringWindowToTop(IntPtr hwnd);
+ [DllImport("user32.dll")] public static extern uint GetWindowThreadProcessId(IntPtr hwnd,out uint pid);
+ [DllImport("user32.dll")] public static extern bool AttachThreadInput(uint a,uint b,bool on);
+ [DllImport("kernel32.dll")] public static extern uint GetCurrentThreadId();
  [DllImport("user32.dll")] public static extern IntPtr GetForegroundWindow();
 }
 '@
+ function ActivateTestApp {
+    $app.Refresh()
+    $w=$app.MainWindowHandle
+    if($w -eq [IntPtr]::Zero){throw 'No QA main window'}
+    $foreground=[QAFlightWindow]::GetForegroundWindow()
+    if($foreground -eq $w){return}
+    [uint32]$fgOwner=0
+    $thread=[QAFlightWindow]::GetWindowThreadProcessId($foreground,[ref]$fgOwner)
+    $self=[QAFlightWindow]::GetCurrentThreadId()
+    $joined=$thread -ne $self -and [QAFlightWindow]::AttachThreadInput($self,$thread,$true)
+    try{
+      [void][QAFlightWindow]::ShowWindowAsync($w,9)
+      [void][QAFlightWindow]::BringWindowToTop($w)
+      [void][QAFlightWindow]::SetForegroundWindow($w)
+    }finally{if($joined){[void][QAFlightWindow]::AttachThreadInput($self,$thread,$false)}}
+    Start-Sleep -Milliseconds 250
+    $foreground=[QAFlightWindow]::GetForegroundWindow()
+    if($foreground -ne $w){
+      [void][QAFlightWindow]::GetWindowThreadProcessId($foreground,[ref]$fgOwner)
+      throw ("QA did not acquire OS focus. Expected "+$app.Id+" actual "+$fgOwner+" ("+(Get-Process -Id $fgOwner).ProcessName+")")
+    }
+ }
+ ActivateTestApp
  $initial=State 'start'
+ ActivateTestApp
  $app.Refresh()
  $window=$app.MainWindowHandle
  if($window -eq [IntPtr]::Zero -or [QAFlightWindow]::GetForegroundWindow() -ne $window){throw 'Test application must own the foreground for Escape'}

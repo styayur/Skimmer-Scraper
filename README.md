@@ -1,8 +1,10 @@
 # Skimmer-Scraper
 
-## v0.8.0
+## Flight and desktop world library
 
 The Windows x64 client and GitHub Pages share the flight simulation, renderer, city generator, Sky Inversion and local voice systems. Dragonspine Realm adds seed-driven canyons, stone arches, floating shrines and an animated bronze-crested dragon. Windows can install independent high-detail world packs into its private asset library.
+
+On Windows, open the world library to install or repair the official Dragonspine High Pack. Desktop settings show the installed WebView2 runtime, check for a stable release and export or import pilot saves. Changing the library location copies the SQLite database and keeps the original.
 
 See [Windows build and installation](docs/windows-desktop.md), [Dragonspine flight guide](docs/dragonspine-realm.md) and [world pack schema](docs/world-pack-v1.md). The published release and production page identify the currently available stable build.
 
