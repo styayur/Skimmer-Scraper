@@ -72,7 +72,7 @@ fn download(directory: &Path, transfer: &Transfer) -> library::Result<Value> {
     let mut temporary = tempfile::tempfile_in(directory)?;
     let client = Client::builder()
         .connect_timeout(Duration::from_secs(12))
-        .timeout(Duration::from_secs(300))
+        .timeout(Duration::from_secs(75))
         .redirect(Policy::custom(|attempt| {
             let url = attempt.url();
             if attempt.previous().len() <= 4
@@ -92,27 +92,73 @@ fn download(directory: &Path, transfer: &Transfer) -> library::Result<Value> {
             }
         }))
         .build()?;
-    let mut body = client
-        .get(URL)
-        .header("User-Agent", "Skimmer-Scraper/WorldLibrary")
-        .send()?
-        .error_for_status()?;
     let mut digest = Sha256::new();
-    let mut buffer = vec![0; 128 << 10];
     let mut received = 0;
-    loop {
+    let mut address = reqwest::Url::parse(URL)?;
+    let mut buffer = vec![0; 128 << 10];
+    let mut failures = 0;
+    while received < SIZE {
         transfer.check()?;
-        let count = body.read(&mut buffer)?;
-        if count == 0 {
-            break;
+        let end = (received + (2 << 20)).min(SIZE) - 1;
+        let start = received;
+        let part = (|| -> library::Result<()> {
+            let mut body = client
+                .get(address.clone())
+                .header("User-Agent", "Skimmer-Scraper/WorldLibrary")
+                .header("Accept-Encoding", "identity")
+                .header("Range", format!("bytes={start}-{end}"))
+                .send()?
+                .error_for_status()?;
+            address = body.url().clone();
+            let limit = if body.status() == reqwest::StatusCode::PARTIAL_CONTENT {
+                let expected = format!("bytes {start}-{end}/{SIZE}");
+                if body
+                    .headers()
+                    .get("Content-Range")
+                    .and_then(|v| v.to_str().ok())
+                    != Some(&expected)
+                {
+                    return Err("服务器返回了错误的文件分段。".into());
+                }
+                end + 1
+            } else if start == 0 && body.status() == reqwest::StatusCode::OK {
+                SIZE
+            } else {
+                return Err("服务器未能续传此资源包。".into());
+            };
+            loop {
+                transfer.check()?;
+                let count = body.read(&mut buffer)?;
+                if count == 0 {
+                    break;
+                }
+                if received + count as u64 > limit {
+                    return Err("下载大小不符合发行清单。".into());
+                }
+                temporary.write_all(&buffer[..count])?;
+                digest.update(&buffer[..count]);
+                received += count as u64;
+                transfer.received.store(received, Ordering::Relaxed);
+            }
+            if received != limit {
+                return Err("下载中断。".into());
+            }
+            Ok(())
+        })();
+        if let Err(error) = part {
+            transfer.check()?;
+            failures += 1;
+            if failures >= 4 {
+                return Err(error);
+            }
+            address = reqwest::Url::parse(URL)?;
+            for _ in 0..(5 * failures) {
+                transfer.check()?;
+                std::thread::sleep(Duration::from_millis(100));
+            }
+        } else {
+            failures = 0;
         }
-        received += count as u64;
-        if received > SIZE {
-            return Err("下载大小不符合发行清单。".into());
-        }
-        temporary.write_all(&buffer[..count])?;
-        digest.update(&buffer[..count]);
-        transfer.received.store(received, Ordering::Relaxed);
     }
     if received != SIZE || crate::library::hex_digest(&digest.finalize()) != SHA256 {
         return Err("发行附件 SHA-256 校验失败。".into());
