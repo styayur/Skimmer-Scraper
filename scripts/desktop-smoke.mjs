@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { spawn } from 'node:child_process';
 import { once } from 'node:events';
-import { mkdir, mkdtemp, readFile, writeFile } from 'node:fs/promises';
+import { mkdir, mkdtemp, readFile, stat, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { setTimeout as delay } from 'node:timers/promises';
@@ -13,7 +13,8 @@ if (!executable || !output)
     'Usage: node scripts/desktop-smoke.mjs <installed executable> <evidence directory>',
   );
 await mkdir(output, { recursive: true });
-const profile = await mkdtemp(path.join(tmpdir(), 'skimmer-webview-'));
+const profile = process.env.SKIMMER_QA_WEBVIEW_PROFILE ?? await mkdtemp(path.join(tmpdir(), 'skimmer-webview-'));
+const launched = Date.now();
 const app = spawn(path.resolve(executable), [], {
   env: {
     ...process.env,
@@ -32,7 +33,9 @@ try {
       'EBWebView/DevToolsActivePort',
       'DevToolsActivePort',
     ]) {
-      const active = await readFile(path.join(profile, location), 'utf8').catch(
+      const portFile = path.join(profile, location);
+      if ((await stat(portFile).catch(() => null))?.mtimeMs < launched - 1000) continue;
+      const active = await readFile(portFile, 'utf8').catch(
         () => '',
       );
       if (active) port = Number(active.split('\n')[0]);
@@ -65,7 +68,11 @@ try {
     };
   });
   assert.match(runtime.origin, /^https?:\/\/tauri\.localhost$/);
-  if (libraryCheck === 'kokoro-cache') {
+  if (process.env.SKIMMER_QA_SHA) assert.equal(runtime.app.sourceCommit, process.env.SKIMMER_QA_SHA);
+  if (libraryCheck === 'flight-voice') {
+    const { profileVoice } = await import('./profile-flight-voice.mjs');
+    await profileVoice(page, output, runtime);
+  } else if (libraryCheck === 'kokoro-cache') {
     const { checkKokoroCache } = await import('./desktop-kokoro-cache.mjs');
     await checkKokoroCache(page, output, runtime);
   } else if (libraryCheck === 'gamepad') {
