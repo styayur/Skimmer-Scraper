@@ -31,6 +31,19 @@ export async function checkDesktopProduct(page, output, runtime) {
   await page.waitForFunction(() => !document.querySelector('[data-check]').disabled, null, { timeout: 20000 });
   report.updateStatus = await panel.locator('[role=status]').textContent();
   await save();
+  if (process.env.SKIMMER_QA_OFFLINE_UPDATE === '1') {
+    assert.match(report.updateStatus, /暂时无法连接/);
+    await page.locator('#rules-close').click();
+    if (await page.locator('#pause-panel').isVisible()) await page.locator('#pause-resume').click();
+    const start = await page.evaluate(() => window.__SKIMMER_SCRAPER__.snapshot().runTime);
+    await page.waitForFunction(t => {
+      const state = window.__SKIMMER_SCRAPER__.snapshot();
+      return state.mode === 'running' && state.runTime > t + 2;
+    }, start);
+    report.flightAfterFailedUpdateCheck = true;
+    await save();
+    return;
+  }
   assert.match(report.updateStatus, /最新正式版|可更新至/);
   const score = 'skimmer-scraper.best.v2:stable:sakura:gen4:desktop-transfer-test';
   if (process.env.SKIMMER_QA_EXPECT_RETAINED_SCORE === '1') {
