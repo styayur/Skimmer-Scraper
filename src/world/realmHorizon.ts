@@ -1,6 +1,7 @@
 import * as T from 'three';
 import type { Vec3 } from '../core/math';
 import { dragonHeight } from './dragonTerrain';
+import { ascendantFloor } from './ascendantTerrain';
 
 /** Coarse terrain outside the collision ring and a translucent deck of valley cloud. */
 export class RealmHorizon {
@@ -10,7 +11,7 @@ export class RealmHorizon {
   private cx = NaN;
   private cz = NaN;
   private readonly origin = new T.Vector3();
-  constructor(private readonly seed: number) {
+  constructor(private readonly seed: number, private readonly ascendant = false) {
     const side = 64,
       count = (side + 1) ** 2;
     const g = new T.BufferGeometry();
@@ -73,7 +74,7 @@ export class RealmHorizon {
         positions.setXYZ(
           j * 65 + i,
           dx,
-          dragonHeight(x + dx, z + dz, this.seed) - 14,
+          (this.ascendant ? ascendantFloor : dragonHeight)(x + dx, z + dz, this.seed) - 14,
           dz,
         );
       }
@@ -81,7 +82,7 @@ export class RealmHorizon {
     this.mountains.geometry.computeVertexNormals();
     this.mountains.geometry.computeBoundingSphere();
     this.mountains.position.set(x, 0, z);
-    this.cloud.position.set(x, 35, z);
+    this.cloud.position.set(x, this.ascendant ? 430 : 35, z);
     this.cloud.material.uniforms.worldOffset!.value.set(x, -z);
   }
   shiftOrigin(p: Vec3): void {

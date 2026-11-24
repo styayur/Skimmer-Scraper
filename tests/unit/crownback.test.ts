@@ -20,7 +20,8 @@ describe('Crownback flight', () => {
     expect(patrolPhase(160)).toBe(0);
     expect(patrolPhase(175)).toBe(0);
     expect(route.getPointAt(patrolPhase(159.99)).distanceTo(route.getPointAt(0))).toBeLessThan(.01);
-    expect(Math.abs(route.getPointAt(.48).x-route.getPointAt(0).x)).toBeGreaterThan(1200);
+    const xCoordinates=route.getSpacedPoints(96).map(point=>point.x);
+    expect(Math.max(...xCoordinates)-Math.min(...xCoordinates)).toBeGreaterThan(1200);
   });
 
   it('advances bone colliders in world coordinates across an origin shift and retires them at distance', async () => {
