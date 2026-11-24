@@ -190,6 +190,7 @@ export class WorldStreamer implements RenderableWorld {
   private plannedCenter = '';
   private plannedInFlight = false;
   private plannedVelocity = { x: 0, z: 0 };
+  private readonly viewForward = new THREE.Vector3();
   private companionFootprint = '';
   private companionPositions: Array<{ x: number; y: number; z: number }> = [];
   private requestToken = 0;
@@ -393,6 +394,7 @@ export class WorldStreamer implements RenderableWorld {
     if (this.detail) this.detail.quality = name;
   }
   public observeRender(frameMs: number, gpuMs: number | null, forward: Vec3): void {
+    this.viewForward.copy(forward);
     this.detail?.observeRender(frameMs, gpuMs, forward);
   }
   public stepMotion(dt: number): void { this.architecture?.step(dt); }
@@ -559,14 +561,23 @@ export class WorldStreamer implements RenderableWorld {
 
     const heading = forecast?.heading ?? velocity;
     const headingLength = Math.hypot(heading.x, heading.z);
+    const cameraLength = Math.hypot(this.viewForward.x, this.viewForward.z);
     const viewRadius = this.renderRadius + 1;
     for (let dz = -viewRadius; dz <= viewRadius; dz++) {
       for (let dx = -viewRadius; dx <= viewRadius; dx++) {
         const radius = Math.max(Math.abs(dx), Math.abs(dz));
         if (radius <= this.collisionRadius) continue;
         const direction = headingLength > 0.01 ? (dx * heading.x + dz * heading.z) / (Math.hypot(dx, dz) * headingLength) : 0;
-        if (radius === viewRadius && direction < 0.65) continue;
-        add(centerX + dx, centerZ + dz, 12 + radius * 2 - direction * 3);
+        const x = (centerX + dx + .5) * CHUNK_SIZE - position.x;
+        const z = (centerZ + dz + .5) * CHUNK_SIZE - position.z;
+        const depth = (x * this.viewForward.x + z * this.viewForward.z) / (cameraLength || 1);
+        const lateral = Math.abs(x * this.viewForward.z - z * this.viewForward.x) / (cameraLength || 1);
+        const nearDistance = Math.hypot(Math.max(0, Math.abs(x) - CHUNK_SIZE / 2),
+          Math.max(0, Math.abs(z) - CHUNK_SIZE / 2));
+        const inView = inFlight && cameraLength > .1 && depth > 0 && nearDistance < 620 &&
+          lateral <= depth * 1.45 + CHUNK_SIZE / 2;
+        if (radius === viewRadius && direction < 0.65 && !inView) continue;
+        add(centerX + dx, centerZ + dz, inView ? 10 + nearDistance / CHUNK_SIZE : 12 + radius * 2 - direction * 3);
       }
     }
 
