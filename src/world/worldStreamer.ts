@@ -261,7 +261,9 @@ export class WorldStreamer implements RenderableWorld {
     this.lastIntent = intent;
     const rebaseDelta = this.maybeRebase(position);
     this.architecture?.cover(position, this.companionPositions);
-    if(this.detail) this.detail.update(position, velocity, this.isCollisionCovered(position));
+    if (this.detail) this.detail.update(position, velocity, this.isCollisionCovered(position),
+      this.companionPositions, this.architecture instanceof RealmDragonFlight ? this.architecture.residentPosition : undefined,
+      this.synchronousBuildP95Ms ?? 0);
     this.horizon?.cover(position);
     const now = performance.now();
     const centerX = Math.floor(position.x / CHUNK_SIZE);
@@ -386,7 +388,13 @@ export class WorldStreamer implements RenderableWorld {
   public queryProximity(position: Vec3, range: number) { return this.surfaces.queryProximity(position, range); }
   public queryStatic(position: Vec3, range: number) { return this.surfaces.queryStatic(position, range); }
   public sweepDynamic(from: Vec3, to: Vec3, radius: number) { return this.surfaces.sweepDynamic(from, to, radius); }
-  public setRenderQuality(name:'balanced'|'high'): void { if(this.architecture instanceof RealmDragonFlight)this.architecture.setQuality(name); }
+  public setRenderQuality(name:'balanced'|'high'): void {
+    if (this.architecture instanceof RealmDragonFlight) this.architecture.setQuality(name);
+    if (this.detail) this.detail.quality = name;
+  }
+  public observeRender(frameMs: number, gpuMs: number | null, forward: Vec3): void {
+    this.detail?.observeRender(frameMs, gpuMs, forward);
+  }
   public stepMotion(dt: number): void { this.architecture?.step(dt); }
   public resetMotion(): void { this.architecture?.reset(); }
   public getDynamicSnapshot() { return this.architecture?.snapshot() ?? []; }

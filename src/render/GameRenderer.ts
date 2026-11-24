@@ -24,6 +24,7 @@ import type { AgentState } from '../companions/AgentController';
 import { journeyProfile } from '../world/journeyWorlds';
 import { JourneyGate } from './journeyGate';
 import { CITY_SHADOW_LAYER } from '../world/worldConfig';
+import { GpuFrameTimer } from './gpuFrameTimer';
 
 export class WebGL2UnavailableError extends Error {
   public constructor() {
@@ -33,6 +34,7 @@ export class WebGL2UnavailableError extends Error {
 }
 
 export interface RenderStats {
+  gpuMs: number | null;
   calls: number;
   triangles: number;
   points: number;
@@ -60,6 +62,8 @@ export class GameRenderer {
   public readonly scene = new THREE.Scene();
 
   private readonly renderer: THREE.WebGLRenderer;
+  private readonly gpuTimer: GpuFrameTimer;
+  private readonly viewDirection = new THREE.Vector3();
   private readonly composer: EffectComposer;
   private readonly bloomPass: UnrealBloomPass;
   private readonly cameraRig: FlightCameraRig;
@@ -104,6 +108,7 @@ export class GameRenderer {
       depth: true,
     });
     if (!context) throw new WebGL2UnavailableError();
+    this.gpuTimer = new GpuFrameTimer(context);
 
     this.world = world;
     this.renderer = new THREE.WebGLRenderer({
@@ -327,6 +332,7 @@ export class GameRenderer {
 
   public getStats(): RenderStats {
     return {
+      gpuMs: this.gpuTimer.milliseconds,
       calls: this.drawnCalls,
       triangles: this.drawnTriangles,
       points: this.drawnPoints,
@@ -369,6 +375,7 @@ export class GameRenderer {
     this.disposed = true;
     this.resizeObserver.disconnect();
     this.canvas.removeEventListener('webglcontextlost', this.handleContextLost);
+    this.gpuTimer.dispose();
     this.composer.dispose();
     this.proceduralAircraft.dispose();
     this.shieldMesh.geometry.dispose(); this.shieldMesh.material.dispose();
@@ -399,11 +406,15 @@ export class GameRenderer {
   private draw(now: number): void {
     this.atmosphere.follow(this.camera);
     this.mirrorSky.follow(this.camera);
-    const instantFps = 1000 / Math.max(1, now - this.lastFrameTime);
+    const frameMs = now - this.lastFrameTime;
+    const instantFps = 1000 / Math.max(1, frameMs);
     this.lastFrameTime = now;
     this.smoothedFps = this.smoothedFps * 0.94 + instantFps * 0.06;
     this.renderer.info.reset();
+    const measuring = this.gpuTimer.begin(now);
     this.composer.render();
+    if (measuring) this.gpuTimer.end();
+    this.world?.observeRender?.(frameMs, this.gpuTimer.milliseconds, this.camera.getWorldDirection(this.viewDirection));
     this.drawnCalls = this.renderer.info.render.calls;
     this.drawnTriangles = this.renderer.info.render.triangles;
     this.drawnPoints = this.renderer.info.render.points;
