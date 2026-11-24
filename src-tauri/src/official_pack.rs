@@ -147,7 +147,9 @@ fn download(directory: &Path, transfer: &Transfer) -> library::Result<Value> {
         })();
         if let Err(error) = part {
             transfer.check()?;
-            failures += 1;
+            // A slow connection can time out after delivering a valid prefix of a range.
+            // Only consecutive attempts that make no forward progress exhaust the retry budget.
+            failures = if received > start { 0 } else { failures + 1 };
             if failures >= 4 {
                 return Err(error);
             }
