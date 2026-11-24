@@ -3,14 +3,24 @@ import { mkdir, writeFile, readFile } from 'node:fs/promises';
 import path from 'node:path';
 import { dragonHeight } from '../src/world/dragonTerrain.ts';
 
-const [output, tier = 'high'] = process.argv.slice(2);
-if (!output || !['web', 'high'].includes(tier))
+const [output, tier = 'high', theme = 'dragon', inputSeed = '334458'] = process.argv.slice(2);
+const seed = Number(inputSeed);
+const ascendant = theme === 'ascendant';
+if (!output || !['web','high'].includes(tier) || !['ascendant','dragon'].includes(theme)
+    || !/^\d+$/.test(inputSeed) || !Number.isSafeInteger(seed) || seed<0 || seed>0xffffffff
+    || (!ascendant && seed!==334458))
   throw Error(
-    'Usage: node scripts/build-dragon-pack.mjs <output directory> [web|high]',
+    'Usage: node scripts/build-dragon-pack.mjs <output directory> [web|high] [dragon|ascendant] [uint32 seed]',
   );
 await mkdir(output, { recursive: true });
-const seed = 334458,
-  tileSize = 220,
+let bedrock=dragonHeight;
+if(ascendant){
+  const {createServer}=await import('vite');
+  const server=await createServer({server:{middlewareMode:true},logLevel:'error'});
+  try { bedrock=(await server.ssrLoadModule('/src/world/ascendantTerrain.ts')).ascendantFloor; }
+  finally { await server.close(); }
+}
+const tileSize = 220,
   resolution = tier === 'high' ? 200 : 40;
 const files = [];
 const hash = (bytes) => createHash('sha256').update(bytes).digest('hex');
@@ -24,12 +34,15 @@ function terrainGLB(cx, cz) {
   let min = Infinity,
     max = -Infinity;
   // Interpolate the same triangular surface used by the shared collision tiles.
+  const cells=ascendant?16:20, spacing=tileSize/cells;
+  const side=cells+5;
+  const heights=new Float64Array(side*side);
+  for(let j=-2;j<=cells+2;j++)for(let i=-2;i<=cells+2;i++)
+    heights[(j+2)*side+i+2]=bedrock((cx*cells+i)*spacing,(cz*cells+j)*spacing,seed);
   function surface(x, z) {
-    const gx = Math.floor(x / 11),
-      gz = Math.floor(z / 11),
-      u = x / 11 - gx,
-      v = z / 11 - gz;
-    const at = (i, j) => dragonHeight((gx + i) * 11, (gz + j) * 11, seed);
+    const gx = Math.floor(x / spacing), gz = Math.floor(z / spacing);
+    const u=x/spacing-gx, v=z/spacing-gz;
+    const at=(i,j)=>heights[(gz-cz*cells+j+2)*side+gx-cx*cells+i+2];
     if (u + v <= 1) return at(0, 0) * (1 - u - v) + at(1, 0) * u + at(0, 1) * v;
     return at(1, 1) * (u + v - 1) + at(1, 0) * (1 - v) + at(0, 1) * (1 - u);
   }
@@ -149,8 +162,9 @@ function terrainGLB(cx, cz) {
   bin.write('BIN', 4);
   return { bytes: Buffer.concat([header, json, bin, ...buffers]), min, max };
 }
-for (let cz = -17; cz <= 2; cz++)
-  for (let cx = -2; cx <= 2; cx++) {
+const extent=ascendant ? (tier==='web'?[-1,1,-2,1]:[-5,5,-6,4]) : [-2,2,-17,2];
+for (let cz = extent[2]; cz <= extent[3]; cz++)
+  for (let cx = extent[0]; cx <= extent[1]; cx++) {
     const { bytes, min, max } = terrainGLB(cx, cz);
     const name = 'ridge_' + cx + '_' + cz + '.glb';
     await writeFile(path.join(output, name), bytes);
@@ -164,13 +178,15 @@ for (let cz = -17; cz <= 2; cz++)
     });
   }
 const builtinResources = [];
-for (const [name, role] of [
+for (const [name, role] of ascendant ? [
+  ['crownback-near.glb','hero-dragon'],['crownback-middle.glb','middle-dragon'],['crownback-far.glb','distant-dragon'],
+] : [
   ['bronze-crest.glb', 'animated-dragon'],
   ['bronze-crest-far.glb', 'distant-dragon'],
   ['strata-normal.png', 'terrain-normal'],
 ]) {
   const data = await readFile(
-    new URL('../public/realms/dragonspine/' + name, import.meta.url),
+    new URL('../public/realms/'+(ascendant?'ascendant':'dragonspine')+'/' + name, import.meta.url),
   );
   builtinResources.push({
     name,
@@ -211,6 +227,16 @@ const manifest = {
   license: 'AGPL-3.0-only',
   files,
 };
+if(ascendant){
+  Object.assign(manifest,{
+    id:'ascendant-'+tier+'-2-'+seed,theme,schema:2,generatorVersion:2,
+    packVersion:'2.0.0',minimumClient:'0.8.2',maximumClient:'0.8.2',
+    baseWorld:'dragonspine-ascendant-2',collision:'dragonspine-ascendant-2',
+    coverage:{seed,minChunkX:extent[0],maxChunkX:extent[1],minChunkZ:extent[2],maxChunkZ:extent[3]},
+    space:{type:'terrain-grid',parent:'ascendant',landmarkTypes:['vault','citadel','ridge','chain','monolith','nest']},
+    entities:[{id:'crownback',animations:['Crownback soaring'],proxies:['body','neck','crown','tail','fan','wings']}],
+  });
+}
 await writeFile(
   path.join(output, 'world-pack.json'),
   JSON.stringify(manifest, null, 2) + '\n',

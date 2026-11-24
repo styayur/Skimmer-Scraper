@@ -21,6 +21,7 @@ export function bindPackPanel(): void {
   const remove = panel.querySelector<HTMLButtonElement>('[data-pack-remove]')!;
   const cancel = panel.querySelector<HTMLButtonElement>('[data-pack-cancel]')!;
   const download = panel.querySelector<HTMLButtonElement>('[data-pack-download]')!;
+  const ascendant = panel.querySelector<HTMLButtonElement>('[data-pack-ascendant]')!;
   const verify = panel.querySelector<HTMLButtonElement>('[data-pack-verify]')!;
   let install: AbortController | null = null;
   const updateSelection = () => {
@@ -42,6 +43,7 @@ export function bindPackPanel(): void {
     );
     select.disabled = packs.length === 0;
     updateSelection();
+    ascendant.textContent = packs.some(p=>p.id==='ascendant-high-2-334458')?'修复龙脊天域高精包':'安装龙脊天域高精包';
     download.textContent = packs.some(p => p.id === 'dragonspine-high-1')
       ? '修复官方 Dragonspine High Pack' : '安装官方 Dragonspine High Pack · 107.5 MiB';
   }
@@ -67,16 +69,16 @@ export function bindPackPanel(): void {
     } catch (error) { status.textContent = String(error); }
     finally { verify.disabled = install !== null || !select.options.length; }
   };
-  async function startInstall(official: boolean) {
+  async function startInstall(official: boolean, useAscendant=false) {
     if ((!official && !file.files?.length) || install) return;
     const controller = new AbortController();
     install = controller;
     file.disabled = true;
-    download.disabled = remove.disabled = open.disabled = verify.disabled = true;
+    ascendant.disabled = download.disabled = remove.disabled = open.disabled = verify.disabled = true;
     cancel.hidden = false;
     try {
       status.textContent = official ? '正在连接 GitHub Release…' : '正在校验…';
-      const p = official ? await installOfficialPack(controller.signal, text => { status.textContent = text; })
+      const p = official ? await installOfficialPack(controller.signal, text => { status.textContent = text; },useAscendant)
         : await installPack(file.files!, controller.signal, (n, total) => {
         status.textContent = '已校验 ' + n + ' / ' + total + ' 个分块';
       });
@@ -89,7 +91,7 @@ export function bindPackPanel(): void {
         : String(e);
     } finally {
       file.disabled = false;
-      download.disabled = false;
+      ascendant.disabled = download.disabled = false;
       file.value = '';
       cancel.hidden = true;
       install = null;
@@ -98,6 +100,7 @@ export function bindPackPanel(): void {
   }
   file.onchange = () => { void startInstall(false); };
   download.onclick = () => { void startInstall(true); };
+  ascendant.onclick = () => { void startInstall(true,true); };
   remove.onclick = async () => {
     try {
       await removePack(select.value);
@@ -114,7 +117,7 @@ export function bindPackPanel(): void {
       localStorage.setItem(activePackKey, pack.id);
       const url = new URL(location.href);
       url.search = '';
-      url.searchParams.set('theme', 'dragon');
+      url.searchParams.set('theme', pack.theme);
       url.searchParams.set('seed', String(pack.seed));
       url.searchParams.set('gen', '4');
       location.assign(url.href);

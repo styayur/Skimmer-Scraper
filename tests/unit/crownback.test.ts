@@ -24,9 +24,10 @@ describe('Crownback flight', () => {
     expect(Math.max(...xCoordinates)-Math.min(...xCoordinates)).toBeGreaterThan(1200);
   });
 
-  it('advances bone colliders in world coordinates across an origin shift and retires them at distance', async () => {
+  it.each([true,false])('keeps colliders through an origin shift and retirement (far asset available: %s)', async farAvailable => {
     vi.stubGlobal('document',{baseURI:'https://game.example/'});
-    vi.stubGlobal('fetch',async (url: URL) => new Response(readFileSync(new URL('../../public'+url.pathname,import.meta.url))));
+    vi.stubGlobal('fetch',async (url: URL) => !farAvailable && url.pathname.endsWith('-far.glb')
+      ? new Response(null,{status:404}) : new Response(readFileSync(new URL('../../public'+url.pathname,import.meta.url))));
     const registry=new DynamicColliderRegistry();
     const flight=new CrownbackFlight(334458,registry);
     try {

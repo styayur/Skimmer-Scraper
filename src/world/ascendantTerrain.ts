@@ -32,5 +32,6 @@ export function ascendantFloor(x: number,z: number,seed: number) {
   };
   const local=x-valley*VALLEY_SPACING;
   const blend=.5*smooth((Math.abs(local)-660)/(VALLEY_SPACING/2-660));
-  return field(valley)*(1-blend)+field(valley+Math.sign(local))*blend;
+  const height=field(valley);
+  return blend===0 ? height : height*(1-blend)+field(valley+Math.sign(local))*blend;
 }
