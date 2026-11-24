@@ -1,6 +1,6 @@
 import type { ModelClient } from '../ai/modelClient';
 import { radioLanguageOf, radioText, type RadioLanguage, type RadioLine } from '../ai/radioDialogue';
-import { openLocalSpeech, SystemSpeech } from './browserSpeech';
+import { listSystemVoices, openLocalSpeech, SystemSpeech } from './browserSpeech';
 import { DeepSeekVoice, VOICE_LIMITS, type SpeechStreamStats } from './deepSeekVoice';
 import type { KokoroVoice } from './KokoroVoice';
 import { openMicrophone } from './microphone';
@@ -229,8 +229,11 @@ export class VoiceRadio {
     this.hooks.status('idle', messages[code] ?? '语音暂不可用。按 T 可以输入文字。');
   }
 
-  public update(inFlight: boolean, line: RadioLine | null, muted = false, busy = false): void {
-    if (inFlight && busy) this.busyUntil = performance.now() + 240;
+  public update(inFlight: boolean, line: RadioLine | null, muted = false, frameMs = 0, buffering = false): void {
+    if (inFlight) {
+      this.kokoro?.observeFlightFrame(frameMs);
+      if (buffering || frameMs > 25) this.busyUntil = performance.now() + 240;
+    }
     const unseen = line && line.id !== this.seenLine;
     if (line) this.seenLine = line.id;
     if (!inFlight) { this.cancel(false); this.silence(); return; }
@@ -289,7 +292,8 @@ export class VoiceRadio {
     if (this.kokoroImport) return this.kokoroImport;
     const pending = import('./KokoroVoice').then(({ KokoroVoice }) => {
       if (this.kokoroImport !== pending || this.settings.output !== 'high-quality') throw new Error('kokoro-cancelled');
-      return this.kokoro = new KokoroVoice(() => this.context, () => performance.now() < this.busyUntil);
+      return this.kokoro = new KokoroVoice(() => this.context, () => performance.now() < this.busyUntil,
+        language => this.settings.localFallback && listSystemVoices(language).length > 0);
     }).finally(() => { if (this.kokoroImport === pending) this.kokoroImport = null; });
     this.kokoroImport = pending;
     return pending;

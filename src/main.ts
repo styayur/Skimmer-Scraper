@@ -1160,7 +1160,7 @@ const frame = (now: number): void => {
   }
   const voiceInFlight = voiceAvailable();
   voiceRadio.update(voiceInFlight, symbiosis.radio.current(), muted || symbiosis.radio.muted,
-    buffering || now - lastFrameTime > 25);
+    now - lastFrameTime, buffering);
   radioPanel.update(mode === 'running' && !journey.active, voiceRadio.spokenLine);
   audio.setDucked(voiceInFlight && voiceRadio.ducking);
   updateVoicePanel(voiceInFlight);

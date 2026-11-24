@@ -20,7 +20,8 @@ export async function profileVoice(page, output, runtime) {
   const voice = () => page.evaluate(() => window.__SKIMMER_SCRAPER__.snapshot().voice);
   const completed = (previous, agent, provider) => page.waitForFunction(({ previous, agent, provider }) => {
     const state = window.__SKIMMER_SCRAPER__.snapshot().voice;
-    return state.completed > previous.count && state.playbackHistory.some(entry => entry.id > previous.id && entry.agent === agent && entry.provider === provider);
+    return state.completed > previous.count && state.playbackHistory.some(entry => entry.id > previous.id && entry.agent === agent &&
+      (entry.provider === provider || (provider === 'adaptive' && ['local', 'high-quality'].includes(entry.provider))));
   }, { previous, agent, provider }, { timeout: 50000 });
   const rows = [];
   async function sample(name, action) {
@@ -64,6 +65,11 @@ export async function profileVoice(page, output, runtime) {
     assert(!failure, failure);
     assert(frames.frames > 0 && frames.mode === 'running');
   }
+  const allowFallback = value => page.locator('#voice-fallback').evaluate((field, checked) => {
+    field.checked = checked;
+    field.dispatchEvent(new Event('change', { bubbles: true }));
+  }, value);
+  await allowFallback(true);
   await configure('off');
   await sample('silent', () => page.waitForTimeout(10000));
   await configure('local');
@@ -86,6 +92,10 @@ export async function profileVoice(page, output, runtime) {
   await sample('kokoro-cache-hit', () => speak(1, 'high-quality'));
   assert(rows.at(-1).after.kokoro.cacheHits > rows.at(-1).before.kokoro.cacheHits);
   await sample('three-wingmates', async () => {
+    for (const agent of [1, 2, 3]) await speak(agent, 'adaptive');
+  });
+  await allowFallback(false);
+  await sample('three-wingmates-kokoro-only', async () => {
     for (const agent of [1, 2, 3]) await speak(agent, 'high-quality');
   });
   await page.keyboard.up('Shift');
