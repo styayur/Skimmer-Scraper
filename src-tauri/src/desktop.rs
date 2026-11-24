@@ -107,46 +107,13 @@ pub async fn desktop_choose_library(app: AppHandle) -> Result<Option<String>, St
             return Ok(None);
         };
         let target = parent.join("Skimmer-Scraper-Worlds");
-        library::check_path(&target)?;
         let _guard = library::LOCATION_LOCK
             .try_write()
             .map_err(|_| "世界库忙，请稍后重试。")?;
         let original = library::directory(&app)?;
-        if target == original {
-            return Ok(Some(target.display().to_string()));
+        if original != target {
+            migrate_library(&original, &target, &app.path().app_local_data_dir()?)?;
         }
-        let source = library::connect(&original)?;
-        let active: bool = source.query_row(
-            "SELECT EXISTS(SELECT 1 FROM packs WHERE ready=0 AND created>=unixepoch()-3600)",
-            [],
-            |r| r.get(0),
-        )?;
-        if active {
-            return Err("请先完成或取消正在进行的资源包安装。".into());
-        }
-        std::fs::create_dir_all(&target)?;
-        let destination = target.join("worlds.sqlite");
-        library::check_path(&destination)?;
-        if destination.exists() {
-            return Err("此目录已有世界库，请选择空目录。".into());
-        }
-        let temporary = tempfile::NamedTempFile::new_in(&target)?;
-        let (_, path) = temporary.into_parts();
-        source.execute("VACUUM INTO ?1", [path.to_str().ok_or("无效目录。")?])?;
-        let copy = rusqlite::Connection::open_with_flags(
-            &path,
-            rusqlite::OpenFlags::SQLITE_OPEN_READ_ONLY,
-        )?;
-        if copy.query_row("PRAGMA quick_check", [], |r| r.get::<_, String>(0))? != "ok" {
-            return Err("世界库复制校验失败。".into());
-        }
-        drop(copy);
-        path.persist_noclobber(destination)?;
-        let root = app.path().app_local_data_dir()?;
-        let mut pointer = tempfile::NamedTempFile::new_in(&root)?;
-        pointer.write_all(&serde_json::to_vec(&target)?)?;
-        pointer.as_file().sync_all()?;
-        pointer.persist(root.join("library-location.json"))?;
         Ok(Some(target.display().to_string()))
     })
     .await
@@ -154,9 +121,80 @@ pub async fn desktop_choose_library(app: AppHandle) -> Result<Option<String>, St
     .map_err(|e| e.to_string())
 }
 
+fn migrate_library(
+    original: &std::path::Path,
+    target: &std::path::Path,
+    root: &std::path::Path,
+) -> LibraryResult<()> {
+    library::check_path(target)?;
+    let source = library::connect(original)?;
+    let active: bool = source.query_row(
+        "SELECT EXISTS(SELECT 1 FROM packs WHERE ready=0 AND created>=unixepoch()-3600)",
+        [],
+        |r| r.get(0),
+    )?;
+    if active {
+        return Err("请先完成或取消正在进行的资源包安装。".into());
+    }
+    std::fs::create_dir_all(target)?;
+    let destination = target.join("worlds.sqlite");
+    library::check_path(&destination)?;
+    if destination.exists() {
+        return Err("此目录已有世界库，请选择空目录。".into());
+    }
+    let pages = u64::try_from(source.query_row("PRAGMA page_count", [], |r| r.get::<_, i64>(0))?)?;
+    let page_size =
+        u64::try_from(source.query_row("PRAGMA page_size", [], |r| r.get::<_, i64>(0))?)?;
+    super::official_pack::check_space(
+        target,
+        pages.saturating_mul(page_size).saturating_add(16 << 20),
+    )?;
+    let temporary = tempfile::NamedTempFile::new_in(target)?;
+    let (_, path) = temporary.into_parts();
+    source.execute("VACUUM INTO ?1", [path.to_str().ok_or("无效目录。")?])?;
+    let copy =
+        rusqlite::Connection::open_with_flags(&path, rusqlite::OpenFlags::SQLITE_OPEN_READ_ONLY)?;
+    if copy.query_row("PRAGMA quick_check", [], |r| r.get::<_, String>(0))? != "ok" {
+        return Err("世界库复制校验失败。".into());
+    }
+    drop(copy);
+    path.persist_noclobber(destination)?;
+    let mut pointer = tempfile::NamedTempFile::new_in(root)?;
+    pointer.write_all(&serde_json::to_vec(target)?)?;
+    pointer.as_file().sync_all()?;
+    pointer.persist(root.join("library-location.json"))?;
+    Ok(())
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
+    #[cfg(windows)]
+    #[test]
+    fn moving_library_preserves_world_data_and_rejects_existing_destinations() -> LibraryResult<()>
+    {
+        let scratch = tempfile::tempdir()?;
+        let original = scratch.path().join("original");
+        let target = scratch.path().join("Skimmer-Scraper-Worlds");
+        let db = library::connect(&original)?;
+        db.execute_batch(
+            "CREATE TABLE marker(value BLOB); INSERT INTO marker VALUES(x'000102FF');",
+        )?;
+        drop(db);
+        migrate_library(&original, &target, scratch.path())?;
+        for location in [&original, &target] {
+            let value: Vec<u8> =
+                library::connect(location)?
+                    .query_row("SELECT value FROM marker", [], |row| row.get(0))?;
+            assert_eq!(value, [0, 1, 2, 255]);
+        }
+        let pointer: std::path::PathBuf = serde_json::from_slice(&std::fs::read(
+            scratch.path().join("library-location.json"),
+        )?)?;
+        assert_eq!(pointer, target);
+        assert!(migrate_library(&original, &target, scratch.path()).is_err());
+        Ok(())
+    }
     #[test]
     fn release_links_accept_stable_versions_only() {
         assert!(stable_tag("v0.8.1"));

@@ -2,6 +2,30 @@ import assert from 'node:assert/strict';
 import path from 'node:path';
 import { readFile, writeFile } from 'node:fs/promises';
 
+export async function checkDownloadCancellation(page, output, runtime) {
+  const list = () => page.evaluate(async () =>
+    (await window.__TAURI__.core.invoke('pack_list')).map(pack => [pack.id, pack.files.map(f => f.sha256)]));
+  const before = await list();
+  const panel = page.locator('#world-packs');
+  await page.keyboard.press('g');
+  await panel.locator('summary').click();
+  const attempts = [];
+  for (let i = 0; i < 2; i++) {
+    await panel.locator('[data-pack-download]').click();
+    const progress = await page.waitForFunction(async () => {
+      const status = await window.__TAURI__.core.invoke('official_pack_progress');
+      return status?.received > 0 && status;
+    }, null, {timeout: 90000});
+    const started = Date.now();
+    await panel.locator('[data-pack-cancel]').click();
+    await panel.locator('[data-pack-cancel]').waitFor({state:'hidden',timeout:90000});
+    assert.match(await panel.locator('[role=status]').textContent(), /已取消/);
+    assert.deepEqual(await list(), before);
+    attempts.push({ progress: await progress.jsonValue(), cancelMs: Date.now() - started });
+  }
+  await writeFile(path.join(output, 'pack-cancellation.json'), JSON.stringify({runtime, attempts, preservedPackages: before.length}, null, 2));
+}
+
 export async function checkPack(page, output, directory, runtime) {
   const manifest = JSON.parse(
     await readFile(path.join(directory, 'world-pack.json'), 'utf8'),

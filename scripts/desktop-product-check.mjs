@@ -21,6 +21,11 @@ export async function checkDesktopProduct(page, output, runtime) {
   await save();
   assert.match(report.updateStatus, /最新正式版|可更新至/);
   const score = 'skimmer-scraper.best.v2:stable:sakura:gen4:desktop-transfer-test';
+  if (process.env.SKIMMER_QA_EXPECT_RETAINED_SCORE === '1') {
+    report.scoreAfterReinstall = await page.evaluate(key => localStorage.getItem(key), score);
+    await save();
+    assert.equal(report.scoreAfterReinstall, '123.25');
+  }
   await page.evaluate(key => localStorage.setItem(key, '123.25'), score);
   const download = page.waitForEvent('download', { timeout: 15000 });
   await panel.locator('[data-save-export]').click();

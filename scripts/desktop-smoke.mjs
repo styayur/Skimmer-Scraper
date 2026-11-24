@@ -109,6 +109,9 @@ try {
   } else if (libraryCheck === 'compat') {
     const { checkCompatibility } = await import('./desktop-compat.mjs');
     await checkCompatibility(page, output);
+  } else if (libraryCheck === 'pack-cancel') {
+    const { checkDownloadCancellation } = await import('./desktop-pack-check.mjs');
+    await checkDownloadCancellation(page, output, runtime);
   } else if (libraryCheck === 'pack') {
     const { checkPack } = await import('./desktop-pack-check.mjs');
     await checkPack(page, output, process.argv[5], runtime);
