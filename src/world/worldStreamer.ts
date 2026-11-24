@@ -4,7 +4,7 @@ import { RealmDragonFlight } from './dragonFlight';
 import * as THREE from 'three';
 import { CHUNK_SIZE, DENSE_GENERATOR_VERSION, type WorldSettings } from './worldConfig';
 import { chunkKey, type ChunkSource } from './chunkSource';
-import { InlineChunkSource } from './chunkSource';
+import { CityWorkerSource, InlineChunkSource } from './chunkSource';
 import { ChunkedWorldAdapter, type WorldAdapterStats } from './chunkedWorldAdapter';
 import { fingerprintValues } from './deterministic';
 import { terrainHeightAt } from './terrain';
@@ -67,6 +67,7 @@ export interface StreamerStats {
   generationMaxMs: number;
   generationSampleCount: number;
   synchronousBuildP95Ms: number | null;
+  workerBuildP95Ms: number | null;
   activationP95Ms: number;
   maxLoadedChunks: number;
   coverageComplete: boolean;
@@ -175,6 +176,8 @@ export class WorldStreamer implements RenderableWorld {
   private readonly onChunkRetired: (event: ChunkStreamEvent) => void;
   private readonly generationTimes: number[] = [];
   private readonly synchronousBuildTimes: number[] = [];
+  private readonly workerBuildTimes: number[] = [];
+  private workerBuildP95Ms: number | null = null;
   private readonly activationTimes: number[] = [];
   private generationTiming = summarizeGenerationTimes([]);
   private synchronousBuildP95Ms: number | null = null;
@@ -205,7 +208,8 @@ export class WorldStreamer implements RenderableWorld {
       this.horizon = new RealmHorizon(settings.seed);
       this.root.add(this.horizon.group);
     }
-    this.source = options.source ?? new InlineChunkSource(settings);
+    this.source = options.source ?? (settings.theme !== 'dragon' && typeof Worker !== 'undefined'
+      ? new CityWorkerSource(settings) : new InlineChunkSource(settings));
     this.renderRadius = Math.max(1, Math.trunc(options.renderRadius ?? 2));
     this.collisionRadius = Math.max(1, Math.trunc(options.collisionRadius ?? 1));
     this.maxLoadedChunks = Math.max((this.collisionRadius * 2 + 1) ** 2, options.maxLoadedChunks ?? 41);
@@ -241,8 +245,16 @@ export class WorldStreamer implements RenderableWorld {
     velocity: Vec3,
     intent: StreamIntent = {},
   ): StreamerUpdate {
+    return { ...this.updateCoverage(position, velocity, intent), stats: this.getStreamerStats() };
+  }
+
+  public updateCoverage(
+    position: Vec3,
+    velocity: Vec3,
+    intent: StreamIntent = {},
+  ): Omit<StreamerUpdate, 'stats'> {
     if (this.disposed) {
-      return { coverageComplete: false, rebaseDelta: null, stats: this.getStreamerStats() };
+      return { coverageComplete: false, rebaseDelta: null };
     }
     this.lastPosition = { ...position };
     this.lastVelocity = { ...velocity };
@@ -268,7 +280,6 @@ export class WorldStreamer implements RenderableWorld {
     return {
       coverageComplete: this.isCollisionCovered(position),
       rebaseDelta,
-      stats: this.getStreamerStats(),
     };
   }
 
@@ -450,6 +461,7 @@ export class WorldStreamer implements RenderableWorld {
       generationMaxMs: timing.max,
       generationSampleCount: timing.count,
       synchronousBuildP95Ms: this.synchronousBuildP95Ms,
+      workerBuildP95Ms: this.workerBuildP95Ms,
       activationP95Ms: this.activationP95Ms,
       maxLoadedChunks: this.maxLoadedChunks,
       coverageComplete: this.isCollisionCovered(this.lastPosition),
@@ -584,6 +596,8 @@ export class WorldStreamer implements RenderableWorld {
       .then((generated) => {
         const duration = performance.now() - started;
         this.generationTiming = addTiming(this.generationTimes, duration);
+        if (generated.workerBuildMs !== undefined)
+          this.workerBuildP95Ms = addTiming(this.workerBuildTimes, generated.workerBuildMs).p95;
         if (generated.synchronousBuildMs !== undefined) {
           this.synchronousBuildP95Ms = addTiming(this.synchronousBuildTimes, generated.synchronousBuildMs).p95;
         }
@@ -607,7 +621,7 @@ export class WorldStreamer implements RenderableWorld {
             origin: generated.origin,
             bounds: generated.bounds,
             geometry: generated.collisionGeometry,
-          } satisfies CollisionChunk);
+          } satisfies CollisionChunk, generated.collisionTree);
         } catch (error) {
           this.disposeGenerated(generated);
           throw error;
