@@ -197,11 +197,20 @@ mod tests {
         assert_eq!(manifest["id"], "dragonspine-high-1");
         assert_eq!(transfer.verified.load(Ordering::Relaxed), 100);
         let db = library::connect(dir.path())?;
-        let size: u64 = db.query_row(
+        let size: i64 = db.query_row(
             "SELECT SUM(length(data)) FROM tiles JOIN packs USING(token) WHERE ready=1",
-            [], |row| row.get(0))?;
-        assert_eq!(size, manifest["files"].as_array().unwrap().iter()
-            .map(|f| f["bytes"].as_u64().unwrap()).sum::<u64>());
+            [],
+            |row| row.get(0),
+        )?;
+        assert_eq!(
+            size as u64,
+            manifest["files"]
+                .as_array()
+                .unwrap()
+                .iter()
+                .map(|f| f["bytes"].as_u64().unwrap())
+                .sum::<u64>()
+        );
         Ok(())
     }
 }
