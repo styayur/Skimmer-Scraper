@@ -69,7 +69,10 @@ try {
   });
   assert.match(runtime.origin, /^https?:\/\/tauri\.localhost$/);
   if (process.env.SKIMMER_QA_SHA) assert.equal(runtime.app.sourceCommit, process.env.SKIMMER_QA_SHA);
-  if (libraryCheck === 'flight-voice') {
+  if (libraryCheck === 'product') {
+    const { checkDesktopProduct } = await import('./desktop-product-check.mjs');
+    await checkDesktopProduct(page, output, runtime);
+  } else if (libraryCheck === 'flight-voice') {
     const { profileVoice } = await import('./profile-flight-voice.mjs');
     await profileVoice(page, output, runtime);
   } else if (libraryCheck === 'kokoro-cache') {

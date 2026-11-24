@@ -22,7 +22,22 @@ pub async fn desktop_release() -> Result<Value, String> {
         let client = reqwest::blocking::Client::builder().timeout(Duration::from_secs(12))
             .redirect(reqwest::redirect::Policy::none()).build()?;
         let response = client.get("https://api.github.com/repos/styayur/Skimmer-Scraper/releases/latest")
-            .header("User-Agent", "Skimmer-Scraper/UpdateCheck").send()?.error_for_status()?;
+            .header("User-Agent", "Skimmer-Scraper/UpdateCheck").send()?;
+        if response.status().as_u16() == 429 || (response.status().as_u16() == 403 &&
+            response.headers().get("X-RateLimit-Remaining").and_then(|h| h.to_str().ok()) == Some("0")) {
+            // GitHub's public Latest link points to the designated stable release.
+            let public = client.head(format!("{RELEASES}/latest")).send()?;
+            let prefix = format!("{RELEASES}/tag/");
+            let tag = public.headers().get("Location").and_then(|v| v.to_str().ok())
+                .and_then(|location| location.strip_prefix(&prefix)).filter(|tag| stable_tag(tag));
+            if public.status().is_redirection() {
+                if let Some(tag) = tag {
+                    return Ok(json!({"tag":tag, "notes":"请在正式发行页查看此版本的更新说明。", "metadata":"public-latest"}));
+                }
+            }
+            return Err("GitHub 更新服务暂不可用。".into());
+        }
+        let response = response.error_for_status()?;
         let release: Value = serde_json::from_reader(response.take(512 << 10))?;
         let tag = release["tag_name"].as_str().ok_or("缺少发行版本。")?;
         if !stable_tag(tag) || release["prerelease"] != false || release["draft"] != false {

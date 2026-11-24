@@ -81,7 +81,7 @@ export const collectFlight = async (page, { seconds, altitude, cold, allowRadioP
       attitude: state.attitude, speed: state.speed, buffering: state.buffering, world: state.journey.worldIndex,
       stalledCompanions: state.companions.map(agent => agent.uncovered), deployed: state.companions.filter(agent => agent.deployed).length,
       triangles: state.render.triangles, jsHeap: performance.memory?.usedJSHeapSize ?? null, drawCalls: state.render.calls, renderGeometries: state.render.geometries, textures: state.render.textures,
-      dynamic: state.dynamicStructures.length, streaming: state.streaming, shieldImpacts: state.shieldImpacts });
+      gpuMs: state.render.gpuMs ?? null, dynamic: state.dynamicStructures.length, streaming: state.streaming, shieldImpacts: state.shieldImpacts });
 
     game.resume();
     oldState = game.snapshot();

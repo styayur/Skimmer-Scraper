@@ -127,11 +127,19 @@ export function inspectPackTile(data: ArrayBuffer): void {
     throw Error('分块超出第 1 版材质预算。');
 }
 
+export async function libraryPacks(): Promise<Array<{ id: string; pack?: WorldPack }>> {
+  const records = await host()?.invoke<unknown[]>('pack_list') ?? [];
+  const rows: Array<{ id: string; pack?: WorldPack }> = [];
+  for (const record of records) {
+    const id = (record as { id?: string } | null)?.id;
+    if (typeof id !== 'string' || !/^[a-zA-Z0-9-]{1,64}$/.test(id)) continue;
+    try { rows.push({ id, pack: validatePack(record) }); }
+    catch { rows.push({ id }); }
+  }
+  return rows;
+}
 export async function installedPacks(): Promise<WorldPack[]> {
-  const native = host();
-  return native
-    ? (await native.invoke<unknown[]>('pack_list')).map(validatePack)
-    : [];
+  return (await libraryPacks()).flatMap(row => row.pack ?? []);
 }
 export async function installPack(
   files: FileList,
