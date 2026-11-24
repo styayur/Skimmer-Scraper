@@ -11,6 +11,10 @@ fn main() {
         "pack_list",
         "pack_read",
         "pack_remove",
+        "pack_verify",
+        "official_pack_install",
+        "official_pack_progress",
+        "official_pack_cancel",
     ]);
     tauri_build::try_build(tauri_build::Attributes::new().app_manifest(app))
         .expect("Tauri build configuration");

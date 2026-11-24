@@ -17,7 +17,7 @@ const MAX_LIBRARY: i64 = 2 << 30;
 type Failure = Box<dyn std::error::Error + Send + Sync>;
 pub(crate) type Result<T> = std::result::Result<T, Failure>;
 
-fn check_path(path: &Path) -> Result<()> {
+pub(crate) fn check_path(path: &Path) -> Result<()> {
     for component in path.ancestors() {
         match fs::symlink_metadata(component) {
             Ok(meta) => {
@@ -39,7 +39,7 @@ fn check_path(path: &Path) -> Result<()> {
     Ok(())
 }
 
-fn connect(directory: &Path) -> Result<Connection> {
+pub(crate) fn connect(directory: &Path) -> Result<Connection> {
     check_path(directory)?;
     fs::create_dir_all(directory)?;
     for name in [
@@ -58,6 +58,10 @@ fn connect(directory: &Path) -> Result<Connection> {
         );")?;
     crate::packs::init(&db)?;
     Ok(db)
+}
+
+pub(crate) fn hex_digest(bytes: &[u8]) -> String {
+    bytes.iter().map(|b| format!("{b:02x}")).collect()
 }
 
 pub(crate) fn check_id(id: &str) -> Result<()> {
@@ -113,7 +117,7 @@ fn save(db: &mut Connection, packet: &[u8]) -> Result<()> {
     Ok(())
 }
 
-fn directory(app: &AppHandle) -> std::result::Result<PathBuf, String> {
+pub(crate) fn directory(app: &AppHandle) -> std::result::Result<PathBuf, String> {
     app.path()
         .app_local_data_dir()
         .map(|p| p.join("world-library-v1"))

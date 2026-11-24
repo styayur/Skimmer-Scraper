@@ -188,6 +188,9 @@ const manifest = {
   generatorVersion: 1,
   packVersion: '1.0.0',
   minimumClient: '0.8.0',
+  maximumClient: '0.8.2',
+  baseWorld: 'dragonspine-base-1',
+  unpackedBytes: files.reduce((sum, f) => sum + f.bytes, 0),
   tier,
   builtinResources,
   space: {
