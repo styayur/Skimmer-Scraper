@@ -27,7 +27,7 @@ pub(crate) fn init(db: &Connection) -> Result<()> {
     Ok(())
 }
 
-fn begin(db: &mut Connection, manifest: Value) -> Result<String> {
+pub(crate) fn begin(db: &mut Connection, manifest: Value) -> Result<String> {
     let metadata = serde_json::to_string(&manifest)?;
     if metadata.len() > 1 << 20
         || manifest["schema"] != 1
@@ -100,10 +100,44 @@ fn begin(db: &mut Connection, manifest: Value) -> Result<String> {
 
 #[tauri::command]
 pub async fn pack_begin(app: AppHandle, manifest: Value) -> std::result::Result<String, String> {
-    run(app, move |db| begin(db, manifest)).await
+    let directory = super::library::directory(&app)?;
+    run(app, move |db| {
+        let total = manifest["files"]
+            .as_array()
+            .ok_or("Missing files")?
+            .iter()
+            .try_fold(0u64, |sum, f| sum.checked_add(f["bytes"].as_u64()?))
+            .ok_or("Invalid file sizes")?;
+        if total > MAX_PACK as u64 {
+            return Err("Pack exceeds budget".into());
+        }
+        super::official_pack::check_space(&directory, total * 2 + (16 << 20))?;
+        begin(db, manifest)
+    })
+    .await
 }
 
-fn put(db: &mut Connection, token: &str, data: &[u8]) -> Result<()> {
+#[tauri::command]
+pub async fn pack_verify(app: AppHandle, id: String) -> std::result::Result<u64, String> {
+    run(app, move |db| {
+        let tx = db.transaction()?;
+        let metadata: String = tx.query_row("SELECT metadata FROM packs WHERE ready=1 AND id=?1", [&id], |r| r.get(0))?;
+        let manifest: Value = serde_json::from_str(&metadata)?;
+        let mut total = 0;
+        for f in manifest["files"].as_array().ok_or("Missing files")? {
+            let digest = f["sha256"].as_str().ok_or("Missing digest")?;
+            let bytes: Vec<u8> = tx.query_row("SELECT data FROM tiles JOIN packs USING(token) WHERE ready=1 AND id=?1 AND digest=?2",
+                params![id, digest], |r| r.get(0))?;
+            if f["bytes"].as_u64() != Some(bytes.len() as u64) || crate::library::hex_digest(&Sha256::digest(&bytes)) != digest {
+                return Err("资源包校验失败，请修复或重新导入。".into());
+            }
+            total += bytes.len() as u64;
+        }
+        Ok(total)
+    }).await
+}
+
+pub(crate) fn put(db: &mut Connection, token: &str, data: &[u8]) -> Result<()> {
     if !(20..=MAX_FILE).contains(&data.len())
         || data[..8] != *b"glTF\x02\0\0\0"
         || u32::from_le_bytes(data[8..12].try_into()?) as usize != data.len()
@@ -143,7 +177,7 @@ pub async fn pack_put(app: AppHandle, request: Request<'_>) -> std::result::Resu
     run(app, move |db| put(db, &token, &data)).await
 }
 
-fn finish(db: &mut Connection, token: String) -> Result<()> {
+pub(crate) fn finish(db: &mut Connection, token: String) -> Result<()> {
     let tx = db.transaction_with_behavior(TransactionBehavior::Immediate)?;
     let id: String = tx.query_row(
         "SELECT id FROM packs WHERE token=?1 AND ready=0",

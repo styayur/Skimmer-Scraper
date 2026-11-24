@@ -1,5 +1,6 @@
 import { readGlbContainer } from '../model/glb';
 import { inspectWorldGlb } from '../world/imports/worldGlbPreflight';
+import { version as clientVersion } from '../../package.json';
 
 export interface PackFile {
   name: string;
@@ -18,6 +19,9 @@ export interface WorldPack {
   generatorVersion: 1;
   packVersion: string;
   minimumClient: string;
+  maximumClient?: string;
+  baseWorld?: string;
+  unpackedBytes?: number;
   collision: string;
   chunkMeters: number;
   source: string;
@@ -34,6 +38,13 @@ const host = () =>
     ?.core;
 export const nativePacksAvailable = () => !!host();
 
+function compareVersion(a: string, b: string): number {
+  const numeric = /^(0|[1-9]\d{0,5})\.(0|[1-9]\d{0,5})\.(0|[1-9]\d{0,5})$/;
+  if (!numeric.test(a) || !numeric.test(b)) throw Error('无效的客户端版本范围。');
+  const right = b.split('.').map(Number);
+  return a.split('.').map((n, i) => Number(n) - right[i]!).find(delta => delta !== 0) ?? 0;
+}
+
 export function validatePack(input: unknown): WorldPack {
   const p = input as WorldPack | null;
   if (
@@ -42,7 +53,9 @@ export function validatePack(input: unknown): WorldPack {
     p.theme !== 'dragon' ||
     p.generatorVersion !== 1 ||
     p.collision !== 'dragonspine-base-1' ||
-    p.minimumClient !== '0.8.0' ||
+    compareVersion(clientVersion, p.minimumClient) < 0 ||
+    (p.maximumClient !== undefined && compareVersion(clientVersion, p.maximumClient) > 0) ||
+    (p.baseWorld !== undefined && p.baseWorld !== 'dragonspine-base-1') ||
     p.chunkMeters !== 220 ||
     !Number.isSafeInteger(p.seed) ||
     p.seed < 0 ||
@@ -87,7 +100,7 @@ export function validatePack(input: unknown): WorldPack {
     coords.add(key);
     total += f.bytes;
   }
-  if (total > 1024 ** 3) throw Error('世界资源包超过 1 GiB。');
+  if (total > 1024 ** 3 || (p.unpackedBytes !== undefined && p.unpackedBytes !== total)) throw Error('资源包大小与客户端预算不符。');
   return p;
 }
 export function inspectPackTile(data: ArrayBuffer): void {
@@ -203,4 +216,36 @@ export async function loadPackTile(
 }
 export async function removePack(id: string): Promise<void> {
   await host()?.invoke('pack_remove', { id });
+}
+
+export async function verifyPack(id: string): Promise<number> {
+  const native = host();
+  if (!native) throw Error('需要 Windows 桌面版。');
+  return native.invoke<number>('pack_verify', { id });
+}
+
+export async function installOfficialPack(signal: AbortSignal, progress: (text: string) => void): Promise<WorldPack> {
+  const native = host();
+  if (!native) throw Error('需要 Windows 桌面版。');
+  signal.throwIfAborted();
+  type Progress = { received: number; total: number; verified: number };
+  const cancel = () => { void native.invoke('official_pack_cancel').catch(() => {}); };
+  signal.addEventListener('abort', cancel, { once: true });
+  let active = true;
+  const poll = async () => {
+    while (active) {
+      const state = await native.invoke<Progress | null>('official_pack_progress').catch(() => null);
+      if (active && state) progress(state.verified ? '已校验 ' + state.verified + ' 个分块'
+        : '正在下载 ' + Math.floor(100 * state.received / state.total) + '%');
+      await new Promise(resolve => setTimeout(resolve, 250));
+    }
+  };
+  try {
+    const result = native.invoke<unknown>('official_pack_install');
+    void poll();
+    return validatePack(await result);
+  } finally {
+    active = false;
+    signal.removeEventListener('abort', cancel);
+  }
 }
