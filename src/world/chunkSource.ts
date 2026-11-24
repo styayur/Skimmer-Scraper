@@ -1,5 +1,7 @@
 import { DragonChunkGenerator } from './dragonRealm';
 import { ChunkGenerator } from './chunkGenerator';
+import { MeshBVH } from 'three-mesh-bvh';
+import type { CityWorkerResult } from './cityChunk.worker';
 import type { GeneratedChunk } from './worldTypes';
 import type { WorldSettings } from './worldConfig';
 
@@ -14,6 +16,75 @@ export interface ChunkSourceRequest {
 export interface ChunkSource {
   generate(request: ChunkSourceRequest): Promise<GeneratedChunk>;
   dispose(): void;
+}
+
+export class CityWorkerSource implements ChunkSource {
+  private worker: Worker | null = null;
+  private readonly generator: ChunkGenerator;
+  private pending?: { resolve: (result: GeneratedChunk) => void; reject: (error: Error) => void };
+  private disposed = false;
+
+  constructor(settings: WorldSettings) {
+    this.generator = new ChunkGenerator(settings);
+    try {
+      this.worker = new Worker(new URL('./cityChunk.worker.ts', import.meta.url), { type: 'module' });
+      this.worker.onerror = () => this.stopWorker(new Error('City geometry worker unavailable'));
+      this.worker.onmessageerror = () => this.stopWorker(new Error('Invalid city geometry packet'));
+      this.worker.onmessage = ({ data }: MessageEvent<CityWorkerResult>) => {
+        const pending = this.pending;
+        if (!pending) return;
+        try {
+          const started = performance.now();
+          const chunk = this.generator.assemble(data.packet);
+          chunk.collisionTree = MeshBVH.deserialize(data.collisionTree, chunk.collisionGeometry);
+          chunk.workerBuildMs = data.workerBuildMs;
+          chunk.synchronousBuildMs = performance.now() - started;
+          this.pending = undefined;
+          pending.resolve(chunk);
+        } catch (error) {
+          this.stopWorker(error instanceof Error ? error : new Error(String(error)));
+        }
+      };
+      this.worker.postMessage(settings);
+    } catch {
+      this.stopWorker(new Error('City geometry worker unavailable'));
+    }
+  }
+
+  private stopWorker(error: Error): void {
+    this.worker?.terminate();
+    this.worker = null;
+    this.pending?.reject(error);
+    this.pending = undefined;
+  }
+
+  async generate(request: ChunkSourceRequest): Promise<GeneratedChunk> {
+    if (this.disposed) throw new Error('City source disposed');
+    if (this.pending) throw new Error('City source already generating a chunk');
+    if (this.worker) {
+      try {
+        return await new Promise<GeneratedChunk>((resolve, reject) => {
+          this.pending = { resolve, reject };
+          this.worker!.postMessage(request);
+        });
+      } catch (error) {
+        if (this.disposed) throw error;
+        this.stopWorker(new Error('Switching to inline city generation'));
+      }
+    }
+    await yieldToBrowser();
+    if (this.disposed) throw new Error('City source disposed');
+    const started = performance.now();
+    const chunk = this.generator.generate(request.chunkX, request.chunkZ, request.revision);
+    chunk.synchronousBuildMs = performance.now() - started;
+    return chunk;
+  }
+
+  dispose(): void {
+    this.disposed = true;
+    this.stopWorker(new Error('City source disposed'));
+    this.generator.dispose();
+  }
 }
 
 const yieldToBrowser = (): Promise<void> => new Promise((resolve) => {

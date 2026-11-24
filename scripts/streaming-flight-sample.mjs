@@ -131,7 +131,7 @@ export const collectFlight = async (page, { seconds, altitude, cold, allowRadioP
     const percentile = p => sorted[Math.floor(p * (sorted.length - 1))];
     return { initial: sample(initial), end: sample(oldState), mode: oldState.mode, seconds: (last - started) / 1000,
       fps: sorted.length * 1000 / (last - started), frameCount: sorted.length, frameMs: [percentile(.5), percentile(.95), percentile(.99)],
-      visibleFrames, incompleteFrames, maxMissing, bufferingEntries, bufferingFrames, bufferingMs, collisionCellEntries,
+      worstFrameMs: sorted.at(-1), visibleFrames, incompleteFrames, maxMissing, bufferingEntries, bufferingFrames, bufferingMs, collisionCellEntries,
       readyAtPreviousFrame, distanceTraveled,
       inferenceFrames: inferenceFrames.length, inferenceWorstMs: inferenceFrames.length ? Math.max(...inferenceFrames) : null,
       samples };

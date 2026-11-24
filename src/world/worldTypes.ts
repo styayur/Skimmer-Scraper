@@ -1,4 +1,5 @@
 import type { Box3, BufferGeometry, Group } from 'three';
+import type { MeshBVH } from 'three-mesh-bvh';
 import type { Vec3 } from '../core/math';
 import type { WorldSettings } from './worldConfig';
 
@@ -28,6 +29,8 @@ export interface GeneratedChunk {
   group: Group;
   bounds: Box3;
   collisionGeometry: BufferGeometry;
+  collisionTree?: MeshBVH;
+  workerBuildMs?: number;
   fingerprint: number;
   stats: ChunkGenerationStats;
   synchronousBuildMs?: number;

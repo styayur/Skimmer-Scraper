@@ -238,12 +238,12 @@ const delay = (milliseconds: number): Promise<void> => new Promise((resolve) => 
 const syncWorldStreaming = (
   state: FlightState | Pick<FlightState, 'position' | 'velocity'>,
   includeCompanions = true,
-): StreamerUpdate | null => {
+): Omit<StreamerUpdate, 'stats'> | null => {
   if (!(activeWorld instanceof WorldStreamer)) return null;
   activeWorld.setCompanionPositions(includeCompanions
     ? companions.agents.filter(agent => agent.deployed).map(agent => agent.flight.position) : []);
   const forecast = 'attitude' in state ? () => streamingForecast(state, controls) : undefined;
-  const update = activeWorld.update(state.position, state.velocity, { forecast, inFlight: mode === 'running' });
+  const update = activeWorld.updateCoverage(state.position, state.velocity, { forecast, inFlight: mode === 'running' });
   if (update.rebaseDelta) renderer?.shiftRenderOrigin(update.rebaseDelta);
   return update;
 };
@@ -1143,6 +1143,7 @@ const worldPanel = new WorldImportPanel(worldResources, {
 document.getElementById('library-panel')!.addEventListener('skimmer:open', refreshModelOptions);
 keyboard.onAction(actionRouter.route);
 
+const inputDeviceLabel = document.querySelector('#input-device')!;
 const frame = (now: number): void => {
   if (mode !== 'running') symbiosis.suspend();
   else if (!debugAdvancing && !buffering && !journey.active) {
@@ -1168,7 +1169,7 @@ const frame = (now: number): void => {
   renderer?.setInversion(reducedRotation?0:inversion);
   const menuInput = ui.canInteract && (mode === 'title' || mode === 'failed' || Boolean(overlays.current));
   gamepad.poll(controls, action => actionRouter.route(action, false, 'gamepad'), menuInput, now);
-  document.querySelector('#input-device')!.textContent = gamepad.device;
+  if (inputDeviceLabel.textContent !== gamepad.device) inputDeviceLabel.textContent = gamepad.device;
   const delta = Math.min(0.1, Math.max(0, (now - lastFrameTime) / 1000));
   lastFrameTime = now;
 

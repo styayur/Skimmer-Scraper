@@ -10,6 +10,8 @@ interface IndexedChunk {
   bvh: MeshBVH;
 }
 
+export const collisionBvhOptions = { maxDepth: 28, targetLeafSize: 10 };
+
 export interface WorldAdapterStats {
   chunks: number;
   bvhCount: number;
@@ -33,7 +35,7 @@ export class ChunkedWorldAdapter implements SurfaceProvider {
     for (const chunk of chunks) this.addChunk(chunk);
   }
 
-  public addChunk(chunk: CollisionChunk): void {
+  public addChunk(chunk: CollisionChunk, prepared?: MeshBVH): void {
     this.removeChunk(chunk.id);
     for (const attribute of Object.keys(chunk.geometry.attributes)) {
       if (attribute !== 'position' && attribute !== 'index') chunk.geometry.deleteAttribute(attribute);
@@ -43,10 +45,7 @@ export class ChunkedWorldAdapter implements SurfaceProvider {
       id: chunk.id,
       origin: new THREE.Vector3(chunk.origin.x, chunk.origin.y, chunk.origin.z),
       bounds: chunk.bounds.clone(),
-      bvh: new MeshBVH(chunk.geometry, {
-        maxDepth: 28,
-        targetLeafSize: 10,
-      }),
+      bvh: prepared ?? new MeshBVH(chunk.geometry, collisionBvhOptions),
     });
   }
 

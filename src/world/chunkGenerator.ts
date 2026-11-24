@@ -1,3 +1,4 @@
+import { packGeometry, unpackGeometry, type PackedGeometry } from './packedGeometry';
 import * as THREE from 'three';
 import { RoundedBoxGeometry } from 'three/examples/jsm/geometries/RoundedBoxGeometry.js';
 import { mergeGeometries } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
@@ -135,30 +136,11 @@ const createGroundTile = (
 const inSpawnSafetyCorridor = (worldX: number, worldZ: number): boolean =>
   worldZ > -120 && worldZ < 220 && Math.abs(worldX) < 92;
 
-export class ChunkGenerator {
-  // Keep cached shadow uniforms inside the world's lifetime. A renderer-shared
-  // depth material can re-upload a disposed ground map when the next city casts shadows.
-  private readonly shadowDepthMaterial = new THREE.MeshDepthMaterial();
+export class CityGeometryGenerator {
   private readonly library = new ArchitectureLibrary();
-  private disposed = false;
-  private readonly materials: WorldMaterials;
-  private readonly billboardMaterials: BillboardMaterialSet;
+  constructor(private readonly settings: WorldSettings) {}
 
-  public constructor(
-    public readonly settings: WorldSettings,
-    materials = createWorldMaterials(settings.paletteHue ?? 0, settings.generatorVersion === GENERATOR_VERSION),
-    billboardMaterials = createBillboardMaterialSet(),
-  ) {
-    this.materials = materials;
-    this.billboardMaterials = billboardMaterials;
-    if (settings.generatorVersion >= DENSE_GENERATOR_VERSION) {
-      // The illuminated windows are individual flat planes with no volume.
-      this.materials.byKey.windowWarm.forceSinglePass = true;
-    }
-  }
-
-  public generate(chunkX: number, chunkZ: number, revision = 0): GeneratedChunk {
-    if (this.disposed) throw new Error('Chunk generator is disposed.');
+  prepare(chunkX: number, chunkZ: number, revision: number) {
     const key = `chunk:${chunkX}:${chunkZ}:r${revision}`;
     const origin = { x: chunkX * CHUNK_SIZE, y: 0, z: chunkZ * CHUNK_SIZE };
     const denseCity = this.settings.generatorVersion >= DENSE_GENERATOR_VERSION;
@@ -174,10 +156,6 @@ export class ChunkGenerator {
       bridges: 0,
       islands: 0,
     };
-    const group = new THREE.Group();
-    group.name = `chunk-${chunkX}-${chunkZ}-r${revision}`;
-    group.position.set(origin.x, origin.y, origin.z);
-
     const addPiece = (
       materialKey: WorldMaterialKey,
       source: THREE.BufferGeometry,
@@ -551,46 +529,21 @@ export class ChunkGenerator {
       }
     }
 
-    if (denseCity) {
-      for (const batch of createBillboardBatches(work.billboards, this.billboardMaterials.materials)) group.add(batch);
-    } else {
-      for (const placement of work.billboards) group.add(createBillboardMesh(placement, this.billboardMaterials.materials));
-    }
-
-    let renderTriangles = 0;
+    const surfaces: Array<[WorldMaterialKey, PackedGeometry]> = [];
     const shadowSurfaces: THREE.BufferGeometry[] = [];
+    let renderTriangles = 0;
     for (const [materialKey, geometries] of work.render) {
-      const merged = mergeGeometries(geometries, false);
+      const merged = mergeGeometries(geometries, false)!;
       for (const geometry of geometries) geometry.dispose();
-      if (!merged) continue;
-      merged.computeBoundingSphere();
-      const mesh = new THREE.Mesh(merged, this.materials.byKey[materialKey]);
-      mesh.name = `${key}-${materialKey}`;
-      mesh.matrixAutoUpdate = false;
-      mesh.updateMatrix();
-      mesh.castShadow = !['rose', 'teal', 'windowWarm', 'water'].includes(materialKey)
-        && (!denseCity || !['wood', 'blossom', 'soil'].includes(materialKey));
-      if (denseCity && ['shellCeladon', 'shellPlum', 'shellIvory', 'bridge', 'rock'].includes(materialKey)) {
+      surfaces.push([materialKey, packGeometry(merged)]);
+      renderTriangles += triangleCount(merged);
+      if (denseCity && castsStructuralShadow(materialKey)) {
         const surface = new THREE.BufferGeometry();
         surface.setAttribute('position', merged.getAttribute('position'));
         shadowSurfaces.push(surface);
-        mesh.castShadow = false;
       }
-      if (mesh.castShadow) mesh.customDepthMaterial = this.shadowDepthMaterial;
-      mesh.receiveShadow = ['ground', 'shellCeladon', 'shellPlum', 'shellIvory', 'bridge', 'rock', 'soil'].includes(materialKey);
-      group.add(mesh);
-      renderTriangles += triangleCount(merged);
     }
-    if (shadowSurfaces.length) {
-      const geometry = mergeGeometries(shadowSurfaces, false)!;
-      const shadow = new THREE.Mesh(geometry, this.materials.byKey.bridge);
-      shadow.name = `${key}-structural-shadows`;
-      shadow.layers.set(CITY_SHADOW_LAYER);
-      shadow.castShadow = true;
-      shadow.customDepthMaterial = this.shadowDepthMaterial;
-      group.add(shadow);
-    }
-
+    const shadow = shadowSurfaces.length ? packGeometry(mergeGeometries(shadowSurfaces, false)!) : null;
     const mergedCollision = mergeGeometries(work.collision, false);
     for (const geometry of work.collision) geometry.dispose();
     if (!mergedCollision) throw new Error(`Chunk ${key} produced no collision geometry.`);
@@ -604,9 +557,9 @@ export class ChunkGenerator {
       chunkZ,
       revision,
       origin,
-      group,
-      bounds: work.bounds.clone(),
-      collisionGeometry: mergedCollision,
+      surfaces, billboards: work.billboards, shadow,
+      bounds: [work.bounds.min.toArray(), work.bounds.max.toArray()] as const,
+      collision: packGeometry(mergedCollision),
       fingerprint: fingerprintValues(...work.signature),
       stats: {
         buildings: work.buildings,
@@ -618,10 +571,92 @@ export class ChunkGenerator {
     };
   }
 
+  dispose(): void {
+    this.library.dispose();
+  }
+}
+
+const castsStructuralShadow = (key: WorldMaterialKey): boolean =>
+  ['shellCeladon', 'shellPlum', 'shellIvory', 'bridge', 'rock'].includes(key);
+
+export type CityChunkPacket = ReturnType<CityGeometryGenerator['prepare']>;
+
+export class ChunkGenerator {
+  // Keep cached shadow uniforms inside the world's lifetime. A renderer-shared
+  // depth material can re-upload a disposed ground map when the next city casts shadows.
+  private readonly shadowDepthMaterial = new THREE.MeshDepthMaterial();
+  private readonly geometry: CityGeometryGenerator;
+  private disposed = false;
+  private readonly materials: WorldMaterials;
+  private readonly billboardMaterials: BillboardMaterialSet;
+
+  public constructor(
+    public readonly settings: WorldSettings,
+    materials = createWorldMaterials(settings.paletteHue ?? 0, settings.generatorVersion === GENERATOR_VERSION),
+    billboardMaterials = createBillboardMaterialSet(),
+  ) {
+    this.geometry = new CityGeometryGenerator(settings);
+    this.materials = materials;
+    this.billboardMaterials = billboardMaterials;
+    if (settings.generatorVersion >= DENSE_GENERATOR_VERSION) {
+      // The illuminated windows are individual flat planes with no volume.
+      this.materials.byKey.windowWarm.forceSinglePass = true;
+    }
+  }
+
+  public generate(chunkX: number, chunkZ: number, revision = 0): GeneratedChunk {
+    if (this.disposed) throw new Error('Chunk generator is disposed.');
+    return this.assemble(this.geometry.prepare(chunkX, chunkZ, revision));
+  }
+
+  public assemble(packet: CityChunkPacket): GeneratedChunk {
+    const { origin, key, chunkX, chunkZ, revision, fingerprint, stats } = packet;
+    const denseCity = this.settings.generatorVersion >= DENSE_GENERATOR_VERSION;
+    const group = new THREE.Group();
+    group.name = `chunk-${chunkX}-${chunkZ}-r${revision}`;
+    group.position.set(origin.x, origin.y, origin.z);
+
+    if (denseCity) {
+      for (const batch of createBillboardBatches(packet.billboards, this.billboardMaterials.materials)) group.add(batch);
+    } else {
+      for (const placement of packet.billboards) group.add(createBillboardMesh(placement, this.billboardMaterials.materials));
+    }
+
+    for (const [materialKey, data] of packet.surfaces) {
+      const merged = unpackGeometry(data);
+      const mesh = new THREE.Mesh(merged, this.materials.byKey[materialKey]);
+      mesh.name = `${key}-${materialKey}`;
+      mesh.matrixAutoUpdate = false;
+      mesh.updateMatrix();
+      mesh.castShadow = !['rose', 'teal', 'windowWarm', 'water'].includes(materialKey)
+        && (!denseCity || !['wood', 'blossom', 'soil'].includes(materialKey));
+      if (denseCity && castsStructuralShadow(materialKey)) {
+        mesh.castShadow = false;
+      }
+      if (mesh.castShadow) mesh.customDepthMaterial = this.shadowDepthMaterial;
+      mesh.receiveShadow = ['ground', 'shellCeladon', 'shellPlum', 'shellIvory', 'bridge', 'rock', 'soil'].includes(materialKey);
+      group.add(mesh);
+    }
+    if (packet.shadow) {
+      const geometry = unpackGeometry(packet.shadow);
+      const shadow = new THREE.Mesh(geometry, this.materials.byKey.bridge);
+      shadow.name = `${key}-structural-shadows`;
+      shadow.layers.set(CITY_SHADOW_LAYER);
+      shadow.castShadow = true;
+      shadow.customDepthMaterial = this.shadowDepthMaterial;
+      group.add(shadow);
+    }
+
+    const bounds = new THREE.Box3(new THREE.Vector3(...packet.bounds[0]), new THREE.Vector3(...packet.bounds[1]));
+    const collisionGeometry = unpackGeometry(packet.collision);
+    collisionGeometry.boundingBox = bounds.clone();
+    return { key, chunkX, chunkZ, revision, origin, group, bounds, collisionGeometry, fingerprint, stats };
+  }
+
   public dispose(): void {
     if (this.disposed) return;
     this.disposed = true;
-    this.library.dispose();
+    this.geometry.dispose();
     this.shadowDepthMaterial.dispose();
     this.materials.dispose();
     this.billboardMaterials.dispose();
