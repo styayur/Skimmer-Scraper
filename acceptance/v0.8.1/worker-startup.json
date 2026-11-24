@@ -1,0 +1,16 @@
+{
+  "version": "0.8.1",
+  "affectedSource": "4dbd562b12aa96affe6bdf93b5523da698dc3ee0",
+  "productionDeployment": "https://github.com/styayur/Skimmer-Scraper/actions/runs/45346834713",
+  "platform": "Windows 11, Chrome, AMD Radeon 780M",
+  "observations": [
+    "The first public flight started in the city with three companions and completed system speech. The browser timed out waiting for navigation to Dragonspine.",
+    "A subsequent cold city entry reported Timed out while preparing the spawn collision ring. The application did not reach its ready state."
+  ],
+  "regression": {
+    "file": "tests/e2e/dense-city.spec.ts",
+    "method": "Hold the city worker script request open. Launch the city and check that collision BVHs exist while the request is pending. Release the request and observe measured worker-built chunks in the running game.",
+    "chromium": "Passed locally with zero retries.",
+    "unitTestsPassed": 199
+  }
+}
