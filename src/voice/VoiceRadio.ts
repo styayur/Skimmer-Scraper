@@ -50,6 +50,7 @@ const messages: Record<string, string> = {
 };
 
 export class VoiceRadio {
+  private busyUntil = 0;
   private settings: VoicePreferences;
   private readonly deepSeek: DeepSeekVoice;
   private readonly providers: Record<SpeakingProvider, VoiceProvider>;
@@ -228,7 +229,8 @@ export class VoiceRadio {
     this.hooks.status('idle', messages[code] ?? '语音暂不可用。按 T 可以输入文字。');
   }
 
-  public update(inFlight: boolean, line: RadioLine | null, muted = false): void {
+  public update(inFlight: boolean, line: RadioLine | null, muted = false, busy = false): void {
+    if (inFlight && busy) this.busyUntil = performance.now() + 240;
     const unseen = line && line.id !== this.seenLine;
     if (line) this.seenLine = line.id;
     if (!inFlight) { this.cancel(false); this.silence(); return; }
@@ -287,7 +289,7 @@ export class VoiceRadio {
     if (this.kokoroImport) return this.kokoroImport;
     const pending = import('./KokoroVoice').then(({ KokoroVoice }) => {
       if (this.kokoroImport !== pending || this.settings.output !== 'high-quality') throw new Error('kokoro-cancelled');
-      return this.kokoro = new KokoroVoice(() => this.context);
+      return this.kokoro = new KokoroVoice(() => this.context, () => performance.now() < this.busyUntil);
     }).finally(() => { if (this.kokoroImport === pending) this.kokoroImport = null; });
     this.kokoroImport = pending;
     return pending;
