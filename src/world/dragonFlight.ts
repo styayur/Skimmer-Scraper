@@ -287,6 +287,7 @@ export class RealmDragonFlight {
         ]
       : [];
   }
+  get residentPosition(): Vec3 | undefined { return this.asset ? this.actor.position : undefined; }
   dispose(): void {
     this.abort.abort();
     this.removeProxies();
