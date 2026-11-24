@@ -40,6 +40,7 @@ export class KokoroVoice implements VoiceProvider {
     releases: 0,
     generated: 0,
     cacheHits: 0,
+    deferredNotices: 0,
     completed: 0,
     loadMs: null as number | null,
     inferenceMs: null as number | null,
@@ -49,7 +50,8 @@ export class KokoroVoice implements VoiceProvider {
     detail: '',
   };
 
-  public constructor(private readonly getContext: () => AudioContext | null) {}
+  public constructor(private readonly getContext: () => AudioContext | null,
+    private readonly flightBusy: () => boolean = () => false) {}
   public snapshot() { return { ...this.stats, resident: this.worker !== null, cachedClipBytes: this.clipBytes, idleMs }; }
 
   public prepare(explicit = false): Promise<void> {
@@ -79,7 +81,18 @@ export class KokoroVoice implements VoiceProvider {
     const text = mandarinSpeechText(line.text, language);
     const { signal, start, preview } = lifecycle;
     signal.throwIfAborted();
-    if (this.stats.phase !== 'ready') {
+    const voice = KOKORO_VOICES[identity.agent];
+    const key = JSON.stringify([voice, identity.rate, text]);
+    const cached = this.clips.get(key);
+    if (!cached && !preview && line.priority === 'notice' && this.flightBusy()) {
+      this.stats.deferredNotices++;
+      const deadline = performance.now() + 650;
+      while (performance.now() < deadline && this.flightBusy()) {
+        await new Promise<void>(resolve => window.setTimeout(resolve, 50));
+        signal.throwIfAborted();
+      }
+    }
+    if (!cached && this.stats.phase !== 'ready') {
       const preparing = this.prepare(preview);
       if (!preview) {
         void preparing.catch(() => {});
@@ -92,7 +105,6 @@ export class KokoroVoice implements VoiceProvider {
     }
     const context = this.getContext();
     if (context?.state !== 'running') throw new Error('playback-blocked');
-    const voice = KOKORO_VOICES[identity.agent];
     const speech = Symbol();
     this.activeSpeech = speech;
     window.clearTimeout(this.idleTimer);
@@ -107,8 +119,7 @@ export class KokoroVoice implements VoiceProvider {
     signal.addEventListener('abort', interrupted, { once: true });
     let playback: RadioAudio | undefined;
     try {
-      const key = JSON.stringify([voice, identity.rate, text]);
-      let result = this.clips.get(key);
+      let result = cached;
       if (result) {
         this.clips.delete(key);
         this.clips.set(key, result);
@@ -163,6 +174,8 @@ export class KokoroVoice implements VoiceProvider {
   }
 
   public dispose(): void {
+    this.clips.clear();
+    this.clipBytes = 0;
     this.generation++;
     this.activeSpeech = null;
     this.loading = null;
@@ -222,8 +235,6 @@ export class KokoroVoice implements VoiceProvider {
   }
 
   private stopWorker(error: Error = new Error('kokoro-cancelled')): void {
-    this.clips.clear();
-    this.clipBytes = 0;
     window.clearTimeout(this.idleTimer);
     this.generatedThisSession = false;
     if (this.pending) {
@@ -241,7 +252,11 @@ export class KokoroVoice implements VoiceProvider {
 
   private armIdle(): void {
     window.clearTimeout(this.idleTimer);
-    this.idleTimer = window.setTimeout(() => this.dispose(), idleMs);
+    this.idleTimer = window.setTimeout(() => {
+      this.stopWorker();
+      this.stats.phase = 'idle';
+      this.stats.percent = null;
+    }, idleMs);
   }
 
   private finishSpeech(speech: symbol): void {
@@ -250,6 +265,6 @@ export class KokoroVoice implements VoiceProvider {
     if (this.worker) {
       this.stats.phase = 'ready';
       this.armIdle();
-    }
+    } else if (this.stats.phase === 'playing') this.stats.phase = 'idle';
   }
 }
