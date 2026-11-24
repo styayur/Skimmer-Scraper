@@ -20,6 +20,7 @@ export interface ChunkSource {
 
 export class CityWorkerSource implements ChunkSource {
   private worker: Worker | null = null;
+  private workerReady = false;
   private readonly generator: ChunkGenerator;
   private pending?: { resolve: (result: GeneratedChunk) => void; reject: (error: Error) => void };
   private disposed = false;
@@ -30,7 +31,11 @@ export class CityWorkerSource implements ChunkSource {
       this.worker = new Worker(new URL('./cityChunk.worker.ts', import.meta.url), { type: 'module' });
       this.worker.onerror = () => this.stopWorker(new Error('City geometry worker unavailable'));
       this.worker.onmessageerror = () => this.stopWorker(new Error('Invalid city geometry packet'));
-      this.worker.onmessage = ({ data }: MessageEvent<CityWorkerResult>) => {
+      this.worker.onmessage = ({ data }: MessageEvent<'ready' | CityWorkerResult>) => {
+        if (data === 'ready') {
+          this.workerReady = true;
+          return;
+        }
         const pending = this.pending;
         if (!pending) return;
         try {
@@ -54,6 +59,7 @@ export class CityWorkerSource implements ChunkSource {
   private stopWorker(error: Error): void {
     this.worker?.terminate();
     this.worker = null;
+    this.workerReady = false;
     this.pending?.reject(error);
     this.pending = undefined;
   }
@@ -61,7 +67,8 @@ export class CityWorkerSource implements ChunkSource {
   async generate(request: ChunkSourceRequest): Promise<GeneratedChunk> {
     if (this.disposed) throw new Error('City source disposed');
     if (this.pending) throw new Error('City source already generating a chunk');
-    if (this.worker) {
+    // Spawn collision must remain available while the worker bundle is in transit.
+    if (this.worker && this.workerReady) {
       try {
         return await new Promise<GeneratedChunk>((resolve, reject) => {
           this.pending = { resolve, reject };

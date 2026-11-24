@@ -1,5 +1,29 @@
 import { expect, test } from '@playwright/test';
 
+test('city can launch before its geometry worker downloads and use it afterwards', async ({ page, context }) => {
+  let releaseWorker!: () => void;
+  const gate = new Promise<void>(resolve => { releaseWorker = resolve; });
+  let requested = false;
+  await context.route('**/cityChunk.worker-*.js', async route => {
+    requested = true;
+    await gate;
+    await route.continue();
+  });
+  try {
+    await page.goto('/?seed=334458&gen=4', { waitUntil: 'domcontentloaded' });
+    await page.waitForFunction(() => window.__SKIMMER_SCRAPER__?.snapshot().ready);
+    expect(requested).toBe(true);
+    await page.locator('#start-button').click();
+    await page.waitForFunction(() => window.__SKIMMER_SCRAPER__?.snapshot().mode === 'running');
+    const streaming = await page.evaluate(() => window.__SKIMMER_SCRAPER__!.snapshot().streaming!);
+    expect(streaming.bvhCount).toBeGreaterThan(0);
+    expect(streaming.workerBuildP95Ms).toBeNull();
+  } finally {
+    releaseWorker();
+  }
+  await page.waitForFunction(() => (window.__SKIMMER_SCRAPER__?.snapshot().streaming?.workerBuildP95Ms ?? 0) > 0);
+});
+
 test('reproduces legacy URLs and flies through five dense-city worlds with three companions', async ({ page }, testInfo) => {
   test.setTimeout(300_000);
   const errors: string[] = [];

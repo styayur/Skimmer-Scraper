@@ -15,6 +15,7 @@ let generator: CityGeometryGenerator;
 self.onmessage = ({ data }: MessageEvent<WorldSettings | ChunkSourceRequest>) => {
   if ('generatorVersion' in data) {
     generator = new CityGeometryGenerator(data);
+    self.postMessage('ready');
     return;
   }
   const started = performance.now();

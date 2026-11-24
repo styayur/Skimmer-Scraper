@@ -7,6 +7,10 @@ on:
         description: Commit verified on main
         type: string
         required: true
+      restore_latest:
+        description: Restore the exact static ZIP of the latest stable GitHub Release
+        type: boolean
+        default: false
 
 permissions: {}
 
@@ -51,16 +55,41 @@ jobs:
           persist-credentials: false
 
       - name: Set up Node
+        if: ${{ !inputs.restore_latest }}
         uses: actions/setup-node@v4
         with:
           node-version: 24
           cache: npm
 
       - name: Install dependencies
+        if: ${{ !inputs.restore_latest }}
         run: npm ci
 
       - name: Build static site
+        if: ${{ !inputs.restore_latest }}
         run: npm run build
+
+      - name: Restore published stable site
+        if: inputs.restore_latest
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release view --json tagName,isDraft,isPrerelease,assets > "$RUNNER_TEMP/latest.json"
+          tag=$(jq -er 'select(.isDraft == false and .isPrerelease == false) | .tagName' "$RUNNER_TEMP/latest.json")
+          [[ "$tag" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]
+          archive="skimmer-scraper-$tag-static.zip"
+          digest=$(jq -er --arg file "$archive" '[.assets[] | select(.name == $file)] | select(length == 1) | .[0].digest' "$RUNNER_TEMP/latest.json")
+          [[ "$digest" =~ ^sha256:[0-9a-f]{64}$ ]]
+          gh release download "$tag" --pattern "$archive" --dir "$RUNNER_TEMP"
+          echo "${digest#sha256:}  $RUNNER_TEMP/$archive" | sha256sum --check
+          git fetch --depth=1 --no-tags origin "refs/tags/$tag"
+          commit=$(git rev-parse 'FETCH_HEAD^{commit}')
+          mkdir dist
+          unzip -q "$RUNNER_TEMP/$archive" -d dist
+          test -s dist/index.html
+          jq -e --arg sha "$commit" --arg version "${tag#v}" \
+            '.sourceCommit == $sha and .version == $version and .dirty == false' dist/build-info.json
+          echo "Restoring $tag at $commit from the published static ZIP ($digest)." >> "$GITHUB_STEP_SUMMARY"
 
       - name: Configure Pages
         uses: actions/configure-pages@v5
