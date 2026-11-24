@@ -101,6 +101,7 @@ export class CrownbackFlight {
   private tier: Tier = 'far';
   private high = false;
   private visibleModel?: Model;
+  private collisionModel?: Model;
 
   constructor(private readonly seed: number, private readonly colliders: DynamicColliderRegistry) {
     this.group.add(this.actor);
@@ -119,12 +120,17 @@ export class CrownbackFlight {
         const gltf = await loader.parseAsync(await response.arrayBuffer(), '');
         if (this.abort.signal.aborted) { disposeObject3D(gltf.scene); return; }
         gltf.scene.updateMatrixWorld(true);
-        if (tier === 'far') this.bindProbes(gltf.scene);
         const mixer = new T.AnimationMixer(gltf.scene);
+        const model={scene:gltf.scene,mixer};
+        if(!this.collisionModel){
+          try { this.bindProbes(gltf.scene); }
+          catch(error) { disposeObject3D(gltf.scene); throw error; }
+          this.collisionModel=model;
+        }
         for (const clip of gltf.animations) mixer.clipAction(clip).play();
         gltf.scene.visible = false;
         this.actor.add(gltf.scene);
-        this.models.set(tier, {scene:gltf.scene, mixer});
+        this.models.set(tier,model);
         this.step(0);
       } catch (error) {
         if (this.abort.signal.aborted) return;
@@ -135,6 +141,7 @@ export class CrownbackFlight {
 
   private bindProbes(scene: T.Group) {
     const up = new T.Vector3(0,1,0);
+    const probes:Probe[]=[];
     for (const [index, [name,start,end,width,depth]] of segments.entries()) {
       const bone = scene.getObjectByName(name);
       if (!bone) throw Error('Missing Crownback bone ' + name);
@@ -144,8 +151,9 @@ export class CrownbackFlight {
       const across = up.clone().cross(along).normalize();
       const orientation = new T.Matrix4().makeBasis(across, along, across.clone().cross(along));
       const pose = orientation.scale(new T.Vector3(width,direction.length()*.53,depth)).setPosition(a.lerp(b,.5));
-      this.probes.push({id:'crownback:'+index, bone, shape:bone.matrixWorld.clone().invert().multiply(pose)});
+      probes.push({id:'crownback:'+index, bone, shape:bone.matrixWorld.clone().invert().multiply(pose)});
     }
+    this.probes.push(...probes);
   }
 
   cover(position: Vec3) {
@@ -168,7 +176,7 @@ export class CrownbackFlight {
     const near = (this.high ? 620 : 420) + (this.tier === 'near' ? 55 : 0);
     const middle = (this.high ? 1300 : 1000) + (this.tier === 'middle' ? 100 : 0);
     this.tier = distance < near ? 'near' : distance < middle ? 'middle' : 'far';
-    const coarse = this.models.get('far');
+    const coarse = this.collisionModel;
     const model = this.models.get(this.tier) ?? this.models.get('middle') ?? coarse;
     if (!model) return;
     if (this.visibleModel !== model) {
@@ -209,8 +217,12 @@ export class CrownbackFlight {
     this.clearProbes();
     for (const {scene,mixer} of this.models.values()) {
       mixer.stopAllAction(); mixer.uncacheRoot(scene);
+      const skeletons=new Set<T.Skeleton>();
+      scene.traverse(node=>{ if(node instanceof T.SkinnedMesh)skeletons.add(node.skeleton); });
+      for(const skeleton of skeletons)skeleton.dispose();
       disposeObject3D(scene);
     }
-    this.models.clear(); this.group.clear();
+    this.models.clear(); this.probes.length=0; this.visibleModel=undefined; this.collisionModel=undefined;
+    this.group.clear();
   }
 }
