@@ -1,49 +1,82 @@
-name: Windows desktop
+name: Current-user NSIS qualification
 
 on:
   workflow_dispatch:
     inputs:
       expected_sha:
-        description: Full source SHA to build
-        required: true
+        description: PR head checked by the Windows desktop run
         type: string
-  pull_request:
-    paths:
-      - 'src-tauri/**'
-      - 'src/platform/**'
-      - '.github/workflows/windows-desktop.yml'
+        required: true
+      installer_run:
+        description: Successful Windows desktop workflow run
+        type: string
+        required: true
 
 permissions:
+  actions: read
   contents: read
 
 jobs:
-  windows:
+  qualification:
     runs-on: windows-2022
-    timeout-minutes: 60
+    timeout-minutes: 15
+    env:
+      GH_TOKEN: ${{ github.token }}
+      EXPECTED_HEAD: ${{ inputs.expected_sha }}
+      INSTALLER_RUN: ${{ inputs.installer_run }}
     steps:
-      - uses: actions/checkout@v4
-        with:
-          persist-credentials: false
-      - name: Verify requested source
-        if: github.event_name == 'workflow_dispatch'
-        env:
-          EXPECTED_SHA: ${{ inputs.expected_sha }}
+      - name: Verify, download and install the exact candidate
+        shell: pwsh
         run: |
-          if ($env:GITHUB_SHA -cne $env:EXPECTED_SHA) { throw 'Source SHA differs from expected_sha' }
-      - uses: actions/setup-node@v4
+          $ErrorActionPreference = 'Stop'
+          if ($env:EXPECTED_HEAD -cnotmatch '^[0-9a-f]{40}$' -or $env:INSTALLER_RUN -notmatch '^[0-9]+$') {
+            throw 'Invalid qualification input'
+          }
+          $run = gh api "repos/$env:GITHUB_REPOSITORY/actions/runs/$env:INSTALLER_RUN" | ConvertFrom-Json
+          if ($LASTEXITCODE -ne 0 -or $run.head_sha -cne $env:EXPECTED_HEAD -or
+              $run.path -ne '.github/workflows/windows-desktop.yml' -or
+              $run.conclusion -ne 'success' -or $run.head_repository.full_name -ne $env:GITHUB_REPOSITORY) {
+            throw 'The successful Windows desktop job must match the exact PR head'
+          }
+          $staging = Join-Path $env:RUNNER_TEMP 'skimmer-nsis-qualification'
+          gh run download $env:INSTALLER_RUN -R $env:GITHUB_REPOSITORY --pattern 'windows-x64-*' --dir $staging
+          if ($LASTEXITCODE -ne 0) { throw 'Candidate artifact download failed' }
+          $installers = @(Get-ChildItem -LiteralPath $staging -Recurse -File -Filter '*_x64-setup.exe')
+          $provenance = @(Get-ChildItem -LiteralPath $staging -Recurse -File -Filter 'build-info.json')
+          if ($installers.Count -ne 1 -or $provenance.Count -ne 1) { throw 'Expected one installer and provenance file' }
+          $build = Get-Content -LiteralPath $provenance[0].FullName -Raw | ConvertFrom-Json
+          if ($build.dirty -ne $false -or $build.sourceCommit -cnotmatch '^[0-9a-f]{40}$') {
+            throw 'Candidate build provenance is invalid'
+          }
+          $commit = gh api "repos/$env:GITHUB_REPOSITORY/git/commits/$($build.sourceCommit)" | ConvertFrom-Json
+          if ($LASTEXITCODE -ne 0 -or (($build.sourceCommit -cne $env:EXPECTED_HEAD) -and
+              ($commit.parents.sha -cnotcontains $env:EXPECTED_HEAD))) {
+            throw 'The installer checkout must be the PR head or its test merge'
+          }
+          $installer = $installers[0].FullName
+          $hash = (Get-FileHash -LiteralPath $installer).Hash.ToLowerInvariant()
+          $signing = (Get-AuthenticodeSignature -LiteralPath $installer).Status.ToString()
+          $installDirectory = Join-Path $env:RUNNER_TEMP 'skimmer-installed'
+          $process = Start-Process -FilePath $installer -ArgumentList @('/S', "/D=$installDirectory") -Wait -PassThru -WindowStyle Hidden
+          if ($process.ExitCode -ne 0) { throw "NSIS failed with exit code $($process.ExitCode)" }
+          $exe = Join-Path $installDirectory 'skimmer-scraper.exe'
+          if (!(Test-Path -LiteralPath $exe -PathType Leaf)) { throw 'The installed executable was not found' }
+          $application = Get-ItemProperty 'HKCU:/Software/Microsoft/Windows/CurrentVersion/Uninstall/*' |
+            Where-Object { $_.DisplayName -eq 'Skimmer-Scraper' -and $_.InstallLocation -like "*$installDirectory*" }
+          if (!$application) { throw 'The installer did not register the product for the current user' }
+          [pscustomobject]@{
+            sourceRun = $env:INSTALLER_RUN
+            prHead = $env:EXPECTED_HEAD
+            sourceCommit = $build.sourceCommit
+            installerSha256 = $hash
+            authenticode = $signing
+            installerExitCode = $process.ExitCode
+            installedExeSha256 = (Get-FileHash -LiteralPath $exe).Hash.ToLowerInvariant()
+            currentUserRegistration = $true
+          } | ConvertTo-Json | Tee-Object -FilePath (Join-Path $env:RUNNER_TEMP 'nsis-result.json')
+      - name: Upload installation evidence
+        uses: actions/upload-artifact@v4
         with:
-          node-version: 24
-          cache: npm
-      - run: npm ci
-      - run: cargo test --locked --manifest-path src-tauri/Cargo.toml
-      - name: Install and verify the public high-fidelity archive in an isolated library
-        if: github.event_name == 'workflow_dispatch'
-        run: cargo test --locked --manifest-path src-tauri/Cargo.toml official_pack::tests::installs_public_archive_in_isolated_library -- --ignored --exact
-      - run: npm run desktop:build -- --ci
-      - uses: actions/upload-artifact@v4
-        with:
-          name: windows-x64-${{ github.sha }}
-          path: |
-            src-tauri/target/release/bundle/nsis/*.exe
-            dist/build-info.json
+          name: current-user-nsis-result
+          path: ${{ runner.temp }}/nsis-result.json
           if-no-files-found: error
