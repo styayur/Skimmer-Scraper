@@ -68,7 +68,7 @@ it('ties distinct profiles and saved preferences to the real companion identity 
     setItem: (_key: string, value: string) => { stored = value; },
   };
   const settings = loadVoicePreferences(storage);
-  expect(settings).toMatchObject({ input: 'off', output: 'local', language: 'zh-CN' });
+  expect(settings).toMatchObject({ input: 'off', output: 'off', language: 'zh-CN' });
   const lookup = { 2: 'On-device Mandarin guardian' };
   const profiles = [1, 2, 3].map(id => resolveVoiceIdentity(id, lookup)!);
   expect(profiles.map(item => item.callsign)).toEqual(['KITE-1', 'KITE-2', 'KITE-3']);
@@ -78,6 +78,8 @@ it('ties distinct profiles and saved preferences to the real companion identity 
   expect(profiles[1]!.cloudVoice).toBe('tide');
   expect(resolveVoiceIdentity(null, lookup)).toBeNull();
   saveVoicePreferences(storage, { ...settings, input: 'deepseek', output: 'deepseek', voices: lookup });
+  expect(loadVoicePreferences(storage)).toMatchObject({ input: 'off', output: 'off', voices: lookup });
+  saveVoicePreferences(storage, { ...settings, output: 'local', voices: lookup });
   expect(loadVoicePreferences(storage)).toMatchObject({ input: 'off', output: 'local', voices: lookup });
   expect(stored).not.toContain('deepseek');
   saveVoicePreferences(storage, { ...settings, output: 'high-quality', volume: 0.48, localFallback: false, voices: lookup });

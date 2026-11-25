@@ -238,7 +238,8 @@ export class VoiceRadio {
     if (line) this.seenLine = line.id;
     if (!inFlight) { this.cancel(false); this.silence(); return; }
     if (muted) { this.silence(); return; }
-    if (unseen && line.priority !== 'notice' && !this.capture && !this.preview && this.activated && this.settings.output !== 'off'
+    if (unseen && line.priority !== 'notice'
+      && (line.priority !== 'risk' || performance.now() >= this.busyUntil) && !this.capture && !this.preview && this.activated && this.settings.output !== 'off'
       && this.settings.volume > 0 && line.agent !== null) this.speech.enqueue(line);
   }
 

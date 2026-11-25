@@ -8,11 +8,11 @@ export async function profileVoice(page, output, runtime) {
   await page.locator('#start-button').click();
   await page.waitForFunction(() => window.__SKIMMER_SCRAPER__.snapshot().mode === 'running');
   const durationMs = 15_000;
-  let modelWireBytes = 0;
+  let observedModelResponseBytes = 0;
   const trackResponse = async response => {
     if (!response.url().includes('/onnx/model_fp16.onnx') || response.fromServiceWorker()) return;
     const length = Number(await response.headerValue('content-length'));
-    if (Number.isSafeInteger(length) && length > 0) modelWireBytes += length;
+    if (Number.isSafeInteger(length) && length > 0) observedModelResponseBytes += length;
   };
   page.on('response', trackResponse);
   const configure = value => page.locator('#voice-output').evaluate((field, value) => {
@@ -34,12 +34,13 @@ export async function profileVoice(page, output, runtime) {
   async function sample(name, action) {
     await page.evaluate(async () => {
       const game = window.__SKIMMER_SCRAPER__;
+      await game.retry();
       game.pause();
       await game.setPose({ x: 196, y: 410, z: 26 }, { yaw: 0, pitch: 0, roll: 0 });
       game.resume();
     });
     const before = await voice();
-    const bytesBefore = modelWireBytes;
+    const bytesBefore = observedModelResponseBytes;
     await page.evaluate(() => {
       let first, last;
       const intervals = [], gpu = [], heap = [];
@@ -69,7 +70,7 @@ export async function profileVoice(page, output, runtime) {
     let failure;
     try { await action(before); } catch (error) { failure = String(error); }
     const frames = await page.evaluate(() => window.endFlightSample());
-    rows.push({ name, frames, before, after: await voice(), modelWireBytes: modelWireBytes - bytesBefore, failure });
+    rows.push({ name, frames, before, after: await voice(), observedModelResponseBytes: observedModelResponseBytes - bytesBefore, failure });
     await writeFile(path.join(output, 'flight-voice.json'), JSON.stringify({ runtime, rows }, null, 2));
     assert(!failure, failure);
     assert(frames.frames > 0 && frames.mode === 'running');
