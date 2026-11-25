@@ -8,7 +8,7 @@ import {createServer} from 'vite';
 const server=await createServer({server:{middlewareMode:true},logLevel:'error'});
 try{
   const {crownbackPatrol,patrolPhase,crownbackWingWeight,crownbackPitch}=await server.ssrLoadModule('/src/world/crownbackFlight.ts');
-  const bytes=await readFile('public/realms/ascendant/crownback-near.glb');
+  const bytes=await readFile('public/realms/dragonspine/crownback-near.glb');
   const gltf=await new GLTFLoader().parseAsync(bytes.buffer.slice(bytes.byteOffset,bytes.byteOffset+bytes.byteLength),'');
   const mixer=new T.AnimationMixer(gltf.scene),actor=new T.Group(),probe=new T.Vector3();
   actor.add(gltf.scene);
@@ -31,8 +31,8 @@ try{
     parts.push({mesh,indices});
   });
   assert(parts.length>0);
-  const {ascendantFloor}=await server.ssrLoadModule('/src/world/ascendantTerrain.ts');
-  const {islandsAround,islandFaces}=await server.ssrLoadModule('/src/world/ascendantIslands.ts');
+  const {dragonspineFloor}=await server.ssrLoadModule('/src/world/dragonspineTerrain.ts');
+  const {islandsAround,islandFaces}=await server.ssrLoadModule('/src/world/dragonspineIslands.ts');
   const ray=new T.Ray(), direction=new T.Vector3(.013,1,.027).normalize();
   const seeds=[334458,0,17,12345,0xffffffff,...Array.from({length:30},(_,i)=>(i*70711921)>>>0)];
   const rows=[];
@@ -54,7 +54,7 @@ try{
       const t=k/384,p=route.getPoint(t),v=route.getTangent(t),l=Math.hypot(v.x,v.z);
       for(const width of [-220,-110,0,110,220]){
         const x=p.x+width*v.z/l,z=p.z-width*v.x/l;
-        const clearance=p.y-ascendantFloor(x,z,seed);
+        const clearance=p.y-dragonspineFloor(x,z,seed);
         if(clearance<minimum){minimum=clearance;worst={t,width,x,y:p.y,z};}
       }
     }
@@ -67,7 +67,7 @@ try{
       mixer.setTime(u===0?0:seconds%8);actor.updateMatrixWorld(true);
       for(const {mesh,indices} of parts)for(const i of indices){
         mesh.getVertexPosition(i,probe).applyMatrix4(mesh.matrixWorld);
-        const clearance=probe.y-ascendantFloor(probe.x,probe.z,seed);
+        const clearance=probe.y-dragonspineFloor(probe.x,probe.z,seed);
         if(clearance<animatedMinimum){animatedMinimum=clearance;animatedWorst={seconds,vertex:i,position:probe.toArray()};}
         for(const rock of rocks){
           if(!rock.box.containsPoint(probe))continue;

@@ -31,7 +31,7 @@ test('minimal live title, guide and keyboard navigation', async ({ page }, testI
   await page.keyboard.press('Tab');
   await expect(page.getByRole('button', { name: '游戏菜单' })).toBeFocused();
   await expect(page.locator('#guide-content section')).toHaveCount(21);
-  await expect(page.locator('#guide-ascendant')).toContainText('冠脊龙');
+  await expect(page.locator('#guide-dragonspine')).toContainText('冠脊龙');
   await expect(page.locator('section:has(> #guide-dragon)')).toContainText('world-pack.json');
   expect(await page.locator('button[data-help-section]').evaluateAll(buttons => buttons
     .map(button => (button as HTMLButtonElement).dataset.helpSection!)

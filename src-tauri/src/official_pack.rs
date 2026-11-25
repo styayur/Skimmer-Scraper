@@ -15,11 +15,10 @@ use std::{
 };
 use tauri::{AppHandle, State};
 
-const URL: &str = "https://github.com/styayur/Skimmer-Scraper/releases/download/v0.8.0/skimmer-scraper-v0.8.0-dragonspine-high.zip";
-const SHA256: &str = "b71809dd42002004e8e7585626fde5c12fe0cf85980010d7166ac4a045bee6ae";
-const SIZE: u64 = 112674389;
-const ASCENDANT_URL: &str = "https://github.com/styayur/Skimmer-Scraper/releases/download/v0.8.2/skimmer-scraper-v0.8.2-dragonspine-high.zip";
-const ASCENDANT_MANIFEST: &str = "1f928dc502885002502d54bc882eebcef8a7c6694482e5e6304e6d8e829db788";
+const URL: &str = "https://github.com/styayur/Skimmer-Scraper/releases/download/v0.8.2/skimmer-scraper-v0.8.2-dragonspine-high.zip";
+const SIZE: u64 = 133983219;
+const SHA256: &str = "9c5dd4a211d348139101b85205619c0fd51bb007f5105fa98e9b3796f249616c";
+const MANIFEST_SHA256: &str = "1f928dc502885002502d54bc882eebcef8a7c6694482e5e6304e6d8e829db788";
 
 #[derive(Default)]
 struct Transfer {
@@ -27,7 +26,6 @@ struct Transfer {
     received: AtomicU64,
     verified: AtomicU64,
     total: AtomicU64,
-    ascendant: bool,
 }
 
 impl Transfer {
@@ -96,57 +94,17 @@ fn download(directory: &Path, transfer: &Transfer) -> library::Result<Value> {
             }
         }))
         .build()?;
-    let (url, size, expected_hash) = if transfer.ascendant {
-        let mut bytes = Vec::new();
-        client
-            .get("https://api.github.com/repos/styayur/Skimmer-Scraper/releases/tags/v0.8.2")
-            .header("User-Agent", "Skimmer-Scraper/WorldLibrary")
-            .send()?
-            .error_for_status()?
-            .take((1 << 20) + 1)
-            .read_to_end(&mut bytes)?;
-        if bytes.len() > 1 << 20 {
-            return Err("发行元数据过大。".into());
-        }
-        let release: Value = serde_json::from_slice(&bytes)?;
-        if release["tag_name"] != "v0.8.2"
-            || release["draft"] != false
-            || release["prerelease"] != false
-        {
-            return Err("正式资源包尚未发行。".into());
-        }
-        let asset = release["assets"]
-            .as_array()
-            .and_then(|assets| {
-                assets
-                    .iter()
-                    .find(|a| a["browser_download_url"] == ASCENDANT_URL)
-            })
-            .ok_or("找不到正式资源包。")?;
-        let size = asset["size"]
-            .as_u64()
-            .filter(|v| (20..=300 * 1024 * 1024).contains(v))
-            .ok_or("发行包大小无效。")?;
-        let hash = asset["digest"]
-            .as_str()
-            .and_then(|v| v.strip_prefix("sha256:"))
-            .ok_or("缺少发行包哈希。")?;
-        library::check_id(hash)?;
-        (ASCENDANT_URL, size, hash.to_owned())
-    } else {
-        (URL, SIZE, SHA256.to_owned())
-    };
     transfer.check()?;
-    transfer.total.store(size, Ordering::Relaxed);
-    check_space(directory, 4 * size + (32 << 20))?;
+    transfer.total.store(SIZE, Ordering::Relaxed);
+    check_space(directory, 4 * SIZE + (32 << 20))?;
     let mut digest = Sha256::new();
     let mut received = 0;
-    let mut address = reqwest::Url::parse(url)?;
+    let mut address = reqwest::Url::parse(URL)?;
     let mut buffer = vec![0; 128 << 10];
     let mut failures = 0;
-    while received < size {
+    while received < SIZE {
         transfer.check()?;
-        let end = (received + (2 << 20)).min(size) - 1;
+        let end = (received + (2 << 20)).min(SIZE) - 1;
         let start = received;
         let part = (|| -> library::Result<()> {
             let mut body = client
@@ -158,7 +116,7 @@ fn download(directory: &Path, transfer: &Transfer) -> library::Result<Value> {
                 .error_for_status()?;
             address = body.url().clone();
             let limit = if body.status() == reqwest::StatusCode::PARTIAL_CONTENT {
-                let expected = format!("bytes {start}-{end}/{size}");
+                let expected = format!("bytes {start}-{end}/{SIZE}");
                 if body
                     .headers()
                     .get("Content-Range")
@@ -169,7 +127,7 @@ fn download(directory: &Path, transfer: &Transfer) -> library::Result<Value> {
                 }
                 end + 1
             } else if start == 0 && body.status() == reqwest::StatusCode::OK {
-                size
+                SIZE
             } else {
                 return Err("服务器未能续传此资源包。".into());
             };
@@ -200,7 +158,7 @@ fn download(directory: &Path, transfer: &Transfer) -> library::Result<Value> {
             if failures >= 4 {
                 return Err(error);
             }
-            address = reqwest::Url::parse(url)?;
+            address = reqwest::Url::parse(URL)?;
             for _ in 0..(5 * failures) {
                 transfer.check()?;
                 std::thread::sleep(Duration::from_millis(100));
@@ -209,7 +167,7 @@ fn download(directory: &Path, transfer: &Transfer) -> library::Result<Value> {
             failures = 0;
         }
     }
-    if received != size || crate::library::hex_digest(&digest.finalize()) != expected_hash {
+    if received != SIZE || crate::library::hex_digest(&digest.finalize()) != SHA256 {
         return Err("发行附件 SHA-256 校验失败。".into());
     }
     temporary.rewind()?;
@@ -222,10 +180,7 @@ fn install_archive(db: &mut Connection, file: File, transfer: &Transfer) -> libr
     zip.by_name("world-pack.json")?
         .take((1 << 20) + 1)
         .read_to_end(&mut bytes)?;
-    if bytes.len() > 1 << 20
-        || (transfer.ascendant
-            && library::hex_digest(&Sha256::digest(&bytes)) != ASCENDANT_MANIFEST)
-    {
+    if bytes.len() > 1 << 20 || library::hex_digest(&Sha256::digest(&bytes)) != MANIFEST_SHA256 {
         return Err("资源清单与客户端的内容哈希不符。".into());
     }
     let manifest: Value = serde_json::from_slice(&bytes)?;
@@ -257,12 +212,8 @@ fn install_archive(db: &mut Connection, file: File, transfer: &Transfer) -> libr
 pub async fn official_pack_install(
     app: AppHandle,
     state: State<'_, PackDownload>,
-    ascendant: Option<bool>,
 ) -> Result<Value, String> {
-    let transfer = Arc::new(Transfer {
-        ascendant: ascendant.unwrap_or(false),
-        ..Default::default()
-    });
+    let transfer = Arc::new(Transfer::default());
     {
         let mut active = state.0.lock().map_err(|e| e.to_string())?;
         if active.is_some() {
@@ -304,35 +255,10 @@ mod tests {
     #[ignore = "requires the released ZIP at SKIMMER_QA_PUBLIC_PACK"]
     fn reinstall_and_cancel_preserve_verified_tiles() -> library::Result<()> {
         let archive = std::env::var_os("SKIMMER_QA_PUBLIC_PACK").ok_or("Missing released ZIP")?;
-        let mut original = File::open(&archive)?;
-        let mut digest = Sha256::new();
-        assert_eq!(original.metadata()?.len(), SIZE);
-        let mut buffer = vec![0; 128 << 10];
-        loop {
-            let count = original.read(&mut buffer)?;
-            if count == 0 {
-                break;
-            }
-            digest.update(&buffer[..count]);
-        }
-        assert_eq!(library::hex_digest(&digest.finalize()), SHA256);
-        exercise_archive(Path::new(&archive), false, 100, "dragonspine-high-1")
+        exercise_archive(Path::new(&archive), 121, "ascendant-high-2-334458")
     }
 
-    #[test]
-    #[ignore = "requires the generated Ascendant release ZIP at SKIMMER_QA_ASCENDANT_PACK"]
-    fn reinstall_ascendant_and_cancel_preserve_verified_tiles() -> library::Result<()> {
-        let archive =
-            std::env::var_os("SKIMMER_QA_ASCENDANT_PACK").ok_or("Missing Ascendant ZIP")?;
-        exercise_archive(Path::new(&archive), true, 121, "ascendant-high-2-334458")
-    }
-
-    fn exercise_archive(
-        archive: &Path,
-        ascendant: bool,
-        tiles: i64,
-        id: &str,
-    ) -> library::Result<()> {
+    fn exercise_archive(archive: &Path, tiles: i64, id: &str) -> library::Result<()> {
         let dir = tempfile::tempdir()?;
         let mut db = library::connect(dir.path())?;
         let count = |db: &Connection| -> rusqlite::Result<(i64, i64, i64)> {
@@ -344,18 +270,12 @@ mod tests {
             )
         };
         for _ in 0..2 {
-            let transfer = Transfer {
-                ascendant,
-                ..Default::default()
-            };
+            let transfer = Transfer::default();
             install_archive(&mut db, File::open(archive)?, &transfer)?;
             assert_eq!(transfer.verified.load(Ordering::Relaxed), tiles as u64);
             assert_eq!(count(&db)?, (1, 0, tiles));
         }
-        let cancelled = Transfer {
-            ascendant,
-            ..Default::default()
-        };
+        let cancelled = Transfer::default();
         cancelled.cancelled.store(true, Ordering::Relaxed);
         assert!(install_archive(&mut db, File::open(archive)?, &cancelled).is_err());
         assert_eq!(count(&db)?, (1, 0, tiles));
@@ -370,8 +290,8 @@ mod tests {
         let dir = tempfile::tempdir()?;
         let transfer = Transfer::default();
         let manifest = download(dir.path(), &transfer)?;
-        assert_eq!(manifest["id"], "dragonspine-high-1");
-        assert_eq!(transfer.verified.load(Ordering::Relaxed), 100);
+        assert_eq!(manifest["id"], "ascendant-high-2-334458");
+        assert_eq!(transfer.verified.load(Ordering::Relaxed), 121);
         let db = library::connect(dir.path())?;
         let size: i64 = db.query_row(
             "SELECT SUM(length(data)) FROM tiles JOIN packs USING(token) WHERE ready=1",

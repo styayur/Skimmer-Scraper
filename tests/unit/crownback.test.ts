@@ -50,10 +50,10 @@ describe('Crownback flight', () => {
     }
   });
 
-  it('preserves the legacy theme and round-trips the new one', () => {
-    for (const theme of ['dragon','ascendant']) {
+  it('round-trips both historical aliases as Dragonspine', () => {
+    for (const theme of ['dragon','ascendant','dragonspine']) {
       const settings = worldSettingsFromSearch('?theme='+theme+'&seed=334458');
-      expect(settings.theme).toBe(theme);
+      expect(settings.theme).toBe('dragonspine');
       expect(worldSettingsFromSearch(new URL(buildWorldShareUrl('https://example.org/',settings)).search)).toEqual(settings);
     }
   });
@@ -64,7 +64,7 @@ describe('Crownback flight', () => {
     plane.dispose();
     let previousVertices = 0;
     for (const tier of ['far','middle','near']) {
-      const glb = readFileSync(new URL('../../public/realms/ascendant/crownback-'+tier+'.glb',import.meta.url));
+      const glb = readFileSync(new URL('../../public/realms/dragonspine/crownback-'+tier+'.glb',import.meta.url));
       const gltf = JSON.parse(glb.subarray(20,20+glb.readUInt32LE(12)).toString());
       const bones = gltf.skins[0].joints.map((id: number) => gltf.nodes[id].name);
       expect(bones.sort()).toEqual(['Chest','Neck','Crown','Tail','Fan','Port','PortHand','Starboard','StarboardHand'].sort());

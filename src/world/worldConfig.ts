@@ -35,7 +35,7 @@ export interface CityGenerationConfig {
 }
 
 export interface WorldSettings {
-  theme?: 'dragon' | 'ascendant';
+  theme?: 'dragonspine';
   generatedPassages?: true;
   paletteHue?: number;
   seed: number;
@@ -214,7 +214,7 @@ export const worldSettingsFromSearch = (search: string | URLSearchParams): World
   const params = typeof search === 'string' ? new URLSearchParams(search) : search;
   const explicit = params.get('gen');
   const theme = params.get('theme');
-  const dragon = theme === 'dragon' || theme === 'ascendant';
+  const dragon = theme === 'dragonspine' || theme === 'ascendant' || theme === 'dragon';
   const hasLegacyFields = params.has('seed') || params.has('preset') || params.has('world');
   const generatorVersion = explicit === String(GENERATOR_VERSION) || (!explicit && !hasLegacyFields)
     ? GENERATOR_VERSION
@@ -225,7 +225,7 @@ export const worldSettingsFromSearch = (search: string | URLSearchParams): World
     mode: params.get('world'),
     generatorVersion: dragon ? GENERATOR_VERSION : generatorVersion,
   });
-  if (dragon) settings.theme = theme;
+  if (dragon) settings.theme = 'dragonspine';
   if (!settings.theme && settings.generatorVersion === GENERATOR_VERSION && params.get('passages') === '1') {
     settings.generatedPassages = true;
   }

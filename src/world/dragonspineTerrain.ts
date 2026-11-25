@@ -12,7 +12,7 @@ export function valleyAxis(z: number, seed: number, valley: number) {
 
 /** Bedrock is shared by collision tiles and the distant horizon. The overhanging
  * shelves and vaults are separate closed surfaces above this floor. */
-export function ascendantFloor(x: number,z: number,seed: number) {
+export function dragonspineFloor(x: number,z: number,seed: number) {
   const valley=Math.round(x/VALLEY_SPACING);
   // Blend the neighbouring valley's field at the watershed. A single nearest-axis
   // lookup would change height abruptly halfway between meandering canyons.

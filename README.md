@@ -2,7 +2,7 @@
 
 ## Flight and desktop world library
 
-The Windows x64 client and GitHub Pages share the flight simulation, renderer, city generator, Sky Inversion and local voice systems. Dragonspine Realm adds seed-driven canyons, stone arches, floating shrines and an animated bronze-crested dragon. Windows can install independent high-detail world packs into its private asset library.
+The Windows x64 client and GitHub Pages share the flight simulation, renderer, city generator, Sky Inversion and local voice systems. Dragonspine adds seed-driven canyons, stone vaults, traversable floating cities and the animated Crownback dragon. Windows can install independent high-detail world packs into its private asset library.
 
 On Windows, open the world library to install or repair the official Dragonspine High Pack. Desktop settings show the installed WebView2 runtime, check for a stable release and export or import pilot saves. Changing the library location copies the SQLite database and keeps the original.
 
@@ -66,8 +66,7 @@ its source revision, licenses and credits. [Releases](https://github.com/styayur
 
 Open **游戏教程** from the title screen or press **H**. Search by control name,
 topic or provider. In settings, **?** opens the matching chapter and closing the
-tutorial returns to the same control. Use **复制种子** to copy a seed. Saved legacy
-URLs still restore their original world parameters.
+tutorial returns to the same control. Use **复制种子** to copy a seed. Saved city URLs still restore their original world parameters. Older Dragonspine URLs open the unified world with the same seed.
 
 | Input | Action |
 | --- | --- |

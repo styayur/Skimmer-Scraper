@@ -23,6 +23,13 @@ it('keeps generation, link and record identity explicit and separate from the ba
   expect(scoreContextFor(experimental).worldAsset).toBe('generated-passages-v1');
   expect(journeyWorld(experimental, 2).generatedPassages).toBe(true);
   expect(worldSettingsFromSearch('?seed=334458&gen=3&passages=1').generatedPassages).toBeUndefined();
+  for (const legacy of ['ascendant', 'dragon', 'dragonspine']) {
+    const dragon = worldSettingsFromSearch('?seed=334458&passages=1&theme=' + legacy);
+    expect(dragon.theme).toBe('dragonspine');
+    expect(dragon.seedText).toBe('334458');
+    expect(dragon.generatedPassages).toBeUndefined();
+    expect(scoreContextFor(dragon).worldAsset).toBe('ascendant');
+  }
 });
 
 it('streams the authored passage into the city BVH and retires its instance buffers with the chunk', async () => {

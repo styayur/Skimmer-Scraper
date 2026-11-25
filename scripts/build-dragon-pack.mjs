@@ -1,25 +1,18 @@
 import { createHash } from 'node:crypto';
 import { mkdir, writeFile, readFile } from 'node:fs/promises';
 import path from 'node:path';
-import { dragonHeight } from '../src/world/dragonTerrain.ts';
-
-const [output, tier = 'high', theme = 'dragon', inputSeed = '334458'] = process.argv.slice(2);
+const [output, tier = 'high', inputSeed = '334458'] = process.argv.slice(2);
 const seed = Number(inputSeed);
-const ascendant = theme === 'ascendant';
-if (!output || !['web','high'].includes(tier) || !['ascendant','dragon'].includes(theme)
-    || !/^\d+$/.test(inputSeed) || !Number.isSafeInteger(seed) || seed<0 || seed>0xffffffff
-    || (!ascendant && seed!==334458))
-  throw Error(
-    'Usage: node scripts/build-dragon-pack.mjs <output directory> [web|high] [dragon|ascendant] [uint32 seed]',
-  );
-await mkdir(output, { recursive: true });
-let bedrock=dragonHeight;
-if(ascendant){
-  const {createServer}=await import('vite');
-  const server=await createServer({server:{middlewareMode:true},logLevel:'error'});
-  try { bedrock=(await server.ssrLoadModule('/src/world/ascendantTerrain.ts')).ascendantFloor; }
-  finally { await server.close(); }
+if (!output || !['web', 'high'].includes(tier) || !/^\d+$/.test(inputSeed)
+    || !Number.isSafeInteger(seed) || seed < 0 || seed > 0xffffffff) {
+  throw Error('Usage: node scripts/build-dragon-pack.mjs <output directory> [web|high] [uint32 seed]');
 }
+await mkdir(output, { recursive: true });
+const { createServer } = await import('vite');
+const server = await createServer({ server: { middlewareMode: true }, logLevel: 'error' });
+let bedrock;
+try { bedrock = (await server.ssrLoadModule('/src/world/dragonspineTerrain.ts')).dragonspineFloor; }
+finally { await server.close(); }
 const tileSize = 220,
   resolution = tier === 'high' ? 200 : 40;
 const files = [];
@@ -34,7 +27,7 @@ function terrainGLB(cx, cz) {
   let min = Infinity,
     max = -Infinity;
   // Interpolate the same triangular surface used by the shared collision tiles.
-  const cells=ascendant?16:20, spacing=tileSize/cells;
+  const cells=16, spacing=tileSize/cells;
   const side=cells+5;
   const heights=new Float64Array(side*side);
   for(let j=-2;j<=cells+2;j++)for(let i=-2;i<=cells+2;i++)
@@ -162,7 +155,7 @@ function terrainGLB(cx, cz) {
   bin.write('BIN', 4);
   return { bytes: Buffer.concat([header, json, bin, ...buffers]), min, max };
 }
-const extent=ascendant ? (tier==='web'?[-1,1,-2,1]:[-5,5,-6,4]) : [-2,2,-17,2];
+const extent=tier === 'web' ? [-1, 1, -2, 1] : [-5, 5, -6, 4];
 for (let cz = extent[2]; cz <= extent[3]; cz++)
   for (let cx = extent[0]; cx <= extent[1]; cx++) {
     const { bytes, min, max } = terrainGLB(cx, cz);
@@ -178,15 +171,11 @@ for (let cz = extent[2]; cz <= extent[3]; cz++)
     });
   }
 const builtinResources = [];
-for (const [name, role] of ascendant ? [
+for (const [name, role] of [
   ['crownback-near.glb','hero-dragon'],['crownback-middle.glb','middle-dragon'],['crownback-far.glb','distant-dragon'],
-] : [
-  ['bronze-crest.glb', 'animated-dragon'],
-  ['bronze-crest-far.glb', 'distant-dragon'],
-  ['strata-normal.png', 'terrain-normal'],
 ]) {
   const data = await readFile(
-    new URL('../public/realms/'+(ascendant?'ascendant':'dragonspine')+'/' + name, import.meta.url),
+    new URL('../public/realms/dragonspine/' + name, import.meta.url),
   );
   builtinResources.push({
     name,
@@ -196,47 +185,29 @@ for (const [name, role] of ascendant ? [
     sha256: hash(data),
   });
 }
+// Preserve the published schema-2 wire identity and deterministic field order.
 const manifest = {
-  schema: 1,
-  id: 'dragonspine-' + tier + '-1',
-  theme: 'dragon',
+  schema: 2,
+  id: 'ascendant-' + tier + '-2-' + seed,
+  theme: 'ascendant',
   seed,
-  generatorVersion: 1,
-  packVersion: '1.0.0',
-  minimumClient: '0.8.0',
+  generatorVersion: 2,
+  packVersion: '2.0.0',
+  minimumClient: '0.8.2',
   maximumClient: '0.8.2',
-  baseWorld: 'dragonspine-base-1',
+  baseWorld: 'dragonspine-ascendant-2',
   unpackedBytes: files.reduce((sum, f) => sum + f.bytes, 0),
   tier,
   builtinResources,
-  space: {
-    type: 'terrain-grid',
-    parent: 'dragonspine-realm',
-    landmarkTypes: ['stone-arch', 'roost', 'temple', 'broken-bridge', 'ruins'],
-  },
-  entities: [
-    {
-      id: 'bronze-crest',
-      animations: ['LeftWing', 'RightWing', 'TailBase'],
-      proxies: ['body', 'neck', 'left', 'right', 'tail'],
-    },
-  ],
+  space: {type:'terrain-grid',parent:'ascendant',landmarkTypes:['vault','citadel','ridge','chain','monolith','nest']},
+  entities: [{id:'crownback',animations:['Crownback soaring'],proxies:['body','neck','crown','tail','fan','wings']}],
   chunkMeters: 220,
-  collision: 'dragonspine-base-1',
+  collision: 'dragonspine-ascendant-2',
   source: 'Skimmer-Scraper original',
   license: 'AGPL-3.0-only',
   files,
+  coverage: {seed,minChunkX:extent[0],maxChunkX:extent[1],minChunkZ:extent[2],maxChunkZ:extent[3]},
 };
-if(ascendant){
-  Object.assign(manifest,{
-    id:'ascendant-'+tier+'-2-'+seed,theme,schema:2,generatorVersion:2,
-    packVersion:'2.0.0',minimumClient:'0.8.2',maximumClient:'0.8.2',
-    baseWorld:'dragonspine-ascendant-2',collision:'dragonspine-ascendant-2',
-    coverage:{seed,minChunkX:extent[0],maxChunkX:extent[1],minChunkZ:extent[2],maxChunkZ:extent[3]},
-    space:{type:'terrain-grid',parent:'ascendant',landmarkTypes:['vault','citadel','ridge','chain','monolith','nest']},
-    entities:[{id:'crownback',animations:['Crownback soaring'],proxies:['body','neck','crown','tail','fan','wings']}],
-  });
-}
 await writeFile(
   path.join(output, 'world-pack.json'),
   JSON.stringify(manifest, null, 2) + '\n',

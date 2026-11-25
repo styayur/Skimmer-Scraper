@@ -1,10 +1,10 @@
 import * as T from 'three';
-import { ascendantFloor, valleyAxis, VALLEY_SPACING } from './ascendantTerrain';
+import { dragonspineFloor, valleyAxis, VALLEY_SPACING } from './dragonspineTerrain';
 import { fingerprintValues } from './deterministic';
 import { CHUNK_SIZE, type WorldSettings } from './worldConfig';
 import type { GeneratedChunk } from './worldTypes';
 
-import { islandFaces, islandsAround, type Vertex, type Face } from './ascendantIslands';
+import { islandFaces, islandsAround, type Vertex, type Face } from './dragonspineIslands';
 const moss=0x678573, basalt=0x465763, cut=0x826e63, gold=0xc1aa76;
 
 function clipped(vertices: Vertex[], axis: 0 | 2, boundary: number, sign: number): Vertex[] {
@@ -28,7 +28,7 @@ function clipped(vertices: Vertex[], axis: 0 | 2, boundary: number, sign: number
 function gorgeVault(seed: number,lane: number,row: number): Face[] {
   const z=row*880-230;
   const x=valleyAxis(z,seed,lane);
-  const bottom=ascendantFloor(x,z,seed)-8;
+  const bottom=dragonspineFloor(x,z,seed)-8;
   const half=157, depth=row%3===0 ? 90 : 35;
   const faces: Face[]=[];
   const point=(angle: number,end: number,outer: boolean): Vertex=>{
@@ -50,7 +50,7 @@ function gorgeVault(seed: number,lane: number,row: number): Face[] {
   return faces;
 }
 
-export class AscendantChunkGenerator {
+export class DragonspineChunkGenerator {
   private readonly material=new T.MeshStandardMaterial({vertexColors:true,flatShading:true,side:T.DoubleSide,roughness:.9});
   private readonly vaults=new Map<string,Face[]>();
   private readonly islandCollision=new Map<string,Face[]>();
@@ -67,7 +67,7 @@ export class AscendantChunkGenerator {
     const grid: Vertex[]=[];
     for(let j=0;j<=cells;j++)for(let i=0;i<=cells;i++){
       const x=ox+i*cell,z=oz+j*cell;
-      grid.push([x,ascendantFloor(x,z,seed),z]);
+      grid.push([x,dragonspineFloor(x,z,seed),z]);
     }
     for(let j=0;j<cells;j++)for(let i=0;i<cells;i++){
       const n=j*(cells+1)+i, a=grid[n]!,b=grid[n+1]!,c=grid[n+cells+1]!,d=grid[n+cells+2]!;
@@ -108,8 +108,8 @@ export class AscendantChunkGenerator {
     };
     const group=new T.Group();
     group.position.set(ox,0,oz);
-    group.add(surface(0,groundFloats,'ascendant-bedrock'));
-    if(positions.length>groundFloats)group.add(surface(groundFloats,positions.length,'ascendant-vault'));
+    group.add(surface(0,groundFloats,'dragonspine-bedrock'));
+    if(positions.length>groundFloats)group.add(surface(groundFloats,positions.length,'dragonspine-vault'));
     const renderTriangles=positions.length/9;
     const sites=islandsAround(seed,ox+CHUNK_SIZE*.5,oz+CHUNK_SIZE*.5,CHUNK_SIZE*.5);
     for(const site of sites){

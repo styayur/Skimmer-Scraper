@@ -6,7 +6,7 @@ import bmesh
 from mathutils import Vector
 
 ROOT = Path(__file__).resolve().parents[2]
-ASSETS = ROOT / "public" / "realms" / "ascendant"
+ASSETS = ROOT / "public" / "realms" / "dragonspine"
 ASSETS.mkdir(exist_ok=True)
 # Y points aft. A negative Y snout points along +Z in the game.
 BONES = {
