@@ -2,12 +2,11 @@ import { readFileSync } from 'node:fs';
 import path from 'node:path';
 import { DoubleSide, Mesh, MeshBasicMaterial, Raycaster, Vector3 } from 'three';
 import { expect, it } from 'vitest';
-import { DragonChunkGenerator } from '../../src/world/dragonRealm';
-import { AscendantChunkGenerator } from '../../src/world/ascendantChunk';
+import { DragonspineChunkGenerator } from '../../src/world/dragonspineChunk';
 import { resolveWorldSettings } from '../../src/world/worldConfig';
 import { validatePack } from '../../src/platform/worldPacks';
 
-const directories = ['public/realms/dragonspine/web','public/realms/ascendant/web'];
+const directories = ['public/realms/dragonspine/web'];
 if (process.env.SKIMMER_TEST_HIGH_PACK)
   directories.push(process.env.SKIMMER_TEST_HIGH_PACK);
 
@@ -18,7 +17,7 @@ it.each(directories)(
       JSON.parse(readFileSync(path.join(directory, 'world-pack.json'), 'utf8')),
     );
     const settings=resolveWorldSettings({seed:String(pack.seed)});
-    const generator=pack.schema===2?new AscendantChunkGenerator({...settings,theme:'ascendant'}):new DragonChunkGenerator(settings);
+    const generator=new DragonspineChunkGenerator({...settings,theme:'dragonspine'});
     const material = new MeshBasicMaterial({ side: DoubleSide });
     const ray = new Raycaster(new Vector3(), new Vector3(0, -1, 0), 0, 0.161);
     let largestError = 0;

@@ -47,8 +47,8 @@ export async function qualityMatrix(
         2,
       ) + '\n',
     );
-  const realm=process.env.SKIMMER_QA_REALM==='ascendant'?'ascendant':'dragon';
-  const id=realm==='ascendant'?'ascendant-high-2-334458':'dragonspine-high-1';
+  const realm=process.env.SKIMMER_QA_REALM ?? 'dragonspine';
+  const id=realm==='dragon'?'dragonspine-high-1':'ascendant-high-2-334458';
   let installedHere = false;
   try {
     if (device.native) {
@@ -107,7 +107,7 @@ export async function qualityMatrix(
             const g = window.__SKIMMER_SCRAPER__;
             g.pause();
             await g.setPose(
-              theme === 'ascendant' ? {x:340,y:410,z:125} : { x: -100, y: 290, z: -440 },
+              theme !== 'dragon' ? {x:340,y:410,z:125} : { x: -100, y: 290, z: -440 },
               { yaw: 0, pitch: 0, roll: 0 },
             );
             g.resume();

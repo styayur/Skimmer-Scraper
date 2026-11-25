@@ -30,11 +30,6 @@ pub(crate) fn init(db: &Connection) -> Result<()> {
 pub(crate) fn begin(db: &mut Connection, manifest: Value) -> Result<String> {
     let metadata = serde_json::to_string(&manifest)?;
     let compatible = match manifest["schema"].as_u64() {
-        Some(1) => {
-            manifest["theme"] == "dragon"
-                && manifest["generatorVersion"] == 1
-                && manifest["collision"] == "dragonspine-base-1"
-        }
         Some(2) => {
             let seed = manifest["seed"].as_u64().filter(|s| *s <= u32::MAX as u64);
             let tier = manifest["tier"]
@@ -276,7 +271,7 @@ mod tests {
             .iter()
             .map(|b| format!("{b:02x}"))
             .collect();
-        let manifest = json!({"schema":1,"theme":"dragon","generatorVersion":1,"collision":"dragonspine-base-1","id":"test-ridge","files":[
+        let manifest = json!({"schema":2,"theme":"ascendant","generatorVersion":2,"collision":"dragonspine-ascendant-2","baseWorld":"dragonspine-ascendant-2","tier":"high","seed":334458,"id":"ascendant-high-2-334458","files":[
           {"cx":0,"cz":0,"name":"ridge.glb","bytes":data.len(),"sha256":digest}
         ]});
         let first = begin(&mut db, manifest.clone())?;

@@ -28,7 +28,8 @@ export const defaultScoreContext: ScoreContext = Object.freeze({
 });
 
 export const scoreContextFor = (settings: WorldSettings, rules?: RuleConfig): ScoreContext => ({
-  ...(settings.theme ? { worldAsset: settings.theme } : {}),
+  // Keep the existing score key for the same terrain, including after a rollback.
+  ...(settings.theme === 'dragonspine' ? { worldAsset: 'ascendant' } : {}),
   seedText: settings.seedText,
   preset: settings.preset,
   mode: settings.mode,
