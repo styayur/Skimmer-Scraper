@@ -46,9 +46,18 @@ describe('authored passage grammar', () => {
     expect(left.collision.getAttribute('position').array).toEqual(repeated.collision.getAttribute('position').array);
     expect(left.collision.boundingBox!.min.z).toBeGreaterThanOrEqual(0);
     expect(left.collision.boundingBox!.max.z).toBeLessThanOrEqual(220);
-    expect(left.routes).toHaveLength(left.placements);
+    expect(left.placements).toBeGreaterThanOrEqual(1);
     const tree = new MeshBVH(left.collision, { indirect: true });
     expect(tree.intersectsBox(left.collision.boundingBox!, new Matrix4())).toBe(true);
-    for (const route of left.routes) expect(tree.intersectsBox(route, new Matrix4())).toBe(false);
+    expect(tree.intersectsBox(left.corridor, new Matrix4())).toBe(false);
+    const compound = Array.from({ length: 12 }, (_, z) => recipe.generate(2, z));
+    expect(compound.some(chunk => chunk.placements > 1)).toBe(true);
+    for (const chunk of compound) {
+      expect(chunk.collision.boundingBox!.min.z).toBeGreaterThanOrEqual(0);
+      expect(chunk.collision.boundingBox!.max.z).toBeLessThanOrEqual(220);
+      expect(new MeshBVH(chunk.collision).intersectsBox(chunk.corridor, new Matrix4())).toBe(false);
+      chunk.dispose();
+      expect(chunk.render.children).toHaveLength(0);
+    }
   });
 });

@@ -9,10 +9,11 @@ It extracts collision from authored triangles and checks a 10 m wide,
 a SHA-256 digest. These inputs fit the project's original architecture
 assets and can be exported from Blender or another glTF authoring tool.
 
-The first grammar selects a lane, elevation and modules from the seed,
-grammar version and chunk coordinates. It packs modules within the
-220 m chunk footprint. The output includes instanced render geometry,
-separate collision geometry and the traversable volumes. Geometry and
+The first grammar selects a single gate, paired gates or a three-part
+arcade using the seed, grammar version and chunk coordinates. It aligns
+the sockets along an open flight corridor and fits the authored geometry
+within the 220 m chunk footprint. The output includes instanced render
+geometry, separate collision geometry and the corridor's clearance volume. Geometry and
 materials are shared between copies. The recipe manifest records the sorted
 asset hashes, seed and grammar version. Serialize it alongside the source
 assets to reproduce the assembled modules.
