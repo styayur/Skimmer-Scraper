@@ -133,12 +133,7 @@ interface DebugSnapshot {
   buffering: boolean;
   renderOrigin: { x: number; y: number; z: number };
   revisionHistory: ChunkRevisionSnapshot | null;
-  chunkStates: Array<{
-    key: string;
-    state: string;
-    revision: number;
-    fingerprint: number | null;
-  }>;
+  chunkStates: ReturnType<WorldStreamer['getChunkStates']>;
 }
 
 interface SkimmerDebugBridge {
@@ -335,6 +330,9 @@ ui.setCameraMode(preferences.cameraMode);
 ui.setVisualStimulation(preferences.visualStimulation === 'reduced');
 ui.setRecordingHintVisible(!preferences.recordingHintDismissed);
 ui.setWorldSettings(worldSettings);
+const worldTheme = document.querySelector<HTMLSelectElement>('#world-theme')!;
+const worldPassages = document.querySelector<HTMLInputElement>('#world-passages')!;
+worldTheme.addEventListener('change', () => { worldPassages.disabled = worldTheme.value !== 'city'; });
 
 const persistPreferences = (next: Partial<GamePreferences>): void => {
   preferences = { ...preferences, ...next };
@@ -392,12 +390,14 @@ const applyWorldSettings = (
   worldMode: WorldMode,
   upgrade = false,
 ): void => {
+  const theme = document.querySelector<HTMLSelectElement>('#world-theme')?.value;
+  const passages = theme === 'city' && document.querySelector<HTMLInputElement>('#world-passages')?.checked;
   const next = resolveWorldSettings({
     seed: seedValue, preset: baseWorldSettings.preset, mode: worldMode,
-    generatorVersion: upgrade ? GENERATOR_VERSION : baseWorldSettings.generatorVersion,
+    generatorVersion: upgrade || passages ? GENERATOR_VERSION : baseWorldSettings.generatorVersion,
   });
-  const theme = document.querySelector<HTMLSelectElement>('#world-theme')?.value;
   if (theme === 'dragon' || theme === 'ascendant') next.theme = theme;
+  if (passages) next.generatedPassages = true;
   worldPanel.clearVisit();
   window.location.assign(buildWorldShareUrl(window.location.href, next));
 };

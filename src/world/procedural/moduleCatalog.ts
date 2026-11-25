@@ -10,6 +10,7 @@ export interface ModuleMesh {
   geometry: BufferGeometry;
   material: Material | Material[];
   transform: Matrix4;
+  detail: boolean;
 }
 
 export interface WorldModule {
@@ -67,7 +68,12 @@ export function analyzeWorldModule(id: string, sha256: string, scene: Group): Wo
         if (part.determinant() <= 0) throw new Error('Bake mirrored transforms before export');
         if (!node.geometry.boundingBox) node.geometry.computeBoundingBox();
         bounds.union(node.geometry.boundingBox!.clone().applyMatrix4(part));
-        render.push({ geometry: node.geometry, material: node.material, transform: part });
+        render.push({
+          geometry: node.geometry,
+          material: node.material,
+          transform: part,
+          detail: result.meshRoles[render.length]?.role === 'DECORATION',
+        });
       }
     });
     // Existing import geometry is non-indexed and expressed relative to the centred root.

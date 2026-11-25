@@ -30,6 +30,7 @@ export interface GeneratedChunk {
   bounds: Box3;
   collisionGeometry: BufferGeometry;
   collisionTree?: MeshBVH;
+  passage?: { corridor: Box3; dispose(): void };
   workerBuildMs?: number;
   fingerprint: number;
   stats: ChunkGenerationStats;

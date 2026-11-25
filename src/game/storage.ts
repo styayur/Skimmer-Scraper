@@ -28,7 +28,8 @@ export const defaultScoreContext: ScoreContext = Object.freeze({
 });
 
 export const scoreContextFor = (settings: WorldSettings, rules?: RuleConfig): ScoreContext => ({
-  ...(settings.theme ? { worldAsset: settings.theme } : {}),
+  ...(settings.theme ? { worldAsset: settings.theme } :
+    settings.generatedPassages ? { worldAsset: 'generated-passages-v1' } : {}),
   seedText: settings.seedText,
   preset: settings.preset,
   mode: settings.mode,

@@ -9,6 +9,9 @@ import { mergeGeometries } from 'three/examples/jsm/utils/BufferGeometryUtils.js
 const areaSize = CHUNK_SIZE * 2;
 const types = ['garden', 'shuttle', 'ring', 'lift'] as const;
 type StructureType = typeof types[number];
+const anchorHeightOffset = 66;
+const anchorHeightVariation = 42;
+const climbAmplitude: Record<StructureType, number> = { garden: 19, shuttle: 9, ring: 9, lift: 36 };
 interface Structure {
   id: string;
   type: StructureType;
@@ -24,6 +27,7 @@ export const MAX_MOVING_STRUCTURES = 8;
 /** Structures are owned by an airspace region larger than a streamed city chunk. */
 export class ProceduralArchitecture {
   public readonly group = new THREE.Group();
+  public readonly ceiling: number;
   private readonly active = new Map<string, Structure>();
   private readonly archetypes: Record<StructureType, { geometry: THREE.BufferGeometry; material: THREE.MeshStandardMaterial }>;
   private previousCoverage = '';
@@ -68,6 +72,12 @@ export class ProceduralArchitecture {
       ring: finish(new THREE.TorusGeometry(23, 3.2, 8, 32), (hue + 0.48) % 1),
       lift: finish(new THREE.CylinderGeometry(10, 17, 32, 6, 1), (hue + 0.12) % 1),
     };
+    this.ceiling = world.config.buildingHeightMax + anchorHeightOffset + anchorHeightVariation
+      + Math.max(...types.map(type => {
+        const { geometry } = this.archetypes[type];
+        geometry.computeBoundingBox();
+        return geometry.boundingBox!.max.y + climbAmplitude[type];
+      }));
     this.group.name = 'moving-architecture';
   }
 
@@ -95,7 +105,8 @@ export class ProceduralArchitecture {
       if (this.active.has(key)) continue;
       const random = seededRandom(this.world.seed, this.world.generatorVersion, 'architecture', region.x, region.z);
       const type = types[((region.x + region.z * 3) % types.length + types.length) % types.length]!;
-      const anchor = { x: (region.x + 0.5) * areaSize, y: this.world.config.buildingHeightMax + 66 + random() * 42,
+      const anchor = { x: (region.x + 0.5) * areaSize,
+        y: this.world.config.buildingHeightMax + anchorHeightOffset + random() * anchorHeightVariation,
         z: (region.z + 0.5) * areaSize + (random() - 0.5) * 70 };
       const archetype = this.archetypes[type];
       const mesh = new THREE.Mesh(archetype.geometry, archetype.material);
@@ -147,7 +158,7 @@ export class ProceduralArchitecture {
     const cycle = this.time / period * Math.PI * 2 + phase;
     const wave = Math.sin(cycle);
     const shift = type === 'shuttle' ? wave * 61 : 0;
-    const climb = type === 'lift' ? wave * 36 : type === 'garden' ? wave * 19 : Math.sin(cycle * 2) * 9;
+    const climb = (type === 'lift' || type === 'garden' ? wave : Math.sin(cycle * 2)) * climbAmplitude[type];
     mesh.position.set(anchor.x + Math.cos(angle) * shift, anchor.y + climb, anchor.z + Math.sin(angle) * shift);
     mesh.rotation.y = type === 'ring' ? angle + this.time * 0.43 : angle;
     mesh.updateMatrix();

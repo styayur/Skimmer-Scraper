@@ -285,7 +285,11 @@ export class GameUI {
   public setWorldSettings(settings: WorldSettings): void {
     this.worldSeedInput.value = settings.seedText;
     this.worldModeSelect.value = settings.mode;
-    document.querySelector<HTMLSelectElement>('#world-theme')!.value = settings.theme ?? 'city';
+    const theme = document.querySelector<HTMLSelectElement>('#world-theme')!;
+    const passages = document.querySelector<HTMLInputElement>('#world-passages')!;
+    theme.value = settings.theme ?? 'city';
+    passages.checked = settings.generatedPassages === true;
+    passages.disabled = theme.value !== 'city';
     this.worldLegacy.hidden = settings.generatorVersion === GENERATOR_VERSION;
     const legacy = WORLD_PRESET_OPTIONS.find(option => option.id === settings.preset);
     this.worldLegacyNote.textContent = legacy ? '旧版城市 · ' + legacy.label : '统一城市 · 第 3 版';

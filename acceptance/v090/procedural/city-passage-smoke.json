@@ -1,0 +1,27 @@
+{
+  "date": "2026-11-25",
+  "scope": "Generated City passages, PR 68",
+  "browser": "Playwright Chromium, headless, ANGLE SwiftShader WebGL2",
+  "seed": 334458,
+  "generatorVersion": 4,
+  "checks": {
+    "noAssetRequestInBaseCity": true,
+    "oneModuleRequestAcrossRetirementAndReload": true,
+    "flightThroughEntry": true,
+    "clearCorridorAndCollidableWall": true,
+    "rebaseAndRetireChunk": true,
+    "reloadedFingerprintAndEntryMatch": true,
+    "lodKeepsCollisionActive": true,
+    "chunkDisposalKeepsSharedModuleUntilWorldCloses": true
+  },
+  "screenshot": {
+    "file": "generated-passage.jpg",
+    "sha256": "aa5d9b6dff98cd4e0dd1380a9282fe6535d09c37b67a60d62bf3c554b56fbe73"
+  },
+  "packageComparison": "comparison.json",
+  "releaseQualification": {
+    "realGpuMetrics": "NOT_VERIFIED",
+    "windowsGeneratedPassages": "NOT_VERIFIED",
+    "equivalentFullDragonspinePack": "NOT_VERIFIED"
+  }
+}

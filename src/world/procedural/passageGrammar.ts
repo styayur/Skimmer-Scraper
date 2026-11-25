@@ -1,5 +1,5 @@
 import {
-  Box3, BufferGeometry, Float32BufferAttribute, Group, InstancedMesh, Matrix4, Vector3,
+  Box3, BufferGeometry, Float32BufferAttribute, Group, InstancedMesh, LOD, Matrix4, Vector3,
 } from 'three';
 import { CHUNK_SIZE } from '../worldConfig';
 import { hashNumbers } from '../deterministic';
@@ -67,18 +67,29 @@ export function createPassageRecipe(seed: number, catalog: readonly WorldModule[
       const placements = placementsFor(cx, cz);
       const render = new Group();
       render.position.set(cx * CHUNK_SIZE, 0, cz * CHUNK_SIZE);
+      const near = new Group();
+      const far = new Group();
       const collisionPositions: number[] = [];
+      let renderTriangles = 0;
       const corridor = new Box3();
       const point = new Vector3();
       for (const module of new Set(placements.map(placement => placement.module))) {
         const instances = placements.filter(placement => placement.module === module);
         for (const mesh of module.render) {
-          const batch = new InstancedMesh(mesh.geometry, mesh.material, instances.length);
-          const transform = new Matrix4();
-          instances.forEach(({ position }, index) => {
-            batch.setMatrixAt(index, transform.makeTranslation(position.x, position.y, position.z).multiply(mesh.transform));
-          });
-          render.add(batch);
+          const addBatch = (group: Group) => {
+            const batch = new InstancedMesh(mesh.geometry, mesh.material, instances.length);
+            const transform = new Matrix4();
+            instances.forEach(({ position }, index) => {
+              batch.setMatrixAt(index, transform.makeTranslation(position.x, position.y, position.z).multiply(mesh.transform));
+            });
+            batch.computeBoundingSphere();
+            batch.receiveShadow = true;
+            group.add(batch);
+          };
+          addBatch(near);
+          if (!mesh.detail) addBatch(far);
+          const vertices = mesh.geometry.getIndex()?.count ?? mesh.geometry.getAttribute('position').count;
+          renderTriangles += vertices / 3 * instances.length;
         }
         for (const { position } of instances) {
           const attribute = module.collision.getAttribute('position');
@@ -91,13 +102,25 @@ export function createPassageRecipe(seed: number, catalog: readonly WorldModule[
       }
       const collision = new BufferGeometry().setAttribute('position', new Float32BufferAttribute(collisionPositions, 3));
       collision.computeBoundingBox();
+      const lod = new LOD();
+      lod.name = 'generated-passage-lod';
+      corridor.getCenter(lod.position);
+      near.position.copy(lod.position).negate();
+      far.position.copy(near.position);
+      lod.addLevel(near, 0);
+      lod.addLevel(far, 360, 0.12);
+      lod.addLevel(new Group(), 850, 0.1);
+      render.add(lod);
       return {
-        render, collision, corridor, placements: placements.length,
+        render, collision, corridor, renderTriangles, placements: placements.length,
         dispose() {
           render.removeFromParent();
-          for (const instance of render.children) {
+          render.traverse(instance => {
             if (instance instanceof InstancedMesh) instance.dispose();
-          }
+          });
+          near.clear();
+          far.clear();
+          lod.clear();
           render.clear();
           collision.dispose();
         },
