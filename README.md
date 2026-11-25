@@ -34,8 +34,8 @@ predictive streamer prepares nearby views and collision coverage.
 Five arrivals reveal a light sculpture and signature. [World generation](docs/WORLD.md) · [World import](docs/WORLD-IMPORT.md) · [Moving structures](docs/DYNAMIC-WORLD.md)
 
 Press **T** for text commands and replies. Each wingmate has a callsign and
-role. Wingmates use on-device system speech by default when a matching voice
-is available. Flight settings include voice previews, speech volume, optional
+role. Voice output starts off. Flight settings offer lightweight device voices,
+a voice preview, independent speech volume, optional
 model cooperation and speech input. Local Mandarin Kokoro is available on
 compatible WebGPU hardware and downloads its weights after opt-in. When
 voice input is enabled, hold **V** to speak and release to send. BYOK keys
