@@ -33,8 +33,8 @@ export const bindVoicePanel = (voice: VoiceRadio, action: (action: GameAction) =
   panel.className = 'voice-settings';
   panel.innerHTML = `<summary>语音电台</summary>
     <div class="setting-heading"><label>语音输入 <select id="voice-input">${inputModes}</select></label><button class="setting-help" type="button" aria-label="语音电台帮助" data-help-section="guide-voice">?</button></div>
-    <label>伴机播报 <select id="voice-output"><option value="off">关闭</option><option value="local">系统语音</option>
-      <option value="high-quality">本地高质量语音（下载中文模型）</option>
+    <label>伴机播报 <select id="voice-output"><option value="off">关闭</option><option value="local">轻量设备语音</option>
+      <option value="high-quality">高级语音 · 需下载模型</option>
       <option value="deepseek">DeepSeek</option></select></label>
     <label>发言音量 <input id="voice-volume" type="range" min="0" max="100" step="1"></label>
     <label>语言 <select id="voice-language"><option value="zh-CN">中文</option><option value="en-US">English</option></select></label>
