@@ -88,8 +88,12 @@ const expectSpeaking = async (page: Page, agent: number, role: string, voice: st
 
 const openSettings = async (page: Page) => {
   await page.keyboard.press('f');
-  await page.locator('#advanced-flight-settings > summary').click();
-  await page.locator('.voice-settings > summary').click();
+  const advanced = page.locator('#advanced-flight-settings');
+  await expect(advanced).toBeVisible();
+  if (await advanced.getAttribute('open') === null) await advanced.locator('summary').first().click();
+  const voice = page.locator('.voice-settings');
+  await expect(voice).toBeVisible();
+  if (await voice.getAttribute('open') === null) await voice.locator('summary').first().click();
 };
 
 test('opt-in lightweight companion speech follows the actual speaker and cancels on pause or device changes', async ({ page }) => {
