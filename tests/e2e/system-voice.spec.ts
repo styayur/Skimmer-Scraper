@@ -79,7 +79,7 @@ const reply = async (page: Page, message: string) => {
 const expectSpeaking = async (page: Page, agent: number, role: string, voice: string) => {
   await expect.poll(async () => (await state(page)).voice.speaking).toBe(agent);
   const current = await state(page);
-  expect(current.voice.activeSpeech).toMatchObject({ provider: 'local', voiceId: voice });
+  expect(current.voice.activeSpeech).toMatchObject({ provider: 'local', voiceId: voice, startLatencyMs: expect.any(Number) });
   const activeLine = current.cooperation.radio.history.find(line => line.id === current.voice.activeSpeech?.id);
   expect(activeLine?.agent).toBe(agent);
   await expect(page.locator('#radio-subtitle')).toContainText(role);
@@ -92,7 +92,7 @@ const openSettings = async (page: Page) => {
   await page.locator('.voice-settings > summary').click();
 };
 
-test('default offline companion speech follows the actual speaker and cancels on pause or device changes', async ({ page }) => {
+test('opt-in lightweight companion speech follows the actual speaker and cancels on pause or device changes', async ({ page }) => {
   test.setTimeout(210_000);
   const remote: string[] = [];
   const errors: string[] = [];
@@ -100,6 +100,13 @@ test('default offline companion speech follows the actual speaker and cancels on
   page.on('pageerror', error => errors.push(error.message));
   await installProbe(page, true);
   await start(page);
+  await expect(page.locator('#radio-subtitle')).toContainText('Navigator');
+  expect(await probe(page)).toMatchObject({ active: false, events: [] });
+  await openSettings(page);
+  await expect(page.locator('#voice-output')).toHaveValue('off');
+  await page.locator('#voice-output').selectOption('local');
+  await page.locator('#rules-close').click();
+  await reply(page, '一号，你是谁？');
   await expectSpeaking(page, 1, 'Navigator', 'fixture-alpha');
   expect((await state(page)).voice.input).toBe('off');
   await page.keyboard.press('Escape');
@@ -133,6 +140,7 @@ test('default offline companion speech follows the actual speaker and cancels on
   await page.waitForFunction(() => window.__SKIMMER_SCRAPER__?.snapshot().ready);
   expect((await state(page)).voice.voices[3]).toBe('fixture-delta');
   await page.locator('#start-button').click();
+  await reply(page, '一号，你是谁？');
   await expectSpeaking(page, 1, 'Navigator', 'fixture-alpha');
   await page.evaluate(() => (window as unknown as { speechProbe: SpeechProbe }).speechProbe.finish());
   await page.evaluate(async () => window.__SKIMMER_SCRAPER__!.setPose({ x: 0, y: 410, z: 120 }, { yaw: 0, pitch: 0, roll: 0 }));
@@ -140,6 +148,7 @@ test('default offline companion speech follows the actual speaker and cancels on
   await expectSpeaking(page, 3, 'Explorer', 'fixture-delta');
   await page.keyboard.press('r');
   await expect.poll(async () => (await probe(page)).events.some(event => event.phase === 'cancel' && event.voice === 'fixture-delta')).toBe(true);
+  await reply(page, '一号，你是谁？');
   await expectSpeaking(page, 1, 'Navigator', 'fixture-alpha');
   await page.evaluate(() => window.__SKIMMER_SCRAPER__!.setPose({ x: 0, y: 519.5, z: 120 }, { yaw: 0, pitch: 0.75, roll: 0 }));
   await expect.poll(async () => (await state(page)).journey.active).toBe(true);
@@ -156,6 +165,10 @@ test('system voices require local availability and an explicit off choice surviv
   test.setTimeout(100_000);
   await installProbe(page, false);
   await start(page);
+  await openSettings(page);
+  await page.locator('#voice-output').selectOption('local');
+  await page.locator('#rules-close').click();
+  await reply(page, '一号，你是谁？');
   await expect.poll(async () => (await state(page)).voice.lastOutputError).toBe('local-tts-unavailable');
   await expect(page.locator('#radio-subtitle')).toContainText('Navigator');
   expect(await probe(page)).toMatchObject({ active: false, events: [] });

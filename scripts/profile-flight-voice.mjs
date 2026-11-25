@@ -7,7 +7,14 @@ export async function profileVoice(page, output, runtime) {
   await cdp.send('Emulation.setDeviceMetricsOverride', { width: 1920, height: 1080, deviceScaleFactor: 1, mobile: false });
   await page.locator('#start-button').click();
   await page.waitForFunction(() => window.__SKIMMER_SCRAPER__.snapshot().mode === 'running');
-  await page.keyboard.down('Shift');
+  const durationMs = 15_000;
+  let modelWireBytes = 0;
+  const trackResponse = async response => {
+    if (!response.url().includes('/onnx/model_fp16.onnx') || response.fromServiceWorker()) return;
+    const length = Number(await response.headerValue('content-length'));
+    if (Number.isSafeInteger(length) && length > 0) modelWireBytes += length;
+  };
+  page.on('response', trackResponse);
   const configure = value => page.locator('#voice-output').evaluate((field, value) => {
     field.value = value;
     field.dispatchEvent(new Event('change', { bubbles: true }));
@@ -32,6 +39,7 @@ export async function profileVoice(page, output, runtime) {
       game.resume();
     });
     const before = await voice();
+    const bytesBefore = modelWireBytes;
     await page.evaluate(() => {
       let first, last;
       const intervals = [], gpu = [], heap = [];
@@ -53,14 +61,15 @@ export async function profileVoice(page, output, runtime) {
         intervals.sort((a, b) => a - b);
         const p = ratio => intervals[Math.floor((intervals.length - 1) * ratio)];
         return { frames: intervals.length, elapsedMs: last-first, fps: 1000*intervals.length/(last-first),
-          p50Ms: p(.5), p95Ms: p(.95), p99Ms: p(.99), worstMs: p(1), gpuMs: gpu, jsHeap: heap,
+          p50Ms: p(.5), p95Ms: p(.95), p99Ms: p(.99), worstMs: p(1), gpuMs: gpu,
+          peakPageJsHeapBytes: heap.length ? Math.max(...heap) : null,
           mode: window.__SKIMMER_SCRAPER__.snapshot().mode };
       };
     });
     let failure;
     try { await action(before); } catch (error) { failure = String(error); }
     const frames = await page.evaluate(() => window.endFlightSample());
-    rows.push({ name, frames, before, after: await voice(), failure });
+    rows.push({ name, frames, before, after: await voice(), modelWireBytes: modelWireBytes - bytesBefore, failure });
     await writeFile(path.join(output, 'flight-voice.json'), JSON.stringify({ runtime, rows }, null, 2));
     assert(!failure, failure);
     assert(frames.frames > 0 && frames.mode === 'running');
@@ -71,14 +80,17 @@ export async function profileVoice(page, output, runtime) {
   }, value);
   await allowFallback(true);
   await configure('off');
-  await sample('silent', () => page.waitForTimeout(10000));
+  await sample('silent', async () => {
+    await command(1);
+    await page.waitForTimeout(durationMs);
+  });
   await configure('local');
   async function speak(agent, provider) {
     const before = await voice();
     await command(agent);
     await completed({ count: before.completed, id: before.lastCompleted?.id ?? -1 }, agent, provider);
   }
-  await sample('system', () => speak(1, 'local'));
+  await sample('system', () => Promise.all([speak(1, 'local'), page.waitForTimeout(durationMs)]));
   await configure('off');
   await sample('kokoro-load', async () => {
     await configure('high-quality');
@@ -88,7 +100,7 @@ export async function profileVoice(page, output, runtime) {
       return k?.phase === 'ready';
     }, null, { timeout: 240000 });
   });
-  await sample('kokoro-first-inference', () => speak(1, 'high-quality'));
+  await sample('kokoro-first-inference', () => Promise.all([speak(1, 'high-quality'), page.waitForTimeout(durationMs)]));
   await sample('kokoro-cache-hit', () => speak(1, 'high-quality'));
   assert(rows.at(-1).after.kokoro.cacheHits > rows.at(-1).before.kokoro.cacheHits);
   await sample('three-wingmates', async () => {
@@ -98,5 +110,5 @@ export async function profileVoice(page, output, runtime) {
   await sample('three-wingmates-kokoro-only', async () => {
     for (const agent of [1, 2, 3]) await speak(agent, 'high-quality');
   });
-  await page.keyboard.up('Shift');
+  page.off('response', trackResponse);
 }

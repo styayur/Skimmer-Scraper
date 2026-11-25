@@ -29,6 +29,7 @@ export interface VoiceIdentity {
 export interface SpeechStart {
   provider: SpeakingProvider;
   voiceId: string;
+  startLatencyMs?: number;
   rate?: number;
   pitch?: number;
 }

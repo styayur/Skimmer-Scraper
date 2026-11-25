@@ -84,6 +84,10 @@ export const listSystemVoices = (language: RadioLanguage): SpeechSynthesisVoice[
     .sort((a, b) => Number(b.lang === language) - Number(a.lang === language) || a.voiceURI.localeCompare(b.voiceURI)) ?? [];
 };
 
+// Web Speech exposes no gender metadata. Prefer known device voices when present,
+// and let the player override the installed voice in settings.
+const calmVoice = /\b(?:zira|aria|jenny|samantha|tessa|moira|hazel|huihui|xiaoxiao|xiaoyi|ting-ting|meijia|yaoyao)\b|晓晓|曉曉|慧慧|婷婷/u;
+
 export class SystemSpeech implements VoiceProvider {
   public async speak(line: RadioLine, language: RadioLanguage, identity: VoiceIdentity, lifecycle: VoiceLifecycle): Promise<void> {
     const synth = window.speechSynthesis;
@@ -100,15 +104,17 @@ export class SystemSpeech implements VoiceProvider {
       if (!named.has(key)) named.set(key, voice);
     }
     const automatic = [...named.values()];
+    const preferred = automatic.filter(voice => calmVoice.test(voice.name.toLowerCase()));
+    const candidates = preferred.length ? preferred : automatic;
     const voice = voices.find(item => item.voiceURI === identity.preferredSystemVoice)
-      ?? automatic[(identity.agent - 1) % automatic.length]!;
+      ?? candidates[(identity.agent - 1) % candidates.length]!;
     signal.throwIfAborted();
     await new Promise<void>((resolve, reject) => {
       const utterance = new SpeechSynthesisUtterance(line.text);
       utterance.voice = voice;
       utterance.lang = voice.lang;
       utterance.rate = identity.rate;
-      utterance.pitch = identity.pitch;
+      utterance.pitch = 0.96 + (identity.pitch - 1) * 0.4;
       utterance.volume = identity.volume;
       let started = false;
       const clear = () => {

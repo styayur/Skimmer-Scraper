@@ -238,11 +238,16 @@ export class VoiceRadio {
     if (line) this.seenLine = line.id;
     if (!inFlight) { this.cancel(false); this.silence(); return; }
     if (muted) { this.silence(); return; }
-    if (unseen && !this.capture && !this.preview && this.activated && this.settings.output !== 'off'
+    if (unseen && line.priority !== 'notice' && !this.capture && !this.preview && this.activated && this.settings.output !== 'off'
       && this.settings.volume > 0 && line.agent !== null) this.speech.enqueue(line);
   }
 
   private async announce(line: RadioLine, signal: AbortSignal): Promise<void> {
+    const dispatchedAt = performance.now();
+    // Start the provider outside the render callback. During streaming or
+    // a slow frame, let captions carry time-sensitive automatic warnings.
+    await new Promise<void>(resolve => window.setTimeout(resolve, 0));
+    if (signal.aborted || line.priority === 'risk' && performance.now() < this.busyUntil) return;
     const identity = resolveVoiceIdentity(line.agent, this.settings.voices, this.settings.volume);
     const selected = this.settings.output;
     if (!identity || selected === 'off') return;
@@ -251,7 +256,7 @@ export class VoiceRadio {
     const order: SpeakingProvider[] = fallBack ? [selected, 'local'] : [selected];
     const lifecycle: VoiceLifecycle = { signal, start: info => {
       if (signal.aborted || this.speechStart?.id === line.id) return;
-      this.speechStart = { ...info, id: line.id };
+      this.speechStart = { ...info, id: line.id, startLatencyMs: performance.now() - dispatchedAt };
       if (info.provider !== selected) this.lastOutputFallback = info.provider;
       this.played++;
     } };
