@@ -264,7 +264,7 @@ export class GameRenderer {
     if (dragon) {
       this.atmosphere.palette(0x183849, 0xa1b5a1, 0xffce8e);
       this.atmosphere.setMirrorGround(null);
-      this.scene.fog = new THREE.FogExp2(0xc0bd9f, world.settings.theme === 'ascendant' ? .00075 : .0016);
+      this.scene.fog = new THREE.FogExp2(0xc0bd9f, .00075);
     }
   }
   public setInversion(angle:number):void {this.inversion=angle;}
@@ -323,7 +323,7 @@ export class GameRenderer {
   }
 
   public renderFlight(state: FlightState, dt: number, now: number, proximity = 0): void {
-    if (this.world?.settings.theme === 'ascendant' && this.scene.fog instanceof THREE.FogExp2) {
+    if (this.world?.settings.theme === 'dragonspine' && this.scene.fog instanceof THREE.FogExp2) {
       const altitude=state.position.y;
       const low=THREE.MathUtils.smoothstep(altitude,-110,420);
       const high=THREE.MathUtils.smoothstep(altitude,470,910);

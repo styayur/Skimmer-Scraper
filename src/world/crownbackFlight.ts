@@ -3,8 +3,8 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import type { Vec3 } from '../core/math';
 import { disposeObject3D } from '../model/glb';
 import { seededRandom } from './deterministic';
-import { ascendantFloor } from './ascendantTerrain';
-import { islandsAround } from './ascendantIslands';
+import { dragonspineFloor } from './dragonspineTerrain';
+import { islandsAround } from './dragonspineIslands';
 import type { DynamicColliderRegistry } from './dynamicColliderRegistry';
 
 // One closed patrol per territory. The still portion and eased departures keep the
@@ -39,7 +39,7 @@ export function crownbackPatrol(seed: number, tx: number, tz: number) {
     if(range<500)height=Math.max(height,nest.y+24+170*T.MathUtils.smoothstep(range,0,300));
     for(const width of [-230,-175,-115,-60,0,60,115,175,230])for(const fore of [-148,-75,0,45,118]){
       const xx=center.x+side.x*width+side.z*fore,zz=center.z+side.z*width-side.x*fore;
-      height=Math.max(height,ascendantFloor(xx,zz,seed)+36+144*approach);
+      height=Math.max(height,dragonspineFloor(xx,zz,seed)+36+144*approach);
       for(const site of islands){
         if(site===nest)continue;
         if(Math.abs(xx-site.x)<site.rx*1.22+26 && Math.abs(zz-site.z)<site.rz*1.22+26)
@@ -143,7 +143,7 @@ export class CrownbackFlight {
     const loader = new GLTFLoader();
     for (const tier of ['far','middle','near'] as const) {
       try {
-        const url = new URL('./realms/ascendant/crownback-' + tier + '.glb', document.baseURI);
+        const url = new URL('./realms/dragonspine/crownback-' + tier + '.glb', document.baseURI);
         const response = await fetch(url, {signal:this.abort.signal});
         if (!response.ok) throw Error(String(response.status));
         const gltf = await loader.parseAsync(await response.arrayBuffer(), '');

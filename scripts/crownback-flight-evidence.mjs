@@ -13,7 +13,7 @@ try {
   page.on('pageerror', e => errors.push(e.message));
   page.on('console', e => {if(e.type()==='error') errors.push(e.text());});
   const url = new URL(base);
-  url.search = '?theme=ascendant&gen=4&seed=334458&debug=1';
+  url.search = '?theme=dragonspine&gen=4&seed=334458&debug=1';
   await page.goto(url.href);
   await page.waitForFunction(() => window.__SKIMMER_SCRAPER__?.snapshot().dynamicStructures.some(x=>x.id==='crownback'));
   const gpu = await page.evaluate(() => {

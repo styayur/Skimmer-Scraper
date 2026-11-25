@@ -1,5 +1,5 @@
 import { seededRandom } from './deterministic';
-import { ascendantFloor } from './ascendantTerrain';
+import { dragonspineFloor } from './dragonspineTerrain';
 
 export type Vertex = [number,number,number];
 export interface Face { vertices: Vertex[]; color: number; }
@@ -21,7 +21,7 @@ function nestAltitude(seed:number,x:number,z:number) {
   if(cached!==undefined)return cached;
   let height=238;
   for(let dz=-255;dz<=255;dz+=51)for(let dx=-255;dx<=306;dx+=51)
-    height=Math.max(height,ascendantFloor(x+dx,z+dz,seed)+80);
+    height=Math.max(height,dragonspineFloor(x+dx,z+dz,seed)+80);
   nestAltitudes.set(key,height);
   if(nestAltitudes.size>64)nestAltitudes.delete(nestAltitudes.keys().next().value!);
   return height;
@@ -39,7 +39,7 @@ export function islandsAround(seed:number,x:number,z:number,range:number): Islan
           const xx=ix+n*133,zz=iz+57*Math.sin(n*1.2);
           const phase=rng()*Math.PI*2;
           if(Math.abs(xx-x)>range+rxSize*1.36 || Math.abs(zz-z)>range+rzSize*1.36)continue;
-          const y=kind==='nest' ? nestAltitude(seed,xx,zz) : Math.max(ascendantFloor(xx,zz,seed)+depth+88,altitude+n*27);
+          const y=kind==='nest' ? nestAltitude(seed,xx,zz) : Math.max(dragonspineFloor(xx,zz,seed)+depth+88,altitude+n*27);
           result.push({id:[kind,rx,rz,n].join(':'),kind,x:xx,y,z:zz,rx:rxSize,rz:rzSize,depth,phase});
         }
       }

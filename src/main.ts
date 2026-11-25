@@ -335,6 +335,8 @@ ui.setCameraMode(preferences.cameraMode);
 ui.setVisualStimulation(preferences.visualStimulation === 'reduced');
 ui.setRecordingHintVisible(!preferences.recordingHintDismissed);
 ui.setWorldSettings(worldSettings);
+document.querySelector<HTMLElement>('#legacy-dragon-notice')!.hidden =
+  new URLSearchParams(window.location.search).get('theme') !== 'dragon';
 
 const persistPreferences = (next: Partial<GamePreferences>): void => {
   preferences = { ...preferences, ...next };
@@ -392,12 +394,12 @@ const applyWorldSettings = (
   worldMode: WorldMode,
   upgrade = false,
 ): void => {
+  const theme = document.querySelector<HTMLSelectElement>('#world-theme')?.value;
   const next = resolveWorldSettings({
     seed: seedValue, preset: baseWorldSettings.preset, mode: worldMode,
-    generatorVersion: upgrade ? GENERATOR_VERSION : baseWorldSettings.generatorVersion,
+    generatorVersion: upgrade || theme === 'dragonspine' ? GENERATOR_VERSION : baseWorldSettings.generatorVersion,
   });
-  const theme = document.querySelector<HTMLSelectElement>('#world-theme')?.value;
-  if (theme === 'dragon' || theme === 'ascendant') next.theme = theme;
+  if (theme === 'dragonspine') next.theme = theme;
   worldPanel.clearVisit();
   window.location.assign(buildWorldShareUrl(window.location.href, next));
 };
@@ -700,7 +702,7 @@ const simulateFixedStep = (dt: number, holdPosition = false): boolean => {
       symbiosis.flightReport(3, ['发现一座浮空花园。留意它的升降轨迹。', 'Floating garden ahead. Watch its vertical motion.']);
     }
   }
-  if(activeWorld instanceof WorldStreamer && activeWorld.settings.theme !== 'ascendant' && journey.observe(previousY,flightState,runRules,dt)){
+  if(activeWorld instanceof WorldStreamer && !activeWorld.settings.theme && journey.observe(previousY,flightState,runRules,dt)){
     pendingRadio=null;
     symbiosis.invalidate();companions.clearTargets();
     for(const agent of companions.agents)companions.setTarget(agent.id,flightState.position,'REGROUP',12);

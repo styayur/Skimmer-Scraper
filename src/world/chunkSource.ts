@@ -1,5 +1,4 @@
-import { DragonChunkGenerator } from './dragonRealm';
-import { AscendantChunkGenerator } from './ascendantChunk';
+import { DragonspineChunkGenerator } from './dragonspineChunk';
 import { ChunkGenerator } from './chunkGenerator';
 import { MeshBVH } from 'three-mesh-bvh';
 import type { CityWorkerResult } from './cityChunk.worker';
@@ -104,12 +103,11 @@ const yieldToBrowser = (): Promise<void> => new Promise((resolve) => {
  * but the streamer can cancel queued work and never generates the whole city in a physics tick.
  */
 export class InlineChunkSource implements ChunkSource {
-  private readonly generator: ChunkGenerator | DragonChunkGenerator | AscendantChunkGenerator;
+  private readonly generator: ChunkGenerator | DragonspineChunkGenerator;
   private disposed = false;
 
   public constructor(settings: WorldSettings) {
-    this.generator = settings.theme === 'ascendant' ? new AscendantChunkGenerator(settings)
-      : settings.theme === 'dragon' ? new DragonChunkGenerator(settings) : new ChunkGenerator(settings);
+    this.generator = settings.theme ? new DragonspineChunkGenerator(settings) : new ChunkGenerator(settings);
   }
 
   public async generate(request: ChunkSourceRequest): Promise<GeneratedChunk> {

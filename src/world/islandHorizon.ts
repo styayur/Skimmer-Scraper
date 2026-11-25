@@ -1,6 +1,6 @@
 import * as T from 'three';
 import type { Vec3 } from '../core/math';
-import { islandFaces, islandsAround, type Island } from './ascendantIslands';
+import { islandFaces, islandsAround, type Island } from './dragonspineIslands';
 
 type Tier='near'|'middle'|'far';
 interface Resident { tier:Tier; mesh:T.Mesh<T.BufferGeometry,T.MeshStandardMaterial>; }
