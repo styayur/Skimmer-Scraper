@@ -106,19 +106,28 @@ test.describe('v0.2 phase 3 infinite world streaming', () => {
     expect(normalFlight.position.z).toBeLessThan(initial.position.z - 150);
     expect(normalFlight.streaming!.generatedTotal).toBeGreaterThan(initial.streaming!.generatedTotal);
 
-    const bufferedState = page.waitForFunction(() => {
-      const bridge = (window as unknown as { __SKIMMER_SCRAPER__?: StreamingBridge })
-        .__SKIMMER_SCRAPER__;
-      const state = bridge?.snapshot();
-      const label = document.querySelector('#surface-state')?.textContent ?? '';
-      if (!state?.buffering || !label.includes('WORLD STREAM')) return false;
-      return { runTime: state.runTime, label };
-    }, null, { timeout: 15_000 });
-    const [buffer, committed] = await Promise.all([
-      bufferedState, setPose(page, { x: 12_105, y: 85, z: 0 }),
-    ]);
-    const bufferedAt = await buffer.jsonValue();
-    await buffer.dispose();
+    // Observe the HUD mutation inside the page, including waits shorter than one RAF.
+    const { bufferedAt, committed } = await page.evaluate(async () => {
+      const bridge = (window as unknown as { __SKIMMER_SCRAPER__: StreamingBridge }).__SKIMMER_SCRAPER__;
+      const element = document.querySelector('#surface-state')!;
+      const observations: { runTime: number; label: string }[] = [];
+      const observe = () => {
+        const label = element.textContent ?? '';
+        if (label.includes('WORLD STREAM') && bridge.snapshot().buffering && observations.length === 0) {
+          observations.push({ runTime: bridge.snapshot().runTime, label });
+        }
+      };
+      const observer = new MutationObserver(observe);
+      observer.observe(element, { childList: true, characterData: true, subtree: true });
+      try {
+        const pending = bridge.setPose({ x: 12_105, y: 85, z: 0 });
+        observe();
+        const committed = await pending;
+        return { bufferedAt: observations[0], committed };
+      } finally {
+        observer.disconnect();
+      }
+    });
     if (!bufferedAt) throw new Error('Did not observe the collision buffering state.');
     expect(bufferedAt.label).toContain('WORLD STREAM');
     expect(committed.buffering).toBe(false);
