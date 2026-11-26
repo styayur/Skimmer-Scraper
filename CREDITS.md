@@ -129,3 +129,7 @@ The generated terrain, normal map and landmarks are original Skimmer-Scraper ass
 The Windows world library downloads the official terrain archive with reqwest (MIT or Apache-2.0, https://github.com/seanmonstar/reqwest), stages it with tempfile (MIT or Apache-2.0, https://github.com/Stebalien/tempfile), reads ZIP entries with zip (MIT, https://github.com/zip-rs/zip2), and checks disk space through windows-sys (MIT or Apache-2.0, https://github.com/microsoft/windows-rs).
 
 The native Windows folder picker uses rfd (MIT, https://github.com/PolyMeilex/rfd).
+
+### City passage module
+
+The celadon gate GLB and its authoring script in art/world-modules are original Skimmer-Scraper work under AGPL-3.0-only.

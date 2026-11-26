@@ -29,7 +29,8 @@ export const defaultScoreContext: ScoreContext = Object.freeze({
 
 export const scoreContextFor = (settings: WorldSettings, rules?: RuleConfig): ScoreContext => ({
   // Keep the existing score key for the same terrain, including after a rollback.
-  ...(settings.theme === 'dragonspine' ? { worldAsset: 'ascendant' } : {}),
+  ...(settings.theme === 'dragonspine' ? { worldAsset: 'ascendant' } :
+    settings.generatedPassages ? { worldAsset: 'generated-passages-v1' } : {}),
   seedText: settings.seedText,
   preset: settings.preset,
   mode: settings.mode,

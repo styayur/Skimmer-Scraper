@@ -36,6 +36,7 @@ export interface CityGenerationConfig {
 
 export interface WorldSettings {
   theme?: 'dragonspine';
+  generatedPassages?: true;
   paletteHue?: number;
   seed: number;
   seedText: string;
@@ -225,14 +226,20 @@ export const worldSettingsFromSearch = (search: string | URLSearchParams): World
     generatorVersion: dragon ? GENERATOR_VERSION : generatorVersion,
   });
   if (dragon) settings.theme = 'dragonspine';
+  if (!settings.theme && settings.generatorVersion === GENERATOR_VERSION && params.get('passages') === '1') {
+    settings.generatedPassages = true;
+  }
   return settings;
 };
 
-export const buildWorldShareUrl = (baseHref: string, settings: Pick<WorldSettings, 'theme' | 'seedText' | 'preset' | 'mode' | 'generatorVersion'>): string => {
+export const buildWorldShareUrl = (baseHref: string, settings: Pick<WorldSettings, 'theme' | 'seedText' | 'preset' | 'mode' | 'generatorVersion' | 'generatedPassages'>): string => {
   const url = new URL(baseHref);
   url.search = '';
   url.hash = '';
   if (settings.theme) url.searchParams.set('theme', settings.theme);
+  if (settings.generatedPassages && !settings.theme && settings.generatorVersion === GENERATOR_VERSION) {
+    url.searchParams.set('passages', '1');
+  }
   url.searchParams.set('seed', settings.seedText);
   if (settings.generatorVersion === LEGACY_GENERATOR_VERSION) url.searchParams.set('preset', settings.preset);
   url.searchParams.set('world', settings.mode);

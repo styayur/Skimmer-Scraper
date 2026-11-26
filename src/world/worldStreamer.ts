@@ -2,6 +2,8 @@ import { CrownbackFlight } from './crownbackFlight';
 import { IslandHorizon } from './islandHorizon';
 import { RealmHorizon } from './realmHorizon';
 import { RealmDetail } from './realmDetail';
+import { PassageChunkSource } from './procedural/passageChunkSource';
+import { PASSAGE_GRAMMAR_VERSION } from './procedural/passageGrammar';
 import * as THREE from 'three';
 import { CHUNK_SIZE, DENSE_GENERATOR_VERSION, type WorldSettings } from './worldConfig';
 import { chunkKey, type ChunkSource } from './chunkSource';
@@ -49,6 +51,7 @@ interface StreamIntent {
 }
 
 export interface StreamerStats {
+  passageChunks?: number;
   realmDetail?: ReturnType<RealmDetail['snapshot']>;
   stateCounts: Record<ChunkLifecycleState, number>;
   loadedChunks: number;
@@ -212,8 +215,6 @@ export class WorldStreamer implements RenderableWorld {
       this.horizon = new RealmHorizon(settings.seed);
       this.root.add(this.islands.group, this.horizon.group);
     }
-    this.source = options.source ?? (!settings.theme && typeof Worker !== 'undefined'
-      ? new CityWorkerSource(settings) : new InlineChunkSource(settings));
     this.renderRadius = Math.max(1, Math.trunc(options.renderRadius ?? 2));
     this.collisionRadius = Math.max(1, Math.trunc(options.collisionRadius ?? 1));
     this.maxLoadedChunks = Math.max((this.collisionRadius * 2 + 1) ** 2, options.maxLoadedChunks ?? 41);
@@ -225,6 +226,10 @@ export class WorldStreamer implements RenderableWorld {
       : settings.generatorVersion >= DENSE_GENERATOR_VERSION
       ? new ProceduralArchitecture(settings, this.surfaces.dynamic) : null;
     if (this.architecture) this.root.add(this.architecture.group);
+    const baseSource = !settings.theme && typeof Worker !== 'undefined'
+      ? () => new CityWorkerSource(settings) : () => new InlineChunkSource(settings);
+    this.source = options.source ?? (settings.generatedPassages && this.architecture instanceof ProceduralArchitecture
+      ? new PassageChunkSource(baseSource(), settings.seed, this.architecture.ceiling) : baseSource());
     const ground = terrainHeightAt(SPAWN_X, SPAWN_Z, settings);
     this.defaultSpawn = {
       position: { x: SPAWN_X, y: ground + 24, z: SPAWN_Z },
@@ -243,6 +248,7 @@ export class WorldStreamer implements RenderableWorld {
       settings.config.islandFrequency,
       settings.config.terrainAmplitude,
       ...(settings.theme ? ['ascendant-2'] : []),
+      ...(settings.generatedPassages ? ['generated-passage', PASSAGE_GRAMMAR_VERSION] : []),
     );
   }
 
@@ -451,16 +457,19 @@ export class WorldStreamer implements RenderableWorld {
     let active = 0;
     let geometryBytesTotal = 0;
     let renderObjectCount = 0;
+    let passageChunks = 0;
     for (const record of this.chunks.values()) {
       stateCounts[record.state] += 1;
       if (record.state !== 'ACTIVE' || !record.generated) continue;
       active += 1;
       geometryBytesTotal += record.geometryBytes ?? 0;
       renderObjectCount += record.renderObjects ?? 0;
+      if (record.generated.passage) passageChunks += 1;
     }
     const timing = this.generationTiming;
     return {
       ...(this.detail ? {realmDetail:this.detail.snapshot()} : {}),
+      ...(this.settings.generatedPassages ? { passageChunks } : {}),
       stateCounts,
       loadedChunks: active,
       activeChunks: active,
@@ -492,13 +501,24 @@ export class WorldStreamer implements RenderableWorld {
     state: ChunkLifecycleState;
     revision: number;
     fingerprint: number | null;
+    passage?: { entry: Vec3 };
   }> {
-    return [...this.chunks.values()].map((record) => ({
-      key: record.key,
-      state: record.state,
-      revision: record.revision,
-      fingerprint: record.generated?.fingerprint ?? null,
-    }));
+    return [...this.chunks.values()].map(record => {
+      const generated = record.generated;
+      const corridor = generated?.passage?.corridor;
+      const entry = corridor && generated && {
+        x: generated.origin.x + (corridor.min.x + corridor.max.x) / 2,
+        y: generated.origin.y + (corridor.min.y + corridor.max.y) / 2,
+        z: generated.origin.z + corridor.max.z,
+      };
+      return {
+        key: record.key,
+        state: record.state,
+        revision: record.revision,
+        fingerprint: generated?.fingerprint ?? null,
+        ...(entry ? { passage: { entry } } : {}),
+      };
+    });
   }
 
   public dispose(): void {
@@ -728,6 +748,8 @@ export class WorldStreamer implements RenderableWorld {
   }
 
   private disposeGenerated(generated: GeneratedChunk): void {
+    // Passage instance buffers belong to this chunk while their source meshes belong to the catalog.
+    generated.passage?.dispose();
     generated.group.traverse((object) => {
       if (!(object instanceof THREE.Mesh)) return;
       object.geometry.dispose();
