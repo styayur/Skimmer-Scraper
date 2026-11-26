@@ -28,9 +28,10 @@ running on the same page remain inside the browser's trust boundary. Model
 errors, spent budgets and unsupported cross-origin requests leave local flight
 and radio commands available.
 
-Subtitles remain available with speech off. The three wingmates have separate
-system voice preferences and dedicated Mandarin Kokoro voices. The Voice radio
-panel controls volume, preview and provider fallback. See [Voice radio](VOICE.md)
+Subtitles are available throughout flight. In Voice radio settings, enable local
+playback, choose a role for preview and adjust the volume. The three characters
+have original English event clips with Chinese and English text. Dynamic replies
+use captions unless an enabled cloud provider can speak them. See [Voice radio](VOICE.md)
 for push-to-talk controls, microphone permissions, speech budgets and browser
 support.
 

@@ -144,20 +144,12 @@ AudioWorklet for official DeepSeek ASR. The transcript enters the same radio
 queue as typed input. `VoiceRadio` owns half-duplex capture and dispatches
 each real companion identity to a `VoiceProvider`. `SpeechQueue` permits one
 active utterance and three waiting calls, with priority, duplicate suppression
-and expiry. The subtitle tracks the active spoken line. System speech uses
-on-device voices and per-role rate and pitch. DeepSeek uses the memory-only
-`ModelClient` credential gateway and independent speech budgets. `RadioAudio`
-streams 24 kHz PCM through a bounded Web Audio graph with filtering, compression
-and panning. Lifecycle changes abort captures and stop buffered audio. See
-[Voice radio](VOICE.md) for formats and permission flow.
-
-The Kokoro provider is dynamically imported after opt-in and loads a pinned
-Mandarin model in a dedicated Worker. The Worker verifies the complete
-download before caching it and transfers one finite PCM buffer at a time
-through the same bounded Web Audio graph. The playback path waits for the
-source node to finish. Model work has a deadline and the Worker releases its
-resources when switching providers or after idle time. Flight rendering
-and the fixed-step simulation continue independently of speech requests.
+and expiry. The subtitle tracks the active spoken line. Local playback resolves a speaker and semantic event to an authored
+Opus clip and plays it through a role-specific filter, gain and stereo pan.
+Free-form replies use captions. Optional cloud speech uses the memory-only
+credential gateway and bounded PCM playback. World changes and pause cancel
+pending audio. The music session observes speech activity for ducking.
+See [Voice radio](VOICE.md) for input permissions and formats.
 
 Trust starts at 0.5 and changes only through observed lead progress, separation,
 regrouping, impacts and verified Relay outcomes. It changes formation spacing,

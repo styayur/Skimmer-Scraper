@@ -27,7 +27,19 @@ licenses/ notices/inventory, and pins its source link to the exact build commit.
 Both project license texts and runtime/font notices are verified through HTTP
 by the distribution browser test. No reference-game code or assets were copied.
 
-## v0.6 browser voice
+## v0.9 character radio, music and geometry
+
+The shipped Opus clips are offline renders of the original English script in
+`art/radio/lines.json`. They use the CMU US SLT voice and ship its original
+notice in `licenses/CMU-ARCTIC-SLT.txt`. The authoring scripts use Flite and
+opus-tools. The game distributes the rendered clips. Music for the four
+world pools is composed by `art/music`. The Unicode selector is a TypeScript
+port from mzk with the upstream MIT notice in `licenses/MZK-MIT.txt`.
+The WorldForge prototype and both aircraft are project assets. Their
+generation and modelling sources are included under `art/`. The release
+verifier compares each distributed audio file with the corresponding source.
+
+## Historical v0.6 browser voice
 
 Kokoro JS, Transformers.js and the downloadable ONNX weights and Mandarin
 embeddings carry Apache-2.0. ONNX Runtime Web, its common JavaScript bindings,

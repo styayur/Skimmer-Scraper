@@ -51,8 +51,7 @@ Previews and event clips share the Web Audio output, volume, stereo pan and spee
 
 Siny uses a bounded audio queue, backpressure between synthesis and the
 player, cancellation, half-duplex capture and idle resource release. The
-browser implementation uses those design ideas with TypeScript, platform
-voices and Web Audio. Reference code and native binaries stay in Siny.
+browser implementation uses those design ideas with TypeScript, local event clips and Web Audio. Reference code and native binaries stay in Siny.
 [Queue and playback design](https://github.com/styayur/siny/blob/a31619ba641e64b9d9ff572257e4ca52f66e91f6/crates/tinytts/docs/architecture.md) · [Siny source and licenses](https://github.com/styayur/siny/tree/a31619ba641e64b9d9ff572257e4ca52f66e91f6)
 
 ## Paid browser acceptance

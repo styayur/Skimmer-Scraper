@@ -75,6 +75,9 @@ try {
   } else if (libraryCheck === 'flight-voice') {
     const { profileVoice } = await import('./profile-flight-voice.mjs');
     await profileVoice(page, output, runtime);
+  } else if (libraryCheck === 'glide-pad') {
+    const { checkGlideBumper } = await import('./glide-bumper-check.mjs');
+    await checkGlideBumper(page, output);
   } else if (libraryCheck === 'gamepad') {
     const { observeGamepad } = await import('./desktop-live-input.mjs');
     await page.locator('#start-button').click();
