@@ -1,9 +1,13 @@
 import { bindPackPanel } from './ui/WorldPackPanel';
+import { BufferingEvents } from './core/bufferingEvents';
+import { freeGlide, glideRange, needsGlideContact, stepGlide, toggleGlide, type GlideState } from './flight/surfaceGlide';
 import { ActionRouter } from './ui/ActionRouter';
 import { OverlayManager } from './ui/OverlayManager';
 import { bindGameTutorial } from './ui/GameTutorial';
 import { RadioPanel } from './ui/RadioPanel';
 import { bindVoicePanel, showVoiceStatus } from './ui/VoicePanel';
+import { MusicSession } from './audio/musicSession';
+import { bindMusicPanel } from './ui/MusicPanel';
 import { VoiceRadio } from './voice/VoiceRadio';
 import { radioText } from './ai/radioDialogue';
 import '@fontsource-variable/syne';
@@ -57,7 +61,7 @@ import { loadPreferences, savePreferences, type GamePreferences } from './game/p
 import { createProximityFeedback, updateProximityFeedback, type ProximityFeedbackState } from './game/proximityFeedback';
 import { loadBest, scoreContextFor, submitBest } from './game/storage';
 import { FlightAudio } from './audio/synth';
-import { AircraftLibrary, BUILT_IN_AIRCRAFT_ID } from './model/aircraftLibrary';
+import { AircraftLibrary, BUILT_IN_AIRCRAFT_ID, isBuiltInAircraft } from './model/aircraftLibrary';
 import { disposeObject3D } from './model/glb';
 import { GameRenderer, WebGL2UnavailableError, type RenderStats } from './render/GameRenderer';
 import { GameUI, type ModelListItem } from './ui/GameUI';
@@ -86,6 +90,7 @@ interface DebugSnapshot {
   journey: ReturnType<SkyJourney['snapshot']> & ReturnType<JourneyHud['snapshot']>;
   cooperation: ReturnType<SymbiosisRuntime['snapshot']>;
   voice: ReturnType<VoiceRadio['snapshot']>;
+  music: ReturnType<MusicSession['snapshot']>;
   attitude: FlightState['attitude'];
   control: FlightState['control'];
   companionSettings: CompanionSettings;
@@ -131,6 +136,9 @@ interface DebugSnapshot {
   worldFingerprint: number;
   streaming: StreamerStats | null;
   buffering: boolean;
+  bufferingEvents: ReturnType<BufferingEvents['snapshot']>;
+  glide: GlideState;
+  surfaceGlideAssisted: boolean;
   renderOrigin: { x: number; y: number; z: number };
   revisionHistory: ChunkRevisionSnapshot | null;
   chunkStates: ReturnType<WorldStreamer['getChunkStates']>;
@@ -138,6 +146,7 @@ interface DebugSnapshot {
 
 interface SkimmerDebugBridge {
   skipJourney():void;
+  glideSurface(position: Vec3, range?: number): SurfaceQuery | null;
   surface(position: Vec3, range?: number, proximityOnly?: boolean): SurfaceQuery | null;
   aiPerception(): Perception | null;
   aiRequest(): Promise<boolean>;
@@ -203,7 +212,14 @@ const journey = new SkyJourney();
 let pendingWorldSwap: Promise<void> | null = null;
 let skyPassage: SkyPassage | null = null;
 let worldReleases:DebugSnapshot['worldReleases']=[];
-let buffering = false;
+const bufferEvents = new BufferingEvents();
+let glide = freeGlide();
+let usedGlide = false;
+let nextDragonCheck = 0;
+let dragonNearby = false;
+function setBuffering(active: boolean) {
+  if (bufferEvents.active !== active) bufferEvents.set(active, performance.now());
+}
 let worldTransition = 0;
 let runGeneration = 0;
 let streamPreparationCount = 0;
@@ -266,14 +282,14 @@ const waitForCollisionCoverage = async (
     while (shouldContinue() && performance.now() - started <= timeoutMs) {
       const update = syncWorldStreaming({ position, velocity }, includeCompanions);
       if (update?.coverageComplete || activeWorld instanceof ImportedWorldAdapter && activeWorld.isCollisionCovered(position)) {
-        buffering = false;
+        setBuffering(false);
         return true;
       }
-      buffering = true;
+      setBuffering(true);
       syncHud();
       await delay(8);
     }
-    buffering = true;
+    setBuffering(true);
     syncHud();
     return false;
   } finally {
@@ -396,9 +412,9 @@ const applyWorldSettings = (
   const passages = theme === 'city' && worldPassages.checked;
   const next = resolveWorldSettings({
     seed: seedValue, preset: baseWorldSettings.preset, mode: worldMode,
-    generatorVersion: upgrade || passages || theme === 'dragonspine' ? GENERATOR_VERSION : baseWorldSettings.generatorVersion,
+    generatorVersion: upgrade || passages || theme === 'worldforge' || theme === 'dragonspine' ? GENERATOR_VERSION : baseWorldSettings.generatorVersion,
   });
-  if (theme === 'dragonspine') next.theme = theme;
+  if (theme === 'dragonspine' || theme === 'worldforge') next.theme = theme;
   if (passages) next.generatedPassages = true;
   worldPanel.clearVisit();
   window.location.assign(buildWorldShareUrl(window.location.href, next));
@@ -433,6 +449,7 @@ const applyAircraft = (root: Group | null): void => {
   const previous = currentImportedAircraft;
   currentImportedAircraft = root;
   renderer?.setAircraftModel(root);
+  glide = freeGlide();
   renderer?.setCameraAnchor(currentAnchor().anchor);
   if (previous) disposeObject3D(previous);
 };
@@ -481,7 +498,7 @@ const importAircraft = async (file: File): Promise<void> => {
 
 const removeSelectedAircraft = async (): Promise<void> => {
   const id = aircraftLibrary.getSelectedId();
-  if (id === BUILT_IN_AIRCRAFT_ID) return;
+  if (isBuiltInAircraft(id)) return;
   try {
     await aircraftLibrary.remove(id);
     refreshModelOptions();
@@ -495,7 +512,7 @@ const removeSelectedAircraft = async (): Promise<void> => {
 
 const rotateSelectedAircraft = async (): Promise<void> => {
   const id = aircraftLibrary.getSelectedId();
-  if (id === BUILT_IN_AIRCRAFT_ID) return;
+  if (isBuiltInAircraft(id)) return;
   try {
     await aircraftLibrary.rotate(id);
     await selectAircraft(id);
@@ -523,13 +540,13 @@ const syncHud = (): void => {
     locked: runRules.locked,
     proximity: proximityFeedback.intensity,
     zone: proximityFeedback.zone,
-    buffering,
+    buffering: bufferEvents.active,
   });
 };
 
 const runScoreContext = (rules: RuleConfig = runRules.config) => activeWorld instanceof ImportedWorldAdapter
-  ? { ...scoreContextFor(activeWorld.settings, rules), worldAsset: `${activeWorld.manifest.id}-${activeWorld.getFingerprint()}` }
-  : { ...scoreContextFor(baseWorldSettings, rules), journey: journey.worldIndex > 0 };
+  ? { surfaceGlide: usedGlide, ...scoreContextFor(activeWorld.settings, rules), worldAsset: `${activeWorld.manifest.id}-${activeWorld.getFingerprint()}` }
+  : { surfaceGlide: usedGlide, ...scoreContextFor(baseWorldSettings, rules), journey: journey.worldIndex > 0 };
 const createStreamer = (settings:typeof worldSettings, history = revisionHistory):WorldStreamer => {
   return new WorldStreamer(settings,{renderRadius:2,collisionRadius:1,maxLoadedChunks:41,
     revisionProvider:history?(x,z)=>history.revisionFor(x,z):undefined,
@@ -538,6 +555,7 @@ const createStreamer = (settings:typeof worldSettings, history = revisionHistory
 };
 const releaseActiveWorld = (): void => {
   renderer?.releaseWorld();
+  glide = freeGlide();
   if (!activeWorld) return;
   const before = activeWorld.getAdapterStats().bvhCount;
   const dynamicBvhBefore = activeWorld.getDynamicSnapshot().length;
@@ -592,7 +610,7 @@ const beginSkySwap = (): void => {
     best = loadBest(runScoreContext());
     ui.setBest(best);
     lastSurfaceHit = queryFlightSurface(activeWorld, flightState.position, SURFACE_QUERY_RANGE);
-    buffering = false;
+    setBuffering(false);
     neededCoverage = null;
     stepRunner.reset();
     lastFrameTime = performance.now();
@@ -648,14 +666,17 @@ const simulateFixedStep = (dt: number, holdPosition = false): boolean => {
   if (!activeWorld.isCollisionCovered(flightState.position)) {
     neededCoverage = flightState;
     syncWorldStreaming(flightState);
-    buffering = true;
+    setBuffering(true);
     return false;
   }
 
   const keys = inputSource.sample(flightState.elapsed);
   const keyboardActive = keys.boost || Math.abs(keys.pitch) + Math.abs(keys.roll) + Math.abs(keys.yaw) > 0;
   const input = debugInputEnabled ? keys : keyboardActive ? shapeInput(keys, controls) : gamepad.sample(controls);
-  let nextState = stepFlight(flightState, input, dt, controls);
+  const free = stepFlight(flightState, input, dt, controls);
+  const hit = !holdPosition && needsGlideContact(glide) ? activeWorld.queryGlide(flightState.position, glideRange) : null;
+  const candidate = stepGlide(glide, flightState, free, hit, dt);
+  let nextState = candidate.flight;
   if (holdPosition) {
     nextState = {
       ...nextState,
@@ -666,11 +687,11 @@ const simulateFixedStep = (dt: number, holdPosition = false): boolean => {
   if (!activeWorld.isCollisionCovered(nextState.position)) {
     neededCoverage = nextState;
     syncWorldStreaming(nextState);
-    buffering = true;
+    setBuffering(true);
     return false;
   }
 
-  buffering = false;
+  setBuffering(false);
   neededCoverage = null;
   activeWorld.stepMotion(dt);
   shieldCooldown = Math.max(0, shieldCooldown - dt);
@@ -679,6 +700,7 @@ const simulateFixedStep = (dt: number, holdPosition = false): boolean => {
     const contact = resolveShield(flightState, nextState, activeWorld);
     nextState = contact.flight;
     if (contact.impact) {
+      candidate.state = freeGlide();
       shieldGlow = 1;
       if (shieldCooldown === 0) {
         shieldImpacts++; gamepad.impact(); shieldCooldown = 0.2;
@@ -687,14 +709,28 @@ const simulateFixedStep = (dt: number, holdPosition = false): boolean => {
     }
   }
   const collisionDistance = !runRules.config.shield
-    && (activeWorld instanceof ImportedWorldAdapter || worldSettings.generatorVersion >= DENSE_GENERATOR_VERSION)
+    && (needsGlideContact(glide) || activeWorld instanceof ImportedWorldAdapter || worldSettings.generatorVersion >= DENSE_GENERATOR_VERSION)
     ? flightWouldCollide(flightState, nextState, activeWorld) ? COLLISION_RADIUS : null : undefined;
+  if (glide.phase === 'ARMED' && (candidate.state.phase === 'ATTACHING' || candidate.state.phase === 'GLIDING')) {
+    usedGlide = true;
+    best = loadBest(runScoreContext());
+    ui.setBest(best);
+    symbiosis.flightReport(1, ['贴面滑行已接入。', 'Surface glide engaged.'], 'notice', 'glide');
+  }
+  glide = candidate.state;
   const previousY=flightState.position.y;
   flightState = nextState;
   const previousSurface = lastSurfaceHit;
   lastSurfaceHit = queryFlightSurface(activeWorld, flightState.position, SURFACE_QUERY_RANGE);
   runRules = updateRunRules(runRules, { distance: lastSurfaceHit?.distance ?? null, collisionDistance }, dt);
   if (runRules.status === 'running') {
+    if (activeWorld instanceof WorldStreamer && worldSettings.theme === 'dragonspine' && flightState.elapsed >= nextDragonCheck) {
+      nextDragonCheck = flightState.elapsed + 1;
+      const dragon = activeWorld.getDynamicSnapshot().find(actor => actor.id === 'crownback');
+      const nearby = Boolean(dragon && distance(dragon.position, flightState.position) < 570);
+      if (nearby && !dragonNearby) symbiosis.flightReport(3, ['发现冠脊龙。为它留出空间。', 'Dragon in sight. Give her room.'], 'notice', 'dragon');
+      dragonNearby = nearby;
+    }
     companions.step(flightState, activeWorld, dt);
     runRules = symbiosis.step(flightState, runRules, activeWorld, worldSettings.seed, dt);
     if (lastSurfaceHit?.surfaceId.endsWith(':garden') && lastSurfaceHit.distance < 70
@@ -704,6 +740,7 @@ const simulateFixedStep = (dt: number, holdPosition = false): boolean => {
   }
   if(activeWorld instanceof WorldStreamer && !activeWorld.settings.theme && journey.observe(previousY,flightState,runRules,dt)){
     pendingRadio=null;
+    glide = freeGlide();
     symbiosis.invalidate();companions.clearTargets();
     for(const agent of companions.agents)companions.setTarget(agent.id,flightState.position,'REGROUP',12);
   }
@@ -719,6 +756,7 @@ const simulateFixedStep = (dt: number, holdPosition = false): boolean => {
 const finishRun = (): void => {
   if (!flightState || runRules.status !== 'failed' || mode === 'failed') return;
   mode = 'failed';
+  glide = freeGlide();
   voiceRadio.reset();
   symbiosis.suspend();
   keyboard.setEnabled(false);
@@ -745,6 +783,10 @@ const resetFlightState = (): void => {
   motionPreview = false;
   pendingRadio = null;
   activeWorld.resetMotion();
+  glide = freeGlide();
+  usedGlide = false;
+  nextDragonCheck = 0;
+  dragonNearby = false;
   const spawn = activeWorld.getDefaultSpawn();
   flightState = createFlightState({
     position: { ...spawn.position },
@@ -760,7 +802,7 @@ const resetFlightState = (): void => {
   shieldGlow = 0; shieldImpacts = 0; shieldCooldown = 0;
   renderer.setCameraAnchor(currentAnchor().anchor);
   proximityFeedback = createProximityFeedback();
-  buffering = false;
+  setBuffering(false);
   syncWorldStreaming(flightState);
   neededCoverage = null;
   lastSurfaceHit = activeWorld.isCollisionCovered(flightState.position)
@@ -815,6 +857,7 @@ const startRun = async (): Promise<void> => {
 const debugPause = (): boolean => {
   if (mode !== 'running') return mode === 'paused';
   mode = 'paused';
+  glide = freeGlide();
   if (document.pointerLockElement) document.exitPointerLock();
   voiceRadio.suspend();
   pendingRadio = null;
@@ -893,6 +936,7 @@ const debugSnapshot = (): DebugSnapshot => {
     journey: {...journey.snapshot(),...journeyHud.snapshot()},
     cooperation: symbiosis.snapshot(),
     voice: voiceRadio.snapshot(),
+    music: music.snapshot(),
     ready: true,
     attitude: { ...flightState.attitude },
     control: { ...flightState.control },
@@ -918,13 +962,15 @@ const debugSnapshot = (): DebugSnapshot => {
     world: renderer.getWorldStats(),
     adapter: activeWorld?.getAdapterStats() ?? null,
     streaming: activeWorld instanceof WorldStreamer ? activeWorld.getStreamerStats() : null,
-    buffering,
+    buffering: bufferEvents.active,
+    bufferingEvents: bufferEvents.snapshot(performance.now()),
+    glide: { ...glide }, surfaceGlideAssisted: usedGlide,
     renderOrigin: activeWorld?.getRenderOrigin() ?? { x: 0, y: 0, z: 0 },
     render: renderer.getStats(),
     seed:worldSettings.seed,
     debugInput: debugInputEnabled,
     selectedAircraft: aircraftLibrary.getSelectedId(),
-    localModelCount: Math.max(0, aircraftLibrary.options().length - 1),
+    localModelCount: aircraftLibrary.options().filter(option => !isBuiltInAircraft(option.id)).length,
     cameraMode: camera.mode,
     cameraBlend: camera.blend,
     cameraAnchor: camera.anchor,
@@ -1003,7 +1049,7 @@ const debugSetPose = async (
       roll: options.roll ?? flightState.attitude.roll,
     },
   };
-  buffering = !covered;
+  setBuffering(!covered);
   syncWorldStreaming(flightState);
   lastSurfaceHit = covered
     ? queryFlightSurface(activeWorld, flightState.position, SURFACE_QUERY_RANGE)
@@ -1070,6 +1116,11 @@ const actionRouter = new ActionRouter(overlays, {
   start: () => { void startRun(); },
   title: () => { void returnToTitle(); },
   camera: toggleCameraMode,
+  glide: () => {
+    if (journey.active) return false;
+    glide = toggleGlide(glide);
+    return true;
+  },
   radioAvailable,
   voice: (action, source) => {
     if (action === 'start') return voiceRadio.begin(source);
@@ -1090,6 +1141,8 @@ const queueRadioDialogue = (raw: string, useModel = true): boolean => {
   return true;
 };
 const voiceRadio = new VoiceRadio(symbiosis.client, { available: voiceAvailable, send: queueRadioDialogue, status: showVoiceStatus });
+const music = new MusicSession();
+const updateMusicPanel = bindMusicPanel(music);
 const updateVoicePanel = bindVoicePanel(voiceRadio, action => actionRouter.route(action, false, 'touch'),
   language => { symbiosis.radioLanguage = language; });
 const radioPanel = new RadioPanel(symbiosis.radio, queueRadioDialogue, () => voiceRadio.silence());
@@ -1150,7 +1203,7 @@ keyboard.onAction(actionRouter.route);
 const inputDeviceLabel = document.querySelector('#input-device')!;
 const frame = (now: number): void => {
   if (mode !== 'running') symbiosis.suspend();
-  else if (!debugAdvancing && !buffering && !journey.active) {
+  else if (!debugAdvancing && !bufferEvents.active && !journey.active) {
     if (!pendingRadio) void symbiosis.request();
     else if (symbiosis.canSendDialogue()) {
       const { message, useModel } = pendingRadio;
@@ -1162,10 +1215,12 @@ const frame = (now: number): void => {
     }
   }
   const voiceInFlight = voiceAvailable();
-  voiceRadio.update(voiceInFlight, symbiosis.radio.current(), muted || symbiosis.radio.muted,
-    now - lastFrameTime, buffering);
+  voiceRadio.update(voiceInFlight, symbiosis.radio.current(), muted || symbiosis.radio.muted);
   radioPanel.update(mode === 'running' && !journey.active, voiceRadio.spokenLine);
   audio.setDucked(voiceInFlight && voiceRadio.ducking);
+  music.update(activeWorld instanceof ImportedWorldAdapter ? 'local' : worldSettings.theme === 'worldforge' ? 'forge' : worldSettings.theme === 'dragonspine' ? 'dragonspine' : 'city',
+    mode === 'running' && !document.hidden && !muted, voiceRadio.ducking, now-lastFrameTime);
+  updateMusicPanel();
   updateVoicePanel(voiceInFlight);
   updateModelStatus();
   journeyHud.update(journey, mode === 'running' && activeWorld instanceof WorldStreamer);
@@ -1195,21 +1250,23 @@ const frame = (now: number): void => {
         stepRunner.reset();
       } else if (preparingWorld || (activeWorld instanceof WorldStreamer && !activeWorld.isCollisionCovered(flightState.position))) {
         if (!preparingWorld) syncWorldStreaming(flightState);
-        buffering = true;
+        setBuffering(true);
         stepRunner.reset();
       } else {
-        buffering = false;
+        setBuffering(false);
         stepRunner.advance(delta, simulateFixedStep);
         if (flightState && !pendingWorldSwap && !neededCoverage) syncWorldStreaming(flightState);
       }
       syncHud();
       if (runRules.status === 'failed') finishRun();
-      audio.update(flightState.speed, flightState.boosting, proximityFeedback.intensity);
+      const gliding = glide.phase === 'GLIDING' || glide.phase === 'ATTACHING';
+      audio.update(flightState.speed, flightState.boosting, proximityFeedback.intensity, gliding);
       if (!pendingWorldSwap) renderer.renderFlight(
         toRenderFlightState(flightState),
         delta,
         now,
         proximityFeedback.intensity,
+        gliding,
       );
       renderer.setShieldImpact(shieldGlow);
     } else if (mode === 'title' && !cockpitPreview) {
@@ -1254,7 +1311,7 @@ const boot = async (): Promise<void> => {
   let hasLocalAircraft = false;
   try {
     const options = await aircraftLibrary.initialize();
-    hasLocalAircraft = options.length > 1;
+    hasLocalAircraft = options.some(option => !isBuiltInAircraft(option.id));
     ui.setModels(options, aircraftLibrary.getSelectedId());
     const selected = aircraftLibrary.getSelectedId();
     const loaded = await aircraftLibrary.load(selected);
@@ -1287,6 +1344,7 @@ const boot = async (): Promise<void> => {
 
   window.__SKIMMER_SCRAPER__ = {
     skipJourney:()=>journey.skip(),
+    glideSurface: (position, range = 15) => activeWorld?.queryGlide(position, range) ?? null,
     surface: (position, range = 90, proximityOnly = false) => activeWorld
       ? proximityOnly ? queryFlightSurface(activeWorld, position, range) : activeWorld.queryNearest(position, range) : null,
     aiPerception: () => symbiosis.perception(),
@@ -1314,12 +1372,14 @@ document.addEventListener('visibilitychange', () => {
     lastFrameTime = performance.now();
     stepRunner.reset();
   } else {
+    glide = freeGlide();
     voiceRadio.cancelPreview();
     voiceRadio.update(false, symbiosis.radio.current());
   }
 });
 
 window.addEventListener('blur', () => {
+  glide = freeGlide();
   voiceRadio.cancelPreview();
   voiceRadio.update(false, symbiosis.radio.current());
 });
@@ -1329,7 +1389,7 @@ navigator.mediaDevices?.addEventListener('devicechange', () => {
   voiceRadio.cancelPreview();
   voiceRadio.update(voiceAvailable(), symbiosis.radio.current(), true);
 });
-window.addEventListener('pagehide', () => voiceRadio.dispose());
+window.addEventListener('pagehide', () => {voiceRadio.dispose();music.dispose();});
 
 window.addEventListener('skimmer:webgl-context-lost', () => {
   actionRouter.clear();

@@ -35,14 +35,13 @@ Run `node scripts/verify-v060.mjs` with `SKIMMER_URL` set to that preview URL,
 `SKIMMER_EXPECTED_COMMIT` set to the built revision and `SKIMMER_EVIDENCE_DIR`
 set to a writable directory. Set `SKIMMER_FULL_JOURNEY=1` to run all five worlds.
 The real GPU matrix and sustained flight are exercised by
-`node scripts/benchmark-world-art.mjs <local-preview-url> matrix 4`. Use `soak` for sustained flight and `voice` for concurrent Kokoro inference.
+`node scripts/benchmark-world-art.mjs <local-preview-url> matrix 4`. Use the matrix for city baselines. For current Windows Dragonspine qualification, run `scripts/desktop-smoke.mjs` with the installed executable, evidence directory, `pack` and the unpacked high terrain directory. Set `SKIMMER_SOAK_SECONDS=901` and `SKIMMER_QA_SHA` to the tested revision.
 
 After Pages reports success, download the workflow's `github-pages` artifact
 and extract `artifact.tar`. Run the same verifier against the public project
 URL with the final version and commit, and set `SKIMMER_DEPLOY_ARTIFACT_DIR`
 to the extracted directory. The verifier compares hashes of the served
-`build-info.json` and runtime entry bundle against the artifact. Complete native
-Kokoro playback and authorized DeepSeek speech and fallback checks separately.
+`build-info.json` and runtime entry bundle against the artifact. Check all three character previews and actual music output on the installed WebView2 and production Web clients.
 [Public build metadata](https://styayur.github.io/Skimmer-Scraper/build-info.json)
 
 Place the extracted deployment artifact at `dist/` in a clean checkout of the

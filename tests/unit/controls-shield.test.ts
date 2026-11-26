@@ -78,6 +78,23 @@ describe('flight controls and shield', () => {
     }
     expect(actions).toEqual(['pause', 'menu', 'navigate-up', 'navigate-right', 'navigate-down', 'navigate-left']);
   });
+  it.each([
+    ['standard', 'Xbox', 4, -1], ['', 'Android Gamepad (Vendor: 2563 Product: 0526)', 6, -1],
+    ['', 'Android Gamepad (Vendor: 2563 Product: 0526)', 5, 5],
+  ] as const)('routes a physical glide edge for %s %s', (mapping,id,index,glideButton) => {
+    const buttons = Array.from({length:17}, () => ({pressed:false,value:0}));
+    buttons[index]!.pressed=true;
+    const pad={connected:true,index:0,id,mapping,buttons,axes:[0,0,0]} as unknown as Gamepad;
+    const input=new GamepadInputSource(()=>[pad]);
+    const actions:string[]=[];
+    const poll=(menu=false)=>input.poll({...DEFAULT_CONTROLS,glideButton},a=>actions.push(a),menu);
+    poll(); // Already held on connection.
+    buttons[index]!.pressed=false;poll();
+    buttons[index]!.pressed=true;poll(true);poll();
+    buttons[index]!.pressed=false;poll();
+    buttons[index]!.pressed=true;poll();poll();
+    expect(actions).toEqual(['glide']);
+  });
   it('preserves classic limits while allowing a controlled full roll', () => {
     let classic = createFlightState({ position: { x: 0, y: 100, z: 0 }, yaw: 0 });
     let precision = classic;

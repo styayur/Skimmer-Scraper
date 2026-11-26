@@ -50,7 +50,6 @@ const messages: Record<string, string> = {
 };
 
 export class VoiceRadio {
-  private busyUntil = 0;
   private settings: VoicePreferences;
   private readonly deepSeek: DeepSeekVoice;
   private readonly providers: Record<SpeakingProvider, VoiceProvider>;
@@ -80,9 +79,9 @@ export class VoiceRadio {
   }
 
   public get inputMode(): VoiceInput { return this.settings.input; }
-  public get preferences(): VoicePreferences { return { ...this.settings, voices: { ...this.settings.voices } }; }
+  public get preferences(): VoicePreferences { return { ...this.settings }; }
   public get preferredLanguage(): RadioLanguage | undefined {
-    return this.settings.input === 'off' && this.settings.language === 'zh-CN' ? undefined : this.settings.language;
+    return this.settings.input === 'off' && this.settings.output === 'off' && this.settings.language === 'zh-CN' ? undefined : this.settings.language;
   }
   public get spokenLine(): RadioLine | null {
     const line = this.speech.current;
@@ -107,7 +106,7 @@ export class VoiceRadio {
       this.previewSpeech = null;
       this.previewError = null;
     }
-    this.settings = { ...settings, voices: { ...settings.voices } };
+    this.settings = { ...settings };
     this.lastOutputError = null;
     this.lastOutputFallback = null;
     saveVoicePreferences(window.localStorage, this.settings);
@@ -220,26 +219,22 @@ export class VoiceRadio {
     this.hooks.status('idle', messages[code] ?? '语音暂不可用。按 T 可以输入文字。');
   }
 
-  public update(inFlight: boolean, line: RadioLine | null, muted = false, frameMs = 0, buffering = false): void {
-    if (inFlight) {
-      if (buffering || frameMs > 25) this.busyUntil = performance.now() + 240;
-    }
+  public update(inFlight: boolean, line: RadioLine | null, muted = false): void {
     const unseen = line && line.id !== this.seenLine;
     if (line) this.seenLine = line.id;
     if (!inFlight) { this.cancel(false); this.silence(); return; }
     if (muted) { this.silence(); return; }
     if (unseen && (this.settings.output !== 'local' || line.event) && (line.event || line.priority !== 'notice')
-      && (line.priority !== 'risk' || performance.now() >= this.busyUntil) && !this.capture && !this.preview && this.activated && this.settings.output !== 'off'
+      && !this.capture && !this.preview && this.activated && this.settings.output !== 'off'
       && this.settings.volume > 0 && line.agent !== null) this.speech.enqueue(line);
   }
 
   private async announce(line: RadioLine, signal: AbortSignal): Promise<void> {
     const dispatchedAt = performance.now();
-    // Start the provider outside the render callback. During streaming or
-    // a slow frame, let captions carry time-sensitive automatic warnings.
+    // Start the provider outside the render callback.
     await new Promise<void>(resolve => window.setTimeout(resolve, 0));
-    if (signal.aborted || line.priority === 'risk' && performance.now() < this.busyUntil) return;
-    const identity = resolveVoiceIdentity(line.agent, this.settings.voices, this.settings.volume);
+    if (signal.aborted) return;
+    const identity = resolveVoiceIdentity(line.agent, this.settings.volume);
     const selected = this.settings.output;
     if (!identity || selected === 'off') return;
     const language = radioLanguageOf(line.text);
@@ -285,8 +280,8 @@ export class VoiceRadio {
 
   public async previewVoice(agent: number): Promise<void> {
     if (this.preview) { this.cancelPreview(); return; }
-    const { language, output, voices, volume } = this.settings;
-    const identity = resolveVoiceIdentity(agent, voices, volume);
+    const { language, output, volume } = this.settings;
+    const identity = resolveVoiceIdentity(agent, volume);
     if (!identity || output !== 'local' || volume === 0) return;
     this.unlock();
     this.silence();

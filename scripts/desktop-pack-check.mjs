@@ -68,13 +68,17 @@ export async function checkPack(page, output, directory, runtime) {
     deviceScaleFactor: 1,
     mobile: false,
   });
+  const qualityButton = page.locator('#quality-button');
+  if ((await qualityButton.textContent()).includes('平衡')) await qualityButton.evaluate(button => button.click());
+  const quality = await qualityButton.textContent();
+  assert.match(quality, /高/);
   await page.locator('#start-button').click();
   await page.waitForFunction(
     () => window.__SKIMMER_SCRAPER__?.snapshot().runTime > 2,
   );
   await page.evaluate(async () => {
     const game=window.__SKIMMER_SCRAPER__;
-    game.pause();await game.setPose({x:-100,y:290,z:-440},{yaw:0,pitch:0,roll:0});game.resume();
+    game.pause();await game.setPose({x:420,y:555,z:-940},{yaw:0,pitch:0,roll:0});game.resume();
   });
   await page.keyboard.down('q');
   await page.keyboard.down('Shift');
@@ -82,7 +86,7 @@ export async function checkPack(page, output, directory, runtime) {
   await page.screenshot({ path: path.join(output, 'high-streaming.png') });
   const samples = [];
   const frameTimes = [];
-  let bufferingEntries = 0, bufferingMs = 0, wasBuffering = false;
+  const initialBuffering = await page.evaluate(() => window.__SKIMMER_SCRAPER__.snapshot().bufferingEvents);
   const duration = Number(process.env.SKIMMER_SOAK_SECONDS ?? 20);
   const until = Date.now() + duration * 1000;
   const startTime = await page.evaluate(()=>window.__SKIMMER_SCRAPER__.snapshot().runTime);
@@ -108,10 +112,12 @@ export async function checkPack(page, output, directory, runtime) {
         position: s.position,
         detail: s.streaming.realmDetail,
         buffering: s.buffering,
+        residentGeometryBytes: s.streaming.estimatedCpuGeometryBytes,
+        generationP95Ms: s.streaming.generationP95Ms,
         triangles: s.streaming.renderTriangles,
         activationP95Ms: s.streaming.activationP95Ms,
         gpuMs: s.render.gpuMs,
-        drawCalls: s.render.drawCalls,
+        drawCalls: s.render.calls,
         dynamicEntities: s.streaming.dynamicBvhCount,
         deployed: s.companions.filter(agent => agent.deployed).length,
         heapBytes: performance.memory?.usedJSHeapSize,
@@ -119,26 +125,28 @@ export async function checkPack(page, output, directory, runtime) {
     });
     assert.equal(sample.mode, 'running');
     assert.ok(sample.detail,'Flight left Dragonspine Realm');
+    assert.ok(Math.abs(sample.position.y - 555) < .1, 'Flight left the matched citadel route');
     frameTimes.push(...sample.deltas);
     delete sample.deltas;
-    if (sample.buffering && !wasBuffering) bufferingEntries++;
-    if (sample.buffering) bufferingMs += sample.ms;
-    wasBuffering = sample.buffering;
     samples.push(sample);
   }
   frameTimes.sort((a,b) => a-b);
   const percentile = q => frameTimes[Math.floor((frameTimes.length-1)*q)];
+  const finalBuffering = await page.evaluate(() => window.__SKIMMER_SCRAPER__.snapshot().bufferingEvents);
   const report = {
     runtime,
     frameMs: { p50: percentile(.5), p95: percentile(.95), p99: percentile(.99), worst: percentile(1) },
     fps: 1000 * frameTimes.length / frameTimes.reduce((sum, ms) => sum + ms, 0),
-    sampledBuffering: { entries: bufferingEntries, ms: bufferingMs, intervalSeconds: 1 },
+    bufferingEvents: { entries: finalBuffering.entries - initialBuffering.entries,
+      ms: finalBuffering.totalMs - initialBuffering.totalMs, recent: finalBuffering.recent },
+    quality,
+    highSampleFraction: samples.filter(sample => sample.detail.high > 0).length / samples.length,
     version: manifest.packVersion,
     id: manifest.id,
     bytes,
     tiles: manifest.files.length,
     device: 'Tauri WebView2',
-    control: 'Scripted keyboard boost and yaw in the shipping flight loop, one initial pose at 290 m',
+    control: 'Scripted keyboard boost and yaw in the shipping flight loop, matched citadel route at 555 m',
     resolution: '1920x1080 CSS / DPR 1',
     durationSeconds: duration,
     samples,
@@ -162,4 +170,5 @@ export async function checkPack(page, output, directory, runtime) {
       manifest.id,
     );
   }
+  assert.ok(report.highSampleFraction >= .9, 'High terrain must remain resident for at least 90% of sampled seconds');
 }

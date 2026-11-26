@@ -35,6 +35,8 @@ const pose = (): Pose => ({ position: new Vector3(), rotation: new Quaternion(),
 
 /** The BVH stays in model space. Matrices and bounds advance with the simulation. */
 export class DynamicColliderRegistry {
+  private contactTriangle = -1;
+  private readonly contactNormal = new Vector3();
   private readonly colliders = new Map<string, Collider>();
   private readonly worldPoint = new Vector3();
   private readonly localPoint = new Vector3();
@@ -104,17 +106,24 @@ export class DynamicColliderRegistry {
     collider.displacement = displacement;
   }
 
-  public queryNearest(position: Vec3, range: number, proximityOnly = false): SurfaceQuery | null {
+  public queryNearest(position: Vec3, range: number, proximityOnly = false, contact = false): SurfaceQuery | null {
     if (!(range >= 0)) return null;
     this.worldPoint.set(position.x, position.y, position.z);
     let nearest: SurfaceQuery | null = null;
     let best = range;
     for (const collider of this.colliders.values()) {
       if ((proximityOnly && !collider.proximity) || collider.currentBounds.distanceToPoint(this.worldPoint) > best) continue;
-      const distance = this.nearestAt(collider, collider.current, collider.inverse, best);
+      const distance = this.nearestAt(collider, collider.current, collider.inverse, best, contact);
       if (distance < best) {
         best = distance;
         nearest = this.hit(collider, distance);
+        if(contact) {
+          const local = this.closest.clone().applyMatrix4(collider.inverse);
+          const velocity = collider.tickSeconds > 0 ? this.closest.clone().sub(local.clone().applyMatrix4(collider.previous)).divideScalar(collider.tickSeconds) : new Vector3();
+          const normal = this.contactNormal.clone();
+          if(normal.dot(this.worldPoint.clone().sub(this.closest))<0)normal.negate();
+          nearest.contact={normal,velocity,localPoint:local,triangle:this.contactTriangle,geometryId:collider.geometry.uuid};
+        }
       }
     }
     return nearest;
@@ -198,7 +207,7 @@ export class DynamicColliderRegistry {
     return this.composed.elements.every((value, index) => Math.abs(value - matrix.elements[index]!) < 1e-7);
   }
 
-  private nearestAt(collider: Collider, matrix: Matrix4, inverse: Matrix4, range: number): number {
+  private nearestAt(collider: Collider, matrix: Matrix4, inverse: Matrix4, range: number, contact = false): number {
     const e = inverse.elements;
     const radiusScale = Math.hypot(e[0]!, e[1]!, e[2]!, e[4]!, e[5]!, e[6]!, e[8]!, e[9]!, e[10]!);
     this.localPoint.copy(this.worldPoint).applyMatrix4(inverse);
@@ -206,7 +215,7 @@ export class DynamicColliderRegistry {
     let hit = false;
     collider.tree.shapecast({
       intersectsBounds: bounds => radiusScale === 0 || bounds.distanceToPoint(this.localPoint) <= best * radiusScale,
-      intersectsTriangle: triangle => {
+      intersectsTriangle: (triangle, triangleIndex) => {
         this.triangle.a.copy(triangle.a).applyMatrix4(matrix);
         this.triangle.b.copy(triangle.b).applyMatrix4(matrix);
         this.triangle.c.copy(triangle.c).applyMatrix4(matrix);
@@ -215,6 +224,10 @@ export class DynamicColliderRegistry {
         if (distance <= best) {
           best = distance;
           this.closest.copy(this.candidate);
+          if (contact) {
+            this.contactTriangle = triangleIndex;
+            this.triangle.getNormal(this.contactNormal);
+          }
           hit = true;
         }
         return false;

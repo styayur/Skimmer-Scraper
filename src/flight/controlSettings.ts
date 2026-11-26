@@ -22,6 +22,7 @@ export interface ControlSettings {
   backButton: number;
   menuButton: number;
   voiceButton: number;
+  glideButton: number;
 }
 export const DEFAULT_CONTROLS: Readonly<ControlSettings> = Object.freeze({
   profile: 'precision', sensitivity: 1, curve: 1.4, deadZone: 0.14,
@@ -29,7 +30,7 @@ export const DEFAULT_CONTROLS: Readonly<ControlSettings> = Object.freeze({
   autoCoordinate: true, levelAssist: 1,
   pitchAxis: 1, rollAxis: 0, yawAxis: 2, boostButton: 7,
   cameraButton: 3, pauseButton: 9, retryButton: 2,
-  confirmButton: 0, backButton: 1, menuButton: 8, voiceButton: -1,
+  confirmButton: 0, backButton: 1, menuButton: 8, glideButton: -1, voiceButton: -1,
 });
 export const normalizeControls = (value: Partial<ControlSettings> = {}): ControlSettings => {
   const result = { ...DEFAULT_CONTROLS };
@@ -43,6 +44,8 @@ export const normalizeControls = (value: Partial<ControlSettings> = {}): Control
     'confirmButton', 'backButton', 'menuButton'] as const) {
     numeric(key, 0, key.endsWith('Axis') ? 7 : 31); result[key] = Math.round(result[key]);
   }
+  numeric('glideButton', -1, 31);
+  result.glideButton = Math.round(result.glideButton);
   numeric('voiceButton', -1, 31);
   result.voiceButton = Math.round(result.voiceButton);
   for (const key of ['invertPitch','invertRoll','invertYaw','autoCoordinate'] as const) {

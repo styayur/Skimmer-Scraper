@@ -2,7 +2,7 @@
   {
     "agent": 1,
     "event": "launch",
-    "spokenLanguage": "en-US",
+    "spokenLanguages": ["en-US", "zh-CN"],
     "text": {
       "en-US": "Flight lead, you are clear for departure.",
       "zh-CN": "领航确认，可以起飞。"
@@ -11,7 +11,7 @@
   {
     "agent": 1,
     "event": "formation",
-    "spokenLanguage": "en-US",
+    "spokenLanguages": ["en-US", "zh-CN"],
     "text": {
       "en-US": "Formation is steady. Holding course.",
       "zh-CN": "队形稳定，保持航向。"
@@ -20,7 +20,7 @@
   {
     "agent": 1,
     "event": "heading",
-    "spokenLanguage": "en-US",
+    "spokenLanguages": ["en-US", "zh-CN"],
     "text": {
       "en-US": "Corridor clear. Maintain separation.",
       "zh-CN": "航线畅通，保持间距。"
@@ -29,7 +29,7 @@
   {
     "agent": 1,
     "event": "command",
-    "spokenLanguage": "en-US",
+    "spokenLanguages": ["en-US", "zh-CN"],
     "text": {
       "en-US": "Copy your command.",
       "zh-CN": "指令收到。"
@@ -38,7 +38,7 @@
   {
     "agent": 1,
     "event": "glide",
-    "spokenLanguage": "en-US",
+    "spokenLanguages": ["en-US", "zh-CN"],
     "text": {
       "en-US": "Surface glide engaged.",
       "zh-CN": "已进入贴面滑行。"
@@ -47,7 +47,7 @@
   {
     "agent": 2,
     "event": "obstacle",
-    "spokenLanguage": "en-US",
+    "spokenLanguages": ["en-US", "zh-CN"],
     "text": {
       "en-US": "Shield contact. Ease away.",
       "zh-CN": "护盾接触，缓慢脱离。"
@@ -56,7 +56,7 @@
   {
     "agent": 2,
     "event": "risk",
-    "spokenLanguage": "en-US",
+    "spokenLanguages": ["en-US", "zh-CN"],
     "text": {
       "en-US": "Watch your spacing.",
       "zh-CN": "注意编队间距。"
@@ -65,7 +65,7 @@
   {
     "agent": 2,
     "event": "rescue",
-    "spokenLanguage": "en-US",
+    "spokenLanguages": ["en-US", "zh-CN"],
     "text": {
       "en-US": "Relay established. I have you.",
       "zh-CN": "接力已建立，我在掩护。"
@@ -74,7 +74,7 @@
   {
     "agent": 3,
     "event": "island",
-    "spokenLanguage": "en-US",
+    "spokenLanguages": ["en-US", "zh-CN"],
     "text": {
       "en-US": "Floating garden ahead. Watch its drift.",
       "zh-CN": "前方浮空花园，注意移动。"
@@ -83,7 +83,7 @@
   {
     "agent": 3,
     "event": "dragon",
-    "spokenLanguage": "en-US",
+    "spokenLanguages": ["en-US", "zh-CN"],
     "text": {
       "en-US": "Dragon in sight. Give her room.",
       "zh-CN": "发现巨龙，保持净空。"
@@ -92,7 +92,7 @@
   {
     "agent": 3,
     "event": "crossing",
-    "spokenLanguage": "en-US",
+    "spokenLanguages": ["en-US", "zh-CN"],
     "text": {
       "en-US": "Sky crossing complete.",
       "zh-CN": "天空穿越完成。"
@@ -101,7 +101,7 @@
   {
     "agent": 1,
     "event": "preview",
-    "spokenLanguage": "en-US",
+    "spokenLanguages": ["en-US", "zh-CN"],
     "text": {
       "en-US": "Navigator on channel. Route check.",
       "zh-CN": "领航就位，航线检查。"
@@ -110,7 +110,7 @@
   {
     "agent": 2,
     "event": "preview",
-    "spokenLanguage": "en-US",
+    "spokenLanguages": ["en-US", "zh-CN"],
     "text": {
       "en-US": "Guardian on station. I have your wing.",
       "zh-CN": "护航就位，机翼安全。"
@@ -119,7 +119,7 @@
   {
     "agent": 3,
     "event": "preview",
-    "spokenLanguage": "en-US",
+    "spokenLanguages": ["en-US", "zh-CN"],
     "text": {
       "en-US": "Explorer here. Let's see what's beyond the clouds.",
       "zh-CN": "探索者就位。去看看云层的另一边。"
@@ -128,7 +128,7 @@
   {
     "agent": 2,
     "event": "command",
-    "spokenLanguage": "en-US",
+    "spokenLanguages": ["en-US", "zh-CN"],
     "text": {
       "en-US": "Copy. Guardian moving.",
       "zh-CN": "收到，护航开始行动。"
@@ -137,7 +137,7 @@
   {
     "agent": 3,
     "event": "command",
-    "spokenLanguage": "en-US",
+    "spokenLanguages": ["en-US", "zh-CN"],
     "text": {
       "en-US": "Copy that. Explorer moving out.",
       "zh-CN": "了解，探索者出发。"

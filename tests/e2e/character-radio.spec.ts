@@ -1,6 +1,7 @@
 import { test, expect } from '@playwright/test';
 
 test('previews bundled character calls on demand and handles an unavailable clip', async ({ page }) => {
+  test.setTimeout(120_000);
   const clips: string[] = [];
   const modelHosts: string[] = [];
   page.on('request', request => {
@@ -17,11 +18,14 @@ test('previews bundled character calls on demand and handles an unavailable clip
   await expect(output).toHaveValue('off');
   expect(clips).toEqual([]);
   await output.selectOption('local');
-  for (const id of [1,2,3]) {
-    await page.locator('#voice-preview-agent').selectOption(String(id));
-    await page.locator('#voice-preview').click();
-    await expect(page.locator('#voice-preview-status')).toHaveText('试听完成。');
-    expect(clips.at(-1)).toBe('/radio/en-US/' + id + '-preview.opus');
+  for (const language of ['zh-CN', 'en-US']) {
+    await page.locator('#voice-language').selectOption(language);
+    for (const id of [1,2,3]) {
+      await page.locator('#voice-preview-agent').selectOption(String(id));
+      await page.locator('#voice-preview').click();
+      await expect(page.locator('#voice-preview-status')).toHaveText('试听完成。');
+      expect(clips.at(-1)).toBe('/radio/' + language + '/' + id + '-preview.opus');
+    }
   }
   await page.route('**/1-preview.opus', route => route.abort());
   await page.locator('#voice-preview-agent').selectOption('1');

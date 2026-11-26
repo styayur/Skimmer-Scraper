@@ -61,7 +61,11 @@ export class ChunkedWorldAdapter implements SurfaceProvider {
     return [...this.chunks.keys()];
   }
 
-  public queryNearest(position: Vec3, maxDistance: number, onlyChunk?: string): SurfaceQuery | null {
+  public queryGlide(position: Vec3, range: number, onlyChunk?: string) {
+    return this.queryNearest(position, range, onlyChunk, true);
+  }
+
+  public queryNearest(position: Vec3, maxDistance: number, onlyChunk?: string, contact = false): SurfaceQuery | null {
     if (!(maxDistance >= 0)) return null;
     this.queryPoint.set(position.x, position.y, position.z);
     this.lastBroadPhaseCandidates = 0;
@@ -69,6 +73,7 @@ export class ChunkedWorldAdapter implements SurfaceProvider {
 
     let bestDistance = maxDistance;
     let bestChunk: IndexedChunk | null = null;
+    let triangle = -1;
     const bestPoint = new THREE.Vector3();
 
     for (const chunk of this.chunks.values()) {
@@ -85,11 +90,23 @@ export class ChunkedWorldAdapter implements SurfaceProvider {
       if (!hit || hit.distance >= bestDistance) continue;
       bestDistance = hit.distance;
       bestChunk = chunk;
+      triangle = hit.faceIndex;
       bestPoint.copy(hit.point).add(chunk.origin);
     }
 
     if (!bestChunk) return null;
+    let frame: SurfaceQuery['contact'];
+    if (contact) {
+      const geometry = bestChunk.bvh.geometry;
+      const vertices = geometry.getAttribute('position');
+      const vertex = (i: number) => new THREE.Vector3().fromBufferAttribute(vertices, geometry.index?.getX(i) ?? i);
+      const i = 3 * triangle;
+      const normal = THREE.Triangle.getNormal(vertex(i),vertex(i+1),vertex(i+2),new THREE.Vector3());
+      if (normal.dot(this.queryPoint.clone().sub(bestPoint)) < 0) normal.negate();
+      frame = { normal, localPoint: bestPoint.clone().sub(bestChunk.origin), triangle, geometryId:geometry.uuid, velocity:{x:0,y:0,z:0} };
+    }
     return {
+      ...(frame ? {contact:frame} : {}),
       distance: bestDistance,
       point: { x: bestPoint.x, y: bestPoint.y, z: bestPoint.z },
       chunkId: bestChunk.id,

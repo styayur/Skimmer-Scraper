@@ -183,6 +183,7 @@ export const normalizeAircraft = (
 export const loadAircraftGlb = async (
   buffer: ArrayBuffer,
   yawOffset = Math.PI,
+  targetSize = 8,
 ): Promise<NormalizedAircraft> => {
   const inspection = inspectGlb(buffer);
   const loader = new GLTFLoader();
@@ -193,7 +194,7 @@ export const loadAircraftGlb = async (
     const message = error instanceof Error ? error.message : String(error);
     throw new Error(`Unable to parse GLB: ${message}`);
   }
-  return normalizeAircraft(gltf.scene, inspection.triangles, yawOffset);
+  return normalizeAircraft(gltf.scene, inspection.triangles, yawOffset, targetSize);
 };
 
 export const disposeObject3D = (root: THREE.Object3D): void => {

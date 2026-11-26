@@ -7,6 +7,11 @@ import {
 import { ModelStore, type StoredAircraftModel } from './modelStore';
 
 export const BUILT_IN_AIRCRAFT_ID = 'procedural';
+const presets = [
+  { id: 'kite-w', name: 'KITE-W', meta: '翼装飞行者 · 5.8 m 翼展', tag: 'BUILT-IN', span: 5.8 },
+  { id: 'kite-s', name: 'KITE-S', meta: '微型飞行器 · 5.2 m 机长', tag: 'BUILT-IN', span: 5.2 },
+];
+export const isBuiltInAircraft = (id: string) => id === BUILT_IN_AIRCRAFT_ID || presets.some(preset => preset.id === id);
 const SELECTED_KEY = 'skimmer-scraper.selected-model.v1';
 const MAX_LOCAL_MODELS = 24;
 
@@ -57,7 +62,7 @@ export class AircraftLibrary {
   public async initialize(): Promise<AircraftOption[]> {
     this.records = await this.store.list();
     const remembered = loadSelected();
-    this.selectedId = remembered === BUILT_IN_AIRCRAFT_ID || this.records.some((record) => record.id === remembered)
+    this.selectedId = isBuiltInAircraft(remembered) || this.records.some((record) => record.id === remembered)
       ? remembered
       : BUILT_IN_AIRCRAFT_ID;
     return this.options();
@@ -71,6 +76,7 @@ export class AircraftLibrary {
         meta: '程序化 · 8 m · 内置',
         tag: 'BUILT-IN',
       },
+      ...presets,
       ...this.records.map((record) => ({
         id: record.id,
         name: record.name,
@@ -89,7 +95,7 @@ export class AircraftLibrary {
   }
 
   public select(id: string): void {
-    if (id !== BUILT_IN_AIRCRAFT_ID && !this.records.some((record) => record.id === id)) {
+    if (!isBuiltInAircraft(id) && !this.records.some((record) => record.id === id)) {
       throw new Error('Aircraft model is not present in local storage.');
     }
     this.selectedId = id;
@@ -119,6 +125,12 @@ export class AircraftLibrary {
 
   public async load(id = this.selectedId): Promise<NormalizedAircraft | null> {
     if (id === BUILT_IN_AIRCRAFT_ID) return null;
+    const preset = presets.find(option => option.id === id);
+    if (preset) {
+      const response = await fetch(new URL('./aircraft/' + preset.id + '.glb', document.baseURI));
+      if (!response.ok) throw new Error('无法加载内置机型 ' + preset.name);
+      return loadAircraftGlb(await response.arrayBuffer(), 0, preset.span);
+    }
     const record = await this.store.get(id);
     if (!record) throw new Error('Aircraft model data is missing from local storage.');
     return loadAircraftGlb(record.data, record.yawOffset);
@@ -134,7 +146,7 @@ export class AircraftLibrary {
   }
 
   public async remove(id: string): Promise<AircraftOption[]> {
-    if (id === BUILT_IN_AIRCRAFT_ID) throw new Error('内置机型不可移除。');
+    if (isBuiltInAircraft(id)) throw new Error('内置机型不可移除。');
     const record = await this.store.get(id);
     if (record) await this.store.delete(id);
     this.records = this.records.filter((entry) => entry.id !== id);

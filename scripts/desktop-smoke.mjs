@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import { spawn } from 'node:child_process';
+import { createHash } from 'node:crypto';
 import { once } from 'node:events';
 import { mkdir, mkdtemp, readFile, stat, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
@@ -64,7 +65,7 @@ try {
       app: await (await fetch('./build-info.json')).json(),
       wasm: WebAssembly.validate(new Uint8Array([0, 97, 115, 109, 1, 0, 0, 0])),
       webgpu: !!(await navigator.gpu?.requestAdapter()),
-      voiceCount: speechSynthesis.getVoices().length,
+      localRadio: typeof AudioContext === 'function',
     };
   });
   assert.match(runtime.origin, /^https?:\/\/tauri\.localhost$/);
@@ -75,9 +76,9 @@ try {
   } else if (libraryCheck === 'flight-voice') {
     const { profileVoice } = await import('./profile-flight-voice.mjs');
     await profileVoice(page, output, runtime);
-  } else if (libraryCheck === 'kokoro-cache') {
-    const { checkKokoroCache } = await import('./desktop-kokoro-cache.mjs');
-    await checkKokoroCache(page, output, runtime);
+  } else if (libraryCheck === 'glide-pad') {
+    const { checkGlideBumper } = await import('./glide-bumper-check.mjs');
+    await checkGlideBumper(page, output);
   } else if (libraryCheck === 'gamepad') {
     const { observeGamepad } = await import('./desktop-live-input.mjs');
     await page.locator('#start-button').click();
@@ -105,6 +106,8 @@ try {
       page,
       path.join(output, 'desktop-matrix.json'),
       process.argv[5],
+      process.argv[6] === 'city-comparison',
+      process.argv[6] === 'glide-comparison',
     );
   } else if (libraryCheck === 'compat') {
     const { checkCompatibility } = await import('./desktop-compat.mjs');
@@ -202,6 +205,7 @@ try {
         {
           runtime,
           flight,
+          executableSha256: createHash('sha256').update(await readFile(executable)).digest('hex'),
           escapePause: true,
           fullscreenRoundTrip: true,
           errors,

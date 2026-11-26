@@ -4,7 +4,6 @@ import type { SpeechStreamStats } from './deepSeekVoice';
 export type VoiceInput = 'off' | 'local' | 'deepseek';
 export type VoiceOutput = VoiceInput;
 export type SpeakingProvider = Exclude<VoiceOutput, 'off'>;
-export type VoiceOverrides = Partial<Record<1 | 2 | 3, string>>;
 
 export interface VoicePreferences {
   input: VoiceInput;
@@ -12,7 +11,6 @@ export interface VoicePreferences {
   language: RadioLanguage;
   localFallback: boolean;
   volume: number;
-  voices: VoiceOverrides;
 }
 
 export interface VoiceIdentity {
@@ -22,7 +20,6 @@ export interface VoiceIdentity {
   pitch: number;
   pan: number;
   volume: number;
-  preferredSystemVoice?: string;
   cloudVoice: 'stella' | 'tide';
 }
 
@@ -51,8 +48,7 @@ const voices = [
   { rate: 1.10, pitch: 1.12, pan: 0.18, cloudVoice: 'stella' },
 ] as const;
 
-export const resolveVoiceIdentity = (agent: number | null, overrides: VoiceOverrides, volume = 1): VoiceIdentity | null => {
+export const resolveVoiceIdentity = (agent: number | null, volume = 1): VoiceIdentity | null => {
   if (agent !== 1 && agent !== 2 && agent !== 3) return null;
-  return { agent, callsign: COMPANION_PROFILES[agent - 1]!.callsign, ...voices[agent - 1]!, volume,
-    preferredSystemVoice: overrides[agent] };
+  return { agent, callsign: COMPANION_PROFILES[agent - 1]!.callsign, ...voices[agent - 1]!, volume };
 };

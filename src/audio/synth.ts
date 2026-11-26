@@ -68,7 +68,7 @@ export class FlightAudio {
 
   private flightVolume(): number { return this.muted || this.paused ? 0 : this.ducked ? 0.035 : 0.24; }
 
-  public update(speed: number, boosting: boolean, proximity = 0): void {
+  public update(speed: number, boosting: boolean, proximity = 0, gliding = false): void {
     if (!this.context || !this.engineFilter || !this.engineGain || !this.noiseGain || this.paused) return;
     const now = this.context.currentTime;
     const speedFactor = Math.max(0, Math.min(1.4, speed / 100));
@@ -76,7 +76,7 @@ export class FlightAudio {
     this.engineFilter.frequency.setTargetAtTime(420 + speedFactor * 860 + (boosting ? 380 : 0), now, 0.12);
     this.engineGain.gain.setTargetAtTime(0.09 + speedFactor * 0.075, now, 0.15);
     const proximityFactor = Math.max(0, Math.min(1, proximity));
-    this.noiseGain.gain.setTargetAtTime(0.018 + speedFactor * 0.04 + (boosting ? 0.025 : 0) + proximityFactor * 0.055, now, 0.18);
+    this.noiseGain.gain.setTargetAtTime(0.018 + speedFactor * 0.04 + (boosting ? 0.025 : 0) + proximityFactor * 0.055 + (gliding ? 0.035 : 0), now, 0.18);
     for (const [index, oscillator] of this.engineOscillators.entries()) {
       oscillator.frequency.setTargetAtTime(frequency * (index === 0 ? 1 : 1.505), now, 0.15);
     }

@@ -12,6 +12,7 @@ const SCOPED_BEST_PREFIX = 'skimmer-scraper.best.v2';
 
 export interface ScoreContext {
   journey?: boolean;
+  surfaceGlide?: boolean;
   worldAsset?: string;
   seedText: string;
   preset: WorldPresetId;
@@ -29,7 +30,7 @@ export const defaultScoreContext: ScoreContext = Object.freeze({
 
 export const scoreContextFor = (settings: WorldSettings, rules?: RuleConfig): ScoreContext => ({
   // Keep the existing score key for the same terrain, including after a rollback.
-  ...(settings.theme === 'dragonspine' ? { worldAsset: 'ascendant' } :
+  ...(settings.theme === 'worldforge' ? { worldAsset: 'worldforge-1' } : settings.theme === 'dragonspine' ? { worldAsset: 'ascendant' } :
     settings.generatedPassages ? { worldAsset: 'generated-passages-v1' } : {}),
   seedText: settings.seedText,
   preset: settings.preset,
@@ -47,7 +48,7 @@ export const bestStorageKey = (context: ScoreContext): string => [
   `gen${context.generatorVersion}`,
   encodeURIComponent(context.seedText),
 ].join(':') + (standard(context) ? '' : `:${context.rules!.mode}:grace${context.rules!.graceSeconds}:${context.rules!.assisted ? 'assisted' : 'solo'}`)
-  + (context.journey ? ':sky-journey-v3' : '') + (context.worldAsset ? `:local-${encodeURIComponent(context.worldAsset)}` : '');
+  + (context.surfaceGlide ? ':surface-glide' : '') + (context.journey ? ':sky-journey-v3' : '') + (context.worldAsset ? `:local-${encodeURIComponent(context.worldAsset)}` : '');
 
 export const formatTime = (seconds: number): string => {
   const safe = Math.max(0, Number.isFinite(seconds) ? seconds : 0);
@@ -67,7 +68,7 @@ const readPositive = (storage: Storage, key: string): number => {
 };
 
 const isLegacyDefaultContext = (context: ScoreContext): boolean =>
-  !context.journey &&
+  !context.surfaceGlide && !context.journey &&
   !context.worldAsset &&
   standard(context) &&
   context.seedText === defaultScoreContext.seedText &&

@@ -3,13 +3,14 @@ import type { VoiceProvider } from './voiceContracts';
 
 /** Every clip is selected by the originating game event and its actual speaker. */
 export function clipRadio(context: () => AudioContext | null): VoiceProvider {
-  return { async speak(line, _language, identity, {signal, start}) {
+  return { async speak(line, language, identity, {signal, start}) {
     const clip = lines.find(item => item.agent === line.agent && item.event === line.event);
     const audio = context();
     if (!clip || line.source !== 'local') throw new Error('voice-caption');
     if (audio?.state !== 'running') throw new Error('playback-blocked');
     const id = clip.agent + '-' + clip.event;
-    const response = await fetch(new URL('./radio/en-US/' + id + '.opus', document.baseURI), {signal});
+    const locale = clip.spokenLanguages.includes(language) ? language : clip.spokenLanguages[0];
+    const response = await fetch(new URL('./radio/' + locale + '/' + id + '.opus', document.baseURI), {signal});
     if (!response.ok) throw new Error('voice-clip-missing');
     const buffer = await audio.decodeAudioData(await response.arrayBuffer());
     signal.throwIfAborted();

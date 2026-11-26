@@ -1,3 +1,4 @@
+import { ForgeHorizon } from './procedural/forgeHorizon';
 import { CrownbackFlight } from './crownbackFlight';
 import { IslandHorizon } from './islandHorizon';
 import { RealmHorizon } from './realmHorizon';
@@ -164,6 +165,7 @@ export class WorldStreamer implements RenderableWorld {
   public readonly adapter = new ChunkedWorldAdapter();
   private readonly surfaces = new UnifiedSurfaceQuery(this.adapter);
   private readonly detail?: RealmDetail;
+  private readonly forgeHorizon?: ForgeHorizon;
   private readonly horizon?: RealmHorizon;
   private readonly islands?: IslandHorizon;
   private readonly architecture: ProceduralArchitecture | CrownbackFlight | null;
@@ -209,7 +211,11 @@ export class WorldStreamer implements RenderableWorld {
 
   public constructor(settings: WorldSettings, options: WorldStreamerOptions = {}) {
     this.settings = settings;
-    if (settings.theme) {
+    if (settings.theme === 'worldforge') {
+      this.forgeHorizon = new ForgeHorizon(settings);
+      this.root.add(this.forgeHorizon.group);
+    }
+    if (settings.theme === 'dragonspine') {
       this.islands = new IslandHorizon(settings.seed);
       this.detail = new RealmDetail(settings.seed);
       this.horizon = new RealmHorizon(settings.seed);
@@ -222,11 +228,11 @@ export class WorldStreamer implements RenderableWorld {
     this.onChunkActivated = options.onChunkActivated ?? (() => {});
     this.onChunkRetired = options.onChunkRetired ?? (() => {});
     this.root.name = `world-stream-${settings.seed}`;
-    this.architecture = settings.theme ? new CrownbackFlight(settings.seed, this.surfaces.dynamic)
+    this.architecture = settings.theme === 'worldforge' ? null : settings.theme ? new CrownbackFlight(settings.seed, this.surfaces.dynamic)
       : settings.generatorVersion >= DENSE_GENERATOR_VERSION
       ? new ProceduralArchitecture(settings, this.surfaces.dynamic) : null;
     if (this.architecture) this.root.add(this.architecture.group);
-    const baseSource = !settings.theme && typeof Worker !== 'undefined'
+    const baseSource = settings.theme !== 'dragonspine' && typeof Worker !== 'undefined'
       ? () => new CityWorkerSource(settings) : () => new InlineChunkSource(settings);
     this.source = options.source ?? (settings.generatedPassages && this.architecture instanceof ProceduralArchitecture
       ? new PassageChunkSource(baseSource(), settings.seed, this.architecture.ceiling) : baseSource());
@@ -247,7 +253,7 @@ export class WorldStreamer implements RenderableWorld {
       settings.config.streetSpacing,
       settings.config.islandFrequency,
       settings.config.terrainAmplitude,
-      ...(settings.theme ? ['ascendant-2'] : []),
+      ...(settings.theme === 'worldforge' ? ['worldforge-1'] : settings.theme ? ['ascendant-2'] : []),
       ...(settings.generatedPassages ? ['generated-passage', PASSAGE_GRAMMAR_VERSION] : []),
     );
   }
@@ -277,6 +283,7 @@ export class WorldStreamer implements RenderableWorld {
       this.companionPositions, this.architecture instanceof CrownbackFlight
         ? this.architecture.residentPosition : undefined,
       this.synchronousBuildP95Ms ?? 0);
+    this.forgeHorizon?.cover(position, key => this.chunks.get(key)?.state === 'ACTIVE', this.revisionProvider);
     this.horizon?.cover(position);
     this.islands?.cover(position);
     const now = performance.now();
@@ -401,6 +408,7 @@ export class WorldStreamer implements RenderableWorld {
   }
   public queryProximity(position: Vec3, range: number) { return this.surfaces.queryProximity(position, range); }
   public queryStatic(position: Vec3, range: number) { return this.surfaces.queryStatic(position, range); }
+  public queryGlide(position: Vec3, range: number) { return this.surfaces.queryGlide(position,range); }
   public sweepDynamic(from: Vec3, to: Vec3, radius: number) { return this.surfaces.sweepDynamic(from, to, radius); }
   public setRenderQuality(name:'balanced'|'high'): void {
     if (this.architecture instanceof CrownbackFlight) this.architecture.setQuality(name);
@@ -532,6 +540,7 @@ export class WorldStreamer implements RenderableWorld {
     this.chunks.clear();
     this.adapter.dispose();
     this.architecture?.dispose();
+    this.forgeHorizon?.dispose();
     this.horizon?.dispose();
     this.islands?.dispose();
     this.detail?.dispose();
@@ -771,6 +780,7 @@ export class WorldStreamer implements RenderableWorld {
     this.renderOrigin.x = nextX;
     this.renderOrigin.z = nextZ;
     this.architecture?.shiftOrigin(this.renderOrigin);
+    this.forgeHorizon?.shiftOrigin(this.renderOrigin);
     this.horizon?.shiftOrigin(this.renderOrigin);
     this.islands?.shiftOrigin(this.renderOrigin);
     this.rebaseCount += 1;

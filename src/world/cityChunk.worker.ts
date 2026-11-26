@@ -1,3 +1,4 @@
+import { ForgeChunkGenerator, type ForgePacket } from './procedural/forgeChunk';
 import { MeshBVH, type SerializedBVH } from 'three-mesh-bvh';
 import { CityGeometryGenerator, type CityChunkPacket } from './chunkGenerator';
 import type { ChunkSourceRequest } from './chunkSource';
@@ -6,15 +7,15 @@ import type { WorldSettings } from './worldConfig';
 import { collisionBvhOptions } from './chunkedWorldAdapter';
 
 export interface CityWorkerResult {
-  packet: CityChunkPacket;
+  packet: CityChunkPacket | ForgePacket;
   collisionTree: SerializedBVH;
   workerBuildMs: number;
 }
 
-let generator: CityGeometryGenerator;
+let generator: CityGeometryGenerator | ForgeChunkGenerator;
 self.onmessage = ({ data }: MessageEvent<WorldSettings | ChunkSourceRequest>) => {
   if ('generatorVersion' in data) {
-    generator = new CityGeometryGenerator(data);
+    generator = data.theme === 'worldforge' ? new ForgeChunkGenerator(data) : new CityGeometryGenerator(data);
     self.postMessage('ready');
     return;
   }
@@ -24,7 +25,9 @@ self.onmessage = ({ data }: MessageEvent<WorldSettings | ChunkSourceRequest>) =>
   const collisionTree = MeshBVH.serialize(bvh, { cloneBuffers: false });
   const buffers = new Set<ArrayBuffer>(collisionTree.roots);
   if (collisionTree.index) buffers.add(collisionTree.index.buffer as ArrayBuffer);
-  for (const geometry of [packet.collision, packet.shadow, ...packet.surfaces.map(([, surface]) => surface)]) {
+  const geometryPackets = 'forge' in packet ? [packet.collision, packet.render]
+    : [packet.collision, packet.shadow, ...packet.surfaces.map(([, surface]) => surface)];
+  for (const geometry of geometryPackets) {
     for (const attribute of geometry?.attributes ?? []) buffers.add(attribute.array.buffer as ArrayBuffer);
   }
   const result: CityWorkerResult = { packet, collisionTree, workerBuildMs: performance.now() - started };

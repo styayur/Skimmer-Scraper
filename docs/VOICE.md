@@ -26,7 +26,7 @@ line through the end of playback.
   installed Chinese or English language pack. Use **Prepare device language**
   to check or download one. Device transcripts go to the local wingmate
   controller. Browsers without on-device recognition still support text.
-- **Character radio** plays bundled English Opus clips, selected by event and speaker. Chinese and English captions remain available. Free-form text remains in the transcript.
+- **Character radio** plays bundled Mandarin and English Opus clips, selected by event, speaker and language. Chinese and English captions remain available. Free-form text remains in the transcript.
 - **DeepSeek input** sends the released recording directly to the DeepSeek
   ASR endpoint. The transcript goes through the same dialogue and validated
   flight orders as typed requests. **DeepSeek output** sends wingmate lines to
@@ -45,14 +45,23 @@ stay available.
 ## Data and playback
 
 The browser keeps audio in memory for the active clip or transmission.
-Previews and event clips share the Web Audio output, volume, stereo pan and speech queue lifecycle. The authoring input is in `art/radio/lines.json`. Run `python3 art/radio/render.py` with Flite 2.2 (SLT) and opus-tools to reproduce the clips. Local ASR, microphone input and optional cloud speech remain separate.
+Previews and event clips share the Web Audio output, volume, stereo pan and speech queue lifecycle. The authoring input is in `art/radio/lines.json`. Run `python3 art/radio/render.py` with Flite 2.2 (SLT) and opus-tools to render the English clips. Local ASR, microphone input and optional cloud speech remain separate.
+
+### Rendering the Mandarin calls
+
+Each character combines four adult female speaker embeddings from the multi-speaker AISHELL-3 model. The character groups use distinct source embeddings and delivery speeds. The source model runs on the author's CPU. The game reads the resulting mono Opus files alongside the English calls.
+
+Install `sherpa-onnx`, `onnx`, `numpy` and `soundfile` in a Python authoring environment. Extract the upstream `vits-icefall-zh-aishell3.tar.bz2` archive and run the command below with FFmpeg and its libopus encoder on PATH. The script checks the ONNX file digest. The original model and corpus both use Apache License 2.0. [Model card at the pinned revision](https://huggingface.co/csukuangfj/icefall-tts-aishell3-vits-low-2024-04-06/tree/57345c004e13ed640e408c4c29ab56187b18f065), [model archive](https://github.com/k2-fsa/sherpa-onnx/releases/download/tts-models/vits-icefall-zh-aishell3.tar.bz2), [AISHELL-3 corpus](https://www.openslr.org/93/), [speaker metadata](https://huggingface.co/datasets/AISHELL/AISHELL-3/blob/466cda9/spk-info.txt).
+
+```sh
+python art/radio/render_mandarin.py /path/to/vits-icefall-zh-aishell3
+```
 
 ## Design reference
 
 Siny uses a bounded audio queue, backpressure between synthesis and the
 player, cancellation, half-duplex capture and idle resource release. The
-browser implementation uses those design ideas with TypeScript, platform
-voices and Web Audio. Reference code and native binaries stay in Siny.
+browser implementation uses those design ideas with TypeScript, local event clips and Web Audio. Reference code and native binaries stay in Siny.
 [Queue and playback design](https://github.com/styayur/siny/blob/a31619ba641e64b9d9ff572257e4ca52f66e91f6/crates/tinytts/docs/architecture.md) · [Siny source and licenses](https://github.com/styayur/siny/tree/a31619ba641e64b9d9ff572257e4ca52f66e91f6)
 
 ## Paid browser acceptance

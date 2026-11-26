@@ -9,7 +9,8 @@ test('opens Dragonspine from the world menu, streams local tiles and restores th
   );
   await page.keyboard.press('g');
   const choices = page.locator('#world-theme option');
-  await expect(choices).toHaveCount(2);
+  await expect(choices).toHaveCount(3);
+  await expect(choices.nth(2)).toHaveAttribute('value', 'worldforge');
   await expect(choices.nth(1)).toHaveText(/Dragonspine/);
   await page.locator('#world-theme').selectOption('dragonspine');
   await page.locator('#world-form button[type=submit]').click();

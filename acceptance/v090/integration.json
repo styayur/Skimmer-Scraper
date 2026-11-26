@@ -1,0 +1,34 @@
+{
+  "status": "in qualification",
+  "controller": {
+    "web": "9660f96be587c7c686d271b264669cb8045bbe2d",
+    "hardware": "Android Gamepad (Vendor: 2563 Product: 0526), physical LB = raw button 6",
+    "evidence": "edge-physical-bumper.json"
+  },
+  "endpointAudio": {
+    "source": "0ba8d251d31651379736c5a3ff8314fc738a955b",
+    "web": "edge-process-audio.json",
+    "windows": "webview2-process-audio.json",
+    "scope": "Process/session peak during each of the three real Opus previews. Separate nonzero PCM measurement on the actual playing music element."
+  },
+  "windows": {
+    "source": "3d63ad53cf9a3b8fa4e22304a3d4951ec71c2664",
+    "installerSha256": "8a309981bed65377ff14a6dd74e3e68b1add9036513468fd3af6418fbb1001ae",
+    "signature": "NotSigned",
+    "installExit": 0,
+    "scope": "Current-user NSIS installation. Surface flight exercised in the installed WebView2 client."
+  },
+  "browser": {
+    "source": "0ba8d251d31651379736c5a3ff8314fc738a955b",
+    "full": {
+      "passed": 49,
+      "failed": 2
+    },
+    "reason": "Legacy E2E asserted exactly two world options and one aircraft after deleting the imported model. The expanded hangar and WorldForge intentionally add options.",
+    "rechecked": "Both updated cases passed on the 0.9.0 integration build along with the Dragonspine historical URL regression."
+  },
+  "unit": {
+    "passed": 216
+  },
+  "production": "v0.8.2"
+}

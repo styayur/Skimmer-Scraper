@@ -258,9 +258,15 @@ export class GameRenderer {
     const spawn=world.getSpawn();this.journeyGate.group.position.set(spawn.position.x,spawn.position.y+30,spawn.position.z-260);
   }
   private applyRealmAtmosphere(world: RenderableWorld): void {
-    const dragon = Boolean(world.settings.theme);
-    this.petals.points.visible = !dragon;
-    this.mirrorSky.group.visible = !dragon;
+    const dragon = world.settings.theme === 'dragonspine';
+    const forge = world.settings.theme === 'worldforge';
+    this.petals.points.visible = !dragon && !forge;
+    this.mirrorSky.group.visible = !dragon && !forge;
+    if (forge) {
+      this.atmosphere.palette(0x28334d, 0x8ea8a4, 0xefbd96);
+      this.atmosphere.setMirrorGround(null);
+      this.scene.fog = new THREE.FogExp2(0xa1adab, .0011);
+    }
     if (dragon) {
       this.atmosphere.palette(0x183849, 0xa1b5a1, 0xffce8e);
       this.atmosphere.setMirrorGround(null);
@@ -322,7 +328,7 @@ export class GameRenderer {
     this.draw(now);
   }
 
-  public renderFlight(state: FlightState, dt: number, now: number, proximity = 0): void {
+  public renderFlight(state: FlightState, dt: number, now: number, proximity = 0, gliding = false): void {
     if (this.world?.settings.theme === 'dragonspine' && this.scene.fog instanceof THREE.FogExp2) {
       const altitude=state.position.y;
       const low=THREE.MathUtils.smoothstep(altitude,-110,420);
@@ -336,7 +342,7 @@ export class GameRenderer {
     if(this.inversion)this.camera.rotateZ(this.inversion);
     this.setAircraftTransform(state.position, state.attitude, state.boosting);
     this.petals.update(dt, state.position);
-    this.speedRibbons.update(state.speed, state.boosting, dt, proximity, this.visualScale);
+    this.speedRibbons.update(state.speed, state.boosting || gliding, dt, proximity, this.visualScale);
     this.draw(now);
   }
 

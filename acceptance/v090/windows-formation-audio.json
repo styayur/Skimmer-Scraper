@@ -1,0 +1,60 @@
+{
+  "scope": "Development Windows installation, isolated WebView2 session. Three explicitly deployed companions. The pilot issued an accepted KITE-1 formation order in live City flight.",
+  "build": {
+    "native": true,
+    "renderer": "ANGLE (AMD, AMD Radeon 780M Graphics (0x00001900) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+    "version": "0.9.0",
+    "sourceCommit": "a1dfd923bcb0f04bed969362395e8275b5de64b8",
+    "sourceCommitTime": "2026-11-26T23:10:43+08:00",
+    "dirty": false,
+    "sourceUrl": "https://github.com/styayur/Skimmer-Scraper/tree/a1dfd923bcb0f04bed969362395e8275b5de64b8",
+    "toolchain": {
+      "node": "v26.7.0",
+      "platform": "win32",
+      "architecture": "x64"
+    }
+  },
+  "mix": {
+    "frames": 1574,
+    "spokenFrames": 153,
+    "clips": [
+      "1-command"
+    ],
+    "min": 0.08751097336997025,
+    "restored": 0.34999999999999987
+  },
+  "processEndpoint": [
+    {
+      "segment": 1,
+      "samples": 46,
+      "processEndpointPeak": 0.3902992010116577
+    },
+    {
+      "segment": 2,
+      "samples": 63,
+      "processEndpointPeak": 0.46635907888412476
+    },
+    {
+      "segment": 3,
+      "samples": 63,
+      "processEndpointPeak": 0.3042869567871094
+    },
+    {
+      "segment": "WorldForge BGM",
+      "samples": 29,
+      "processEndpointPeak": 0.09662717580795288
+    }
+  ],
+  "musicDecodedPcmPeak": 0.2693118453025818,
+  "modelRequests": [],
+  "laterScenario": {
+    "passed": false,
+    "operation": "Unavailability of a built-in music source under WebView2",
+    "error": "TimeoutError: page.waitForFunction: Timeout 30000ms exceeded."
+  },
+  "sourceEvidence": {
+    "audio.json": "b5c8a33837bcf62f131fd42ed85d1ba49336cb9de10d33ad969725d87cb346e6",
+    "mix-trace.json": "f973497e92d6e6f7b4393e2949c22313285d379ed11a76997e294a35adf6c76a",
+    "windows-session-levels.jsonl": "370611a0d1401cd01a3f89eafa051655f93ab91e526039d73346f1f66d764688"
+  }
+}

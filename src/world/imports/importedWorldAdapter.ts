@@ -19,6 +19,7 @@ export class ImportedWorldAdapter implements RenderableWorld, SurfaceProvider {
   private readonly surfaces = new UnifiedSurfaceQuery({
     queryNearest: (position, range) => this.adapter.queryNearest(position, range),
     queryProximity: (position, range) => this.adapter.queryNearest(position, range, this.surfaceId),
+    queryGlide: (position, range) => this.adapter.queryGlide(position, range, this.surfaceId),
   });
   private spawn?: SpawnState;
   private readonly collisionView = new THREE.Group();
@@ -81,6 +82,7 @@ export class ImportedWorldAdapter implements RenderableWorld, SurfaceProvider {
   public isCompanionCovered(position: Vec3): boolean { return this.isCollisionCovered(position); }
   public getAdapterStats() { return this.adapter.getStats(); }
   public queryNearest(position: Vec3, maxDistance: number) { return this.surfaces.queryNearest(position, maxDistance); }
+  public queryGlide(position: Vec3, range: number) { return this.surfaces.queryGlide(position,range); }
   public queryProximity(position: Vec3, maxDistance: number) { return this.surfaces.queryProximity(position, maxDistance); }
   public queryStatic(position: Vec3, range: number) { return this.surfaces.queryStatic(position, range); }
   public sweepDynamic(from: Vec3, to: Vec3, radius: number) { return this.surfaces.sweepDynamic(from, to, radius); }

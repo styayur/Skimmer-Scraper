@@ -154,8 +154,11 @@ export class RealmDetail {
       let distance = Math.hypot(dx - lookahead * velocity.x, dz - lookahead * velocity.z, altitude * .24) + behind * .3;
       for (const agent of companions) distance = Math.min(distance, 120 + Math.hypot(x-agent.x, z-agent.z, altitude * .24));
       if (dragon) distance = Math.min(distance, 140 + Math.hypot(x-dragon.x, z-dragon.z, altitude * .24));
+      // Keep a nearby decoded tile through brief pressure spikes. The lower
+      // admission radius and the byte/tile budgets still limit new GPU work.
+      const highRadius = tile.tier === 'high' ? (busy ? 235 : 285) : (busy ? 150 : 220);
       const asset =
-        hi && hi.file.sha256 !== tile.failed && distance < (busy ? 150 : tile.file === hi.file ? 285 : 220)
+        hi && hi.file.sha256 !== tile.failed && distance < highRadius
           ? hi
           : mid && distance < (tile.file === mid.file ? 410 : 365)
             ? mid

@@ -1,0 +1,673 @@
+{
+  "scope": "Development build, prior to RC and main. Windows 11 x64 and local release packaging.",
+  "sourceCommit": "8109e2ac5e6e9342f74f2f6aaa7bcf9cf30bafb9",
+  "desktop": {
+    "installExit": 0,
+    "authenticode": "NotSigned",
+    "installerSha256": "FFBDE97000373331C110F4D63B03B1150A97974E8E7DD873D488EB940B51B8DB",
+    "executableSha256": "5C3C26893D5C577556D85D8358EE1ED60BAAEBE137336F8EE4013BE62B470851",
+    "priorUninstallExit": 0,
+    "libraryDatabaseRetained": true,
+    "renderer": "ANGLE (AMD, AMD Radeon 780M Graphics (0x00001900) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+    "flight": {
+      "time": 2.008333333333329,
+      "speed": 66.0952181530835,
+      "companions": 3
+    },
+    "fullscreenRoundTrip": true,
+    "errors": [],
+    "extractedPortable": {
+      "build": "8109e2ac5e6e9342f74f2f6aaa7bcf9cf30bafb9",
+      "zipSha256": "c07fb7e3e50a78d40c64fd6e75117c931673139642d447e1a69490e064dd5ddd",
+      "flight": {
+        "time": 2.016666666666662,
+        "speed": 66.09529397851279,
+        "companions": 3
+      },
+      "errors": [],
+      "fullscreenRoundTrip": true
+    }
+  },
+  "glide": {
+    "local-ground": {
+      "platform": "installed WebView2",
+      "route": {
+        "pos": {
+          "x": -29,
+          "y": 41,
+          "z": 6.7999999999999545
+        },
+        "dir": {
+          "x": 1,
+          "y": 0,
+          "z": 0
+        },
+        "n": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        },
+        "run": 54,
+        "kind": "ground",
+        "world": "local",
+        "id": "local-f081067586fa34c8cc796153bfedaf872061454f9ef54f0e1660d0c104b5a4d4-surface",
+        "checked": 28
+      },
+      "start": "GLIDING",
+      "middle": "GLIDING",
+      "end": "FLIGHT",
+      "travelMeters": 9.900000000000013,
+      "startClearance": 6,
+      "endClearance": 6,
+      "traceSha256": "27a3cd7453e75c005c5e5ce71adf9d6580c5f7a2c55e9811894b8593962b0e58"
+    },
+    "local-rigid": {
+      "platform": "installed WebView2",
+      "route": {
+        "pos": {
+          "x": 78,
+          "y": 20.204166666666666,
+          "z": 68
+        },
+        "dir": {
+          "x": 0,
+          "y": 0,
+          "z": -1
+        },
+        "n": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        },
+        "run": 75,
+        "kind": "rigid",
+        "world": "local",
+        "id": "glb:10"
+      },
+      "start": "GLIDING",
+      "middle": "GLIDING",
+      "end": "FLIGHT",
+      "travelMeters": 9.365395812691835,
+      "startClearance": 5.877083333333333,
+      "endClearance": 5.9180355515817435,
+      "traceSha256": "cbbee0e435156eb388d16a6b97bc772b1db1fda8f0f75d273a227e08e5489102",
+      "rigidCenter": [
+        {
+          "x": 78,
+          "y": 9.35,
+          "z": 30
+        },
+        {
+          "x": 78,
+          "y": 9.845833333333333,
+          "z": 30
+        }
+      ]
+    },
+    "Windows/city-seam": {
+      "sourceCommit": "8109e2ac5e6e9342f74f2f6aaa7bcf9cf30bafb9",
+      "route": {
+        "pos": {
+          "x": 6,
+          "y": 6,
+          "z": 34
+        },
+        "dir": {
+          "x": 0,
+          "y": 0,
+          "z": -1
+        },
+        "n": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        },
+        "run": 120,
+        "kind": "seam",
+        "world": "city"
+      },
+      "seconds": 0.4833333333333338,
+      "normal": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "surfaceIds": [
+        "chunk:0:0:r0",
+        "chunk:0:-1:r0"
+      ],
+      "clearanceMeters": [
+        6,
+        6
+      ],
+      "phases": [
+        "GLIDING",
+        "GLIDING",
+        "FLIGHT"
+      ],
+      "errors": [],
+      "pngSha256": "ad234811e3cbf77c3916547dcc1b03289d45010e9d2e2f5812b4b3594f9524f8",
+      "traceSha256": "34b862ca923f643b64a95cf2ce8505962e912ae8340e03a9cb36dcca54bde627"
+    },
+    "Windows/city-wall": {
+      "sourceCommit": "8109e2ac5e6e9342f74f2f6aaa7bcf9cf30bafb9",
+      "route": {
+        "pos": {
+          "x": -209,
+          "y": 127.95530700683594,
+          "z": 100.25
+        },
+        "dir": {
+          "x": 1,
+          "y": 0,
+          "z": 0
+        },
+        "n": {
+          "x": 0,
+          "y": 0,
+          "z": -1
+        },
+        "run": 108,
+        "kind": "wall",
+        "world": "city",
+        "id": "chunk:-1:0:r0",
+        "checked": 69
+      },
+      "seconds": 0.15000000000000002,
+      "normal": {
+        "x": 0,
+        "y": 0,
+        "z": -1
+      },
+      "surfaceIds": [
+        "chunk:-1:0:r0",
+        "chunk:-1:0:r0"
+      ],
+      "clearanceMeters": [
+        6.024817083530195,
+        6.014566491847887
+      ],
+      "phases": [
+        "GLIDING",
+        "GLIDING",
+        "FLIGHT"
+      ],
+      "errors": [],
+      "pngSha256": "c4f6b6d2330ab1dc6835523e7ba9784540526fd13dc33f92698ac1204a530e31",
+      "traceSha256": "ef080bb4cca61c5637cc45e0f6378211dc7400916612ebf73f0c9719c49eb0d4"
+    },
+    "Windows/dragon-arch": {
+      "sourceCommit": "8109e2ac5e6e9342f74f2f6aaa7bcf9cf30bafb9",
+      "route": {
+        "pos": {
+          "x": 43.91447978970024,
+          "y": -87.10892489278373,
+          "z": -305.49657307899696
+        },
+        "dir": {
+          "x": -0.019680644299709584,
+          "y": 0.08394376905339399,
+          "z": 0.9962761243134651
+        },
+        "n": {
+          "x": 0.22741082889604478,
+          "y": -0.9699744485180383,
+          "z": 0.08621997519682569
+        },
+        "run": 108,
+        "kind": "arch",
+        "world": "dragon",
+        "id": "0:-2",
+        "checked": 2
+      },
+      "seconds": 0.14166666666666666,
+      "normal": {
+        "x": 0.22741082889604483,
+        "y": -0.9699744485180385,
+        "z": 0.0862199751968257
+      },
+      "surfaceIds": [
+        "0:-2",
+        "0:-2"
+      ],
+      "clearanceMeters": [
+        6.0018219967443915,
+        6.001101557432113
+      ],
+      "phases": [
+        "GLIDING",
+        "GLIDING",
+        "FLIGHT"
+      ],
+      "errors": [],
+      "pngSha256": "bf78ba41f21f031e16a45e91ea9c525fbef174f6ee1c18cb8d3988b15ac44b05",
+      "traceSha256": "622779ad5a2d012d35a1f14cea3ed2832fddb620f2205b3736601e35cde956b9"
+    },
+    "Windows/dragon-island": {
+      "sourceCommit": "8109e2ac5e6e9342f74f2f6aaa7bcf9cf30bafb9",
+      "route": {
+        "pos": {
+          "x": 263.62924018953663,
+          "y": 321.2194400812013,
+          "z": -795.4703447346353
+        },
+        "dir": {
+          "x": -0.9889441432834092,
+          "y": 0.12403003634470419,
+          "z": 0.08127749719187445
+        },
+        "n": {
+          "x": -0.14828850752989525,
+          "y": -0.8271630760704457,
+          "z": -0.5420440610506073
+        },
+        "run": 108,
+        "kind": "island",
+        "world": "dragon",
+        "id": "1:-4",
+        "checked": 98
+      },
+      "seconds": 0.14999999999999997,
+      "normal": {
+        "x": -0.14828850752989525,
+        "y": -0.8271630760704457,
+        "z": -0.5420440610506073
+      },
+      "surfaceIds": [
+        "1:-4",
+        "1:-4"
+      ],
+      "clearanceMeters": [
+        6.009060629171668,
+        6.0053181745069155
+      ],
+      "phases": [
+        "GLIDING",
+        "GLIDING",
+        "FLIGHT"
+      ],
+      "errors": [],
+      "pngSha256": "348ea4fb25b506fdf316df8d107604e5f1243207e84ca7df07966cf8cb266724",
+      "traceSha256": "67c8ccda08ad1062b7fa8165e53a5bb731bf02f6107aa6281b82f8f6aae5a381"
+    },
+    "Web/city-seam": {
+      "sourceCommit": "8109e2ac5e6e9342f74f2f6aaa7bcf9cf30bafb9",
+      "route": {
+        "pos": {
+          "x": 6,
+          "y": 6,
+          "z": 34
+        },
+        "dir": {
+          "x": 0,
+          "y": 0,
+          "z": -1
+        },
+        "n": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        },
+        "run": 120,
+        "kind": "seam",
+        "world": "city"
+      },
+      "seconds": 0.4999999999999999,
+      "normal": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "surfaceIds": [
+        "chunk:0:0:r0",
+        "chunk:0:-1:r0"
+      ],
+      "clearanceMeters": [
+        6,
+        6
+      ],
+      "phases": [
+        "GLIDING",
+        "GLIDING",
+        "FLIGHT"
+      ],
+      "errors": [],
+      "pngSha256": "51c2b8ee6a59fce85b6a397fe06b9962301e1b14312f27c38f4e19d9be0e7b95",
+      "traceSha256": "d0533f6dc800330ff773970dbabd1b80c64aca61a977355c23178ca5215922a7"
+    },
+    "Web/city-wall": {
+      "sourceCommit": "8109e2ac5e6e9342f74f2f6aaa7bcf9cf30bafb9",
+      "route": {
+        "pos": {
+          "x": -166.04999923706055,
+          "y": 103.9009930316745,
+          "z": 15.25
+        },
+        "dir": {
+          "x": 0,
+          "y": -1,
+          "z": 0
+        },
+        "n": {
+          "x": 0,
+          "y": 0,
+          "z": 1
+        },
+        "run": 96,
+        "kind": "wall",
+        "world": "city",
+        "id": "chunk:-1:0:r0",
+        "checked": 348
+      },
+      "seconds": 0.15000000000000036,
+      "normal": {
+        "x": 0,
+        "y": 0,
+        "z": 1
+      },
+      "surfaceIds": [
+        "chunk:-1:0:r0",
+        "chunk:-1:0:r0"
+      ],
+      "clearanceMeters": [
+        6,
+        6
+      ],
+      "phases": [
+        "GLIDING",
+        "GLIDING",
+        "FLIGHT"
+      ],
+      "errors": [],
+      "pngSha256": "e2898287328b41b33b435ade980c34bf0436f201239b486fab2b88a15e18286e",
+      "traceSha256": "6205a856ac6a9f265c6d5436237f9c88a18f6c60f634f098928679e25a03ae7d"
+    },
+    "Web/dragon-arch": {
+      "sourceCommit": "8109e2ac5e6e9342f74f2f6aaa7bcf9cf30bafb9",
+      "route": {
+        "pos": {
+          "x": 43.91447978970024,
+          "y": -87.10892489278373,
+          "z": -305.49657307899696
+        },
+        "dir": {
+          "x": -0.019680644299709584,
+          "y": 0.08394376905339399,
+          "z": 0.9962761243134651
+        },
+        "n": {
+          "x": 0.22741082889604478,
+          "y": -0.9699744485180383,
+          "z": 0.08621997519682569
+        },
+        "run": 108,
+        "kind": "arch",
+        "world": "dragon",
+        "id": "0:-2",
+        "checked": 2
+      },
+      "seconds": 0.14999999999999997,
+      "normal": {
+        "x": 0.22741082889604483,
+        "y": -0.9699744485180385,
+        "z": 0.0862199751968257
+      },
+      "surfaceIds": [
+        "0:-2",
+        "0:-2"
+      ],
+      "clearanceMeters": [
+        6.0018768533291285,
+        6.001101626977474
+      ],
+      "phases": [
+        "GLIDING",
+        "GLIDING",
+        "FLIGHT"
+      ],
+      "errors": [],
+      "pngSha256": "6a9d999125799630803f33e7fbd7f9442b8fe6e88c8f6474ce0b97e8bae0b45a",
+      "traceSha256": "3f9346613d5d5104d30f3a917e6e1eac5d85ce5a95d3488aae3afb3e6c5fa732"
+    },
+    "Web/dragon-island": {
+      "sourceCommit": "8109e2ac5e6e9342f74f2f6aaa7bcf9cf30bafb9",
+      "route": {
+        "pos": {
+          "x": 263.62924018953663,
+          "y": 321.2194400812013,
+          "z": -795.4703447346353
+        },
+        "dir": {
+          "x": -0.9889441432834092,
+          "y": 0.12403003634470419,
+          "z": 0.08127749719187445
+        },
+        "n": {
+          "x": -0.14828850752989525,
+          "y": -0.8271630760704457,
+          "z": -0.5420440610506073
+        },
+        "run": 108,
+        "kind": "island",
+        "world": "dragon",
+        "id": "1:-4",
+        "checked": 98
+      },
+      "seconds": 0.14166666666666666,
+      "normal": {
+        "x": -0.14828850752989525,
+        "y": -0.8271630760704457,
+        "z": -0.5420440610506073
+      },
+      "surfaceIds": [
+        "1:-4",
+        "1:-4"
+      ],
+      "clearanceMeters": [
+        6.009061492486782,
+        6.005478469939957
+      ],
+      "phases": [
+        "GLIDING",
+        "GLIDING",
+        "FLIGHT"
+      ],
+      "errors": [],
+      "pngSha256": "9054382e4616cb7b697be9f87aa06c7b958dca73ed67a991b3bd211b4fb83efe",
+      "traceSha256": "11724b4de138bad8754de73fec8d4824f4b51613df2ddcfad3298c864f42169f"
+    },
+    "Web/local-ground": {
+      "sourceCommit": "8109e2ac5e6e9342f74f2f6aaa7bcf9cf30bafb9",
+      "route": {
+        "pos": {
+          "x": -29,
+          "y": 41,
+          "z": 4.599999999999909
+        },
+        "dir": {
+          "x": 1,
+          "y": 0,
+          "z": 0
+        },
+        "n": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        },
+        "run": 54,
+        "kind": "ground",
+        "world": "local",
+        "id": "local-f081067586fa34c8cc796153bfedaf872061454f9ef54f0e1660d0c104b5a4d4-surface",
+        "checked": 28
+      },
+      "seconds": 0.14166666666666666,
+      "normal": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "surfaceIds": [
+        "local-f081067586fa34c8cc796153bfedaf872061454f9ef54f0e1660d0c104b5a4d4-surface",
+        "local-f081067586fa34c8cc796153bfedaf872061454f9ef54f0e1660d0c104b5a4d4-surface"
+      ],
+      "clearanceMeters": [
+        6,
+        6
+      ],
+      "phases": [
+        "GLIDING",
+        "GLIDING",
+        "FLIGHT"
+      ],
+      "errors": [],
+      "pngSha256": "22ec44145e3ae0dfe06fbc33a36e7c5d2cc55a331f285d5aff0a672b35b39988",
+      "traceSha256": "87d30578d66c579b56956c0a154694f1a7a9dfdb45dfa5e992f64d754b27bbab"
+    },
+    "Web/local-rigid": {
+      "sourceCommit": "8109e2ac5e6e9342f74f2f6aaa7bcf9cf30bafb9",
+      "route": {
+        "pos": {
+          "x": 77.99999999999999,
+          "y": 20.233333333333334,
+          "z": 68
+        },
+        "dir": {
+          "x": 0,
+          "y": 0,
+          "z": -1
+        },
+        "n": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        },
+        "run": 75,
+        "kind": "rigid",
+        "world": "local",
+        "id": "glb:10"
+      },
+      "seconds": 0.14166666666666666,
+      "normal": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "surfaceIds": [
+        "glb:10",
+        "glb:10"
+      ],
+      "clearanceMeters": [
+        5.8909722222222225,
+        5.9155731003417085
+      ],
+      "phases": [
+        "GLIDING",
+        "GLIDING",
+        "FLIGHT"
+      ],
+      "errors": [],
+      "pngSha256": "035a06cd63b468bd39545da6c946f2cb1cc6c69a5f3ba55f283d04538e51120a",
+      "traceSha256": "088a59bf2a29a9c1d9ab157de8229844f1fb70666a039d0c61b826872c425339"
+    }
+  },
+  "tests": {
+    "vitest": 222,
+    "windowsCargoAuditVulnerabilities": 0,
+    "npmRuntimeAuditVulnerabilities": 0,
+    "dependabot": {
+      "state": "open",
+      "package": "glib",
+      "advisory": "GHSA-wrw7-89jp-8q8g",
+      "windowsReverseDependencyTree": "empty"
+    }
+  },
+  "verifiedArchives": [
+    {
+      "name": "skimmer-scraper-v0.9.0-static.zip",
+      "sha256": "78b80695155b9bfd7cbbf5911a17eb36b10673cb18169cc2deca89f08739769f"
+    },
+    {
+      "name": "skimmer-scraper-v0.9.0-source.zip",
+      "sha256": "e741801fdff36f92f70c3e2c53ec6d4e23f50833334bdeca979945aa166dc908"
+    },
+    {
+      "name": "Skimmer-Scraper_0.9.0_8109e2a_x64-setup.exe",
+      "sha256": "ffbde97000373331c110f4d63b03b1150a97974e8e7dd873d488eb940b51b8db"
+    },
+    {
+      "name": "skimmer-scraper-v0.9.0-dragonspine-high.zip",
+      "sha256": "73b4ac8bfc8e2ded59866e1b0df9435aa9f9dbeffe33c60facfd57779519682c"
+    },
+    {
+      "name": "skimmer-scraper-v0.9.0-worldforge-kit.zip",
+      "sha256": "9b78b80dabb2d17c03a2ea0f3c127c6f762f9b289f0cd5af6bb8be20a5ed3a06"
+    },
+    {
+      "name": "skimmer-scraper-v0.9.0-character-radio.zip",
+      "sha256": "b7b8498961a8e95e409705230332762ecb0b7e452771e832e6aeb7c2b5987bb7"
+    }
+  ],
+  "worldforge": {
+    "amber": {
+      "triangles": 19940,
+      "chunkCount": 25,
+      "bakedBytes": 2168972,
+      "bakedSha256": "50370b719ffbd7bfc923d6c8b067676ac8c87ac2b16f14291e98fc9f82997982",
+      "bakedDeflatedBytes": 369914,
+      "prototypeAndRecipeBytes": 29633
+    },
+    "quartz": {
+      "triangles": 23230,
+      "chunkCount": 25,
+      "bakedBytes": 2524260,
+      "bakedSha256": "6dbea54cafa2a0a9e8003b89ce7925d333b0cebf9479719ce37b8f12ecd67242",
+      "bakedDeflatedBytes": 433567,
+      "prototypeAndRecipeBytes": 29633
+    },
+    "repeatAmberByteIdentical": true
+  },
+  "rejectedPerformanceRun": {
+    "sourceCommit": "3d63ad53cf9a3b8fa4e22304a3d4951ec71c2664",
+    "reason": "Initial 290 m flight climbed out of the region with resident high terrain. Excluded from release performance.",
+    "endAltitudeMeters": 64895.78569361644,
+    "residentHighSamples": 37,
+    "totalSamples": 888
+  },
+  "matchedHighPackRun": {
+    "durationSeconds": 901,
+    "fps": 97.43298845201359,
+    "frameMs": {
+      "p50": 8.399999999965075,
+      "p95": 16.800000000046566,
+      "p99": 25.5,
+      "worst": 91.69999999999982
+    },
+    "highSampleFraction": 0.8721719457013575,
+    "quality": "\u753b\u8d28 \u00b7 \u9ad8",
+    "bufferingEvents": {
+      "entries": 0,
+      "ms": 0,
+      "recent": [
+        {
+          "atMs": 280.09999999403954,
+          "buffering": true
+        },
+        {
+          "atMs": 352.59999999403954,
+          "buffering": false
+        },
+        {
+          "atMs": 3102.5,
+          "buffering": true
+        },
+        {
+          "atMs": 3122.2000000029802,
+          "buffering": false
+        }
+      ]
+    },
+    "scope": "Failed the 90% sampled high-detail residency gate on the fixed citadel route at 555 m.",
+    "samples": 884,
+    "sha256": "0469b2a95b3fe2ae9aecdb244c229a6bfc8f7dc064a6609f2f392112b7a0c59c"
+  }
+}

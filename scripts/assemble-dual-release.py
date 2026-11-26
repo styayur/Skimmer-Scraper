@@ -7,12 +7,19 @@ import pathlib
 import shutil
 import zipfile
 
+from release_content import package_content
+
 parser = argparse.ArgumentParser()
 parser.add_argument("directory", type=pathlib.Path)
 parser.add_argument("installer", type=pathlib.Path)
 parser.add_argument("pack_directory", type=pathlib.Path)
 parser.add_argument("evidence_directory", type=pathlib.Path)
+parser.add_argument("--forge-directory", required=True, type=pathlib.Path)
+parser.add_argument("--portable", type=pathlib.Path)
+parser.add_argument("--portable-smoke", type=pathlib.Path)
 args = parser.parse_args()
+if bool(args.portable) != bool(args.portable_smoke):
+    parser.error("--portable and --portable-smoke must be supplied together")
 folder = args.directory
 
 
@@ -87,8 +94,28 @@ with zipfile.ZipFile(folder / web["name"]) as static, zipfile.ZipFile(
     ]:
         z.writestr(name, static.read(name))
 manifest["assets"] = [web, source, installer, record(pack_name, "world-pack")]
+if args.portable:
+    portable_smoke = read(args.portable_smoke)
+    with zipfile.ZipFile(args.portable) as portable:
+        with portable.open("skimmer-scraper.exe") as binary:
+            executable_hash = hashlib.file_digest(binary, "sha256").hexdigest()
+        if (
+            json.loads(portable.read("build-info.json")) != runtime
+            or portable_smoke["runtime"]["app"] != runtime
+            or portable_smoke["executableSha256"] != executable_hash
+            or installation["installedExecutableSha256"].lower() != executable_hash
+            or portable_smoke["errors"] or not portable_smoke["escapePause"]
+            or not portable_smoke["fullscreenRoundTrip"]
+        ):
+            raise SystemExit("Portable archive differs from the qualified Windows executable")
+    output = folder / args.portable.name
+    if output.resolve() != args.portable.resolve():
+        shutil.copyfile(args.portable, output)
+    manifest["assets"].append({**record(output.name, "windows-portable"), "executableSha256": executable_hash})
+for name, kind in package_content(folder, manifest, folder / web["name"], folder / source["name"], args.forge_directory):
+    manifest["assets"].append(record(name, kind))
 manifest["scope"] = (
-    "Web static distribution, Windows x64 current-user NSIS installer, corresponding source and optional Dragonspine high-detail pack"
+    "Web static distribution, qualified Windows x64 builds, corresponding source and optional Dragonspine, WorldForge and character radio packs"
 )
 manifest_path.write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
 lines = [a["sha256"] + "  " + a["name"] for a in manifest["assets"]]

@@ -1,0 +1,662 @@
+{
+  "scope": "Windows 11, Edge Web build, local source qualification",
+  "build": {
+    "version": "0.8.2",
+    "sourceCommit": "9660f96be587c7c686d271b264669cb8045bbe2d",
+    "sourceCommitTime": "2026-11-26T22:01:09+08:00",
+    "dirty": false,
+    "sourceUrl": "https://github.com/styayur/Skimmer-Scraper/tree/9660f96be587c7c686d271b264669cb8045bbe2d",
+    "toolchain": {
+      "node": "v26.7.0",
+      "platform": "win32",
+      "architecture": "x64"
+    }
+  },
+  "method": "Unmodified navigator.getGamepads input. The harness positioned the aircraft above city ground once after the pilot armed glide. Subsequent toggles happened during continuous flight.",
+  "platform": "Web",
+  "expectedButton": 6,
+  "standardMapping": false,
+  "events": [
+    {
+      "utc": "2026-11-26T14:01:32.764Z",
+      "event": "raw",
+      "id": "Android Gamepad (Vendor: 2563 Product: 0526)",
+      "index": 0,
+      "mapping": "",
+      "pressed": [],
+      "axes": [
+        0,
+        0,
+        0,
+        -1,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        3.25
+      ],
+      "focused": true,
+      "timestamp": 243.09999999403954
+    },
+    {
+      "utc": "2026-11-26T14:01:34.442Z",
+      "event": "game",
+      "mode": "title",
+      "phase": "FLIGHT",
+      "assisted": false,
+      "point": {
+        "x": 0,
+        "y": 24,
+        "z": 120
+      },
+      "distance": 24,
+      "focused": true
+    },
+    {
+      "utc": "2026-11-26T14:01:34.585Z",
+      "event": "game",
+      "mode": "running",
+      "phase": "FLIGHT",
+      "assisted": false,
+      "point": {
+        "x": 0,
+        "y": 24,
+        "z": 120
+      },
+      "distance": 24,
+      "focused": true
+    },
+    {
+      "utc": "2026-11-26T14:01:34.954Z",
+      "event": "build",
+      "build": {
+        "version": "0.8.2",
+        "sourceCommit": "9660f96be587c7c686d271b264669cb8045bbe2d",
+        "sourceCommitTime": "2026-11-26T22:01:09+08:00",
+        "dirty": false,
+        "sourceUrl": "https://github.com/styayur/Skimmer-Scraper/tree/9660f96be587c7c686d271b264669cb8045bbe2d",
+        "toolchain": {
+          "node": "v26.7.0",
+          "platform": "win32",
+          "architecture": "x64"
+        }
+      }
+    },
+    {
+      "utc": "2026-11-26T14:02:38.303Z",
+      "event": "raw",
+      "id": "Android Gamepad (Vendor: 2563 Product: 0526)",
+      "index": 0,
+      "mapping": "",
+      "pressed": [
+        6
+      ],
+      "axes": [
+        0,
+        0,
+        0,
+        -1,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        3.25
+      ],
+      "focused": true,
+      "timestamp": 65778.69999998808
+    },
+    {
+      "utc": "2026-11-26T14:02:38.318Z",
+      "event": "game",
+      "mode": "running",
+      "phase": "ARMED",
+      "assisted": false,
+      "point": {
+        "x": 0,
+        "y": 13.594651125379668,
+        "z": -573.6378974499065
+      },
+      "distance": 13.594651125379668,
+      "focused": true
+    },
+    {
+      "utc": "2026-11-26T14:02:38.497Z",
+      "event": "raw",
+      "id": "Android Gamepad (Vendor: 2563 Product: 0526)",
+      "index": 0,
+      "mapping": "",
+      "pressed": [],
+      "axes": [
+        0,
+        0,
+        0,
+        -1,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        3.25
+      ],
+      "focused": true,
+      "timestamp": 65972.69999998808
+    },
+    {
+      "utc": "2026-11-26T14:02:38.522Z",
+      "event": "positioned",
+      "setup": "city ground 6m"
+    },
+    {
+      "utc": "2026-11-26T14:02:38.539Z",
+      "event": "game",
+      "mode": "running",
+      "phase": "GLIDING",
+      "assisted": true,
+      "point": {
+        "x": 0,
+        "y": 5.999376449708082,
+        "z": -0.5508404271716602
+      },
+      "distance": 5.999376449708082,
+      "focused": true
+    },
+    {
+      "utc": "2026-11-26T14:02:40.634Z",
+      "event": "raw",
+      "id": "Android Gamepad (Vendor: 2563 Product: 0526)",
+      "index": 0,
+      "mapping": "",
+      "pressed": [
+        6
+      ],
+      "axes": [
+        0,
+        0,
+        0,
+        -1,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        3.25
+      ],
+      "focused": true,
+      "timestamp": 68109.69999998808
+    },
+    {
+      "utc": "2026-11-26T14:02:40.649Z",
+      "event": "game",
+      "mode": "running",
+      "phase": "DETACHING",
+      "assisted": true,
+      "point": {
+        "x": 0,
+        "y": 5.999999630013401,
+        "z": -139.7708125174213
+      },
+      "distance": 5.999999630013401,
+      "focused": true
+    },
+    {
+      "utc": "2026-11-26T14:02:40.813Z",
+      "event": "raw",
+      "id": "Android Gamepad (Vendor: 2563 Product: 0526)",
+      "index": 0,
+      "mapping": "",
+      "pressed": [],
+      "axes": [
+        0,
+        0,
+        0,
+        -1,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        3.25
+      ],
+      "focused": true,
+      "timestamp": 68290.69999998808
+    },
+    {
+      "utc": "2026-11-26T14:02:40.877Z",
+      "event": "game",
+      "mode": "running",
+      "phase": "FLIGHT",
+      "assisted": true,
+      "point": {
+        "x": 0,
+        "y": 5.999999630013401,
+        "z": -155.72201318367198
+      },
+      "distance": 5.999999630013401,
+      "focused": true
+    },
+    {
+      "utc": "2026-11-26T14:02:43.060Z",
+      "event": "raw",
+      "id": "Android Gamepad (Vendor: 2563 Product: 0526)",
+      "index": 0,
+      "mapping": "",
+      "pressed": [
+        6
+      ],
+      "axes": [
+        0,
+        0,
+        0,
+        -1,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        3.25
+      ],
+      "focused": true,
+      "timestamp": 70539.69999998808
+    },
+    {
+      "utc": "2026-11-26T14:02:43.078Z",
+      "event": "game",
+      "mode": "running",
+      "phase": "GLIDING",
+      "assisted": true,
+      "point": {
+        "x": 0,
+        "y": 5.999999651281207,
+        "z": -299.8249623261986
+      },
+      "distance": 5.999999651281207,
+      "focused": true
+    },
+    {
+      "utc": "2026-11-26T14:02:44.299Z",
+      "event": "raw",
+      "id": "Android Gamepad (Vendor: 2563 Product: 0526)",
+      "index": 0,
+      "mapping": "",
+      "pressed": [],
+      "axes": [
+        0,
+        0,
+        0,
+        -1,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        3.25
+      ],
+      "focused": true,
+      "timestamp": 71779.59999999404
+    },
+    {
+      "utc": "2026-11-26T14:02:46.358Z",
+      "event": "raw",
+      "id": "Android Gamepad (Vendor: 2563 Product: 0526)",
+      "index": 0,
+      "mapping": "",
+      "pressed": [
+        6
+      ],
+      "axes": [
+        0,
+        0,
+        0,
+        -1,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        3.25
+      ],
+      "focused": true,
+      "timestamp": 73836.69999998808
+    },
+    {
+      "utc": "2026-11-26T14:02:46.376Z",
+      "event": "game",
+      "mode": "running",
+      "phase": "DETACHING",
+      "assisted": true,
+      "point": {
+        "x": 0,
+        "y": 5.999999999997,
+        "z": -517.6251237412196
+      },
+      "distance": 5.999999999997,
+      "focused": true
+    },
+    {
+      "utc": "2026-11-26T14:02:46.504Z",
+      "event": "raw",
+      "id": "Android Gamepad (Vendor: 2563 Product: 0526)",
+      "index": 0,
+      "mapping": "",
+      "pressed": [],
+      "axes": [
+        0,
+        0,
+        0,
+        -1,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        3.25
+      ],
+      "focused": true,
+      "timestamp": 73983.59999999404
+    },
+    {
+      "utc": "2026-11-26T14:02:46.617Z",
+      "event": "game",
+      "mode": "running",
+      "phase": "FLIGHT",
+      "assisted": true,
+      "point": {
+        "x": 0,
+        "y": 5.999999999997,
+        "z": -533.5751242695053
+      },
+      "distance": 5.999999999997,
+      "focused": true
+    },
+    {
+      "utc": "2026-11-26T14:02:54.166Z",
+      "event": "raw",
+      "id": "Android Gamepad (Vendor: 2563 Product: 0526)",
+      "index": 0,
+      "mapping": "",
+      "pressed": [
+        6
+      ],
+      "axes": [
+        0,
+        0,
+        0,
+        -1,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        3.25
+      ],
+      "focused": true,
+      "timestamp": 81645.5
+    },
+    {
+      "utc": "2026-11-26T14:02:54.182Z",
+      "event": "game",
+      "mode": "running",
+      "phase": "GLIDING",
+      "assisted": true,
+      "point": {
+        "x": 0,
+        "y": 5.999999999997173,
+        "z": -1032.9751256389163
+      },
+      "distance": 5.999999999997173,
+      "focused": true
+    },
+    {
+      "utc": "2026-11-26T14:02:54.354Z",
+      "event": "raw",
+      "id": "Android Gamepad (Vendor: 2563 Product: 0526)",
+      "index": 0,
+      "mapping": "",
+      "pressed": [],
+      "axes": [
+        0,
+        0,
+        0,
+        -1,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        3.25
+      ],
+      "focused": true,
+      "timestamp": 81831.5
+    },
+    {
+      "utc": "2026-11-26T14:02:58.191Z",
+      "event": "raw",
+      "id": "Android Gamepad (Vendor: 2563 Product: 0526)",
+      "index": 0,
+      "mapping": "",
+      "pressed": [],
+      "axes": [
+        0,
+        -0.25,
+        0,
+        -1,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        3.25
+      ],
+      "focused": true,
+      "timestamp": 85670.39999999106
+    },
+    {
+      "utc": "2026-11-26T14:02:58.207Z",
+      "event": "raw",
+      "id": "Android Gamepad (Vendor: 2563 Product: 0526)",
+      "index": 0,
+      "mapping": "",
+      "pressed": [],
+      "axes": [
+        0,
+        -0.75,
+        0,
+        -1,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        3.25
+      ],
+      "focused": true,
+      "timestamp": 85685.39999999106
+    },
+    {
+      "utc": "2026-11-26T14:02:58.223Z",
+      "event": "raw",
+      "id": "Android Gamepad (Vendor: 2563 Product: 0526)",
+      "index": 0,
+      "mapping": "",
+      "pressed": [],
+      "axes": [
+        0,
+        -1,
+        0,
+        -1,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        3.25
+      ],
+      "focused": true,
+      "timestamp": 85700.5
+    },
+    {
+      "utc": "2026-11-26T14:02:58.333Z",
+      "event": "raw",
+      "id": "Android Gamepad (Vendor: 2563 Product: 0526)",
+      "index": 0,
+      "mapping": "",
+      "pressed": [],
+      "axes": [
+        0,
+        0,
+        0,
+        -1,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        3.25
+      ],
+      "focused": true,
+      "timestamp": 85813.39999999106
+    },
+    {
+      "utc": "2026-11-26T14:02:58.757Z",
+      "event": "raw",
+      "id": "Android Gamepad (Vendor: 2563 Product: 0526)",
+      "index": 0,
+      "mapping": "",
+      "pressed": [],
+      "axes": [
+        0,
+        -0.25,
+        0,
+        -1,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        3.25
+      ],
+      "focused": true,
+      "timestamp": 86235.39999999106
+    },
+    {
+      "utc": "2026-11-26T14:02:58.770Z",
+      "event": "raw",
+      "id": "Android Gamepad (Vendor: 2563 Product: 0526)",
+      "index": 0,
+      "mapping": "",
+      "pressed": [],
+      "axes": [
+        0,
+        -1,
+        0,
+        -1,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        3.25
+      ],
+      "focused": true,
+      "timestamp": 86249.39999999106
+    },
+    {
+      "utc": "2026-11-26T14:02:58.945Z",
+      "event": "raw",
+      "id": "Android Gamepad (Vendor: 2563 Product: 0526)",
+      "index": 0,
+      "mapping": "",
+      "pressed": [],
+      "axes": [
+        0,
+        0,
+        0,
+        -1,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        3.25
+      ],
+      "focused": true,
+      "timestamp": 86425.29999999702
+    },
+    {
+      "utc": "2026-11-26T14:02:59.555Z",
+      "event": "raw",
+      "id": "Android Gamepad (Vendor: 2563 Product: 0526)",
+      "index": 0,
+      "mapping": "",
+      "pressed": [
+        6
+      ],
+      "axes": [
+        0,
+        0,
+        0,
+        -1,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        3.25
+      ],
+      "focused": true,
+      "timestamp": 87035.39999999106
+    },
+    {
+      "utc": "2026-11-26T14:02:59.571Z",
+      "event": "game",
+      "mode": "running",
+      "phase": "DETACHING",
+      "assisted": true,
+      "point": {
+        "x": 0,
+        "y": 5.86831643855821,
+        "z": -1388.8416119755348
+      },
+      "distance": 5.86831643855821,
+      "focused": true
+    },
+    {
+      "utc": "2026-11-26T14:02:59.715Z",
+      "event": "raw",
+      "id": "Android Gamepad (Vendor: 2563 Product: 0526)",
+      "index": 0,
+      "mapping": "",
+      "pressed": [],
+      "axes": [
+        0,
+        0,
+        0,
+        -1,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        3.25
+      ],
+      "focused": true,
+      "timestamp": 87191.39999999106
+    },
+    {
+      "utc": "2026-11-26T14:02:59.823Z",
+      "event": "game",
+      "mode": "running",
+      "phase": "FLIGHT",
+      "assisted": true,
+      "point": {
+        "x": 0,
+        "y": 5.86831643855821,
+        "z": -1405.3438861048664
+      },
+      "distance": 5.86831643855821,
+      "focused": true
+    }
+  ]
+}
