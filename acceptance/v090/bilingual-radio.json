@@ -1,0 +1,303 @@
+{
+  "stage": "Offline authoring validation of committed media",
+  "method": "Decode each packaged Opus file to mono PCM. Compare two independent Mandarin authoring runs byte for byte. Duration and amplitude are signal measurements.",
+  "mandarinSameBytesAcrossRuns": true,
+  "toolchain": {
+    "sherpa-onnx": "2.0.3",
+    "onnx": "1.23.2",
+    "numpy": "2.5.5",
+    "soundfile": "0.14.0",
+    "ffmpeg": "9.0.2"
+  },
+  "totalBytes": 237875,
+  "clips": [
+    {
+      "locale": "en-US",
+      "name": "1-command.opus",
+      "bytes": 6116,
+      "seconds": 1.575,
+      "peak": 0.72041,
+      "rms": 0.18373,
+      "sha256": "317a3bc9c8fe3fde5d0864da50693fc53a633a32412fd589b40a248ab2ad67c1"
+    },
+    {
+      "locale": "en-US",
+      "name": "1-formation.opus",
+      "bytes": 10080,
+      "seconds": 2.655,
+      "peak": 0.62364,
+      "rms": 0.16965,
+      "sha256": "036f85ec405bf68922fb838a9294477fed7be435e53f206b6b2f303f0396365f"
+    },
+    {
+      "locale": "en-US",
+      "name": "1-glide.opus",
+      "bytes": 7115,
+      "seconds": 1.795,
+      "peak": 0.60928,
+      "rms": 0.15728,
+      "sha256": "3df0f90be08dcf0065b8386b2ced4c7f32cbeb8bb524ad39e035911f5290873b"
+    },
+    {
+      "locale": "en-US",
+      "name": "1-heading.opus",
+      "bytes": 11167,
+      "seconds": 3.045,
+      "peak": 0.55112,
+      "rms": 0.15748,
+      "sha256": "3f3ec1d561057a479b1039e9d94cb9888f8eeca4cb5415daf761ec106efb7079"
+    },
+    {
+      "locale": "en-US",
+      "name": "1-launch.opus",
+      "bytes": 10283,
+      "seconds": 2.72,
+      "peak": 0.53635,
+      "rms": 0.12866,
+      "sha256": "305cd621a71aa404cac13d9f3550db31dbc98d74031106ffd0bccb2f6d756100"
+    },
+    {
+      "locale": "en-US",
+      "name": "1-preview.opus",
+      "bytes": 8300,
+      "seconds": 2.185,
+      "peak": 0.62944,
+      "rms": 0.16053,
+      "sha256": "72059c36c01f0b96dac05ab6c644cb944ffe9f6229560ef1b53c8bea9665da10"
+    },
+    {
+      "locale": "en-US",
+      "name": "2-command.opus",
+      "bytes": 8235,
+      "seconds": 2.245,
+      "peak": 0.63809,
+      "rms": 0.17427,
+      "sha256": "d7e35b4a2dec98eecb55f2c2f72b5bc21f0160a028c42f7b755af13914f8341d"
+    },
+    {
+      "locale": "en-US",
+      "name": "2-obstacle.opus",
+      "bytes": 9887,
+      "seconds": 2.63,
+      "peak": 0.60653,
+      "rms": 0.13637,
+      "sha256": "9c9eb6965efd81660cc7e4c0e240f9827610b0b330915c46204b2f74474b7245"
+    },
+    {
+      "locale": "en-US",
+      "name": "2-preview.opus",
+      "bytes": 11212,
+      "seconds": 3.03,
+      "peak": 0.63616,
+      "rms": 0.17871,
+      "sha256": "ec3f920612a750e6291aa8b7cf2d8804e283c1f499326c50fa55bab8eeb123c2"
+    },
+    {
+      "locale": "en-US",
+      "name": "2-rescue.opus",
+      "bytes": 9088,
+      "seconds": 2.41,
+      "peak": 0.59684,
+      "rms": 0.14661,
+      "sha256": "1462d34b8e7dd5fc83fb969835edddf85bb345ce95bb266d7fd5183594c4f240"
+    },
+    {
+      "locale": "en-US",
+      "name": "2-risk.opus",
+      "bytes": 7397,
+      "seconds": 1.945,
+      "peak": 0.57933,
+      "rms": 0.15174,
+      "sha256": "f8c79945b5dce797ee97b9ac1996929d716eaad2ca2ca04a5276d46e6b38abc3"
+    },
+    {
+      "locale": "en-US",
+      "name": "3-command.opus",
+      "bytes": 9157,
+      "seconds": 2.44,
+      "peak": 0.68392,
+      "rms": 0.1607,
+      "sha256": "b4e6ec7a4a90ea51d391b4a4b8264b698add8bcd0be20380c449ac596e45df83"
+    },
+    {
+      "locale": "en-US",
+      "name": "3-crossing.opus",
+      "bytes": 6106,
+      "seconds": 1.525,
+      "peak": 0.634,
+      "rms": 0.15311,
+      "sha256": "0c30c2f41d0e3c0d1ec1c2665e5d942386ea0a592628b6ea19ce2ef9e28e11a6"
+    },
+    {
+      "locale": "en-US",
+      "name": "3-dragon.opus",
+      "bytes": 6893,
+      "seconds": 1.8,
+      "peak": 0.67326,
+      "rms": 0.16124,
+      "sha256": "30dc684a498a6daa0c0b7990b6e86da04a0e3ae272dd9bc77e138e460392e30c"
+    },
+    {
+      "locale": "en-US",
+      "name": "3-island.opus",
+      "bytes": 9198,
+      "seconds": 2.395,
+      "peak": 0.62515,
+      "rms": 0.16183,
+      "sha256": "d22881ea70656b22167e67c301ff2bf9e1802a6d1f706e1bb03523bbf1b50d1c"
+    },
+    {
+      "locale": "en-US",
+      "name": "3-preview.opus",
+      "bytes": 11394,
+      "seconds": 3.025,
+      "peak": 0.55568,
+      "rms": 0.14728,
+      "sha256": "e382dc7f784013065d9c5886592aac59580946ad16908b31691dfbba7f38caa9"
+    },
+    {
+      "locale": "zh-CN",
+      "name": "1-command.opus",
+      "bytes": 3755,
+      "seconds": 1.342,
+      "peak": 0.14669,
+      "rms": 0.02248,
+      "sha256": "9271d0d594d36da67c9d3df3d51319aa72165468cc27cdb00f9a42cdf333f026"
+    },
+    {
+      "locale": "zh-CN",
+      "name": "1-formation.opus",
+      "bytes": 5833,
+      "seconds": 2.017,
+      "peak": 0.13155,
+      "rms": 0.0209,
+      "sha256": "ce1674818fda5728b0a03b64ab357975d0a802241c92aa441573a8cb0950b9bf"
+    },
+    {
+      "locale": "zh-CN",
+      "name": "1-glide.opus",
+      "bytes": 5496,
+      "seconds": 1.968,
+      "peak": 0.12371,
+      "rms": 0.02052,
+      "sha256": "d95ddfc9bd2ebd8d2280653da0be89d8440219cece5c822651465f2d4075b85a"
+    },
+    {
+      "locale": "zh-CN",
+      "name": "1-heading.opus",
+      "bytes": 5980,
+      "seconds": 2.102,
+      "peak": 0.18077,
+      "rms": 0.02237,
+      "sha256": "837e254e95333050a2322b80203abcbb1e7a7aa998f10f4ccb91e007438f83b2"
+    },
+    {
+      "locale": "zh-CN",
+      "name": "1-launch.opus",
+      "bytes": 5902,
+      "seconds": 2.06,
+      "peak": 0.1349,
+      "rms": 0.01701,
+      "sha256": "eda5a5ef434b9c7db9798b7bddfbb0d9570bf3fb65bff21d5d0523077c509c1b"
+    },
+    {
+      "locale": "zh-CN",
+      "name": "1-preview.opus",
+      "bytes": 6476,
+      "seconds": 2.275,
+      "peak": 0.10913,
+      "rms": 0.01909,
+      "sha256": "4aabf2a7e84acaeff1b2423f27c2f8f044765756e50ed0fd69b2052706e08991"
+    },
+    {
+      "locale": "zh-CN",
+      "name": "2-command.opus",
+      "bytes": 6401,
+      "seconds": 2.21,
+      "peak": 0.30723,
+      "rms": 0.03533,
+      "sha256": "efd327695aca20396f0c62ded43202c4e2432552547c26cac08a5da99f7bed0f"
+    },
+    {
+      "locale": "zh-CN",
+      "name": "2-obstacle.opus",
+      "bytes": 6503,
+      "seconds": 2.325,
+      "peak": 0.13386,
+      "rms": 0.02297,
+      "sha256": "1aa68dfe8afc7ba2e0eef8617e10a57592f0c96ea4b62008e490a800ac382d41"
+    },
+    {
+      "locale": "zh-CN",
+      "name": "2-preview.opus",
+      "bytes": 7050,
+      "seconds": 2.471,
+      "peak": 0.18245,
+      "rms": 0.02813,
+      "sha256": "ccb26ec5ac7497ca7bcce05d65cbbb1657d08e325b3bf1f9666c45681d555c96"
+    },
+    {
+      "locale": "zh-CN",
+      "name": "2-rescue.opus",
+      "bytes": 5754,
+      "seconds": 2.103,
+      "peak": 0.16059,
+      "rms": 0.02811,
+      "sha256": "65ed153f7b048bcfc8c637379faf2b2e7d579b1394044ab8b01ce19151c5f507"
+    },
+    {
+      "locale": "zh-CN",
+      "name": "2-risk.opus",
+      "bytes": 4688,
+      "seconds": 1.747,
+      "peak": 0.10332,
+      "rms": 0.02398,
+      "sha256": "ffb749098d4d666558bd73f2aff81f12d418a34d13423fc6c32c7721d9a2c6ca"
+    },
+    {
+      "locale": "zh-CN",
+      "name": "3-command.opus",
+      "bytes": 4869,
+      "seconds": 1.729,
+      "peak": 0.11274,
+      "rms": 0.01898,
+      "sha256": "0e8ba8a0bc93ab825432e273414eaa306e45b20cb3d7f9c3313a1b4f6ffb1b53"
+    },
+    {
+      "locale": "zh-CN",
+      "name": "3-crossing.opus",
+      "bytes": 4523,
+      "seconds": 1.651,
+      "peak": 0.13023,
+      "rms": 0.03165,
+      "sha256": "9079926d37da59a5dea9a21710f6103379183b6f5762f2cb472e56e2aaf9710c"
+    },
+    {
+      "locale": "zh-CN",
+      "name": "3-dragon.opus",
+      "bytes": 6043,
+      "seconds": 2.104,
+      "peak": 0.1901,
+      "rms": 0.02904,
+      "sha256": "f3627ca8b41e84a2e3704ad717171a075e6d0ec9dac80f1bb4b6e03ff23a64b1"
+    },
+    {
+      "locale": "zh-CN",
+      "name": "3-island.opus",
+      "bytes": 7378,
+      "seconds": 2.611,
+      "peak": 0.17177,
+      "rms": 0.02855,
+      "sha256": "f65e9680d8441ef8b27e42a5cbbcd605fe3ff0e60dd972d16efa8fea2a2a4cd4"
+    },
+    {
+      "locale": "zh-CN",
+      "name": "3-preview.opus",
+      "bytes": 9596,
+      "seconds": 3.307,
+      "peak": 0.17135,
+      "rms": 0.02629,
+      "sha256": "8513ce1a7650788070465fa3d37bde5b340af919b37de31f0b9264db71061ccd"
+    }
+  ]
+}

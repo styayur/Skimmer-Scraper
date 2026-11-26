@@ -2,7 +2,7 @@
 
 ## v0.9.0 development
 
-WorldForge adds a seeded world of rock shelves, suspended islands and traversable vaults. Press Space or LB to arm Surface Glide near a wall, roof or overhang. Pick KITE-W or KITE-S in the hangar. The optional companion radio plays local English clips with bilingual captions. Enable original world-specific music under advanced flight settings.
+WorldForge adds a seeded world of rock shelves, suspended islands and traversable vaults. Press Space or LB to arm Surface Glide near a wall, roof or overhang. Pick KITE-W or KITE-S in the hangar. The optional companion radio plays local Mandarin or English clips with matching captions. Enable original world-specific music under advanced flight settings.
 
 [Surface Glide](docs/SURFACE-GLIDE.md) · [WorldForge generation](docs/WORLDFORGE.md) · [MZK music](docs/MZK.md)
 
@@ -40,7 +40,7 @@ predictive streamer prepares nearby views and collision coverage.
 Five arrivals reveal a light sculpture and signature. [World generation](docs/WORLD.md) · [World import](docs/WORLD-IMPORT.md) · [Moving structures](docs/DYNAMIC-WORLD.md)
 
 Press **T** for text commands and replies. Each wingmate has a callsign and
-role. Voice output starts off. Flight settings offer original prerecorded English radio calls with localized captions, previews and volume control. Dynamic model replies use captions unless cloud speech is explicitly selected. When
+role. Voice output starts off. Flight settings offer original prerecorded Mandarin and English radio calls, previews and volume control. Dynamic model replies use captions unless cloud speech is explicitly selected. When
 voice input is enabled, hold **V** to speak and release to send. BYOK keys
 live in page memory. The local controller works without an account or key.
 DeepSeek voice sends only the opted-in audio or playback text and may incur

@@ -29,7 +29,7 @@ by the distribution browser test. No reference-game code or assets were copied.
 
 ## v0.9 character radio, music and geometry
 
-The shipped Opus clips are offline renders of the original English script in
+The English radio clips are offline renders of the original script in
 `art/radio/lines.json`. They use the CMU US SLT voice and ship its original
 notice in `licenses/CMU-ARCTIC-SLT.txt`. The authoring scripts use Flite and
 opus-tools. The game distributes the rendered clips. Music for the four
@@ -38,6 +38,8 @@ port from mzk with the upstream MIT notice in `licenses/MZK-MIT.txt`.
 The WorldForge prototype and both aircraft are project assets. Their
 generation and modelling sources are included under `art/`. The release
 verifier compares each distributed audio file with the corresponding source.
+
+Mandarin radio calls use the AISHELL-3 Mandarin corpus from Beijing Shell Shell Technology and the Icefall multi-speaker VITS weights published by the k2-fsa project. Both sources specify Apache License 2.0. The authoring script derives three composite character embeddings, renders original game lines on CPU and encodes them as Opus. The radio pack includes the Apache license, credits and authoring instructions. [AISHELL-3](https://www.openslr.org/93/), [model card](https://huggingface.co/csukuangfj/icefall-tts-aishell3-vits-low-2024-04-06/blob/57345c004e13ed640e408c4c29ab56187b18f065/README.md), [rendering instructions](VOICE.md#rendering-the-mandarin-calls).
 
 ## Historical v0.6 browser voice
 

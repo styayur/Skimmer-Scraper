@@ -46,7 +46,8 @@ if any(asset.get('kind') == 'character-radio' for asset in manifest['assets']):
     source_asset, = (asset for asset in manifest['assets'] if asset['name'].endswith('-source.zip'))
     with zipfile.ZipFile(folder / source_asset['name']) as source:
         lines = json.loads(source.read('art/radio/lines.json'))
-        names = ['radio/{spokenLanguage}/{agent}-{event}.opus'.format(**line) for line in lines]
+        names = [f"radio/{locale}/{line['agent']}-{line['event']}.opus"
+                 for line in lines for locale in (line['spokenLanguages'] if 'spokenLanguages' in line else [line['spokenLanguage']])]
         names.extend(f'music/{theme}-{index}.opus' for theme in ('city', 'dragonspine', 'forge', 'local') for index in range(2))
         authored_audio = {name: hashlib.sha256(source.read('public/' + name)).digest() for name in names}
 

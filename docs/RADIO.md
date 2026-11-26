@@ -30,7 +30,7 @@ and radio commands available.
 
 Subtitles are available throughout flight. In Voice radio settings, enable local
 playback, choose a role for preview and adjust the volume. The three characters
-have original English event clips with Chinese and English text. Dynamic replies
+have original Mandarin and English event clips with matching captions. Dynamic replies
 use captions unless an enabled cloud provider can speak them. See [Voice radio](VOICE.md)
 for push-to-talk controls, microphone permissions, speech budgets and browser
 support.

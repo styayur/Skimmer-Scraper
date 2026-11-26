@@ -81,7 +81,7 @@ export class VoiceRadio {
   public get inputMode(): VoiceInput { return this.settings.input; }
   public get preferences(): VoicePreferences { return { ...this.settings }; }
   public get preferredLanguage(): RadioLanguage | undefined {
-    return this.settings.input === 'off' && this.settings.language === 'zh-CN' ? undefined : this.settings.language;
+    return this.settings.input === 'off' && this.settings.output === 'off' && this.settings.language === 'zh-CN' ? undefined : this.settings.language;
   }
   public get spokenLine(): RadioLine | null {
     const line = this.speech.current;

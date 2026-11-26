@@ -1,0 +1,85 @@
+{
+  "build": {
+    "native": true,
+    "renderer": "ANGLE (AMD, AMD Radeon 780M Graphics (0x00001900) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+    "version": "0.9.0",
+    "sourceCommit": "a1dfd923bcb0f04bed969362395e8275b5de64b8",
+    "sourceCommitTime": "2026-11-26T23:10:43+08:00",
+    "dirty": false,
+    "sourceUrl": "https://github.com/styayur/Skimmer-Scraper/tree/a1dfd923bcb0f04bed969362395e8275b5de64b8",
+    "toolchain": {
+      "node": "v26.7.0",
+      "platform": "win32",
+      "architecture": "x64"
+    }
+  },
+  "mix": {
+    "frames": 1579,
+    "spokenFrames": 139,
+    "clips": [
+      "1-command"
+    ],
+    "min": 0.08751751244463549,
+    "restored": 0.3499999999999997
+  },
+  "clips": [
+    {
+      "agent": 1,
+      "start": 1795709494358,
+      "end": 1795709496681,
+      "samples": 45,
+      "peak": 0.3902992010116577
+    },
+    {
+      "agent": 2,
+      "start": 1795709496892,
+      "end": 1795709500011,
+      "samples": 60,
+      "peak": 0.46635907888412476
+    },
+    {
+      "agent": 3,
+      "start": 1795709500203,
+      "end": 1795709503314,
+      "samples": 63,
+      "peak": 0.3042869567871094
+    }
+  ],
+  "endpointVerified": true,
+  "missingSource": "http://tauri.localhost/music/absent-qualification-clip.opus",
+  "unavailable": {
+    "enabled": true,
+    "active": true,
+    "world": "city",
+    "ducked": false,
+    "selected": "city1",
+    "playing": false,
+    "mediaTime": 0,
+    "volume": 0,
+    "status": "音源不可用，可选择本地音乐。"
+  },
+  "localFile": {
+    "enabled": true,
+    "active": true,
+    "world": "city",
+    "ducked": false,
+    "selected": "file-0",
+    "playing": true,
+    "mediaTime": 0.316221,
+    "volume": 0.35,
+    "status": ""
+  },
+  "issues": [],
+  "neuralRequests": [],
+  "scope": "Development installation. The WebView2 media element requested a missing built-in Opus resource, then the pilot selected a playable local file.",
+  "music": {
+    "pcmPeak": 0.26744627952575684,
+    "samples": 30,
+    "peak": 0.08983640372753143
+  },
+  "rawSha256": {
+    "audio.json": "768ea2d10eacc965cd9069c5659fe0f24ff1cf38faf01d9e7d4e11b766ca11f4",
+    "mix-trace.json": "40fd1a21247f266bdad5b5bf4c0e5526c0351efc506738100f69f9b2b3b985f8",
+    "windows-session-levels.jsonl": "472368d43aa53e8c2615da99252309e0210e8617d3a1d3824fb6f9ba71d4e915"
+  }
+}

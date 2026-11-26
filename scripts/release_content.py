@@ -45,19 +45,23 @@ def package_content(folder, manifest, static_path, source_path, forge_directory)
         with baked.open('rb') as stream:
             if hashlib.file_digest(stream, 'sha256').hexdigest() != proof['bakedSha256']:
                 raise ValueError('Baked reference differs from export manifest')
-        voice = {**shared, 'licenses/CMU-ARCTIC-SLT.txt': static.read('licenses/CMU-ARCTIC-SLT.txt')}
-        for name in ('art/radio/lines.json', 'art/radio/render.py', 'docs/RADIO.md'):
+        voice = dict(shared)
+        for name in ('licenses/CMU-ARCTIC-SLT.txt', 'licenses/APACHE-2.0.txt'):
+            voice[name] = static.read(name)
+        for name in ('art/radio/lines.json', 'art/radio/render.py', 'art/radio/render_mandarin.py',
+                     'docs/RADIO.md', 'docs/VOICE.md'):
             voice[name] = source.read(name)
         clip_names = set()
         for clip in json.loads(voice['art/radio/lines.json']):
-            name = 'radio/{spokenLanguage}/{agent}-{event}.opus'.format(**clip)
-            if Path(name).as_posix() != name or '..' in Path(name).parts or name in clip_names:
-                raise ValueError('Invalid character radio clip name')
-            clip_names.add(name)
-            data = static.read(name)
-            if data != source.read('public/' + name) or not data.startswith(b'OggS') or b'OpusHead' not in data[:128]:
-                raise ValueError('Radio clip differs from authored Opus: ' + name)
-            voice[name] = data
+            for locale in clip['spokenLanguages']:
+                name = f"radio/{locale}/{clip['agent']}-{clip['event']}.opus"
+                if Path(name).as_posix() != name or '..' in Path(name).parts or name in clip_names:
+                    raise ValueError('Invalid character radio clip name')
+                clip_names.add(name)
+                data = static.read(name)
+                if data != source.read('public/' + name) or not data.startswith(b'OggS') or b'OpusHead' not in data[:128]:
+                    raise ValueError('Radio clip differs from authored Opus: ' + name)
+                voice[name] = data
         if clip_names != {name for name in static.namelist() if name.startswith('radio/') and name.endswith('.opus')}:
             raise ValueError('Radio manifest and shipped clips differ')
     packs = []

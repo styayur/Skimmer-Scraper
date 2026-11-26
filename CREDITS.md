@@ -66,7 +66,9 @@ files were used locally for verification. [Khronos glTF Sample Assets](https://g
 Engine and wind sounds are synthesized locally from original project code.
 Optional DeepSeek speech uses the provider's HTTPS endpoints. Release testing
 used locally generated Windows speech fixtures for scout commands.
-Companion clips use original project scripts, rendered offline with Flite 2.2, the CMU US SLT voice trained on the CMU ARCTIC corpus, and opus-tools. The voice corpus permits commercial use and distribution with attribution. See [voice license](licenses/CMU-ARCTIC-SLT.txt) and [render source](art/radio/render.py).
+English companion clips use original project scripts, rendered offline with Flite 2.2, the CMU US SLT voice trained on the CMU ARCTIC corpus, and opus-tools. The voice corpus permits commercial use and distribution with attribution. See [voice license](licenses/CMU-ARCTIC-SLT.txt) and [render source](art/radio/render.py).
+
+Mandarin companion calls use original project scripts and three composite character voices derived from Icefall's AISHELL-3 VITS weights. Corpus credit goes to Yao Shi, Hui Bu, Xin Xu, Shaoji Zhang and Ming Li. Model credit goes to the k2-fsa Icefall project. The game ships the rendered audio. [Corpus](https://www.openslr.org/93/), [model](https://huggingface.co/csukuangfj/icefall-tts-aishell3-vits-low-2024-04-06), [Apache License 2.0](licenses/APACHE-2.0.txt), [render source](art/radio/render_mandarin.py).
 
 The v0.3 model planner adapter, validator, Trust/Relay rules and relay line effect
 are original repository code; no external AI/steering SDK or hosted proxy was added.

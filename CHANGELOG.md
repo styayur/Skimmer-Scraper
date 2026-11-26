@@ -5,7 +5,7 @@
 - Added WorldForge, its offline prototype analysis, seeded airspace, terrain streaming and matched GLB export.
 - Added surface-relative flight with Space and remappable LB. Actual attachment creates a separate challenge score category.
 - Added KITE-W and KITE-S to the built-in hangar.
-- Replaced local neural and operating-system narration with 16 event-indexed Opus clips. Optional MZK music supports original world pools and player-selected audio.
+- Replaced local neural and operating-system narration with 16 event-indexed lines recorded in both Mandarin and English. Optional MZK music supports original world pools and player-selected audio.
 - Kept the Ascendant terrain as Dragonspine, with historical link migration and compatible high-detail assets.
 - Windows NSIS packages remain unsigned.
 
