@@ -235,6 +235,7 @@
             <label>菜单确认按钮 <input data-control="confirmButton" type="number" min="0" max="31" /></label>
             <label>菜单返回按钮 <input data-control="backButton" type="number" min="0" max="31" /></label>
             <label>游戏菜单按钮 <input data-control="menuButton" type="number" min="0" max="31" /></label>
+            <label>贴面滑行按钮（−1 自动识别 LB）<input data-control="glideButton" type="number" min="-1" max="31" /></label>
             <label>按住讲话按钮 <input id="voice-gamepad-button" data-control="voiceButton" type="number" min="-1" max="31" /></label>
 
           </details>
@@ -383,7 +384,7 @@
           </details>
         </section>
         <form id="world-form" class="world-form">
-          <label class="world-field">世界主题<select id="world-theme"><option value="city">樱色巨城</option><option value="dragonspine">Dragonspine · 龙脊天域</option></select></label>
+          <label class="world-field">世界主题<select id="world-theme"><option value="city">樱色巨城</option><option value="dragonspine">Dragonspine · 龙脊幻境</option><option value="worldforge">WorldForge · 层岩回廊</option></select></label>
           <label><input id="world-passages" type="checkbox" /> 城市生成式空中通道（实验）</label>
           <div class="setting-heading"><label class="world-field">输入种子<input id="world-seed-input" name="seed" type="text" maxlength="64" autocomplete="off" spellcheck="false" /></label><button class="setting-help" type="button" aria-label="种子帮助" data-help-section="guide-world">?</button></div>
           <div id="world-legacy" data-procedural-world hidden>

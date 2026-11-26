@@ -62,7 +62,7 @@ export const bindVoicePanel = (voice: VoiceRadio, action: (action: GameAction) =
   const configure = () => {
     voice.configure({ input: input.value as VoiceInput, output: output.value as VoiceOutput,
       language: language.value as RadioLanguage, localFallback: true,
-      volume: volume.valueAsNumber / 100, voices: {} });
+      volume: volume.valueAsNumber / 100 });
     changeLanguage(voice.preferredLanguage);
     updateControls();
   };

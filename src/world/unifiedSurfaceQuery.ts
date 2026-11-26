@@ -18,6 +18,10 @@ export class UnifiedSurfaceQuery implements SurfaceProvider {
   }
 
   public queryStatic(position: Vec3, range: number) { return this.solid.queryNearest(position, range); }
+  public queryGlide(position: Vec3, range: number) {
+    const solid = this.solid.queryGlide?.(position,range);
+    return this.dynamic.queryNearest(position, solid?.distance ?? range, true, true) ?? solid ?? null;
+  }
 
   public sweepDynamic(from: Vec3, to: Vec3, radius: number) { return this.dynamic.sweep(from, to, radius); }
 }

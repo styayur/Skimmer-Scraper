@@ -330,8 +330,8 @@ export class GameUI {
     this.modelNote.textContent = current
       ? `当前机型 ${current.name} · ${current.meta}`
       : '选择一架飞机开始挑战。';
-    this.removeModelButton.disabled = selectedId === 'procedural';
-    this.rotateModelButton.disabled = selectedId === 'procedural';
+    this.removeModelButton.disabled = current?.tag !== 'LOCAL GLB';
+    this.rotateModelButton.disabled = current?.tag !== 'LOCAL GLB';
   }
 
   public setModelBusy(busy: boolean, note?: string): void {

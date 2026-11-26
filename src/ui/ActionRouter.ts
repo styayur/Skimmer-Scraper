@@ -11,6 +11,7 @@ interface Actions {
   start(): void;
   title(): void;
   camera(): void;
+  glide(): boolean;
   radioAvailable(): boolean;
   voice(action: 'start' | 'stop' | 'cancel' | 'cancel-all', source: 'keyboard' | 'gamepad' | 'touch'): boolean;
 }
@@ -45,6 +46,7 @@ export class ActionRouter {
     if (!this.actions.available()) return false;
     const mode = this.actions.mode();
     const current = this.overlays.current;
+    if (action === 'glide') return !current && mode === 'running' && this.actions.glide();
     if (action === 'voice-start') return !current && mode === 'running' && this.actions.voice('start', source);
     if (action === 'close' && !current && mode === 'running' && this.actions.voice('cancel-all', source)) return true;
     if (action === 'close' || action === 'pause' || action === 'back') {

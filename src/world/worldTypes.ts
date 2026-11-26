@@ -47,6 +47,7 @@ export interface WorldStats {
 }
 
 export interface SurfaceQuery {
+  contact?: { normal: Vec3; velocity: Vec3; localPoint: Vec3; triangle: number; geometryId: string };
   distance: number;
   point: Vec3;
   chunkId: string;
@@ -60,6 +61,7 @@ export interface SweptSurfaceContact {
 }
 
 export interface SurfaceProvider {
+  queryGlide?(position: Vec3, range: number): SurfaceQuery | null;
   queryNearest(position: Vec3, maxDistance: number): SurfaceQuery | null;
   queryProximity?(position: Vec3, maxDistance: number): SurfaceQuery | null;
   queryStatic?(position: Vec3, maxDistance: number): SurfaceQuery | null;

@@ -35,7 +35,7 @@ export interface CityGenerationConfig {
 }
 
 export interface WorldSettings {
-  theme?: 'dragonspine';
+  theme?: 'dragonspine' | 'worldforge';
   generatedPassages?: true;
   paletteHue?: number;
   seed: number;
@@ -223,8 +223,9 @@ export const worldSettingsFromSearch = (search: string | URLSearchParams): World
     seed: params.get('seed'),
     preset: params.get('preset'),
     mode: params.get('world'),
-    generatorVersion: dragon ? GENERATOR_VERSION : generatorVersion,
+    generatorVersion: dragon || theme === 'worldforge' ? GENERATOR_VERSION : generatorVersion,
   });
+  if (theme === 'worldforge') settings.theme = theme;
   if (dragon) settings.theme = 'dragonspine';
   if (!settings.theme && settings.generatorVersion === GENERATOR_VERSION && params.get('passages') === '1') {
     settings.generatedPassages = true;

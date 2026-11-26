@@ -6,6 +6,7 @@ export type GameAction =
   | 'retry'
   | 'library'
   | 'close'
+  | 'glide'
   | 'camera'
   | 'pause'
   | 'menu'
@@ -92,6 +93,10 @@ export class KeyboardInputSource implements InputSource {
     if (event.code === 'KeyV' && this.enabled) {
       if (!event.repeat) this.voiceHeld = this.actionListener?.('voice-start') ?? false;
       if (this.voiceHeld) event.preventDefault();
+      return;
+    }
+    if (event.code === 'Space' && this.enabled && !target?.closest('button, summary, a[href]')) {
+      if (!event.repeat && this.actionListener?.('glide')) event.preventDefault();
       return;
     }
     const action = shortcuts.get(event.code);

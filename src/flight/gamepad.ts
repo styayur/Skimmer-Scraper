@@ -38,6 +38,11 @@ export class GamepadInputSource {
     if (navigating) actions.push([settings.confirmButton, 'confirm'], [settings.backButton, 'back']);
     actions.push([settings.cameraButton, 'camera'], [settings.retryButton, 'retry'], [settings.menuButton, 'menu']);
     const selected = this.buttonIndex(settings.voiceButton);
+    // VID 2563 / PID 0526 exposes its physical left bumper as raw index 6.
+    const glideSlot = settings.glideButton < 0 ? (this.buttonSlots ? 6 : 4) : settings.glideButton;
+    const glide = this.buttonIndex(glideSlot);
+    if (!changed && !navigating && glide !== selected && glide !== this.buttonIndex(settings.boostButton)
+      && !actions.some(([slot]) => this.buttonIndex(slot) === glide)) actions.push([glideSlot, 'glide']);
     const canTalk = !navigating && selected >= 0 && selected !== this.buttonIndex(settings.boostButton)
       && !actions.some(([slot]) => this.buttonIndex(slot) === selected);
     if (this.voiceButton >= 0 && (!canTalk || this.voiceButton !== selected || !pad.buttons[selected]?.pressed)) {

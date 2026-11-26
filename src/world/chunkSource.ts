@@ -1,3 +1,4 @@
+import { ForgeChunkGenerator } from './procedural/forgeChunk';
 import { DragonspineChunkGenerator } from './dragonspineChunk';
 import { ChunkGenerator } from './chunkGenerator';
 import { MeshBVH } from 'three-mesh-bvh';
@@ -21,12 +22,12 @@ export interface ChunkSource {
 export class CityWorkerSource implements ChunkSource {
   private worker: Worker | null = null;
   private workerReady = false;
-  private readonly generator: ChunkGenerator;
+  private readonly generator: ChunkGenerator | ForgeChunkGenerator;
   private pending?: { resolve: (result: GeneratedChunk) => void; reject: (error: Error) => void };
   private disposed = false;
 
   constructor(settings: WorldSettings) {
-    this.generator = new ChunkGenerator(settings);
+    this.generator = settings.theme === 'worldforge' ? new ForgeChunkGenerator(settings) : new ChunkGenerator(settings);
     try {
       this.worker = new Worker(new URL('./cityChunk.worker.ts', import.meta.url), { type: 'module' });
       this.worker.onerror = () => this.stopWorker(new Error('City geometry worker unavailable'));
@@ -40,7 +41,11 @@ export class CityWorkerSource implements ChunkSource {
         if (!pending) return;
         try {
           const started = performance.now();
-          const chunk = this.generator.assemble(data.packet);
+          const packet = data.packet;
+          const chunk = 'forge' in packet && this.generator instanceof ForgeChunkGenerator
+            ? this.generator.assemble(packet)
+            : !('forge' in packet) && this.generator instanceof ChunkGenerator ? this.generator.assemble(packet) : null;
+          if (!chunk) throw new Error('Worker returned geometry for a different world');
           chunk.collisionTree = MeshBVH.deserialize(data.collisionTree, chunk.collisionGeometry);
           chunk.workerBuildMs = data.workerBuildMs;
           chunk.synchronousBuildMs = performance.now() - started;
@@ -103,11 +108,11 @@ const yieldToBrowser = (): Promise<void> => new Promise((resolve) => {
  * but the streamer can cancel queued work and never generates the whole city in a physics tick.
  */
 export class InlineChunkSource implements ChunkSource {
-  private readonly generator: ChunkGenerator | DragonspineChunkGenerator;
+  private readonly generator: ChunkGenerator | DragonspineChunkGenerator | ForgeChunkGenerator;
   private disposed = false;
 
   public constructor(settings: WorldSettings) {
-    this.generator = settings.theme ? new DragonspineChunkGenerator(settings) : new ChunkGenerator(settings);
+    this.generator = settings.theme === 'worldforge' ? new ForgeChunkGenerator(settings) : settings.theme ? new DragonspineChunkGenerator(settings) : new ChunkGenerator(settings);
   }
 
   public async generate(request: ChunkSourceRequest): Promise<GeneratedChunk> {
