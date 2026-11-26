@@ -1,7 +1,7 @@
 # Voice radio
 
 Choose **Flight settings → Advanced → Voice radio**. A fresh profile starts
-with captions. Enable lightweight device speech for direct replies and short
+with captions. Enable the character radio for event calls and short
 risk calls. Routine wingmate chatter stays in the radio transcript. Flight
 warning cues are part of the separate game audio and HUD. Microphone input starts off on each page
 load. With input enabled, hold **V** or the in-flight talk button, speak,
@@ -26,37 +26,13 @@ line through the end of playback.
   installed Chinese or English language pack. Use **Prepare device language**
   to check or download one. Device transcripts go to the local wingmate
   controller. Browsers without on-device recognition still support text.
-- **Lightweight device speech** asks the browser for installed local voices.
-  It prefers known female voices when available and uses restrained pacing and
-  pitch changes. Choose and preview a voice for each wingmate under **系统声线**.
-  Voices, languages and offline availability vary by browser and device.
-  Captions remain available when the requested language has no local voice. The microphone
-  language pack applies to recognition. System speech goes directly through
-  SpeechSynthesis and the platform audio output.
-- **Local high-quality speech** runs the Mandarin Kokoro model in a dedicated
-  Worker. Opt in with **高级语音 · 需下载模型** to download a model from Hugging Face.
-  Compatible hardware WebGPU with `shader-f16` runs the 177 MB mixed-precision
-  weights. There is also a 27 MB runtime and
-  about 0.5 MB per Kokoro voice. The first use needs internet access.
-  Where supported, the browser downloads the weights in at most six ranges at
-  once. A retry can resume completed ranges. The browser verifies the pinned
-  SHA-256 before storing the complete file in its cache.
-  The browser can cache the downloads for later use. **卸载模型** frees the
-  inference Worker while leaving the cache available. The Worker also exits
-  after 45 seconds idle. Download or inference failure can fall back to local
-  system speech or captions. Non-Mandarin lines use the same fallback.
-  The single-threaded WASM-only experiment was slow and produced invalid
-  waveform samples. Browsers without compatible WebGPU use the system or
-  caption fallback immediately. Firefox on Windows uses the fallback before
-  downloading weights because ONNX Runtime WebGPU inference is unsupported
-  there. [ONNX Runtime Web browser support](https://onnxruntime.ai/docs/get-started/with-javascript/web.html#supported-versions)
+- **Character radio** plays bundled English Opus clips, selected by event and speaker. Chinese and English captions remain available. Free-form text remains in the transcript.
 - **DeepSeek input** sends the released recording directly to the DeepSeek
   ASR endpoint. The transcript goes through the same dialogue and validated
   flight orders as typed requests. **DeepSeek output** sends wingmate lines to
   the provider and plays the returned audio as it arrives. Two provider voices
   are available. Callsigns, playback rate and stereo position distinguish the
-  wingmates. System speech can handle unstarted DeepSeek calls when fallback
-  is enabled.
+  wingmates. Unstarted cloud speech may use the same local event clip. Other replies remain captioned.
 
 Connect your own DeepSeek key under **Model cooperation** before using either
 DeepSeek option. The provider can charge for speech recognition, model tokens
@@ -69,31 +45,7 @@ stay available.
 ## Data and playback
 
 The browser keeps audio in memory for the active clip or transmission.
-Local preferences store output mode, language and preferred system voices.
-Speech volume applies to all voices. Previews select the companion and use
-the same audio output path as in flight. Kokoro model downloads contact
-Hugging Face and its asset hosts. Local Kokoro inference keeps each line and
-its generated audio inside the browser.
-The npm build skips ONNX Runtime's Node postinstall, which would otherwise
-fetch platform GPU packages. The browser uses the separately pinned Web runtime.
-Keys travel in HTTPS authorization headers to the selected provider.
-The game has no credentials or recording server. Same-page scripts remain a
-browser trust boundary. Disconnect to remove the key and abort voice requests.
-
-The microphone's AudioWorklet produces 16 kHz mono samples for a 16-bit PCM
-WAV upload. DeepSeek ASR takes the entire WAV. TTS uses the official HTTPS
-stream of 24 kHz mono PCM. Small Web Audio buffers apply a light bandpass,
-compression and panning. They schedule audio ahead of the speaker while the
-120 Hz simulation continues. One voice plays at a time, with three waiting
-slots and an expiry for each call. The player and its
-companions keep their own collision and route safeguards during all requests.
-
-- [DeepSeek speech recognition](https://api-docs.deepseek.com/guides/asr/)
-- [DeepSeek speech synthesis](https://api-docs.deepseek.com/guides/tts/)
-- [On-device speech recognition in Chromium](https://developer.chrome.com/release-notes/139)
-- [Browser Kokoro implementation and license](https://github.com/uzen-zone/kokoro-js/tree/bbc3b5da19965257db0c8e6c9fb9381175b165a7)
-- [Pinned mixed-precision Mandarin weights](https://huggingface.co/hsc666/Kokoro-82M-v1.1-zh-ONNX-webgpu/tree/cf37b65bbce28544e5cecc6ab826b05548c590d8)
-- [Pinned Mandarin voice embeddings](https://huggingface.co/onnx-community/Kokoro-82M-v1.1-zh-ONNX/tree/6cc0f0d2ebe369a68b0df87c2b65c1af8c0ac3e3/voices)
+Previews and event clips share the Web Audio output, volume, stereo pan and speech queue lifecycle. The authoring input is in `art/radio/lines.json`. Run `python3 art/radio/render.py` with Flite 2.2 (SLT) and opus-tools to reproduce the clips. Local ASR, microphone input and optional cloud speech remain separate.
 
 ## Design reference
 

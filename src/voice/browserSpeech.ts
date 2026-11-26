@@ -1,5 +1,4 @@
-import type { RadioLanguage, RadioLine } from '../ai/radioDialogue';
-import type { VoiceIdentity, VoiceLifecycle, VoiceProvider } from './voiceContracts';
+import type { RadioLanguage } from '../ai/radioDialogue';
 interface LocalResult extends Event { results: ArrayLike<ArrayLike<{ transcript: string }>> }
 interface LocalError extends Event { error: string }
 interface LocalRecognition {
@@ -76,79 +75,3 @@ export const openLocalSpeech = async (language: RadioLanguage, signal: AbortSign
   await ready;
   return { result, finish: () => recognition.stop() };
 };
-
-export const listSystemVoices = (language: RadioLanguage): SpeechSynthesisVoice[] => {
-  const synth = window.speechSynthesis;
-  const prefix = language.slice(0, 2);
-  return synth?.getVoices().filter(voice => voice.localService && voice.lang.toLowerCase().slice(0, 2) === prefix)
-    .sort((a, b) => Number(b.lang === language) - Number(a.lang === language) || a.voiceURI.localeCompare(b.voiceURI)) ?? [];
-};
-
-// Web Speech exposes no gender metadata. Prefer known device voices when present,
-// and let the player override the installed voice in settings.
-const calmVoice = /\b(?:zira|aria|jenny|samantha|tessa|moira|hazel|huihui|xiaoxiao|xiaoyi|ting-ting|meijia|yaoyao)\b|晓晓|曉曉|慧慧|婷婷/u;
-
-export class SystemSpeech implements VoiceProvider {
-  public async speak(line: RadioLine, language: RadioLanguage, identity: VoiceIdentity, lifecycle: VoiceLifecycle): Promise<void> {
-    const synth = window.speechSynthesis;
-    if (!synth || typeof SpeechSynthesisUtterance === 'undefined') throw new Error('local-tts-unavailable');
-    const { signal, start } = lifecycle;
-    signal.throwIfAborted();
-    let voices = listSystemVoices(language);
-    if (!voices.length && !synth.getVoices().length) voices = await this.awaitVoices(synth, language, signal);
-    if (!voices.length) throw new Error('local-tts-unavailable');
-    // Some Windows browsers list a desktop and a platform alias for the same voice.
-    const named = new Map<string, SpeechSynthesisVoice>();
-    for (const voice of voices) {
-      const key = voice.name.split(' - ', 1)[0]!.replace(/\bdesktop\b/gi, '').trim().toLowerCase();
-      if (!named.has(key)) named.set(key, voice);
-    }
-    const automatic = [...named.values()];
-    const preferred = automatic.filter(voice => calmVoice.test(voice.name.toLowerCase()));
-    const candidates = preferred.length ? preferred : automatic;
-    const voice = voices.find(item => item.voiceURI === identity.preferredSystemVoice)
-      ?? candidates[(identity.agent - 1) % candidates.length]!;
-    signal.throwIfAborted();
-    await new Promise<void>((resolve, reject) => {
-      const utterance = new SpeechSynthesisUtterance(line.text);
-      utterance.voice = voice;
-      utterance.lang = voice.lang;
-      utterance.rate = identity.rate;
-      utterance.pitch = 0.96 + (identity.pitch - 1) * 0.4;
-      utterance.volume = identity.volume;
-      let started = false;
-      const clear = () => {
-        window.clearTimeout(timer);
-        signal.removeEventListener('abort', abort);
-        utterance.onstart = utterance.onend = utterance.onerror = null;
-      };
-      const fail = (error: unknown) => { clear(); reject(error); };
-      const abort = () => { fail(signal.reason); synth.cancel(); };
-      const timer = window.setTimeout(() => { fail(new Error('voice-timeout')); synth.cancel(); }, 22_000);
-      signal.addEventListener('abort', abort, { once: true });
-      utterance.onstart = () => {
-        if (signal.aborted) return;
-        started = true;
-        start({ provider: 'local', voiceId: voice.voiceURI, rate: utterance.rate, pitch: utterance.pitch });
-      };
-      utterance.onend = () => { clear(); if (started) resolve(); else reject(new Error('playback-blocked')); };
-      utterance.onerror = () => fail(new Error('playback-blocked'));
-      try { synth.speak(utterance); } catch (error) { fail(error); }
-    });
-  }
-
-  private awaitVoices(synth: SpeechSynthesis, language: RadioLanguage, signal: AbortSignal): Promise<SpeechSynthesisVoice[]> {
-    return new Promise((resolve, reject) => {
-      const clear = () => {
-        window.clearTimeout(timer);
-        signal.removeEventListener('abort', abort);
-        synth.removeEventListener('voiceschanged', available);
-      };
-      const abort = () => { clear(); reject(signal.reason); };
-      const available = () => { clear(); resolve(listSystemVoices(language)); };
-      const timer = window.setTimeout(available, 800);
-      signal.addEventListener('abort', abort, { once: true });
-      synth.addEventListener('voiceschanged', available, { once: true });
-    });
-  }
-}

@@ -1,7 +1,6 @@
 import { defineConfig } from 'vite';
 import { execFileSync, spawnSync } from 'node:child_process';
 import { existsSync, readFileSync, readdirSync } from 'node:fs';
-import { fileURLToPath } from 'node:url';
 import packageInfo from './package.json' with { type: 'json' };
 const { version } = packageInfo;
 
@@ -20,9 +19,6 @@ const buildInfo = { version, sourceCommit, sourceCommitTime, dirty,
 
 export default defineConfig({
   base: './',
-  resolve: {
-    alias: { phonemizer: fileURLToPath(new URL('./src/voice/kokoroMandarinOnly.ts', import.meta.url)) },
-  },
   worker: { format: 'es' },
   plugins: [{
     name: 'release-provenance-and-notices',

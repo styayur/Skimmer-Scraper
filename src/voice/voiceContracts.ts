@@ -2,7 +2,7 @@ import { COMPANION_PROFILES, type RadioLanguage, type RadioLine } from '../ai/ra
 import type { SpeechStreamStats } from './deepSeekVoice';
 
 export type VoiceInput = 'off' | 'local' | 'deepseek';
-export type VoiceOutput = VoiceInput | 'high-quality';
+export type VoiceOutput = VoiceInput;
 export type SpeakingProvider = Exclude<VoiceOutput, 'off'>;
 export type VoiceOverrides = Partial<Record<1 | 2 | 3, string>>;
 
