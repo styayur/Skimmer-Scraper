@@ -4,8 +4,10 @@ import { CHUNK_SIZE, type WorldSettings } from '../worldConfig';
 import { hashNumbers } from '../deterministic';
 import { mulberry32 } from '../rng';
 import type { GeneratedChunk } from '../worldTypes';
-import { forgeFloor, forgeLanes } from './forgeAirspace';
+import { FORGE_CRUISE_CLEARANCE, FORGE_CRUISE_HEIGHT, forgeFloor, forgeLaneOffset, forgeLanes } from './forgeAirspace';
 import profile from './forge-profile.json';
+
+const outerRadiusRatio = Math.max(...profile.radii.map(section => section[1]!)) / 7;
 
 type Point = [number, number, number];
 const palette = [0x465a62,0x668789,0x9aa68d,0xc69767,0x495265,0x847877].map(hex=>new Color(hex));
@@ -36,11 +38,21 @@ export class ForgeChunkGenerator {
 
     // Sweep two closed front profiles through the owner's cell. Vary aperture,
     // banking, axial offset and repeat count independently of the prototype.
-    const opening=32+random()*18, rise=38+random()*39;
-    const axis=90+random()*38, base=floor(axis,110);
-    const vault=random()<.54 && Math.abs(floor(axis,85)-floor(axis,135))<27;
-    if(vault){
-      const depth=32+random()*100, bend=(random()-.5)*17;
+    const opening = 32 + random() * 18;
+    let rise = 38 + random() * 39;
+    const axis = 90 + random() * 38, base = floor(axis, 110);
+    const candidate = random() < .54 && Math.abs(floor(axis, 85) - floor(axis, 135)) < 27;
+    const depth = candidate ? 32 + random() * 100 : 0;
+    const bend = candidate ? (random() - .5) * 17 : 0;
+    // All three lane coordinate functions have a horizontal gradient below 1.03.
+    // Bound the whole vault footprint, including its maximum flare and bend.
+    const footprint = Math.hypot(opening * outerRadiusRatio * 1.1 + Math.abs(bend), depth / 2);
+    if (candidate && forgeLaneOffset(ox + axis, oz + 110, this.plan) <= 1.03 * (footprint + FORGE_CRUISE_CLEARANCE)) {
+      const headroom = FORGE_CRUISE_HEIGHT - FORGE_CRUISE_CLEARANCE - base - 14;
+      rise = Math.min(rise, headroom / outerRadiusRatio);
+    }
+    const vault = candidate && rise >= 32;
+    if (vault) {
       const sections=distant ? 2 : 6;
       const ring=(i:number,j:number,outer:boolean):Point=>{
         const a=Math.PI*i/(profile.radii.length-1), t=j/sections;
@@ -71,7 +83,7 @@ export class ForgeChunkGenerator {
     const island=random()<.34;
     if(island){
       const n=9+Math.floor(random()*6), radius=40+random()*38;
-      const alt=base+180+random()*210, angle=random()*6, skew=(random()-.5)*32;
+      const alt=Math.max(base+180+random()*210, FORGE_CRUISE_HEIGHT + FORGE_CRUISE_CLEARANCE + 86), angle=random()*6, skew=(random()-.5)*32;
       const levels=[[-80,.15],[-28,.75],[0,1],[16,.79],[28,.30]] as const;
       const ring=(level:number,i:number):Point=>{
         const [dy,scale]=levels[level]!, a=angle+2*Math.PI*i/n;

@@ -40,6 +40,16 @@ if report_name in checksums:
 if any(secret in (folder / name).read_bytes() for name in metadata_names for secret in secrets):
     raise SystemExit('An operator credential matched release metadata')
 
+# Compare shipped v0.9 audio with the authored repertoire in the matching source.
+authored_audio = {}
+if any(asset.get('kind') == 'character-radio' for asset in manifest['assets']):
+    source_asset, = (asset for asset in manifest['assets'] if asset['name'].endswith('-source.zip'))
+    with zipfile.ZipFile(folder / source_asset['name']) as source:
+        lines = json.loads(source.read('art/radio/lines.json'))
+        names = ['radio/{spokenLanguage}/{agent}-{event}.opus'.format(**line) for line in lines]
+        names.extend(f'music/{theme}-{index}.opus' for theme in ('city', 'dragonspine', 'forge', 'local') for index in range(2))
+        authored_audio = {name: hashlib.sha256(source.read('public/' + name)).digest() for name in names}
+
 results = []
 for asset in manifest['assets']:
     name = asset['name']
@@ -52,6 +62,8 @@ for asset in manifest['assets']:
         results.append({'name':name,'kind':'windows-nsis','sha256':checksums[name]})
         continue
     with zipfile.ZipFile(folder / name) as archive:
+        if len(archive.namelist()) != len(set(archive.namelist())):
+            raise SystemExit("Duplicate archive member")
         if archive.testzip():
             raise SystemExit('Release archive failed its integrity check')
         revision_name = 'SOURCE_REVISION.json' if name.endswith('-source.zip') else 'build-info.json'
@@ -83,12 +95,21 @@ for asset in manifest['assets']:
                 raise SystemExit('Unexpected private or local build file in an archive')
             if member.is_dir():
                 continue
-            if path.suffix.lower() in ('.wav', '.ogg', '.pcm', '.mp3', '.m4a', '.flac'):
+            if path.suffix.lower() in ('.opus', '.wav', '.ogg', '.pcm', '.mp3', '.m4a', '.flac'):
                 audio_files.append(member.filename)
             data = archive.read(member)
             if any(secret in data for secret in secrets):
                 raise SystemExit('An operator credential matched archive content')
             scanned += 1
+        if authored_audio:
+            prefix = 'public/' if name.endswith('-source.zip') else ''
+            expected = authored_audio if prefix or name.endswith('-static.zip') else {}
+            if asset.get('kind') == 'character-radio':
+                expected = {n: h for n, h in authored_audio.items() if n.startswith('radio/')}
+            if set(audio_files) != {prefix + n for n in expected} or any(
+                hashlib.sha256(archive.read(prefix + n)).digest() != h for n, h in expected.items()
+            ):
+                raise SystemExit('Archive audio differs from authored repertoire')
         results.append({ 'name': name, 'entriesScanned': scanned, 'audioFiles': audio_files, 'sha256': checksums[name] })
 
 print(json.dumps({ 'status': 'passed', 'version': manifest['version'], 'sourceCommit': manifest['sourceCommit'],

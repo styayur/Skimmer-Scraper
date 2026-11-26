@@ -17,3 +17,7 @@ node scripts/export-worldforge.mjs amber ./forge-export 2
 
 Radius 2 exports 25 near tiles. The directory contains the baked GLB, the matching prototype and recipe sources, and a manifest with per-tile fingerprints, triangle count and SHA-256. The comparison includes the same positions, vertex colours and normals as the near renderer. The engine and its existing dependencies are shared overhead.
 
+
+The connected canyon routes share a cruise altitude of 132 m. Near these routes the generator limits vault height and reserves space above the arches and below suspended islands. The geometry regression sweeps a 6 m radius along the main canyon, transverse saddle and optional oblique branch, including neighboring tiles on both sides of a seam.
+
+For release assembly pass the export directory to `scripts/assemble-dual-release.py --forge-directory` along with the usual distribution, installer, Dragonspine pack and installation evidence arguments. The WorldForge kit includes its prototype, generator sources and comparison manifest. Reproduce the baked reference using the matching Source ZIP and the seed and radius in that manifest.

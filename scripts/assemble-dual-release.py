@@ -7,11 +7,14 @@ import pathlib
 import shutil
 import zipfile
 
+from release_content import package_content
+
 parser = argparse.ArgumentParser()
 parser.add_argument("directory", type=pathlib.Path)
 parser.add_argument("installer", type=pathlib.Path)
 parser.add_argument("pack_directory", type=pathlib.Path)
 parser.add_argument("evidence_directory", type=pathlib.Path)
+parser.add_argument("--forge-directory", required=True, type=pathlib.Path)
 args = parser.parse_args()
 folder = args.directory
 
@@ -87,8 +90,10 @@ with zipfile.ZipFile(folder / web["name"]) as static, zipfile.ZipFile(
     ]:
         z.writestr(name, static.read(name))
 manifest["assets"] = [web, source, installer, record(pack_name, "world-pack")]
+for name, kind in package_content(folder, manifest, folder / web["name"], folder / source["name"], args.forge_directory):
+    manifest["assets"].append(record(name, kind))
 manifest["scope"] = (
-    "Web static distribution, Windows x64 current-user NSIS installer, corresponding source and optional Dragonspine high-detail pack"
+    "Web static distribution, Windows x64 current-user NSIS installer, corresponding source and optional Dragonspine, WorldForge and character radio packs"
 )
 manifest_path.write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
 lines = [a["sha256"] + "  " + a["name"] for a in manifest["assets"]]
