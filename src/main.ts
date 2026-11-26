@@ -709,7 +709,7 @@ const simulateFixedStep = (dt: number, holdPosition = false): boolean => {
     }
   }
   const collisionDistance = !runRules.config.shield
-    && (activeWorld instanceof ImportedWorldAdapter || worldSettings.generatorVersion >= DENSE_GENERATOR_VERSION)
+    && (needsGlideContact(glide) || activeWorld instanceof ImportedWorldAdapter || worldSettings.generatorVersion >= DENSE_GENERATOR_VERSION)
     ? flightWouldCollide(flightState, nextState, activeWorld) ? COLLISION_RADIUS : null : undefined;
   if (glide.phase === 'ARMED' && (candidate.state.phase === 'ATTACHING' || candidate.state.phase === 'GLIDING')) {
     usedGlide = true;

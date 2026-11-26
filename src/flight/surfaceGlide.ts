@@ -32,7 +32,18 @@ export function stepGlide(state: GlideState, previous: FlightState, free: Flight
   if (!needsGlideContact(state)) {
     if (state.phase === 'FLIGHT') return { state, flight: free };
     const time = state.time + dt;
-    return { state: time < 0.25 ? { ...state, time } : freeGlide(), flight: free };
+    const last = previous.attitude, next = free.attitude;
+    const angles = new Euler(last.pitch, last.yaw, last.roll, 'YXZ');
+    const current = new Quaternion().setFromEuler(angles);
+    const target = new Quaternion().setFromEuler(new Euler(next.pitch, next.yaw, next.roll, 'YXZ'));
+    current.rotateTowards(target, 3.1 * dt);
+    angles.setFromQuaternion(current, 'YXZ');
+    const velocity = new Vector3(0, 0, -free.speed).applyQuaternion(current);
+    return {
+      state: time < 0.25 || current.angleTo(target) > 0.01 ? { ...state, time } : freeGlide(),
+      flight: { ...free, velocity, position: vector(previous.position).addScaledVector(velocity, dt),
+        attitude: { pitch: angles.x, yaw: angles.y, roll: angles.z } },
+    };
   }
   const waiting = state.phase === 'ARMED';
   const fallback: GlideState = waiting ? state : { phase: 'RECOVERY', time: 0 };
@@ -43,9 +54,13 @@ export function stepGlide(state: GlideState, previous: FlightState, free: Flight
   const surfaceVelocity = vector(hit.contact.velocity);
   const relative = vector(previous.velocity).sub(surfaceVelocity);
   const tangent = relative.clone().projectOnPlane(normal);
+  const tangentSpeed = tangent.length();
+  const normalSpeed = relative.dot(normal);
+  const stoppingDistance = Math.min(0, normalSpeed) ** 2 / (2 * 110);
   // Reject open edges and discontinuous normals. Traversable seams keep the same
   // tangent plane even when the adjacent triangle belongs to another chunk.
-  if (offset.dot(normal) < 0.88 * hit.distance || tangent.length() < 0.48 * free.speed ||
+  if (offset.dot(normal) < 0.88 * hit.distance || tangentSpeed < 0.48 * free.speed ||
+    stoppingDistance > hit.distance - 3.3 ||
     (state.normal && vector(state.normal).dot(normal) < 0.84) ||
     (state.surfaceId === hit.surfaceId && state.geometryId !== hit.contact.geometryId)) {
     return { state: fallback, flight: free };
@@ -55,9 +70,9 @@ export function stepGlide(state: GlideState, previous: FlightState, free: Flight
   tangent.normalize().applyAxisAngle(normal, turn);
   const desiredDistance = clearance + 1.4 * free.control.pitch;
   const correction = clamp((desiredDistance - offset.dot(normal)) * 3.5, -9, 9);
-  const normalSpeed = relative.dot(normal);
   const correctedSpeed = normalSpeed + clamp(correction - normalSpeed, -110 * dt, 110 * dt);
-  const velocity = tangent.clone().multiplyScalar(free.speed).addScaledVector(normal, correctedSpeed).add(surfaceVelocity);
+  const speed = tangentSpeed + clamp(free.speed - tangentSpeed, -55 * dt, 55 * dt);
+  const velocity = tangent.clone().multiplyScalar(speed).addScaledVector(normal, correctedSpeed).add(surfaceVelocity);
 
   const back = tangent.clone().negate();
   const right = normal.clone().cross(back).normalize();
