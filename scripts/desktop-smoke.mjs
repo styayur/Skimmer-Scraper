@@ -107,6 +107,7 @@ try {
       path.join(output, 'desktop-matrix.json'),
       process.argv[5],
       process.argv[6] === 'city-comparison',
+      process.argv[6] === 'glide-comparison',
     );
   } else if (libraryCheck === 'compat') {
     const { checkCompatibility } = await import('./desktop-compat.mjs');

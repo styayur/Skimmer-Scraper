@@ -9,6 +9,7 @@ export async function qualityMatrix(
   output,
   packDirectory,
   cityComparison = false,
+  glideComparison = false,
 ) {
   const base = new URL(page.url());
   base.search = '';
@@ -57,7 +58,7 @@ export async function qualityMatrix(
   const id=realm==='dragon'?'dragonspine-high-1':'ascendant-high-2-334458';
   let installedHere = false;
   try {
-    if (device.native && !cityComparison) {
+    if (device.native && !cityComparison && !glideComparison) {
       const present = await page.evaluate(
         async (id) =>
           (await window.__TAURI__.core.invoke('pack_list')).some(
@@ -83,7 +84,7 @@ export async function qualityMatrix(
       );
     }
     const scenarios = [];
-    const themes = cityComparison ? ['city'] : expanded ? ['city', realm, 'worldforge'] : ['city', realm];
+    const themes = glideComparison ? [] : cityComparison ? ['city'] : expanded ? ['city', realm, 'worldforge'] : ['city', realm];
     for (const theme of themes) {
       for (const quality of cityComparison ? ['balanced'] : ['balanced', 'high']) {
         for (const count of cityComparison ? [3] : [0, 1, 2, 3]) {
@@ -131,7 +132,7 @@ export async function qualityMatrix(
             const g = window.__SKIMMER_SCRAPER__;
             g.pause();
             await g.setPose(
-              compareGlide ? {x:6,y:6,z:34} : theme === 'worldforge' ? {x:0,y:132,z:120} : theme === 'dragonspine' && expandedRoute ? {x:420,y:555,z:-940} : theme === 'dragon' ? {x:-100,y:290,z:-440} : {x:340,y:410,z:125},
+              compareGlide ? {x:0,y:6,z:34} : theme === 'worldforge' ? {x:0,y:132,z:120} : theme === 'dragonspine' && expandedRoute ? {x:420,y:555,z:-940} : theme === 'dragon' ? {x:-100,y:290,z:-440} : {x:340,y:410,z:125},
               { yaw: 0, pitch: 0, roll: 0 },
             );
             g.resume();
@@ -247,6 +248,7 @@ if (
       output,
       undefined,
       process.argv[4] === 'city-comparison',
+      process.argv[4] === 'glide-comparison',
     );
   } finally {
     await browser.close();
