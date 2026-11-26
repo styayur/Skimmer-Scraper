@@ -6,7 +6,7 @@ const defaults: VoicePreferences = { input: 'off', output: 'off', language: 'zh-
 export const loadVoicePreferences = (storage: Pick<Storage, 'getItem'>): VoicePreferences => {
   try {
     const saved = JSON.parse(storage.getItem(key) ?? '{}') as Partial<VoicePreferences> | null;
-    const output: VoiceOutput = saved?.output === 'local' || saved?.output === 'high-quality' ? saved.output : defaults.output;
+    const output: VoiceOutput = saved?.output === 'local' || String(saved?.output) === 'high-quality' ? 'local' : defaults.output;
     const voices: VoiceOverrides = {};
     for (const id of [1, 2, 3] as const) {
       const name = saved?.voices?.[id];

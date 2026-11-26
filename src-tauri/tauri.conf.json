@@ -23,7 +23,7 @@
       }
     ],
     "security": {
-      "csp": "default-src 'self'; connect-src 'self' ipc: http://ipc.localhost https://ipc.localhost blob: data: https://api.deepseek.com https://api.openai.com https://huggingface.co https://*.hf.co https://*.huggingface.co; script-src 'self' 'wasm-unsafe-eval'; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: blob:; worker-src 'self' blob:; media-src 'self' blob: data:; object-src 'none'; frame-src 'none'; base-uri 'none'"
+      "csp": "default-src 'self'; connect-src 'self' ipc: http://ipc.localhost https://ipc.localhost blob: data: https://api.deepseek.com https://api.openai.com; script-src 'self' 'wasm-unsafe-eval'; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: blob:; worker-src 'self' blob:; media-src 'self' blob: data:; object-src 'none'; frame-src 'none'; base-uri 'none'"
     }
   },
   "bundle": {

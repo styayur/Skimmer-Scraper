@@ -636,7 +636,7 @@ const simulateJourneyStep = (dt: number): boolean => {
   if (event === 'completed') {
     skyPassage = null;
     journeyHud.completed(journey.crossings, journey.time);
-    symbiosis.flightReport(3, [`穿越完成。已进入第 ${journey.crossings} 层天空。`, `Crossing complete. Entering sky ${journey.crossings}.`]);
+    symbiosis.flightReport(3, [`穿越完成。已进入第 ${journey.crossings} 层天空。`, `Crossing complete. Entering sky ${journey.crossings}.`], 'notice', 'crossing');
     proximityFeedback = createProximityFeedback();
   }
   return true;
@@ -682,7 +682,7 @@ const simulateFixedStep = (dt: number, holdPosition = false): boolean => {
       shieldGlow = 1;
       if (shieldCooldown === 0) {
         shieldImpacts++; gamepad.impact(); shieldCooldown = 0.2;
-        symbiosis.flightReport(2, ['防护罩已吸收撞击。注意避开障碍。', 'Shield absorbed the impact. Clear the obstacle.'], 'risk');
+        symbiosis.flightReport(2, ['防护罩已吸收撞击。注意避开障碍。', 'Shield absorbed the impact. Clear the obstacle.'],'risk','obstacle');
       }
     }
   }
@@ -699,7 +699,7 @@ const simulateFixedStep = (dt: number, holdPosition = false): boolean => {
     runRules = symbiosis.step(flightState, runRules, activeWorld, worldSettings.seed, dt);
     if (lastSurfaceHit?.surfaceId.endsWith(':garden') && lastSurfaceHit.distance < 70
       && (previousSurface?.surfaceId !== lastSurfaceHit.surfaceId || previousSurface.distance >= 70)) {
-      symbiosis.flightReport(3, ['发现一座浮空花园。留意它的升降轨迹。', 'Floating garden ahead. Watch its vertical motion.']);
+      symbiosis.flightReport(3, ['发现一座浮空花园。留意它的升降轨迹。', 'Floating garden ahead. Watch its vertical motion.'],'notice','island');
     }
   }
   if(activeWorld instanceof WorldStreamer && !activeWorld.settings.theme && journey.observe(previousY,flightState,runRules,dt)){
@@ -802,7 +802,7 @@ const startRun = async (): Promise<void> => {
   lastSurfaceHit = queryFlightSurface(activeWorld, flightState.position, SURFACE_QUERY_RANGE);
   lastFrameTime = performance.now();
   mode = 'running';
-  symbiosis.flightReport(1, ['编队已就位。沿前方航线出发。', 'Formation ready. Continue ahead.']);
+  symbiosis.flightReport(1, ['编队已就位。沿前方航线出发。', 'Formation ready. Continue ahead.'],'notice','launch');
   keyboard.setEnabled(!debugInputEnabled);
   audio.start();
   audio.setMuted(muted);

@@ -15,6 +15,7 @@ export interface RadioLine {
   text: string;
   source: RadioSource;
   priority: RadioPriority;
+  event?: string;
 }
 
 export const radioPriority: Readonly<Record<RadioPriority, number>> = { notice: 0, reply: 1, risk: 2 };
@@ -35,8 +36,8 @@ export class RadioDialogue {
 
   public player(text: string): void { this.remember(null, text, 'player', 'reply'); }
 
-  public report(agent: number, text: string, source: 'local' | 'model', kind: RadioPriority, time: number): void {
-    const line = this.remember(agent, text, source, kind);
+  public report(agent: number, text: string, source: 'local' | 'model', kind: RadioPriority, time: number, event?: string): void {
+    const line = this.remember(agent, text, source, kind, event);
     if (!line || this.muted) return;
     if (this.active && radioPriority[kind] > radioPriority[this.active.priority]) this.active = null;
     this.queue.push(line);
@@ -64,10 +65,10 @@ export class RadioDialogue {
 
   public snapshot() { return { active: this.active, history: this.history.slice(), queued: this.queue.length, muted: this.muted }; }
 
-  private remember(agent: number | null, raw: string, source: RadioSource, kind: RadioPriority): RadioLine | null {
+  private remember(agent: number | null, raw: string, source: RadioSource, kind: RadioPriority, event?: string): RadioLine | null {
     const text = radioText(raw, source === 'player' ? 240 : 140);
     if (!text) return null;
-    const line = { id: ++this.serial, agent, text, source, priority: kind };
+    const line = { id: ++this.serial, agent, text, source, priority: kind, event };
     this.history.push(line);
     if (this.history.length > maxHistory) this.history.shift();
     return line;

@@ -67,11 +67,11 @@ export class SymbiosisRuntime {
     if(this.time<(this.cooldowns.get(identity)??-Infinity))return;
     this.cooldowns.set(identity,this.time+cooldown);this.trust=trustEvent(this.trust,event,this.time);
     this.record('trust',this.trust.events.at(-1));
-    if(event==='accepted-lead')this.flightReport(1,['领先航段已确认，继续沿安全间隔飞行。','Corridor is clear. Maintain separation.']);
-    if(event==='regroup-benefit')this.flightReport(1,['队形已收拢，伴机回到你身边。','Formation closed. Wingmates back with you.']);
-    if(event==='lost-coordination')this.flightReport(2,['编队距离拉大，正在重新集合。','Formation spreading. Regrouping now.'],'risk');
-    if(event==='impact')this.flightReport(2,['伴机防护罩接触障碍，正在避开。','Wingmate shield contact. Avoiding.'],'risk');
-    if(event==='relay-success')this.flightReport(2,['地表接力已生效。','Surface Relay active.'],'risk');
+    if(event==='accepted-lead')this.flightReport(1,['领先航段已确认，继续沿安全间隔飞行。','Corridor is clear. Maintain separation.'],'notice','heading');
+    if(event==='regroup-benefit')this.flightReport(1,['队形已收拢，伴机回到你身边。','Formation closed. Wingmates back with you.'],'notice','formation');
+    if(event==='lost-coordination')this.flightReport(2,['编队距离拉大，正在重新集合。','Formation spreading. Regrouping now.'],'risk','risk');
+    if(event==='impact')this.flightReport(2,['伴机防护罩接触障碍，正在避开。','Wingmate shield contact. Avoiding.'],'risk','obstacle');
+    if(event==='relay-success')this.flightReport(2,['地表接力已生效。','Surface Relay active.'],'risk','rescue');
   }
   public perception():Perception|null {
     const c=this.context;if(!c?.active||!this.team.agents.some(a=>a.deployed))return null;
@@ -142,7 +142,7 @@ export class SymbiosisRuntime {
       if(agent===null)return false;
       const applied=!!intent?.plan&&this.accept({decision:intent.plan,usage:{input:0,output:0,total:0,cached:0},latencyMs:0,
         provider:'local',model:'local radio'},perception,'Local Radio');
-      this.radio.report(agent,localRadioReply(message,perception,intent,applied,agent,language),'local','reply',this.time);
+      this.radio.report(agent,localRadioReply(message,perception,intent,applied,agent,language),'local','reply',this.time,applied?'command':undefined);
       this.record('radio-interpretation',{source:'local',intent:intent?.kind??null,requestId:perception.requestId,agent,
         action:applied?this.lastPlan?.orders:null,modelFallback:useModel&&(!!model||this.client.snapshot().connected)});
       if(applied)this.trackRadioOutcome(perception,agent,language);
@@ -152,7 +152,7 @@ export class SymbiosisRuntime {
     }
   }
 
-  public flightReport(agent: number, text: readonly [string, string], kind: RadioPriority = 'notice'): void {
+  public flightReport(agent: number, text: readonly [string, string], kind: RadioPriority = 'notice', event?: string): void {
     const speaker=this.radioAgent(agent);if(speaker===null)return;
     if(kind==='risk'){
       if(this.time<this.nextRisk)return;
@@ -161,7 +161,7 @@ export class SymbiosisRuntime {
       if(this.time<this.nextReport)return;
       this.nextReport=this.time+20;
     }
-    this.radio.report(speaker,text[this.radioLanguage==='en-US'?1:0],'local',kind,this.time);
+    this.radio.report(speaker,text[this.radioLanguage==='en-US'?1:0],'local',kind,this.time,event);
   }
 
   private radioAgent(preferred: number): number | null {
