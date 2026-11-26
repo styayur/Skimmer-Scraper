@@ -1,5 +1,11 @@
 # Skimmer-Scraper
 
+## v0.9.0 development
+
+WorldForge adds a seeded world of rock shelves, suspended islands and traversable vaults. Press Space or LB to arm Surface Glide near a wall, roof or overhang. Pick KITE-W or KITE-S in the hangar. The optional companion radio plays local English clips with bilingual captions. Enable original world-specific music under advanced flight settings.
+
+[Surface Glide](docs/SURFACE-GLIDE.md) · [WorldForge generation](docs/WORLDFORGE.md) · [MZK music](docs/MZK.md)
+
 ## Flight and desktop world library
 
 The Windows x64 client and GitHub Pages share the flight simulation, renderer, city generator, Sky Inversion and local voice systems. Dragonspine adds seed-driven canyons, stone vaults, traversable floating cities and the animated Crownback dragon. Windows can install independent high-detail world packs into its private asset library.

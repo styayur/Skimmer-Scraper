@@ -123,3 +123,5 @@ The native Windows folder picker uses rfd (MIT, https://github.com/PolyMeilex/rf
 The celadon gate GLB and its authoring script in art/world-modules are original Skimmer-Scraper work under AGPL-3.0-only.
 
 World music and its composition scripts are original project works. The music selector is adapted from styayur/mzk under MIT. See [MZK integration](docs/MZK.md) and [MIT notice](licenses/MZK-MIT.txt).
+
+KITE-W, KITE-S and the WorldForge terrain and vault recipes are original project assets under AGPL-3.0-only. Blender source and generation scripts are under art/aircraft and art/world-modules.
