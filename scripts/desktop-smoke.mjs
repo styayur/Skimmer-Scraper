@@ -64,7 +64,7 @@ try {
       app: await (await fetch('./build-info.json')).json(),
       wasm: WebAssembly.validate(new Uint8Array([0, 97, 115, 109, 1, 0, 0, 0])),
       webgpu: !!(await navigator.gpu?.requestAdapter()),
-      voiceCount: speechSynthesis.getVoices().length,
+      localRadio: typeof AudioContext === 'function',
     };
   });
   assert.match(runtime.origin, /^https?:\/\/tauri\.localhost$/);
@@ -75,9 +75,6 @@ try {
   } else if (libraryCheck === 'flight-voice') {
     const { profileVoice } = await import('./profile-flight-voice.mjs');
     await profileVoice(page, output, runtime);
-  } else if (libraryCheck === 'kokoro-cache') {
-    const { checkKokoroCache } = await import('./desktop-kokoro-cache.mjs');
-    await checkKokoroCache(page, output, runtime);
   } else if (libraryCheck === 'gamepad') {
     const { observeGamepad } = await import('./desktop-live-input.mjs');
     await page.locator('#start-button').click();

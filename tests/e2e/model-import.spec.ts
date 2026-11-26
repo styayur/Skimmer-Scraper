@@ -81,7 +81,8 @@ test.describe('phase 3 local GLB aircraft library', () => {
     await expect(page.locator('.model-option[aria-selected="true"]')).toContainText('test-aircraft');
 
     await page.getByRole('button', { name: '移除当前导入' }).click();
-    await expect(page.locator('.model-option')).toHaveCount(1);
+    await expect(page.locator('.model-option')).toHaveCount(3);
+    for (const id of ['procedural','kite-w','kite-s']) await expect(page.locator('[data-model-id=' + id + ']')).toHaveCount(1);
     await expect(page.locator('.model-option[aria-selected="true"]')).toContainText('KITE-07');
     expect((await snapshot(page)).localModelCount).toBe(0);
 
