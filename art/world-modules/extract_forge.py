@@ -42,5 +42,5 @@ recipe = dict(schema=1, prototype=source.name,sha256=hashlib.sha256(raw).hexdige
     ports={n['extras']['skimmerSocket']:n.get('translation',[0,0,0]) for n in doc['nodes'] if 'skimmerSocket' in n.get('extras',{})},
     bounds=[acc['min'],acc['max']], spring=13, radii=profile)
 out=root/'src/world/procedural/forge-profile.json'
-out.write_text(json.dumps(recipe,indent=2)+'\n')
+out.write_text(json.dumps(recipe,indent=2)+'\n', encoding='utf-8', newline='\n')
 

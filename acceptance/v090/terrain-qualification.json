@@ -1,0 +1,204 @@
+{
+  "status": "development hardware verification",
+  "sourceCommit": "a1dfd923bcb0f04bed969362395e8275b5de64b8",
+  "scenes": {
+    "desktop": [
+      {
+        "seed": "amber",
+        "preset": "kite-s",
+        "start": {
+          "x": 121.57164001464844,
+          "y": 32.36574935913086,
+          "z": 28.41091322908668
+        },
+        "end": {
+          "x": 121.57164001464844,
+          "y": 32.36574935913086,
+          "z": 197.2643900567923
+        },
+        "shieldImpactsDuringPass": 0,
+        "route": {
+          "x": 121.57164001464844,
+          "y": 32.36574935913086,
+          "z": 21.810394287109375,
+          "chunk": "0:0",
+          "opening": 101.6029052734375
+        }
+      },
+      {
+        "seed": "quartz",
+        "preset": "kite-s",
+        "start": {
+          "x": -115.35075187683105,
+          "y": 37.10236358642578,
+          "z": -192.18900458953033
+        },
+        "end": {
+          "x": -115.35075187683105,
+          "y": 37.10236358642578,
+          "z": -13.984282298976511
+        },
+        "shieldImpactsDuringPass": 0,
+        "route": {
+          "x": -115.35075187683105,
+          "y": 37.10236358642578,
+          "z": -192.7390594482422,
+          "chunk": "-1:-1",
+          "opening": 113.75237655639648
+        }
+      }
+    ],
+    "web": [
+      {
+        "seed": "amber",
+        "preset": "kite-s",
+        "start": {
+          "x": 121.57164001464844,
+          "y": 32.36574935913086,
+          "z": 22.360578557684484
+        },
+        "end": {
+          "x": 121.57164001464844,
+          "y": 32.36574935913086,
+          "z": 200.57644074559838
+        },
+        "shieldImpactsDuringPass": 0,
+        "route": {
+          "x": 121.57164001464844,
+          "y": 32.36574935913086,
+          "z": 21.810394287109375,
+          "chunk": "0:0",
+          "opening": 101.6029052734375
+        }
+      },
+      {
+        "seed": "quartz",
+        "preset": "kite-s",
+        "start": {
+          "x": -115.35075187683105,
+          "y": 37.10236358642578,
+          "z": -192.7390594482422
+        },
+        "end": {
+          "x": -115.35075187683105,
+          "y": 37.10236358642578,
+          "z": -14.535839956839382
+        },
+        "shieldImpactsDuringPass": 0,
+        "route": {
+          "x": -115.35075187683105,
+          "y": 37.10236358642578,
+          "z": -192.7390594482422,
+          "chunk": "-1:-1",
+          "opening": 113.75237655639648
+        }
+      }
+    ]
+  },
+  "scoreRetention": {
+    "desktop": {
+      "skimmer-scraper.best.v2:stable:sakura:gen2:334458:surface-glide": "0.9249999999999992",
+      "skimmer-scraper.best.v2:stable:sakura:gen2:334458": "37.25"
+    },
+    "web": {
+      "skimmer-scraper.best.v2:stable:sakura:gen2:334458:surface-glide": "0.8833333333333326",
+      "skimmer-scraper.best.v2:stable:sakura:gen2:334458": "37.25"
+    }
+  },
+  "audio": {
+    "desktop": {
+      "mix": {
+        "frames": 485,
+        "spokenFrames": 0,
+        "clips": [],
+        "min": null,
+        "restored": null
+      },
+      "issues": [],
+      "neuralRequests": [],
+      "error": "AssertionError [ERR_ASSERTION]: Actual speech ducking and volume recovery"
+    },
+    "web": {
+      "mix": {
+        "frames": 561,
+        "spokenFrames": 444,
+        "clips": [
+          "1-launch",
+          "2-obstacle"
+        ],
+        "min": 0.08750006673714136,
+        "restored": 0.3068734175859951
+      },
+      "issues": [],
+      "neuralRequests": [],
+      "endpointVerified": true,
+      "previews": [
+        {
+          "agent": 1,
+          "peak": 0.3902992010116577
+        },
+        {
+          "agent": 2,
+          "peak": 0.46635907888412476
+        },
+        {
+          "agent": 3,
+          "peak": 0.3042869567871094
+        }
+      ],
+      "musicPeak": 0.2761210799217224,
+      "musicPcmPeak": 0.26744627952575684,
+      "localFilePlayed": true,
+      "unavailableSourceStatus": "音源不可用，可选择本地音乐。"
+    }
+  },
+  "subpath": {
+    "sourceCommit": "a1dfd923bcb0f04bed969362395e8275b5de64b8",
+    "method": "Static ZIP mounted at a project subpath on localhost; bytes compared over HTTP.",
+    "projectPath": "/Skimmer-Scraper/",
+    "files": {
+      "favicon.svg": "de2e3ebff5ce6d0eb77cdbb141d4e7df910236c9aba904a11ad5bf79379dcb2c",
+      "assets/index-BfYBmMvS.js": "4f97772aca9727b4ca90cf444dff35a2f23917b89924659b670f303b214a080c",
+      "assets/index-CRsSw1ta.css": "cf7ae46e01fbf36073572f5599467019bc50e53034f467a2a0953529cb647935",
+      "build-info.json": "b1bcde47452b3eae2f5ce3bf46dfba2cb483f4470275959bc610d38bd791a561",
+      "aircraft/kite-w.glb": "1efb48d996054eb7b3ae60241de948d586cece59745df903a3001ee355a56547",
+      "aircraft/kite-s.glb": "84d92789d556ded9c9471491b73aeb210be11b7048b6bf2cb92207e021133ef7",
+      "world-modules/celadon-court.glb": "beee1f74c06a1caebd71e993c547b6ceb3057cea1b3a0035311e8431a3c26d88",
+      "radio/en-US/1-preview.opus": "72059c36c01f0b96dac05ab6c644cb944ffe9f6229560ef1b53c8bea9665da10",
+      "radio/en-US/2-preview.opus": "ec3f920612a750e6291aa8b7cf2d8804e283c1f499326c50fa55bab8eeb123c2",
+      "radio/en-US/3-preview.opus": "e382dc7f784013065d9c5886592aac59580946ad16908b31691dfbba7f38caa9",
+      "music/forge-0.opus": "3a0bb0def009ec8c6aa4d01b186c5fb77a188d89c54aa258362c78a42da7f414",
+      "licenses/MZK-MIT.txt": "ee4a749db280a4e552f2a7f13cce158a5509d30f3b9b52c1d837e65a428df9c1",
+      "licenses/CMU-ARCTIC-SLT.txt": "1e5dfb0add8d7d6d1defaeebb8d12005f2a4442febe514121a4c238758889bba"
+    }
+  },
+  "build": {
+    "sha": "a1dfd923bcb0f04bed969362395e8275b5de64b8",
+    "version": "0.9.0",
+    "installer": "Skimmer-Scraper_0.9.0_a1dfd92_x64-setup.exe",
+    "installerSha256": "07BA36FD89FA65BE1EF1F1C98C61E3D419B241A98B79B3B4B63AAD17C55CD4A2",
+    "installedExecutableSha256": "63BC3B41A4DAA33C42E7E742855AD24D6DD29FEF80281EC727BAC7C13F5659D0",
+    "signing": "NotSigned",
+    "installExit": 0,
+    "priorUninstallExit": 0,
+    "priorSource": "8109e2ac5e6e9342f74f2f6aaa7bcf9cf30bafb9"
+  },
+  "tests": {
+    "vitest": 222,
+    "rust": {
+      "passed": 5,
+      "ignoredByDefault": 2,
+      "releasedV082ArchiveReinstallAndCancelTest": "passed separately in a temporary library"
+    }
+  },
+  "images": {
+    "wallSeamVaultAndUnderside": {
+      "path": "evidence/v0.9/surface-glide-comparison.jpg",
+      "sourceCommit": "8109e2ac5e6e9342f74f2f6aaa7bcf9cf30bafb9"
+    },
+    "worldforgeCameraViews": {
+      "path": "evidence/v0.9/worldforge-vaults.jpg",
+      "sourceCommit": "a1dfd923bcb0f04bed969362395e8275b5de64b8"
+    }
+  }
+}

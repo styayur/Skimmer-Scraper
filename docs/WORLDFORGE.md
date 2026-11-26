@@ -10,9 +10,7 @@ From the repository root run the following commands.
 
 ```sh
 npm ci
-python art/world-modules/build_celadon_gate.py
-python art/world-modules/extract_forge.py
-node scripts/export-worldforge.mjs amber ./forge-export 2
+npm run worldforge:export -- amber ./forge-export 2
 ```
 
 Radius 2 exports 25 near tiles. The directory contains the baked GLB, the matching prototype and recipe sources, and a manifest with per-tile fingerprints, triangle count and SHA-256. The comparison includes the same positions, vertex colours and normals as the near renderer. The engine and its existing dependencies are shared overhead.
