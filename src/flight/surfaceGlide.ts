@@ -26,28 +26,36 @@ const vector = (v: Vec3) => new Vector3(v.x, v.y, v.z);
 const clearance = 6;
 export const glideRange = 11;
 
+function releaseSurface(state: GlideState, previous: FlightState, free: FlightState, dt: number) {
+  const time = state.time + dt;
+  const last = previous.attitude, next = free.attitude;
+  const angles = new Euler(last.pitch, last.yaw, last.roll, 'YXZ');
+  const current = new Quaternion().setFromEuler(angles);
+  const target = new Quaternion().setFromEuler(new Euler(next.pitch, next.yaw, next.roll, 'YXZ'));
+  current.rotateTowards(target, 3.1 * dt);
+  angles.setFromQuaternion(current, 'YXZ');
+
+  // Keep momentum inherited from a moving surface while free flight takes over.
+  const velocity = vector(previous.velocity);
+  const difference = new Vector3(0, 0, -free.speed).applyQuaternion(current).sub(velocity);
+  const aligned = difference.length() <= 110 * dt;
+  velocity.add(difference.clampLength(0, 110 * dt));
+  const released = time >= 0.25 && aligned && current.angleTo(target) <= 0.01;
+  return {
+    state: released ? freeGlide() : { ...state, time },
+    flight: { ...free, velocity, position: vector(previous.position).addScaledVector(velocity, dt),
+      attitude: { pitch: angles.x, yaw: angles.y, roll: angles.z } },
+  };
+}
+
 /** Resolve motion against a pilot-facing triangle frame in absolute world space. */
 export function stepGlide(state: GlideState, previous: FlightState, free: FlightState,
   hit: SurfaceQuery | null, dt: number): { state: GlideState; flight: FlightState } {
-  if (!needsGlideContact(state)) {
-    if (state.phase === 'FLIGHT') return { state, flight: free };
-    const time = state.time + dt;
-    const last = previous.attitude, next = free.attitude;
-    const angles = new Euler(last.pitch, last.yaw, last.roll, 'YXZ');
-    const current = new Quaternion().setFromEuler(angles);
-    const target = new Quaternion().setFromEuler(new Euler(next.pitch, next.yaw, next.roll, 'YXZ'));
-    current.rotateTowards(target, 3.1 * dt);
-    angles.setFromQuaternion(current, 'YXZ');
-    const velocity = new Vector3(0, 0, -free.speed).applyQuaternion(current);
-    return {
-      state: time < 0.25 || current.angleTo(target) > 0.01 ? { ...state, time } : freeGlide(),
-      flight: { ...free, velocity, position: vector(previous.position).addScaledVector(velocity, dt),
-        attitude: { pitch: angles.x, yaw: angles.y, roll: angles.z } },
-    };
-  }
-  const waiting = state.phase === 'ARMED';
-  const fallback: GlideState = waiting ? state : { phase: 'RECOVERY', time: 0 };
-  if (!hit?.contact || hit.distance > glideRange || hit.distance < 3.3) return { state: fallback, flight: free };
+  if (state.phase === 'FLIGHT') return { state, flight: free };
+  if (!needsGlideContact(state)) return releaseSurface(state, previous, free, dt);
+  const loseContact = () => state.phase === 'ARMED' ? { state, flight: free } :
+    releaseSurface({ phase: 'RECOVERY', time: 0 }, previous, free, dt);
+  if (!hit?.contact || hit.distance > glideRange || hit.distance < 3.3) return loseContact();
 
   const normal = vector(hit.contact.normal).normalize();
   const offset = vector(previous.position).sub(vector(hit.point));
@@ -63,7 +71,7 @@ export function stepGlide(state: GlideState, previous: FlightState, free: Flight
     stoppingDistance > hit.distance - 3.3 ||
     (state.normal && vector(state.normal).dot(normal) < 0.84) ||
     (state.surfaceId === hit.surfaceId && state.geometryId !== hit.contact.geometryId)) {
-    return { state: fallback, flight: free };
+    return loseContact();
   }
 
   const turn = clamp(free.control.roll + free.control.yaw, -1, 1) * 1.25 * dt;

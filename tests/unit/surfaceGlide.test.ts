@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { Euler, Vector3 } from 'three';
+import { Euler, Quaternion, Vector3 } from 'three';
 import { createFlightState, FLIGHT, NEUTRAL_INPUT, stepFlight } from '../../src/flight/flightModel';
 import { freeGlide, stepGlide, toggleGlide } from '../../src/flight/surfaceGlide';
 import { defaultScoreContext, bestStorageKey } from '../../src/game/storage';
@@ -27,6 +27,20 @@ describe('surface glide', () => {
     expect(up.dot(normal)).toBeCloseTo(1);
     expect(toggleGlide(state).phase).toBe('DETACHING');
     expect(stepGlide(state, flight, flight, null, FLIGHT.fixedDt).state.phase).toBe('RECOVERY');
+  });
+
+  it('preserves inverted attitude and moving-surface momentum on the first tick after contact loss', () => {
+    const flight = createFlightState({ position: { x: 0, y: 80, z: 0 }, yaw: 0 });
+    flight.attitude.roll = Math.PI;
+    flight.velocity.x = 18;
+    const dt = FLIGHT.fixedDt;
+    const free = stepFlight(flight, NEUTRAL_INPUT, dt);
+    const result = stepGlide({ phase: 'GLIDING', time: 1 }, flight, free, null, dt);
+    const orientation = (attitude: typeof flight.attitude) => new Quaternion().setFromEuler(
+      new Euler(attitude.pitch, attitude.yaw, attitude.roll, 'YXZ'));
+    expect(result.state.phase).toBe('RECOVERY');
+    expect(orientation(result.flight.attitude).angleTo(orientation(flight.attitude))).toBeLessThanOrEqual(3.1 * dt + 1e-8);
+    expect(new Vector3().copy(result.flight.velocity).distanceTo(flight.velocity)).toBeLessThanOrEqual(110 * dt + 1e-8);
   });
 
   it('preserves flight outside capture range and separates assisted scores', () => {
