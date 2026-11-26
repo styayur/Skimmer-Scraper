@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import { spawn } from 'node:child_process';
+import { createHash } from 'node:crypto';
 import { once } from 'node:events';
 import { mkdir, mkdtemp, readFile, stat, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
@@ -105,6 +106,7 @@ try {
       page,
       path.join(output, 'desktop-matrix.json'),
       process.argv[5],
+      process.argv[6] === 'city-comparison',
     );
   } else if (libraryCheck === 'compat') {
     const { checkCompatibility } = await import('./desktop-compat.mjs');
@@ -202,6 +204,7 @@ try {
         {
           runtime,
           flight,
+          executableSha256: createHash('sha256').update(await readFile(executable)).digest('hex'),
           escapePause: true,
           fullscreenRoundTrip: true,
           errors,

@@ -2,6 +2,8 @@ import { expect, test } from '@playwright/test';
 
 for (const id of ['kite-w','kite-s']) {
   test(id + ' loads from the built-in hangar, flies and restores on reload', async ({page}, info) => {
+    // The software-rendered CI run initializes WebGL twice and captures a flight frame.
+    test.setTimeout(120_000);
     const errors: string[] = [];
     page.on('pageerror', error => errors.push(error.message));
     await page.goto('/?seed=334458');

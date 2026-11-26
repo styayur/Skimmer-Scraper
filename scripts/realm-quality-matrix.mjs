@@ -96,10 +96,15 @@ export async function qualityMatrix(
         }
       }
     }
-    for (const {theme, quality, count, voice, music} of scenarios) {
+    if (expanded) {
+      for (const glide of [false, true]) {
+        scenarios.push({theme:'city', quality:'balanced', count:0, voice:false, music:false, glide});
+      }
+    }
+    for (const {theme, quality, count, voice, music, glide} of scenarios) {
           const url = new URL(base);
           url.searchParams.set('seed', '334458');
-          url.searchParams.set('gen', '4');
+          url.searchParams.set('gen', glide === undefined ? '4' : '2');
           if (theme !== 'city') url.searchParams.set('theme', theme);
           await page.evaluate(({count, voice}) => {
             localStorage.setItem('skimmer-scraper.voice.v1', JSON.stringify({output: voice ? 'local' : 'off'}));
@@ -122,17 +127,20 @@ export async function qualityMatrix(
           await page.waitForFunction(
             () => window.__SKIMMER_SCRAPER__.snapshot().runTime > 1,
           );
-          await page.evaluate(async ({theme, expandedRoute}) => {
+          await page.evaluate(async ({theme, expandedRoute, compareGlide}) => {
             const g = window.__SKIMMER_SCRAPER__;
             g.pause();
             await g.setPose(
-              theme === 'worldforge' ? {x:0,y:132,z:120} : theme === 'dragonspine' && expandedRoute ? {x:420,y:555,z:-940} : theme === 'dragon' ? {x:-100,y:290,z:-440} : {x:340,y:410,z:125},
+              compareGlide ? {x:6,y:6,z:34} : theme === 'worldforge' ? {x:0,y:132,z:120} : theme === 'dragonspine' && expandedRoute ? {x:420,y:555,z:-940} : theme === 'dragon' ? {x:-100,y:290,z:-440} : {x:340,y:410,z:125},
               { yaw: 0, pitch: 0, roll: 0 },
             );
             g.resume();
-          },{theme, expandedRoute: expanded && device.native});
-          await page.keyboard.down('Shift');
-          if (theme !== 'worldforge') await page.keyboard.down('q');
+          },{theme, expandedRoute: expanded && device.native, compareGlide:glide !== undefined});
+          if (glide) await page.keyboard.press('Space');
+          if (glide === undefined) {
+            await page.keyboard.down('Shift');
+            if (theme !== 'worldforge') await page.keyboard.down('q');
+          }
           if (theme === realm)
             await page.waitForFunction(
               (native) => {
@@ -158,7 +166,7 @@ export async function qualityMatrix(
               frames.push(now - previous);
               if(now-origin>=nextSample){
                 const s=g.snapshot();
-                samples.push({ms:now-origin,position:s.position,buffering:s.buffering,heap:performance.memory?.usedJSHeapSize??null,
+                samples.push({ms:now-origin,position:s.position,glidePhase:s.glide?.phase,buffering:s.buffering,heap:performance.memory?.usedJSHeapSize??null,
                   streaming:s.streaming,entities:s.dynamicStructures.length,gpu:s.render.gpuMs,geometries:s.render.geometries,textures:s.render.textures});
                 nextSample+=1000;
               }
@@ -185,6 +193,7 @@ export async function qualityMatrix(
               p99Ms: p(0.99),
               worstMs: p(1),
               elapsedSimulation: end.runTime - start.runTime,
+              shieldImpacts: end.shieldImpacts - start.shieldImpacts,
               mode: end.mode,
               companions: end.companions.filter((w) => w.deployed).length,
               detail: end.streaming.realmDetail,
@@ -200,8 +209,13 @@ export async function qualityMatrix(
           assert.equal(result.companions, count);
           assert.ok(result.elapsedSimulation > 0);
           assert.equal(!!result.detail, theme === realm);
-          rows.push({ theme, quality, count, voice, music, rendererTaskMsPerFrame, ...result });
+          rows.push({ theme, quality, count, voice, music, glide, rendererTaskMsPerFrame, ...result });
           await report();
+          if (glide !== undefined) {
+            assert.equal(result.shieldImpacts, 0);
+            const phase = glide ? 'GLIDING' : 'FLIGHT';
+            assert(result.samples.slice(1).every(s => s.glidePhase === phase), 'Matched ground flight lost its intended state');
+          }
           console.log(theme, quality, count, result.averageFps.toFixed(1));
         }
   } finally {

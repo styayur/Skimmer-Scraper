@@ -44,6 +44,8 @@ paths += [
 ]
 if git('ls-files', 'src-tauri'):
     paths.extend(['src-tauri', 'evidence/v0.8'])
+if git('ls-files', 'evidence/v0.9'):
+    paths.append('evidence/v0.9')
 if git('ls-files', 'automation'):
     paths.append('automation')
 subprocess.run(['git', '-c', 'core.autocrlf=false', 'archive', '--format=zip', '-o', str(source),
