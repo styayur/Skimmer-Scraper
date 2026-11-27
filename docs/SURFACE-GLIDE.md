@@ -29,6 +29,8 @@ Prediction uses surface-relative velocity and adds the surface velocity back to 
 
 Stable flight retains the 110 m/s² normal and 55 m/s² tangential speed corrections. Quaternion aiming is limited to 4.2 rad/s. Coplanar seams use contact displacement and normal continuity. For a convex transfer, probes on both sides must resolve the two incident faces at the edge, and the entire braking, turning and rooftop path must clear collision. Complex concave corners and unsupported edges can end a glide. Decorative meshes, the sky mirror and the animated dragon provide no glide support.
 
+Further work on continuous turns through complex concave geometry tracks swept-clearance fixtures for intersecting and non-manifold faces. [Issue #76](https://github.com/styayur/Skimmer-Scraper/issues/76)
+
 ## Scores
 
 The first applied redirect tick locks the run to **Surface Glide Assisted**, even if the pilot cancels before attachment or the shield absorbs an impact on that tick. Direct attachment also locks the category. Arming and disarming in open air leaves the run in its starting category. The latch lasts until the next run and uses the existing local score keys for historical unassisted and assisted bests.
@@ -74,4 +76,6 @@ npx playwright test tests/e2e/surface-glide-tower.spec.ts --workers=1 --output=a
 The scenario imports a generated local GLB through the world library, sets a manual head-on spawn, and verifies the tower face against the active collision geometry. Playwright presses Space to arm and again to launch. The browser clock advances in 32 ms increments while the normal render loop drives the 120 Hz simulation. Assertions cover redirect-time score classification, upward velocity, clearance, momentum at release, camera selection and zero shield impacts through free flight.
 
 The per-test output folder contains `wall-climb.png` and `surface-glide-trace.json`. The JSON includes the fixture manifest, verified face, simulated times, phases, position, velocity, attitude, clearance, camera mode, assisted status and impact count. The scenario attaches both files to the Playwright report.
+
+In the recorded Chromium run, the first sampled redirect at 0.70 s had already locked Assisted. At release the aircraft was climbing at 65.77 m/s, 6.00 m from the wall. It returned to free flight at 86.16 m altitude with zero shield impacts. The screenshot shows the chase view immediately before release. [Screenshot](../acceptance/v091/surface-glide-tower/wall-climb.png) · [State trace](../acceptance/v091/surface-glide-tower/surface-glide-trace.json) · [Build, hashes and run provenance](../acceptance/v091/surface-glide-tower/provenance.json)
 

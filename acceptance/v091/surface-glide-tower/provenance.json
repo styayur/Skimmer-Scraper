@@ -1,0 +1,101 @@
+{
+  "test": "tests/e2e/surface-glide-tower.spec.ts",
+  "result": "passed",
+  "sourceRun": "v091-delivery/focused-results/surface-glide-tower-Space--1e1e1-imported-tower-and-launches-chromium",
+  "runner": {
+    "project": "chromium",
+    "workers": 1,
+    "rendererConfiguration": "--use-angle=swiftshader",
+    "log": "v091-delivery/focused-e2e.log",
+    "caseLogLine": "ok 7 [chromium] › tests\\e2e\\surface-glide-tower.spec.ts:5:1 › Space redirects a head-on approach, climbs the imported tower and launches (1.3m)",
+    "suitePassed": 6,
+    "suiteFailed": 1,
+    "failedCase": "radio-dialogue.spec.ts delayed character clip"
+  },
+  "build": {
+    "log": "v091-delivery/focused-build.log",
+    "version": "0.9.1",
+    "baseCommit": "d4bc6540f629cf04779ae8530b12bf070e145ab7",
+    "dirty": true,
+    "bundle": "dist/assets/index-DhS_nUSL.js",
+    "bundleSha256": "e90d48a9acb8ab54adcf2847cd3a5874b52c38a669150eab1a3927c6fdd31d53"
+  },
+  "artifacts": [
+    {
+      "name": "wall-climb.png",
+      "bytes": 447048,
+      "sha256": "60df486f818b82c5219223f45ea487a3ff7556d0f358504796ef41492e56e799",
+      "sourceModifiedUtc": "2026-11-27T05:10:21.5318787Z"
+    },
+    {
+      "name": "surface-glide-trace.json",
+      "bytes": 42458,
+      "sha256": "0e0cfc7b5b2c97b326618ab2c80fb253bdae31b426e87c491b6b327d2582370a",
+      "sourceModifiedUtc": "2026-11-27T05:10:21.9436996Z"
+    }
+  ],
+  "observation": {
+    "sampleCount": 74,
+    "fixedHz": 120,
+    "sampleIntervalMs": 32,
+    "seed": 334458,
+    "fixture": "glide-tower",
+    "verifiedFaceNormal": {
+      "x": 0,
+      "y": 0,
+      "z": 1
+    },
+    "phaseSamples": [
+      {
+        "phase": "FLIGHT",
+        "seconds": 0,
+        "altitudeM": 32,
+        "climbMps": 0,
+        "assisted": false
+      },
+      {
+        "phase": "ARMED",
+        "seconds": 0,
+        "altitudeM": 32,
+        "climbMps": 0,
+        "assisted": false
+      },
+      {
+        "phase": "REDIRECT",
+        "seconds": 0.7,
+        "altitudeM": 32.00226551750458,
+        "climbMps": 0.2027790555668613,
+        "assisted": true
+      },
+      {
+        "phase": "GLIDING",
+        "seconds": 1.7249999999999963,
+        "altitudeM": 67.84622472270622,
+        "climbMps": 65.77432960850649,
+        "assisted": true
+      },
+      {
+        "phase": "DETACHING",
+        "seconds": 1.7249999999999963,
+        "altitudeM": 67.84622472270622,
+        "climbMps": 65.77432960850649,
+        "assisted": true
+      },
+      {
+        "phase": "FLIGHT",
+        "seconds": 2.008333333333329,
+        "altitudeM": 86.15873804371675,
+        "climbMps": 63.684704523004434,
+        "assisted": true
+      }
+    ],
+    "minSampledClearanceM": 6.0,
+    "maxShieldImpacts": 0.0,
+    "pageErrors": [],
+    "finalAltitudeM": 102.42467899091507,
+    "cameras": [
+      "chase"
+    ],
+    "screenshotInspection": "1280 by 720 chase view. The aircraft is centered along the teal tower face. The HUD reads 66 m/s and 68 m. The featureless face gives few vertical cues. Its orientation and the climb direction are established by the collision query and velocity trace."
+  }
+}

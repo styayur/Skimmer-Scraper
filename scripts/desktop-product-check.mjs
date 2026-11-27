@@ -6,6 +6,7 @@ export async function checkDesktopProduct(page, output, runtime) {
   const report = { runtime };
   const save = () => writeFile(path.join(output, 'desktop-product.json'), JSON.stringify(report, null, 2));
   await page.locator('#start-button').click();
+  await page.waitForFunction(() => window.__SKIMMER_SCRAPER__?.snapshot().mode === 'running');
   await page.keyboard.press('f');
   await page.locator('#advanced-flight-settings > summary').click();
   const panel = page.locator('#desktop-settings');
@@ -51,7 +52,13 @@ export async function checkDesktopProduct(page, output, runtime) {
     await save();
     assert.equal(report.scoreAfterReinstall, '123.25');
   }
-  await page.evaluate(key => localStorage.setItem(key, '123.25'), score);
+  const scores = {
+    [score]: '123.25',
+    [score + ':challenge:grace5:assisted:surface-glide']: '87.5',
+  };
+  await page.evaluate(values => {
+    for (const [key, value] of Object.entries(values)) localStorage.setItem(key, value);
+  }, scores);
   const download = page.waitForEvent('download', { timeout: 15000 });
   await panel.locator('[data-save-export]').click();
   const file = await download;
@@ -61,10 +68,16 @@ export async function checkDesktopProduct(page, output, runtime) {
   for await (const chunk of stream) chunks.push(chunk);
   const backup = Buffer.concat(chunks);
   const parsed = JSON.parse(backup);
-  assert.equal(parsed.records[score], '123.25');
-  await page.evaluate(key => localStorage.removeItem(key), score);
+  assert.equal(parsed.format, 'skimmer-pilot');
+  assert.equal(parsed.schema, 1);
+  for (const [key, value] of Object.entries(scores)) assert.equal(parsed.records[key], value);
+  await page.evaluate(keys => keys.forEach(key => localStorage.removeItem(key)), Object.keys(scores));
+  const reload = page.waitForEvent('domcontentloaded');
   await panel.locator('input[type=file]').setInputFiles({ name: 'skimmer-pilot.json', mimeType: 'application/json', buffer: backup });
-  await page.waitForFunction(key => localStorage.getItem(key) === '123.25', score);
+  await reload;
+  await page.waitForFunction(values => window.__SKIMMER_SCRAPER__?.snapshot().ready &&
+    Object.entries(values).every(([key,value]) => localStorage.getItem(key) === value), scores);
+  report.scoreClassesRestored = ['solo', 'assisted-surface-glide'];
   report.saveRestored = true;
   await save();
 }

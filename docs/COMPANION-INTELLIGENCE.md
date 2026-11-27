@@ -37,7 +37,9 @@ Legacy single-plan responses and short `FOLLOW`, `LEAD`, `REGROUP`, `SCOUT`, `PR
 }
 ```
 
-Validation is atomic. The exact schema permits up to three missions and three dialogue lines. Each line has an active `agentId` and at most 140 characters of `text`. Each active agent can appear once. Each Relay requires one eligible surface partner. A spatial mission must reference a target in the original bounded perception with the required capability. Local checks revalidate current coverage, range and route clearance. The response expires after 12 simulation seconds. Accepted missions have independent deadlines of 2–120 seconds and non-stationary phases time out after 35 seconds. An explicit wait accepts 1–30 whole seconds, shorter than its deadline.
+Validation is atomic. The exact schema permits up to three missions and three dialogue lines. Each line has a deployed `agentId` and one speech act from `greeting`, `identity`, `background`, `motivation`, `recall`, `flight`, `observations` or `mission`. The v1 radio envelope uses the same acts. Both protocols still accept the older bounded `text` field and discard its contents during decoding. The pilot’s explicit topic takes precedence over the suggested act. The radio, subtitles, speech and conversational memory receive locally written lines. Flight readings and visible target classes are sampled when the reply arrives. Mission progress comes from the addressed aircraft’s executive record in the current world.
+
+Each active agent can appear once per assignment batch. Each Relay requires one eligible surface partner. A spatial mission must reference a target in the original bounded perception with the required capability. Local checks revalidate current coverage, range and route clearance. The response expires after 12 simulation seconds. Accepted missions have independent deadlines of 2–120 seconds and non-stationary phases time out after 35 seconds. An explicit wait accepts 1–30 whole seconds, shorter than its deadline.
 
 ## Perception and memory
 
@@ -50,6 +52,8 @@ A perception contains up to three candidate routes, three measured partner surfa
 | KITE-3 | An explorer of unfamiliar landforms. Sweeps a wider arc in clear air and defaults to inspection or patrol. |
 
 The session retains ten dialogue turns, twenty-four episodic records and current working state. Ask about a wingmate’s background or request its last reply offline. The radio panel has a separate bounded display history. Model requests include only previous turns entered with model use enabled and a connected provider, with oldest turns dropped to fit the byte limit. Prior epochs are identified as historical. A restart clears session memory. Diagnostics record validated orders and outcomes without storing raw provider replies in the decision trace.
+
+Authored GLB semantic metadata and optional cross-session memory are deferred until label validation and player-controlled persistence have defined contracts. [Issue #77](https://github.com/styayur/Skimmer-Scraper/issues/77)
 
 ## Budgets and radio integration
 
