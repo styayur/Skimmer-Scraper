@@ -303,6 +303,18 @@ describe('finite-mesh surface manoeuvres', () => {
     expect(flight.position.y).toBeGreaterThan(run.flight.position.y + 35);
   });
 
+  it('escapes an obstacle-only dynamic mesh without attaching to it', () => {
+    const world = new Fixture();
+    world.dynamic.add('obstacle', 'gate', new BoxGeometry(8, 8, 1), new Matrix4(), false);
+    const ctx = context(world);
+    delete ctx.acceleration;
+    const run = replay(world, incoming(76, 27), ctx, 60, 1.8);
+    expect(run.phases).toContain('ESCAPE');
+    expect(run.phases).not.toContain('GLIDING');
+    expect(run.impacted).toBe(false);
+    world.dynamic.dispose();
+  });
+
   it('searches a side wall beyond glideRange and cancels or expires an unused window', () => {
     const wall = new Fixture();
     wall.box('side wall', point(1, 200, 400), point(0, 0, 0));
@@ -348,6 +360,44 @@ describe('finite-mesh surface manoeuvres', () => {
     }
     const output = process.env.SKIMMER_GEOMETRY_REPORT;
     if (output) writeFileSync(output, JSON.stringify(rows, null, 2) + '\n');
+  });
+
+  it('compares the shipping two-level controller with a fixed 260 cap at late trigger distances', () => {
+    const rows = [];
+    for (const mode of ['fixed-260', 'shipping']) {
+      for (const speed of [48, 76, 102]) for (const z of [4, 10, 14, 22, 35]) {
+        const world = wallWorld(), ctx = context(world);
+        if (mode === 'shipping') delete ctx.acceleration;
+        const run = replay(world, incoming(speed, z), ctx, 60, 2.5);
+        if (run.impacted) expect(run.assisted).toBe(false);
+        else expect(run.minDistance).toBeGreaterThan(COLLISION_RADIUS);
+        rows.push({mode, speed, z, phases:run.phases, impacted:run.impacted, assisted:run.assisted,
+          clearance:run.minDistance, peakAcceleration:run.maxAcceleration, speedRetention:run.speedRetention});
+      }
+    }
+    const successes = rows.filter(row => !row.impacted);
+    expect(successes.filter(row => row.mode === 'shipping').length)
+      .toBeGreaterThan(successes.filter(row => row.mode === 'fixed-260').length);
+    const output = process.env.SKIMMER_LATE_REPORT;
+    if (output) writeFileSync(output, JSON.stringify(rows, null, 2) + '\n');
+  });
+
+  it('crosses a short seam and releases before free space can be treated as a continuous wall', () => {
+    const makeLane = (gap: number) => {
+      const world = new Fixture();
+      world.box('first slab', point(70, 1, 50), point(0, -0.5, 25));
+      world.box('second slab', point(70, 1, 160), point(0, -0.5, -80 - gap));
+      for (const x of [-12, 12]) world.box('canyon side ' + x, point(1, 55, 220), point(x, 24, -30));
+      return world;
+    };
+    const flight = createFlightState({position:point(0,6,24),yaw:0,speed:60});
+    for (const gap of [1, 18]) {
+      const world = makeLane(gap);
+      const run = replay(world, flight, context(world), 60, 1.6);
+      expect(run.impacted).toBe(false);
+      expect(run.phases.includes('RECOVERY')).toBe(gap === 18);
+      expect(run.state.phase).toBe(gap === 1 ? 'GLIDING' : 'FLIGHT');
+    }
   });
 
   it('keeps contact over gently changing finite triangle normals', () => {

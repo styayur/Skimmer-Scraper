@@ -157,7 +157,7 @@ export function stepGlide(state: GlideState, previous: FlightState, free: Flight
   const loseContact = () => {
     if (state.phase === 'ARMED') {
       const trajectory = mayPlan && ctx && planMagnetic(previous, ctx);
-      if (trajectory && ctx) return followPlan({ phase: trajectory.escape ? 'ESCAPE' : 'REDIRECT', time: 0,
+      if (trajectory && ctx) return followPlan({ phase: 'REDIRECT', time: 0,
         deadline, trajectory }, previous, free, dt, ctx);
       return { state: free.elapsed + 1e-8 >= deadline ? freeGlide() :
         { ...state, deadline, riskChecked, nextPlan, time: state.time + dt }, flight: free };

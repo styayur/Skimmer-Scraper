@@ -719,8 +719,7 @@ const simulateFixedStep = timedFlightFunction('fixedStep', (dt: number, holdPosi
 
   setBuffering(false);
   neededCoverage = null;
-  if (!holdPosition && !usedGlide && (glideChangedMotion(free, candidate.flight) ||
-      candidate.state.phase === 'GLIDING' || candidate.state.phase === 'ATTACHING')) {
+  if (!holdPosition && !usedGlide && glideChangedMotion(free, candidate.flight)) {
     usedGlide = true;
     best = loadBest(runScoreContext());
     ui.setBest(best);

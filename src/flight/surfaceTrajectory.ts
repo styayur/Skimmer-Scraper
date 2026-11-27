@@ -196,7 +196,7 @@ export function planEscape(flight: FlightState, ctx: GlideContext) {
   const limit = ctx.acceleration ?? glideTuning.emergencyAcceleration;
   for (const look of [0.10, 0.20, 0.32]) {
     const probe = position.clone().addScaledVector(velocity, look);
-    const hit = ctx.world.queryGlideAhead?.(probe, speed * 0.16 + ctx.bodyRadius, look);
+    const hit = ctx.world.queryGlideAhead?.(probe, speed * 0.16 + ctx.bodyRadius, look, true);
     if (!hasFrame(hit)) continue;
     const n = vec(hit.contact.normal);
     if (heading.dot(n) > -0.24 || position.clone().sub(hit.point).dot(n) <= ctx.bodyRadius) continue;
