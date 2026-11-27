@@ -221,7 +221,11 @@ export function stepGlide(state: GlideState, previous: FlightState, free: Flight
       const radius = chord.length() / (2 * Math.sin(angle / 2));
       const safeSpeedSq = glideTuning.followingAcceleration * 0.65 * radius;
       speedLimit = Math.min(speedLimit, Math.sqrt(safeSpeedSq + 2 * 90 * Math.max(0, travel - tangentSpeed * 0.12)));
-      if (seconds === 0.10) normalLead = clamp(chord.dot(normal) / seconds, -8, 8);
+      if (seconds === 0.10) {
+        // The next displacement targets the offset arc at one physics tick.
+        // A full lookahead chord here would continuously steer inside a convex curve.
+        normalLead = clamp(chord.dot(normal) * dt / (seconds * seconds), -8, 8);
+      }
     }
   }
 
@@ -229,13 +233,14 @@ export function stepGlide(state: GlideState, previous: FlightState, free: Flight
   tangent.normalize().applyAxisAngle(normal, turn);
   const desiredDistance = clearance + 1.4 * free.control.pitch;
   const correction = clamp((desiredDistance - offset.dot(normal)) * 3.5 + normalLead, -9, 9);
-  const correctedSpeed = normalSpeed + clamp(correction - normalSpeed, -110 * dt, 110 * dt);
+  const maxVelocityChange = glideTuning.followingAcceleration * dt;
+  const correctedSpeed = normalSpeed + clamp(correction - normalSpeed, -maxVelocityChange, maxVelocityChange);
   const speed = tangentSpeed + clamp(Math.min(free.speed, speedLimit) - tangentSpeed, -90 * dt, 55 * dt);
   const velocity = tangent.clone().multiplyScalar(speed).addScaledVector(normal, correctedSpeed).add(surfaceVelocity);
-  velocity.sub(previous.velocity).clampLength(0, 230 * dt).add(previous.velocity);
+  velocity.sub(previous.velocity).clampLength(0, maxVelocityChange).add(previous.velocity);
 
   const position = vector(previous.position).addScaledVector(velocity, dt);
-  if (ctx && !clearChord(ctx, vector(previous.position), position, 0, dt, 230)) return loseContact();
+  if (ctx && !clearChord(ctx, vector(previous.position), position, 0, dt, glideTuning.followingAcceleration)) return loseContact();
   const { attitude, error } = orient(previous, tangent, normal.clone(), dt);
   const settled = Math.abs(offset.dot(normal) - desiredDistance) < 1 && error < 0.14;
   const phase = state.phase === 'GLIDING' || settled ? 'GLIDING' : 'ATTACHING';

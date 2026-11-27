@@ -400,6 +400,23 @@ describe('finite-mesh surface manoeuvres', () => {
     }
   });
 
+  it.each([48, 76, 102])('follows or safely leaves a tight convex cylinder at %i m/s', speed => {
+    const world = new Fixture();
+    world.add('tower', new CylinderGeometry(18, 18, 400, 96).rotateZ(Math.PI / 2).translate(0, -18, 0));
+    const start = createFlightState({ position: point(0, 6, 0), yaw: 0, speed });
+    const run = replay(world, start, context(world), 60, 3);
+    expect(run.impacted).toBe(false);
+    expect(run.minDistance).toBeGreaterThan(5.8);
+    if (speed === 102) {
+      expect(run.phases).toContain('RECOVERY');
+      expect(run.state.phase).toBe('FLIGHT');
+    } else {
+      expect(run.glideDistance).toBeGreaterThan(165);
+      expect(run.glideSeconds).toBeGreaterThan(2.95);
+      expect(run.phases).not.toContain('REACQUIRE');
+    }
+  });
+
   it('keeps contact over gently changing finite triangle normals', () => {
     const world = new Fixture();
     world.add('curve', new CylinderGeometry(100, 100, 450, 128).rotateZ(Math.PI / 2).translate(0, -100, 0));

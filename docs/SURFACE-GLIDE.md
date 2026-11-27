@@ -8,7 +8,11 @@ Three forward samples at 0.10, 0.24 and 0.42 seconds estimate the radius of the 
 
 The parameter scan replays 18 wall approaches for each acceleration cap. At 560 m/s² the experiment avoided 16 impacts, including one open-air escape. Raising the cap to 680 changed that escape into a capture while increasing peak acceleration. The default uses 260 for ordinary capture and 560 for emergencies. The fixture sweep overrides the cap across both paths. See the [sweep](../acceptance/v092/surface-sweep.json) and [finite geometry runs](../acceptance/v092/geometry.json).
 
+At 48 and 76 m/s, the aircraft followed an 18 m radius cylinder for three seconds, covering 169 and 174 m with at least 6.0 m centre clearance to rounding. The follower projects the lookahead chord's normal displacement to the next physics tick and limits the combined velocity change to 230 m/s². Entering the same curve at 102 m/s exceeded the available turn budget. The aircraft released after 25 m and recovered without impact. In the separate [late-trigger comparison](../acceptance/v092/late-triggers.json), the shipping controller avoided 9 of 15 impacts against 4 of 15 with the 260 m/s² cap.
+
 ## Physical bumper check
+
+The [physical XInput trace](../acceptance/v092/physical-pad.json) records button 4 initiating a redirect, capture and a subsequent release in Edge on Windows. Its build identity is embedded in the receipt.
 
 Launch in Free Flight, press LB near a wall, and release after a climb. In open air tap twice to cancel, then hold LB through the window to check it expires only once. Pause mid-window and resume, remap the button and repeat. Check boost and push-to-talk bindings separately. Record the controller model, mapping, platform and whether a person operated it.
 
