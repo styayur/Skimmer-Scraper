@@ -99,6 +99,23 @@ export class ImportedWorldAdapter implements RenderableWorld, SurfaceProvider {
   public isMotionRunning(): boolean { return this.motion?.isRunning ?? false; }
   public getDynamicSnapshot() { return this.motion?.snapshot() ?? []; }
 
+  public routeHint(position: Vec3, forward: Vec3): Vec3 | undefined {
+    let best: Vec3 | undefined;
+    let bestCost = Infinity;
+    for (const point of this.scene.routeHints ?? []) {
+      const dx = point.x - position.x, dy = point.y - position.y, dz = point.z - position.z;
+      const ahead = dx * forward.x + dy * forward.y + dz * forward.z;
+      const distance = Math.hypot(dx,dy,dz);
+      if (ahead < 12 || distance > 110 || ahead < 0.5 * distance) continue;
+      const cost = Math.abs(distance - 65) + distance - ahead;
+      if (cost < bestCost) {
+        bestCost = cost;
+        best = {x:point.x,y:point.y,z:point.z};
+      }
+    }
+    return best;
+  }
+
   public getFingerprint(): number {
     const source = [this.manifest.id, JSON.stringify(this.manifest.options)];
     return this.manifest.variant ? fingerprintValues(...source, String(this.manifest.variant.seed)) : fingerprintValues(...source);
@@ -127,9 +144,9 @@ export class ImportedWorldAdapter implements RenderableWorld, SurfaceProvider {
     const pitch = 0;
     const speed = 66;
     const direction = forwardFromAttitude({ yaw, pitch, roll: 0 });
-    const safe = (position: Vec3, corridor = 22) => {
+    const safe = (position: Vec3, corridor = 22, heading = direction) => {
       for (let distance = 0; distance <= corridor; distance += 2) {
-        const point = { x: position.x + distance * direction.x, y: position.y, z: position.z + distance * direction.z };
+        const point = { x: position.x + distance * heading.x, y: position.y, z: position.z + distance * heading.z };
         if (this.queryNearest(point, 6.5)) return false;
       }
       return true;
@@ -151,6 +168,12 @@ export class ImportedWorldAdapter implements RenderableWorld, SurfaceProvider {
       return { position: { ...options.spawn }, yaw, pitch, speed };
     }
 
+    const entry = this.scene.authoredSpawn;
+    if (entry && !options.spawnYaw && this.scene.bounds.distanceToPoint(entry.position) <= 120) {
+      const {x,y,z} = entry.position;
+      const heading = forwardFromAttitude({yaw:entry.yaw,pitch,roll:0});
+      if (safe({x,y,z}, 60, heading)) return {position:{x,y,z},yaw:entry.yaw,pitch,speed};
+    }
     const { max } = this.scene.bounds;
     const edge = Math.abs(direction.x) * max.x + Math.abs(direction.z) * max.z;
     const y = max.y + 14;

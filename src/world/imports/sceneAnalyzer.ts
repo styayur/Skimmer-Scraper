@@ -18,6 +18,8 @@ export interface AnalyzedWorldScene {
   dynamic: DrivenMesh[];
   collisionTriangles: number;
   variant?: VariantLayout;
+  routeHints?: THREE.Vector3[];
+  authoredSpawn?: {position:THREE.Vector3; yaw:number};
 }
 
 const inferRole = (object: THREE.Object3D): WorldRole => {
@@ -174,9 +176,30 @@ export const analyzeWorldScene = (
     geometry.computeBoundingSphere();
     return geometry;
   };
+  // WorldIR exchange topology is in scene-local metres. Grouped variants
+  // move solids independently and invalidate authored waypoints.
+  const nodesField: unknown = scene.userData.topology?.nodes;
+  const routeHints: THREE.Vector3[] = [];
+  if (!layout && Array.isArray(nodesField) && nodesField.length <= 256) {
+    for (const entry of nodesField) {
+      const point: unknown = entry?.position;
+      if (!Array.isArray(point) || point.length !== 3
+        || !point.every(v => typeof v === 'number' && Number.isFinite(v) && Math.abs(v) <= 16384)) continue;
+      routeHints.push(new THREE.Vector3(point[0],point[1],point[2]).applyMatrix4(scene.matrixWorld));
+    }
+  }
+  let authoredSpawn: AnalyzedWorldScene['authoredSpawn'];
+  const entry = scene.userData.flightEntry;
+  if (!layout && entry?.version === 1 && [entry.position,entry.toward].every(
+    p => Array.isArray(p) && p.length === 3 && p.every(v => typeof v === 'number' && Number.isFinite(v) && Math.abs(v) <= 16384))) {
+    const position = new THREE.Vector3().fromArray(entry.position).applyMatrix4(scene.matrixWorld);
+    const direction = new THREE.Vector3().fromArray(entry.toward).applyMatrix4(scene.matrixWorld).sub(position);
+    if (Math.hypot(direction.x,direction.z) > 0.01 && Math.abs(direction.y) < 0.01)
+      authoredSpawn = {position,yaw:Math.atan2(-direction.x,-direction.z)};
+  }
   return { root, surfaces: collisionGeometry(positions.SURFACE), obstacles: collisionGeometry(positions.OBSTACLE),
     bounds: sourceBounds.translate(root.position), nodes, triangles: vertices / 3, materials: materials.size, textures: textures.size,
-    meshRoles, dynamic, collisionTriangles: solidTriangles, ...(layout ? { variant: layout } : {}) };
+    meshRoles, dynamic, routeHints, authoredSpawn, collisionTriangles: solidTriangles, ...(layout ? { variant: layout } : {}) };
 };
 
 /** A glTF can share its geometry, materials and decoded images between primitives and scenes. */

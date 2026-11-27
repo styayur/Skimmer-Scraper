@@ -2,6 +2,10 @@
 
 [简体中文](README.zh-CN.md) · [Play online](https://styayur.github.io/Skimmer-Scraper/) · [Windows downloads](https://github.com/styayur/Skimmer-Scraper/releases/latest)
 
+## Flyable Architecture
+
+Import the finite Relay District and capture its transfer wall with LB or Space. The roof leads into a second flight surface. The world library reports launch coordinates and collision cost, and wingmates can use authored route hints. [Worlds, transfer recording and flight results](docs/FLYABLE-ARCHITECTURE.md)
+
 ## Surface Instinct
 
 **Make the surface your escape route.** Fly in shielded Free Flight to practice surface maneuvers. Approaching danger? Press LB or Space. For two seconds the aircraft looks for a clear approach along a nearby surface. Press again to cancel or launch with your current momentum. In Surface Challenge, using motion assistance places the score in a separate category. Your original personal best stays available.

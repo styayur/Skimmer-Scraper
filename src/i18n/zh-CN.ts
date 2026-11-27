@@ -393,7 +393,7 @@ export const zh = {
   "worldImportPanel.importCancelled": "已取消导入。",
   "worldImportPanel.localCopyRemoved": "本地副本已移除。",
   "worldImportPanel.sessionOnly": "本地世界库不可用，仍可载入文件并仅使用本次。",
-  "worldImportPanel.sceneSummary": "{name} · {lengths} 米 · {nodes} 节点 · {triangles} 三角面 · {materials} 材质 · {textures} 纹理（解码约 {textureMiB} MB） · {clips} 个动画片段",
+  "worldImportPanel.sceneSummary": "{name} · {lengths} 米 · {nodes} 节点 · {triangles} 三角面 · {materials} 材质 · {textures} 纹理（解码约 {textureMiB} MB） · {clips} 个动画片段 · {collisionTriangles} 个碰撞三角面 · 出生位置 ({spawn}) 米",
   "worldImportPanel.openingLocalWorld": "正在打开本地世界…",
   "worldImportPanel.preparingProceduralCity": "正在准备程序城市…",
   "worldImportPanel.preparingWorld": "正在准备世界…",

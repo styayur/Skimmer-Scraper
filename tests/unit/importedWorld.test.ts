@@ -83,3 +83,29 @@ describe('finite local world', () => {
     reader.close();
   });
 });
+
+describe('authored finite flight entry', () => {
+  const make = (x: number, manual = false) => {
+    const g = new Group();
+    const floor = new Mesh(new BoxGeometry(200,2,200));
+    floor.position.set(30,4,12);
+    g.add(floor);
+    g.userData.flightEntry = {version:1,position:[x,20,70],toward:[x,20,10]};
+    g.userData.topology = {nodes:[{position:[30,20,20]}, {position:[0,Infinity,0]}]};
+    const options = {...defaultWorldImportOptions,spawn: manual ? {x:10,y:30,z:20} : null};
+    const scene = analyzeWorldScene(g,options);
+    return new ImportedWorldAdapter({...manifest,options},scene,[g]);
+  };
+  it('normalizes entry and forward hints, preserving manual spawn priority', () => {
+    const world = make(30);
+    expect(world.getDefaultSpawn().position).toEqual({x:0,y:17,z:58});
+    expect(world.routeHint({x:0,y:17,z:58},{x:0,y:0,z:-1})).toEqual({x:0,y:17,z:8});
+    world.dispose();
+    const manual = make(30,true);
+    expect(manual.getDefaultSpawn().position).toEqual({x:10,y:30,z:20});
+    manual.dispose();
+    const distant = make(16000);
+    expect(distant.getDefaultSpawn().position.x).toBeCloseTo(0);
+    distant.dispose();
+  });
+});
