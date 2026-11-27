@@ -1,5 +1,5 @@
 import type { Perception, PerceivedTarget } from './contracts';
-import type { Assignment, MissionPlan, MissionType } from './missions';
+import type { Assignment, MissionPlan, MissionRecord, MissionType } from './missions';
 import { addressedAgent, commandKind } from './radioCommands';
 
 const address =
@@ -66,7 +66,10 @@ const preferredAgent: Record<MissionType, number> = {
   PATROL: 3,
   SURFACE_RELAY: 2,
 };
+export const missionPrefix = /^(?:mission|task|任务)\s*[:：]\s*/i;
 export function missionCommand(message: string, p: Perception): MissionPlan | null {
+  const explicitlyRequested = missionPrefix.test(message);
+  message = message.replace(missionPrefix, '');
   const clauses = message
     .split(new RegExp(`[;；]|(?:[,，、]|\\band\\b|然后|并且|和|\\s)+(?=\\s*${address.source})`, 'i'))
     .map((x) => x.trim())
@@ -104,13 +107,13 @@ export function missionCommand(message: string, p: Perception): MissionPlan | nu
       const simple = /^(?:wait|等待|等候)(?:\s+(?:here|and regroup|then regroup)|后归队)?[.。!！]?$/i.test(
         verb
       );
-      mission.waitSeconds = seconds ? Number(seconds[1]) : simple ? 3 : 0;
+      mission.waitSeconds = simple ? 3 : 0;
+      if (seconds) mission.waitSeconds = Number(seconds[1]);
     }
     missions.push(mission);
   }
-  return (advanced || clauses.length > 1) && missions.length
-    ? { schemaVersion: 2, requestId: p.requestId, epoch: p.epoch, missions, dialogue: [] }
-    : null;
+  if (!missions.length || (!explicitlyRequested && !advanced && clauses.length === 1)) return null;
+  return { schemaVersion: 2, requestId: p.requestId, epoch: p.epoch, missions, dialogue: [] };
 }
 
 const missionNames: Record<MissionType, [string, string]> = {
@@ -125,6 +128,19 @@ const missionNames: Record<MissionType, [string, string]> = {
   SURFACE_RELAY: ['地表接力', 'Surface Relay'],
 };
 export const missionName = (type: MissionType, english: boolean) => missionNames[type][english ? 1 : 0];
+const observations: Record<NonNullable<MissionRecord['observed']>, [string, string]> = {
+  passage: ['已引导通过航路', 'guided through the passage'],
+  structure: ['已观察到结构', 'structure observed'],
+  'floating-island': ['已观察到浮岛', 'floating island observed'],
+  'glide-surface': ['已观察到滑行面', 'glide surface observed'],
+  'patrol-waypoint': ['已巡视航路点', 'patrol point visited'],
+};
+export function missionReport(record: MissionRecord, english: boolean): string {
+  const parts = [`KITE-${record.agentId}`, missionName(record.type, english)];
+  if (record.observed) parts.push(observations[record.observed][english ? 1 : 0]);
+  parts.push(record.reason ? missionReason(record.reason, english) : `${Math.round(record.progress * 100)}%`);
+  return parts.join(' · ');
+}
 export function missionReason(reason: string, english: boolean): string {
   const labels: Record<string, [string, string]> = {
     'agent-unavailable': ['指定伴机不可用', 'wingmate unavailable'],

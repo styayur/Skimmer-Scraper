@@ -35,19 +35,19 @@ export const bindModelSettings=(runtime:SymbiosisRuntime, onIssue: (message: str
       const config:PublicModelConfig={provider:provider.value as PublicModelConfig['provider'],endpoint:input('endpoint').value.trim(),model:input('model').value.trim(),trusted:input('trusted').checked,
         intervalSeconds:Number(input('interval').value),maxRequests:Number(input('budget').value),tokenBudget:Number(input('tokens').value),timeoutMs:Number(input('timeout').value)};
       runtime.client.connect(config,key);message.textContent='';
-    }catch{message.textContent=t('modelSettings.invalidConfigurationCheckTheEndpointTrustSetting');}
+    }catch{message.textContent=t('modelSettings.invalidConfig');}
   });
-  panel.querySelector('#ai-disconnect')!.addEventListener('click',()=>{runtime.client.disconnect();runtime.invalidate();input('key').value='';message.textContent=t('modelSettings.keyCleared');});
+  panel.querySelector('#ai-disconnect')!.addEventListener('click',()=>{runtime.disconnectModel();input('key').value='';message.textContent=t('modelSettings.keyCleared');});
   const status=document.createElement('p');status.id='cooperation-status';status.className='setting-status';status.setAttribute('role','status');panel.append(status);
   let previousError: string | null = null;
   return()=>{
     const s=runtime.snapshot();
     const issue = s.model.error ?? null;
-    if (issue && issue !== previousError) onIssue(t('modelSettings.modelAssistancePausedWingmatesAreFlyingLocally', { issue: modelError(issue) }));
+    if (issue && issue !== previousError) onIssue(t('modelSettings.assistancePaused', { issue: modelError(issue) }));
     previousError = issue;
     if (!panel.open || !panel.getClientRects().length) return;
     const text=s.model.connected
-      ? t('modelSettings.modelConnectedRequestsRequestsTokensTokens', { model: s.config?.model ?? t('modelSettings.model'), requests: s.model.requests, tokens: s.model.usage.total })
+      ? t('modelSettings.connected', { model: s.config?.model ?? t('modelSettings.model'), requests: s.model.requests, tokens: s.model.usage.total })
       : t('modelSettings.localWingmates');
     const visibleStatus=s.model.error ? `${text} · ${modelError(s.model.error)}` : text;
     if(status.textContent!==visibleStatus)status.textContent=visibleStatus;

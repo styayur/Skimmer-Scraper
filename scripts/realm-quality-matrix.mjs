@@ -105,6 +105,7 @@ export async function qualityMatrix(
     }
     for (const {theme, quality, count, voice, music, glide} of scenarios) {
           const url = new URL(base);
+          if (process.env.SKIMMER_QA_PROFILE === '1') url.searchParams.set('profile','flight');
           url.searchParams.set('seed', '334458');
           url.searchParams.set('gen', glide === undefined ? '4' : '2');
           if (theme !== 'city') url.searchParams.set('theme', theme);
@@ -162,6 +163,11 @@ export async function qualityMatrix(
             let previous = await new Promise(requestAnimationFrame);
             const origin = previous;
             const samples=[];
+            const longTasks=[];
+            const observer=new PerformanceObserver(list=>{
+              for(const task of list.getEntries()) longTasks.push({start:task.startTime,duration:task.duration});
+            });
+            observer.observe({type:'longtask'});
             let nextSample=0;
             while (previous - origin < 12000) {
               const now = await new Promise(requestAnimationFrame);
@@ -178,7 +184,10 @@ export async function qualityMatrix(
               sorted = [...frames].sort((a, b) => a - b);
             const p = (q) => sorted[Math.floor(q * (sorted.length - 1))];
             const canvas = document.querySelector('canvas');
+            for(const task of observer.takeRecords()) longTasks.push({start:task.startTime,duration:task.duration});
+            observer.disconnect();
             return {
+              longTasks, cpuAtStart:start.cpuTimings, cpuAtEnd:end.cpuTimings,
               canvas: [canvas.width, canvas.height],
               qualityLabel:
                 document.querySelector('#quality-button').textContent,

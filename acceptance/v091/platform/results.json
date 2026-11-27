@@ -1,0 +1,48 @@
+{
+  "browser": {
+    "runtime": "Chromium headless shell",
+    "version": "159.0.8154.6",
+    "renderer": "SwiftShader launch configuration",
+    "harness": "Isolated source snapshot served by Vite dev on Windows",
+    "workers": 1,
+    "spec": "tests/e2e/platform-window.spec.ts",
+    "stats": {
+      "startTime": "2026-11-27T05:02:20.245Z",
+      "duration": 70471.068,
+      "expected": 3,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "cases": [
+      {
+        "title": "top-level flight survives a rejected request and stays paused after visibility returns",
+        "status": "passed",
+        "durationMs": 20007
+      },
+      {
+        "title": "delegated iframe enters fullscreen, preserves the paused run, and pauses on mouse release",
+        "status": "passed",
+        "durationMs": 25542
+      },
+      {
+        "title": "restricted iframe keeps flying with the keyboard and clears held input on host focus",
+        "status": "passed",
+        "durationMs": 18519
+      }
+    ],
+    "screenshot": "iframe-pause.png"
+  },
+  "unit": {
+    "runner": "Vitest",
+    "spec": "tests/unit/controls-shield.test.ts",
+    "workers": 1,
+    "passed": 13,
+    "failed": 0
+  },
+  "desktop": {
+    "configAndCapabilities": "passed",
+    "smokeScriptSyntax": "passed",
+    "installedWebView2": "unverified in this run"
+  }
+}

@@ -19,6 +19,9 @@ export class SpeechQueue {
   public get current(): RadioLine | null { return this.active?.line ?? null; }
   public get count(): number { return this.pending.length; }
 
+  /** Previews and queued calls share the channel's playback ID sequence. */
+  public nextPlaybackId(): number { return ++this.serial; }
+
   public enqueue(line: RadioLine): void {
     const now = this.now();
     const key = `${line.agent}:${line.text}`;
@@ -36,7 +39,7 @@ export class SpeechQueue {
         if (this.pending[i]!.line.priority === 'notice') this.discard(i);
       }
     }
-    const playbackId = ++this.serial;
+    const playbackId = this.nextPlaybackId();
     this.transition?.(line, playbackId, 'queued');
     this.pending.push({ line, playbackId, expires: now + (line.priority === 'notice' ? 6500 : 10_000) });
     this.pending.sort((a, b) => radioPriority[b.line.priority] - radioPriority[a.line.priority] || a.line.id - b.line.id);

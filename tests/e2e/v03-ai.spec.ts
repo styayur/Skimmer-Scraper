@@ -29,10 +29,11 @@ test('pause cancels an in-flight plan synchronously and rejects its late respons
   await route.fulfill({json:{choices:[{message:{content:JSON.stringify({requestId:p.requestId,epoch:p.epoch,ttl:10,risk:.2,formation:'line',orders:[{agents:[1],action:'FOLLOW',targetId:null}],reason:'Synthetic late response'})}}]}}).catch(()=>{});
  });
  await page.goto('/?autostart=1&seed=334458');await page.waitForFunction(()=>window.__SKIMMER_SCRAPER__?.snapshot().mode==='running');
- await page.keyboard.press('f');await page.locator('#advanced-flight-settings > summary').click();await page.locator('.model-settings summary').click();await page.locator('#ai-budget').fill('1');await page.locator('#ai-key').fill('synthetic-cancellation-key');await page.locator('#ai-connect').click();await page.locator('#rules-close').click();
+ // Two total slots allow one autonomous request while reserving a slot for the pilot.
+ await page.keyboard.press('f');await page.locator('#advanced-flight-settings > summary').click();await page.locator('.model-settings summary').click();await page.locator('#ai-budget').fill('2');await page.locator('#ai-key').fill('synthetic-cancellation-key');await page.locator('#ai-connect').click();await page.locator('#rules-close').click();
  await expect.poll(()=>received,{timeout:20000}).toBe(true);
  const suspended=await page.evaluate(()=>{const g=window.__SKIMMER_SCRAPER__!;const before=g.snapshot();g.pause();return{before,after:g.snapshot(),perception:g.aiPerception()};});
- expect(suspended.after.cooperation.epoch).toBeGreaterThan(suspended.before.cooperation.epoch);expect(suspended.perception).toBeNull();
+ expect(suspended.after.cooperation.epoch).toBe(suspended.before.cooperation.epoch);expect(suspended.perception).toBeNull();
  release();await expect.poll(()=>page.evaluate(()=>window.__SKIMMER_SCRAPER__!.snapshot().cooperation.model.pending)).toBe(false);
  const final=await page.evaluate(async()=>{const g=window.__SKIMMER_SCRAPER__!;g.resume();const s=await g.advance(.2);g.pause();return s;});
  expect(final.cooperation.trace.some(t=>t.event==='execution')).toBe(false);expect(final.cooperation.model.cancellations).toBe(1);

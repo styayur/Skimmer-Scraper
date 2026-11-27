@@ -121,7 +121,7 @@ export const bindVoicePanel = (voice: VoiceRadio, action: (action: GameAction) =
     const message = lastOutputFallback ? t('voicePanel.playedALocalEventClip') : lastOutputError ? t('voicePanel.seeRadioSubtitles') : '';
     if (outputStatus.textContent !== message) outputStatus.textContent = message;
     if (usage.hidden) return;
-    const text = t('voicePanel.deepseekUsageThisPageTranscriptionAsrRequestsMaxAsrRequests', { asrRequests: cloud.asrRequests, maxAsrRequests: limits.asrRequests, asrSeconds: cloud.asrSeconds, maxAsrSeconds: limits.asrSeconds, ttsRequests: cloud.ttsRequests, maxTtsRequests: limits.ttsRequests, ttsCharacters: cloud.ttsCharacters, maxTtsCharacters: limits.ttsCharacters });
+    const text = t('voicePanel.deepSeekUsage', { asrRequests: cloud.asrRequests, maxAsrRequests: limits.asrRequests, asrSeconds: cloud.asrSeconds, maxAsrSeconds: limits.asrSeconds, ttsRequests: cloud.ttsRequests, maxTtsRequests: limits.ttsRequests, ttsCharacters: cloud.ttsCharacters, maxTtsCharacters: limits.ttsCharacters });
     if (usage.textContent !== text) usage.textContent = text;
   };
 };

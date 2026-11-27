@@ -1,0 +1,72 @@
+{
+  "source": {
+    "branch": "codex/v091-shift",
+    "baseCommit": "d4bc6540f629cf04779ae8530b12bf070e145ab7",
+    "uncommitted": true
+  },
+  "typecheck": "passed",
+  "vitest": {
+    "file": "tests/unit/localization.test.ts",
+    "passed": 4,
+    "maxWorkers": 2,
+    "checks": [
+      "browser locale normalization",
+      "catalog and interpolation parity",
+      "offline guide chapter parity",
+      "native, import and voice diagnostic translation"
+    ]
+  },
+  "chromium": {
+    "file": "tests/e2e/localization.spec.ts",
+    "passed": 2,
+    "workers": 1,
+    "browser": "159.0.8154.6",
+    "renderer": "Headless Chromium with SwiftShader",
+    "source": "Temporary Vite source snapshot of shared development worktree",
+    "viewport": {
+      "width": 360,
+      "height": 740
+    },
+    "languages": [
+      "en-US",
+      "zh-TW"
+    ],
+    "documentLanguages": [
+      "en-US",
+      "zh-CN"
+    ],
+    "checks": [
+      "title and accessibility labels",
+      "guide search and chapter anchors",
+      "model configuration validation",
+      "voice and character labels",
+      "hangar, world settings and seed",
+      "Free Flight HUD and radio commands",
+      "settings horizontal overflow"
+    ],
+    "screenshots": [
+      "en-US-guide.png",
+      "en-US-settings.png",
+      "zh-TW-guide.png",
+      "zh-TW-settings.png"
+    ]
+  },
+  "webview2": {
+    "runtime": "158.0.4370.45",
+    "host": "WinForms WebView2, actual index.html with compiled localization bootstrap only",
+    "observations": [
+      {
+        "navigatorLanguage": "en-US",
+        "documentLanguage": "en-US",
+        "startButton": "Start Game"
+      },
+      {
+        "navigatorLanguage": "zh-TW",
+        "documentLanguage": "zh-CN",
+        "startButton": "开始游戏"
+      }
+    ]
+  },
+  "catalogKeys": 427,
+  "guideChaptersPerLocale": 21
+}

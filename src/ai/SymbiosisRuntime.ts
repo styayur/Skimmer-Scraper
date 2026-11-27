@@ -11,9 +11,9 @@ import { RadioDialogue, radioLanguageOf, radioText, type RadioLanguage, type Rad
 import { selectedLocale } from '../i18n/locale';
 import { addressedAgent, localRadioIntent, localRadioReply, type LocalRadioIntent } from './radioCommands';
 import { CompanionMemory, identities } from './companionMemory';
-import { directive, explicitLegacy, missionCommand, missionName, missionReason } from './missionCommands';
-import { MissionExecutive, validateMissions, type MissionContext, type MissionPlan, type MissionRecord } from './missions';
-import { SemanticTargets } from './semanticTargets';
+import { directive, explicitLegacy, missionCommand, missionName, missionPrefix, missionReason, missionReport } from './missionCommands';
+import { matchesMissionIntent, MissionExecutive, validateMissions, type MissionContext, type MissionPlan, type MissionRecord } from './missions';
+import { clearApproach, SemanticTargets } from './semanticTargets';
 
 interface Context { player:FlightState; rules:RunRulesState; world:CompanionWorld; seed:number; active:boolean }
 interface Trace { time:number; event:string; data:unknown }
@@ -79,6 +79,17 @@ export class SymbiosisRuntime {
     this.context.active=false;this.pictures.clear();
     this.client.cancel();this.radioGeneration++;this.radioPending=false;this.radio.interrupt();
   }
+  public disconnectModel(): void {
+    this.client.disconnect();
+    this.radioGeneration++;
+    this.radioPending = false;
+    if (this.lastPlan && this.planner.startsWith('Model Planner')) {
+      const agents = this.lastPlan.orders.flatMap(order => order.agents);
+      for (const id of agents) this.team.clearTarget(id);
+      this.removeOrders(agents);
+      this.team.cooperation.risk = 0.3;
+    }
+  }
   private missionContext():MissionContext {
     const c=this.context!;
     return {team:this.team,world:c.world,time:this.time,epoch:this.epoch,player:c.player.position,active:c.active,
@@ -96,8 +107,7 @@ export class SymbiosisRuntime {
     if (!this.context?.active || result.reason==='world-changed' || result.reason==='replaced') return;
     const speaker=this.radioAgent(result.agentId);if(speaker===null)return;
     const locale=this.radioLanguage??selectedLocale, en=locale==='en-US';
-    const label=missionName(result.type,en),reason=missionReason(result.reason??'',en);
-    this.radio.report(speaker,`KITE-${result.agentId} · ${label} · ${reason}`,'local','notice',this.time,locale);
+    this.radio.report(speaker,missionReport(result,en),'local','notice',this.time,locale);
   }
   private record(event:string,data:unknown):void {this.trace.push({time:this.time,event,data});if(this.trace.length>256)this.trace.shift();}
   private event(event:TrustEvent,identity:string=event,cooldown=10):void {
@@ -119,6 +129,7 @@ export class SymbiosisRuntime {
       const position={x:c.player.position.x+f.x*90+right.x*side*38,y:c.player.position.y+f.y*90+8+Math.abs(side)*12,z:c.player.position.z+f.z*90+right.z*side*38};
       if((c.world.isCompanionCovered?.(position)??c.world.isCollisionCovered?.(position))===false)continue;
       const hit=c.world.queryNearest(position,40);if(hit&&hit.distance<=8)continue;
+      if(!clearApproach(c.world,c.player.position,position))continue;
       targets.push({id:side===0?'route-ahead':side<0?'route-left':'route-right',kind:'route',position,clearance:hit?.distance??null});
     }
     for(const agent of this.team.agents){
@@ -167,6 +178,7 @@ export class SymbiosisRuntime {
       if(generation!==this.radioGeneration)return false;
       const perception=this.perception();if(!perception)return false;
       const proposal=missionCommand(message,perception);
+      const explicitMission=missionPrefix.test(message);
       const intent=!proposal&&explicitLegacy(message)?localRadioIntent(message,perception,this.team.settings.formation):null;
       const language=this.radioLanguage??radioLanguageOf(message);
       const en=language==='en-US';
@@ -185,9 +197,14 @@ export class SymbiosisRuntime {
         for(const agent of ids)this.team.clearTarget(agent);
         return report(active?(en?'Orders cancelled.':'任务已取消。'):(en?'No active order for that wingmate.':'该伴机没有进行中的任务。'));
       }
-      const working=this.missions.snapshot().slice(-4).map(({agentId,type,phase,outcome,reason,epoch})=>({agentId,type,phase,outcome,reason,epoch}));
+      const records = this.missions.snapshot();
+      if (!intent && !proposal && /mission status|task status|任务进度|任务状态/i.test(message)) {
+        const last = records.filter(record => record.agentId === speaker).at(-1);
+        return report(last ? missionReport(last,en) : en ? 'No mission assigned.' : '没有已分配的任务。');
+      }
+      const working=records.slice(-4).map(({agentId,type,phase,outcome,reason,observed,epoch})=>({agentId,type,phase,outcome,reason,observed,epoch}));
       const model=useModel&&this.client.canRequest(true) ? await this.client.request(perception,message,language,intent?.plan?.orders,
-        {turns:this.dialogue.context(),missions:proposal?.missions??(intent?undefined:[]),working}) : null;
+        {turns:this.dialogue.context(),missions:proposal?.missions??(intent?undefined:[]),working,explicitMission}) : null;
       if(generation!==this.radioGeneration||!this.context?.active || !this.pictures.has(perception.requestId))return false;
       if (proposal) {
         const result=this.applyMission(proposal,perception,model?.decision);
@@ -196,9 +213,19 @@ export class SymbiosisRuntime {
       }
       if (!intent && model) {
         const checked=validateMissions(model.decision,perception,this.missionContext(),this.pictures.get(perception.requestId)!.registry,this.used);
+        if (explicitMission && checked.ok && checked.assignments.length) {
+          const assigned = addressedAgent(message);
+          if (assigned !== null && checked.assignments.some(({order}) => order.agentIds.some(id => id !== assigned)))
+            return report(en ? 'The plan did not match the requested wingmate.' : '任务分配与指定伴机不符。');
+          this.startMissions(checked.assignments, perception);
+          const names = checked.assignments.map(({order}) => missionName(order.type, en));
+          return report(en ? `Assigned: ${names.join(', ')}.` : `已分配：${names.join('，')}。`);
+        }
+        if (explicitMission && !checked.ok) return report(missionReason(checked.reason,en));
         const line=checked.ok && !checked.assignments.length && checked.dialogue.find(l=>l.agentId===speaker);
         if(line && radioLanguageOf(line.text)===language)return report(line.text,line.agentId,'model');
       }
+      if (explicitMission) return report(en ? 'No matching mission. Try “patrol” or “find a passage”.' : '没有匹配的任务。请试试“巡航”或“寻找通道”。');
       const response=model&&readRadioReply(model.decision);
       if(model&&response&&radioLanguageOf(response.text)===language&&this.radioAgent(response.agent)===response.agent){
         const isQuestion=response.plan===null;
@@ -221,14 +248,10 @@ export class SymbiosisRuntime {
       } else {
         const prior=this.dialogue.recent(agent);
         const identity=identities[agent-1]!;
-        let reply=localRadioReply(message,perception,intent,applied,agent,language);
+        let reply=localRadioReply(message,perception,intent,agent,language);
         if(!intent && /your (?:background|story)|where are you from|你的经历|你的来历|你的过去/i.test(message))reply=en?identity.en:identity.zh;
         if(!intent && /last (?:message|reply)|what did you (?:just )?say|repeat that|上次|刚才说|再说一遍/i.test(message))
           reply=prior?(en?`My last reply was “${prior.reply}”`:`我刚才说：“${prior.reply}”`):(en?'This is our first exchange.':'这是我们第一次通话。');
-        if(!intent && /mission status|task status|任务进度|任务状态/i.test(message)) {
-          const last=this.missions.snapshot().filter(m=>m.agentId===agent).at(-1);
-          reply=last?`${missionName(last.type,en)} · ${last.reason?missionReason(last.reason,en):Math.round(last.progress*100)+'%'}`:(en?'No mission assigned.':'没有已分配的任务。');
-        }
         report(reply,agent);
       }
       this.record('radio-interpretation',{source:'local',intent:intent?.kind??null,requestId:perception.requestId,agent,
@@ -306,14 +329,22 @@ export class SymbiosisRuntime {
     return this.accept({decision,usage:{input:0,output:0,total:0,cached:0},latencyMs:0,provider:'recording',model:'recorded'},perception,'Recorded Model Plan');
   }
   private consume(requestId:string):void {
-    this.used.add(requestId);if(this.used.size>128)this.used.delete(this.used.values().next().value!);
+    this.used.add(requestId);
+    if (this.used.size > 128) this.used.delete(this.used.values().next().value!);
   }
   private removeOrders(ids:readonly number[]):void {
-    const plan=this.lastPlan;if(!plan)return;
-    const resolved=plan.resolved.map(o=>({...o,agents:o.agents.filter(id=>!ids.includes(id))})).filter(o=>o.agents.length);
-    this.lastPlan=resolved.length?{...plan,resolved,orders:resolved.map(({agents,action,targetId})=>({agents,action,targetId}))}:null;
-    if(this.lead && ids.includes(this.lead.id))this.lead=null;
-    if(!this.lastPlan){this.radioPlanUntil=0;this.planner='Local Autonomous Controller';}
+    const plan = this.lastPlan;
+    if (!plan) return;
+    const resolved = plan.resolved
+      .map(order => ({ ...order, agents: order.agents.filter(id => !ids.includes(id)) }))
+      .filter(order => order.agents.length > 0);
+    const orders = resolved.map(({agents,action,targetId}) => ({agents,action,targetId}));
+    this.lastPlan = resolved.length ? { ...plan, resolved, orders } : null;
+    if (this.lead && ids.includes(this.lead.id)) this.lead = null;
+    if (!this.lastPlan) {
+      this.radioPlanUntil = 0;
+      this.planner = 'Local Autonomous Controller';
+    }
   }
   private startMissions(assignments:Parameters<MissionExecutive['start']>[0],p:Perception):void {
     this.consume(p.requestId);
@@ -328,16 +359,19 @@ export class SymbiosisRuntime {
     const registry=this.pictures.get(p.requestId)!.registry;
     if(model) {
       const checked=validateMissions(model,p,live,registry,this.used);
-      const matched=checked.ok && checked.assignments.length===proposal.missions.length && checked.assignments.every(({order})=>
-        proposal.missions.some(m=>m.type===order.type && m.targetId===order.targetId && m.waitSeconds===order.waitSeconds &&
-          m.timeoutSeconds===order.timeoutSeconds && m.agentIds.length===order.agentIds.length && m.agentIds.every(id=>order.agentIds.includes(id))));
-      this.record('mission-validation',{requestId:p.requestId,source:'model',result:matched?'accepted':checked.ok?'intent-mismatch':checked.reason});
-      if(matched && checked.ok) {this.startMissions(checked.assignments,p);return 'accepted';}
+      if (checked.ok && matchesMissionIntent(checked.assignments,proposal.missions)) {
+        this.startMissions(checked.assignments,p);
+        this.record('mission-validation',{requestId:p.requestId,source:'model',result:'accepted'});
+        return 'accepted';
+      }
+      const result = checked.ok ? 'intent-mismatch' : checked.reason;
+      this.record('mission-validation',{requestId:p.requestId,source:'model',result});
     }
     const checked=validateMissions(proposal,p,live,registry,this.used);
     this.record('mission-validation',{requestId:p.requestId,source:'local',result:checked.ok?'accepted':checked.reason});
     if(!checked.ok)return checked.reason;
-    this.startMissions(checked.assignments,p);return 'accepted';
+    this.startMissions(checked.assignments,p);
+    return 'accepted';
   }
   private accept(reply:ModelReply,perception:Perception,label:string,pilotIntent:LocalRadioIntent|null=null):boolean {
     const c=this.context;
@@ -358,6 +392,9 @@ export class SymbiosisRuntime {
       decision:result.ok?{...result.plan,reason:'Validated flight order',resolved:undefined}:undefined,validation:result.ok?'accepted':result.reason});
     if(!result.ok){if(!['stale-epoch','inactive-state'].includes(result.reason))this.event('bad-plan');return false;}
     const plan={...result.plan,reason:'Validated flight order'};this.consume(plan.requestId);
+    for (const order of this.lastPlan?.orders ?? []) {
+      for (const id of order.agents) this.team.clearTarget(id);
+    }
     this.missions.cancel(plan.orders.flatMap(o=>o.agents),'replaced');
     this.team.configure({...this.team.settings,formation:plan.formation});
     this.team.cooperation={trust:this.trust.value,risk:plan.risk};

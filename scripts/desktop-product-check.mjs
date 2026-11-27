@@ -32,7 +32,7 @@ export async function checkDesktopProduct(page, output, runtime) {
   report.updateStatus = await panel.locator('[role=status]').textContent();
   await save();
   if (process.env.SKIMMER_QA_OFFLINE_UPDATE === '1') {
-    assert.match(report.updateStatus, /暂时无法连接|could not connect|unavailable|unable to connect/i);
+    assert.match(report.updateStatus, /暂时无法连接|could not reach GitHub/i);
     await page.locator('#rules-close').click();
     if (await page.locator('#pause-panel').isVisible()) await page.locator('#pause-resume').click();
     const start = await page.evaluate(() => window.__SKIMMER_SCRAPER__.snapshot().runTime);
@@ -44,7 +44,7 @@ export async function checkDesktopProduct(page, output, runtime) {
     await save();
     return;
   }
-  assert.match(report.updateStatus, /最新正式版|可更新至|latest stable|update available/i);
+  assert.match(report.updateStatus, /最新正式版|可更新至|latest release|update available/i);
   const score = 'skimmer-scraper.best.v2:stable:sakura:gen4:desktop-transfer-test';
   if (process.env.SKIMMER_QA_EXPECT_RETAINED_SCORE === '1') {
     report.scoreAfterReinstall = await page.evaluate(key => localStorage.getItem(key), score);

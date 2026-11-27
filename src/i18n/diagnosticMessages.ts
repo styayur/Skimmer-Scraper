@@ -203,4 +203,10 @@ export const diagnosticMessages: readonly (readonly [zh: string, en: string])[] 
   ["模型电台 · {model}", "Model Radio · {model}"],
   ["本地电台", "Local Radio · local radio"],
   ["录制的模型计划 · {model}", "Recorded Model Plan · {model}"],
+  ["本地存储中没有此机型。", "Aircraft model is not present in local storage."],
+  ["本地存储缺少机型数据。", "Aircraft model data is missing from local storage."],
+  ["樱色黄昏", "Sakura Dusk"],
+  ["霓虹巨城", "Neon Megacity"],
+  ["浮空群岛", "Floating Archipelago"],
+  ["随机", "Randomized"],
 ];

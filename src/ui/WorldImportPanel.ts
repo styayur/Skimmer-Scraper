@@ -153,7 +153,7 @@ export class WorldImportPanel {
         link.download = record.manifest.name + '.glb';
         link.click();
         setTimeout(() => URL.revokeObjectURL(url), 30000);
-        this.status.textContent = t('worldImportPanel.glbExportedImportItOnAnotherDevice');
+        this.status.textContent = t('worldImportPanel.exported');
       });
     });
     get('remove').addEventListener('click', () => {
@@ -211,7 +211,7 @@ export class WorldImportPanel {
       if (!current()) return;
       if (!record) {
         this.pendingSeed = seed;
-        throw new Error(t('worldImportPanel.thisSeedNeedsItsOriginalGLBSelect'));
+        throw new Error(t('worldImportPanel.seedNeedsOriginal'));
       }
       await this.openVisit(seed, record.data, record.manifest.name, true, true, current);
     });
@@ -228,7 +228,7 @@ export class WorldImportPanel {
       if (visit.url !== location.href || typeof visit.seed !== 'string') return;
       const seed = decodeImportedWorldSeed(visit.seed);
       const record = await this.store.get(seed.fingerprint);
-      if (!record) throw new Error(t('worldImportPanel.reimportTheOriginalGLBForThisWorld'));
+      if (!record) throw new Error(t('worldImportPanel.reimportOriginal'));
       if (!visit.replay) seed.variant = newImportedVariant(seed.variant);
       await this.openVisit(seed, record.data, record.manifest.name, true, !!visit.replay, () => true);
     } catch (error) {
@@ -262,20 +262,20 @@ export class WorldImportPanel {
       world.dispose();
       throw error;
     }
-    if (seed.variant && !world.manifest.variant) this.hooks.notice(t('worldImportPanel.thisVariantHasNoSafeRouteOpened'), true);
+    if (seed.variant && !world.manifest.variant) this.hooks.notice(t('worldImportPanel.variantFallback'), true);
   }
 
   private selectFile(file?: File): void {
     if (!file || this.busy) return;
     this.discard();
     if (!/\.glb$/i.test(file.name) || file.size > WORLD_IMPORT_LIMITS.bytes) {
-      this.status.textContent = t('worldImportPanel.chooseASelfContainedGlbWorldUp');
+      this.status.textContent = t('worldImportPanel.fileRequirements');
       return;
     }
     this.currentFile = file;
     this.analyze.hidden = false;
     this.cancel.hidden = false;
-    const warning = file.size > 32 * 1024 * 1024 ? t('worldImportPanel.decodingALargeGLBAndBuildingIts') : '';
+    const warning = file.size > 32 * 1024 * 1024 ? t('worldImportPanel.largeFileWarning') : '';
     this.status.textContent = `${file.name} · ${fileSize(file.size)}${warning}`;
   }
 
@@ -287,7 +287,7 @@ export class WorldImportPanel {
       if (saved.some(item => item.id === selected)) this.select.value = selected;
       get('saved').hidden = saved.length === 0;
     } catch {
-      this.status.textContent = t('worldImportPanel.localLibraryUnavailableYouCanStillLoad');
+      this.status.textContent = t('worldImportPanel.sessionOnly');
     }
   }
 
@@ -341,7 +341,7 @@ export class WorldImportPanel {
     const { x, y, z } = world.getDefaultSpawn().position;
     const lengths = Object.values(manifest.bounds).map(value => value.toFixed(1)).join(' × ');
     const textureMiB = Math.ceil(manifest.texturePixels * 4 / (1024 * 1024));
-    get('summary').textContent = t('worldImportPanel.nameLengthsMNodesNodesTrianglesTriangles', { name: manifest.name, lengths, nodes: manifest.nodes, triangles: manifest.triangles.toLocaleString(selectedLocale), materials: manifest.materials, textures: manifest.textures, textureMiB, clips: manifest.animations.length });
+    get('summary').textContent = t('worldImportPanel.sceneSummary', { name: manifest.name, lengths, nodes: manifest.nodes, triangles: manifest.triangles.toLocaleString(selectedLocale), materials: manifest.materials, textures: manifest.textures, textureMiB, clips: manifest.animations.length });
     this.status.textContent = manifest.triangles > 450_000 || textureMiB > 80 ? t('worldImportPanel.thisLargeSceneMayReduceFrameRate') : '';
     this.roles = { ...options.roles };
     this.meshes.replaceChildren(...manifest.meshRoles.map(mesh => new Option(mesh.name, mesh.id)));
@@ -388,7 +388,7 @@ export class WorldImportPanel {
         if (world !== draft.world) draft.world.dispose();
         this.draft = null;
         this.hooks.apply(world, { data: draft.data, saved: shouldSave || !!draft.saved, replay: keptVariant !== undefined });
-        if (variant && !world.manifest.variant) this.hooks.notice(t('worldImportPanel.thisVariantHasNoSafeRouteOpened'), true);
+        if (variant && !world.manifest.variant) this.hooks.notice(t('worldImportPanel.variantFallback'), true);
         applied = true;
       } finally {
         if (!applied && (world !== draft.world || !this.draft)) world.dispose();

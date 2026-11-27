@@ -8,6 +8,9 @@ import { CompanionTeam, type CompanionWorld } from '../../src/companions/AgentCo
 import { createFlightState } from '../../src/flight/flightModel';
 import { createRunRules } from '../../src/game/runRules';
 import type { Vec3 } from '../../src/core/math';
+import { MissionExecutive } from '../../src/ai/missions';
+import { writeFileSync } from 'node:fs';
+import { cpus } from 'node:os';
 
 const flat = (p: Vec3, range: number) =>
   Math.abs(p.y) > range
@@ -61,6 +64,21 @@ const response = (decision: unknown) =>
   new Response(JSON.stringify({ choices: [{ message: { content: JSON.stringify(decision) } }] }));
 
 describe('local mission executive', () => {
+  it.each(['PATROL', 'FIND_GLIDE_SURFACE', 'FOLLOW', 'REGROUP'] as const)(
+    'finishes %s through real fixed-step steering',
+    (type) => {
+      const { runtime, advance } = setup(1);
+      const p = runtime.perception()!;
+      let targetId: string | null = null;
+      if (type === 'PATROL') targetId = 'route-ahead';
+      if (type === 'FIND_GLIDE_SURFACE')
+        targetId = p.targets.find((t) => t.capabilities?.includes('glide'))!.id;
+      const mission: Assignment = { agentIds: [1], type, targetId, timeoutSeconds: type === 'FOLLOW' ? 6 : 60 };
+      expect(runtime.replay(envelope(p, [mission]), p)).toBe(true);
+      advance(32);
+      expect(runtime.snapshot().missions.at(-1)).toMatchObject({ type, outcome: 'completed' });
+    }
+  );
   it.each([1, 2, 3])(
     'admits exactly the deployed %i wingmates and verifies a return using real steering',
     async (count) => {
@@ -224,6 +242,56 @@ describe('local mission executive', () => {
 });
 
 describe('bounded cognition', () => {
+  it('rejects an unavailable callsign and an unsupported wait condition without moving the team', async () => {
+    const { runtime } = setup(2);
+    await runtime.sendDialogue('风筝四号跟随我', false);
+    expect(runtime.lastPlan).toBeNull();
+    await runtime.sendDialogue('KITE-1 wait until the island appears', false);
+    expect(runtime.snapshot().missions).toHaveLength(0);
+    expect(runtime.radio.snapshot().history.at(-1)?.text).toContain('invalid wait duration');
+  });
+
+  it('rejects a delayed mission proposal after a newer pilot command has superseded the request', async () => {
+    let release!: (r: Response) => void;
+    let pending: MissionPlan | undefined;
+    const client = new ModelClient(async (_url, init) => {
+      const input = JSON.parse(JSON.parse(String(init?.body)).messages[1].content);
+      pending = envelope(input.perception, input.suggestedMissions);
+      return new Promise<Response>((resolve) => {
+        release = resolve;
+      });
+    });
+    client.connect(DEFAULT_MODEL_CONFIG, 'mock-delayed-companion');
+    const { runtime } = setup(2, client);
+    const oldCommand = runtime.sendDialogue('KITE-2 escort');
+    const newCommand = runtime.sendDialogue('KITE-1 patrol', false);
+    release(response(pending));
+    expect(await oldCommand).toBe(false);
+    expect(await newCommand).toBe(true);
+    expect(runtime.snapshot().missions.map((m) => m.type)).toEqual(['PATROL']);
+    expect(client.snapshot().cancellations).toBe(1);
+  });
+
+  it('interprets an explicitly requested free-form assignment and rejects the same model action in chat', async () => {
+    const client = new ModelClient(async (_url, init) => {
+      const input = JSON.parse(JSON.parse(String(init?.body)).messages[1].content);
+      return response(
+        envelope(input.perception, [{ agentIds: [2], type: 'ESCORT', targetId: null, timeoutSeconds: 40 }])
+      );
+    });
+    client.connect(DEFAULT_MODEL_CONFIG, 'mock-companion-planning');
+    const { runtime } = setup(2, client);
+    await runtime.sendDialogue('Mission: KITE-2, keep an eye on my wing.');
+    expect(runtime.snapshot().missions.at(-1)).toMatchObject({
+      agentId: 2,
+      type: 'ESCORT',
+      outcome: 'running',
+    });
+    expect(client.snapshot().lanes.planning).toBe(1);
+    runtime.disconnectModel();
+    expect(client.snapshot().connected).toBe(false);
+    expect(runtime.snapshot().missions.at(-1)?.outcome).toBe('running');
+  });
   it('keeps small talk flight-neutral even when the model proposes a valid order', async () => {
     const client = new ModelClient(async (_url, init) => {
       const input = JSON.parse(JSON.parse(String(init?.body)).messages[1].content);
@@ -295,3 +363,85 @@ describe('bounded cognition', () => {
     expect(client.snapshot().requests).toBe(3);
   });
 });
+
+// Opt-in evidence collection keeps ordinary CI independent of desktop load and timer granularity.
+it.skipIf(process.env.SKIMMER_MISSION_BENCH !== '1')(
+  'times actual parallel mission ticks',
+  async () => {
+    const actualTick = MissionExecutive.prototype.tick;
+    const durations: number[] = [];
+    const threadCPU = process.threadCpuUsage.bind(process);
+    const warmupRuns = 8;
+    const measuredRuns = 128;
+    let cpuUserUs = 0;
+    let cpuSystemUs = 0;
+    let measuring = false;
+    let otherTicks = 0;
+    const timed = vi.spyOn(MissionExecutive.prototype, 'tick').mockImplementation(function (
+      this: MissionExecutive,
+      ...args
+    ) {
+      if (!measuring) return actualTick.apply(this, args);
+      if (this.snapshot().filter((m) => m.outcome === 'running').length !== 3) {
+        otherTicks++;
+        return actualTick.apply(this, args);
+      }
+      const cpuStart = threadCPU();
+      const start = process.hrtime.bigint();
+      actualTick.apply(this, args);
+      const elapsed = Number(process.hrtime.bigint() - start) / 1e6;
+      const cpu = threadCPU(cpuStart);
+      durations.push(elapsed);
+      cpuUserUs += cpu.user;
+      cpuSystemUs += cpu.system;
+    });
+    try {
+      for (let i = 0; i < warmupRuns + measuredRuns; i++) {
+        const { runtime, advance } = setup();
+        await runtime.sendDialogue(
+          'KITE-1 find a passage, KITE-2 escort me and KITE-3 inspect the island',
+          false
+        );
+        expect(runtime.snapshot().missions).toHaveLength(3);
+        measuring = i >= warmupRuns;
+        advance(4);
+      }
+    } finally {
+      timed.mockRestore();
+    }
+    expect(durations.length).toBeGreaterThan(measuredRuns);
+    durations.sort((a, b) => a - b);
+    const percentile = (p: number) => durations[Math.ceil(durations.length * p) - 1]!;
+    const totalMs = durations.reduce((a, b) => a + b, 0);
+    const evidence = {
+      method:
+        'Simulated Node/Vitest fixture. Real MissionExecutive.tick, timed synchronously between hrtime samples; worker thread CPU user/system deltas bracket each call. CPU resolution and instrumentation overhead are platform dependent.',
+      world:
+        'Synthetic flat garden collider and loaded airspace; stationary pilot and three moving CompanionTeam aircraft, seed 12.',
+      assignments: ['FIND_PASSAGE', 'ESCORT', 'INSPECT_LANDMARK'],
+      physicsHz: 120,
+      executiveIntervalSeconds: 0.2,
+      warmupRuns,
+      measuredRuns,
+      secondsPerRun: 4,
+      ticks: durations.length,
+      threeConcurrentMissionsAtEntry: durations.length,
+      subsequentTicksWithFewerMissionsExcluded: otherTicks,
+      host: { platform: process.platform, arch: process.arch, node: process.version, cpu: cpus()[0]?.model },
+      tickElapsedMs: {
+        total: totalMs,
+        mean: totalMs / durations.length,
+        p50: percentile(0.5),
+        p95: percentile(0.95),
+        p99: percentile(0.99),
+      },
+      threadCpuMs: {
+        user: cpuUserUs / 1000,
+        system: cpuSystemUs / 1000,
+        aggregate: (cpuUserUs + cpuSystemUs) / 1000,
+      },
+    };
+    writeFileSync('acceptance/v091/companion-mission-timing.json', JSON.stringify(evidence, null, 2) + '\n');
+  },
+  30000
+);

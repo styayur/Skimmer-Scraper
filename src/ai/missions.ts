@@ -34,6 +34,21 @@ interface ValidatedAssignment {
   position: Vec3;
   observation?: ReturnType<SemanticTargets['observation']>;
 }
+
+export function matchesMissionIntent(accepted: ValidatedAssignment[], requested: Assignment[]): boolean {
+  if (accepted.length !== requested.length) return false;
+  return accepted.every(({ order }) =>
+    requested.some(
+      (intent) =>
+        intent.type === order.type &&
+        intent.targetId === order.targetId &&
+        intent.timeoutSeconds === order.timeoutSeconds &&
+        intent.waitSeconds === order.waitSeconds &&
+        intent.agentIds.length === order.agentIds.length &&
+        intent.agentIds.every((id) => order.agentIds.includes(id))
+    )
+  );
+}
 const record = (x: unknown): x is Record<string, unknown> => !!x && typeof x === 'object' && !Array.isArray(x);
 const exact = (x: Record<string, unknown>, keys: string[]) =>
   Object.keys(x).length === keys.length && keys.every((k) => Object.hasOwn(x, k));
@@ -152,9 +167,14 @@ export function validateMissions(
       position = target.position;
     }
     const observation = target && registry.observation(target.id);
-    if (target?.capabilities?.length && (!observation || !observedHere(live.world, observation)))
+    if (
+      target?.capabilities?.length &&
+      (!observation || !observedHere(live.world, observation, type === 'FIND_GLIDE_SURFACE'))
+    )
       return fail('target-unloaded');
     if (distance(position, live.player) > 350 || !covered(live.world, position)) return fail('target-unloaded');
+    if (type === 'FIND_PASSAGE' && !clearApproach(live.world, live.player, position))
+      return fail('unreachable');
     for (const id of value.agentIds) {
       const agent = live.team.agents.find((a) => a.id === id)!;
       if (!clearApproach(live.world, agent.flight.position, position)) return fail('unreachable');
@@ -198,6 +218,7 @@ export interface MissionRecord {
   started: number;
   deadline: number;
   progress: number;
+  observed: 'passage' | 'structure' | 'floating-island' | 'glide-surface' | 'patrol-waypoint' | null;
   outcome: 'running' | 'completed' | 'failed' | 'cancelled';
   reason: string | null;
 }
@@ -225,7 +246,7 @@ export class MissionExecutive {
     return [...this.history, ...Array.from(this.running.values(), (m) => m.record)].map((r) => ({ ...r }));
   }
   public start(assignments: ValidatedAssignment[], p: Perception, now: number): void {
-    for (const a of assignments)
+    for (const a of assignments) {
       for (const id of a.order.agentIds) {
         this.cancel([id], 'replaced');
         const type = a.order.type;
@@ -242,6 +263,7 @@ export class MissionExecutive {
           started: now,
           deadline: now + a.order.timeoutSeconds,
           progress: 0,
+          observed: null,
           outcome: 'running',
           reason: null,
         };
@@ -251,9 +273,12 @@ export class MissionExecutive {
             : a;
         this.running.set(id, { record, assignment, phaseStart: now, dwell: 0, lastTick: now });
       }
+    }
   }
   public cancel(ids: readonly number[], reason: string): void {
-    for (const id of ids) if (this.running.has(id)) this.finish(id, 'cancelled', reason);
+    for (const id of ids) {
+      if (this.running.has(id)) this.finish(id, 'cancelled', reason);
+    }
   }
   public invalidate(): void {
     this.cancel([...this.running.keys()], 'world-changed');
@@ -272,37 +297,38 @@ export class MissionExecutive {
     this.report(result);
   }
   public tick(live: MissionContext, relay: (id: number) => { success: boolean; reason: string }): void {
-    for (const [id, m] of this.running) {
-      const r = m.record,
-        agent = this.team.agents.find((a) => a.id === id);
+    for (const [id, running] of this.running) {
+      const mission = running.record;
+      const agent = this.team.agents.find((a) => a.id === id);
       if (!agent?.deployed || agent.uncovered) {
         this.finish(id, 'failed', 'agent-unavailable');
         continue;
       }
-      const station = r.type === 'FOLLOW' || r.type === 'ESCORT';
-      if (live.time >= r.deadline) {
+      const station = mission.type === 'FOLLOW' || mission.type === 'ESCORT';
+      if (live.time >= mission.deadline) {
         const maintained =
           station &&
-          m.dwell >= 1 &&
+          running.dwell >= 1 &&
           distance(agent.flight.position, live.player) <= 48 &&
           agent.task !== 'AVOID' &&
           agent.task !== 'RECOVER';
         this.finish(id, maintained ? 'completed' : 'failed', maintained ? 'in-formation' : 'deadline');
         continue;
       }
-      const phaseTime = live.time - m.phaseStart;
+      const phaseTime = live.time - running.phaseStart;
       if (!station && phaseTime > 35) {
         this.finish(id, 'failed', 'action-timeout');
         continue;
       }
-      const elapsed = live.time - m.lastTick;
-      m.lastTick = live.time;
-      const point = m.assignment.position;
-      const targeted = r.targetId !== null && r.phase !== 'return';
+      const elapsed = live.time - running.lastTick;
+      running.lastTick = live.time;
+      const point = running.assignment.position;
+      const targeted = mission.targetId !== null && mission.phase !== 'return';
       if (
         targeted &&
         (!covered(live.world, point) ||
-          (m.assignment.observation && !observedHere(live.world, m.assignment.observation)))
+          (running.assignment.observation &&
+            !observedHere(live.world, running.assignment.observation, mission.type === 'FIND_GLIDE_SURFACE')))
       ) {
         this.finish(id, 'failed', 'target-unloaded');
         continue;
@@ -310,15 +336,15 @@ export class MissionExecutive {
       const near = distance(agent.flight.position, point) <= 24;
       const safe = agent.task !== 'AVOID' && agent.task !== 'RECOVER';
       const inFormation = distance(agent.flight.position, live.player) <= 48 && safe;
-      const phase = (next: Phase, progress: number) => {
-        r.phase = next;
-        r.progress = progress;
-        m.phaseStart = live.time;
-        m.dwell = 0;
+      const advancePhase = (next: Phase, progress: number) => {
+        mission.phase = next;
+        mission.progress = progress;
+        running.phaseStart = live.time;
+        running.dwell = 0;
       };
       let task: AgentTask;
       let goal = point;
-      switch (r.phase) {
+      switch (mission.phase) {
         case 'relay': {
           const result = relay(id);
           this.finish(id, result.success ? 'completed' : 'failed', result.reason);
@@ -330,36 +356,57 @@ export class MissionExecutive {
             this.finish(id, 'failed', 'unreachable');
             continue;
           }
-          if (near && safe) phase(r.type === 'FIND_PASSAGE' ? 'guide' : 'observe', 0.45);
+          if (near && safe) advancePhase(mission.type === 'FIND_PASSAGE' ? 'guide' : 'observe', 0.45);
           break;
         case 'observe':
           task = 'HOLD';
           // Arrival is tighter than observation: a fixed-wing aircraft continues to circle.
-          m.dwell =
+          running.dwell =
             safe &&
             distance(agent.flight.position, point) <= 40 &&
             clearApproach(live.world, agent.flight.position, point)
-              ? m.dwell + elapsed
+              ? running.dwell + elapsed
               : 0;
-          if (m.dwell >= 1) phase('return', 0.75);
+          if (running.dwell >= 1) {
+            if (mission.type === 'PATROL') mission.observed = 'patrol-waypoint';
+            if (mission.type === 'FIND_GLIDE_SURFACE') mission.observed = 'glide-surface';
+            if (mission.type === 'INSPECT_LANDMARK') {
+              mission.observed =
+                running.assignment.observation?.target.kind === 'floating-island'
+                  ? 'floating-island'
+                  : 'structure';
+            }
+            advancePhase('return', 0.75);
+          }
           break;
         case 'guide':
           task = 'LEAD';
-          if (safe && distance(live.player, point) <= 40) phase('return', 0.75);
+          if (!clearApproach(live.world, live.player, point)) {
+            this.finish(id, 'failed', 'unreachable');
+            continue;
+          }
+          if (safe && distance(live.player, point) <= 40) {
+            mission.observed = 'passage';
+            advancePhase('return', 0.75);
+          }
           break;
         case 'hold':
           task = 'HOLD';
-          if (phaseTime >= (m.assignment.order.waitSeconds ?? 1)) phase('return', 0.6);
+          if (phaseTime >= (running.assignment.order.waitSeconds ?? 1)) advancePhase('return', 0.6);
           break;
         default:
           task = 'FORMATION_FOLLOW';
-          if (r.type === 'ESCORT') task = 'PROTECT';
-          if (r.phase === 'return' || r.type === 'REGROUP') task = 'REGROUP';
+          if (mission.type === 'ESCORT') task = 'PROTECT';
+          if (mission.phase === 'return' || mission.type === 'REGROUP') task = 'REGROUP';
           goal = live.player;
-          m.dwell = inFormation ? m.dwell + elapsed : 0;
-          if (station) r.progress = Math.min(0.99, (live.time - r.started) / (r.deadline - r.started));
-          if (!station && m.dwell >= 0.4) {
-            this.finish(id, 'completed', r.phase === 'return' ? 'returned' : 'in-formation');
+          running.dwell = inFormation ? running.dwell + elapsed : 0;
+          if (station)
+            mission.progress = Math.min(
+              0.99,
+              (live.time - mission.started) / (mission.deadline - mission.started)
+            );
+          if (!station && running.dwell >= 0.4) {
+            this.finish(id, 'completed', mission.phase === 'return' ? 'returned' : 'in-formation');
             continue;
           }
       }
@@ -368,7 +415,7 @@ export class MissionExecutive {
         goal,
         task,
         0.65,
-        r.targetId === 'route-left' ? -1 : r.targetId === 'route-right' ? 1 : 0
+        mission.targetId === 'route-left' ? -1 : mission.targetId === 'route-right' ? 1 : 0
       );
     }
   }

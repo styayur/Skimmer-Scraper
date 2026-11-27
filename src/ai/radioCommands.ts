@@ -4,21 +4,10 @@ import { COMPANION_PROFILES, radioLanguageOf, type RadioLanguage } from './radio
 export type RadioCommand = 'follow' | 'lead' | 'scout-left' | 'regroup' | 'formation' | 'safe-route' | 'relay';
 export interface LocalRadioIntent { kind: RadioCommand; plan: TeamPlan | null; agent: number | null }
 
-const acknowledgements: Record<RadioCommand, [string, string]> = {
-  follow: ['收到，贴着你的航线跟飞。', 'Copy. Following your flight path.'],
-  lead: ['收到，开始前出领航。', 'Copy. Taking point.'],
-  'scout-left': ['收到，开始侦察左翼。', 'Copy. Scouting the left side.'],
-  regroup: ['收到，全队向你集合。', 'Copy. Regrouping on your flight path.'],
-  formation: ['收到，保持当前队形。', 'Copy. Holding formation.'],
-  'safe-route': ['开始带你走当前间隔最大的航线。', 'Taking point on the clearest available route.'],
-  relay: ['收到，开始准备地表接力。', 'Copy. Preparing Surface Relay.'],
-};
-
-export const localRadioReply = (message: string, perception: Perception, intent: LocalRadioIntent | null, applied: boolean, agent: number,
+export const localRadioReply = (message: string, perception: Perception, intent: LocalRadioIntent | null, agent: number,
   language: RadioLanguage = radioLanguageOf(message)): string => {
   const lang = language === 'zh-CN' ? 0 : 1;
   if (intent) {
-    if (applied) return acknowledgements[intent.kind][lang];
     if (!intent.agent) return ['指定的伴机暂时不可用。', 'That wingmate is unavailable.'][lang]!;
     if (intent.kind === 'relay') return ['接力暂不可用。请留意可用表面、信任和剩余次数。', 'Surface Relay is unavailable. Check surface contact, Trust and charges.'][lang]!;
     return ['航线未通过安全检查，继续本地伴飞。', 'The route did not clear the safety check. Continuing autonomous flight.'][lang]!;
@@ -53,9 +42,11 @@ export const commandKind = (message: string): RadioCommand | null => {
 };
 
 export const addressedAgent = (message: string): number | null => {
-  const number = /(?:\bkite[- ]?|\b(?:number|wingman)\s+)(\d+)\b|(?:风筝\s*([一二三\d]+)\s*号?|([一二三\d]+)\s*号)/i.exec(message);
+  const number = /(?:\bkite[- ]?|\b(?:number|wingman)\s+)(\d+)\b|(?:风筝\s*([一二三四五六七八九十\d]+)\s*号?|([一二三四五六七八九十\d]+)\s*号)/i.exec(message);
   const value = number?.[1] ?? number?.[2] ?? number?.[3];
-  return value ? ({ 一: 1, 二: 2, 三: 3 }[value] ?? Number(value)) : null;
+  if (!value) return null;
+  const id = { 一: 1, 二: 2, 三: 3 }[value] ?? Number(value);
+  return Number.isInteger(id) ? id : 0;
 };
 
 export const localRadioIntent = (message: string, perception: Perception, formation: TeamPlan['formation']): LocalRadioIntent | null => {

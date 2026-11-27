@@ -294,7 +294,7 @@ export class GameUI {
     passages.disabled = theme.value !== 'city';
     this.worldLegacy.hidden = settings.generatorVersion === GENERATOR_VERSION;
     const legacy = WORLD_PRESET_OPTIONS.find(option => option.id === settings.preset);
-    this.worldLegacyNote.textContent = legacy ? t('gameUI.legacyCity') + legacy.label : t('gameUI.unifiedCityGenerator3');
+    this.worldLegacyNote.textContent = legacy ? t('gameUI.legacyCity') + localizeDiagnostic(legacy.label) : t('gameUI.unifiedCityGenerator3');
   }
 
   public setModels(models: ModelListItem[], selectedId: string): void {

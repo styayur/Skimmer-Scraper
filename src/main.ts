@@ -76,7 +76,7 @@ import {
 import { WorldStreamer, type StreamerStats, type StreamerUpdate } from './world/worldStreamer';
 import type { WorldMode, WorldPresetId } from './world/worldConfig';
 import { buildWorldShareUrl, DEFAULT_WORLD_SEED, DENSE_GENERATOR_VERSION, GENERATOR_VERSION, resolveWorldSettings, worldSettingsFromSearch } from './world/worldConfig';
-import { queryFlightSurface, type SurfaceQuery, type WorldStats } from './world/worldTypes';
+import { queryFlightSurface as nearestSurface, type SurfaceQuery, type WorldStats } from './world/worldTypes';
 import { ImportedWorldAdapter } from './world/imports/importedWorldAdapter';
 import type { WorldManifest } from './world/imports/worldManifest';
 import { WorldImporter } from './world/imports/worldImporter';
@@ -85,7 +85,29 @@ import { WorldImportPanel, type ImportedWorldSource } from './ui/WorldImportPane
 
 type GameMode = 'title' | 'running' | 'paused' | 'failed';
 
+// Local performance capture for instrumented QA runs. Normal play uses the original functions.
+const profileFlight = new URLSearchParams(location.search).get('profile') === 'flight';
+const cpuTimings = {
+  fixedStep: { calls: 0, totalMs: 0, maxMs: 0 },
+  surfaceQuery: { calls: 0, totalMs: 0, maxMs: 0 },
+};
+function timedFlightFunction<A extends unknown[], R>(key: keyof typeof cpuTimings, fn: (...args: A) => R) {
+  if (!profileFlight) return fn;
+  return (...args: A): R => {
+    const start = performance.now();
+    const result = fn(...args);
+    const elapsed = performance.now() - start;
+    const sample = cpuTimings[key];
+    sample.calls++;
+    sample.totalMs += elapsed;
+    sample.maxMs = Math.max(sample.maxMs, elapsed);
+    return result;
+  };
+}
+const queryFlightSurface = timedFlightFunction('surfaceQuery', nearestSurface);
+
 interface DebugSnapshot {
+  cpuTimings: typeof cpuTimings | null;
   localWorld: { manifest: WorldManifest; spawn: Vec3; collisionVisible: boolean } | null;
   worldReleases: Array<{seed:number;bvhBefore:number;bvhAfter:number;dynamicBvhBefore:number;dynamicBvhAfter:number;rootChildrenAfter:number;disposedGeometryCount:number}>;
   dynamicStructures: ReturnType<WorldStreamer['getDynamicSnapshot']> | ReturnType<ImportedWorldAdapter['getDynamicSnapshot']>;
@@ -662,7 +684,7 @@ const simulateJourneyStep = (dt: number): boolean => {
   return true;
 };
 
-const simulateFixedStep = (dt: number, holdPosition = false): boolean => {
+const simulateFixedStep = timedFlightFunction('fixedStep', (dt: number, holdPosition = false): boolean => {
   if (mode !== 'running' || !flightState || !activeWorld) return false;
   if(journey.active)return simulateJourneyStep(dt);
   if (!activeWorld.isCollisionCovered(flightState.position)) {
@@ -760,7 +782,7 @@ const simulateFixedStep = (dt: number, holdPosition = false): boolean => {
     visualScaleFor(preferences.visualStimulation),
   );
   return runRules.status === 'running';
-};
+});
 
 const finishRun = (): void => {
   if (!flightState || runRules.status !== 'failed' || mode === 'failed') return;
@@ -944,6 +966,7 @@ const debugSnapshot = (): DebugSnapshot => {
     localWorld: activeWorld instanceof ImportedWorldAdapter ? {
       manifest: activeWorld.manifest, spawn: activeWorld.getDefaultSpawn().position, collisionVisible: activeWorld.isCollisionVisible(),
     } : null,
+    cpuTimings: profileFlight ? { fixedStep: { ...cpuTimings.fixedStep }, surfaceQuery: { ...cpuTimings.surfaceQuery } } : null,
     dynamicStructures: activeWorld?.getDynamicSnapshot() ?? [],
     worldReleases:worldReleases.map(item=>({...item})),
     journey: {...journey.snapshot(),...journeyHud.snapshot()},
@@ -1215,6 +1238,7 @@ document.getElementById('library-panel')!.addEventListener('skimmer:open', refre
 keyboard.onAction(actionRouter.route);
 
 const inputDeviceLabel = document.querySelector('#input-device')!;
+let displayedDevice = '';
 const frame = (now: number): void => {
   if (mode !== 'running') symbiosis.suspend();
   else if (!debugAdvancing && !bufferEvents.active && !journey.active) {
@@ -1230,7 +1254,7 @@ const frame = (now: number): void => {
   }
   const voiceInFlight = voiceAvailable();
   voiceRadio.update(voiceInFlight, symbiosis.radio.current(), muted || symbiosis.radio.muted);
-  radioPanel.update(voiceInFlight, voiceRadio.subtitleLine);
+  radioPanel.update(voiceInFlight, voiceRadio.subtitle);
   audio.setDucked(voiceInFlight && voiceRadio.ducking);
   music.update(activeWorld instanceof ImportedWorldAdapter ? 'local' : worldSettings.theme === 'worldforge' ? 'forge' : worldSettings.theme === 'dragonspine' ? 'dragonspine' : 'city',
     mode === 'running' && !document.hidden && !muted, voiceRadio.ducking, now-lastFrameTime);
@@ -1245,9 +1269,11 @@ const frame = (now: number): void => {
   if (!document.hidden && document.hasFocus()) {
     gamepad.poll(controls, action => actionRouter.route(action, false, 'gamepad'), menuInput, now);
   }
-  const deviceLabel = gamepad.device === 'Keyboard' ? t('ui.keyboard')
-    : t('ui.gamepad', { mapping: gamepad.device.replace(/^Gamepad · /, '') });
-  if (inputDeviceLabel.textContent !== deviceLabel) inputDeviceLabel.textContent = deviceLabel;
+  if (gamepad.device !== displayedDevice) {
+    displayedDevice = gamepad.device;
+    inputDeviceLabel.textContent = displayedDevice === 'Keyboard' ? t('ui.keyboard')
+      : t('ui.gamepad', { mapping: displayedDevice.replace(/^Gamepad · /, '') });
+  }
   const delta = Math.min(0.1, Math.max(0, (now - lastFrameTime) / 1000));
   lastFrameTime = now;
 

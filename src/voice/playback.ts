@@ -18,10 +18,10 @@ export class RadioAudio {
   private readonly bytes = new Uint8Array(2 * framesPerBuffer);
   private used = 0;
   private nextAt = 0;
-  private announced = false;
 
   public constructor(private readonly context: AudioContext, private readonly identity: VoiceIdentity,
-    private readonly signal: AbortSignal, private readonly onStart: () => void) {
+    private readonly signal: AbortSignal, private readonly onStart: () => void,
+    private readonly onDrained?: () => void) {
     this.bandHigh = context.createBiquadFilter();
     this.bandHigh.type = 'highpass';
     this.bandHigh.frequency.value = 240;
@@ -106,12 +106,17 @@ export class RadioAudio {
     node.buffer = buffer;
     node.playbackRate.value = this.identity.rate;
     node.connect(this.bandHigh);
-    node.onended = () => { this.sources.delete(node); node.disconnect(); };
-    this.nextAt = Math.max(this.nextAt, this.context.currentTime);
+    const startsPlayback = this.sources.size === 0;
+    node.onended = () => {
+      this.sources.delete(node);
+      node.disconnect();
+      if (!this.sources.size) this.onDrained?.();
+    };
+    this.nextAt = startsPlayback ? this.context.currentTime : Math.max(this.nextAt, this.context.currentTime);
     node.start(this.nextAt);
     this.sources.add(node);
     this.nextAt += buffer.duration / this.identity.rate;
-    if (!this.announced) { this.announced = true; this.onStart(); }
+    if (startsPlayback) this.onStart();
     return node;
   }
 

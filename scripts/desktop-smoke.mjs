@@ -168,6 +168,8 @@ try {
       ),
     );
   } else {
+    assert.equal(await page.evaluate(() => window.__TAURI__.window.getCurrentWindow().isFullscreen()), true,
+      'The desktop app starts in fullscreen');
     await page.locator('#start-button').click();
     await page.waitForFunction(
       () => window.__SKIMMER_SCRAPER__.snapshot().runTime > 2,
@@ -185,14 +187,15 @@ try {
     await page.keyboard.press('Escape');
     await page.locator('#pause-panel').waitFor({ state: 'visible' });
     await page.keyboard.press('Alt+Enter');
-    await page.waitForFunction(() =>
-      window.__TAURI__.window.getCurrentWindow().isFullscreen(),
-    );
-    await page.keyboard.press('Alt+Enter');
     await page.waitForFunction(
       async () =>
         !(await window.__TAURI__.window.getCurrentWindow().isFullscreen()),
     );
+    await page.keyboard.press('Alt+Enter');
+    await page.waitForFunction(() =>
+      window.__TAURI__.window.getCurrentWindow().isFullscreen(),
+    );
+    await page.locator('#pause-quit').waitFor({ state: 'visible' });
     await page.locator('#pause-resume').click();
     await page.keyboard.press('r');
     await page.waitForFunction(

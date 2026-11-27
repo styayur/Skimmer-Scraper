@@ -2,6 +2,7 @@ import { distance, forwardFromAttitude, type Vec3 } from '../core/math';
 import type { FlightState } from '../flight/flightModel';
 import type { CompanionWorld } from '../companions/AgentController';
 import type { PerceivedTarget } from './contracts';
+import type { SurfaceQuery } from '../world/worldTypes';
 
 export const covered = (world: CompanionWorld, p: Vec3) =>
   (world.isCompanionCovered?.(p) ?? world.isCollisionCovered?.(p)) !== false;
@@ -28,6 +29,33 @@ interface SurfaceObservation {
   surfaceId: string;
   target: PerceivedTarget;
 }
+// Above the controller's 12–20 m avoidance band so inspection can settle without suppressing safety.
+const standOff = 26;
+
+function continuousGlide(world: CompanionWorld, position: Vec3, hit: SurfaceQuery): boolean {
+  if (!hit.contact || !world.queryGlide) return false;
+  const normal = hit.contact.normal;
+  const tangent =
+    Math.abs(normal.y) < 0.8 ? { x: -normal.z, y: 0, z: normal.x } : { x: normal.y, y: -normal.x, z: 0 };
+  return [-18, 18].every((offset) => {
+    const probe = {
+      x: position.x + tangent.x * offset,
+      y: position.y + tangent.y * offset,
+      z: position.z + tangent.z * offset,
+    };
+    if (!covered(world, probe)) return false;
+    const neighbor = world.queryGlide!(probe, standOff + 6);
+    if (
+      !neighbor?.contact ||
+      neighbor.chunkId !== hit.chunkId ||
+      neighbor.surfaceId !== hit.surfaceId ||
+      neighbor.distance < 9
+    )
+      return false;
+    const adjacent = neighbor.contact.normal;
+    return adjacent.x * normal.x + adjacent.y * normal.y + adjacent.z * normal.z > 0.85;
+  });
+}
 
 /** The last perception contains at most two observed structures. Leased missions retain their own identity check. */
 export class SemanticTargets {
@@ -48,7 +76,8 @@ export class SemanticTargets {
         z: player.position.z + offset * forward.z,
       };
       if (!covered(world, p)) continue;
-      const hit = world.queryGlide?.(p, 75) ?? world.queryNearest(p, 75);
+      const glideHit = world.queryGlide?.(p, 75);
+      const hit = glideHit ?? world.queryNearest(p, 75);
       if (!hit || hit.distance < 1 || !Number.isFinite(hit.distance)) continue;
       const point = hit.point;
       const n = {
@@ -56,7 +85,11 @@ export class SemanticTargets {
         y: (p.y - point.y) / hit.distance,
         z: (p.z - point.z) / hit.distance,
       };
-      const position = { x: point.x + n.x * 16, y: point.y + n.y * 16, z: point.z + n.z * 16 };
+      const position = {
+        x: point.x + n.x * standOff,
+        y: point.y + n.y * standOff,
+        z: point.z + n.z * standOff,
+      };
       if (!covered(world, position) || (world.queryNearest(position, 8)?.distance ?? Infinity) <= 7) continue;
       // Hash provider IDs locally. Imported mesh names never become model instructions.
       let hash = 2166136261;
@@ -71,38 +104,22 @@ export class SemanticTargets {
       const id = `observed-${epoch}-${hash >>> 0}`;
       const kind = /^moving:-?\d+:-?\d+:garden$/.test(hit.surfaceId) ? 'floating-island' : 'structure';
       const capabilities: ('inspect' | 'glide')[] = ['inspect'];
-      if (hit.contact && world.queryGlide) {
-        const tangent = Math.abs(n.y) < 0.8 ? { x: -n.z, y: 0, z: n.x } : { x: n.y, y: -n.x, z: 0 };
-        const adjacent = [-18, 18].every((d) => {
-          const q = {
-            x: position.x + tangent.x * d,
-            y: position.y + tangent.y * d,
-            z: position.z + tangent.z * d,
-          };
-          const neighbor = world.queryGlide!(q, 22);
-          const normal = neighbor?.contact?.normal;
-          return (
-            covered(world, q) &&
-            neighbor?.surfaceId === hit.surfaceId &&
-            neighbor.distance >= 9 &&
-            !!normal &&
-            normal.x * n.x + normal.y * n.y + normal.z * n.z > 0.85
-          );
-        });
-        if (adjacent) capabilities.push('glide');
-      }
+      if (glideHit && continuousGlide(world, position, glideHit)) capabilities.push('glide');
       this.entries.set(id, {
         chunkId: hit.chunkId,
         surfaceId: hit.surfaceId,
-        target: { id, kind, position, clearance: 16, capabilities },
+        target: { id, kind, position, clearance: standOff, capabilities },
       });
     }
     return [...this.entries.values()].map((entry) => entry.target);
   }
 }
 
-export function observedHere(world: CompanionWorld, entry: SurfaceObservation): boolean {
+export function observedHere(world: CompanionWorld, entry: SurfaceObservation, needsGlide = false): boolean {
   if (!covered(world, entry.target.position)) return false;
-  const hit = world.queryGlide?.(entry.target.position, 24) ?? world.queryNearest(entry.target.position, 24);
-  return !!hit && hit.chunkId === entry.chunkId && hit.surfaceId === entry.surfaceId && hit.distance >= 7;
+  const glideHit = world.queryGlide?.(entry.target.position, standOff + 8);
+  const hit = glideHit ?? world.queryNearest(entry.target.position, standOff + 8);
+  if (!hit || hit.chunkId !== entry.chunkId || hit.surfaceId !== entry.surfaceId || hit.distance < 7)
+    return false;
+  return !needsGlide || (!!glideHit && continuousGlide(world, entry.target.position, glideHit));
 }

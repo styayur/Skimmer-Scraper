@@ -95,7 +95,10 @@ pub fn desktop_open_release(tag: Option<String>) -> Result<(), String> {
 }
 
 #[tauri::command]
-pub async fn desktop_choose_library(app: AppHandle, locale: Option<String>) -> Result<Option<String>, String> {
+pub async fn desktop_choose_library(
+    app: AppHandle,
+    locale: Option<String>,
+) -> Result<Option<String>, String> {
     tauri::async_runtime::spawn_blocking(move || -> LibraryResult<Option<String>> {
         #[cfg(windows)]
         let selected = rfd::FileDialog::new()

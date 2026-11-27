@@ -1,9 +1,12 @@
 import { BoxGeometry, CylinderGeometry, Euler, Matrix4, Quaternion, Vector3, type BufferGeometry } from 'three';
-import { describe, expect, it } from 'vitest';
+import { writeFileSync } from 'node:fs';
+import { cpus } from 'node:os';
+import { describe, expect, it, onTestFinished, vi } from 'vitest';
 import { FixedStepRunner } from '../../src/core/fixedStep';
 import { createFlightState, FLIGHT, NEUTRAL_INPUT, stepFlight, type FlightState } from '../../src/flight/flightModel';
 import { freeGlide, glideChangedMotion, glideRange, stepGlide, toggleGlide } from '../../src/flight/surfaceGlide';
 import { glideTuning, planRedirect, type GlideContext } from '../../src/flight/surfaceTrajectory';
+import * as trajectories from '../../src/flight/surfaceTrajectory';
 import { streamingForecast } from '../../src/flight/streamingForecast';
 import { DEFAULT_CONTROLS } from '../../src/flight/controlSettings';
 import { flightWouldCollide, resolveShield } from '../../src/game/shield';
@@ -78,8 +81,24 @@ function replay(world: Fixture, initial: FlightState, ctx = context(world), fps 
 
 describe('finite-mesh surface manoeuvres', () => {
   it('sweeps speed, approach angle, trigger distance and acceleration at fixed 120 Hz', () => {
+    const started = performance.now();
+    const actualPlanRedirect = trajectories.planRedirect;
+    const durationsMs: number[] = [];
+    let accepted = 0;
+    const spy = vi.spyOn(trajectories, 'planRedirect').mockImplementation((flight, ctx) => {
+      const start = performance.now();
+      const plan = actualPlanRedirect(flight, ctx);
+      const elapsed = performance.now() - start;
+      durationsMs.push(elapsed);
+      if (plan) accepted++;
+      return plan;
+    });
+    onTestFinished(() => { spy.mockRestore(); });
     const rows = [];
+    const planner = [];
     for (const acceleration of [180, 260, 320]) {
+      durationsMs.length = 0;
+      accepted = 0;
       let captured = 0, rejected = 0, clearance = Infinity, maxAcceleration = 0, peakTurn = 0;
       let longest = 0, retention = 1, error = 0, chords = 0;
       for (const speed of [48, 76, 102]) for (const yaw of [0, 0.35]) for (const z of [14, 40, 76]) {
@@ -108,9 +127,32 @@ describe('finite-mesh surface manoeuvres', () => {
       }
       expect(captured).toBeGreaterThan(6);
       expect(rejected).toBeGreaterThan(0);
+      expect(accepted).toBe(captured);
       rows.push({ acceleration, captured, rejected, clearance, maxAcceleration, peakTurn, longest, retention, error, chords });
+      durationsMs.sort((a, b) => a - b);
+      const calls = durationsMs.length;
+      const total = durationsMs.reduce((sum, ms) => sum + ms, 0);
+      const us = (ms: number) => Number((ms * 1000).toFixed(2));
+      planner.push({ acceleration, calls, accepted, declined: calls - accepted, totalMs: Number(total.toFixed(3)),
+        meanUs: us(total / calls), p95Us: us(durationsMs[Math.ceil(calls * 0.95) - 1]), maxUs: us(durationsMs[calls - 1]) });
     }
     console.table(rows);
+    console.table(planner);
+    const harnessMs = Math.round(performance.now() - started);
+    console.info('54 fixture replays including collision oracle and assertions (ms)', harnessMs);
+    expect(rows.map(({ captured, rejected }) => [captured, rejected])).toEqual([[9, 9], [12, 6], [13, 5]]);
+    const output = process.env.SKIMMER_GLIDE_SWEEP_REPORT;
+    if (output) {
+      writeFileSync(output, JSON.stringify({
+        suite: 'tests/unit/surfaceTrajectory.test.ts', fixedHz: 120, planningHz: glideTuning.planningHz,
+        chosenAccelerationMps2: glideTuning.acceleration,
+        fixture: { wallThicknessM: 0.12, bodyRadiusM: COLLISION_RADIUS, startSpeedMps: [48, 76, 102],
+          yawRad: [0, 0.35], armDistanceM: [14, 40, 76], seconds: 3 },
+        results: rows, planner, harnessMs,
+        timing: { method: 'performance.now around each real planRedirect call, in process, including BVH queries',
+          node: process.version, platform: process.platform, arch: process.arch, cpu: cpus()[0]?.model },
+      }, null, 2) + '\n');
+    }
   });
 
   it('replays identically at 20, 60 and 144 render frames/s', () => {

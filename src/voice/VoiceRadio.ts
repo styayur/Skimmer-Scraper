@@ -8,7 +8,7 @@ import { openMicrophone } from './microphone';
 import { delay, RadioAudio } from './playback';
 import { SpeechQueue } from './SpeechQueue';
 import {
-  resolveVoiceIdentity, type SpeakingProvider, type SpeechStart, type VoiceIdentity, type VoiceInput,
+  resolveVoiceIdentity, type RadioSubtitle, type SpeakingProvider, type SpeechStart, type VoiceIdentity, type VoiceInput,
   type VoiceLifecycle, type VoicePreferences, type VoiceProvider,
 } from './voiceContracts';
 import { loadVoicePreferences, saveVoicePreferences } from './voicePreferences';
@@ -67,7 +67,7 @@ export class VoiceRadio {
   private capture: Capture | null = null;
   private speechStart: (SpeechStart & { id: number; playbackId: number }) | null = null;
   private readonly playbackEvents: PlaybackEvent[] = [];
-  private caption: RadioLine | null = null;
+  private caption: RadioSubtitle | null = null;
   private audioAttempt: AbortController | null = null;
   private muted = false;
   private seenLine: number | null = null;
@@ -78,6 +78,7 @@ export class VoiceRadio {
   private previewError: string | null = null;
   private previewSpeech: SpeechStart | null = null;
   private previewText: string | null = null;
+  private previewId: number | null = null;
   private captures = 0;
   private commands = 0;
   private played = 0;
@@ -96,7 +97,7 @@ export class VoiceRadio {
   public get inputMode(): VoiceInput { return this.settings.input; }
   public get preferences(): VoicePreferences { return { ...this.settings }; }
   public get preferredLanguage(): RadioLanguage { return this.settings.language; }
-  public get subtitleLine(): RadioLine | null { return this.caption; }
+  public get subtitle(): RadioSubtitle | null { return this.caption; }
   public get spokenLine(): RadioLine | null {
     const line = this.speech.current;
     return line && line.id === this.speechStart?.id ? line : null;
@@ -109,7 +110,7 @@ export class VoiceRadio {
       lastOutputFallback: this.lastOutputFallback,
       lastCompleted: this.playbackHistory.at(-1) ?? null, playbackHistory: this.playbackHistory.slice(),
       playbackEvents: this.playbackEvents.slice(),
-      preview: { phase: this.previewStatus, error: this.previewError, speech: this.previewSpeech, text: this.previewText },
+      preview: { playbackId: this.previewId, phase: this.previewStatus, error: this.previewError, speech: this.previewSpeech, text: this.previewText },
       cloud: this.deepSeek.snapshot(), limits: VOICE_LIMITS };
   }
 
@@ -122,6 +123,8 @@ export class VoiceRadio {
     } else this.suspend();
     if (outputChanged) {
       this.previewStatus = 'idle';
+      this.previewText = null;
+      this.previewId = null;
       this.previewSpeech = null;
       this.previewError = null;
     }
@@ -253,7 +256,6 @@ export class VoiceRadio {
   }
 
   private async announce(line: RadioLine, signal: AbortSignal, playbackId: number): Promise<void> {
-    const dispatchedAt = performance.now();
     const identity = resolveVoiceIdentity(line.agent, this.settings.volume);
     const selected = this.settings.output;
     const audio = new AbortController();
@@ -267,45 +269,14 @@ export class VoiceRadio {
     try {
       if (identity && this.activated && !this.muted && this.settings.volume > 0 && selected !== 'off'
           && (line.catalog || selected === 'deepseek' && line.priority !== 'notice')) {
-        this.transition(line, playbackId, 'preparing');
-        await delay(0, signal);
+        const done = await this.playAudio(line, playbackId, identity, selected, AbortSignal.any([signal, audio.signal]));
         signal.throwIfAborted();
-        const modes: SpeakingProvider[] = [selected];
-        if (selected === 'deepseek' && this.settings.localFallback && line.catalog) modes.push('local');
-        this.lastOutputError = this.lastOutputFallback = null;
-        for (const mode of modes) {
-          if (audio.signal.aborted) break;
-          const attempt = AbortSignal.any([signal, audio.signal, AbortSignal.timeout(mode === 'local' ? 15_000 : 30_000)]);
-          let started: CompletedSpeech | undefined;
-          let acceptingStart = true;
-          try {
-            const stream = await this.providers[mode].speak(line, identity, { signal: attempt, start: info => {
-              if (attempt.aborted || started || !acceptingStart) return;
-              started = { ...info, id: line.id, agent: identity.agent, playbackId, startLatencyMs: performance.now() - dispatchedAt };
-              this.speechStart = started;
-              this.caption = line;
-              this.transition(line, playbackId, 'playing');
-              if (mode !== selected) this.lastOutputFallback = mode;
-              this.played++;
-            } });
-            attempt.throwIfAborted();
-            if (!started) throw new Error('playback-blocked');
-            this.finishSpeech({ ...started, ...(stream ? { stream } : {}) });
-            this.transition(line, playbackId, 'completed');
-            return;
-          } catch (error) {
-            if (signal.aborted) return;
-            if (audio.signal.aborted) break;
-            this.lastOutputError = attempt.aborted ? 'voice-timeout' : failure(error);
-            this.transition(line, playbackId, 'failed');
-            if (started) break;
-          } finally { acceptingStart = false; }
-        }
+        if (done) return;
         if (audio.signal.aborted) this.transition(line, playbackId, 'cancelled');
       }
       signal.throwIfAborted();
       this.speechStart = null;
-      this.caption = line;
+      this.caption = { line, playbackId };
       this.transition(line, playbackId, 'text-only');
       await delay(Math.min(6000, Math.max(2500, Array.from(line.text).length * 100)), signal);
       signal.throwIfAborted();
@@ -320,12 +291,57 @@ export class VoiceRadio {
     }
   }
 
+  private async playAudio(line: RadioLine, playbackId: number, identity: VoiceIdentity, selected: SpeakingProvider,
+    signal: AbortSignal): Promise<boolean> {
+    const dispatchedAt = performance.now();
+    this.transition(line, playbackId, 'preparing');
+    // Defer all network and audio work until after the flight callback.
+    await delay(0, signal).catch(() => {});
+    const modes: SpeakingProvider[] = [selected];
+    if (selected === 'deepseek' && this.settings.localFallback && line.catalog?.clip) modes.push('local');
+    for (const mode of modes) {
+      if (signal.aborted) return false;
+      if (mode === selected) this.lastOutputError = this.lastOutputFallback = null;
+      const attempt = AbortSignal.any([signal, AbortSignal.timeout(mode === 'local' ? 15_000 : 30_000)]);
+      let started: CompletedSpeech | undefined;
+      let acceptingStart = true;
+      try {
+        const stream = await this.providers[mode].speak(line, identity, { signal: attempt, start: info => {
+          if (attempt.aborted || !acceptingStart) return;
+          if (!started) {
+            started = { ...info, id: line.id, agent: identity.agent, playbackId, startLatencyMs: performance.now() - dispatchedAt };
+            this.transition(line, playbackId, 'playing');
+            if (mode !== selected) this.lastOutputFallback = mode;
+            this.played++;
+          }
+          this.speechStart = started;
+          this.caption = { line, playbackId };
+        }, drained: () => {
+          if (attempt.aborted || !acceptingStart || this.caption?.playbackId !== playbackId) return;
+          this.speechStart = null;
+          this.caption = null;
+        } });
+        attempt.throwIfAborted();
+        if (!started) throw new Error('playback-blocked');
+        this.finishSpeech({ ...started, ...(stream ? { stream } : {}) });
+        this.transition(line, playbackId, 'completed');
+        return true;
+      } catch (error) {
+        if (signal.aborted) return false;
+        this.lastOutputError = attempt.aborted ? 'voice-timeout' : failure(error);
+        this.transition(line, playbackId, 'failed');
+        if (started) return false;
+      } finally { acceptingStart = false; }
+    }
+    return false;
+  }
+
   private speakCloud = async (line: RadioLine, identity: VoiceIdentity,
-    { signal, start }: VoiceLifecycle): Promise<SpeechStreamStats> => {
+    { signal, start, drained }: VoiceLifecycle): Promise<SpeechStreamStats> => {
     if (!this.deepSeek.connected) throw new Error('voice-disconnected');
     if (this.context?.state !== 'running') throw new Error('playback-blocked');
     const playback = new RadioAudio(this.context, identity, signal,
-      () => start({ provider: 'deepseek', voiceId: identity.cloudVoice, rate: identity.rate }));
+      () => start({ provider: 'deepseek', voiceId: identity.cloudVoice, rate: identity.rate }), drained);
     try {
       const stats = await this.deepSeek.speak(line.text, identity.cloudVoice, signal, chunk => playback.append(chunk));
       await playback.finish();
@@ -347,7 +363,8 @@ export class VoiceRadio {
     this.previewSpeech = null;
     const { signal } = controller;
     const catalog = radioCatalog.resolve(agent, 'preview', language)!;
-    const line: RadioLine = Object.freeze({ id: 0, agent, event: 'preview', locale: language, catalog,
+    this.previewId = this.speech.nextPlaybackId();
+    const line: RadioLine = Object.freeze({ id: this.previewId, agent, event: 'preview', locale: language, catalog,
       text: catalog.text, source: 'local', priority: 'notice' });
     this.previewText = line.text;
     try {
