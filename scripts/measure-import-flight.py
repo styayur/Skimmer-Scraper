@@ -10,15 +10,22 @@ parser = argparse.ArgumentParser()
 parser.add_argument("world", type=Path)
 parser.add_argument("report", type=Path)
 parser.add_argument("--url", default="http://127.0.0.1:4173")
+parser.add_argument("--release-tick", type=int, default=48)
+parser.add_argument("--film", action="store_true", help="Save a WebP recording of the controlled frames")
+parser.add_argument("--orders", action="store_true", help="Send a local three-wingmate mission")
+parser.add_argument("--gpu", action="store_true", help="Measure 120 uninterrupted animation frames on the default renderer")
 parser.add_argument("--boost", action="store_true")
 parser.add_argument("--browser", help="Chromium executable override")
 args = parser.parse_args()
+if not 8 <= args.release_tick <= 128:
+    parser.error("release tick must be between 8 and 128")
+frames = []
 digest = hashlib.sha256(args.world.read_bytes()).hexdigest()
 report = dict(format="flight-diagnostic-1", sha256=digest, boost=args.boost,
               input="emulated standard gamepad LB", fixedHz=120, sampleMs=64, trace=[], errors=[])
 game = "window.__SKIMMER_SCRAPER__"
 with sync_playwright() as p:
-    browser = p.chromium.launch(executable_path=args.browser, args=["--use-angle=swiftshader",
+    browser = p.chromium.launch(executable_path=args.browser, headless=not args.gpu, args=(["--use-angle=d3d11","--disable-software-rasterizer"] if args.gpu else ["--use-angle=swiftshader"]) + [
         "--enable-webgl", "--ignore-gpu-blocklist", "--enable-unsafe-swiftshader"])
     try:
         context = browser.new_context(locale="zh-CN", viewport=dict(width=640, height=360))
@@ -73,6 +80,19 @@ with sync_playwright() as p:
         report["replayed"] = identity()
         assert report["imported"] == report["replayed"]
         assert report["imported"]["id"] == digest
+        if args.gpu:
+            page.locator("#start-button").click()
+            page.wait_for_function(game + ".snapshot().mode === 'running'")
+            report["frameSample"] = page.evaluate("""async () => {
+              const gl=document.querySelector('canvas').getContext('webgl2');
+              const ext=gl.getExtension('WEBGL_debug_renderer_info');
+              const times=[];
+              for(let i=0;i<151;i++) times.push(await new Promise(requestAnimationFrame));
+              const ms=times.slice(31).map((t,i)=>t-times[i+30]).sort((a,b)=>a-b);
+              return {renderer:ext ? gl.getParameter(ext.UNMASKED_RENDERER_WEBGL) : 'unknown',
+                width:gl.drawingBufferWidth,height:gl.drawingBufferHeight,frames:ms.length,
+                p50:ms[59],p95:ms[113],p99:ms[118]};
+            }""")
         # Install the controlled clock before the game schedules its first frame.
         # Reopen the kept world in a fresh tab sharing the same IndexedDB.
         flight_page = page.context.new_page()
@@ -95,16 +115,46 @@ with sync_playwright() as p:
         sample()
         if args.boost:
             button(7, True)
-        for tick in range(64):
-            if tick in (4, 48):
+        report["releaseTick"] = args.release_tick
+        for tick in range(args.release_tick + 16):
+            if tick in (4, args.release_tick):
                 button(4, True)
-            if tick in (5, 49):
+            if tick in (5, args.release_tick+1):
                 button(4, False)
             page.clock.run_for(64)
             sample()
-        assert report["trace"][-1]["time"] - report["trace"][0]["time"] > 4
+            if args.film and tick % 3 == 0:
+                from io import BytesIO
+                from PIL import Image
+                frames.append(Image.open(BytesIO(page.screenshot())).convert("RGB"))
+        if frames:
+            frames[0].save(args.report.with_suffix(".webp"),save_all=True,append_images=frames[1:],
+                           duration=192,loop=0,quality=76)
+        assert report["trace"][-1]["time"] - report["trace"][0]["time"] > (args.release_tick + 15) * 0.064
         assert any(r["phase"] != "FLIGHT" for r in report["trace"]), "LB input never reached controller"
         page.clock.resume()
+        if args.orders:
+            field = page.locator("#radio-input")
+            report["radio"] = []
+            for attempt,message in enumerate(["KITE-1 lead", "KITE-2 escort me", "KITE-3 inspect the landmark", "KITE-2 escort me"]):
+                if attempt == 3:
+                    if any(m["type"] == "ESCORT" for m in report["radio"][-1]["missions"]):
+                        break
+                    # Leave the tower before retrying a route rejected near its roof.
+                    await_state = page.evaluate(game + ".advance(3)")
+                    assert await_state["mode"] == "running"
+                page.keyboard.press("t")
+                field.fill(message)
+                field.press("Enter")
+                page.wait_for_selector("#radio-panel", state="hidden")
+                page.wait_for_timeout(600)
+                report["radio"].append(page.evaluate("""() => {
+                  const s=window.__SKIMMER_SCRAPER__.snapshot();
+                  return {missions:s.cooperation.missions, tasks:s.companions.map(a=>a.task),
+                    events:s.cooperation.trace.slice(-3)};
+                }"""))
+            page.evaluate(game + ".advance(3)")
+            report["missions"] = page.evaluate(game + ".snapshot().cooperation.missions")
         page.screenshot(path=str(args.report.with_suffix(".png")))
         library()
         page.locator("#local-world-builtin").click()
@@ -113,7 +163,7 @@ with sync_playwright() as p:
         phases = {r["phase"] for r in report["trace"]}
         report["outcome"] = ("impact" if report["trace"][-1]["impacts"] else
                              "capture-missed" if not phases.intersection({"REDIRECT","GLIDING","ATTACHING"}) else
-                             "contact-lost" if report["trace"][48]["phase"] != "GLIDING" else
+                             "contact-lost" if report["trace"][args.release_tick]["phase"] != "GLIDING" else
                              "detach-missed" if "DETACHING" not in phases else "glide-and-release")
     finally:
         args.report.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")

@@ -40,10 +40,26 @@ jobs:
         if: github.event_name == 'workflow_dispatch'
         run: cargo test --locked --manifest-path src-tauri/Cargo.toml official_pack::tests::installs_public_archive_in_isolated_library -- --ignored --exact
       - run: npm run desktop:build -- --ci
+      - name: Exercise the current-user installer and installed WebView2 client
+        shell: pwsh
+        run: |
+          $bundle = @(Get-ChildItem src-tauri/target/release/bundle/nsis/*.exe)
+          if ($bundle.Count -ne 1) { throw 'Expected one NSIS installer' }
+          $install = Join-Path $env:RUNNER_TEMP 'SkimmerInstalled'
+          $process = Start-Process -FilePath $bundle[0].FullName -ArgumentList '/S',"/D=$install" -Wait -PassThru -WindowStyle Hidden
+          if ($process.ExitCode -ne 0) { throw "NSIS returned $($process.ExitCode)" }
+          $client = Join-Path $install 'skimmer-scraper.exe'
+          if (!(Test-Path -LiteralPath $client)) { throw 'Installed flight client is missing' }
+          node scripts/desktop-smoke.mjs $client acceptance/installed-smoke
+          if ($LASTEXITCODE -ne 0) { throw 'Installed WebView2 smoke failed' }
+          Get-FileHash -Algorithm SHA256 $bundle[0].FullName,$client |
+            Select-Object @{Name='File';Expression={Split-Path $_.Path -Leaf}},Hash |
+            ConvertTo-Json | Set-Content acceptance/installed-smoke/hashes.json
       - uses: actions/upload-artifact@v4
         with:
           name: windows-x64-${{ github.sha }}
           path: |
             src-tauri/target/release/bundle/nsis/*.exe
             dist/build-info.json
+            acceptance/installed-smoke/
           if-no-files-found: error
