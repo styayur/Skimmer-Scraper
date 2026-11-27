@@ -341,7 +341,7 @@ export class WorldImportPanel {
     const { x, y, z } = world.getDefaultSpawn().position;
     const lengths = Object.values(manifest.bounds).map(value => value.toFixed(1)).join(' × ');
     const textureMiB = Math.ceil(manifest.texturePixels * 4 / (1024 * 1024));
-    get('summary').textContent = t('worldImportPanel.sceneSummary', { name: manifest.name, lengths, nodes: manifest.nodes, triangles: manifest.triangles.toLocaleString(selectedLocale), materials: manifest.materials, textures: manifest.textures, textureMiB, clips: manifest.animations.length });
+    get('summary').textContent = t('worldImportPanel.sceneSummary', { name: manifest.name, lengths, collisionTriangles:manifest.collisionTriangles, spawn:[x,y,z].map(v => v.toFixed(1)).join(", "), nodes: manifest.nodes, triangles: manifest.triangles.toLocaleString(selectedLocale), materials: manifest.materials, textures: manifest.textures, textureMiB, clips: manifest.animations.length });
     this.status.textContent = manifest.triangles > 450_000 || textureMiB > 80 ? t('worldImportPanel.thisLargeSceneMayReduceFrameRate') : '';
     this.roles = { ...options.roles };
     this.meshes.replaceChildren(...manifest.meshRoles.map(mesh => new Option(mesh.name, mesh.id)));

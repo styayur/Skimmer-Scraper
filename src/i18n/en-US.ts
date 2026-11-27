@@ -391,7 +391,7 @@ export const en = {
   "worldImportPanel.importCancelled": "Import cancelled.",
   "worldImportPanel.localCopyRemoved": "Local copy removed.",
   "worldImportPanel.sessionOnly": "Local library unavailable. You can still load a file for this session.",
-  "worldImportPanel.sceneSummary": "{name} · {lengths} m · {nodes} nodes · {triangles} triangles · {materials} materials · {textures} textures (about {textureMiB} MB decoded) · {clips} animation clips",
+  "worldImportPanel.sceneSummary": "{name} · {lengths} m · {nodes} nodes · {triangles} triangles · {materials} materials · {textures} textures (about {textureMiB} MB decoded) · {clips} animation clips · {collisionTriangles} collision triangles · launch ({spawn}) m",
   "worldImportPanel.openingLocalWorld": "Opening local world…",
   "worldImportPanel.preparingProceduralCity": "Preparing procedural city…",
   "worldImportPanel.preparingWorld": "Preparing world…",

@@ -69,12 +69,12 @@ export class SemanticTargets {
   public observe(world: CompanionWorld, player: FlightState, epoch: number): PerceivedTarget[] {
     this.clear();
     const forward = forwardFromAttitude(player.attitude);
-    for (const offset of [0, 65]) {
-      const p = {
-        x: player.position.x + offset * forward.x,
-        y: player.position.y + offset * forward.y,
-        z: player.position.z + offset * forward.z,
+    const ahead = world.routeHint?.(player.position,forward) ?? {
+        x: player.position.x + 65 * forward.x,
+        y: player.position.y + 65 * forward.y,
+        z: player.position.z + 65 * forward.z,
       };
+    for (const p of [player.position,ahead]) {
       if (!covered(world, p)) continue;
       const glideHit = world.queryGlide?.(p, 75);
       const hit = glideHit ?? world.queryNearest(p, 75);

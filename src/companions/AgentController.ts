@@ -6,6 +6,7 @@ import { normalizeCompanions, type CompanionSettings } from './settings';
 
 export type AgentTask = 'FORMATION_FOLLOW' | 'INDEPENDENT_FOLLOW' | 'LEAD' | 'REGROUP' | 'AVOID' | 'RECOVER' | 'SCOUT' | 'PROTECT' | 'RELAY' | 'HOLD';
 export interface CompanionWorld extends SurfaceProvider {
+  routeHint?(position: Vec3, forward: Vec3): Vec3 | undefined;
   isCollisionCovered?(position: Vec3): boolean;
   isCompanionCovered?(position: Vec3): boolean;
 }
@@ -223,8 +224,10 @@ export class CompanionTeam {
     const forward = unit(player.velocity);
     const right = { x: Math.cos(player.attitude.yaw), y: 0, z: -Math.sin(player.attitude.yaw) };
     let best = this.formationTarget(player, id); let bestCost = Infinity;
+    const ahead = world.routeHint?.(player.position,forward) ?? add(player.position,scale(forward,90));
     for (const side of [0, -1, 1]) {
-      const candidate = add(add(player.position, scale(forward, 90)), scale(right, side * 40)); candidate.y += side === 0 ? 6 : 20;
+      const candidate = add(ahead, scale(right, side * 40));
+      candidate.y += side === 0 ? 6 : 20;
       if (!covered(world, candidate)) continue;
       let cost = Math.abs(side - preferredSide) * 8;
       for (const ratio of [0.3, 0.6, 1]) {
