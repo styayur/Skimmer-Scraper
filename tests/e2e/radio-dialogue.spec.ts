@@ -149,4 +149,10 @@ test('a mocked model validates orders, disconnect restores local radio, and reco
   await expect.poll(() => performance.now() - firstRequestAt).toBeGreaterThan(650);
   await send(page, '一号领航');
   await expect.poll(async () => (await snapshot(page)).cooperation.model.successes).toBe(2);
-  const reconnected = await snapshot(page);
+  const reconnected = await snapshot(page);
+  expect(reconnected.cooperation.lastPlan?.orders[0]?.action).toBe('LEAD');
+  expect(reconnected.cooperation.radio.history.at(-1)?.source).toBe('model');
+  expect(reconnected.cooperation.model.usage.total).toBe(282);
+  expect(transmitted).toBe(2);
+  expect(JSON.stringify(reconnected)).not.toContain(replacement);
+});
