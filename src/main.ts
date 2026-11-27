@@ -719,7 +719,9 @@ const simulateFixedStep = timedFlightFunction('fixedStep', (dt: number, holdPosi
 
   setBuffering(false);
   neededCoverage = null;
-  if (!holdPosition && !usedGlide && glideChangedMotion(free, candidate.flight)) {
+  // Holding an already tangent path can require zero correction on a flat face.
+  const captured = candidate.state.phase === 'ATTACHING' || candidate.state.phase === 'GLIDING';
+  if (!holdPosition && !usedGlide && (captured || glideChangedMotion(free, candidate.flight))) {
     usedGlide = true;
     best = loadBest(runScoreContext());
     ui.setBest(best);

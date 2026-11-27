@@ -7,7 +7,7 @@ export const chapters = {
   ],
   'guide-flight': [
     "Keyboard flight controls",
-    "Approaching danger? Press LB or Space. Let the surface become your escape route. For two seconds the aircraft searches ahead and to either side. A clear route can turn a late approach into a braking turn, a wall climb or an escape into open air. Use the wall to climb and approach the roof edge. Press the same button again to launch with your current momentum. A redirect or glide that changes your motion counts toward assisted records. W or ↑ pitches down, S or ↓ pitches up. A/D or ←/→ rolls, Q/E yaws and Shift boosts. Tap near buildings and hold a bank to change heading.",
+    "Approaching danger? Press LB or Space. Let the surface become your escape route. For two seconds the aircraft searches ahead and to either side. A clear route can turn a late approach into a braking turn, a wall climb or an escape into open air. Use the wall to climb and approach the roof edge. Press the same button again to launch with your current momentum. Capturing a surface or changing course with assistance counts toward assisted records. W or ↑ pitches down, S or ↓ pitches up. A/D or ←/→ rolls, Q/E yaws and Shift boosts. Tap near buildings and hold a bank to change heading.",
     "Esc pauses or goes back, C changes view and R retries. F opens flight settings, G the world, M the hangar, H the Flight Guide and T the radio. Hold V to talk once voice input is enabled.",
     "Arm glide early on a clear approach. A steep wall can redirect your aircraft upward if there is room to turn. Follow the wall toward its roof for a corner transfer. A blocked route or a late toggle can still end in a collision. Arming alone keeps your current score category.",
   ],

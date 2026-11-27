@@ -1,6 +1,6 @@
 # Surface Instinct
 
-LB or Space opens a two-second window measured by the 120 Hz simulation. Press again to cancel capture, abort a turn or leave a surface. Pausing freezes the simulation. Focus loss, restart and world inversion clear assistance. Motion changes enter the Assisted score class.
+LB or Space opens a two-second window measured by the 120 Hz simulation. Press again to cancel capture, abort a turn or leave a surface. Pausing freezes the simulation. Focus loss, restart and world inversion clear assistance. A verified capture or an assisted change in motion enters the Assisted score class. Arming alone preserves the original category.
 
 Every eighth tick the planner can search ahead and to the sides. A newly obstructed near-field chord can trigger an earlier search. For a parallel pass, two smooth velocity transitions approach the wall and remove inward speed at six metres. During a head-on approach, an estimated time to stand-off below 0.55 seconds permits a stronger turn and three terminal speed fractions (1.00, 0.72, 0.48). A locked path can finish after the original deadline. ESCAPE verifies the turn and 0.28 seconds of clear run-out. Recovery blends back to the flight model and retains the original capture deadline.
 
