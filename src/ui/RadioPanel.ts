@@ -50,7 +50,6 @@ export class RadioPanel {
   }
 
   public update(inFlight: boolean, caption: RadioSubtitle | null = null): void {
-    const { history } = this.radio.snapshot();
     const active = inFlight ? caption : null;
     if (active?.playbackId !== this.subtitleId) {
       this.subtitleId = active?.playbackId;
@@ -64,7 +63,8 @@ export class RadioPanel {
         this.subtitle.replaceChildren();
       }
     }
-    if (this.panel.hidden && history.length) return;
+    if (this.panel.hidden) return;
+    const { history } = this.radio.snapshot();
     const mostRecent = history.at(-1)?.id;
     if (mostRecent === this.historyId) return;
     this.historyId = mostRecent;

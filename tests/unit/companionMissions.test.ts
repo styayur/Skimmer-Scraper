@@ -242,6 +242,109 @@ describe('local mission executive', () => {
 });
 
 describe('bounded cognition', () => {
+  describe.each(['v1', 'v2'])('%s grounded radio', protocol => {
+    it.each([
+      ['en-US', 'Did you see a landmark?', 'Crystal citadel sighted at 9321, 7788.', 'Our scan has no confirmed landmark.'],
+      ['zh-CN', '发现地标了吗？', '已发现水晶宫，坐标 9321，7788。', '当前探测范围内没有已确认的地标。'],
+      ['en-US', 'Did you finish the mission?', 'Rescue complete. I recovered 9321 survivors.', 'No mission assigned.'],
+      ['zh-CN', '救援任务完成了吗？', '目标已救回，任务完成，得分 9321。', '没有已分配的任务。'],
+    ] as const)('renders %s pilot question %s from local evidence', async (language, question, fiction, expected) => {
+      let release!: (value: Response) => void;
+      let returned: unknown;
+      const client = new ModelClient(async (_url, init) => {
+        const input = JSON.parse(JSON.parse(String(init?.body)).messages[1].content);
+        const line = { agentId: 1, text: fiction };
+        returned = protocol === 'v1' ? { plan: null, reply: line }
+          : { ...envelope(input.perception, []), dialogue: [line] };
+        return new Promise<Response>(resolve => { release = resolve; });
+      });
+      client.connect(DEFAULT_MODEL_CONFIG, 'mock-grounded-speech');
+      const { runtime, player } = setup(1, client);
+      runtime.radioLanguage = language;
+      expect(runtime.perception()!.targets.some(t => t.kind === 'floating-island')).toBe(true);
+      const pending = runtime.sendDialogue(question);
+      player.position.y = 900;
+      release(response(returned));
+      expect(await pending).toBe(true);
+      expect(runtime.radio.snapshot().history.at(-1)).toMatchObject({ text: expected, source: 'model', locale: language });
+      expect(runtime.lastPlan).toBeNull();
+      expect(runtime.snapshot().missions).toEqual([]);
+      await runtime.sendDialogue(language === 'en-US' ? 'Repeat that' : '再说一遍', false);
+      expect(runtime.radio.snapshot().history.at(-1)?.text).toContain(expected);
+      expect(JSON.stringify(runtime.snapshot())).not.toContain('9321');
+    });
+
+    it('interprets a suggested personal topic and remembers the addressed speaker', async () => {
+      const client = new ModelClient(async (_url, init) => {
+        const input = JSON.parse(JSON.parse(String(init?.body)).messages[1].content);
+        const line = { agentId: 2, act: 'background' };
+        return response(protocol === 'v1' ? { plan: null, reply: line }
+          : { ...envelope(input.perception, []), dialogue: [line] });
+      });
+      client.connect(DEFAULT_MODEL_CONFIG, 'mock-grounded-stories');
+      const { runtime } = setup(2, client);
+      await runtime.sendDialogue('KITE-2, share something personal.');
+      expect(runtime.radio.snapshot().history.at(-1)).toMatchObject({ source: 'model', agent: 2, text: expect.stringContaining('Search and rescue') });
+      await runtime.sendDialogue('KITE-2, tell me more.', false);
+      expect(runtime.radio.snapshot().history.at(-1)?.text).toContain('last wingmate');
+      await runtime.sendDialogue('KITE-1, repeat that.', false);
+      expect(runtime.radio.snapshot().history.at(-1)?.text).toBe('This is our first exchange.');
+    });
+  });
+
+  it('acknowledges a validated v1 order without reporting the provider’s invented outcome', async () => {
+    const client = new ModelClient(async (_url, init) => {
+      const input = JSON.parse(JSON.parse(String(init?.body)).messages[1].content);
+      return response({
+        plan: { epoch: input.perception.epoch, requestId: input.perception.requestId, ttl: 10, risk: 0.2,
+          formation: 'wedge', orders: input.suggestedOrders, reason: 'Rescue complete at 9321, 7788' },
+        reply: { agentId: 1, text: 'Rescue complete at 9321, 7788' },
+      });
+    });
+    client.connect(DEFAULT_MODEL_CONFIG, 'mock-grounded-order');
+    const { runtime } = setup(1, client);
+    await runtime.sendDialogue('KITE-1 take point');
+    expect(runtime.lastPlan?.orders[0]?.action).toBe('LEAD');
+    expect(runtime.radio.snapshot().history.at(-1)).toMatchObject({ source: 'model', text: 'Copy. Order accepted.' });
+    expect(JSON.stringify(runtime.snapshot())).not.toContain('9321');
+  });
+
+  it('reports running and completed states from the executive, then drops them on a world change', async () => {
+    const { runtime, advance } = setup(1);
+    await runtime.sendDialogue('KITE-1 wait 2 seconds', false);
+    await runtime.sendDialogue('Did you finish the task?', false);
+    expect(runtime.radio.snapshot().history.at(-1)?.text).toContain('in progress');
+    advance(9);
+    await runtime.sendDialogue('Did you finish the task?', false);
+    expect(runtime.radio.snapshot().history.at(-1)?.text).toContain('completed · back in formation');
+    runtime.invalidate();
+    advance(0.02);
+    await runtime.sendDialogue('Did you finish the task?', false);
+    expect(runtime.radio.snapshot().history.at(-1)?.text).toBe('No mission assigned.');
+  });
+
+  it('rejects unknown acts and additional payload fields without losing actual sightings', async () => {
+    const lines = [
+      { agentId: 1, act: 'sighting at 9321' },
+      { agentId: 1, act: 'observations', coordinates: [9321, 7788] },
+      { agentId: 1, act: 'observations', text: '9321' },
+    ];
+    let clock = 0;
+    const client = new ModelClient(async (_url, init) => {
+      const input = JSON.parse(JSON.parse(String(init?.body)).messages[1].content);
+      return response({ ...envelope(input.perception, []), dialogue: [lines.shift()] });
+    }, () => clock);
+    client.connect(DEFAULT_MODEL_CONFIG, 'mock-invalid-act');
+    const { runtime } = setup(1, client);
+    for (let attempt = 0; attempt < 3; attempt++) {
+      clock += 10000;
+      await runtime.sendDialogue('What do you see?');
+      expect(runtime.radio.snapshot().history.at(-1)).toMatchObject({ source: 'local', text: 'Our scan shows a floating island.' });
+    }
+    expect(lines).toHaveLength(0);
+    expect(JSON.stringify(runtime.snapshot())).not.toContain('9321');
+  });
+
   it('rejects an unavailable callsign and an unsupported wait condition without moving the team', async () => {
     const { runtime } = setup(2);
     await runtime.sendDialogue('风筝四号跟随我', false);

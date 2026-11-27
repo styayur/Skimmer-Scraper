@@ -1,6 +1,7 @@
 import { distance, type Vec3 } from '../core/math';
 import type { AgentTask, CompanionTeam, CompanionWorld } from '../companions/AgentController';
 import type { Perception } from './contracts';
+import { readUtterance, type WireUtterance } from './radioSpeech';
 import { clearApproach, covered, observedHere, type SemanticTargets } from './semanticTargets';
 
 export const missionTypes = [
@@ -26,7 +27,7 @@ export interface MissionPlan {
   schemaVersion: 2;
   requestId: string;
   epoch: number;
-  dialogue: { agentId: number; text: string }[];
+  dialogue: WireUtterance[];
   missions: Assignment[];
 }
 interface ValidatedAssignment {
@@ -65,7 +66,7 @@ export interface MissionContext {
 }
 type Decision =
   | { ok: false; reason: string }
-  | { ok: true; assignments: ValidatedAssignment[]; dialogue: MissionPlan['dialogue'] };
+  | { ok: true; assignments: ValidatedAssignment[]; dialogue: NonNullable<ReturnType<typeof readUtterance>>[] };
 /** Atomic validation: no member gets a new order if any assignment fails. */
 export function validateMissions(
   raw: unknown,
@@ -94,19 +95,11 @@ export function validateMissions(
     raw.missions.length > 3
   )
     return fail('schema');
-  const dialogue: MissionPlan['dialogue'] = [];
+  const dialogue: NonNullable<ReturnType<typeof readUtterance>>[] = [];
   for (const line of raw.dialogue) {
-    if (
-      !record(line) ||
-      !exact(line, ['agentId', 'text']) ||
-      !available(line.agentId) ||
-      typeof line.text !== 'string' ||
-      !line.text.trim() ||
-      line.text.length > 140 ||
-      /[\x00-\x1f]/.test(line.text)
-    )
-      return fail('dialogue');
-    dialogue.push({ agentId: line.agentId, text: line.text });
+    const utterance = readUtterance(line);
+    if (!utterance || !available(utterance.agentId)) return fail('dialogue');
+    dialogue.push(utterance);
   }
   const assigned = new Set<number>();
   const assignments: ValidatedAssignment[] = [];

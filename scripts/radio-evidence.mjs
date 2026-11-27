@@ -92,10 +92,9 @@ try {
       throw new Error('Radio acceptance mismatch');
     }
     if (!action) {
-      const trust = String(Math.round(run.perception.trust * 100));
-      if (!line.text.includes(String(run.perception.trust)) && !line.text.includes(`${trust}%`)) throw new Error('Trust answer mismatch');
-      const { position, surfaceDistance } = run.perception.player;
-      if (!line.text.includes(String(Math.round(position.y))) ||
+      const { altitude, surfaceDistance, trust } = interpretation.readings;
+      if (!line.text.includes(`${Math.round(trust * 100)}%`)) throw new Error('Trust answer mismatch');
+      if (!line.text.includes(String(Math.round(altitude))) ||
           !(surfaceDistance === null ? /90\s*米/.test(line.text) : line.text.includes(String(Math.round(surfaceDistance))))) {
         throw new Error('Terrain answer mismatch');
       }

@@ -136,7 +136,13 @@ const observations: Record<NonNullable<MissionRecord['observed']>, [string, stri
   'patrol-waypoint': ['已巡视航路点', 'patrol point visited'],
 };
 export function missionReport(record: MissionRecord, english: boolean): string {
-  const parts = [`KITE-${record.agentId}`, missionName(record.type, english)];
+  const outcomes = {
+    running: ['进行中', 'in progress'],
+    completed: ['已完成', 'completed'],
+    failed: ['失败', 'failed'],
+    cancelled: ['已取消', 'cancelled'],
+  };
+  const parts = [`KITE-${record.agentId}`, missionName(record.type, english), outcomes[record.outcome][english ? 1 : 0]];
   if (record.observed) parts.push(observations[record.observed][english ? 1 : 0]);
   parts.push(record.reason ? missionReason(record.reason, english) : `${Math.round(record.progress * 100)}%`);
   return parts.join(' · ');

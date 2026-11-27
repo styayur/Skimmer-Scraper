@@ -10,7 +10,9 @@ import type { AgentAction, Perception, ValidatedPlan } from './contracts';
 import { RadioDialogue, radioLanguageOf, radioText, type RadioLanguage, type RadioPriority } from './radioDialogue';
 import { selectedLocale } from '../i18n/locale';
 import { addressedAgent, localRadioIntent, localRadioReply, type LocalRadioIntent } from './radioCommands';
-import { CompanionMemory, identities } from './companionMemory';
+import { CompanionMemory } from './companionMemory';
+import { groundedDialogue } from './groundedDialogue';
+import { readUtterance, type SpeechAct } from './radioSpeech';
 import { directive, explicitLegacy, missionCommand, missionName, missionPrefix, missionReason, missionReport } from './missionCommands';
 import { matchesMissionIntent, MissionExecutive, validateMissions, type MissionContext, type MissionPlan, type MissionRecord } from './missions';
 import { clearApproach, SemanticTargets } from './semanticTargets';
@@ -24,15 +26,12 @@ interface RadioOutcome {
   starts: Array<{ id: number; position: Vec3; action: AgentAction }>;
   chinese: boolean;
 }
-const readRadioReply = (raw: unknown): { plan: unknown; agent: number; text: string } | null => {
+const readRadioReply = (raw: unknown) => {
   if (!raw || typeof raw !== 'object' || Array.isArray(raw) || Object.keys(raw).length !== 2) return null;
-  const envelope = raw as { plan?: unknown; reply?: { agentId?: unknown; text?: unknown } };
-  const reply = envelope.reply;
-  if (!Object.hasOwn(envelope, 'plan') || !reply || typeof reply !== 'object' || Array.isArray(reply) || Object.keys(reply).length !== 2
-      || typeof reply.agentId !== 'number' || !Number.isInteger(reply.agentId) || typeof reply.text !== 'string'
-      || Array.from(reply.text).length > 140) return null;
-  const text = radioText(reply.text, 140);
-  return text ? { plan: envelope.plan, agent: reply.agentId, text } : null;
+  const envelope = raw as Record<string, unknown>;
+  if (!Object.hasOwn(envelope, 'plan')) return null;
+  const reply = readUtterance(envelope.reply);
+  return reply ? { plan: envelope.plan, ...reply } : null;
 };
 const tasks:Record<AgentAction,AgentTask>={FOLLOW:'FORMATION_FOLLOW',LEAD:'LEAD',REGROUP:'REGROUP',SCOUT:'SCOUT',PROTECT:'PROTECT',RELAY:'RELAY',HOLD:'HOLD'};
 /** Plain bounded state; async planning never runs inside fixed-step physics. */
@@ -188,6 +187,13 @@ export class SymbiosisRuntime {
         this.dialogue.add({agent,epoch:this.epoch,pilot:message,reply:radioText(text,140)},useModel && this.client.snapshot().connected);
         return true;
       };
+      const addressed = addressedAgent(message);
+      if (addressed !== null && this.radioAgent(addressed) !== addressed)
+        return report(en ? 'That wingmate is unavailable.' : '指定的伴机暂时不可用。');
+      const conversation = (agent: number, picture: Perception, act?: SpeechAct) => {
+        const latest = this.missions.snapshot().filter(m => m.agentId === agent && m.epoch === this.epoch).at(-1);
+        return groundedDialogue(message, agent, language, picture, latest, this.dialogue.recent(agent), act);
+      };
       if (/^(?:cancel|abort|stand down|取消|撤销|停止任务)/i.test(directive(message)??'')) {
         const id=addressedAgent(message);
         const ids=id===null?perception.agents.map(a=>a.id):[id];
@@ -199,13 +205,26 @@ export class SymbiosisRuntime {
       }
       const records = this.missions.snapshot();
       if (!intent && !proposal && /mission status|task status|任务进度|任务状态/i.test(message)) {
-        const last = records.filter(record => record.agentId === speaker).at(-1);
-        return report(last ? missionReport(last,en) : en ? 'No mission assigned.' : '没有已分配的任务。');
+        return report(conversation(speaker, perception, 'mission'));
       }
       const working=records.slice(-4).map(({agentId,type,phase,outcome,reason,observed,epoch})=>({agentId,type,phase,outcome,reason,observed,epoch}));
       const model=useModel&&this.client.canRequest(true) ? await this.client.request(perception,message,language,intent?.plan?.orders,
         {turns:this.dialogue.context(),missions:proposal?.missions??(intent?undefined:[]),working,explicitMission}) : null;
       if(generation!==this.radioGeneration||!this.context?.active || !this.pictures.has(perception.requestId))return false;
+      if (this.radioAgent(speaker) !== speaker) return false;
+      const modelSpeech = (agent: number, act?: SpeechAct, acceptedOrder = false) => {
+        const picture = this.perception();
+        if (!picture || !model) return false;
+        const acknowledgement = en ? 'Copy. Order accepted.' : '收到，指令已接受。';
+        report(acceptedOrder ? acknowledgement : conversation(agent, picture, act), agent, 'model');
+        this.record('radio-interpretation', {
+          source: 'model', intent: intent?.kind ?? null, requestId: perception.requestId, agent,
+          readings: { altitude: picture.player.position.y, surfaceDistance: picture.player.surfaceDistance, trust: picture.trust },
+          action: acceptedOrder ? this.lastPlan?.orders : null, latencyMs: model.latencyMs, usage: model.usage,
+        });
+        if (acceptedOrder) this.trackRadioOutcome(perception, agent, language);
+        return true;
+      };
       if (proposal) {
         const result=this.applyMission(proposal,perception,model?.decision);
         const names=proposal.missions.map(m=>`KITE-${m.agentIds.join('/')} ${missionName(m.type,en)}`).join(en?', ':'，');
@@ -222,20 +241,17 @@ export class SymbiosisRuntime {
           return report(en ? `Assigned: ${names.join(', ')}.` : `已分配：${names.join('，')}。`);
         }
         if (explicitMission && !checked.ok) return report(missionReason(checked.reason,en));
-        const line=checked.ok && !checked.assignments.length && checked.dialogue.find(l=>l.agentId===speaker);
-        if(line && radioLanguageOf(line.text)===language)return report(line.text,line.agentId,'model');
+        if (!explicitMission && checked.ok && !checked.assignments.length) {
+          const line = checked.dialogue.find(line => line.agentId === speaker);
+          if (line) return modelSpeech(speaker, line.act);
+        }
       }
       if (explicitMission) return report(en ? 'No matching mission. Try “patrol” or “find a passage”.' : '没有匹配的任务。请试试“巡航”或“寻找通道”。');
       const response=model&&readRadioReply(model.decision);
-      if(model&&response&&radioLanguageOf(response.text)===language&&this.radioAgent(response.agent)===response.agent){
-        const isQuestion=response.plan===null;
-        if(this.time-perception.time<12 && (isQuestion&&!intent && response.agent===speaker || !isQuestion&&!!intent&&this.accept({...model,decision:response.plan},perception,'Model Radio',intent))){
-          report(response.text,response.agent,'model');
-          this.record('radio-interpretation',{source:'model',intent:intent?.kind??null,requestId:perception.requestId,agent:response.agent,
-            action:isQuestion?null:this.lastPlan?.orders,latencyMs:model.latencyMs,usage:model.usage});
-          if(!isQuestion)this.trackRadioOutcome(perception,response.agent,language);
-          return true;
-        }
+      if (model && response && response.agentId === speaker && this.time - perception.time < 12) {
+        if (response.plan === null && !intent) return modelSpeech(speaker, response.act);
+        if (response.plan !== null && intent && this.accept({ ...model, decision: response.plan }, perception, 'Model Radio', intent))
+          return modelSpeech(speaker, response.act, true);
       }
       const agent=this.radioAgent(intent?.agent??addressedAgent(message)??1);
       if(agent===null)return false;
@@ -246,12 +262,9 @@ export class SymbiosisRuntime {
         const line=this.radio.snapshot().history.at(-1);
         if(line?.agent===agent)this.dialogue.add({agent,epoch:this.epoch,pilot:message,reply:line.text},useModel && this.client.snapshot().connected);
       } else {
-        const prior=this.dialogue.recent(agent);
-        const identity=identities[agent-1]!;
-        let reply=localRadioReply(message,perception,intent,agent,language);
-        if(!intent && /your (?:background|story)|where are you from|你的经历|你的来历|你的过去/i.test(message))reply=en?identity.en:identity.zh;
-        if(!intent && /last (?:message|reply)|what did you (?:just )?say|repeat that|上次|刚才说|再说一遍/i.test(message))
-          reply=prior?(en?`My last reply was “${prior.reply}”`:`我刚才说：“${prior.reply}”`):(en?'This is our first exchange.':'这是我们第一次通话。');
+        const current = this.perception();
+        if (!current) return false;
+        const reply = intent ? localRadioReply(message, current, intent, agent, language) : conversation(agent, current);
         report(reply,agent);
       }
       this.record('radio-interpretation',{source:'local',intent:intent?.kind??null,requestId:perception.requestId,agent,

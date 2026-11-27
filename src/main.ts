@@ -1239,6 +1239,7 @@ keyboard.onAction(actionRouter.route);
 
 const inputDeviceLabel = document.querySelector('#input-device')!;
 let displayedDevice = '';
+const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 const frame = (now: number): void => {
   if (mode !== 'running') symbiosis.suspend();
   else if (!debugAdvancing && !bufferEvents.active && !journey.active) {
@@ -1262,7 +1263,7 @@ const frame = (now: number): void => {
   updateVoicePanel(voiceInFlight);
   updateModelStatus();
   journeyHud.update(journey, mode === 'running' && activeWorld instanceof WorldStreamer);
-  const reducedRotation=preferences.visualStimulation==='reduced'||window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const reducedRotation=preferences.visualStimulation==='reduced'||reducedMotion.matches;
   const inversion=journey.phase==='INVERSION'?Math.PI*journey.progress:journey.phase==='WORLD_SWAP'?Math.PI:journey.phase==='DIVE'?Math.PI*(1-journey.progress):0;
   renderer?.setInversion(reducedRotation?0:inversion);
   const menuInput = ui.canInteract && (mode === 'title' || mode === 'failed' || Boolean(overlays.current));

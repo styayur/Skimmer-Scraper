@@ -41,15 +41,15 @@ export const bindModelSettings=(runtime:SymbiosisRuntime, onIssue: (message: str
   const status=document.createElement('p');status.id='cooperation-status';status.className='setting-status';status.setAttribute('role','status');panel.append(status);
   let previousError: string | null = null;
   return()=>{
-    const s=runtime.snapshot();
-    const issue = s.model.error ?? null;
+    const issue = runtime.client.lastError;
     if (issue && issue !== previousError) onIssue(t('modelSettings.assistancePaused', { issue: modelError(issue) }));
     previousError = issue;
     if (!panel.open || !panel.getClientRects().length) return;
-    const text=s.model.connected
-      ? t('modelSettings.connected', { model: s.config?.model ?? t('modelSettings.model'), requests: s.model.requests, tokens: s.model.usage.total })
+    const model=runtime.client.snapshot();
+    const text=model.connected
+      ? t('modelSettings.connected', { model: runtime.client.publicConfig().model, requests: model.requests, tokens: model.usage.total })
       : t('modelSettings.localWingmates');
-    const visibleStatus=s.model.error ? `${text} · ${modelError(s.model.error)}` : text;
+    const visibleStatus=issue ? `${text} · ${modelError(issue)}` : text;
     if(status.textContent!==visibleStatus)status.textContent=visibleStatus;
   };
 };
