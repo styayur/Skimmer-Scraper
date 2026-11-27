@@ -1,6 +1,14 @@
 # Skimmer-Scraper
 
-## v0.9.0 development
+[简体中文](README.zh-CN.md) · [Play online](https://styayur.github.io/Skimmer-Scraper/) · [Windows downloads](https://github.com/styayur/Skimmer-Scraper/releases/latest)
+
+## SHIFT · Surface & Symbiosis
+
+**Shift your flight. Shift your gravity. Shift your world.** Fly in shielded Free Flight to practice surface maneuvers. Press Space or LB to engage Surface Glide and press it again to launch. In Challenge, using motion assistance places the score in a separate category. Your original personal best stays available.
+
+The game includes its aircraft, generated worlds, collision geometry and local radio. You can fly with three wingmates without an account, API key or world pack. The in-game tutorial covers flight controls, surface maneuvers, wingmates and world changes. [Theme and AI disclosure](docs/GAME-OFF.md)
+
+## Worlds and aircraft
 
 WorldForge adds a seeded world of rock shelves, suspended islands and traversable vaults. Press Space or LB to arm Surface Glide near a wall, roof or overhang. Pick KITE-W or KITE-S in the hangar. The optional companion radio plays local Mandarin or English clips with matching captions. Enable original world-specific music under advanced flight settings.
 

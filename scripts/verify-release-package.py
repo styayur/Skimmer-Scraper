@@ -54,6 +54,10 @@ if any(asset.get('kind') == 'character-radio' for asset in manifest['assets']):
 results = []
 for asset in manifest['assets']:
     name = asset['name']
+    if asset.get('kind') == 'itch-html5':
+        static = next(a for a in manifest['assets'] if a['name'].endswith('-static.zip'))
+        if asset['sha256'] != static['sha256']:
+            raise SystemExit('itch.io upload differs from the qualified web build')
     if asset['sha256'] != checksums[name] or (folder / name).stat().st_size != asset['bytes']:
         raise SystemExit('Archive size or digest does not match the manifest')
     if asset.get('kind') == 'windows-nsis':
@@ -104,7 +108,7 @@ for asset in manifest['assets']:
             scanned += 1
         if authored_audio:
             prefix = 'public/' if name.endswith('-source.zip') else ''
-            expected = authored_audio if prefix or name.endswith('-static.zip') else {}
+            expected = authored_audio if prefix or name.endswith('-static.zip') or asset.get('kind') == 'itch-html5' else {}
             if asset.get('kind') == 'character-radio':
                 expected = {n: h for n, h in authored_audio.items() if n.startswith('radio/')}
             if set(audio_files) != {prefix + n for n in expected} or any(

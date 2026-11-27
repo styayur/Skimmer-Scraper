@@ -22,7 +22,7 @@ export async function checkDownloadCancellation(page, output, runtime) {
     const started = Date.now();
     await panel.locator('[data-pack-cancel]').click();
     await panel.locator('[data-pack-cancel]').waitFor({state:'hidden',timeout:90000});
-    assert.match(await panel.locator('[role=status]').textContent(), /已取消/);
+    assert.match(await panel.locator('[role=status]').textContent(), /已取消|cancelled|canceled/i);
     assert.deepEqual(await list(), before);
     attempts.push({ progress, cancelMs: Date.now() - started });
   }
@@ -69,9 +69,9 @@ export async function checkPack(page, output, directory, runtime) {
     mobile: false,
   });
   const qualityButton = page.locator('#quality-button');
-  if ((await qualityButton.textContent()).includes('平衡')) await qualityButton.evaluate(button => button.click());
+  if (/平衡|balanced/i.test(await qualityButton.textContent())) await qualityButton.evaluate(button => button.click());
   const quality = await qualityButton.textContent();
-  assert.match(quality, /高/);
+  assert.match(quality, /高|high/i);
   await page.locator('#start-button').click();
   await page.waitForFunction(
     () => window.__SKIMMER_SCRAPER__?.snapshot().runTime > 2,

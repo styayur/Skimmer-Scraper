@@ -94,6 +94,13 @@ with zipfile.ZipFile(folder / web["name"]) as static, zipfile.ZipFile(
     ]:
         z.writestr(name, static.read(name))
 manifest["assets"] = [web, source, installer, record(pack_name, "world-pack")]
+# itch.io hosts the same relative-path build under a per-upload subdirectory.
+itch = folder / f"skimmer-scraper-v{manifest['version']}-itch-html5.zip"
+with zipfile.ZipFile(folder / web["name"]) as archive:
+    if "index.html" not in archive.namelist():
+        raise SystemExit("The HTML5 upload needs a root index.html")
+shutil.copyfile(folder / web["name"], itch)
+manifest["assets"].append(record(itch.name, "itch-html5"))
 if args.portable:
     portable_smoke = read(args.portable_smoke)
     with zipfile.ZipFile(args.portable) as portable:

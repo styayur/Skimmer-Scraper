@@ -37,7 +37,8 @@ export async function qualityMatrix(
     const { metrics } = await session.send('Performance.getMetrics');
     return metrics.find(metric => metric.name === 'TaskDuration').value;
   };
-  const expanded = device.build.version === '0.9.0' && !cityComparison;
+  const [major, minor] = device.build.version.split('.').map(Number);
+  const expanded = (major > 0 || minor >= 9) && !cityComparison;
   const rows = [];
   const report = () =>
     writeFile(
@@ -122,7 +123,7 @@ export async function qualityMatrix(
           await page.waitForFunction(() => !!window.__SKIMMER_SCRAPER__);
           if (music) await page.locator('#bgm-enabled').evaluate(control => control.click());
           const qualityLabel = await page.locator('#quality-button').textContent();
-          if (qualityLabel.includes('高') !== (quality === 'high'))
+          if (/高|high/i.test(qualityLabel) !== (quality === 'high'))
             await page.locator('#quality-button').evaluate((b) => b.click());
           await page.locator('#start-button').click();
           await page.waitForFunction(
