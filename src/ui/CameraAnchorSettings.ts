@@ -1,3 +1,4 @@
+import { t } from '../i18n';
 import type { Vec3 } from '../core/math';
 import {
   saveCameraAnchor, validCameraAnchor, type AnchorPreset, type CameraAnchorSetting, type RecommendedAnchorPreset,
@@ -54,21 +55,21 @@ export const bindCameraAnchorSettings = (hooks: Hooks): void => {
   });
   document.querySelector('#anchor-recommend')!.addEventListener('click', () => {
     show({ preset: 'standard', anchor: hooks.recommend('standard') });
-    message.textContent = '已载入推荐值。保存后应用到此机型。';
+    message.textContent = t('cameraAnchorSettings.recommendedPositionLoadedSaveToApplyIt');
   });
   document.querySelector('#anchor-save')!.addEventListener('click', () => {
     const anchor = read();
     if (!validCameraAnchor(anchor)) {
-      message.textContent = '每轴需填入 −8 至 8 米。';
+      message.textContent = t('cameraAnchorSettings.enterAValueFrom8To8');
       return;
     }
     if (!saveCameraAnchor(hooks.aircraft(), { preset: preset.value as AnchorPreset, anchor })) {
-      message.textContent = '浏览器未能保存座舱位置。';
+      message.textContent = t('cameraAnchorSettings.theBrowserCouldNotSaveTheCockpit');
       return;
     }
     hooks.apply();
     refreshPreview();
-    message.textContent = '已保存当前机型的座舱位置。';
+    message.textContent = t('cameraAnchorSettings.cockpitPositionSavedForThisAircraft');
   });
   for (const field of [x, y, z]) field.addEventListener('input', refreshPreview);
 };

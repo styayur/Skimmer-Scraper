@@ -1,0 +1,265 @@
+import { BoxGeometry, CylinderGeometry, Euler, Matrix4, Quaternion, Vector3, type BufferGeometry } from 'three';
+import { describe, expect, it } from 'vitest';
+import { FixedStepRunner } from '../../src/core/fixedStep';
+import { createFlightState, FLIGHT, NEUTRAL_INPUT, stepFlight, type FlightState } from '../../src/flight/flightModel';
+import { freeGlide, glideChangedMotion, glideRange, stepGlide, toggleGlide } from '../../src/flight/surfaceGlide';
+import { glideTuning, planRedirect, type GlideContext } from '../../src/flight/surfaceTrajectory';
+import { streamingForecast } from '../../src/flight/streamingForecast';
+import { DEFAULT_CONTROLS } from '../../src/flight/controlSettings';
+import { flightWouldCollide, resolveShield } from '../../src/game/shield';
+import { COLLISION_RADIUS } from '../../src/game/runRules';
+import { ChunkedWorldAdapter } from '../../src/world/chunkedWorldAdapter';
+import { UnifiedSurfaceQuery } from '../../src/world/unifiedSurfaceQuery';
+
+const dt = FLIGHT.fixedDt;
+const point = (x = 0, y = 0, z = 0) => new Vector3(x, y, z);
+class Fixture extends UnifiedSurfaceQuery {
+  readonly solids: ChunkedWorldAdapter;
+  covered = true;
+  chords = 0;
+  constructor() {
+    const adapter = new ChunkedWorldAdapter();
+    super(adapter);
+    this.solids = adapter;
+  }
+  add(id: string, geometry: BufferGeometry) {
+    geometry.computeBoundingBox();
+    this.solids.addChunk({ id, origin: point(), chunkX: 0, chunkZ: 0, geometry, bounds: geometry.boundingBox! });
+  }
+  box(id: string, size: Vector3, center: Vector3) {
+    this.add(id, new BoxGeometry(size.x, size.y, size.z).translate(center.x, center.y, center.z));
+  }
+  isGlideVolumeCovered() { return this.covered; }
+  override glideChordClear(...args: Parameters<UnifiedSurfaceQuery['glideChordClear']>) {
+    this.chords++;
+    return super.glideChordClear(...args);
+  }
+}
+function wallWorld() {
+  const world = new Fixture();
+  world.box('thin wall', point(650, 650, 0.12), point(0, 0, -0.06));
+  return world;
+}
+const context = (world: Fixture, acceleration: number = glideTuning.acceleration): GlideContext =>
+  ({ world, acceleration, worldUp: point(0, 1, 0), bodyRadius: COLLISION_RADIUS });
+const rotation = (f: FlightState) => new Quaternion().setFromEuler(new Euler(f.attitude.pitch, f.attitude.yaw, f.attitude.roll, 'YXZ'));
+const incoming = (speed = 84, z = 42, yaw = 0) => createFlightState({ position: point(0, 0, z), speed, yaw });
+
+function replay(world: Fixture, initial: FlightState, ctx = context(world), fps = 60, seconds = 2) {
+  const runner = new FixedStepRunner(dt);
+  let flight = initial, state = toggleGlide(freeGlide()), impacted = false, assisted = false;
+  let minDistance = Infinity, maxAcceleration = 0, maxTurnRate = 0, redirectTime = 0, speedRetention = 1;
+  let maxSettledError = 0;
+  const phases: string[] = [];
+  for (let frame = 0; frame < Math.round(seconds * fps) && !impacted; frame++) {
+    runner.advance(1 / fps, () => {
+      if (impacted) return;
+      const free = stepFlight(flight, ctx.input ?? NEUTRAL_INPUT, dt);
+      const result = stepGlide(state, flight, free, world.queryGlide(flight.position, glideRange), dt, ctx);
+      impacted = flightWouldCollide(flight, result.flight, world);
+      assisted ||= glideChangedMotion(free, result.flight);
+      const near = world.queryNearest(result.flight.position, 100);
+      minDistance = Math.min(minDistance, near?.distance ?? Infinity);
+      if (result.state.phase === 'REDIRECT' || result.state.phase === 'TRANSFER') {
+        maxAcceleration = Math.max(maxAcceleration, point().copy(result.flight.velocity).distanceTo(flight.velocity) / dt);
+        maxTurnRate = Math.max(maxTurnRate, rotation(result.flight).angleTo(rotation(flight)) / dt);
+        speedRetention = Math.min(speedRetention, result.flight.speed / initial.speed);
+        redirectTime += dt;
+      }
+      if (result.state.phase === 'GLIDING' && near) maxSettledError = Math.max(maxSettledError, Math.abs(near.distance - 6));
+      if (phases.at(-1) !== result.state.phase) phases.push(result.state.phase);
+      flight = result.flight;
+      state = result.state;
+    });
+  }
+  return { phases, flight, state, impacted, assisted, minDistance, maxAcceleration, speedRetention,
+    maxTurnRate, redirectTime, maxSettledError, chords: world.chords };
+}
+
+describe('finite-mesh surface manoeuvres', () => {
+  it('sweeps speed, approach angle, trigger distance and acceleration at fixed 120 Hz', () => {
+    const rows = [];
+    for (const acceleration of [180, 260, 320]) {
+      let captured = 0, rejected = 0, clearance = Infinity, maxAcceleration = 0, peakTurn = 0;
+      let longest = 0, retention = 1, error = 0, chords = 0;
+      for (const speed of [48, 76, 102]) for (const yaw of [0, 0.35]) for (const z of [14, 40, 76]) {
+        const world = wallWorld();
+        const r = replay(world, incoming(speed, z, yaw), context(world, acceleration), 60, 3);
+        if (r.impacted) {
+          expect(r.assisted).toBe(false);
+          rejected++;
+        } else {
+          expect(r.phases).toContain('REDIRECT');
+          expect(r.state.phase).toBe('GLIDING');
+          expect(r.assisted).toBe(true);
+          expect(r.minDistance).toBeGreaterThan(COLLISION_RADIUS);
+          expect(r.maxAcceleration).toBeLessThanOrEqual(acceleration + 1e-5);
+          expect(r.maxTurnRate).toBeLessThanOrEqual(glideTuning.attitudeRate + 0.001);
+          expect(r.maxSettledError).toBeLessThan(1);
+          clearance = Math.min(clearance, r.minDistance);
+          maxAcceleration = Math.max(maxAcceleration, r.maxAcceleration);
+          peakTurn = Math.max(peakTurn, r.maxTurnRate);
+          longest = Math.max(longest, r.redirectTime);
+          retention = Math.min(retention, r.speedRetention);
+          error = Math.max(error, r.maxSettledError);
+          chords += r.chords;
+          captured++;
+        }
+      }
+      expect(captured).toBeGreaterThan(6);
+      expect(rejected).toBeGreaterThan(0);
+      rows.push({ acceleration, captured, rejected, clearance, maxAcceleration, peakTurn, longest, retention, error, chords });
+    }
+    console.table(rows);
+  });
+
+  it('replays identically at 20, 60 and 144 render frames/s', () => {
+    const run = (fps: number) => { const world = wallWorld(); return replay(world, incoming(), context(world), fps); };
+    const baseline = run(60);
+    for (const fps of [20, 144]) {
+      const result = run(fps);
+      expect(result.flight).toEqual(baseline.flight);
+      expect(result.phases).toEqual(baseline.phases);
+    }
+    expect(baseline.flight.velocity.y).toBeGreaterThan(45);
+  });
+
+  it('uses the world up direction and gives explicit pilot steering priority', () => {
+    const world = wallWorld();
+    const ctx = context(world);
+    ctx.worldUp = point(0, -1);
+    const inverted = replay(world, incoming(), ctx);
+    expect(inverted.flight.velocity.y).toBeLessThan(-40);
+    ctx.input = { ...NEUTRAL_INPUT, yaw: 1 };
+    const turn = planRedirect(incoming(), ctx)!;
+    expect(turn.legs.at(-1)!.to.x).toBeLessThan(-60);
+  });
+
+  it('climbs a wall, rounds its convex roof edge and launches with bounded momentum change', () => {
+    const world = new Fixture();
+    world.box('tower', point(240, 260, 420), point(0, -25, -210));
+    const run = replay(world, incoming(), context(world), 30, 4.5);
+    expect(run.phases).toEqual(['REDIRECT', 'ATTACHING', 'GLIDING', 'TRANSFER', 'GLIDING']);
+    expect(run.impacted).toBe(false);
+    expect(run.flight.position.y).toBeCloseTo(111, 1);
+    expect(run.flight.velocity.z).toBeLessThan(-30);
+    const state = toggleGlide(run.state);
+    const released = stepGlide(state, run.flight, stepFlight(run.flight, NEUTRAL_INPUT, dt), null, dt);
+    expect(released.state.phase).toBe('DETACHING');
+    expect(point().copy(released.flight.velocity).distanceTo(run.flight.velocity)).toBeLessThanOrEqual(110 * dt + 1e-6);
+    expect(toggleGlide(released.state)).toBe(released.state);
+  });
+
+  it('rejects unsupported endpoints, blocked escape routes and uncovered space', () => {
+    const post = new Fixture();
+    post.box('post', point(2, 2, 0.1), point());
+    expect(planRedirect(incoming(), context(post))).toBeNull();
+    const world = wallWorld();
+    world.covered = false;
+    expect(planRedirect(incoming(), context(world))).toBeNull();
+    world.covered = true;
+    for (const side of [-1, 1]) {
+      world.box('side' + side, point(0.1, 250, 220), point(4 * side, 0, 0));
+      world.box('lid' + side, point(250, 0.1, 220), point(0, 4 * side, 0));
+    }
+    expect(planRedirect(incoming(), context(world))).toBeNull();
+    expect(flightWouldCollide(incoming(116, 9), incoming(116, -9), world)).toBe(true);
+  });
+
+  it('locks assistance on the first redirect and recovers when its support unloads', () => {
+    const world = wallWorld(), flight = incoming();
+    const armed = toggleGlide(freeGlide());
+    const free = stepFlight(flight, NEUTRAL_INPUT, dt);
+    const first = stepGlide(armed, flight, free, null, dt, context(world));
+    expect(first.state.phase).toBe('REDIRECT');
+    expect(glideChangedMotion(free, first.flight)).toBe(true);
+    const forecast = streamingForecast(first.flight, DEFAULT_CONTROLS, first.state);
+    expect(forecast.samples[0].position.y).toBeGreaterThan(1);
+    expect(forecast.samples.at(-1)!.position.z).toBeCloseTo(6);
+    expect(toggleGlide(first.state).phase).toBe('DETACHING');
+    world.solids.removeChunk('thin wall');
+    const next = stepGlide(first.state, first.flight, stepFlight(first.flight, NEUTRAL_INPUT, dt), null, dt, context(world));
+    expect(next.state.phase).toBe('RECOVERY');
+    const empty = stepGlide(armed, flight, free, null, dt, context(world));
+    expect(glideChangedMotion(free, empty.flight)).toBe(false);
+  });
+
+  it('evaluates a translating obstacle at its crossing time and supports a moving target', () => {
+    const world = new Fixture();
+    const transform = (x: number) => new Matrix4().makeTranslation(x, 0, 0);
+    world.dynamic.add('gate', 'moving', new BoxGeometry(0.1, 30, 30), transform(-21), false);
+    world.dynamic.setTransform('gate', transform(-20), 0.05);
+    expect(world.glideChordClear(point(), point(), 3.2, 0, 0.1)).toBe(true);
+    expect(world.glideChordClear(point(), point(), 3.2, 0.9, 1.1)).toBe(false);
+    world.dynamic.remove('gate');
+    world.dynamic.add('carrier', 'moving', new BoxGeometry(300, 300, 0.1), transform(-0.1), true);
+    world.dynamic.setTransform('carrier', transform(0), dt);
+    const plan = planRedirect(incoming(), context(world))!;
+    expect(plan.surfaceVelocity.x).toBeCloseTo(12);
+    expect(plan.legs.at(-1)!.to.x).toBeCloseTo(12);
+    world.dynamic.dispose();
+  });
+
+  it('retains a continuous chunk seam and recovers at a gap or concave obstruction', () => {
+    const lane = (gap: number, obstacle: boolean) => {
+      const world = new Fixture();
+      world.box('first chunk', point(120, 1, 100), point(0, -0.5, 50));
+      world.box('next chunk', point(120, 1, 180), point(0, -0.5, -90 - gap));
+      if (obstacle) world.box('end wall', point(120, 40, 2), point(0, 20, -25));
+      const start = createFlightState({ position: point(0, 6, 30), yaw: 0, speed: 66 });
+      return replay(world, start, context(world), 20, 1.4);
+    };
+    expect(lane(0, false).phases).toEqual(['GLIDING']);
+    expect(lane(12, false).phases).toContain('RECOVERY');
+    const blocked = lane(0, true);
+    expect(blocked.phases).toContain('RECOVERY');
+    expect(blocked.phases).not.toContain('TRANSFER');
+    expect(blocked.impacted).toBe(true);
+  });
+
+  it('chooses an open side when an obstacle blocks the default climb', () => {
+    const world = wallWorld();
+    // Obstacle-only geometry participates in the volume sweep.
+    world.dynamic.add('overhang', 'fixtures', new BoxGeometry(180, 1, 70), new Matrix4().makeTranslation(0, 17, 0), false);
+    const plan = planRedirect(incoming(), context(world))!;
+    expect(Math.abs(plan.legs.at(-1)!.to.x)).toBeGreaterThan(60);
+    world.dynamic.dispose();
+  });
+
+  it('leaves a late impact to the shield and Challenge collision paths', () => {
+    const world = wallWorld(), ctx = context(world);
+    const start = incoming(116, 3.8);
+    const free = stepFlight(start, { ...NEUTRAL_INPUT, boost: true }, dt);
+    const r = stepGlide(toggleGlide(freeGlide()), start, free, world.queryGlide(start.position, 11), dt, ctx);
+    expect(r.flight).toBe(free);
+    expect(r.state.phase).toBe('ARMED');
+    expect(flightWouldCollide(start, r.flight, world)).toBe(true);
+    expect(resolveShield(start, r.flight, world).impact).toBe(true);
+  });
+
+  it('hands vertical wall momentum back to neutral free flight clear of the tower', () => {
+    const world = new Fixture(), ctx = context(world);
+    world.box('tower', point(28, 240, 36), point(55, 120, -32));
+    const run = replay(world, createFlightState({ position: point(55, 32, 70), yaw: 0 }), ctx, 60, 1.9);
+    expect(run.state.phase).toBe('GLIDING');
+    let flight = run.flight, state = toggleGlide(run.state);
+    for (let i = 0; i < 120; i++) {
+      const result = stepGlide(state, flight, stepFlight(flight, NEUTRAL_INPUT, dt), null, dt, ctx);
+      expect(flightWouldCollide(flight, result.flight, world)).toBe(false);
+      state = result.state;
+      flight = result.flight;
+    }
+    expect(state.phase).toBe('FLIGHT');
+    expect(flight.position.y).toBeGreaterThan(run.flight.position.y + 35);
+  });
+
+  it('keeps contact over gently changing finite triangle normals', () => {
+    const world = new Fixture();
+    world.add('curve', new CylinderGeometry(100, 100, 450, 128).rotateZ(Math.PI / 2).translate(0, -100, 0));
+    const f = createFlightState({ position: point(0, 6, 0), yaw: 0, speed: 48 });
+    const run = replay(world, f, context(world), 30, 0.8);
+    expect(run.state.phase).toBe('GLIDING');
+    expect(run.minDistance).toBeGreaterThan(COLLISION_RADIUS);
+  });
+});
+

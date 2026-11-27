@@ -1,0 +1,30 @@
+{
+  "baseline": "2bf45e4163725d958615d6c4f720cde6301a866b",
+  "baselineRelease": "https://github.com/styayur/Skimmer-Scraper/releases/tag/v0.9.0",
+  "initialOpenPullRequests": [],
+  "openIssues": [
+    {
+      "number": 72,
+      "title": "Qualify and release Skimmer-Scraper v0.9.0",
+      "url": "https://github.com/styayur/Skimmer-Scraper/issues/72"
+    },
+    {
+      "number": 71,
+      "title": "Resolve GLib advisory in Linux desktop dependency chain",
+      "url": "https://github.com/styayur/Skimmer-Scraper/issues/71"
+    },
+    {
+      "number": 70,
+      "title": "Lightweight procedural GLB world generation",
+      "url": "https://github.com/styayur/Skimmer-Scraper/issues/70"
+    }
+  ],
+  "workflow": "Protected main; manual Pages dispatch with full expected_sha",
+  "webBenchmark": {
+    "scenarios": 35,
+    "gpu": "ANGLE (AMD, AMD Radeon 780M Graphics (0x00001900) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+    "seed": 334458,
+    "method": "Scripted boosted yaw, one initial pose per scenario, 12 seconds per scenario. WorldForge uses straight boosted flight. Frame intervals use rAF and renderer task duration uses CDP Performance.",
+    "rawSha256": "36b231fd55a52433ae155237eabe0e5de75af45c1a89518ff89eeadce00fe1ed"
+  }
+}

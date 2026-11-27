@@ -3,7 +3,7 @@ import type { VoiceIdentity } from './voiceContracts';
 
 const framesPerBuffer = 2_400;
 
-const delay = (milliseconds: number, signal: AbortSignal): Promise<void> => new Promise((resolve, reject) => {
+export const delay = (milliseconds: number, signal: AbortSignal): Promise<void> => new Promise((resolve, reject) => {
   if (signal.aborted) { reject(signal.reason); return; }
   const abort = () => { window.clearTimeout(timer); reject(signal.reason); };
   const timer = window.setTimeout(() => { signal.removeEventListener('abort', abort); resolve(); }, milliseconds);
@@ -76,7 +76,12 @@ export class RadioAudio {
     const buffer = this.context.createBuffer(1, samples.length, sampleRate);
     buffer.copyToChannel(samples, 0);
     const node = await this.scheduleBuffer(buffer);
+    await this.waitForEnd(node);
+  }
+
+  private async waitForEnd(node: AudioBufferSourceNode): Promise<void> {
     this.signal.throwIfAborted();
+    if (!this.sources.has(node)) return;
     await new Promise<void>((resolve, reject) => {
       const cleanup = () => {
         window.clearTimeout(timer);
@@ -86,7 +91,7 @@ export class RadioAudio {
       const ended = () => { cleanup(); resolve(); };
       const abort = () => { cleanup(); reject(this.signal.reason); };
       const timer = window.setTimeout(() => { cleanup(); reject(new Error('playback-blocked')); },
-        (buffer.duration / this.identity.rate + 2) * 1000);
+        Math.max(0, this.nextAt - this.context.currentTime) * 1000 + 2000);
       node.addEventListener('ended', ended, { once: true });
       this.signal.addEventListener('abort', abort, { once: true });
     });
@@ -102,7 +107,7 @@ export class RadioAudio {
     node.playbackRate.value = this.identity.rate;
     node.connect(this.bandHigh);
     node.onended = () => { this.sources.delete(node); node.disconnect(); };
-    this.nextAt = Math.max(this.nextAt, this.context.currentTime + 0.035);
+    this.nextAt = Math.max(this.nextAt, this.context.currentTime);
     node.start(this.nextAt);
     this.sources.add(node);
     this.nextAt += buffer.duration / this.identity.rate;
@@ -112,8 +117,9 @@ export class RadioAudio {
 
   public async finish(): Promise<void> {
     await this.schedule();
-    const tail = this.nextAt - this.context.currentTime;
-    if (tail > 0) await delay(tail * 1000 + 60, this.signal);
+    this.signal.throwIfAborted();
+    const last = Array.from(this.sources).at(-1);
+    if (last) await this.waitForEnd(last);
   }
 
   public close = (): void => {

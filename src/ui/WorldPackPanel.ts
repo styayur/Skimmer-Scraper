@@ -1,3 +1,5 @@
+import { localizeDiagnostic } from '../i18n/diagnostics';
+import { t } from '../i18n';
 import {
   installedPacks,
   installPack,
@@ -35,8 +37,8 @@ export function bindPackPanel(): void {
       ...packs.map(({ id, pack, retired }) => {
         const size = pack ? (pack.files.reduce((s, f) => s + f.bytes, 0) / 1048576).toFixed(1) : '';
         const label = pack ? 'Dragonspine · ' + pack.tier + ' · ' + pack.seed + ' · v' + pack.packVersion + ' · ' + size + ' MiB'
-          : retired ? id + ' · 旧地图资源 · 可在 v0.8.2 中打开'
-          : id + ' · 不兼容，建议修复';
+          : retired ? id + t('worldPackPanel.legacyMapOpenInV082')
+          : id + t('worldPackPanel.incompatibleRepairRecommended');
         const option = new Option(label, id);
         option.dataset.compatible = String(!!pack);
         return option;
@@ -45,12 +47,12 @@ export function bindPackPanel(): void {
     select.disabled = packs.length === 0;
     updateSelection();
     download.textContent = packs.some(p => p.pack?.tier === 'high' && p.pack.seed === 334458)
-      ? '修复官方 Dragonspine High Pack' : '安装官方 Dragonspine High Pack';
+      ? t('worldPackPanel.repairOfficialDragonspineHighPack') : t('ui.installOfficialDragonspineHighPack');
   }
   panel.addEventListener('toggle', () => {
     if (panel.open && !install)
       void refresh().catch(() => {
-        status.textContent = '无法读取世界包列表。';
+        status.textContent = t('worldPackPanel.couldNotReadTheWorldPackList');
       });
   });
   cancel.onclick = () => install?.abort();
@@ -62,11 +64,11 @@ export function bindPackPanel(): void {
   };
   verify.onclick = async () => {
     verify.disabled = true;
-    status.textContent = '正在校验…';
+    status.textContent = t('worldPackPanel.verifying');
     try {
       const bytes = await verifyPack(select.value);
-      status.textContent = 'SHA-256 校验通过 · ' + (bytes / 1048576).toFixed(1) + ' MiB';
-    } catch (error) { status.textContent = String(error); }
+      status.textContent = t('worldPackPanel.sha256Verified') + (bytes / 1048576).toFixed(1) + ' MiB';
+    } catch (error) { status.textContent = localizeDiagnostic(String(error)); }
     finally { verify.disabled = install !== null || !select.options.length; }
   };
   async function startInstall(official: boolean) {
@@ -77,18 +79,18 @@ export function bindPackPanel(): void {
     download.disabled = remove.disabled = open.disabled = verify.disabled = true;
     cancel.hidden = false;
     try {
-      status.textContent = official ? '正在连接 GitHub Release…' : '正在校验…';
-      const p = official ? await installOfficialPack(controller.signal, text => { status.textContent = text; })
+      status.textContent = official ? t('worldPackPanel.connectingToGitHubReleases') : t('worldPackPanel.verifying');
+      const p = official ? await installOfficialPack(controller.signal, text => { status.textContent = localizeDiagnostic(text); })
         : await installPack(file.files!, controller.signal, (n, total) => {
-        status.textContent = '已校验 ' + n + ' / ' + total + ' 个分块';
+        status.textContent = t('worldPackPanel.verified') + n + ' / ' + total + t('worldPackPanel.chunks');
       });
       await refresh();
       select.value = p.id;
-      status.textContent = '资源包安装完成。';
+      status.textContent = t('worldPackPanel.packInstalled');
     } catch (e) {
       status.textContent = controller.signal.aborted
-        ? '安装已取消。'
-        : String(e);
+        ? t('worldPackPanel.installationCancelled')
+        : localizeDiagnostic(String(e));
     } finally {
       file.disabled = false;
       download.disabled = false;
@@ -104,9 +106,9 @@ export function bindPackPanel(): void {
     try {
       await removePack(select.value);
       await refresh();
-      status.textContent = '资源包已移除。';
+      status.textContent = t('worldPackPanel.packRemoved');
     } catch (e) {
-      status.textContent = String(e);
+      status.textContent = localizeDiagnostic(String(e));
     }
   };
   open.onclick = async () => {
@@ -121,7 +123,7 @@ export function bindPackPanel(): void {
       url.searchParams.set('gen', '4');
       location.assign(url.href);
     } catch (e) {
-      status.textContent = String(e);
+      status.textContent = localizeDiagnostic(String(e));
     }
   };
 }

@@ -38,7 +38,7 @@ export interface VoiceLifecycle {
 }
 
 export interface VoiceProvider {
-  speak(line: RadioLine, language: RadioLanguage, identity: VoiceIdentity, lifecycle: VoiceLifecycle): Promise<SpeechStreamStats | void>;
+  speak(line: RadioLine, identity: VoiceIdentity, lifecycle: VoiceLifecycle): Promise<SpeechStreamStats | void>;
   dispose?(): void;
 }
 

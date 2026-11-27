@@ -409,6 +409,20 @@ export class WorldStreamer implements RenderableWorld {
   public queryProximity(position: Vec3, range: number) { return this.surfaces.queryProximity(position, range); }
   public queryStatic(position: Vec3, range: number) { return this.surfaces.queryStatic(position, range); }
   public queryGlide(position: Vec3, range: number) { return this.surfaces.queryGlide(position,range); }
+  public queryGlideAhead(position: Vec3, range: number, seconds: number) {
+    return this.surfaces.queryGlideAhead(position, range, seconds);
+  }
+  public isGlideVolumeCovered(center: Vec3, radius: number) {
+    for (let x = Math.floor((center.x - radius) / CHUNK_SIZE); x <= Math.floor((center.x + radius) / CHUNK_SIZE); x++) {
+      for (let z = Math.floor((center.z - radius) / CHUNK_SIZE); z <= Math.floor((center.z + radius) / CHUNK_SIZE); z++) {
+        if (this.chunks.get(chunkKey(x, z))?.state !== 'ACTIVE') return false;
+      }
+    }
+    return true;
+  }
+  public glideChordClear(from: Vec3, to: Vec3, radius: number, start: number, end: number) {
+    return this.surfaces.glideChordClear(from, to, radius, start, end);
+  }
   public sweepDynamic(from: Vec3, to: Vec3, radius: number) { return this.surfaces.sweepDynamic(from, to, radius); }
   public setRenderQuality(name:'balanced'|'high'): void {
     if (this.architecture instanceof CrownbackFlight) this.architecture.setQuality(name);

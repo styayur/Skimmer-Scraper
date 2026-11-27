@@ -1,7 +1,11 @@
 import type { Vec3 } from '../core/math';
 export const ACTIONS = ['FOLLOW','LEAD','REGROUP','SCOUT','PROTECT','RELAY','HOLD'] as const;
 export type AgentAction = typeof ACTIONS[number];
-export interface PerceivedTarget { id: string; kind: 'route' | 'surface' | 'player'; position: Vec3; clearance: number | null; agentId?: number }
+export interface PerceivedTarget {
+  id: string; kind: 'route' | 'surface' | 'player' | 'structure' | 'floating-island';
+  position: Vec3; clearance: number | null; agentId?: number;
+  capabilities?: readonly ('inspect' | 'glide')[];
+}
 export interface Perception {
   requestId: string; epoch: number; time: number; seed: number;
   player: { position: Vec3; velocity: Vec3; grace: number; graceLimit: number; surfaceDistance: number | null; mode: 'challenge' | 'free' };

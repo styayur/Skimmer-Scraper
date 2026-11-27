@@ -53,8 +53,8 @@ export const commandKind = (message: string): RadioCommand | null => {
 };
 
 export const addressedAgent = (message: string): number | null => {
-  const number = /(?:\bkite[- ]?|\b(?:number|wingman)\s+)([123])\b|([一二三123])\s*号/i.exec(message);
-  const value = number?.[1] ?? number?.[2];
+  const number = /(?:\bkite[- ]?|\b(?:number|wingman)\s+)(\d+)\b|(?:风筝\s*([一二三\d]+)\s*号?|([一二三\d]+)\s*号)/i.exec(message);
+  const value = number?.[1] ?? number?.[2] ?? number?.[3];
   return value ? ({ 一: 1, 二: 2, 三: 3 }[value] ?? Number(value)) : null;
 };
 

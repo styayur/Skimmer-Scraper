@@ -105,7 +105,7 @@ test.describe('v0.1.0 release acceptance', () => {
       return bridge?.snapshot().mode === 'running';
     });
     await expect(page.locator('#hud')).toBeVisible();
-    await expect(page.locator('#surface-state')).toHaveText('SURFACE LOCK');
+    await expect(page.locator('#surface-state')).toHaveText('已锁定表面');
 
     await page.keyboard.press('f');
     await page.locator('#advanced-flight-settings > summary').click();

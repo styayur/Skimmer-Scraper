@@ -18,20 +18,25 @@ export async function checkCompatibility(page, output) {
   await page.waitForFunction(
     () => window.__SKIMMER_SCRAPER__?.snapshot().mode === 'running',
   );
-  report.sky = await page.evaluate(async () => {
+  report.crossings = await page.evaluate(async () => {
     const g = window.__SKIMMER_SCRAPER__;
-    g.pause();
-    await g.setPose({ x: 0, y: 519, z: 120 }, { pitch: 1.15 });
-    g.resume();
-    await g.advance(5);
-    const s = g.snapshot();
-    return {
-      worldIndex: s.journey.worldIndex,
-      phase: s.journey.phase,
-      companions: s.companions.filter((x) => x.deployed).length,
-    };
+    const crossings = [];
+    await g.advance(2.2);
+    for (let index = 1; index <= 5; index++) {
+      g.pause();
+      await g.setPose({ x: 0, y: 519, z: 120 }, { pitch: 1.15 });
+      g.resume();
+      let s = await g.advance(5);
+      if (s.journey.crossings < index) s = await g.advance(3);
+      crossings.push({
+        worldIndex: s.journey.worldIndex, phase: s.journey.phase, glide: s.glide.phase,
+        companions: s.companions.filter((x) => x.deployed).length,
+      });
+    }
+    return crossings;
   });
-  assert.equal(report.sky.worldIndex, 1);
+  assert.deepEqual(report.crossings.map(s => s.worldIndex),[1,2,3,4,5]);
+  assert(report.crossings.every(s => s.companions === 3 && s.glide === 'FLIGHT'));
   await page
     .locator('#game-canvas')
     .click({ position: { x: 20, y: 20 }, force: true });

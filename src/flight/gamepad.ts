@@ -17,10 +17,30 @@ export class GamepadInputSource {
   private current: Gamepad | null = null;
   private buttonSlots: readonly number[] | undefined;
   private voiceButton = -1;
+  private ignoreHeldButtons = false;
+  private denied = false;
   public device = 'Keyboard';
   public constructor(private readonly readPads: () => readonly (Gamepad | null)[] = () => navigator.getGamepads?.() ?? []) {}
+  public suspend(): void {
+    this.current = null;
+    this.voiceButton = -1;
+    this.direction = undefined;
+    this.ignoreHeldButtons = true;
+  }
   public poll(settings: ControlSettings, action: (action: GameAction) => void, navigating = false, now = 0): void {
-    const pad = Array.from(this.readPads()).find(value => value?.connected) ?? null;
+    if (this.denied) return;
+    let pad: Gamepad | null;
+    try {
+      pad = Array.from(this.readPads()).find(value => value?.connected) ?? null;
+    } catch (error) {
+      if (!(error instanceof DOMException && error.name === 'SecurityError')) throw error;
+      // An embedding document may withhold gamepad permission for this document's lifetime.
+      if (this.voiceButton >= 0) action('voice-cancel');
+      this.suspend();
+      this.denied = true;
+      this.device = 'Keyboard';
+      return;
+    }
     const changed = pad?.index !== this.current?.index || pad?.id !== this.current?.id;
     if (changed) {
       if (this.voiceButton >= 0) action('voice-cancel');
@@ -33,7 +53,12 @@ export class GamepadInputSource {
     }
     this.current = pad;
     this.device = pad ? `Gamepad · ${pad.mapping || 'custom'}` : 'Keyboard';
-    if (!pad) { this.pressed.clear(); return; }
+    if (!pad) { this.pressed.clear(); this.ignoreHeldButtons = false; return; }
+    if (this.ignoreHeldButtons) {
+      this.ignoreHeldButtons = false;
+      this.pressed = new Set(pad.buttons.flatMap((button, i) => button.pressed ? [i] : []));
+      return;
+    }
     const actions: Array<[number, GameAction]> = [[settings.pauseButton, 'pause']];
     if (navigating) actions.push([settings.confirmButton, 'confirm'], [settings.backButton, 'back']);
     actions.push([settings.cameraButton, 'camera'], [settings.retryButton, 'retry'], [settings.menuButton, 'menu']);

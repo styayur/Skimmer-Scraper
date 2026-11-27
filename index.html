@@ -1,19 +1,19 @@
 <!doctype html>
-<html lang="zh-CN">
+<html lang="en-US">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <meta name="theme-color" content="#160f1d" />
     <meta
-      name="description"
+      name="description" data-i18n-content="ui.description"
       content="Skimmer-Scraper — a close-surface 3D flight challenge through a sakura-dusk megacity."
     />
     <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
-    <title>Skimmer-Scraper — Close-Surface Flight</title>
+    <title data-i18n="ui.skimmerScraperCloseSurfaceFlight">Skimmer-Scraper — Close-Surface Flight</title>
   </head>
   <body>
     <div id="app">
-      <canvas id="game-canvas" aria-label="Skimmer-Scraper 3D flight view"></canvas>
+      <canvas id="game-canvas" aria-label="Skimmer-Scraper 3D flight view" data-i18n-aria-label="ui.skimmerScraper3DFlightView"></canvas>
       <div class="scene-treatment" aria-hidden="true"></div>
       <div id="proximity-treatment" class="proximity-treatment" aria-hidden="true"></div>
 
@@ -22,49 +22,49 @@
           <span></span><span></span><span></span>
         </div>
         <p class="kicker">SKIMMER / SCRAPER</p>
-        <p id="loading-copy" class="loading-copy">正在构筑空中城区</p>
+        <p id="loading-copy" class="loading-copy" data-i18n="ui.buildingTheSkyDistrict">Building the sky district</p>
         <div class="loading-line"><i></i></div>
       </div>
 
       <section id="title-screen" class="title-screen" aria-labelledby="game-title">
-        <p id="legacy-dragon-notice" class="world-description" role="status" hidden>此旧版链接已进入 Dragonspine。原地图的记录和本地资源仍可在 <a href="https://github.com/styayur/Skimmer-Scraper/releases/tag/v0.8.2">v0.8.2</a> 中使用。</p>
+        <p id="legacy-dragon-notice" class="world-description" role="status" hidden><span data-i18n="ui.thisLegacyLinkOpensDragonspineForThe">This legacy link opens Dragonspine. For the original map, records and local packs, open</span> <a href="https://github.com/styayur/Skimmer-Scraper/releases/tag/v0.8.2">v0.8.2</a> <span data-i18n="ui.end">.</span></p>
         <div class="title-panel">
           <h1 id="game-title" class="game-title" aria-label="SKIMMER SCRAPER">
             <span>SKIMMER</span>
             <span class="game-title__second">SCRAPER</span>
           </h1>
           <button id="start-button" class="primary-button" type="button" data-action="start">
-            <span>开始游戏</span>
+            <span data-i18n="ui.startGame">Start Game</span>
           </button>
-          <a class="title-guide" href="#help-panel" data-action="help">游戏教程</a>
+          <a class="title-guide" href="#help-panel" data-action="help" data-i18n="ui.flightGuide">Flight Guide</a>
         </div>
       </section>
 
-      <section id="hud" class="hud" aria-label="飞行状态" hidden>
+      <section id="hud" class="hud" aria-label="Flight status" data-i18n-aria-label="ui.flightStatus" hidden>
         <div class="hud-top">
           <div class="hud-block hud-block--time">
-            <span class="data-label">SURVIVAL</span>
+            <span class="data-label" data-i18n="ui.survival">Survival</span>
             <strong id="hud-timer">00:00.00</strong>
           </div>
           <div class="hud-block hud-block--best">
-            <span class="data-label">BEST</span>
+            <span class="data-label" data-i18n="ui.best">Best</span>
             <strong id="hud-best">00:00.00</strong>
           </div>
           <div class="hud-block hud-block--flight">
-            <span class="data-label">VELOCITY</span>
+            <span class="data-label" data-i18n="ui.speed">Speed</span>
             <strong><span id="hud-speed">066</span><small> m/s</small></strong>
           </div>
           <div class="hud-block hud-block--altitude">
-            <span class="data-label">ALTITUDE</span>
+            <span class="data-label" data-i18n="ui.altitude">Altitude</span>
             <strong><span id="hud-altitude">024</span><small> m</small></strong>
           </div>
         </div>
 
-        <div id="companion-status" class="companion-status" role="status" aria-label="伴机状态" hidden></div>
+        <div id="companion-status" class="companion-status" role="status" aria-label="Wingmate status" data-i18n-aria-label="ui.wingmateStatus" hidden></div>
         <div id="radio-subtitle" class="radio-subtitle" role="status" aria-live="polite" aria-atomic="true" hidden></div>
         <div class="voice-hud">
           <p id="voice-status" role="status" aria-live="polite" hidden></p>
-          <button id="voice-ptt" class="utility-button" type="button" aria-label="按住使用语音电台" hidden>按住讲话 <kbd>V</kbd></button>
+          <button id="voice-ptt" class="utility-button" type="button" aria-label="Hold to use voice radio" data-i18n-aria-label="ui.holdToUseVoiceRadio" hidden><span data-i18n="ui.holdToTalk">Hold to talk</span> <kbd>V</kbd></button>
         </div>
         <div id="cockpit-frame" class="cockpit-frame" aria-hidden="true" hidden>
           <span class="cockpit-frame__left"></span>
@@ -74,198 +74,199 @@
 
         <div id="surface-status" class="surface-status" aria-live="polite">
           <div class="surface-status__row">
-            <span id="surface-state" class="surface-state">SURFACE MODEL PENDING</span>
+            <span id="surface-state" class="surface-state" data-i18n="ui.surfaceModelPending">Surface model pending</span>
             <span id="surface-distance" class="surface-distance">-- m</span>
           </div>
-          <div class="grace-meter" role="meter" aria-label="近距宽限倒计时" aria-valuemin="0" aria-valuemax="5" aria-valuenow="5">
+          <div class="grace-meter" role="meter" aria-label="Surface grace countdown" data-i18n-aria-label="ui.surfaceGraceCountdown" aria-valuemin="0" aria-valuemax="5" aria-valuenow="5">
             <i id="grace-bar"></i>
           </div>
           <div class="surface-status__row surface-status__row--muted">
-            <span>PROXIMITY GRACE</span>
+            <span data-i18n="ui.surfaceGrace">Surface grace</span>
             <span id="grace-value">5.00s</span>
           </div>
         </div>
 
         <div class="hud-bottom">
-          <p id="flight-status" class="flight-status">原型飞行 · 近距规则将在下一阶段接入</p>
-          <p class="hud-hint"><span id="hud-view">CHASE / 追尾</span> <i></i> <kbd>C</kbd> 视角 <i></i> <kbd>R</kbd> 重试 <i></i> <kbd>M</kbd> 机库</p>
+          <p id="flight-status" class="flight-status" data-i18n="ui.prototypeFlightProximityRulesPending">Prototype flight · proximity rules pending</p>
+          <p class="hud-hint"><span id="hud-view" data-i18n="ui.chaseView">Chase view</span> <i></i> <kbd>C</kbd> <span data-i18n="ui.view">View</span> <i></i> <kbd>R</kbd> <span data-i18n="ui.retry">Retry</span> <i></i> <kbd>M</kbd> <span data-i18n="ui.hangar">Hangar</span></p>
         </div>
       </section>
 
       <section id="pause-panel" class="pause-panel" role="dialog" aria-modal="true" aria-labelledby="quick-title" hidden>
         <div class="library-header">
-          <h2 id="quick-title">游戏菜单</h2>
-          <button class="utility-button" type="button" data-action="close" data-panel-focus>关闭</button>
+          <h2 id="quick-title" data-i18n="ui.gameMenu">Game menu</h2>
+          <button class="utility-button" type="button" data-action="close" data-panel-focus data-i18n="ui.close">Close</button>
         </div>
-        <button id="pause-resume" class="primary-button" type="button" data-action="close">继续飞行</button>
+        <button id="pause-resume" class="primary-button" type="button" data-action="close" data-i18n="ui.resumeFlight">Resume flight</button>
         <div class="quick-links">
-          <button id="rules-open" type="button" class="secondary-button" data-action="rules">飞行设置 <kbd>F</kbd></button>
-          <button id="world-open" type="button" class="secondary-button" data-action="world">世界 <kbd>G</kbd></button>
-          <button id="library-open" type="button" class="secondary-button" data-action="library">机库 <kbd>M</kbd></button>
-          <button type="button" class="secondary-button" data-action="help">游戏教程 <kbd>H</kbd></button>
-          <button id="radio-open" type="button" class="secondary-button" data-action="radio" hidden>伴机电台 <kbd>T</kbd></button>
+          <button id="rules-open" type="button" class="secondary-button" data-action="rules"><span data-i18n="ui.flightSettings">Flight settings</span> <kbd>F</kbd></button>
+          <button id="world-open" type="button" class="secondary-button" data-action="world"><span data-i18n="ui.world">World</span> <kbd>G</kbd></button>
+          <button id="library-open" type="button" class="secondary-button" data-action="library"><span data-i18n="ui.hangar">Hangar</span> <kbd>M</kbd></button>
+          <button type="button" class="secondary-button" data-action="help"><span data-i18n="ui.flightGuide">Flight Guide</span> <kbd>H</kbd></button>
+          <button id="radio-open" type="button" class="secondary-button" data-action="radio" hidden><span data-i18n="ui.wingmateRadio">Wingmate radio</span> <kbd>T</kbd></button>
         </div>
-          <button id="camera-button" class="utility-button" type="button" data-action="camera">视角 · 追尾 <kbd>C</kbd></button>
-        <button id="pause-menu" class="secondary-button" type="button" data-action="title">返回标题</button>
+          <button id="camera-button" class="utility-button" type="button" data-action="camera"><span data-i18n="ui.viewChase">View · Chase</span> <kbd>C</kbd></button>
+        <button id="pause-menu" class="secondary-button" type="button" data-action="title" data-i18n="ui.returnToTitle">Return to title</button>
+        <button id="pause-quit" class="secondary-button" type="button" data-i18n="platform.quit" hidden>Quit game</button>
       </section>
       <aside id="radio-panel" class="library-panel radio-panel" role="dialog" aria-modal="true" aria-labelledby="radio-title" hidden>
         <div class="library-header">
-          <h2 id="radio-title">伴机电台</h2>
-          <button id="radio-close" type="button" class="utility-button" data-action="close" aria-label="关闭伴机电台">关闭</button>
+          <h2 id="radio-title" data-i18n="ui.wingmateRadio">Wingmate radio</h2>
+          <button id="radio-close" type="button" class="utility-button" data-action="close" aria-label="Close wingmate radio" data-i18n-aria-label="ui.closeWingmateRadio" data-i18n="ui.close">Close</button>
         </div>
-        <ol id="radio-history" class="radio-history" aria-label="本次飞行对话"></ol>
-        <p id="radio-empty" class="world-description">给伴机下令，或询问当前飞行情况。</p>
+        <ol id="radio-history" class="radio-history" aria-label="Flight conversation" data-i18n-aria-label="ui.flightConversation"></ol>
+        <p id="radio-empty" class="world-description" data-i18n="ui.giveYourWingmatesAnOrderOrAsk">Give your wingmates an order or ask about the flight.</p>
         <div class="radio-controls">
-          <label><input id="radio-mute" type="checkbox" /> 静音电台</label>
-          <button id="radio-interrupt" type="button" class="text-button">清除播报</button>
+          <label><input id="radio-mute" type="checkbox" /> <span data-i18n="ui.muteRadio">Mute radio</span></label>
+          <button id="radio-interrupt" type="button" class="text-button" data-i18n="ui.clearTransmissions">Clear transmissions</button>
         </div>
-        <div class="radio-commands" aria-label="常用指令">
-          <button type="button" class="secondary-button" data-radio-command="一号领航">一号领航</button>
-          <button type="button" class="secondary-button" data-radio-command="二号侦察左侧">侦察左侧</button>
-          <button type="button" class="secondary-button" data-radio-command="全体集合">全体集合</button>
+        <div class="radio-commands" aria-label="Quick commands" data-i18n-aria-label="ui.quickCommands">
+          <button type="button" class="secondary-button" data-radio-command="KITE-1 lead" data-i18n-data-radio-command="ui.kite1Lead" data-i18n="ui.kite1Lead">KITE-1 lead</button>
+          <button type="button" class="secondary-button" data-radio-command="KITE-2 scout left" data-i18n-data-radio-command="ui.kite2ScoutLeft" data-i18n="ui.scoutLeft">Scout left</button>
+          <button type="button" class="secondary-button" data-radio-command="Regroup all" data-i18n-data-radio-command="ui.regroupAll" data-i18n="ui.regroupAll">Regroup all</button>
         </div>
         <form id="radio-form" class="world-form">
-          <label for="radio-input" class="data-label">文字指令或问题</label>
+          <label for="radio-input" class="data-label" data-i18n="ui.commandOrQuestion">Command or question</label>
           <input id="radio-input" data-panel-focus name="message" maxlength="240" autocomplete="off" spellcheck="false" required />
-          <button class="primary-button" type="submit">发送并继续飞行</button>
+          <button class="primary-button" type="submit" data-i18n="ui.sendAndResumeFlight">Send and resume flight</button>
           <p id="radio-form-status" class="world-description" role="status"></p>
         </form>
       </aside>
       <aside id="help-panel" class="library-panel guide-panel" role="dialog" aria-modal="true" aria-labelledby="help-title" hidden>
         <div class="library-header">
-          <h2 id="help-title">游戏教程</h2>
-          <button id="help-close" class="utility-button" type="button" data-action="close" data-panel-focus>关闭</button>
+          <h2 id="help-title" data-i18n="ui.flightGuide">Flight Guide</h2>
+          <button id="help-close" class="utility-button" type="button" data-action="close" data-panel-focus data-i18n="ui.close">Close</button>
         </div>
         <div class="guide-tools">
-          <button class="secondary-button" type="button" data-action="menu">游戏菜单</button>
-          <input id="guide-search" type="search" placeholder="搜索教程" aria-label="搜索教程" autocomplete="off" />
+          <button class="secondary-button" type="button" data-action="menu" data-i18n="ui.gameMenu">Game menu</button>
+          <input id="guide-search" type="search" placeholder="Search guide" data-i18n-placeholder="ui.searchGuide" aria-label="Search guide" data-i18n-aria-label="ui.searchGuide" autocomplete="off" />
         </div>
         <div class="guide-layout">
-          <nav id="guide-index" class="guide-index" aria-label="教程目录"></nav>
+          <nav id="guide-index" class="guide-index" aria-label="Guide contents" data-i18n-aria-label="ui.guideContents"></nav>
           <div id="guide-content" class="guide-content">
-            <p id="guide-empty" role="status" hidden>没有匹配的章节。</p>
+            <p id="guide-empty" role="status" hidden data-i18n="ui.noMatchingChapters">No matching chapters.</p>
             <div id="record-hint">
-              <p>录制飞行可使用系统录屏。Windows 上可尝试 Win + Alt + R。</p>
-              <button id="record-hint-close" class="text-button" type="button">隐藏录屏提示</button>
+              <p data-i18n="ui.useYourSystemScreenRecorderToCapture">Use your system screen recorder to capture a flight. On Windows, try Win + Alt + R.</p>
+              <button id="record-hint-close" class="text-button" type="button" data-i18n="ui.hideRecordingTip">Hide recording tip</button>
             </div>
-            <p id="guide-legacy-link"><a href="?seed=334458&amp;preset=sakura&amp;world=stable&amp;gen=2">打开旧版默认城市</a></p>
-            <p id="guide-source-links"><a href="%SKIMMER_SOURCE_URL%" target="_blank" rel="noopener">源码 · AGPL-3.0</a> ·
-              <a href="./LICENSE" target="_blank" rel="noopener">许可证全文</a> ·
-              <a href="./licenses/THIRD-PARTY-NOTICES.txt" target="_blank" rel="noopener">第三方许可</a> ·
+            <p id="guide-legacy-link"><a href="?seed=334458&amp;preset=sakura&amp;world=stable&amp;gen=2" data-i18n="ui.openTheLegacyDefaultCity">Open the legacy default city</a></p>
+            <p id="guide-source-links"><a href="%SKIMMER_SOURCE_URL%" target="_blank" rel="noopener" data-i18n="ui.sourceAgpl30">Source · AGPL-3.0</a> ·
+              <a href="./LICENSE" target="_blank" rel="noopener" data-i18n="ui.fullLicense">Full license</a> ·
+              <a href="./licenses/THIRD-PARTY-NOTICES.txt" target="_blank" rel="noopener" data-i18n="ui.thirdPartyLicenses">Third-party licenses</a> ·
               <span id="game-version">v%SKIMMER_VERSION%</span></p>
           </div>
         </div>
       </aside>
       <section id="fail-screen" class="fail-screen" aria-labelledby="fail-title" hidden>
         <div class="fail-panel">
-          <p id="fail-eyebrow" class="kicker">RUN ENDED / 挑战结束</p>
-          <h2 id="fail-title">撞上天际线</h2>
-          <p id="fail-reason" class="fail-reason">你与障碍物发生了碰撞。</p>
+          <p id="fail-eyebrow" class="kicker" data-i18n="ui.runEnded">Run ended</p>
+          <h2 id="fail-title" data-i18n="ui.hitTheSkyline">Hit the skyline</h2>
+          <p id="fail-reason" class="fail-reason" data-i18n="ui.youCollidedWithAnObstacle">You collided with an obstacle.</p>
           <div class="result-grid">
             <div>
-              <span class="data-label">SURVIVED</span>
+              <span class="data-label" data-i18n="ui.survivalTime">Survival time</span>
               <strong id="fail-time">00:00.00</strong>
             </div>
             <div>
-              <span class="data-label">BEST</span>
+              <span class="data-label" data-i18n="ui.best">Best</span>
               <strong id="fail-best">00:00.00</strong>
             </div>
           </div>
-          <p id="new-best-badge" class="new-best" hidden>NEW PERSONAL BEST / 新纪录</p>
+          <p id="new-best-badge" class="new-best" hidden data-i18n="ui.newPersonalBest">New personal best</p>
           <div class="fail-actions">
             <button id="retry-button" class="primary-button" type="button" data-action="retry">
-              <span>再飞一次</span>
+              <span data-i18n="ui.flyAgain">Fly again</span>
               <span class="button-meta">R</span>
             </button>
-            <button id="menu-button" class="secondary-button" type="button" data-action="title">返回标题</button>
+            <button id="menu-button" class="secondary-button" type="button" data-action="title" data-i18n="ui.returnToTitle">Return to title</button>
           </div>
         </div>
       </section>
 
-      <aside id="rules-panel" role="dialog" aria-modal="true" class="library-panel flight-settings" aria-label="飞行设置" hidden>
-        <div class="library-header"><h2>飞行设置</h2><button id="rules-close" data-action="close" data-panel-focus class="utility-button" type="button">关闭</button></div>
+      <aside id="rules-panel" role="dialog" aria-modal="true" class="library-panel flight-settings" aria-label="Flight settings" data-i18n-aria-label="ui.flightSettings" hidden>
+        <div class="library-header"><h2 data-i18n="ui.flightSettings">Flight settings</h2><button id="rules-close" data-action="close" data-panel-focus class="utility-button" type="button" data-i18n="ui.close">Close</button></div>
         <p id="rules-note" class="setting-status" hidden></p>
-        <div class="setting-heading"><label>玩法 <select id="run-mode"><option value="challenge">Challenge · 近距挑战</option><option value="free">Free Flight · 自由飞行</option></select></label><button class="setting-help" type="button" aria-label="玩法帮助" data-help-section="guide-modes">?</button></div>
-        <div class="setting-heading"><label>视角 <select id="camera-mode"><option value="chase">追尾</option><option value="cockpit">驾驶舱</option></select></label><button class="setting-help" type="button" aria-label="视角帮助" data-help-section="guide-view">?</button></div>
-        <div class="setting-heading"><label>伴机数量 <select id="companion-count"><option value="0">关闭</option><option value="1">1 台</option><option value="2">2 台</option><option value="3">3 台</option></select></label><button class="setting-help" type="button" aria-label="伴机数量帮助" data-help-section="guide-companions">?</button></div>
+        <div class="setting-heading"><label><span data-i18n="ui.gameMode">Game mode</span> <select id="run-mode"><option value="challenge" data-i18n="ui.surfaceChallenge">Surface Challenge</option><option value="free" data-i18n="ui.freeFlight">Free Flight</option></select></label><button class="setting-help" type="button" aria-label="Game mode help" data-i18n-aria-label="ui.gameModeHelp" data-help-section="guide-modes">?</button></div>
+        <div class="setting-heading"><label><span data-i18n="ui.view">View</span> <select id="camera-mode"><option value="chase" data-i18n="ui.chase">Chase</option><option value="cockpit" data-i18n="ui.cockpit">Cockpit</option></select></label><button class="setting-help" type="button" aria-label="Camera help" data-i18n-aria-label="ui.cameraHelp" data-help-section="guide-view">?</button></div>
+        <div class="setting-heading"><label><span data-i18n="ui.wingmates">Wingmates</span> <select id="companion-count"><option value="0" data-i18n="ui.off">Off</option><option value="1" data-i18n="ui.1Wingmate">1 wingmate</option><option value="2" data-i18n="ui.2Wingmates">2 wingmates</option><option value="3" data-i18n="ui.3Wingmates">3 wingmates</option></select></label><button class="setting-help" type="button" aria-label="Wingmate count help" data-i18n-aria-label="ui.wingmateCountHelp" data-help-section="guide-companions">?</button></div>
         <details id="advanced-flight-settings">
-          <summary>高级设置</summary>
+          <summary data-i18n="ui.advancedSettings">Advanced settings</summary>
           <details id="desktop-settings" hidden>
-            <summary>Windows 桌面版 · v%SKIMMER_VERSION%</summary>
+            <summary><span data-i18n="ui.windowsDesktop">Windows desktop</span> · v%SKIMMER_VERSION%</summary>
             <p data-environment></p>
             <div class="world-inline-actions">
-              <button type="button" class="text-button" data-check>检查更新</button>
-              <button type="button" class="text-button" data-release>打开正式发行页</button>
-              <button type="button" class="text-button" data-directory>选择资源库目录</button>
-              <button type="button" class="text-button" data-save-export>导出飞行存档</button>
+              <button type="button" class="text-button" data-check data-i18n="ui.checkForUpdates">Check for updates</button>
+              <button type="button" class="text-button" data-release data-i18n="ui.openReleasePage">Open release page</button>
+              <button type="button" class="text-button" data-directory data-i18n="ui.chooseLibraryFolder">Choose library folder</button>
+              <button type="button" class="text-button" data-save-export data-i18n="ui.exportPilotSave">Export pilot save</button>
             </div>
-            <label class="world-field">导入飞行存档<input type="file" accept=".json,application/json" /></label>
-            <details hidden><summary>更新说明</summary><p data-notes></p></details>
+            <label class="world-field"><span data-i18n="ui.importPilotSave">Import pilot save</span><input type="file" accept=".json,application/json" /></label>
+            <details hidden><summary data-i18n="ui.releaseNotes">Release notes</summary><p data-notes></p></details>
             <p role="status" class="setting-status"></p>
           </details>
-          <label class="world-field">转场动画<select id="transition-speed"><option value="full">完整</option><option value="fast">快速</option></select></label>
-          <div class="setting-heading"><label>宽限时间<input id="run-grace" type="number" min="1" max="15" step="0.1" value="5" /></label><button class="setting-help" type="button" aria-label="宽限时间帮助" data-help-section="guide-rules">?</button></div>
-          <div class="setting-heading"><label><input id="run-shield" type="checkbox" /> 防护罩</label><button class="setting-help" type="button" aria-label="防护罩帮助" data-help-section="guide-rules">?</button></div>
+          <label class="world-field"><span data-i18n="ui.transitionAnimation">Transition animation</span><select id="transition-speed"><option value="full" data-i18n="ui.full">Full</option><option value="fast" data-i18n="ui.fast">Fast</option></select></label>
+          <div class="setting-heading"><label><span data-i18n="ui.gracePeriod">Grace period</span><input id="run-grace" type="number" min="1" max="15" step="0.1" value="5" /></label><button class="setting-help" type="button" aria-label="Grace period help" data-i18n-aria-label="ui.gracePeriodHelp" data-help-section="guide-rules">?</button></div>
+          <div class="setting-heading"><label><input id="run-shield" type="checkbox" /> <span data-i18n="ui.shield">Shield</span></label><button class="setting-help" type="button" aria-label="Shield help" data-i18n-aria-label="ui.shieldHelp" data-help-section="guide-rules">?</button></div>
 
-          <details><summary>自主伴机</summary>
+          <details><summary data-i18n="ui.autonomousWingmates">Autonomous wingmates</summary>
 
-            <div class="setting-heading"><label>编队 <select id="companion-formation"><option value="wedge">楔形</option><option value="line">纵队</option><option value="spread">展开</option></select></label><button class="setting-help" type="button" aria-label="伴机帮助" data-help-section="guide-companions">?</button></div>
-            <label>自主任务 <select id="companion-behavior"><option value="formation">编队跟随</option><option value="independent">独立跟随</option><option value="lead">1 号领航</option></select></label>
-
-          </details>
-          <details><summary>操控与手柄</summary>
-            <p id="input-device" class="setting-status">Keyboard</p>
-            <div class="setting-heading"><label>操控方案 <select data-control="profile"><option value="precision">Precision · 高速精确操控</option><option value="classic">Classic · 经典操控</option></select></label><button class="setting-help" type="button" aria-label="操控与手柄帮助" data-help-section="guide-pad">?</button></div>
-            <label>灵敏度 <input data-control="sensitivity" type="number" min="0.2" max="2" step="0.1" /></label>
-            <label>响应曲线 <input data-control="curve" type="number" min="1" max="3" step="0.1" /></label>
-            <label>手柄死区 <input data-control="deadZone" type="number" min="0" max="0.4" step="0.01" /></label>
-            <label>水平恢复辅助 <input data-control="levelAssist" type="number" min="0" max="2" step="0.1" /></label>
-            <label><input data-control="autoCoordinate" type="checkbox" /> 自动协调转弯</label>
-            <label><input data-control="invertPitch" type="checkbox" /> 反转俯仰</label>
-            <label><input data-control="invertRoll" type="checkbox" /> 反转滚转</label>
-            <label><input data-control="invertYaw" type="checkbox" /> 反转偏航</label>
-
-            <label>俯仰轴 <input data-control="pitchAxis" type="number" min="0" max="7" /></label>
-            <label>滚转轴 <input data-control="rollAxis" type="number" min="0" max="7" /></label>
-            <label>偏航轴 <input data-control="yawAxis" type="number" min="0" max="7" /></label>
-            <label>加速按钮 <input data-control="boostButton" type="number" min="0" max="31" /></label>
-            <label>视角按钮 <input data-control="cameraButton" type="number" min="0" max="31" /></label>
-            <label>暂停按钮 <input data-control="pauseButton" type="number" min="0" max="31" /></label>
-            <label>重试按钮 <input data-control="retryButton" type="number" min="0" max="31" /></label>
-            <label>菜单确认按钮 <input data-control="confirmButton" type="number" min="0" max="31" /></label>
-            <label>菜单返回按钮 <input data-control="backButton" type="number" min="0" max="31" /></label>
-            <label>游戏菜单按钮 <input data-control="menuButton" type="number" min="0" max="31" /></label>
-            <label>贴面滑行按钮（−1 自动识别 LB）<input data-control="glideButton" type="number" min="-1" max="31" /></label>
-            <label>按住讲话按钮 <input id="voice-gamepad-button" data-control="voiceButton" type="number" min="-1" max="31" /></label>
+            <div class="setting-heading"><label><span data-i18n="ui.formation">Formation</span> <select id="companion-formation"><option value="wedge" data-i18n="ui.wedge">Wedge</option><option value="line" data-i18n="ui.line">Line</option><option value="spread" data-i18n="ui.spread">Spread</option></select></label><button class="setting-help" type="button" aria-label="Wingmate help" data-i18n-aria-label="ui.wingmateHelp" data-help-section="guide-companions">?</button></div>
+            <label><span data-i18n="ui.behavior">Behavior</span> <select id="companion-behavior"><option value="formation" data-i18n="ui.formationFollow">Formation follow</option><option value="independent" data-i18n="ui.independentFollow">Independent follow</option><option value="lead" data-i18n="ui.kite1Leads">KITE-1 leads</option></select></label>
 
           </details>
-          <details id="camera-anchor-settings"><summary>座舱位置</summary>
-            <div class="setting-heading"><label>座舱预设 <select id="anchor-preset">
-              <option value="standard">标准座舱</option>
-              <option value="fighter">战斗机座舱</option>
-              <option value="glider">滑翔机座舱</option>
-              <option value="high">高位座舱</option>
-              <option value="custom">自定义锚点</option>
-            </select></label><button class="setting-help" type="button" aria-label="座舱位置帮助" data-help-section="guide-anchor">?</button></div>
-            <label><input id="anchor-preview" type="checkbox" /> 实时预览</label>
+          <details><summary data-i18n="ui.controlsAndGamepad">Controls and gamepad</summary>
+            <p id="input-device" class="setting-status" data-i18n="ui.keyboard">Keyboard</p>
+            <div class="setting-heading"><label><span data-i18n="ui.controlProfile">Control profile</span> <select data-control="profile"><option value="precision" data-i18n="ui.precision">Precision</option><option value="classic" data-i18n="ui.classic">Classic</option></select></label><button class="setting-help" type="button" aria-label="Control profile help" data-i18n-aria-label="ui.controlProfileHelp" data-help-section="guide-pad">?</button></div>
+            <label><span data-i18n="ui.sensitivity">Sensitivity</span> <input data-control="sensitivity" type="number" min="0.2" max="2" step="0.1" /></label>
+            <label><span data-i18n="ui.responseCurve">Response curve</span> <input data-control="curve" type="number" min="1" max="3" step="0.1" /></label>
+            <label><span data-i18n="ui.stickDeadZone">Stick dead zone</span> <input data-control="deadZone" type="number" min="0" max="0.4" step="0.01" /></label>
+            <label><span data-i18n="ui.autoLevelAssist">Auto-level assist</span> <input data-control="levelAssist" type="number" min="0" max="2" step="0.1" /></label>
+            <label><input data-control="autoCoordinate" type="checkbox" /> <span data-i18n="ui.coordinatedTurns">Coordinated turns</span></label>
+            <label><input data-control="invertPitch" type="checkbox" /> <span data-i18n="ui.invertPitch">Invert pitch</span></label>
+            <label><input data-control="invertRoll" type="checkbox" /> <span data-i18n="ui.invertRoll">Invert roll</span></label>
+            <label><input data-control="invertYaw" type="checkbox" /> <span data-i18n="ui.invertYaw">Invert yaw</span></label>
+
+            <label><span data-i18n="ui.pitchAxis">Pitch axis</span> <input data-control="pitchAxis" type="number" min="0" max="7" /></label>
+            <label><span data-i18n="ui.rollAxis">Roll axis</span> <input data-control="rollAxis" type="number" min="0" max="7" /></label>
+            <label><span data-i18n="ui.yawAxis">Yaw axis</span> <input data-control="yawAxis" type="number" min="0" max="7" /></label>
+            <label><span data-i18n="ui.boostButton">Boost button</span> <input data-control="boostButton" type="number" min="0" max="31" /></label>
+            <label><span data-i18n="ui.cameraButton">Camera button</span> <input data-control="cameraButton" type="number" min="0" max="31" /></label>
+            <label><span data-i18n="ui.pauseButton">Pause button</span> <input data-control="pauseButton" type="number" min="0" max="31" /></label>
+            <label><span data-i18n="ui.retryButton">Retry button</span> <input data-control="retryButton" type="number" min="0" max="31" /></label>
+            <label><span data-i18n="ui.menuConfirmButton">Menu confirm button</span> <input data-control="confirmButton" type="number" min="0" max="31" /></label>
+            <label><span data-i18n="ui.menuBackButton">Menu back button</span> <input data-control="backButton" type="number" min="0" max="31" /></label>
+            <label><span data-i18n="ui.gameMenuButton">Game menu button</span> <input data-control="menuButton" type="number" min="0" max="31" /></label>
+            <label><span data-i18n="ui.surfaceGlideButton1DetectsLb">Surface Glide button (−1 detects LB)</span><input data-control="glideButton" type="number" min="-1" max="31" /></label>
+            <label><span data-i18n="ui.pushToTalkButton">Push-to-talk button</span> <input id="voice-gamepad-button" data-control="voiceButton" type="number" min="-1" max="31" /></label>
+
+          </details>
+          <details id="camera-anchor-settings"><summary data-i18n="ui.cockpitPosition">Cockpit position</summary>
+            <div class="setting-heading"><label><span data-i18n="ui.cockpitPreset">Cockpit preset</span> <select id="anchor-preset">
+              <option value="standard" data-i18n="ui.standardCockpit">Standard cockpit</option>
+              <option value="fighter" data-i18n="ui.fighterCockpit">Fighter cockpit</option>
+              <option value="glider" data-i18n="ui.gliderCockpit">Glider cockpit</option>
+              <option value="high" data-i18n="ui.raisedCockpit">Raised cockpit</option>
+              <option value="custom" data-i18n="ui.customAnchor">Custom anchor</option>
+            </select></label><button class="setting-help" type="button" aria-label="Cockpit position help" data-i18n-aria-label="ui.cockpitPositionHelp" data-help-section="guide-anchor">?</button></div>
+            <label><input id="anchor-preview" type="checkbox" /> <span data-i18n="ui.livePreview">Live preview</span></label>
             <div id="anchor-coordinates" hidden>
 
               <label>X <input id="anchor-x" type="number" min="-8" max="8" step="0.01" /></label>
               <label>Y <input id="anchor-y" type="number" min="-8" max="8" step="0.01" /></label>
               <label>Z <input id="anchor-z" type="number" min="-8" max="8" step="0.01" /></label>
             </div>
-            <button id="anchor-recommend" class="utility-button" type="button">恢复推荐值</button>
-            <button id="anchor-save" class="utility-button" type="button">保存当前机型锚点</button>
+            <button id="anchor-recommend" class="utility-button" type="button" data-i18n="ui.restoreRecommendedPosition">Restore recommended position</button>
+            <button id="anchor-save" class="utility-button" type="button" data-i18n="ui.savePositionForThisAircraft">Save position for this aircraft</button>
             <p id="anchor-message" role="status"></p>
           </details>
-          <details id="comfort-settings"><summary>画质与音频</summary>
+          <details id="comfort-settings"><summary data-i18n="ui.graphicsAndAudio">Graphics and audio</summary>
             <div class="setting-heading settings-actions">
             <div class="quick-controls">
-              <button id="mute-button" class="utility-button" type="button" aria-pressed="false">声音 · 开</button>
-              <button id="effects-button" class="utility-button" type="button" aria-pressed="false">视觉 · 标准</button>
-              <button id="quality-button" class="utility-button" type="button">画质 · 平衡</button>
+              <button id="mute-button" class="utility-button" type="button" aria-pressed="false" data-i18n="ui.soundOn">Sound · On</button>
+              <button id="effects-button" class="utility-button" type="button" aria-pressed="false" data-i18n="ui.effectsStandard">Effects · Standard</button>
+              <button id="quality-button" class="utility-button" type="button" data-i18n="ui.qualityBalanced">Quality · Balanced</button>
             </div>
-            <button class="setting-help" type="button" aria-label="画质与音频帮助" data-help-section="guide-graphics">?</button>
+            <button class="setting-help" type="button" aria-label="Graphics and audio help" data-i18n-aria-label="ui.graphicsAndAudioHelp" data-help-section="guide-graphics">?</button>
             </div>
           </details>
         </details>
@@ -273,132 +274,132 @@
       <aside id="library-panel" role="dialog" aria-modal="true" class="library-panel" aria-labelledby="library-title" hidden>
         <div class="library-header">
           <div>
-            <h2 id="library-title">机库</h2>
+            <h2 id="library-title" data-i18n="ui.hangar">Hangar</h2>
           </div>
-          <button id="library-close" data-action="close" data-panel-focus class="icon-button" type="button" aria-label="关闭机库">关闭</button>
+          <button id="library-close" data-action="close" data-panel-focus class="icon-button" type="button" aria-label="Close hangar" data-i18n-aria-label="ui.closeHangar" data-i18n="ui.close">Close</button>
         </div>
-        <div id="model-list" class="model-list" role="listbox" aria-label="可选机型"></div>
+        <div id="model-list" class="model-list" role="listbox" aria-label="Available aircraft" data-i18n-aria-label="ui.availableAircraft"></div>
         <div class="library-actions">
           <input id="model-file" type="file" accept=".glb,model/gltf-binary" hidden />
-          <button id="import-model-button" class="secondary-button" type="button">导入本机 GLB</button>
-          <button class="setting-help" type="button" aria-label="导入飞机帮助" data-help-section="guide-aircraft">?</button>
-          <button id="rotate-model-button" class="text-button" type="button" disabled>旋转 180°</button>
-          <button id="remove-model-button" class="text-button" type="button" disabled>移除当前导入</button>
+          <button id="import-model-button" class="secondary-button" type="button" data-i18n="ui.importLocalGlb">Import local GLB</button>
+          <button class="setting-help" type="button" aria-label="Aircraft import help" data-i18n-aria-label="ui.aircraftImportHelp" data-help-section="guide-aircraft">?</button>
+          <button id="rotate-model-button" class="text-button" type="button" disabled data-i18n="ui.rotate180">Rotate 180°</button>
+          <button id="remove-model-button" class="text-button" type="button" disabled data-i18n="ui.removeImportedAircraft">Remove imported aircraft</button>
         </div>
-        <p id="model-note" class="model-note">当前为内置程序化机型 KITE-07。</p>
+        <p id="model-note" class="model-note" data-i18n="ui.currentAircraftBuiltInProceduralKite07">Current aircraft: built-in procedural KITE-07.</p>
       </aside>
 
       <aside id="world-panel" role="dialog" aria-modal="true" class="world-panel" aria-labelledby="world-title" hidden>
         <div class="library-header">
           <div>
-            <h2 id="world-title">世界</h2>
+            <h2 id="world-title" data-i18n="ui.world">World</h2>
           </div>
-          <button id="world-close" data-action="close" data-panel-focus class="icon-button" type="button" aria-label="关闭世界设置">关闭</button>
+          <button id="world-close" data-action="close" data-panel-focus class="icon-button" type="button" aria-label="Close world settings" data-i18n-aria-label="ui.closeWorldSettings" data-i18n="ui.close">Close</button>
         </div>
-        <section class="local-world" aria-label="本地 GLB 世界">
+        <section class="local-world" aria-label="Local GLB worlds" data-i18n-aria-label="ui.localGlbWorlds">
           <div id="local-world-active" hidden>
             <p id="local-world-name" class="world-description"></p>
             <div class="world-inline-actions">
-              <button id="local-world-new-variant" class="secondary-button" type="button">生成新变体</button>
-              <button id="local-world-keep" class="text-button" type="button">保留当前世界</button>
+              <button id="local-world-new-variant" class="secondary-button" type="button" data-i18n="ui.generateNewVariant">Generate new variant</button>
+              <button id="local-world-keep" class="text-button" type="button" data-i18n="ui.keepThisWorld">Keep this world</button>
             </div>
             <div class="world-inline-actions">
-              <label><input id="local-world-collision" type="checkbox" /> 显示碰撞层</label>
-              <button id="local-world-builtin" class="secondary-button" type="button">返回程序城市</button>
+              <label><input id="local-world-collision" type="checkbox" /> <span data-i18n="ui.showCollisionGeometry">Show collision geometry</span></label>
+              <button id="local-world-builtin" class="secondary-button" type="button" data-i18n="ui.returnToProceduralCity">Return to procedural city</button>
             </div>
             <div id="local-world-motion-controls" class="world-inline-actions" hidden>
-              <label><input id="local-world-motion-running" type="checkbox" /> 播放世界动画</label>
-              <label id="local-world-motion-preview-label"><input id="local-world-motion-preview" type="checkbox" /> 起飞前预览</label>
+              <label><input id="local-world-motion-running" type="checkbox" /> <span data-i18n="ui.playWorldAnimations">Play world animations</span></label>
+              <label id="local-world-motion-preview-label"><input id="local-world-motion-preview" type="checkbox" /> <span data-i18n="ui.previewBeforeTakeoff">Preview before takeoff</span></label>
             </div>
           </div>
           <details id="world-packs" hidden>
-            <summary>世界资源库</summary>
-            <p>樱色巨城 · 内置　Dragonspine · 内置</p>
-            <button class="text-button" type="button" data-pack-imports>管理本地 GLB 世界</button>
-            <button class="text-button" type="button" data-pack-download>安装官方 Dragonspine High Pack</button>
-            <label class="world-field">安装资源包目录<input type="file" webkitdirectory multiple /></label>
-            <label class="world-field">已安装资源包<select disabled></select></label>
+            <summary data-i18n="ui.worldLibrary">World library</summary>
+            <p data-i18n="ui.sakuraMegacityBuiltInDragonspineBuiltIn">Sakura Megacity · built in　Dragonspine · built in</p>
+            <button class="text-button" type="button" data-pack-imports data-i18n="ui.manageLocalGlbWorlds">Manage local GLB worlds</button>
+            <button class="text-button" type="button" data-pack-download data-i18n="ui.installOfficialDragonspineHighPack">Install official Dragonspine High Pack</button>
+            <label class="world-field"><span data-i18n="ui.installFromPackFolder">Install from pack folder</span><input type="file" webkitdirectory multiple /></label>
+            <label class="world-field"><span data-i18n="ui.installedPacks">Installed packs</span><select disabled></select></label>
             <div class="world-inline-actions">
-              <button class="text-button" type="button" data-pack-open disabled>进入世界</button>
-              <button class="text-button" type="button" data-pack-remove disabled>移除副本</button>
-              <button class="text-button" type="button" data-pack-verify disabled>校验</button>
-              <button class="text-button" type="button" data-pack-cancel hidden>取消安装</button>
+              <button class="text-button" type="button" data-pack-open disabled data-i18n="ui.enterWorld">Enter world</button>
+              <button class="text-button" type="button" data-pack-remove disabled data-i18n="ui.removeCopy">Remove copy</button>
+              <button class="text-button" type="button" data-pack-verify disabled data-i18n="ui.verify">Verify</button>
+              <button class="text-button" type="button" data-pack-cancel hidden data-i18n="ui.cancelInstallation">Cancel installation</button>
             </div>
             <p class="world-description" role="status"></p>
           </details>
           <details id="local-world-library">
-            <summary>本地 GLB 世界</summary>
+            <summary data-i18n="ui.localGlbWorlds">Local GLB worlds</summary>
             <div id="local-world-drop" class="world-drop">
-              <div class="setting-heading"><label class="world-field">GLB 文件<input id="local-world-file" type="file" accept=".glb,model/gltf-binary" /></label><button class="setting-help" type="button" aria-label="导入城市帮助" data-help-section="guide-import">?</button></div>
+              <div class="setting-heading"><label class="world-field"><span data-i18n="ui.glbFile">GLB file</span><input id="local-world-file" type="file" accept=".glb,model/gltf-binary" /></label><button class="setting-help" type="button" aria-label="City import help" data-i18n-aria-label="ui.cityImportHelp" data-help-section="guide-import">?</button></div>
             </div>
             <div id="local-world-saved" hidden>
-              <label class="world-field">已保存的世界<select id="local-world-select"></select></label>
+              <label class="world-field"><span data-i18n="ui.savedWorlds">Saved worlds</span><select id="local-world-select"></select></label>
               <div class="world-inline-actions">
-                <button id="local-world-load" type="button" class="text-button">打开</button>
-                <button id="local-world-export" type="button" class="text-button">导出 GLB</button>
-                <button id="local-world-remove" type="button" class="text-button">从本机移除</button>
+                <button id="local-world-load" type="button" class="text-button" data-i18n="ui.open">Open</button>
+                <button id="local-world-export" type="button" class="text-button" data-i18n="ui.exportGlb">Export GLB</button>
+                <button id="local-world-remove" type="button" class="text-button" data-i18n="ui.removeFromDevice">Remove from device</button>
               </div>
             </div>
             <p id="local-world-status" class="world-description" role="status"></p>
-            <button id="local-world-analyze" class="secondary-button" type="button" hidden>分析场景</button>
+            <button id="local-world-analyze" class="secondary-button" type="button" hidden data-i18n="ui.analyzeScene">Analyze scene</button>
             <form id="local-world-config" class="world-form" hidden>
               <p id="local-world-summary" class="world-description"></p>
               <details class="world-import-transform">
-                <summary>比例、方向与出生点</summary>
+                <summary data-i18n="ui.scaleOrientationAndSpawn">Scale, orientation and spawn</summary>
                 <div class="world-import-coordinates">
-                  <label class="world-field">比例<input name="scale" type="number" step="any" min="0.001" max="1000" required /></label>
-                  <label class="world-field">场景旋转（°）<input name="yaw" type="number" step="any" required /></label>
-                  <label class="world-field">向上轴<select name="up"><option value="y">Y</option><option value="z">Z</option><option value="-z">−Z</option></select></label>
-                  <label class="world-field">起飞朝向（°）<input name="spawnYaw" type="number" step="any" required /></label>
+                  <label class="world-field"><span data-i18n="ui.scale">Scale</span><input name="scale" type="number" step="any" min="0.001" max="1000" required /></label>
+                  <label class="world-field"><span data-i18n="ui.sceneRotation">Scene rotation (°)</span><input name="yaw" type="number" step="any" required /></label>
+                  <label class="world-field"><span data-i18n="ui.upAxis">Up axis</span><select name="up"><option value="y">Y</option><option value="z">Z</option><option value="-z">−Z</option></select></label>
+                  <label class="world-field"><span data-i18n="ui.takeoffHeading">Takeoff heading (°)</span><input name="spawnYaw" type="number" step="any" required /></label>
                 </div>
-                <label><input id="local-world-manual" type="checkbox" /> 手动指定出生点</label>
+                <label><input id="local-world-manual" type="checkbox" /> <span data-i18n="ui.setSpawnManually">Set spawn manually</span></label>
                 <fieldset id="local-world-position" class="world-import-coordinates">
-                  <label class="world-field">X（米）<input name="x" type="number" step="any" required /></label>
-                  <label class="world-field">Y（米）<input name="y" type="number" step="any" required /></label>
-                  <label class="world-field">Z（米）<input name="z" type="number" step="any" required /></label>
+                  <label class="world-field"><span data-i18n="ui.xM">X (m)</span><input name="x" type="number" step="any" required /></label>
+                  <label class="world-field"><span data-i18n="ui.yM">Y (m)</span><input name="y" type="number" step="any" required /></label>
+                  <label class="world-field"><span data-i18n="ui.zM">Z (m)</span><input name="z" type="number" step="any" required /></label>
                 </fieldset>
               </details>
               <details class="world-import-transform">
-                <summary>网格语义</summary>
-                <div class="setting-heading"><label class="world-field">网格<select id="local-world-mesh"></select></label><button class="setting-help" type="button" aria-label="碰撞分类帮助" data-help-section="guide-motion">?</button></div>
-                <label class="world-field">类型<select id="local-world-role"><option value="SURFACE">可贴近表面</option><option value="OBSTACLE">仅碰撞障碍</option><option value="DECORATION">装饰</option></select></label>
+                <summary data-i18n="ui.meshRoles">Mesh roles</summary>
+                <div class="setting-heading"><label class="world-field"><span data-i18n="ui.mesh">Mesh</span><select id="local-world-mesh"></select></label><button class="setting-help" type="button" aria-label="Collision role help" data-i18n-aria-label="ui.collisionRoleHelp" data-help-section="guide-motion">?</button></div>
+                <label class="world-field"><span data-i18n="ui.role">Role</span><select id="local-world-role"><option value="SURFACE" data-i18n="ui.glideSurface">Glide surface</option><option value="OBSTACLE" data-i18n="ui.collisionOnly">Collision only</option><option value="DECORATION" data-i18n="ui.decoration">Decoration</option></select></label>
               </details>
               <details class="world-import-transform">
-                <summary>动画与运动路径</summary>
-                <div class="setting-heading"><label class="world-field">动画片段<select id="local-world-motion-clip"></select></label><button class="setting-help" type="button" aria-label="动画与运动路径帮助" data-help-section="guide-motion">?</button></div>
+                <summary data-i18n="ui.animationAndMotionPaths">Animation and motion paths</summary>
+                <div class="setting-heading"><label class="world-field"><span data-i18n="ui.animationClip">Animation clip</span><select id="local-world-motion-clip"></select></label><button class="setting-help" type="button" aria-label="Animation and motion help" data-i18n-aria-label="ui.animationAndMotionHelp" data-help-section="guide-motion">?</button></div>
                 <p id="local-world-motion-channels" class="world-description"></p>
-                <label><input id="local-world-motion-loop" type="checkbox" checked /> 循环播放片段</label>
-                <label class="world-field">运动网格<select id="local-world-motion-mesh"></select></label>
-                <label><input id="local-world-motion-custom" type="checkbox" /> 自定义往返路径</label>
+                <label><input id="local-world-motion-loop" type="checkbox" checked /> <span data-i18n="ui.loopClip">Loop clip</span></label>
+                <label class="world-field"><span data-i18n="ui.movingMesh">Moving mesh</span><select id="local-world-motion-mesh"></select></label>
+                <label><input id="local-world-motion-custom" type="checkbox" /> <span data-i18n="ui.customRoundTrip">Custom round trip</span></label>
                 <fieldset id="local-world-motion-path" class="world-import-coordinates" disabled>
-                  <label class="world-field">局部 X 偏移<input id="local-world-motion-x" type="number" step="any" min="-1000" max="1000" required /></label>
-                  <label class="world-field">局部 Y 偏移<input id="local-world-motion-y" type="number" step="any" min="-1000" max="1000" required /></label>
-                  <label class="world-field">局部 Z 偏移<input id="local-world-motion-z" type="number" step="any" min="-1000" max="1000" required /></label>
-                  <label class="world-field">往返周期（秒）<input id="local-world-motion-seconds" type="number" step="any" min="0.25" max="300" required /></label>
+                  <label class="world-field"><span data-i18n="ui.localXOffset">Local X offset</span><input id="local-world-motion-x" type="number" step="any" min="-1000" max="1000" required /></label>
+                  <label class="world-field"><span data-i18n="ui.localYOffset">Local Y offset</span><input id="local-world-motion-y" type="number" step="any" min="-1000" max="1000" required /></label>
+                  <label class="world-field"><span data-i18n="ui.localZOffset">Local Z offset</span><input id="local-world-motion-z" type="number" step="any" min="-1000" max="1000" required /></label>
+                  <label class="world-field"><span data-i18n="ui.roundTripTimeS">Round-trip time (s)</span><input id="local-world-motion-seconds" type="number" step="any" min="0.25" max="300" required /></label>
                 </fieldset>
               </details>
-              <label><input id="local-world-save" type="checkbox" checked /> 保存到本机世界库</label>
-              <button id="local-world-apply" class="secondary-button" type="submit">启用世界</button>
+              <label><input id="local-world-save" type="checkbox" checked /> <span data-i18n="ui.saveToLocalWorldLibrary">Save to local world library</span></label>
+              <button id="local-world-apply" class="secondary-button" type="submit" data-i18n="ui.activateWorld">Activate world</button>
             </form>
-            <button id="local-world-cancel" class="text-button" type="button" hidden>取消导入</button>
+            <button id="local-world-cancel" class="text-button" type="button" hidden data-i18n="ui.cancelImport">Cancel import</button>
           </details>
         </section>
         <form id="world-form" class="world-form">
-          <label class="world-field">世界主题<select id="world-theme"><option value="city">樱色巨城</option><option value="dragonspine">Dragonspine · 龙脊幻境</option><option value="worldforge">WorldForge · 层岩回廊</option></select></label>
-          <label><input id="world-passages" type="checkbox" /> 城市生成式空中通道（实验）</label>
-          <div class="setting-heading"><label class="world-field">输入种子<input id="world-seed-input" name="seed" type="text" maxlength="64" autocomplete="off" spellcheck="false" /></label><button class="setting-help" type="button" aria-label="种子帮助" data-help-section="guide-world">?</button></div>
+          <label class="world-field"><span data-i18n="ui.worldTheme">World theme</span><select id="world-theme"><option value="city" data-i18n="ui.sakuraMegacity">Sakura Megacity</option><option value="dragonspine" data-i18n="ui.dragonspine">Dragonspine</option><option value="worldforge" data-i18n="ui.worldforge">WorldForge</option></select></label>
+          <label><input id="world-passages" type="checkbox" /> <span data-i18n="ui.generatedCityAirPassagesExperimental">Generated city air passages (experimental)</span></label>
+          <div class="setting-heading"><label class="world-field"><span data-i18n="ui.worldSeed">World seed</span><input id="world-seed-input" name="seed" type="text" maxlength="64" autocomplete="off" spellcheck="false" /></label><button class="setting-help" type="button" aria-label="Seed help" data-i18n-aria-label="ui.seedHelp" data-help-section="guide-world">?</button></div>
           <div id="world-legacy" data-procedural-world hidden>
             <p id="world-legacy-note" class="world-description"></p>
-            <button id="world-upgrade" class="secondary-button" type="button">用此种子生成新版城市</button>
+            <button id="world-upgrade" class="secondary-button" type="button" data-i18n="ui.generateUpdatedCityWithThisSeed">Generate updated city with this seed</button>
           </div>
-          <div class="setting-heading" data-procedural-world><label class="world-field">世界记忆<select id="world-mode-select" name="world"><option value="stable">稳定世界</option><option value="ephemeral">短暂世界</option></select></label><button class="setting-help" type="button" aria-label="世界记忆帮助" data-help-section="guide-world">?</button></div>
+          <div class="setting-heading" data-procedural-world><label class="world-field"><span data-i18n="ui.worldMemory">World memory</span><select id="world-mode-select" name="world"><option value="stable" data-i18n="ui.stableWorld">Stable world</option><option value="ephemeral" data-i18n="ui.ephemeralWorld">Ephemeral world</option></select></label><button class="setting-help" type="button" aria-label="World memory help" data-i18n-aria-label="ui.worldMemoryHelp" data-help-section="guide-world">?</button></div>
           <div class="world-inline-actions">
-            <button id="world-random" class="text-button" type="button" data-procedural-world>随机种子</button>
-            <button id="world-copy-seed" class="text-button" type="button">复制种子</button>
+            <button id="world-random" class="text-button" type="button" data-procedural-world data-i18n="ui.randomSeed">Random seed</button>
+            <button id="world-copy-seed" class="text-button" type="button" data-i18n="ui.copySeed">Copy seed</button>
           </div>
           <div class="world-actions">
-            <button class="primary-button" type="submit">生成并重载</button>
-            <button id="world-reset" class="secondary-button" type="button" data-procedural-world>恢复默认种子</button>
+            <button class="primary-button" type="submit" data-i18n="ui.generateAndReload">Generate and reload</button>
+            <button id="world-reset" class="secondary-button" type="button" data-procedural-world data-i18n="ui.restoreDefaultSeed">Restore default seed</button>
           </div>
         </form>
       </aside>
@@ -406,23 +407,24 @@
 
       <section id="webgl-error" class="fatal-screen" role="alert" hidden>
         <div>
-          <p class="kicker">RENDERER OFFLINE</p>
-          <h2>无法启动 WebGL2</h2>
-          <p id="error-message">请开启硬件加速，或使用最新版桌面 Chrome、Edge、Firefox 或 Safari。</p>
-          <button id="reload-button" class="secondary-button" type="button">重新载入</button>
+          <p class="kicker" data-i18n="ui.rendererOffline">Renderer offline</p>
+          <h2 data-i18n="ui.webgl2CouldNotStart">WebGL2 could not start</h2>
+          <p id="error-message" data-i18n="ui.enableHardwareAccelerationOrTryARecent">Enable hardware acceleration or try a recent desktop version of Chrome, Edge, Firefox or Safari.</p>
+          <button id="reload-button" class="secondary-button" type="button" data-i18n="ui.reload">Reload</button>
         </div>
       </section>
 
       <noscript>
         <div class="fatal-screen">
           <div>
-            <p class="kicker">JAVASCRIPT REQUIRED</p>
-            <h2>需要启用 JavaScript</h2>
-            <p>Skimmer-Scraper 是实时三维网页游戏。</p>
+            <p class="kicker">JavaScript required / 需要 JavaScript</p>
+            <h2>Enable JavaScript / 需要启用 JavaScript</h2>
+            <p>Skimmer-Scraper is a real-time 3D flight game. / Skimmer-Scraper 是实时三维网页游戏。</p>
           </div>
         </div>
       </noscript>
     </div>
+    <script type="module" src="/src/i18n/bootstrap.ts"></script>
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>

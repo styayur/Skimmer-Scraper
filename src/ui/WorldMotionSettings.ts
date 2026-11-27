@@ -1,9 +1,12 @@
+import { t, selectedLocale } from '../i18n';
 import type { WorldManifest, WorldMotionOptions, WorldMotionPath } from '../world/imports/worldManifest';
 
 const field = <T extends HTMLElement>(name: string) => document.getElementById(`local-world-motion-${name}`) as T;
 const labels: Readonly<Record<string, string>> = {
-  translation: '平移', rotation: '旋转', scale: '缩放', skin: '骨骼（参考姿态碰撞）', morph: '顶点形变（参考姿态碰撞）', other: '其他',
+  translation: t('worldMotionSettings.translation'), rotation: t('worldMotionSettings.rotation'), scale: t('worldMotionSettings.scale'), skin: t('worldMotionSettings.skinReferencePoseCollision'), morph: t('worldMotionSettings.morphReferencePoseCollision'), other: t('worldMotionSettings.other'),
 };
+
+const channelList = new Intl.ListFormat(selectedLocale, { style: 'short', type: 'unit' });
 
 export class WorldMotionSettings {
   private readonly clips = field<HTMLSelectElement>('clip');
@@ -28,12 +31,12 @@ export class WorldMotionSettings {
     this.manifest = manifest;
     const saved = manifest.options.motion;
     this.overrides = { ...saved?.paths };
-    this.clips.replaceChildren(new Option('使用参考姿态', '-1'),
-      ...manifest.animations.map((clip, index) => new Option(clip.name || `片段 ${index + 1}`, String(index))));
+    this.clips.replaceChildren(new Option(t('worldMotionSettings.useReferencePose'), '-1'),
+      ...manifest.animations.map((clip, index) => new Option(clip.name || t('worldMotionSettings.clipNumber', { number: index + 1 }), String(index))));
     this.clips.value = String(saved?.clip ?? (manifest.animations.length ? 0 : -1));
     this.loop.checked = saved?.loop !== false;
     this.meshes.replaceChildren(...manifest.meshRoles.map(mesh => {
-      const suffix = mesh.motion === 'reference-pose' ? ' · 参考姿态碰撞' : mesh.motion === 'rigid' ? ' · 刚体' : '';
+      const suffix = mesh.motion === 'reference-pose' ? t('worldMotionSettings.referencePoseCollision') : mesh.motion === 'rigid' ? t('worldMotionSettings.rigid') : '';
       return new Option(`${mesh.name}${suffix}`, mesh.id);
     }));
     this.showChannels();
@@ -51,8 +54,8 @@ export class WorldMotionSettings {
 
   private showChannels(): void {
     const clip = this.manifest?.animations[Number(this.clips.value)];
-    const content = clip?.channels?.map(channel => labels[channel] ?? channel).join('、');
-    field('channels').textContent = content ? `${clip!.seconds.toFixed(1)} 秒 · ${content}` : '';
+    const content = channelList.format(clip?.channels?.map(channel => labels[channel] ?? channel) ?? []);
+    field('channels').textContent = content ? t('worldMotionSettings.secondsSContent', { seconds: clip!.seconds.toFixed(1), content }) : '';
     this.loop.disabled = !clip;
   }
 

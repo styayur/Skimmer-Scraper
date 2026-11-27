@@ -83,6 +83,13 @@ export class ImportedWorldAdapter implements RenderableWorld, SurfaceProvider {
   public getAdapterStats() { return this.adapter.getStats(); }
   public queryNearest(position: Vec3, maxDistance: number) { return this.surfaces.queryNearest(position, maxDistance); }
   public queryGlide(position: Vec3, range: number) { return this.surfaces.queryGlide(position,range); }
+  public queryGlideAhead(position: Vec3, range: number, seconds: number) {
+    return this.surfaces.queryGlideAhead(position, range, seconds);
+  }
+  public isGlideVolumeCovered(center: Vec3) { return this.isCollisionCovered(center); }
+  public glideChordClear(from: Vec3, to: Vec3, radius: number, start: number, end: number) {
+    return this.surfaces.glideChordClear(from, to, radius, start, end);
+  }
   public queryProximity(position: Vec3, maxDistance: number) { return this.surfaces.queryProximity(position, maxDistance); }
   public queryStatic(position: Vec3, range: number) { return this.surfaces.queryStatic(position, range); }
   public sweepDynamic(from: Vec3, to: Vec3, radius: number) { return this.surfaces.sweepDynamic(from, to, radius); }

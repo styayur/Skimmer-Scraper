@@ -1,14 +1,16 @@
+import { localizeDiagnostic } from '../i18n/diagnostics';
+import { t } from '../i18n';
 import type { MusicSession } from '../audio/musicSession';
 
 export function bindMusicPanel(session:MusicSession) {
   const panel=document.createElement('details');
-  panel.innerHTML=`<summary>背景音乐</summary>
-    <label><input type="checkbox" id="bgm-enabled"> 飞行配乐</label>
+  panel.innerHTML=`<summary>${t('musicPanel.backgroundMusic')}</summary>
+    <label><input type="checkbox" id="bgm-enabled"> ${t('musicPanel.flightSoundtrack')}</label>
     <fieldset hidden>
-      <label>音乐音量 <input id="bgm-volume" type="range" min="0" max="100" value="35"></label>
-      <button type="button" id="bgm-next">下一首</button>
-      <details><summary>音源与署名</summary><p>世界配乐由 Skimmer-Scraper 原创。</p>
-        <label>本地曲目 <input type="file" accept="audio/*" multiple></label></details>
+      <label>${t('musicPanel.musicVolume')} <input id="bgm-volume" type="range" min="0" max="100" value="35"></label>
+      <button type="button" id="bgm-next">${t('musicPanel.nextTrack')}</button>
+      <details><summary>${t('musicPanel.sourcesAndCredits')}</summary><p>${t('musicPanel.originalWorldScoresBySkimmerScraper')}</p>
+        <label>${t('musicPanel.localTracks')} <input type="file" accept="audio/*" multiple></label></details>
       <p role="status"></p>
     </fieldset>`;
   document.querySelector('#advanced-flight-settings')!.append(panel);
@@ -21,5 +23,9 @@ export function bindMusicPanel(session:MusicSession) {
   volume.oninput=()=>session.setVolume(volume.valueAsNumber/100);
   files.onchange=()=>session.setFiles(Array.from(files.files??[]));
   panel.querySelector<HTMLButtonElement>('#bgm-next')!.onclick=()=>session.next();
-  return ()=>{if(panel.open && status.textContent!==session.status)status.textContent=session.status;};
+  return () => {
+    if (!panel.open) return;
+    const message = localizeDiagnostic(session.status);
+    if (status.textContent !== message) status.textContent = message;
+  };
 }

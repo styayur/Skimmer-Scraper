@@ -95,14 +95,21 @@ pub fn desktop_open_release(tag: Option<String>) -> Result<(), String> {
 }
 
 #[tauri::command]
-pub async fn desktop_choose_library(app: AppHandle) -> Result<Option<String>, String> {
+pub async fn desktop_choose_library(app: AppHandle, locale: Option<String>) -> Result<Option<String>, String> {
     tauri::async_runtime::spawn_blocking(move || -> LibraryResult<Option<String>> {
         #[cfg(windows)]
         let selected = rfd::FileDialog::new()
-            .set_title("选择世界资源库存放位置")
+            .set_title(if locale.as_deref() == Some("en-US") {
+                "Choose a world library folder"
+            } else {
+                "选择世界资源库存放位置"
+            })
             .pick_folder();
         #[cfg(not(windows))]
-        let selected: Option<std::path::PathBuf> = None;
+        let selected: Option<std::path::PathBuf> = {
+            let _ = locale;
+            None
+        };
         let Some(parent) = selected else {
             return Ok(None);
         };

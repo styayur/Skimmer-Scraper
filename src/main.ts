@@ -1,6 +1,8 @@
+import { t } from './i18n';
+import { localizeDiagnostic } from './i18n/diagnostics';
 import { bindPackPanel } from './ui/WorldPackPanel';
 import { BufferingEvents } from './core/bufferingEvents';
-import { freeGlide, glideRange, needsGlideContact, stepGlide, toggleGlide, type GlideState } from './flight/surfaceGlide';
+import { freeGlide, glideChangedMotion, glideRange, needsGlideContact, stepGlide, toggleGlide, type GlideState } from './flight/surfaceGlide';
 import { ActionRouter } from './ui/ActionRouter';
 import { OverlayManager } from './ui/OverlayManager';
 import { bindGameTutorial } from './ui/GameTutorial';
@@ -35,7 +37,7 @@ import { SkyJourney } from './game/skyJourney';
 import { planSkyPassage, stepSkyDive, translateWingForSky, type SkyPassage } from './game/skyFlight';
 import { journeyWorld } from './world/journeyWorlds';
 import { JourneyHud } from './ui/JourneyHud';
-import { bindDesktopWindow } from './platform/desktopWindow';
+import { bindPlatformWindow, releaseFlightPointer } from './platform/desktopWindow';
 import { bindDesktopSettings } from './ui/DesktopSettings';
 
 import type { CameraMode, VisualStimulation } from './config/experience';
@@ -199,7 +201,7 @@ const SURFACE_QUERY_RANGE = 90;
 const builtInModel: ModelListItem = {
   id: BUILT_IN_AIRCRAFT_ID,
   name: 'KITE-07',
-  meta: '程序化 · 8 m · 内置',
+  meta: t('main.procedural8MBuiltIn'),
   tag: 'BUILT-IN',
 };
 
@@ -254,7 +256,7 @@ const syncWorldStreaming = (
   if (!(activeWorld instanceof WorldStreamer)) return null;
   activeWorld.setCompanionPositions(includeCompanions
     ? companions.agents.filter(agent => agent.deployed).map(agent => agent.flight.position) : []);
-  const forecast = 'attitude' in state ? () => streamingForecast(state, controls) : undefined;
+  const forecast = 'attitude' in state ? () => streamingForecast(state, controls, state === flightState ? glide : undefined) : undefined;
   const update = activeWorld.updateCoverage(state.position, state.velocity, { forecast, inFlight: mode === 'running' });
   if (update.rebaseDelta) renderer?.shiftRenderOrigin(update.rebaseDelta);
   return update;
@@ -309,13 +311,13 @@ const ui: GameUI = new GameUI({
   onMuteToggle: () => {
     muted = !muted;
     audio.setMuted(muted);
-    if (muted) voiceRadio.silence();
+    if (muted) voiceRadio.update(voiceAvailable(), symbiosis.radio.current(), true);
     return muted;
   },
   onQualityChange: () => {
     qualityName = qualityName === 'balanced' ? 'high' : 'balanced';
     renderer?.setQuality(qualityName);
-    return qualityName === 'balanced' ? '平衡' : '高';
+    return qualityName === 'balanced' ? t('main.balanced') : t('main.high');
   },
   onImportModel: (file) => {
     void importAircraft(file);
@@ -336,7 +338,7 @@ const ui: GameUI = new GameUI({
     if (upgrade || !worldPanel.useSeed(seedValue)) applyWorldSettings(seedValue, worldMode, upgrade);
   },
   onWorldRandom: () => createRandomSeed(),
-  onWorldCopySeed: (seedValue) => { void copyWorldText(worldPanel.activeSeed ?? seedValue.trim(), '种子已复制。'); },
+  onWorldCopySeed: (seedValue) => { void copyWorldText(worldPanel.activeSeed ?? seedValue.trim(), t('main.seedCopied')); },
   onWorldReset: () => ({ seed: String(DEFAULT_WORLD_SEED), mode: 'stable' }),
 });
 
@@ -399,7 +401,7 @@ const copyWorldText = async (text: string, successMessage: string): Promise<void
     textarea.select();
     const copied = document.execCommand('copy');
     textarea.remove();
-    ui.showToast(copied ? successMessage : '复制失败，请手动选择种子文本。', !copied);
+    ui.showToast(copied ? successMessage : t('main.copyFailedSelectAndCopyTheSeed'), !copied);
   }
 };
 
@@ -458,7 +460,7 @@ const selectAircraft = async (id: string): Promise<void> => {
   if (!renderer) return;
   const previousSelection = aircraftLibrary.getSelectedId();
   const version = ++modelLoadVersion;
-  ui.setModelBusy(true, '正在载入本机机型…');
+  ui.setModelBusy(true, t('main.loadingLocalAircraft'));
   try {
     aircraftLibrary.select(id);
     const loaded = await aircraftLibrary.load(id);
@@ -469,13 +471,13 @@ const selectAircraft = async (id: string): Promise<void> => {
     applyAircraft(loaded?.root ?? null);
     refreshModelOptions();
     const selected = aircraftLibrary.options().find((option) => option.id === id);
-    ui.showToast(`已切换机型：${selected?.name ?? id}`);
+    ui.showToast(t('main.switchedAircraftName', { name: selected?.name ?? id }));
   } catch (error) {
     if (version === modelLoadVersion) {
       aircraftLibrary.select(previousSelection);
       refreshModelOptions();
-      const message = error instanceof Error ? error.message : String(error);
-      ui.showToast(`机型载入失败：${message}`, true, 5200);
+      const message = localizeDiagnostic(error instanceof Error ? error.message : String(error));
+      ui.showToast(t('main.aircraftLoadFailedMessage', { message }), true, 5200);
     }
   } finally {
     if (version === modelLoadVersion) ui.setModelBusy(false);
@@ -483,16 +485,16 @@ const selectAircraft = async (id: string): Promise<void> => {
 };
 
 const importAircraft = async (file: File): Promise<void> => {
-  ui.setModelBusy(true, '正在验证并保存本机 GLB…');
+  ui.setModelBusy(true, t('main.validatingAndSavingLocalGLB'));
   try {
     await aircraftLibrary.importFile(file);
     refreshModelOptions();
     await selectAircraft(aircraftLibrary.getSelectedId());
-    ui.showToast(`已导入 ${file.name}。模型仅保存在此浏览器。`);
+    ui.showToast(t('main.importedNameTheModelIsStoredOnly', { name: file.name }));
   } catch (error) {
     ui.setModelBusy(false);
-    const message = error instanceof Error ? error.message : String(error);
-    ui.showToast(`导入失败：${message}`, true, 6000);
+    const message = localizeDiagnostic(error instanceof Error ? error.message : String(error));
+    ui.showToast(t('main.importFailedMessage', { message }), true, 6000);
   }
 };
 
@@ -503,10 +505,10 @@ const removeSelectedAircraft = async (): Promise<void> => {
     await aircraftLibrary.remove(id);
     refreshModelOptions();
     await selectAircraft(BUILT_IN_AIRCRAFT_ID);
-    ui.showToast('已从本机机库移除模型。');
+    ui.showToast(t('main.aircraftRemovedFromTheLocalHangar'));
   } catch (error) {
-    const message = error instanceof Error ? error.message : String(error);
-    ui.showToast(`移除失败：${message}`, true, 5200);
+    const message = localizeDiagnostic(error instanceof Error ? error.message : String(error));
+    ui.showToast(t('main.removalFailedMessage', { message }), true, 5200);
   }
 };
 
@@ -516,10 +518,10 @@ const rotateSelectedAircraft = async (): Promise<void> => {
   try {
     await aircraftLibrary.rotate(id);
     await selectAircraft(id);
-    ui.showToast('已旋转模型 180°。');
+    ui.showToast(t('main.aircraftRotated180'));
   } catch (error) {
-    const message = error instanceof Error ? error.message : String(error);
-    ui.showToast(`旋转失败：${message}`, true, 5200);
+    const message = localizeDiagnostic(error instanceof Error ? error.message : String(error));
+    ui.showToast(t('main.rotationFailedMessage', { message }), true, 5200);
   }
 };
 const syncHud = (): void => {
@@ -606,7 +608,7 @@ const beginSkySwap = (): void => {
     const transferred = new Map(wings.map(([id, flight]) => [id, translateWingForSky(flight, passage)] as const));
     companions.reset(flightState, activeWorld, transferred);
     journey.worldReady();
-    if (passage.adjustedHeading) ui.showToast('已绕开出口障碍并调整航向。', false, 2400);
+    if (passage.adjustedHeading) ui.showToast(t('main.headingAdjustedToClearTheExitObstacle'), false, 2400);
     best = loadBest(runScoreContext());
     ui.setBest(best);
     lastSurfaceHit = queryFlightSurface(activeWorld, flightState.position, SURFACE_QUERY_RANGE);
@@ -619,7 +621,7 @@ const beginSkySwap = (): void => {
   void job.catch(() => {
     if (token === worldTransition) {
       mode = 'title';
-      ui.showFatal('新世界准备失败。请刷新页面后重试。');
+      ui.showFatal(t('main.couldNotPrepareTheNewWorldReload'));
     }
   }).finally(() => { if (pendingWorldSwap === job) pendingWorldSwap = null; });
 };
@@ -654,7 +656,7 @@ const simulateJourneyStep = (dt: number): boolean => {
   if (event === 'completed') {
     skyPassage = null;
     journeyHud.completed(journey.crossings, journey.time);
-    symbiosis.flightReport(3, [`穿越完成。已进入第 ${journey.crossings} 层天空。`, `Crossing complete. Entering sky ${journey.crossings}.`], 'notice', 'crossing');
+    symbiosis.flightReport(3, 'crossing', 'notice');
     proximityFeedback = createProximityFeedback();
   }
   return true;
@@ -674,8 +676,10 @@ const simulateFixedStep = (dt: number, holdPosition = false): boolean => {
   const keyboardActive = keys.boost || Math.abs(keys.pitch) + Math.abs(keys.roll) + Math.abs(keys.yaw) > 0;
   const input = debugInputEnabled ? keys : keyboardActive ? shapeInput(keys, controls) : gamepad.sample(controls);
   const free = stepFlight(flightState, input, dt, controls);
-  const hit = !holdPosition && needsGlideContact(glide) ? activeWorld.queryGlide(flightState.position, glideRange) : null;
-  const candidate = stepGlide(glide, flightState, free, hit, dt);
+  const hit = !holdPosition && !glide.trajectory && needsGlideContact(glide)
+    ? activeWorld.queryGlide(flightState.position, glideRange) : null;
+  const candidate = stepGlide(glide, flightState, free, hit, dt, holdPosition ? undefined :
+    { world: activeWorld, worldUp: activeWorld.root.up, bodyRadius: COLLISION_RADIUS, input });
   let nextState = candidate.flight;
   if (holdPosition) {
     nextState = {
@@ -693,6 +697,12 @@ const simulateFixedStep = (dt: number, holdPosition = false): boolean => {
 
   setBuffering(false);
   neededCoverage = null;
+  if (!holdPosition && !usedGlide && (glideChangedMotion(free, candidate.flight) ||
+      candidate.state.phase === 'GLIDING' || candidate.state.phase === 'ATTACHING')) {
+    usedGlide = true;
+    best = loadBest(runScoreContext());
+    ui.setBest(best);
+  }
   activeWorld.stepMotion(dt);
   shieldCooldown = Math.max(0, shieldCooldown - dt);
   shieldGlow = Math.max(0, shieldGlow - dt * 3);
@@ -704,18 +714,16 @@ const simulateFixedStep = (dt: number, holdPosition = false): boolean => {
       shieldGlow = 1;
       if (shieldCooldown === 0) {
         shieldImpacts++; gamepad.impact(); shieldCooldown = 0.2;
-        symbiosis.flightReport(2, ['防护罩已吸收撞击。注意避开障碍。', 'Shield absorbed the impact. Clear the obstacle.'],'risk','obstacle');
+        symbiosis.flightReport(2, 'obstacle', 'risk');
       }
     }
   }
   const collisionDistance = !runRules.config.shield
-    && (needsGlideContact(glide) || activeWorld instanceof ImportedWorldAdapter || worldSettings.generatorVersion >= DENSE_GENERATOR_VERSION)
+    && (glide.phase !== 'FLIGHT' || activeWorld instanceof ImportedWorldAdapter || worldSettings.generatorVersion >= DENSE_GENERATOR_VERSION)
     ? flightWouldCollide(flightState, nextState, activeWorld) ? COLLISION_RADIUS : null : undefined;
-  if (glide.phase === 'ARMED' && (candidate.state.phase === 'ATTACHING' || candidate.state.phase === 'GLIDING')) {
-    usedGlide = true;
-    best = loadBest(runScoreContext());
-    ui.setBest(best);
-    symbiosis.flightReport(1, ['贴面滑行已接入。', 'Surface glide engaged.'], 'notice', 'glide');
+  if ((glide.phase === 'ARMED' || glide.phase === 'REDIRECT') &&
+      (candidate.state.phase === 'ATTACHING' || candidate.state.phase === 'GLIDING')) {
+    symbiosis.flightReport(1, 'glide', 'notice');
   }
   glide = candidate.state;
   const previousY=flightState.position.y;
@@ -728,18 +736,19 @@ const simulateFixedStep = (dt: number, holdPosition = false): boolean => {
       nextDragonCheck = flightState.elapsed + 1;
       const dragon = activeWorld.getDynamicSnapshot().find(actor => actor.id === 'crownback');
       const nearby = Boolean(dragon && distance(dragon.position, flightState.position) < 570);
-      if (nearby && !dragonNearby) symbiosis.flightReport(3, ['发现冠脊龙。为它留出空间。', 'Dragon in sight. Give her room.'], 'notice', 'dragon');
+      if (nearby && !dragonNearby) symbiosis.flightReport(3, 'dragon', 'notice');
       dragonNearby = nearby;
     }
     companions.step(flightState, activeWorld, dt);
     runRules = symbiosis.step(flightState, runRules, activeWorld, worldSettings.seed, dt);
     if (lastSurfaceHit?.surfaceId.endsWith(':garden') && lastSurfaceHit.distance < 70
       && (previousSurface?.surfaceId !== lastSurfaceHit.surfaceId || previousSurface.distance >= 70)) {
-      symbiosis.flightReport(3, ['发现一座浮空花园。留意它的升降轨迹。', 'Floating garden ahead. Watch its vertical motion.'],'notice','island');
+      symbiosis.flightReport(3, 'island', 'notice');
     }
   }
   if(activeWorld instanceof WorldStreamer && !activeWorld.settings.theme && journey.observe(previousY,flightState,runRules,dt)){
     pendingRadio=null;
+    voiceRadio.reset();
     glide = freeGlide();
     symbiosis.invalidate();companions.clearTargets();
     for(const agent of companions.agents)companions.setTarget(agent.id,flightState.position,'REGROUP',12);
@@ -756,6 +765,7 @@ const simulateFixedStep = (dt: number, holdPosition = false): boolean => {
 const finishRun = (): void => {
   if (!flightState || runRules.status !== 'failed' || mode === 'failed') return;
   mode = 'failed';
+  releaseFlightPointer();
   glide = freeGlide();
   voiceRadio.reset();
   symbiosis.suspend();
@@ -768,10 +778,10 @@ const finishRun = (): void => {
 
   const graceFailure = runRules.failureReason === 'grace-expired';
   ui.showFailure({
-    title: graceFailure ? '天际线甩掉了你' : '撞上天际线',
+    title: graceFailure ? t('main.lostTheSkyline') : t('ui.hitTheSkyline'),
     reason: graceFailure
-      ? `你连续 ${runRules.config.graceSeconds} 秒离开了所有有效表面。回到建筑、屋脊、桥面、地面或悬浮岛附近。`
-      : '你触碰了建筑或场景表面。贴近飞行，但别把机翼送进去。',
+      ? t('main.youSpentGraceSecondsSecondsAwayFromAll', { graceSeconds: runRules.config.graceSeconds })
+      : t('main.youHitABuildingOrTerrainFly'),
     runTime: runRules.elapsed,
     best,
     isNewBest: score.isNewBest,
@@ -818,11 +828,12 @@ const startRun = async (): Promise<void> => {
   const transition = ++worldTransition;
   actionRouter.clear();
   mode = 'title';
+  releaseFlightPointer();
   symbiosis.suspend();
   keyboard.setEnabled(false);
   stepRunner.reset();
   audio.stop();
-  ui.showLoading(activeWorld instanceof ImportedWorldAdapter ? '正在准备本地世界' : '正在准备出生点区块');
+  ui.showLoading(activeWorld instanceof ImportedWorldAdapter ? t('main.preparingLocalWorld') : t('main.preparingSpawnChunks'));
   if(!await restoreJourneyStart(transition)||transition!==worldTransition)return;
 
   const spawn = activeWorld.getDefaultSpawn();
@@ -834,7 +845,7 @@ const startRun = async (): Promise<void> => {
   );
   if (transition !== worldTransition) return;
   if (!covered || !renderer || !activeWorld) {
-    ui.showFatal('无法准备出生点周围的碰撞区块。请重试；若持续出现，请刷新页面。');
+    ui.showFatal(t('main.couldNotPrepareCollisionGeometryNearSpawn'));
     return;
   }
 
@@ -844,7 +855,7 @@ const startRun = async (): Promise<void> => {
   lastSurfaceHit = queryFlightSurface(activeWorld, flightState.position, SURFACE_QUERY_RANGE);
   lastFrameTime = performance.now();
   mode = 'running';
-  symbiosis.flightReport(1, ['编队已就位。沿前方航线出发。', 'Formation ready. Continue ahead.'],'notice','launch');
+  symbiosis.flightReport(1, 'launch', 'notice');
   keyboard.setEnabled(!debugInputEnabled);
   audio.start();
   audio.setMuted(muted);
@@ -852,13 +863,14 @@ const startRun = async (): Promise<void> => {
   ui.showFlight();
   syncHud();
   renderer.snapCamera(toRenderFlightState(flightState));
+  if (document.hidden || !document.hasFocus()) actionRouter.route('menu');
 };
 
 const debugPause = (): boolean => {
   if (mode !== 'running') return mode === 'paused';
   mode = 'paused';
   glide = freeGlide();
-  if (document.pointerLockElement) document.exitPointerLock();
+  releaseFlightPointer();
   voiceRadio.suspend();
   pendingRadio = null;
   symbiosis.suspend();
@@ -883,13 +895,14 @@ const returnToTitle = async (): Promise<void> => {
   const transition = ++worldTransition;
   actionRouter.clear();
   mode = 'title';
+  releaseFlightPointer();
   voiceRadio.reset();
   symbiosis.suspend();
   keyboard.setEnabled(false);
   stepRunner.reset();
   audio.stop();
 
-  if(renderer)ui.showLoading('正在返回起点');
+  if(renderer)ui.showLoading(t('main.returningToSpawn'));
   if(renderer&&activeWorld&&(!await restoreJourneyStart(transition)||transition!==worldTransition))return;
 
   if (!renderer || !activeWorld) {
@@ -898,7 +911,7 @@ const returnToTitle = async (): Promise<void> => {
     return;
   }
 
-  ui.showLoading('正在返回起点');
+  ui.showLoading(t('main.returningToSpawn'));
   const spawn = activeWorld.getDefaultSpawn();
   const covered = await waitForCollisionCoverage(
     spawn.position,
@@ -908,7 +921,7 @@ const returnToTitle = async (): Promise<void> => {
   );
   if (transition !== worldTransition) return;
   if (!covered) {
-    ui.showFatal('无法恢复出生点周围的城市区块。请重新载入页面。');
+    ui.showFatal(t('main.couldNotRestoreCityChunksNearSpawn'));
     return;
   }
 
@@ -1148,11 +1161,12 @@ const updateVoicePanel = bindVoicePanel(voiceRadio, action => actionRouter.route
 const radioPanel = new RadioPanel(symbiosis.radio, queueRadioDialogue, () => voiceRadio.silence());
 
 const activateWorld = (world: ImportedWorldAdapter | WorldStreamer, history: ChunkRevisionHistory | null, source?: ImportedWorldSource): void => {
-  if (!renderer) throw new Error('游戏尚未准备好。');
+  if (!renderer) throw new Error(t('main.gameIsStillLoading'));
   ++runGeneration;
   ++worldTransition;
   actionRouter.clear();
   mode = 'title';
+  releaseFlightPointer();
   voiceRadio.reset();
   keyboard.setEnabled(false);
   stepRunner.reset();
@@ -1174,7 +1188,7 @@ bindPackPanel();
 const worldPanel = new WorldImportPanel(worldResources, {
   read: file => worldImporter.read(file),
   open: (data, name, options, variant) => worldImporter.load(data, name, options, loader => {
-    if (!renderer) throw new Error('WebGL2 场景尚未准备好。');
+    if (!renderer) throw new Error(t('main.webgl2SceneIsStillLoading'));
     renderer.configureWorldTextures(loader);
   }, variant),
   apply: (world, source) => activateWorld(world, null, source),
@@ -1211,12 +1225,12 @@ const frame = (now: number): void => {
       void symbiosis.sendDialogue(message, useModel);
     } else if (now > pendingRadio.until) {
       pendingRadio = null;
-      ui.showToast('伴机电台暂不可用。', true);
+      ui.showToast(t('main.wingmateRadioUnavailable'), true);
     }
   }
   const voiceInFlight = voiceAvailable();
   voiceRadio.update(voiceInFlight, symbiosis.radio.current(), muted || symbiosis.radio.muted);
-  radioPanel.update(mode === 'running' && !journey.active, voiceRadio.spokenLine);
+  radioPanel.update(voiceInFlight, voiceRadio.subtitleLine);
   audio.setDucked(voiceInFlight && voiceRadio.ducking);
   music.update(activeWorld instanceof ImportedWorldAdapter ? 'local' : worldSettings.theme === 'worldforge' ? 'forge' : worldSettings.theme === 'dragonspine' ? 'dragonspine' : 'city',
     mode === 'running' && !document.hidden && !muted, voiceRadio.ducking, now-lastFrameTime);
@@ -1228,8 +1242,12 @@ const frame = (now: number): void => {
   const inversion=journey.phase==='INVERSION'?Math.PI*journey.progress:journey.phase==='WORLD_SWAP'?Math.PI:journey.phase==='DIVE'?Math.PI*(1-journey.progress):0;
   renderer?.setInversion(reducedRotation?0:inversion);
   const menuInput = ui.canInteract && (mode === 'title' || mode === 'failed' || Boolean(overlays.current));
-  gamepad.poll(controls, action => actionRouter.route(action, false, 'gamepad'), menuInput, now);
-  if (inputDeviceLabel.textContent !== gamepad.device) inputDeviceLabel.textContent = gamepad.device;
+  if (!document.hidden && document.hasFocus()) {
+    gamepad.poll(controls, action => actionRouter.route(action, false, 'gamepad'), menuInput, now);
+  }
+  const deviceLabel = gamepad.device === 'Keyboard' ? t('ui.keyboard')
+    : t('ui.gamepad', { mapping: gamepad.device.replace(/^Gamepad · /, '') });
+  if (inputDeviceLabel.textContent !== deviceLabel) inputDeviceLabel.textContent = deviceLabel;
   const delta = Math.min(0.1, Math.max(0, (now - lastFrameTime) / 1000));
   lastFrameTime = now;
 
@@ -1259,7 +1277,7 @@ const frame = (now: number): void => {
       }
       syncHud();
       if (runRules.status === 'failed') finishRun();
-      const gliding = glide.phase === 'GLIDING' || glide.phase === 'ATTACHING';
+      const gliding = glide.phase === 'GLIDING' || glide.phase === 'ATTACHING' || glide.phase === 'TRANSFER' || glide.phase === 'REDIRECT';
       audio.update(flightState.speed, flightState.boosting, proximityFeedback.intensity, gliding);
       if (!pendingWorldSwap) renderer.renderFlight(
         toRenderFlightState(flightState),
@@ -1283,17 +1301,19 @@ const frame = (now: number): void => {
 };
 
 const boot = async (): Promise<void> => {
-  ui.setLoadingCopy('正在构筑空中城区');
+  ui.setLoadingCopy(t('ui.buildingTheSkyDistrict'));
   await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
 
   const canvas = document.getElementById('game-canvas');
   if (!(canvas instanceof HTMLCanvasElement)) throw new Error('Missing game canvas.');
-  bindDesktopWindow(canvas, () => mode === 'running', () => actionRouter.route('menu'), message => ui.showToast(message, true));
+  bindPlatformWindow(canvas, () => mode === 'running', () => actionRouter.route('menu'), notice => {
+    ui.showToast(t(`platform.${notice}`), true);
+  });
   bindDesktopSettings(message => ui.showToast(message));
 
   const streamer = createStreamer(worldSettings);
   activeWorld = streamer;
-  ui.setLoadingCopy('正在准备出生点碰撞区块');
+  ui.setLoadingCopy(t('main.preparingSpawnCollisionGeometry'));
   await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
   const spawn = streamer.getDefaultSpawn();
   const covered = await waitForCollisionCoverage(
@@ -1302,12 +1322,12 @@ const boot = async (): Promise<void> => {
   );
   if (!covered) throw new Error('Timed out while preparing the spawn collision ring.');
 
-  ui.setLoadingCopy('正在编译近距飞行场景');
+  ui.setLoadingCopy(t('main.compilingTheFlightScene'));
   await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
   renderer = new GameRenderer(canvas, streamer);
   renderer.setCameraMode(preferences.cameraMode, true);
   renderer.setVisualStimulation(preferences.visualStimulation);
-  ui.setLoadingCopy('正在载入本机机库');
+  ui.setLoadingCopy(t('main.loadingTheLocalHangar'));
   let hasLocalAircraft = false;
   try {
     const options = await aircraftLibrary.initialize();
@@ -1319,8 +1339,8 @@ const boot = async (): Promise<void> => {
   } catch (error) {
     aircraftLibrary.select(BUILT_IN_AIRCRAFT_ID);
     ui.setModels([builtInModel], BUILT_IN_AIRCRAFT_ID);
-    const message = error instanceof Error ? error.message : String(error);
-    setTimeout(() => ui.showToast(`本机模型库不可用，已使用内置机型：${message}`, true, 6200), 0);
+    const message = localizeDiagnostic(error instanceof Error ? error.message : String(error));
+    setTimeout(() => ui.showToast(t('main.localHangarUnavailableUsingABuiltIn', { message }), true, 6200), 0);
   }
   const setup = !initialSetup.returning && hasLocalAircraft
     ? loadFlightSetup(window.localStorage, true)
@@ -1367,22 +1387,23 @@ const boot = async (): Promise<void> => {
   if (autoStart || debugInputEnabled) void startRun();
 };
 
+const loseFocus = (): void => {
+  if (mode === 'running') actionRouter.route('menu');
+  keyboard.reset();
+  gamepad.suspend();
+  voiceRadio.cancelPreview();
+  voiceRadio.update(false, symbiosis.radio.current());
+};
 document.addEventListener('visibilitychange', () => {
   if (document.visibilityState === 'visible') {
     lastFrameTime = performance.now();
     stepRunner.reset();
   } else {
-    glide = freeGlide();
-    voiceRadio.cancelPreview();
-    voiceRadio.update(false, symbiosis.radio.current());
+    loseFocus();
   }
 });
 
-window.addEventListener('blur', () => {
-  glide = freeGlide();
-  voiceRadio.cancelPreview();
-  voiceRadio.update(false, symbiosis.radio.current());
-});
+window.addEventListener('blur', loseFocus);
 window.addEventListener('pointerdown', event => { if (event.isTrusted) voiceRadio.unlock(); });
 window.addEventListener('keydown', event => { if (event.isTrusted && !event.repeat) voiceRadio.unlock(); });
 navigator.mediaDevices?.addEventListener('devicechange', () => {
@@ -1394,7 +1415,7 @@ window.addEventListener('pagehide', () => {voiceRadio.dispose();music.dispose();
 window.addEventListener('skimmer:webgl-context-lost', () => {
   actionRouter.clear();
   debugPause();
-  ui.showFatal('WebGL2 上下文已丢失。请重新载入页面。');
+  ui.showFatal(t('main.webgl2ContextLostReloadThePage'));
 });
 
 window.addEventListener('beforeunload', () => {
@@ -1413,8 +1434,8 @@ boot().catch((error: unknown) => {
   if (error instanceof WebGL2UnavailableError) {
     ui.showFatal(error.message);
   } else {
-    const message = error instanceof Error ? error.message : String(error);
-    ui.showFatal(`启动失败：${message}`);
+    const message = localizeDiagnostic(error instanceof Error ? error.message : String(error));
+    ui.showFatal(t('main.startupFailedMessage', { message }));
     console.error(error);
   }
 });

@@ -107,7 +107,7 @@ describe('bounded team radio', () => {
     const { runtime } = fixture();
     runtime.radioLanguage = 'en-US';
     await runtime.sendDialogue('跟随我');
-    expect(runtime.radio.snapshot().history.at(-1)?.text).toBe('Copy. Following your flight path.');
+    expect(runtime.radio.snapshot().history.at(-1)).toMatchObject({ text: 'Copy your command.', locale: 'en-US', catalog: { catalogId: '1-command' } });
     runtime.flightReport(2, ['障碍', 'Obstacle ahead.'], 'risk');
     expect(runtime.radio.current()?.text).toBe('Obstacle ahead.');
   });

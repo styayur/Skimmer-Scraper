@@ -1,7 +1,7 @@
 import { BoxGeometry, CylinderGeometry, type BufferGeometry } from 'three';
 import { mergeGeometries } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 
-export type WorldFixture = 'building' | 'arches' | 'detailed' | 'animated' | 'variants' | 'merged';
+export type WorldFixture = 'building' | 'glide-tower' | 'arches' | 'detailed' | 'animated' | 'variants' | 'merged';
 
 export const encodeGlb = (metadata: object, bytes = Buffer.alloc(0)): Buffer => {
   const json = Buffer.from(JSON.stringify(metadata), 'utf8');
@@ -70,10 +70,11 @@ export const createWorldFixture = (style: WorldFixture, withExternalUri = false)
   const add = (name: string, mesh: number, translation: number[], scale: number[], role?: string) =>
     nodes.push({ name, mesh, translation, scale, ...(role ? { extras: { skimmerRole: role } } : {}) }) - 1;
   add('Promenade', 0, [0, 0.5, 0], [280, 1, 340]);
-  add('East Lantern Tower', 1, [55, 30, -32], [28, 60, 36]);
+  const towerHeight = style === 'glide-tower' ? 240 : 60;
+  add('East Lantern Tower', 1, [55, towerHeight / 2, -32], [28, towerHeight, 36]);
   add('West Atrium', 2, [-52, 24, -40], [33, 48, 43]);
   add('Skybox far', 3, [0, 98, -260], [730, 180, 1]);
-  if (style !== 'building') {
+  if (style !== 'building' && style !== 'glide-tower') {
     add('Rose bridge pier east', 2, [25, 16, 0], [8, 32, 16]);
     add('Rose bridge pier west', 2, [-25, 16, 0], [8, 32, 16]);
     add('Rose bridge deck', 2, [0, 32, 0], [58, 6, 16]);
