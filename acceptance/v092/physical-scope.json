@@ -1,0 +1,21 @@
+{
+  "platform": "Windows, Edge",
+  "build": "5cc4935205c59eb6210e2727393aaa43b8177796",
+  "device": "Xbox 360 Controller (XInput STANDARD GAMEPAD)",
+  "physicalVerified": [
+    "LB capture",
+    "LB detach",
+    "hold without repeat (>2 seconds, operator observation)",
+    "cancel while armed (second physical LB immediately dismisses prompt, operator observation)"
+  ],
+  "unverifiedOnPhysicalDevice": [
+    "pause/resume",
+    "custom binding",
+    "binding conflict"
+  ],
+  "trace": "physical-pad.json",
+  "operatorFollowUp": "按住 LB 超过两秒，提示的确只出现一次。",
+  "operatorCancel": "第二次按下 LB 后，捕获提示立即消失",
+  "operatorClosedSession": "这次先到这里，剩余项目记为未实测",
+  "simulatedEvidence": "simulated-pad.json"
+}
