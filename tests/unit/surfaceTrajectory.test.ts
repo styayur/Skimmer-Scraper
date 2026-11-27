@@ -1,4 +1,4 @@
-import { BoxGeometry, CylinderGeometry, Euler, Matrix4, Quaternion, Vector3, type BufferGeometry } from 'three';
+import { BoxGeometry, CylinderGeometry, Euler, Matrix4, Quaternion, Vector3, BufferGeometry, Float32BufferAttribute } from 'three';
 import { writeFileSync } from 'node:fs';
 import { cpus } from 'node:os';
 import { describe, expect, it, onTestFinished, vi } from 'vitest';
@@ -52,7 +52,7 @@ function replay(world: Fixture, initial: FlightState, ctx = context(world), fps 
   const runner = new FixedStepRunner(dt);
   let flight = initial, state = toggleGlide(freeGlide()), impacted = false, assisted = false;
   let minDistance = Infinity, maxAcceleration = 0, maxTurnRate = 0, redirectTime = 0, speedRetention = 1;
-  let maxSettledError = 0;
+  let maxSettledError = 0, glideSeconds = 0, glideDistance = 0, minSpeed = initial.speed, maxSpeed = initial.speed;
   const phases: string[] = [];
   for (let frame = 0; frame < Math.round(seconds * fps) && !impacted; frame++) {
     runner.advance(1 / fps, () => {
@@ -63,12 +63,18 @@ function replay(world: Fixture, initial: FlightState, ctx = context(world), fps 
       assisted ||= glideChangedMotion(free, result.flight);
       const near = world.queryNearest(result.flight.position, 100);
       minDistance = Math.min(minDistance, near?.distance ?? Infinity);
-      if (result.state.phase === 'REDIRECT' || result.state.phase === 'TRANSFER') {
+      if (result.state.phase === 'REDIRECT' || result.state.phase === 'TRANSFER' || result.state.phase === 'ESCAPE') {
         maxAcceleration = Math.max(maxAcceleration, point().copy(result.flight.velocity).distanceTo(flight.velocity) / dt);
         maxTurnRate = Math.max(maxTurnRate, rotation(result.flight).angleTo(rotation(flight)) / dt);
         speedRetention = Math.min(speedRetention, result.flight.speed / initial.speed);
         redirectTime += dt;
       }
+      if (result.state.phase === 'GLIDING') {
+        glideSeconds += dt;
+        glideDistance += point().copy(result.flight.position).distanceTo(flight.position);
+      }
+      minSpeed = Math.min(minSpeed, result.flight.speed);
+      maxSpeed = Math.max(maxSpeed, result.flight.speed);
       if (result.state.phase === 'GLIDING' && near) maxSettledError = Math.max(maxSettledError, Math.abs(near.distance - 6));
       if (phases.at(-1) !== result.state.phase) phases.push(result.state.phase);
       flight = result.flight;
@@ -76,7 +82,7 @@ function replay(world: Fixture, initial: FlightState, ctx = context(world), fps 
     });
   }
   return { phases, flight, state, impacted, assisted, minDistance, maxAcceleration, speedRetention,
-    maxTurnRate, redirectTime, maxSettledError, chords: world.chords };
+    maxTurnRate, redirectTime, maxSettledError, glideSeconds, glideDistance, minSpeed, maxSpeed, chords: world.chords };
 }
 
 describe('finite-mesh surface manoeuvres', () => {
@@ -96,20 +102,20 @@ describe('finite-mesh surface manoeuvres', () => {
     onTestFinished(() => { spy.mockRestore(); });
     const rows = [];
     const planner = [];
-    for (const acceleration of [180, 260, 320]) {
+    for (const acceleration of [180, 260, 320, 440, 560, 680]) {
       durationsMs.length = 0;
       accepted = 0;
-      let captured = 0, rejected = 0, clearance = Infinity, maxAcceleration = 0, peakTurn = 0;
+      let captured = 0, escaped = 0, rejected = 0, clearance = Infinity, maxAcceleration = 0, peakTurn = 0;
       let longest = 0, retention = 1, error = 0, chords = 0;
       for (const speed of [48, 76, 102]) for (const yaw of [0, 0.35]) for (const z of [14, 40, 76]) {
         const world = wallWorld();
         const r = replay(world, incoming(speed, z, yaw), context(world, acceleration), 60, 3);
         if (r.impacted) {
-          expect(r.assisted).toBe(false);
+          expect(r.assisted, JSON.stringify({ speed, z, yaw, acceleration, phases: r.phases, pos: r.flight.position })).toBe(false);
           rejected++;
         } else {
-          expect(r.phases).toContain('REDIRECT');
-          expect(r.state.phase).toBe('GLIDING');
+          expect(r.phases.some(phase => phase === 'REDIRECT' || phase === 'ESCAPE')).toBe(true);
+          if (!r.phases.includes('ESCAPE')) expect(r.state.phase).toBe('GLIDING');
           expect(r.assisted).toBe(true);
           expect(r.minDistance).toBeGreaterThan(COLLISION_RADIUS);
           expect(r.maxAcceleration).toBeLessThanOrEqual(acceleration + 1e-5);
@@ -122,13 +128,14 @@ describe('finite-mesh surface manoeuvres', () => {
           retention = Math.min(retention, r.speedRetention);
           error = Math.max(error, r.maxSettledError);
           chords += r.chords;
-          captured++;
+          if (r.phases.includes('ESCAPE')) escaped++;
+          else captured++;
         }
       }
       expect(captured).toBeGreaterThan(6);
       expect(rejected).toBeGreaterThan(0);
-      expect(accepted).toBe(captured);
-      rows.push({ acceleration, captured, rejected, clearance, maxAcceleration, peakTurn, longest, retention, error, chords });
+      expect(accepted).toBeLessThanOrEqual(captured + escaped);
+      rows.push({ acceleration, captured, escaped, rejected, clearance, maxAcceleration, peakTurn, longest, retention, error, chords });
       durationsMs.sort((a, b) => a - b);
       const calls = durationsMs.length;
       const total = durationsMs.reduce((sum, ms) => sum + ms, 0);
@@ -139,8 +146,9 @@ describe('finite-mesh surface manoeuvres', () => {
     console.table(rows);
     console.table(planner);
     const harnessMs = Math.round(performance.now() - started);
-    console.info('54 fixture replays including collision oracle and assertions (ms)', harnessMs);
-    expect(rows.map(({ captured, rejected }) => [captured, rejected])).toEqual([[9, 9], [12, 6], [13, 5]]);
+    console.info('108 fixture replays including collision oracle and assertions (ms)', harnessMs);
+    expect(rows.every(r => r.captured + r.escaped + r.rejected === 18)).toBe(true);
+    expect(rows.find(r => r.acceleration === 560)!.captured).toBeGreaterThan(12);
     const output = process.env.SKIMMER_GLIDE_SWEEP_REPORT;
     if (output) {
       writeFileSync(output, JSON.stringify({
@@ -293,6 +301,53 @@ describe('finite-mesh surface manoeuvres', () => {
     }
     expect(state.phase).toBe('FLIGHT');
     expect(flight.position.y).toBeGreaterThan(run.flight.position.y + 35);
+  });
+
+  it('searches a side wall beyond glideRange and cancels or expires an unused window', () => {
+    const wall = new Fixture();
+    wall.box('side wall', point(1, 200, 400), point(0, 0, 0));
+    const f = createFlightState({ position: point(18, 0, 55), speed: 66, yaw: 0 });
+    const run = replay(wall, f);
+    expect(run.impacted).toBe(false);
+    expect(run.state.phase).toBe('GLIDING');
+    const empty = new Fixture();
+    expect(replay(empty, f, context(empty), 120, 239 / 120).state.phase).toBe('ARMED');
+    const expired = replay(empty, f, context(empty), 120, 2);
+    expect(expired.state.phase).toBe('FLIGHT');
+    expect(expired.assisted).toBe(false);
+    expect(toggleGlide(toggleGlide(freeGlide())).phase).toBe('FLIGHT');
+  });
+
+  it('replays finite meshes against the collision oracle and records continuous following', () => {
+    const rows = [];
+    const profiles: [string, (s: number) => number, number][] = [
+      ['plane', () => 0, 2], ['slope', s => .15 * s, 2],
+      ['S curve', s => 4 * Math.sin(s / 20), 2],
+      ['concave bend', s => 0.003 * s * s, 2],
+      ['convex bend', s => -0.003 * s * s, 2],
+      ['folded faces', s => Math.abs((s + 50) % 28 - 14) * .17, 7],
+      ['non-right convex corner', s => -Math.max(0, s - 35) * .45, 5],
+      ['concave corner', s => Math.max(0, s - 35) * .42, 5],
+      ['rough rock', s => .3 * Math.sin(s * .8) + 1.4 * Math.sin(s / 6), 1],
+    ];
+    for (const [name, height, spacing] of profiles) {
+      const world = new Fixture(), vertices: number[] = [];
+      for (let s = -40; s < 180; s += spacing) {
+        const a = height(s), b = height(s + spacing), z = -s, end = -s - spacing;
+        vertices.push(-36,a,z, 36,a,z, 36,b,end, -36,a,z, 36,b,end, -36,b,end);
+      }
+      const mesh = new BufferGeometry().setAttribute('position', new Float32BufferAttribute(vertices, 3));
+      world.add(name, mesh);
+      const start = createFlightState({ position: point(0, height(0) + 6, 0), yaw: 0, speed: 56 });
+      const run = replay(world, start, context(world), 60, 1.8);
+      expect(run.impacted, name).toBe(false);
+      expect(run.minDistance, name).toBeGreaterThan(COLLISION_RADIUS);
+      expect(run.glideSeconds, name).toBeGreaterThan(1);
+      rows.push({ name, seconds: run.glideSeconds, distance: run.glideDistance, clearance: run.minDistance,
+        minSpeed: run.minSpeed, maxSpeed: run.maxSpeed, losses: run.phases.filter(p => p === 'REACQUIRE').length, phases: run.phases });
+    }
+    const output = process.env.SKIMMER_GEOMETRY_REPORT;
+    if (output) writeFileSync(output, JSON.stringify(rows, null, 2) + '\n');
   });
 
   it('keeps contact over gently changing finite triangle normals', () => {

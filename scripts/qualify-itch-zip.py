@@ -52,7 +52,7 @@ def unpack(archive, mount, sha, preview):
                 shutil.copyfileobj(stream, output)
     check((mount / "index.html").is_file(), "The ZIP must have index.html at its root.")
     build = json.loads((mount / "build-info.json").read_bytes())
-    check(build["sourceCommit"] == sha and build["version"] == "0.9.1", "Unexpected build identity.")
+    check(build["sourceCommit"] == sha and build["version"] == json.loads((ROOT / "package.json").read_bytes())["version"], "Unexpected build identity.")
     check(preview or build["dirty"] is False, "The final package must contain a clean build.")
     return build
 
@@ -91,7 +91,7 @@ def main():
                 manifest = json.loads((archive.parent / "release-manifest.json").read_bytes())
                 [asset] = [a for a in manifest["assets"] if a.get("kind") == "itch-html5"]
                 [static] = [a for a in manifest["assets"] if a["name"].endswith("-static.zip")]
-                check(manifest["sourceCommit"] == args.sha and manifest["version"] == "0.9.1",
+                check(manifest["sourceCommit"] == args.sha and manifest["version"] == json.loads((ROOT / "package.json").read_bytes())["version"],
                       "Release manifest does not identify the expected source.")
                 check(asset["name"] == archive.name and asset["bytes"] == archive.stat().st_size
                       and asset["sha256"] == static["sha256"] == digest, "Final itch/static asset identity mismatch.")

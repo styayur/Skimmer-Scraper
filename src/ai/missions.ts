@@ -55,6 +55,15 @@ const exact = (x: Record<string, unknown>, keys: string[]) =>
   Object.keys(x).length === keys.length && keys.every((k) => Object.hasOwn(x, k));
 const integer = (x: unknown, min: number, max: number): x is number =>
   typeof x === 'number' && Number.isInteger(x) && x >= min && x <= max;
+// Only fixed field names and types may enter the trace. Unknown keys can contain pilot text.
+export function missionEnvelopeShape(raw: unknown) {
+  if (!record(raw)) return { envelope: Array.isArray(raw) ? 'array' : typeof raw };
+  const fields = ['schemaVersion', 'epoch', 'requestId', 'dialogue', 'missions'];
+  return { unexpectedCount: Object.keys(raw).filter(key => !fields.includes(key)).length,
+    fields: Object.fromEntries(fields.map(key => [key, !Object.hasOwn(raw, key) ? 'missing' :
+      Array.isArray(raw[key]) ? 'array' : raw[key] === null ? 'null' : typeof raw[key]])) };
+}
+
 export interface MissionContext {
   team: CompanionTeam;
   world: CompanionWorld;

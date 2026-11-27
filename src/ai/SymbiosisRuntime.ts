@@ -11,10 +11,10 @@ import { RadioDialogue, radioLanguageOf, radioText, type RadioLanguage, type Rad
 import { selectedLocale } from '../i18n/locale';
 import { addressedAgent, localRadioIntent, localRadioReply, type LocalRadioIntent } from './radioCommands';
 import { CompanionMemory } from './companionMemory';
-import { groundedDialogue } from './groundedDialogue';
+import { freeDialogueTopic, groundedDialogue } from './groundedDialogue';
 import { readUtterance, type SpeechAct } from './radioSpeech';
 import { directive, explicitLegacy, missionCommand, missionName, missionPrefix, missionReason, missionReport } from './missionCommands';
-import { matchesMissionIntent, MissionExecutive, validateMissions, type MissionContext, type MissionPlan, type MissionRecord } from './missions';
+import { missionEnvelopeShape, matchesMissionIntent, MissionExecutive, validateMissions, type MissionContext, type MissionPlan, type MissionRecord } from './missions';
 import { clearApproach, SemanticTargets } from './semanticTargets';
 
 interface Context { player:FlightState; rules:RunRulesState; world:CompanionWorld; seed:number; active:boolean }
@@ -207,9 +207,10 @@ export class SymbiosisRuntime {
       if (!intent && !proposal && /mission status|task status|任务进度|任务状态/i.test(message)) {
         return report(conversation(speaker, perception, 'mission'));
       }
+      const freeDialogue = !intent && !proposal && !explicitMission && freeDialogueTopic(message);
       const working=records.slice(-4).map(({agentId,type,phase,outcome,reason,observed,epoch})=>({agentId,type,phase,outcome,reason,observed,epoch}));
       const model=useModel&&this.client.canRequest(true) ? await this.client.request(perception,message,language,intent?.plan?.orders,
-        {turns:this.dialogue.context(),missions:proposal?.missions??(intent?undefined:[]),working,explicitMission}) : null;
+        {turns:this.dialogue.context(),missions:proposal?.missions??(intent?undefined:[]),working,explicitMission,freeDialogue}) : null;
       if(generation!==this.radioGeneration||!this.context?.active || !this.pictures.has(perception.requestId))return false;
       if (this.radioAgent(speaker) !== speaker) return false;
       const modelSpeech = (agent: number, act?: SpeechAct, acceptedOrder = false) => {
@@ -243,6 +244,7 @@ export class SymbiosisRuntime {
         if (explicitMission && !checked.ok) return report(missionReason(checked.reason,en));
         if (!explicitMission && checked.ok && !checked.assignments.length) {
           const line = checked.dialogue.find(line => line.agentId === speaker);
+          if (freeDialogue && line?.freeText) return report(line.freeText, speaker, 'model');
           if (line) return modelSpeech(speaker, line.act);
         }
       }
@@ -378,7 +380,7 @@ export class SymbiosisRuntime {
         return 'accepted';
       }
       const result = checked.ok ? 'intent-mismatch' : checked.reason;
-      this.record('mission-validation',{requestId:p.requestId,source:'model',result});
+      this.record('mission-validation',{requestId:p.requestId,source:'model',result,shape:missionEnvelopeShape(model)});
     }
     const checked=validateMissions(proposal,p,live,registry,this.used);
     this.record('mission-validation',{requestId:p.requestId,source:'local',result:checked.ok?'accepted':checked.reason});

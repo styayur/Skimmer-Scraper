@@ -1,4 +1,18 @@
-# Surface Glide 2.0
+# Surface Instinct
+
+LB or Space opens a two-second window measured by the 120 Hz simulation. Press again to cancel capture, abort a turn or leave a surface. Pausing freezes the simulation. Focus loss, restart and world inversion clear assistance. Motion changes enter the Assisted score class.
+
+Every eighth tick the planner can search ahead and to the sides. A newly obstructed near-field chord can trigger an earlier search. For a parallel pass, two smooth velocity transitions approach the wall and remove inward speed at six metres. During a head-on approach, an estimated time to stand-off below 0.55 seconds permits a stronger turn and three terminal speed fractions (1.00, 0.72, 0.48). A locked path can finish after the original deadline. ESCAPE verifies the turn and 0.28 seconds of clear run-out. Recovery blends back to the flight model and retains the original capture deadline.
+
+Three forward samples at 0.10, 0.24 and 0.42 seconds estimate the radius of the offset path from its chord and normal change. The curvature budget uses 65% of the 230 m/s² total following limit. The controller brakes at up to 90 m/s² and checks each executed step against the actual geometry. Contact loss can enter REACQUIRE for up to 0.36 seconds or six metres of drift. Each step requires loaded collision coverage and a clear sweep.
+
+The parameter scan replays 18 wall approaches for each acceleration cap. At 560 m/s² the experiment avoided 16 impacts, including one open-air escape. Raising the cap to 680 changed that escape into a capture while increasing peak acceleration. The default uses 260 for ordinary capture and 560 for emergencies. The fixture sweep overrides the cap across both paths. See the [sweep](../acceptance/v092/surface-sweep.json) and [finite geometry runs](../acceptance/v092/geometry.json).
+
+## Physical bumper check
+
+Launch in Free Flight, press LB near a wall, and release after a climb. In open air tap twice to cancel, then hold LB through the window to check it expires only once. Pause mid-window and resume, remap the button and repeat. Check boost and push-to-talk bindings separately. Record the controller model, mapping, platform and whether a person operated it.
+
+## Historical Surface Glide 2.0 baseline
 
 Press **Space** or **LB** while flying toward a wall. Arm early enough to leave room for a turn. With neutral controls the aircraft climbs a vertical face. Bank or yaw during the approach to choose a side. On contact, bank and yaw steer along the surface, pitch adjusts clearance, and boost changes target speed. Press the same control again to launch. A wall with a clear, connected roof can support a continuous climb, corner transfer and rooftop run.
 

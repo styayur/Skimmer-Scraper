@@ -2,9 +2,9 @@
 
 [简体中文](README.zh-CN.md) · [Play online](https://styayur.github.io/Skimmer-Scraper/) · [Windows downloads](https://github.com/styayur/Skimmer-Scraper/releases/latest)
 
-## SHIFT · Surface & Symbiosis
+## Surface Instinct
 
-**Shift your flight. Shift your gravity. Shift your world.** Fly in shielded Free Flight to practice surface maneuvers. Press Space or LB to engage Surface Glide and press it again to launch. In Surface Challenge, using motion assistance places the score in a separate category. Your original personal best stays available.
+**Make the surface your escape route.** Fly in shielded Free Flight to practice surface maneuvers. Approaching danger? Press LB or Space. For two seconds the aircraft looks for a clear approach along a nearby surface. Press again to cancel or launch with your current momentum. In Surface Challenge, using motion assistance places the score in a separate category. Your original personal best stays available.
 
 The Flight Guide follows your browser language. Chinese regional settings use Simplified Chinese, and other settings use English. Press **T** and try **KITE-2 escort me**. [Wingmate missions](docs/COMPANION-INTELLIGENCE.md)
 
@@ -12,7 +12,7 @@ The game includes its aircraft, generated worlds, collision geometry and local r
 
 ## Worlds and aircraft
 
-WorldForge adds a seeded world of rock shelves, suspended islands and traversable vaults. Press Space or LB to arm Surface Glide near a wall, roof or overhang. Pick KITE-W or KITE-S in the hangar. The optional companion radio plays local Mandarin or English clips with matching captions. Enable original world-specific music under advanced flight settings.
+WorldForge adds a seeded world of rock shelves, suspended islands and traversable vaults. Press Space or LB to arm Surface Glide near a wall, roof or overhang. Pick KITE-W or KITE-S in the hangar. The optional companion radio plays local Mandarin or English clips with matching captions. World-specific music starts at 35% volume on first takeoff. Advanced flight settings remember your volume and music switch.
 
 [Surface Glide](docs/SURFACE-GLIDE.md) · [WorldForge generation](docs/WORLDFORGE.md) · [MZK music](docs/MZK.md)
 

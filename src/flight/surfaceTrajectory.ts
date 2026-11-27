@@ -1,10 +1,11 @@
-import { Euler, Vector3 } from 'three';
+import { Euler, Quaternion, Vector3 } from 'three';
 import type { Vec3 } from '../core/math';
 import type { SurfaceProvider, SurfaceQuery } from '../world/worldTypes';
 import type { FlightInput, FlightState } from './flightModel';
 
 export const glideTuning = Object.freeze({
-  acceleration: 260, planningHz: 15, clearance: 6, attitudeRate: 4.2,
+  acceleration: 260, emergencyAcceleration: 560, planningHz: 15, clearance: 6, attitudeRate: 4.2,
+  captureSeconds: 2, reacquireSeconds: 0.36, followingAcceleration: 230,
 });
 export interface GlideContext {
   world: SurfaceProvider;
@@ -22,6 +23,7 @@ const vec = (v: Vec3) => new Vector3().copy(v);
 // continuous position, velocity and acceleration, including at joins.
 interface Leg { start: Vector3; from: Vector3; to: Vector3; duration: number }
 export interface SurfaceTrajectory {
+  escape?: boolean;
   legs: Leg[];
   duration: number;
   normal: Vec3;
@@ -76,7 +78,7 @@ export function supported(plan: SurfaceTrajectory, elapsed: number, ctx: GlideCo
     vec(finish).sub(hit.point).dot(plan.normal) > 0.97 * hit.distance;
 }
 function valid(plan: SurfaceTrajectory | null, ctx: GlideContext) {
-  if (!plan || !supported(plan, 0, ctx)) return false;
+  if (!plan || (!plan.escape && !supported(plan, 0, ctx))) return false;
   let time = 0;
   for (const leg of plan.legs) {
     const count = Math.max(1, Math.ceil(leg.duration * Math.max(leg.from.length(), leg.to.length()) / 3.2));
@@ -124,7 +126,7 @@ export function planRedirect(flight: FlightState, ctx: GlideContext): SurfaceTra
   const heading = velocity.clone().normalize();
   const radius = speed * speed / acceleration;
   const stop = speed * speed / (2 * acceleration);
-  const reach = Math.min(speed * 1.4, radius + stop + speed / glideTuning.planningHz + glideTuning.clearance + ctx.bodyRadius);
+  const reach = Math.min(speed * 1.4, Math.max(speed * 0.65, radius + stop + speed / glideTuning.planningHz + glideTuning.clearance + ctx.bodyRadius));
   // Short overlapping probes select finite faces ahead even beside a closer floor.
   const span = Math.max(5, reach / 7);
   for (let along = 0; along < reach; along += span) {
@@ -137,15 +139,76 @@ export function planRedirect(flight: FlightState, ctx: GlideContext): SurfaceTra
     const inward = -relative.dot(normal);
     if (inward < 0.25 * speed) continue;
     const gap = vec(flight.position).sub(hit.point).dot(normal) - glideTuning.clearance;
-    if (gap < inward * inward / (2 * acceleration)) continue;
+    const emergency = gap / inward <= 0.55;
+    const limit = emergency ? ctx.acceleration ?? glideTuning.emergencyAcceleration : acceleration;
+    if (gap < inward * inward / (2 * limit)) return null;
     const duration = 2 * gap / inward;
     for (const { direction } of directions(flight, hit, ctx)) {
-      const endVelocity = direction.multiplyScalar(relative.length()).add(hit.contact.velocity);
-      const plan = trajectory(flight, hit, acceleration, [[endVelocity, duration]]);
-      if (plan && valid(plan, ctx)) return plan;
+      for (const retention of emergency ? [1, 0.72, 0.48] : [1]) {
+        const endVelocity = direction.clone().multiplyScalar(relative.length() * retention).add(hit.contact.velocity);
+        const plan = trajectory(flight, hit, limit, [[endVelocity, duration]]);
+        if (plan && valid(plan, ctx)) return plan;
+      }
     }
-    // The first forward obstruction gates access to more distant faces.
     return null;
+  }
+  return null;
+}
+
+/** Sample a bounded fan around the flight path. Two legs carry a parallel approach
+ * inward, then remove its normal velocity at the stand-off distance. */
+export function planMagnetic(flight: FlightState, ctx: GlideContext) {
+  const position = vec(flight.position), velocity = vec(flight.velocity);
+  const speed = velocity.length(), limit = ctx.acceleration ?? glideTuning.acceleration;
+  if (speed < 1) return null;
+  const heading = velocity.clone().normalize(), up = vec(ctx.worldUp);
+  const side = new Vector3(1, 0, 0).applyEuler(new Euler(flight.attitude.pitch, flight.attitude.yaw, flight.attitude.roll, 'YXZ'));
+  const reach = Math.min(38, glideTuning.clearance + speed * 0.16 + speed * speed / (4 * limit));
+  const input = ctx.input ?? flight.control;
+  if (input.yaw + input.roll > 0) side.negate();
+  for (const axis of [side, side.clone().negate(), up, up.clone().negate()]) {
+    const probe = position.clone().addScaledVector(heading, speed * 0.10).addScaledVector(axis, reach * 0.65);
+    const hit = ctx.world.queryGlide?.(probe, reach);
+    if (!hasFrame(hit)) continue;
+    // A probe may be inside a thin wall. Resolve its frame on the pilot side.
+    const face = ctx.world.queryGlide?.(vec(hit.point).lerp(position, 0.06), reach * 0.12);
+    if (!hasFrame(face) || face.surfaceId !== hit.surfaceId) continue;
+    const n = vec(face.contact.normal), relative = velocity.clone().sub(face.contact.velocity);
+    const gap = position.clone().sub(face.point).dot(n) - glideTuning.clearance;
+    if (gap < 1 || gap > reach || Math.abs(relative.dot(n)) > 0.35 * speed) continue;
+    const tangent = relative.clone().projectOnPlane(n).normalize();
+    const duration = Math.max(0.22, Math.sqrt(2.5 * gap / limit));
+    const inward = -gap / duration - relative.dot(n) / 2;
+    const along = Math.sqrt(Math.max(0, relative.lengthSq() - inward * inward));
+    const mid = tangent.clone().multiplyScalar(along).addScaledVector(n, inward).add(face.contact.velocity);
+    const end = tangent.multiplyScalar(relative.length()).add(face.contact.velocity);
+    const plan = trajectory(flight, face, limit, [[mid, duration], [end, duration]]);
+    if (plan && valid(plan, ctx)) return plan;
+  }
+  return null;
+}
+
+/** Escape needs a clear run-out after the turn even when the target face ends. */
+export function planEscape(flight: FlightState, ctx: GlideContext) {
+  const velocity = vec(flight.velocity), speed = velocity.length();
+  if (speed < 1) return null;
+  const position = vec(flight.position), heading = velocity.clone().normalize();
+  const limit = ctx.acceleration ?? glideTuning.emergencyAcceleration;
+  for (const look of [0.10, 0.20, 0.32]) {
+    const probe = position.clone().addScaledVector(velocity, look);
+    const hit = ctx.world.queryGlideAhead?.(probe, speed * 0.16 + ctx.bodyRadius, look);
+    if (!hasFrame(hit)) continue;
+    const n = vec(hit.contact.normal);
+    if (heading.dot(n) > -0.24 || position.clone().sub(hit.point).dot(n) <= ctx.bodyRadius) continue;
+    for (const { direction } of directions(flight, hit, ctx)) {
+      const to = direction.addScaledVector(n, 0.38).normalize().multiplyScalar(speed * 0.70);
+      const turn = Math.max(0.12, 1.51 * velocity.distanceTo(to) / limit);
+      const plan = trajectory(flight, hit, limit, [[to, turn], [to, 0.28]]);
+      if (!plan) continue;
+      plan.escape = true;
+      const end = sampleTrajectory(plan, plan.duration).position;
+      if (!ctx.world.queryNearest(end, glideTuning.clearance + ctx.bodyRadius) && valid(plan, ctx)) return plan;
+    }
   }
   return null;
 }
@@ -167,22 +230,24 @@ export function planTransfer(flight: FlightState, wall: SurfaceQuery, ctx: Glide
     const roof = ctx.world.queryGlide?.(probe, speed * 0.26 + clearance);
     if (!hasFrame(roof)) continue;
     const roofNormal = vec(roof.contact.normal);
-    if (roofNormal.dot(heading) < 0.96 || Math.abs(normal.dot(roofNormal)) > 0.12 ||
+    const cosine = normal.dot(roofNormal);
+    const acrossDirection = heading.clone().applyQuaternion(new Quaternion().setFromUnitVectors(normal, roofNormal));
+    const sine = Math.sqrt(Math.max(0, 1 - cosine * cosine));
+    if (sine < 0.35 || roofNormal.dot(heading) < 0.96 * sine ||
         vec(roof.contact.velocity).distanceTo(surfaceVelocity) > 0.25) continue;
     const along = vec(roof.point).sub(wall.point).dot(roofNormal) / heading.dot(roofNormal);
     if (along <= 0.2) continue;
     const edge = vec(wall.point).addScaledVector(heading, along);
     const before = ctx.world.queryGlide?.(edge.clone().addScaledVector(heading, -0.25).addScaledVector(normal, 0.15), 0.22);
-    const after = ctx.world.queryGlide?.(edge.clone().addScaledVector(normal, -0.25).addScaledVector(roofNormal, 0.15), 0.22);
+    const after = ctx.world.queryGlide?.(edge.clone().addScaledVector(acrossDirection, 0.25).addScaledVector(roofNormal, 0.15), 0.22);
     if (!hasFrame(before) || !hasFrame(after) || vec(before.contact.normal).dot(normal) < 0.96 ||
         vec(after.contact.normal).dot(roofNormal) < 0.96 || after.surfaceId !== roof.surfaceId) continue;
 
     const cornerSpeed = Math.min(speed, Math.sqrt(acceleration * clearance * 0.85));
     const entry = heading.clone().multiplyScalar(cornerSpeed).add(surfaceVelocity);
-    const across = normal.clone().negate().projectOnPlane(roofNormal).normalize().multiplyScalar(cornerSpeed).add(surfaceVelocity);
-    const approach = 2 * vec(roof.point).sub(flight.position).dot(roofNormal) /
-      (relative.dot(roofNormal) + cornerSpeed * heading.dot(roofNormal));
-    const turn = 2 * clearance / (cornerSpeed * heading.dot(roofNormal));
+    const across = acrossDirection.multiplyScalar(cornerSpeed).add(surfaceVelocity);
+    const approach = 2 * along / (speed + cornerSpeed);
+    const turn = 2 * clearance * (1 - cosine) / (cornerSpeed * heading.dot(roofNormal));
     const plan = trajectory(flight, roof, acceleration, [[entry, approach], [across, turn], [across, 12 / cornerSpeed]]);
     if (plan && valid(plan, ctx)) return plan;
   }

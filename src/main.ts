@@ -845,6 +845,7 @@ const resetFlightState = (): void => {
 
 const startRun = async (): Promise<void> => {
   if (!renderer || !activeWorld) return;
+  if (!muted && !document.hidden) music.activate(musicWorld());
   voiceRadio.reset();
   runGeneration++;
   const transition = ++worldTransition;
@@ -891,7 +892,7 @@ const startRun = async (): Promise<void> => {
 const debugPause = (): boolean => {
   if (mode !== 'running') return mode === 'paused';
   mode = 'paused';
-  glide = freeGlide();
+  music.update(musicWorld(), false, false, 0);
   releaseFlightPointer();
   voiceRadio.suspend();
   pendingRadio = null;
@@ -909,6 +910,7 @@ const debugResume = (): boolean => {
   lastFrameTime = performance.now();
   keyboard.setEnabled(!debugInputEnabled);
   audio.resume();
+  if (!muted && !document.hidden) music.activate(musicWorld());
   return true;
 };
 
@@ -1177,6 +1179,7 @@ const queueRadioDialogue = (raw: string, useModel = true): boolean => {
   return true;
 };
 const voiceRadio = new VoiceRadio(symbiosis.client, { available: voiceAvailable, send: queueRadioDialogue, status: showVoiceStatus });
+const musicWorld = () => activeWorld instanceof ImportedWorldAdapter ? 'local' : worldSettings.theme === 'worldforge' ? 'forge' : worldSettings.theme === 'dragonspine' ? 'dragonspine' : 'city';
 const music = new MusicSession();
 const updateMusicPanel = bindMusicPanel(music);
 const updateVoicePanel = bindVoicePanel(voiceRadio, action => actionRouter.route(action, false, 'touch'),
@@ -1257,7 +1260,7 @@ const frame = (now: number): void => {
   voiceRadio.update(voiceInFlight, symbiosis.radio.current(), muted || symbiosis.radio.muted);
   radioPanel.update(voiceInFlight, voiceRadio.subtitle);
   audio.setDucked(voiceInFlight && voiceRadio.ducking);
-  music.update(activeWorld instanceof ImportedWorldAdapter ? 'local' : worldSettings.theme === 'worldforge' ? 'forge' : worldSettings.theme === 'dragonspine' ? 'dragonspine' : 'city',
+  music.update(musicWorld(),
     mode === 'running' && !document.hidden && !muted, voiceRadio.ducking, now-lastFrameTime);
   updateMusicPanel();
   updateVoicePanel(voiceInFlight);
@@ -1415,6 +1418,7 @@ const boot = async (): Promise<void> => {
 };
 
 const loseFocus = (): void => {
+  glide = freeGlide();
   if (mode === 'running') actionRouter.route('menu');
   keyboard.reset();
   gamepad.suspend();

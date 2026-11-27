@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import { createServer } from 'node:http';
 import { mkdir, writeFile } from 'node:fs/promises';
 import path from 'node:path';
+import packageInfo from '../package.json' with { type: 'json' };
 import { chromium } from '@playwright/test';
 
 const [address, sha, output, mode = 'standalone', profile] = process.argv.slice(2);
@@ -65,7 +66,7 @@ try {
       });
       assert.equal(report.identity.topLevel, !embedding);
       assert.equal(report.identity.build.sourceCommit, sha);
-      assert.equal(report.identity.build.version, '0.9.1');
+      assert.equal(report.identity.build.version, packageInfo.version);
       assert.equal(report.identity.lang, locale);
       assert.equal(report.identity.browserLanguage, locale);
       const start = doc.locator('#start-button');
@@ -81,6 +82,11 @@ try {
       await doc.locator('#help-close').click();
       await start.click();
       await doc.waitForFunction(seconds => window.__SKIMMER_SCRAPER__.snapshot().runTime > seconds, smoke ? 0.7 : 4);
+      await doc.waitForFunction(() => {
+        const m = window.__SKIMMER_SCRAPER__.snapshot().music;
+        return m.playing && m.mediaTime > 0.25;
+      });
+      report.music = await doc.evaluate(() => window.__SKIMMER_SCRAPER__.snapshot().music);
       report.flight = await doc.evaluate(() => {
         const game = window.__SKIMMER_SCRAPER__.snapshot();
         return { mode: game.mode, runTime: game.runTime, triangles: game.render.triangles,
