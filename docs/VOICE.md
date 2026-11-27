@@ -17,8 +17,12 @@ you cancel, pause, switch worlds, hide the game or leave the page. Press **T** t
 use text whenever microphone input is unavailable. Voice output can be turned
 off while keeping subtitles. Starting a transmission or clearing the radio
 stops playback. A risk alert can interrupt routine speech. Pausing, restarting
-or changing worlds clears pending calls. Captions follow the active spoken
-line through the end of playback.
+or changing worlds clears pending calls. Radio history records each report when
+it arrives. A spoken subtitle appears when the clip starts or the first PCM
+buffer starts on the audio clock. It clears when the source ends or another
+transmission interrupts it. Muted game audio, a missing clip or a failed
+speech request leaves the message available as text. The radio panel's own
+mute control keeps incoming reports in history.
 
 ## Provider choices and budgets
 
@@ -45,7 +49,22 @@ stay available.
 ## Data and playback
 
 The browser keeps audio in memory for the active clip or transmission.
-Previews and event clips share the Web Audio output, volume, stereo pan and speech queue lifecycle. The authoring input is in `art/radio/lines.json`. Run `python3 art/radio/render.py` with Flite 2.2 (SLT) and opus-tools to render the English clips. Local ASR, microphone input and optional cloud speech remain separate.
+The renderers and runtime catalog both read `art/radio/lines.json`. Each
+speaker/event pair has a stable catalog ID. At report time the game resolves the
+speaker, locale, exact text and clip together. History and playback share that
+immutable line. Free-form replies carry their own text and locale. The optional
+cloud provider receives that text verbatim. Each queued transmission gets a
+fresh playback ID, including consecutive acknowledgements of the same command.
+The voice debug snapshot keeps the last 32 playback transitions.
+
+Run `python3 art/radio/render.py` with Flite 2.2 (SLT) and opus-tools to render
+the English clips. Run `python3 art/radio/verify_sample.py en-US` to re-render
+one sample per character and compare the packaged bytes. For Mandarin use
+`python art/radio/verify_sample.py zh-CN --model-dir PATH --ffmpeg FFMPEG` in the
+authoring environment below. The verifier writes generated audio to a temporary
+directory. The results for this phase are in
+[`radio-en-US.json`](../acceptance/v091/radio-en-US.json) and
+[`radio-zh-CN.json`](../acceptance/v091/radio-zh-CN.json).
 
 ### Rendering the Mandarin calls
 

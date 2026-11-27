@@ -1,3 +1,5 @@
+import { localizeDiagnostic } from '../i18n/diagnostics';
+import { t } from '../i18n';
 import type { CameraMode } from '../config/experience';
 import { formatTime } from '../game/storage';
 import type { WorldMode, WorldSettings } from '../world/worldConfig';
@@ -122,7 +124,7 @@ export class GameUI {
     });
     this.qualityButton.addEventListener('click', () => {
       const label = hooks.onQualityChange();
-      this.qualityButton.textContent = `画质 · ${label}`;
+      this.qualityButton.textContent = t('gameUI.qualityLabel', { label });
     });
     this.effectsButton.addEventListener('click', () => {
       const reduced = hooks.onVisualStimulationToggle();
@@ -234,26 +236,26 @@ export class GameUI {
     app?.classList.toggle('is-danger', !snapshot.freeFlight && !buffering && !snapshot.locked && !snapshot.prototype && snapshot.grace < 2.4);
     app?.classList.toggle('is-buffering', buffering);
     if (buffering) {
-      this.surfaceState.textContent = 'WORLD STREAM / 区块缓冲';
-      this.flightStatus.textContent = '前方城市正在载入 · 生存计时暂停';
+      this.surfaceState.textContent = t('gameUI.worldStreaming');
+      this.flightStatus.textContent = t('gameUI.loadingTheCityAheadSurvivalTimerPaused');
     } else if (snapshot.freeFlight) {
-      this.surfaceState.textContent = 'FREE FLIGHT / 自由飞行';
-      this.flightStatus.textContent = snapshot.shieldContact ? '防护罩已吸收撞击' : '';
+      this.surfaceState.textContent = t('gameUI.freeFlight');
+      this.flightStatus.textContent = snapshot.shieldContact ? t('gameUI.shieldAbsorbedTheImpact') : '';
     } else if (snapshot.prototype) {
-      this.surfaceState.textContent = 'SURFACE MODEL PENDING';
-      this.flightStatus.textContent = '原型飞行 · 近距规则将在下一阶段接入';
+      this.surfaceState.textContent = t('ui.surfaceModelPending');
+      this.flightStatus.textContent = t('ui.prototypeFlightProximityRulesPending');
     } else if (snapshot.zone === 'extreme') {
-      this.surfaceState.textContent = 'RAZOR LINE / 极近贴飞';
-      this.flightStatus.textContent = '极近贴飞 · 松开修正让机翼留在表面外';
+      this.surfaceState.textContent = t('gameUI.razorLine');
+      this.flightStatus.textContent = t('gameUI.extremelyCloseEaseOffToKeepYour');
     } else if (snapshot.zone === 'strong') {
-      this.surfaceState.textContent = 'CLOSE VECTOR / 强化贴近';
-      this.flightStatus.textContent = '贴飞增强 · 风噪与尾迹正在加强';
+      this.surfaceState.textContent = t('gameUI.closeVector');
+      this.flightStatus.textContent = t('gameUI.closeToSurfaceWindAndTrailsIntensifying');
     } else if (snapshot.locked) {
-      this.surfaceState.textContent = 'SURFACE LOCK';
-      this.flightStatus.textContent = '近距稳定 · 保持这条线';
+      this.surfaceState.textContent = t('gameUI.surfaceLock');
+      this.flightStatus.textContent = t('gameUI.surfaceLockedHoldThisLine');
     } else {
-      this.surfaceState.textContent = 'SURFACE LOST';
-      this.flightStatus.textContent = '远离所有表面 · 立即回贴';
+      this.surfaceState.textContent = t('gameUI.surfaceLost');
+      this.flightStatus.textContent = t('gameUI.clearOfAllSurfacesReturnToCover');
     }
     this.surfaceState.style.color = buffering
       ? 'var(--peach)'
@@ -264,16 +266,16 @@ export class GameUI {
 
   public setCameraMode(mode: CameraMode): void {
     const cockpit = mode === 'cockpit';
-    const label = cockpit ? '驾驶舱' : '追尾';
-    this.cameraButton.innerHTML = `视角 · ${label} <kbd>C</kbd>`;
-    this.hudView.textContent = cockpit ? 'COCKPIT / 驾驶舱' : 'CHASE / 追尾';
+    const label = cockpit ? t('ui.cockpit') : t('ui.chase');
+    this.cameraButton.innerHTML = `${t('gameUI.viewLabel', { label })} <kbd>C</kbd>`;
+    this.hudView.textContent = cockpit ? t('gameUI.cockpitView') : t('ui.chaseView');
     this.cameraSelect.value = mode;
     this.cockpitFrame.hidden = !cockpit;
     document.getElementById('app')?.classList.toggle('is-cockpit', cockpit);
   }
 
   public setVisualStimulation(reduced: boolean): void {
-    this.effectsButton.textContent = reduced ? '视觉 · 柔和' : '视觉 · 标准';
+    this.effectsButton.textContent = reduced ? t('gameUI.effectsReduced') : t('ui.effectsStandard');
     this.effectsButton.setAttribute('aria-pressed', String(reduced));
     document.getElementById('app')?.classList.toggle('low-stim', reduced);
   }
@@ -292,7 +294,7 @@ export class GameUI {
     passages.disabled = theme.value !== 'city';
     this.worldLegacy.hidden = settings.generatorVersion === GENERATOR_VERSION;
     const legacy = WORLD_PRESET_OPTIONS.find(option => option.id === settings.preset);
-    this.worldLegacyNote.textContent = legacy ? '旧版城市 · ' + legacy.label : '统一城市 · 第 3 版';
+    this.worldLegacyNote.textContent = legacy ? t('gameUI.legacyCity') + localizeDiagnostic(legacy.label) : t('gameUI.unifiedCityGenerator3');
   }
 
   public setModels(models: ModelListItem[], selectedId: string): void {
@@ -313,11 +315,11 @@ export class GameUI {
       name.textContent = model.name;
       const meta = document.createElement('span');
       meta.className = 'model-option__meta';
-      meta.textContent = model.meta;
+      meta.textContent = localizeDiagnostic(model.meta);
       text.append(name, meta);
       const tag = document.createElement('span');
       tag.className = 'model-option__tag';
-      tag.textContent = model.tag;
+      tag.textContent = model.tag === 'LOCAL GLB' ? t('ui.localGlb') : t('ui.builtIn');
       button.append(text, tag);
       button.addEventListener('click', () => this.hooks.onSelectModel(model.id));
       this.modelList.append(button);
@@ -328,8 +330,8 @@ export class GameUI {
     }
     const current = models.find((model) => model.id === this.selectedModelId);
     this.modelNote.textContent = current
-      ? `当前机型 ${current.name} · ${current.meta}`
-      : '选择一架飞机开始挑战。';
+      ? t('gameUI.currentAircraftNameMeta', { name: current.name, meta: localizeDiagnostic(current.meta) })
+      : t('gameUI.chooseAnAircraftToFly');
     this.removeModelButton.disabled = current?.tag !== 'LOCAL GLB';
     this.rotateModelButton.disabled = current?.tag !== 'LOCAL GLB';
   }
@@ -346,7 +348,7 @@ export class GameUI {
   }
 
   public setMuted(muted: boolean): void {
-    this.muteButton.textContent = muted ? '声音 · 关' : '声音 · 开';
+    this.muteButton.textContent = muted ? t('gameUI.soundOff') : t('ui.soundOn');
     this.muteButton.setAttribute('aria-pressed', String(muted));
   }
 
@@ -365,7 +367,7 @@ export class GameUI {
     this.titleScreen.hidden = true;
     this.hud.hidden = true;
     this.failScreen.hidden = true;
-    this.errorMessage.textContent = message;
+    this.errorMessage.textContent = localizeDiagnostic(message);
     this.webglError.hidden = false;
   }
 }

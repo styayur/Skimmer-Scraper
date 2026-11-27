@@ -41,7 +41,7 @@ test('reproduces legacy URLs and flies through five dense-city worlds with three
   expect(legacy.worldFingerprint).toBe(3887776065);
   expect(legacy.best).toBe(21.4);
   await page.keyboard.press('g');
-  await expect(page.locator('#world-legacy-note')).toContainText('Sakura Dusk');
+  await expect(page.locator('#world-legacy-note')).toContainText('樱色黄昏');
   await page.locator('#world-upgrade').click();
   await page.waitForURL(/gen=4/);
   await ready();

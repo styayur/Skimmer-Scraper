@@ -1,0 +1,17 @@
+{
+  "kind": "targeted unit and simulated integration",
+  "command": "$env:SKIMMER_MISSION_BENCH='1'; npm test -- tests/unit/companionMissions.test.ts tests/unit/companions.test.ts tests/unit/ai.test.ts tests/unit/radioDialogue.test.ts tests/unit/voiceRadio.test.ts --maxWorkers=1",
+  "passed": 85,
+  "failed": 0,
+  "files": {
+    "companionMissions.test.ts": 21,
+    "companions.test.ts": 9,
+    "ai.test.ts": 37,
+    "radioDialogue.test.ts": 13,
+    "voiceRadio.test.ts": 5
+  },
+  "world": "Deterministic scripted collision providers with the production companion controller.",
+  "provider": "Local rules and mock transports.",
+  "timing": "companion-mission-timing.json",
+  "outsideThisRun": ["integrated browser suite", "real GPU", "live model or speech API"]
+}

@@ -1,0 +1,35 @@
+{
+  "method": "Simulated Node/Vitest fixture. Real MissionExecutive.tick, timed synchronously between hrtime samples; worker thread CPU user/system deltas bracket each call. CPU resolution and instrumentation overhead are platform dependent.",
+  "world": "Synthetic flat garden collider and loaded airspace; stationary pilot and three moving CompanionTeam aircraft, seed 12.",
+  "assignments": [
+    "FIND_PASSAGE",
+    "ESCORT",
+    "INSPECT_LANDMARK"
+  ],
+  "physicsHz": 120,
+  "executiveIntervalSeconds": 0.2,
+  "warmupRuns": 8,
+  "measuredRuns": 128,
+  "secondsPerRun": 4,
+  "ticks": 1920,
+  "threeConcurrentMissionsAtEntry": 1920,
+  "subsequentTicksWithFewerMissionsExcluded": 640,
+  "host": {
+    "platform": "win32",
+    "arch": "x64",
+    "node": "v26.7.0",
+    "cpu": "AMD Ryzen 7 H 255 w/ Radeon 780M Graphics"
+  },
+  "tickElapsedMs": {
+    "total": 8.158699999999959,
+    "mean": 0.004249322916666645,
+    "p50": 0.0029,
+    "p95": 0.0152,
+    "p99": 0.0246
+  },
+  "threadCpuMs": {
+    "user": 16,
+    "system": 0,
+    "aggregate": 16
+  }
+}

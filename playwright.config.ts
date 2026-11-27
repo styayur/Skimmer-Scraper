@@ -25,6 +25,7 @@ export default defineConfig({
       name: 'chromium',
       use: {
         ...devices['Desktop Chrome'],
+        locale: 'zh-CN',
         launchOptions: {
           args: ['--use-angle=swiftshader', '--enable-webgl', '--ignore-gpu-blocklist'],
         },

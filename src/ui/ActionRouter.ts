@@ -1,3 +1,4 @@
+import { t } from '../i18n';
 import type { GameAction } from '../flight/input';
 import { OverlayManager, type Overlay } from './OverlayManager';
 
@@ -98,7 +99,7 @@ export class ActionRouter {
     this.resumeButton.hidden = mode !== 'running' && mode !== 'paused';
     this.titleButton.hidden = mode === 'title';
     document.getElementById('radio-open')!.hidden = mode === 'title' || mode === 'failed' || !this.actions.radioAvailable();
-    this.menuTitle.textContent = this.resumeButton.hidden ? '游戏菜单' : '飞行已暂停';
+    this.menuTitle.textContent = this.resumeButton.hidden ? t('ui.gameMenu') : t('actionRouter.flightPaused');
     this.overlays.open(name, drillDown, focus);
   }
 

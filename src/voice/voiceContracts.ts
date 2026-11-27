@@ -31,14 +31,20 @@ export interface SpeechStart {
   pitch?: number;
 }
 
+export interface RadioSubtitle {
+  readonly line: RadioLine;
+  readonly playbackId: number;
+}
+
 export interface VoiceLifecycle {
   signal: AbortSignal;
   preview?: boolean;
   start(info: SpeechStart): void;
+  drained?(): void;
 }
 
 export interface VoiceProvider {
-  speak(line: RadioLine, language: RadioLanguage, identity: VoiceIdentity, lifecycle: VoiceLifecycle): Promise<SpeechStreamStats | void>;
+  speak(line: RadioLine, identity: VoiceIdentity, lifecycle: VoiceLifecycle): Promise<SpeechStreamStats | void>;
   dispose?(): void;
 }
 

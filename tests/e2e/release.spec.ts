@@ -70,7 +70,7 @@ test.describe('v0.1.0 release acceptance', () => {
     await page.goto('/?seed=334458');
     await waitForReady(page);
 
-    await expect(page).toHaveTitle('Skimmer-Scraper — Close-Surface Flight');
+    await expect(page).toHaveTitle('Skimmer-Scraper — 近距飞行');
     await expect(page.getByRole('heading', { name: 'SKIMMER SCRAPER' })).toBeVisible();
     await page.screenshot({
       path: 'evidence/v0.3/regression/phase-4-v0.1.0-title.png',
@@ -105,7 +105,7 @@ test.describe('v0.1.0 release acceptance', () => {
       return bridge?.snapshot().mode === 'running';
     });
     await expect(page.locator('#hud')).toBeVisible();
-    await expect(page.locator('#surface-state')).toHaveText('SURFACE LOCK');
+    await expect(page.locator('#surface-state')).toHaveText('已锁定表面');
 
     await page.keyboard.press('f');
     await page.locator('#advanced-flight-settings > summary').click();

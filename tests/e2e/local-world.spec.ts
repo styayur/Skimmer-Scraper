@@ -30,7 +30,7 @@ test('flies an imported arch with three companions, collides with an obstacle an
   const original = await snapshot(page);
   await openLibrary(page);
   await putFixture(page, 'arches', true);
-  await expect(page.locator('#local-world-status')).toContainText('external URI');
+  await expect(page.locator('#local-world-status')).toContainText('外部资源');
   await page.locator('#local-world-cancel').click();
   await expect(page.locator('#local-world-status')).toHaveText('已取消导入。');
 

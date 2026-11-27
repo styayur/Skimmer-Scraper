@@ -1,13 +1,18 @@
+import { t, wingmateName } from '../i18n';
 import { COMPANION_PROFILES, type RadioDialogue, type RadioLine } from '../ai/radioDialogue';
+import type { RadioSubtitle } from '../voice/voiceContracts';
 
 const get = <T extends HTMLElement = HTMLElement>(id: string) => document.getElementById(`radio-${id}`) as T;
+
+const roleLabels = { Navigator: 'wingmate.navigator', Guardian: 'wingmate.guardian', Explorer: 'wingmate.explorer' } as const;
 
 const lineItems = (line: RadioLine): [HTMLElement, HTMLElement] => {
   const speaker = document.createElement('span');
   speaker.className = 'radio-speaker';
   const member = COMPANION_PROFILES.find(profile => profile.id === line.agent);
-  speaker.textContent = member ? `${member.callsign} · ${member.role}` : '你';
+  speaker.textContent = member ? `${wingmateName(member.id)} · ${t(roleLabels[member.role])}` : t('radioPanel.you');
   const text = document.createElement('span');
+  text.lang = line.locale;
   text.textContent = line.text;
   return [speaker, text];
 };
@@ -32,7 +37,7 @@ export class RadioPanel {
     form.addEventListener('submit', event => {
       event.preventDefault();
       const accepted = this.send(this.input.value);
-      if (!accepted) get('form-status').textContent = '电台暂不可用，或消息包含当前连接的 Key。';
+      if (!accepted) get('form-status').textContent = t('radioPanel.radioUnavailableOrTheMessageContainsYour');
     });
     this.panel.querySelectorAll<HTMLButtonElement>('[data-radio-command]').forEach(button => {
       button.addEventListener('click', () => {
@@ -44,18 +49,22 @@ export class RadioPanel {
     get('interrupt').addEventListener('click', () => { radio.interrupt(); silence(); this.update(false); });
   }
 
-  public update(inFlight: boolean, voice: RadioLine | null = null): void {
-    const { active, history } = this.radio.snapshot();
-    const spoken = inFlight ? voice ?? active : null;
-    if (spoken?.id !== this.subtitleId) {
-      this.subtitleId = spoken?.id;
-      this.subtitle.hidden = spoken === null;
-      if (spoken) {
-        this.subtitle.dataset.priority = spoken.priority;
-        this.subtitle.replaceChildren(...lineItems(spoken));
-      } else this.subtitle.replaceChildren();
+  public update(inFlight: boolean, caption: RadioSubtitle | null = null): void {
+    const active = inFlight ? caption : null;
+    if (active?.playbackId !== this.subtitleId) {
+      this.subtitleId = active?.playbackId;
+      this.subtitle.hidden = active === null;
+      if (active) {
+        this.subtitle.dataset.playbackId = String(active.playbackId);
+        this.subtitle.dataset.priority = active.line.priority;
+        this.subtitle.replaceChildren(...lineItems(active.line));
+      } else {
+        delete this.subtitle.dataset.playbackId;
+        this.subtitle.replaceChildren();
+      }
     }
-    if (this.panel.hidden && history.length) return;
+    if (this.panel.hidden) return;
+    const { history } = this.radio.snapshot();
     const mostRecent = history.at(-1)?.id;
     if (mostRecent === this.historyId) return;
     this.historyId = mostRecent;

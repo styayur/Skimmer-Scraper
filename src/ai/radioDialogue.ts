@@ -1,3 +1,6 @@
+import { selectedLocale, type Locale } from '../i18n/locale';
+import { radioCatalog, type CatalogLine } from '../voice/radioCatalog';
+
 export const COMPANION_PROFILES = [
   { id: 1, callsign: 'KITE-1', role: 'Navigator', focus: '路线、领航和建筑结构' },
   { id: 2, callsign: 'KITE-2', role: 'Guardian', focus: '碰撞风险、护航和接力救援' },
@@ -6,16 +9,18 @@ export const COMPANION_PROFILES = [
 
 export type RadioSource = 'player' | 'local' | 'model';
 export type RadioPriority = 'notice' | 'reply' | 'risk';
-export type RadioLanguage = 'zh-CN' | 'en-US';
+export type RadioLanguage = Locale;
 export const radioLanguageOf = (text: string): RadioLanguage => /[\u3400-\u9fff]/.test(text) ? 'zh-CN' : 'en-US';
 
 export interface RadioLine {
-  id: number;
-  agent: number | null;
-  text: string;
-  source: RadioSource;
-  priority: RadioPriority;
-  event?: string;
+  readonly id: number;
+  readonly agent: number | null;
+  readonly text: string;
+  readonly source: RadioSource;
+  readonly priority: RadioPriority;
+  readonly locale: Locale;
+  readonly event?: string;
+  readonly catalog?: CatalogLine;
 }
 
 export const radioPriority: Readonly<Record<RadioPriority, number>> = { notice: 0, reply: 1, risk: 2 };
@@ -34,12 +39,21 @@ export class RadioDialogue {
   private expires = 0;
   public muted = false;
 
-  public player(text: string): void { this.remember(null, text, 'player', 'reply'); }
+  public player(text: string): void { this.remember(null, text, 'player', 'reply', radioLanguageOf(text)); }
 
-  public report(agent: number, text: string, source: 'local' | 'model', kind: RadioPriority, time: number, event?: string): void {
-    const line = this.remember(agent, text, source, kind, event);
+  public reportFixed(agent: number, event: string, locale: Locale, kind: RadioPriority, time: number, speaker = agent): void {
+    const catalog = radioCatalog.resolve(agent, event, locale);
+    if (!catalog) return;
+    this.publish(this.remember(speaker, catalog.text, 'local', kind, locale, event, speaker === agent ? catalog : undefined), time);
+  }
+
+  public report(agent: number, text: string, source: 'local' | 'model', kind: RadioPriority, time: number, locale = selectedLocale): void {
+    this.publish(this.remember(agent, text, source, kind, locale), time);
+  }
+
+  private publish(line: RadioLine | null, time: number): void {
     if (!line || this.muted) return;
-    if (this.active && radioPriority[kind] > radioPriority[this.active.priority]) this.active = null;
+    if (this.active && radioPriority[line.priority] > radioPriority[this.active.priority]) this.active = null;
     this.queue.push(line);
     this.queue.sort((a, b) => radioPriority[b.priority] - radioPriority[a.priority] || a.id - b.id);
     if (this.queue.length > maxQueue) this.queue.length = maxQueue;
@@ -65,10 +79,10 @@ export class RadioDialogue {
 
   public snapshot() { return { active: this.active, history: this.history.slice(), queued: this.queue.length, muted: this.muted }; }
 
-  private remember(agent: number | null, raw: string, source: RadioSource, kind: RadioPriority, event?: string): RadioLine | null {
-    const text = radioText(raw, source === 'player' ? 240 : 140);
+  private remember(agent: number | null, raw: string, source: RadioSource, kind: RadioPriority, locale: Locale, event?: string, catalog?: CatalogLine): RadioLine | null {
+    const text = catalog?.text ?? radioText(raw, source === 'player' ? 240 : 140);
     if (!text) return null;
-    const line = { id: ++this.serial, agent, text, source, priority: kind, event };
+    const line = Object.freeze({ id: ++this.serial, agent, text, source, priority: kind, event, locale, catalog });
     this.history.push(line);
     if (this.history.length > maxHistory) this.history.shift();
     return line;

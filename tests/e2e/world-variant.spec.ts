@@ -169,7 +169,7 @@ test('copies and replays real separable city layouts, refreshing unlocked visits
   await ready(page);
   expect((await snapshot(page)).localWorld).toBeNull();
 
-  const fresh = await browser.newContext({ viewport: { width: 920, height: 620 } });
+  const fresh = await browser.newContext({ locale: 'zh-CN', viewport: { width: 920, height: 620 } });
   let onAnotherProfile;
   try {
     const destination = await fresh.newPage();

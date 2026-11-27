@@ -3,9 +3,10 @@ import type { RadioLine, RadioPriority } from '../../src/ai/radioDialogue';
 import { SpeechQueue } from '../../src/voice/SpeechQueue';
 import { resolveVoiceIdentity } from '../../src/voice/voiceContracts';
 import { loadVoicePreferences, saveVoicePreferences } from '../../src/voice/voicePreferences';
+import { selectedLocale } from '../../src/i18n/locale';
 
 const line = (id: number, priority: RadioPriority = 'notice', text = `call ${id}`, agent = 1): RadioLine =>
-  ({ id, agent, text, source: 'local', priority });
+  ({ id, agent, text, source: 'local', priority, locale: 'en-US' });
 
 const setup = () => {
   let time = 0;
@@ -31,14 +32,15 @@ it('bounds waiting speech and gives threats the channel without overlapping or r
   expect(speech.count).toBe(3);
   speech.enqueue(line(8, 'reply'));
   speech.enqueue(line(9, 'risk', 'Avoid the tower', 2));
-  expect(started).toEqual([1, 9]);
-  expect(cancelled).toEqual([1]);
-  expect(speech.count).toBe(1);
+  expect(started).toEqual([1, 8, 9]);
+  expect(cancelled).toEqual([1, 8]);
+  expect(speech.count).toBe(0);
+  speech.enqueue(line(10, 'reply'));
   await finish(9);
-  expect(started).toEqual([1, 9, 8]);
+  expect(started).toEqual([1, 8, 9, 10]);
   expect(speech.clear()).toBe(true);
   expect(speech.clear()).toBe(false);
-  expect(cancelled).toEqual([1, 8]);
+  expect(cancelled).toEqual([1, 8, 10]);
   expect(speech.current).toBeNull();
   expect(speech.count).toBe(0);
 });
@@ -67,7 +69,7 @@ it('ties distinct profiles and saved preferences to the real companion identity 
     setItem: (_key: string, value: string) => { stored = value; },
   };
   const settings = loadVoicePreferences(storage);
-  expect(settings).toMatchObject({ input: 'off', output: 'off', language: 'zh-CN' });
+  expect(settings).toMatchObject({ input: 'off', output: 'off', language: selectedLocale });
   const profiles = [1, 2, 3].map(id => resolveVoiceIdentity(id)!);
   expect(profiles.map(item => item.callsign)).toEqual(['KITE-1', 'KITE-2', 'KITE-3']);
   expect(new Set(profiles.map(item => item.rate)).size).toBe(3);

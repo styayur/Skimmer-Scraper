@@ -61,6 +61,12 @@ export interface SweptSurfaceContact {
 }
 
 export interface SurfaceProvider {
+  /** True when the whole ball has loaded collision data. */
+  isGlideVolumeCovered?(center: Vec3, radius: number): boolean;
+  /** Conservative clearance for a short chord, in seconds from the current pose. */
+  glideChordClear?(from: Vec3, to: Vec3, radius: number, start: number, end: number): boolean;
+  /** Distance at the probe time, with contact point and frame in the current world pose. */
+  queryGlideAhead?(position: Vec3, range: number, seconds: number): SurfaceQuery | null;
   queryGlide?(position: Vec3, range: number): SurfaceQuery | null;
   queryNearest(position: Vec3, maxDistance: number): SurfaceQuery | null;
   queryProximity?(position: Vec3, maxDistance: number): SurfaceQuery | null;

@@ -1,6 +1,20 @@
 # Changelog
 
-## 0.9.0 development
+## 0.9.1 · SHIFT
+
+- Added predictive surface approaches, wall climbs, corner transfers and launches on the existing Space/LB control. Surface maneuvers use local collision geometry and affect the assisted score category.
+- Added wingmate missions, local observations and conversation memory. The flight loop runs independently of optional model requests.
+- The interface and all 21 offline guide chapters use Simplified Chinese for Chinese browser locales and English for other locales. The authored radio line provides the caption and selects the matching recording.
+- Alt+Enter toggles fullscreen on Web and Windows. The desktop build starts fullscreen. Packaging produces a root-index HTML5 ZIP for the itch.io browser player.
+
+### 中文
+
+- 空格或 LB 可启用预测式贴面转向、沿墙攀升、转角过渡和主动脱离。实际辅助运动计入独立成绩。
+- 伴机可以执行任务、使用本地观测和近期对话记忆。可选模型请求与实时飞行控制分别运行。
+- 界面和 21 章离线教程在中文环境中显示简体中文，其余环境显示英文。角色电台按同一条台词记录选择字幕与对应语言的录音。
+- 网页与 Windows 均使用 Alt+Enter 切换全屏。桌面版默认全屏，打包流程生成以 index.html 为根入口的 itch.io HTML5 ZIP。
+
+## 0.9.0
 
 - Added WorldForge, its offline prototype analysis, seeded airspace, terrain streaming and matched GLB export.
 - Added surface-relative flight with Space and remappable LB. Actual attachment creates a separate challenge score category.

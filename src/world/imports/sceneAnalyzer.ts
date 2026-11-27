@@ -75,7 +75,7 @@ export const analyzeWorldScene = (
       else colliderVertices[role] += count * instances;
     }
     const displayName = typeof object.userData.name === 'string' ? object.userData.name : object.name;
-    meshRoles.push({ id, name: (displayName || object.parent?.name || `网格 ${id}`).slice(0, 120), inferred, role,
+    meshRoles.push({ id, name: (displayName || object.parent?.name || `#${id}`).slice(0, 120), inferred, role,
       ...(driven?.motion ? { motion: driven.motion } : {}), ...(driven?.path ? { path: driven.path } : {}) });
     meshes.push({ mesh: object, id, role, moving: driven?.moving ?? false, vertices: count * instances });
     for (const material of Array.isArray(object.material) ? object.material : [object.material]) {

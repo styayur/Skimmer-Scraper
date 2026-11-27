@@ -1,17 +1,19 @@
+import { localizeDiagnostic } from '../i18n/diagnostics';
+import { t, wingmateName } from '../i18n';
 import type { GameAction } from '../flight/input';
 import { COMPANION_PROFILES, type RadioLanguage } from '../ai/radioDialogue';
 import { prepareLocalSpeech } from '../voice/browserSpeech';
 import type { VoiceRadio } from '../voice/VoiceRadio';
 import type { VoiceInput, VoiceOutput } from '../voice/voiceContracts';
 
-const inputModes = '<option value="off">关闭</option><option value="local">本机识别</option><option value="deepseek">DeepSeek</option>';
+const inputModes = `<option value="off">${t('ui.off')}</option><option value="local">${t('voicePanel.onDeviceRecognition')}</option><option value="deepseek">DeepSeek</option>`;
 const status = document.getElementById('voice-status')!;
 let dismiss = 0;
 
 export const showVoiceStatus = (phase: string, message: string): void => {
   window.clearTimeout(dismiss);
   status.dataset.phase = phase;
-  status.textContent = message;
+  status.textContent = localizeDiagnostic(message);
   status.hidden = !message;
   if (phase === 'idle' && message) dismiss = window.setTimeout(() => { status.hidden = true; }, 4500);
 };
@@ -20,19 +22,19 @@ export const bindVoicePanel = (voice: VoiceRadio, action: (action: GameAction) =
   changeLanguage: (language: RadioLanguage | undefined) => void) => {
   const panel = document.createElement('details');
   panel.className = 'voice-settings';
-  panel.innerHTML = `<summary>语音电台</summary>
-    <div class="setting-heading"><label>语音输入 <select id="voice-input">${inputModes}</select></label><button class="setting-help" type="button" aria-label="语音电台帮助" data-help-section="guide-voice">?</button></div>
-    <label>伴机播报 <select id="voice-output"><option value="off">关闭</option><option value="local">角色电台</option>
+  panel.innerHTML = `<summary>${t('voicePanel.voiceRadio')}</summary>
+    <div class="setting-heading"><label>${t('voicePanel.voiceInput')} <select id="voice-input">${inputModes}</select></label><button class="setting-help" type="button" aria-label="${t('voicePanel.voiceRadioHelp')}" data-help-section="guide-voice">?</button></div>
+    <label>${t('voicePanel.wingmateSpeech')} <select id="voice-output"><option value="off">${t('ui.off')}</option><option value="local">${t('voicePanel.characterRadio')}</option>
       <option value="deepseek">DeepSeek</option></select></label>
-    <label>发言音量 <input id="voice-volume" type="range" min="0" max="100" step="1"></label>
-    <label>语言 <select id="voice-language"><option value="zh-CN">中文</option><option value="en-US">English</option></select></label>
+    <label>${t('voicePanel.speechVolume')} <input id="voice-volume" type="range" min="0" max="100" step="1"></label>
+    <label>${t('voicePanel.voiceLanguage')} <select id="voice-language"><option value="zh-CN">${t('voicePanel.mandarin')}</option><option value="en-US">English</option></select></label>
     <div id="voice-preview-row">
-      <label>试听伴机 <select id="voice-preview-agent">${COMPANION_PROFILES.map(({ id, callsign }) =>
-        `<option value="${id}">${callsign}</option>`).join('')}</select></label>
-      <button id="voice-preview" type="button" class="utility-button">试听</button>
+      <label>${t('voicePanel.previewWingmate')} <select id="voice-preview-agent">${COMPANION_PROFILES.map(({ id }) =>
+        `<option value="${id}">${wingmateName(id)}</option>`).join('')}</select></label>
+      <button id="voice-preview" type="button" class="utility-button">${t('voicePanel.preview')}</button>
       <p id="voice-preview-status" class="setting-status" role="status"></p>
     </div>
-    <div><button id="voice-language-prepare" class="utility-button" type="button">准备本机语言包</button></div>
+    <div><button id="voice-language-prepare" class="utility-button" type="button">${t('voicePanel.prepareLocalLanguagePack')}</button></div>
     <p id="voice-language-status" class="setting-status" role="status"></p>
     <p id="voice-output-status" class="setting-status" role="status"></p><p id="voice-usage" class="setting-status" hidden></p>`;
   document.querySelector('#advanced-flight-settings')!.append(panel);
@@ -75,11 +77,11 @@ export const bindVoicePanel = (voice: VoiceRadio, action: (action: GameAction) =
   prepare.addEventListener('click', async () => {
     const selected = language.value as RadioLanguage;
     prepare.disabled = true;
-    languageStatus.textContent = '正在检查或下载本机语言包…';
+    languageStatus.textContent = t('voicePanel.checkingOrDownloadingTheLocalLanguagePack');
     try {
       const available = await prepareLocalSpeech(selected);
-      if (selected === language.value) languageStatus.textContent = available ? '本机语言包已就绪。' : '本机语言包不可用。可以按 T 输入文字。';
-    } catch { if (selected === language.value) languageStatus.textContent = '语言包安装失败。'; }
+      if (selected === language.value) languageStatus.textContent = available ? t('voicePanel.localLanguagePackReady') : t('voicePanel.localLanguagePackUnavailablePressTTo');
+    } catch { if (selected === language.value) languageStatus.textContent = t('voicePanel.languagePackInstallationFailed'); }
     finally { prepare.disabled = false; }
   });
 
@@ -109,17 +111,17 @@ export const bindVoicePanel = (voice: VoiceRadio, action: (action: GameAction) =
     const { cloud, limits, lastOutputError, lastOutputFallback, preview } = voice.snapshot();
     const isPreparing = preview.phase === 'preparing';
     const isPlaying = preview.phase === 'playing';
-    const previewLabel = isPreparing || isPlaying ? '取消试听' : '试听';
+    const previewLabel = isPreparing || isPlaying ? t('voicePanel.cancelPreview') : t('voicePanel.preview');
     if (previewButton.textContent !== previewLabel) previewButton.textContent = previewLabel;
     previewButton.disabled = volume.valueAsNumber === 0;
-    const previewMessage = preview.error ? '试听失败，请重试。'
-      : isPreparing ? '正在准备试听…' : isPlaying ? '正在试听…' : preview.phase === 'completed' ? '试听完成。'
-      : preview.phase === 'cancelled' ? '已取消试听。' : '';
+    const previewMessage = preview.error ? `${t('voicePanel.previewFailedTryAgain')} ${preview.text ?? ''}`
+      : isPreparing ? t('voicePanel.preparingPreview') : isPlaying ? preview.text ?? '' : preview.phase === 'completed' ? t('voicePanel.previewComplete')
+      : preview.phase === 'cancelled' ? t('voicePanel.previewCancelled') : '';
     if (previewStatus.textContent !== previewMessage) previewStatus.textContent = previewMessage;
-    const message = lastOutputFallback ? '已播放本地事件短句。' : lastOutputError ? '请查看电台字幕。' : '';
+    const message = lastOutputFallback ? t('voicePanel.playedALocalEventClip') : lastOutputError ? t('voicePanel.seeRadioSubtitles') : '';
     if (outputStatus.textContent !== message) outputStatus.textContent = message;
     if (usage.hidden) return;
-    const text = `本页 DeepSeek 用量 · 转写 ${cloud.asrRequests}/${limits.asrRequests} 次，${cloud.asrSeconds}/${limits.asrSeconds} 秒 · 播报 ${cloud.ttsRequests}/${limits.ttsRequests} 次，${cloud.ttsCharacters}/${limits.ttsCharacters} 计费字符`;
+    const text = t('voicePanel.deepSeekUsage', { asrRequests: cloud.asrRequests, maxAsrRequests: limits.asrRequests, asrSeconds: cloud.asrSeconds, maxAsrSeconds: limits.asrSeconds, ttsRequests: cloud.ttsRequests, maxTtsRequests: limits.ttsRequests, ttsCharacters: cloud.ttsCharacters, maxTtsCharacters: limits.ttsCharacters });
     if (usage.textContent !== text) usage.textContent = text;
   };
 };

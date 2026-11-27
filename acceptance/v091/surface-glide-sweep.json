@@ -1,0 +1,103 @@
+{
+  "suite": "tests/unit/surfaceTrajectory.test.ts",
+  "fixedHz": 120,
+  "planningHz": 15,
+  "chosenAccelerationMps2": 260,
+  "fixture": {
+    "wallThicknessM": 0.12,
+    "bodyRadiusM": 3.2,
+    "startSpeedMps": [
+      48,
+      76,
+      102
+    ],
+    "yawRad": [
+      0,
+      0.35
+    ],
+    "armDistanceM": [
+      14,
+      40,
+      76
+    ],
+    "seconds": 3
+  },
+  "results": [
+    {
+      "acceleration": 180,
+      "captured": 9,
+      "rejected": 9,
+      "clearance": 5.999999999999998,
+      "maxAcceleration": 169.2524658254749,
+      "peakTurn": 4.200053461645673,
+      "longest": 1.4916666666666638,
+      "retention": 0.6789789183177044,
+      "error": 1.2434497875801753e-14,
+      "chords": 3279
+    },
+    {
+      "acceleration": 260,
+      "captured": 12,
+      "rejected": 6,
+      "clearance": 5.999999999999984,
+      "maxAcceleration": 247.13288025293076,
+      "peakTurn": 4.200053461645673,
+      "longest": 1.3666666666666643,
+      "retention": 0.6636283697459525,
+      "error": 1.5987211554602254e-14,
+      "chords": 4260
+    },
+    {
+      "acceleration": 320,
+      "captured": 13,
+      "rejected": 5,
+      "clearance": 5.999999999999991,
+      "maxAcceleration": 305.21557098284126,
+      "peakTurn": 4.200053583013052,
+      "longest": 1.0749999999999986,
+      "retention": 0.6316845130045984,
+      "error": 8.881784197001252e-15,
+      "chords": 4500
+    }
+  ],
+  "planner": [
+    {
+      "acceleration": 180,
+      "calls": 77,
+      "accepted": 9,
+      "declined": 68,
+      "totalMs": 7.985,
+      "meanUs": 103.7,
+      "p95Us": 341.9,
+      "maxUs": 2854.9
+    },
+    {
+      "acceleration": 260,
+      "calls": 75,
+      "accepted": 12,
+      "declined": 63,
+      "totalMs": 2.061,
+      "meanUs": 27.48,
+      "p95Us": 121.7,
+      "maxUs": 160.2
+    },
+    {
+      "acceleration": 320,
+      "calls": 83,
+      "accepted": 13,
+      "declined": 70,
+      "totalMs": 2.108,
+      "meanUs": 25.4,
+      "p95Us": 113.7,
+      "maxUs": 320.3
+    }
+  ],
+  "harnessMs": 357,
+  "timing": {
+    "method": "performance.now around each real planRedirect call, in process, including BVH queries",
+    "node": "v26.7.0",
+    "platform": "win32",
+    "arch": "x64",
+    "cpu": "AMD Ryzen 7 H 255 w/ Radeon 780M Graphics"
+  }
+}

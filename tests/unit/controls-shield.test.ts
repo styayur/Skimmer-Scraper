@@ -35,6 +35,35 @@ describe('flight controls and shield', () => {
     expect(source.device).toContain('Gamepad');
     expect(actions).toEqual(['camera','camera']);
   });
+  it('uses neutral controls when an iframe denies gamepad access', () => {
+    let reads = 0;
+    const source = new GamepadInputSource(() => {
+      reads++;
+      throw new DOMException('Gamepad access denied', 'SecurityError');
+    });
+    const actions: string[] = [];
+    for (let i = 0; i < 3; i++) source.poll(DEFAULT_CONTROLS, a => actions.push(a));
+    expect(reads).toBe(1);
+    expect(actions).toEqual([]);
+    expect(source.sample(DEFAULT_CONTROLS)).toEqual({ pitch: 0, roll: 0, yaw: 0, boost: false });
+  });
+  it('requires a fresh pause button press after focus returns', () => {
+    const buttons = Array.from({ length: 17 }, () => ({ pressed: false, value: 0 }));
+    const pad = { connected: true, index: 0, id: 'pad', mapping: 'standard', buttons, axes: [] } as unknown as Gamepad;
+    const source = new GamepadInputSource(() => [pad]);
+    const actions: string[] = [];
+    const poll = () => source.poll(DEFAULT_CONTROLS, a => actions.push(a), true);
+    poll();
+    source.suspend();
+    buttons[DEFAULT_CONTROLS.pauseButton].pressed = true;
+    poll(); poll();
+    expect(actions).toEqual([]);
+    buttons[DEFAULT_CONTROLS.pauseButton].pressed = false;
+    poll();
+    buttons[DEFAULT_CONTROLS.pauseButton].pressed = true;
+    poll();
+    expect(actions).toEqual(['pause']);
+  });
   it('supports remapped menu buttons and uses directional repeat only while navigating', () => {
     const buttons = Array.from({ length: 17 }, () => ({ pressed: false, value: 0 }));
     const axes = [0, 0, 0, 0, 0.8];

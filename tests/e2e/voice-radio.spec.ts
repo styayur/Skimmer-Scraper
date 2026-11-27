@@ -83,7 +83,8 @@ test('the AudioWorklet supplies a WAV to mocked DeepSeek, flies the scout order 
   await observeMicrophone(page);
   let uploads = 0;
   let modelCommands = 0;
-  let tts = 0;
+  const modelWording = '二号收到，开始侦察左侧。';
+  const tts: Array<{ text: string; voice: string }> = [];
   await page.route(`${api}/v1/tools/asr`, async route => {
     const request = route.request();
     expect(await request.headerValue('authorization')).toBe(`Bearer ${credential}`);
@@ -102,14 +103,14 @@ test('the AudioWorklet supplies a WAV to mocked DeepSeek, flies the scout order 
       orders: [{ agents: input.message ? [2] : [1, 2, 3], action: input.message ? 'SCOUT' : 'FOLLOW', targetId: input.message ? 'route-left' : null }],
       reason: 'Synthetic browser test response' };
     if (input.message) { modelCommands++; expect(input.message).toBe('二号去侦察左侧'); }
-    const content = input.message ? { plan, reply: { agentId: 2, text: '二号收到，开始侦察左侧。' } } : plan;
+    const content = input.message ? { plan, reply: { agentId: 2, text: modelWording } } : plan;
     await route.fulfill({ json: { choices: [{ message: { content: JSON.stringify(content) } }], usage: { total_tokens: 123 } } });
   });
   await page.route(`${api}/v1/tools/tts`, async route => {
     expect(await route.request().headerValue('authorization')).toBe(`Bearer ${credential}`);
     const request = route.request().postDataJSON();
     expect(request.format).toBe('pcm');
-    if (request.text === '二号收到，开始侦察左侧。') { tts++; expect(request.voice_id).toBe('tide'); }
+    tts.push({ text: request.text, voice: request.voice_id });
     const audio = Buffer.alloc(24_000 * 2);
     for (let frame = 0; frame < 24_000; frame++) audio.writeInt16LE(Math.round(Math.sin(frame / 20) * 100), frame * 2);
     await route.fulfill({ contentType: 'audio/pcm', body: audio });
@@ -147,7 +148,10 @@ test('the AudioWorklet supplies a WAV to mocked DeepSeek, flies the scout order 
   expect(after.runTime - order.runTime).toBeGreaterThan(1.2);
   expect(uploads).toBe(1);
   expect(modelCommands).toBe(1);
-  expect(tts).toBe(1);
+  const reply = after.cooperation.radio.history.find(line => line.source === 'model' && line.agent === 2);
+  expect(reply).toMatchObject({ text: '收到，指令已接受。', locale: 'zh-CN' });
+  expect(tts.filter(call => call.text === reply?.text)).toEqual([{ text: reply!.text, voice: 'tide' }]);
+  expect(tts.map(call => call.text)).not.toContain(modelWording);
   expect(JSON.stringify(after)).not.toContain(credential);
 
   await page.keyboard.press('f');

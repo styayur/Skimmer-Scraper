@@ -3,7 +3,12 @@ import { writeFile } from 'node:fs/promises';
 import path from 'node:path';
 
 export async function checkCompatibility(page, output) {
-  const report = {};
+  const build = await page.evaluate(async () => (await fetch('./build-info.json')).json());
+  const modelRequests = [];
+  page.on('request', request => {
+    if (/kokoro|onnxruntime|huggingface|\.onnx(?:$|\?)/i.test(request.url())) modelRequests.push(request.url());
+  });
+  const report = { build, modelRequests };
   const persist = () =>
     writeFile(
       path.join(output, 'webview2-compat.json'),
@@ -13,20 +18,25 @@ export async function checkCompatibility(page, output) {
   await page.waitForFunction(
     () => window.__SKIMMER_SCRAPER__?.snapshot().mode === 'running',
   );
-  report.sky = await page.evaluate(async () => {
+  report.crossings = await page.evaluate(async () => {
     const g = window.__SKIMMER_SCRAPER__;
-    g.pause();
-    await g.setPose({ x: 0, y: 519, z: 120 }, { pitch: 1.15 });
-    g.resume();
-    await g.advance(5);
-    const s = g.snapshot();
-    return {
-      worldIndex: s.journey.worldIndex,
-      phase: s.journey.phase,
-      companions: s.companions.filter((x) => x.deployed).length,
-    };
+    const crossings = [];
+    await g.advance(2.2);
+    for (let index = 1; index <= 5; index++) {
+      g.pause();
+      await g.setPose({ x: 0, y: 519, z: 120 }, { pitch: 1.15 });
+      g.resume();
+      let s = await g.advance(5);
+      if (s.journey.crossings < index) s = await g.advance(3);
+      crossings.push({
+        worldIndex: s.journey.worldIndex, phase: s.journey.phase, glide: s.glide.phase,
+        companions: s.companions.filter((x) => x.deployed).length,
+      });
+    }
+    return crossings;
   });
-  assert.equal(report.sky.worldIndex, 1);
+  assert.deepEqual(report.crossings.map(s => s.worldIndex),[1,2,3,4,5]);
+  assert(report.crossings.every(s => s.companions === 3 && s.glide === 'FLIGHT'));
   await page
     .locator('#game-canvas')
     .click({ position: { x: 20, y: 20 }, force: true });
@@ -39,51 +49,20 @@ export async function checkCompatibility(page, output) {
   await page.keyboard.press('f');
   await page.locator('#advanced-flight-settings > summary').click();
   await page.locator('.voice-settings > summary').click();
-  await page.locator('#voice-preview').click();
-  await page
-    .waitForFunction(
-      () =>
-        ['completed', 'failed'].includes(
-          window.__SKIMMER_SCRAPER__.snapshot().voice.preview.phase,
-        ),
-      null,
-      { timeout: 20000 },
-    )
-    .catch(() => {});
-  report.systemPreview = await page.evaluate(
-    () => window.__SKIMMER_SCRAPER__.snapshot().voice.preview,
-  );
-  await persist();
-  await page.locator('#voice-output').selectOption('high-quality');
-  await page
-    .waitForFunction(
-      () =>
-        ['ready', 'error', 'unavailable', 'failed'].includes(
-          window.__SKIMMER_SCRAPER__.snapshot().voice.kokoro?.phase,
-        ),
-      null,
-      { timeout: 180000 },
-    )
-    .catch(() => {});
-  report.kokoro = await page.evaluate(
-    () => window.__SKIMMER_SCRAPER__.snapshot().voice.kokoro,
-  );
-  if (report.kokoro?.phase === 'ready') {
-    await page.locator('#voice-preview').click();
-    await page
-      .waitForFunction(
-        () =>
-          ['completed', 'failed'].includes(
-            window.__SKIMMER_SCRAPER__.snapshot().voice.preview.phase,
-          ),
-        null,
-        { timeout: 80000 },
-      )
-      .catch(() => {});
-    report.kokoroPreview = await page.evaluate(
-      () => window.__SKIMMER_SCRAPER__.snapshot().voice.preview,
-    );
+  await page.locator('#voice-output').selectOption('local');
+  report.characterPreviews = [];
+  for (const language of ['zh-CN','en-US']) {
+    await page.locator('#voice-language').selectOption(language);
+    for (const agent of [1, 2, 3]) {
+      await page.locator('#voice-preview-agent').selectOption(String(agent));
+      const response = page.waitForResponse(r => new URL(r.url()).pathname.endsWith('/radio/' + language + '/' + agent + '-preview.opus') && r.ok());
+      await page.locator('#voice-preview').click();
+      await response;
+      await page.waitForFunction(() => window.__SKIMMER_SCRAPER__.snapshot().voice.preview.phase === 'completed');
+      report.characterPreviews.push({ language, agent, completed: true });
+    }
   }
+  assert.deepEqual(modelRequests, []);
   await persist();
   const permission = await page.evaluate(() =>
     navigator.permissions.query({ name: 'microphone' }).then((s) => s.state),

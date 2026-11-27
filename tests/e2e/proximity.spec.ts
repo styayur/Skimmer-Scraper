@@ -52,7 +52,7 @@ test.describe('phase 2 proximity and collision rules', () => {
       return bridge?.snapshot().ready === true && bridge.snapshot().mode === 'running';
     });
 
-    await expect(page.locator('#surface-state')).toHaveText('SURFACE LOCK');
+    await expect(page.locator('#surface-state')).toHaveText('已锁定表面');
     const near = await snapshot(page);
     expect(near.surfaceLocked).toBe(true);
     expect(near.surfaceDistance).not.toBeNull();

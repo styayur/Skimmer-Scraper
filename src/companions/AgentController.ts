@@ -67,6 +67,11 @@ export class CompanionTeam {
     return true;
   }
   public clearTargets(): void { this.overrides.clear(); for (const agent of this.agents) agent.perceptionIn = 0; }
+  public clearTarget(id: number): void {
+    this.overrides.delete(id);
+    const agent = this.agents.find(member=>member.id===id);
+    if (agent) agent.perceptionIn=0;
+  }
   public relocate(delta: Vec3): void {
     for (const agent of this.agents) {
       agent.flight = { ...agent.flight, position: add(agent.flight.position, delta) };
@@ -204,8 +209,13 @@ export class CompanionTeam {
     const spread = (this.settings.formation === 'spread' ? 1.65 : 1) * (1.25 - this.cooperation.trust * 0.5);
     const side = this.settings.formation === 'line' ? 0 : id === 3 ? 0 : id === 1 ? -1 : 1;
     const ahead = this.settings.formation === 'line' ? 8 + id * 15 : id === 3 ? -2 : 14;
-    const independent = this.settings.behavior === 'independent' ? Math.sin(this.elapsed * 0.25 + id * 2) * 12 : 0;
-    const target = add(add(player.position, scale(forward, ahead)), scale(right, side * 14 * spread + independent));
+    const independent = this.settings.behavior === 'independent';
+    // Keep independent follow relative to the pilot. Navigator ranges ahead, Guardian stays
+    // close on the flank, Explorer sweeps a wider arc whenever the local airspace is clear.
+    const scouting = id===3 && (this.agents.find(a=>a.id===id)?.surfaceDistance??Infinity)>32;
+    const lateral = independent ? Math.sin(this.elapsed * 0.25 + id * 2) * (scouting?22:id===2?2:8) : 0;
+    const along = ahead + (independent && id===1?18:0);
+    const target = add(add(player.position, scale(forward, along)), scale(right, side * 14 * spread + lateral));
     target.y += 4 + Math.sin(this.elapsed * 0.6 + id) * 2 + (id === 3 ? 2 : 0);
     return target;
   }

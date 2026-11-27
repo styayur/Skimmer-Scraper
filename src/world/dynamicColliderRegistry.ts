@@ -33,6 +33,14 @@ const writeVector = ({ x, y, z }: Vec3): Vec3 => ({ x, y, z });
 const tolerance = 0.001;
 const pose = (): Pose => ({ position: new Vector3(), rotation: new Quaternion(), scale: new Vector3() });
 
+function translationVelocity(collider: Collider, target: Vector3) {
+  const { previous, current, displacement, tickSeconds } = collider;
+  if (!displacement || tickSeconds <= 0) return target.set(0, 0, 0);
+  const p = previous.elements, c = current.elements;
+  if (!c.every((v, i) => (i >= 12 && i <= 14) || v === p[i])) return null;
+  return target.set(c[12] - p[12], c[13] - p[13], c[14] - p[14]).divideScalar(tickSeconds);
+}
+
 /** The BVH stays in model space. Matrices and bounds advance with the simulation. */
 export class DynamicColliderRegistry {
   private contactTriangle = -1;
@@ -106,12 +114,17 @@ export class DynamicColliderRegistry {
     collider.displacement = displacement;
   }
 
-  public queryNearest(position: Vec3, range: number, proximityOnly = false, contact = false): SurfaceQuery | null {
+  public queryNearest(position: Vec3, range: number, proximityOnly = false, contact = false, seconds = 0): SurfaceQuery | null {
     if (!(range >= 0)) return null;
     this.worldPoint.set(position.x, position.y, position.z);
     let nearest: SurfaceQuery | null = null;
     let best = range;
     for (const collider of this.colliders.values()) {
+      if (seconds > 0) {
+        this.worldPoint.copy(position);
+        const velocity = translationVelocity(collider, this.localOnSurface);
+        if (velocity) this.worldPoint.addScaledVector(velocity, -seconds);
+      }
       if ((proximityOnly && !collider.proximity) || collider.currentBounds.distanceToPoint(this.worldPoint) > best) continue;
       const distance = this.nearestAt(collider, collider.current, collider.inverse, best, contact);
       if (distance < best) {
@@ -169,6 +182,31 @@ export class DynamicColliderRegistry {
   }
 
   public get count(): number { return this.colliders.size; }
+
+  public glideChordClear(from: Vec3, to: Vec3, radius: number, start: number, end: number): boolean {
+    for (const collider of this.colliders.values()) {
+      const { current, displacement, tickSeconds } = collider;
+      const a = this.corner.copy(from);
+      const b = this.previousCorner.copy(to);
+      let uncertainty = 0;
+      if (displacement > 0 && tickSeconds > 0) {
+        const velocity = translationVelocity(collider, this.localOnSurface);
+        if (velocity) {
+          a.addScaledVector(velocity, -start);
+          b.addScaledVector(velocity, -end);
+        } else {
+          // Support arbitrary animated affine poses by inflating by the measured
+          // maximum vertex travel. The next fixed tick rechecks the actual pose.
+          uncertainty = end * displacement / tickSeconds;
+        }
+      }
+      this.worldPoint.addVectors(a, b).multiplyScalar(0.5);
+      const reach = radius + a.distanceTo(b) / 2 + uncertainty;
+      if (collider.currentBounds.distanceToPoint(this.worldPoint) <= reach &&
+          this.nearestAt(collider, current, collider.inverse, reach) <= reach) return false;
+    }
+    return true;
+  }
 
   public remove(id: string): void {
     const collider = this.colliders.get(id);

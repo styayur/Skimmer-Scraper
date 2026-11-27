@@ -113,7 +113,7 @@ test.describe('v0.2 phase 3 infinite world streaming', () => {
       const observations: { runTime: number; label: string }[] = [];
       const observe = () => {
         const label = element.textContent ?? '';
-        if (label.includes('WORLD STREAM') && bridge.snapshot().buffering && observations.length === 0) {
+        if (label.includes('区块缓冲') && bridge.snapshot().buffering && observations.length === 0) {
           observations.push({ runTime: bridge.snapshot().runTime, label });
         }
       };
@@ -129,7 +129,7 @@ test.describe('v0.2 phase 3 infinite world streaming', () => {
       }
     });
     if (!bufferedAt) throw new Error('Did not observe the collision buffering state.');
-    expect(bufferedAt.label).toContain('WORLD STREAM');
+    expect(bufferedAt.label).toContain('区块缓冲');
     expect(committed.buffering).toBe(false);
     expect(committed.position.x).toBeCloseTo(12_105, 2);
 
@@ -194,7 +194,7 @@ test.describe('v0.2 phase 3 infinite world streaming', () => {
     expect(final.render.calls).toBeGreaterThan(0);
     expect(final.render.triangles).toBeGreaterThan(10_000);
 
-    await expect(page.locator('#surface-state')).not.toContainText('WORLD STREAM');
+    await expect(page.locator('#surface-state')).not.toContainText('区块缓冲');
     await page.screenshot({
       path: 'evidence/v0.3/regression/v0.2/phase-3-streaming.png',
       fullPage: true,

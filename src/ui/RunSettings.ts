@@ -1,3 +1,4 @@
+import { t } from '../i18n';
 import type { RuleConfig } from '../game/ruleConfig';
 
 /** Edits pre-flight options through a composition-root callback. */
@@ -16,7 +17,7 @@ export class RunSettingsPanel {
       const locked = !canEdit();
       for (const field of [mode, grace, shield]) field.disabled = locked;
       note.hidden = !locked;
-      note.textContent = locked ? '规则已锁定，返回标题可修改。' : '';
+      note.textContent = locked ? t('runSettings.rulesAreLockedReturnToTheTitle') : '';
     });
     const change = (): void => {
       if (!canEdit()) return;

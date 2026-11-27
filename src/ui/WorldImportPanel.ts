@@ -1,3 +1,5 @@
+import { localizeDiagnostic } from '../i18n/diagnostics';
+import { t, selectedLocale } from '../i18n';
 import type { ImportedWorldAdapter } from '../world/imports/importedWorldAdapter';
 import type { ImportVariantRequest, WorldImporter } from '../world/imports/worldImporter';
 import type { WorldLibrary } from '../platform/worldLibrary';
@@ -85,7 +87,7 @@ export class WorldImportPanel {
     this.cancel.addEventListener('click', () => {
       this.pendingSeed = null;
       this.discard();
-      this.status.textContent = '已取消导入。';
+      this.status.textContent = t('worldImportPanel.importCancelled');
     });
     this.manual.addEventListener('change', () => { this.position.disabled = !this.manual.checked; });
     this.meshes.addEventListener('change', () => this.updateRole());
@@ -96,13 +98,13 @@ export class WorldImportPanel {
     get<HTMLInputElement>('motion-running').addEventListener('change', event => this.hooks.motion((event.target as HTMLInputElement).checked));
     get<HTMLInputElement>('motion-preview').addEventListener('change', event => this.hooks.preview((event.target as HTMLInputElement).checked));
     get('builtin').addEventListener('click', () => {
-      void this.run('正在准备程序城市…', current => this.hooks.builtIn(current));
+      void this.run(t('worldImportPanel.preparingProceduralCity'), current => this.hooks.builtIn(current));
     });
     get('new-variant').addEventListener('click', () => {
       const current = this.active;
       if (!current) return;
       const { world: { manifest }, source } = current;
-      void this.run('正在生成新变体…', task => this.openVisit(
+      void this.run(t('worldImportPanel.generatingANewVariant'), task => this.openVisit(
         { fingerprint: manifest.id, variant: newImportedVariant(manifest.variant?.seed), options: manifest.options },
         source.data, manifest.name, source.saved, false, task,
       ));
@@ -110,7 +112,7 @@ export class WorldImportPanel {
     get('keep').addEventListener('click', () => {
       const active = this.active;
       if (!active) return;
-      void this.run('正在保留当前世界…', async current => {
+      void this.run(t('worldImportPanel.savingTheCurrentWorld'), async current => {
         const { manifest } = active.world;
         await store.save(manifest, active.source.data, manifest.variant?.seed ?? 0);
         if (!current()) return;
@@ -118,12 +120,12 @@ export class WorldImportPanel {
         this.rememberVisit();
         void this.refresh();
         this.status.textContent = '';
-        hooks.notice('当前世界已保留。');
+        hooks.notice(t('worldImportPanel.currentWorldSaved'));
       });
     });
     this.analyze.addEventListener('click', () => {
       const file = this.currentFile;
-      if (file) void this.run('正在分析模型和碰撞网格…', async current => {
+      if (file) void this.run(t('worldImportPanel.analyzingModelAndCollisionMeshes'), async current => {
         const data = await hooks.read(file);
         if (!current()) return;
         const seed = this.pendingSeed;
@@ -133,17 +135,17 @@ export class WorldImportPanel {
     });
     get('load').addEventListener('click', () => {
       this.pendingSeed = null;
-      void this.run('正在打开本地世界…', async current => {
+      void this.run(t('worldImportPanel.openingLocalWorld'), async current => {
         const record = await this.store.get(this.select.value);
-        if (!record) throw new Error('此世界已从本机移除。');
+        if (!record) throw new Error(t('worldImportPanel.thisWorldWasRemovedFromThisDevice'));
         if (current()) await this.prepare(record.data, record.manifest.name, record.manifest.options, current,
           { keptVariant: record.keptVariant });
       });
     });
     get('export').addEventListener('click', () => {
-      void this.run('正在导出 GLB…', async current => {
+      void this.run(t('worldImportPanel.exportingGLB'), async current => {
         const record = await this.store.get(this.select.value);
-        if (!record) throw new Error('此世界已从本机移除。');
+        if (!record) throw new Error(t('worldImportPanel.thisWorldWasRemovedFromThisDevice'));
         if (!current()) return;
         const link = document.createElement('a');
         const url = URL.createObjectURL(new Blob([record.data], { type: 'model/gltf-binary' }));
@@ -151,11 +153,11 @@ export class WorldImportPanel {
         link.download = record.manifest.name + '.glb';
         link.click();
         setTimeout(() => URL.revokeObjectURL(url), 30000);
-        this.status.textContent = '已导出 GLB。可在另一端导入，并粘贴原世界种子复现布局。';
+        this.status.textContent = t('worldImportPanel.exported');
       });
     });
     get('remove').addEventListener('click', () => {
-      void this.run('正在移除本地副本…', async current => {
+      void this.run(t('worldImportPanel.removingLocalCopy'), async current => {
         const id = this.select.value;
         await this.store.remove(id);
         if (this.active?.world.manifest.id === id) {
@@ -163,7 +165,7 @@ export class WorldImportPanel {
           this.rememberVisit();
         }
         await this.refresh();
-        if (current()) this.status.textContent = '本地副本已移除。';
+        if (current()) this.status.textContent = t('worldImportPanel.localCopyRemoved');
       });
     });
     this.form.addEventListener('submit', event => {
@@ -176,12 +178,12 @@ export class WorldImportPanel {
     this.active = world && source ? { world, source } : null;
     this.pendingSeed = null;
     get('active').hidden = world === null;
-    get('name').textContent = world ? `当前世界 · ${world.manifest.name}` : '';
+    get('name').textContent = world ? t('worldImportPanel.activeWorldName', { name: world.manifest.name }) : '';
     get<HTMLInputElement>('collision').checked = world?.isCollisionVisible() ?? false;
     get('motion-controls').hidden = !world || !(world.manifest.animations.length || world.manifest.meshRoles.some(mesh => mesh.motion));
     get<HTMLInputElement>('motion-running').checked = world?.isMotionRunning() ?? false;
     this.seedForm.toggleAttribute('data-imported', !!world);
-    this.seedForm.querySelector<HTMLButtonElement>('[type=submit]')!.textContent = world ? '使用种子' : '生成并重载';
+    this.seedForm.querySelector<HTMLButtonElement>('[type=submit]')!.textContent = world ? t('worldImportPanel.applySeed') : t('ui.generateAndReload');
     this.seedForm.querySelector<HTMLElement>('[data-help-section]')!.dataset.helpSection = world ? 'guide-variants' : 'guide-world';
     if (world) this.seedInput.value = this.activeSeed ?? '';
     this.rememberVisit();
@@ -197,7 +199,7 @@ export class WorldImportPanel {
   public useSeed(value: string): boolean {
     if (!isImportedSeed(value)) return false;
     this.library.open = true;
-    void this.run('正在复现本地世界…', async current => {
+    void this.run(t('worldImportPanel.rebuildingLocalWorld'), async current => {
       this.pendingSeed = null;
       const seed = decodeImportedWorldSeed(value);
       const active = this.active;
@@ -209,7 +211,7 @@ export class WorldImportPanel {
       if (!current()) return;
       if (!record) {
         this.pendingSeed = seed;
-        throw new Error('此种子需要原始 GLB。请选择匹配的文件，再点「分析场景」。');
+        throw new Error(t('worldImportPanel.seedNeedsOriginal'));
       }
       await this.openVisit(seed, record.data, record.manifest.name, true, true, current);
     });
@@ -226,12 +228,12 @@ export class WorldImportPanel {
       if (visit.url !== location.href || typeof visit.seed !== 'string') return;
       const seed = decodeImportedWorldSeed(visit.seed);
       const record = await this.store.get(seed.fingerprint);
-      if (!record) throw new Error('此世界需要重新导入原始 GLB。');
+      if (!record) throw new Error(t('worldImportPanel.reimportOriginal'));
       if (!visit.replay) seed.variant = newImportedVariant(seed.variant);
       await this.openVisit(seed, record.data, record.manifest.name, true, !!visit.replay, () => true);
     } catch (error) {
       this.rememberVisit();
-      this.hooks.notice(error instanceof Error ? error.message : '无法恢复本地世界。', true);
+      this.hooks.notice(error instanceof Error ? localizeDiagnostic(error.message) : t('worldImportPanel.couldNotRestoreTheLocalWorld'), true);
     }
   }
 
@@ -260,20 +262,20 @@ export class WorldImportPanel {
       world.dispose();
       throw error;
     }
-    if (seed.variant && !world.manifest.variant) this.hooks.notice('此变体没有安全航线，已打开原始城市。', true);
+    if (seed.variant && !world.manifest.variant) this.hooks.notice(t('worldImportPanel.variantFallback'), true);
   }
 
   private selectFile(file?: File): void {
     if (!file || this.busy) return;
     this.discard();
     if (!/\.glb$/i.test(file.name) || file.size > WORLD_IMPORT_LIMITS.bytes) {
-      this.status.textContent = '请选择 128 MB 以内的自包含 .glb 世界。';
+      this.status.textContent = t('worldImportPanel.fileRequirements');
       return;
     }
     this.currentFile = file;
     this.analyze.hidden = false;
     this.cancel.hidden = false;
-    const warning = file.size > 32 * 1024 * 1024 ? '。大型 GLB 解码和生成碰撞索引时会额外占用内存，可先取消。' : '';
+    const warning = file.size > 32 * 1024 * 1024 ? t('worldImportPanel.largeFileWarning') : '';
     this.status.textContent = `${file.name} · ${fileSize(file.size)}${warning}`;
   }
 
@@ -285,7 +287,7 @@ export class WorldImportPanel {
       if (saved.some(item => item.id === selected)) this.select.value = selected;
       get('saved').hidden = saved.length === 0;
     } catch {
-      this.status.textContent = '本地世界库不可用，仍可载入文件并仅使用本次。';
+      this.status.textContent = t('worldImportPanel.sessionOnly');
     }
   }
 
@@ -314,7 +316,7 @@ export class WorldImportPanel {
       await new Promise(requestAnimationFrame);
       if (current()) await operation(current);
     } catch (error) {
-      if (current()) this.status.textContent = error instanceof Error ? error.message : '无法读取本地世界。';
+      if (current()) this.status.textContent = error instanceof Error ? localizeDiagnostic(error.message) : t('worldImportPanel.couldNotReadTheLocalWorld');
     } finally {
       this.busy = false;
       for (const control of [...buttons, this.file, this.select]) control.disabled = false;
@@ -339,8 +341,8 @@ export class WorldImportPanel {
     const { x, y, z } = world.getDefaultSpawn().position;
     const lengths = Object.values(manifest.bounds).map(value => value.toFixed(1)).join(' × ');
     const textureMiB = Math.ceil(manifest.texturePixels * 4 / (1024 * 1024));
-    get('summary').textContent = `${manifest.name} · ${lengths} 米 · ${manifest.nodes} 节点 · ${manifest.triangles.toLocaleString()} 三角面 · ${manifest.materials} 材质 · ${manifest.textures} 纹理（解码约 ${textureMiB} MB） · ${manifest.animations.length} 个动画片段`;
-    this.status.textContent = manifest.triangles > 450_000 || textureMiB > 80 ? '场景较大，可能降低帧率。可取消导入。' : '';
+    get('summary').textContent = t('worldImportPanel.sceneSummary', { name: manifest.name, lengths, nodes: manifest.nodes, triangles: manifest.triangles.toLocaleString(selectedLocale), materials: manifest.materials, textures: manifest.textures, textureMiB, clips: manifest.animations.length });
+    this.status.textContent = manifest.triangles > 450_000 || textureMiB > 80 ? t('worldImportPanel.thisLargeSceneMayReduceFrameRate') : '';
     this.roles = { ...options.roles };
     this.meshes.replaceChildren(...manifest.meshRoles.map(mesh => new Option(mesh.name, mesh.id)));
     this.updateRole();
@@ -371,7 +373,7 @@ export class WorldImportPanel {
       ...(motion ? { motion } : {}),
     };
     const shouldSave = this.save.checked;
-    await this.run('正在准备世界…', async current => {
+    await this.run(t('worldImportPanel.preparingWorld'), async current => {
       const changed = JSON.stringify(options) !== JSON.stringify(draft.world.manifest.options);
       const keptVariant = draft.saved?.keptVariant;
       const variant = keptVariant ?? (draft.saved ? newImportedVariant() : 0);
@@ -386,7 +388,7 @@ export class WorldImportPanel {
         if (world !== draft.world) draft.world.dispose();
         this.draft = null;
         this.hooks.apply(world, { data: draft.data, saved: shouldSave || !!draft.saved, replay: keptVariant !== undefined });
-        if (variant && !world.manifest.variant) this.hooks.notice('此变体没有安全航线，已打开原始城市。', true);
+        if (variant && !world.manifest.variant) this.hooks.notice(t('worldImportPanel.variantFallback'), true);
         applied = true;
       } finally {
         if (!applied && (world !== draft.world || !this.draft)) world.dispose();

@@ -104,7 +104,7 @@ export class KeyboardInputSource implements InputSource {
       event.preventDefault();
     } else if (this.enabled && flightCodes.has(event.code)) {
       event.preventDefault();
-      this.pressed.add(event.code);
+      if (!event.repeat) this.pressed.add(event.code);
     }
   };
 

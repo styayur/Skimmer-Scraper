@@ -39,8 +39,8 @@ test('local radio responds to text, changes a scout route and keeps concise mute
   await input.fill('二号去侦察左侧');
   await input.press('Enter');
   await expect.poll(async () => (await snapshot(page)).cooperation.lastPlan?.orders[0]?.action).toBe('SCOUT');
-  await expect(page.locator('#radio-subtitle')).toContainText('Guardian');
-  await expect(page.locator('#radio-subtitle')).toContainText('侦察左翼');
+  await expect(page.locator('#radio-subtitle')).toContainText('护航员');
+  await expect(page.locator('#radio-subtitle')).toContainText('收到，护航开始行动。');
   mkdirSync(output, { recursive: true });
   await page.screenshot({ path: `${output}/radio-subtitle.png`, animations: 'disabled' });
   const after = await page.evaluate(() => window.__SKIMMER_SCRAPER__!.advance(2));
@@ -56,7 +56,7 @@ test('local radio responds to text, changes a scout route and keeps concise mute
   await expect.poll(async () => (await snapshot(page)).cooperation.lastPlan?.orders[0]?.action).toBe('LEAD');
   await expect(page.locator('#radio-subtitle')).toBeHidden();
   await page.keyboard.press('t');
-  await expect(page.locator('#radio-history')).toContainText('开始前出领航');
+  await expect(page.locator('#radio-history')).toContainText('指令收到。');
   const muted = await snapshot(page);
   expect(muted.cooperation.radio.muted).toBe(true);
   expect(errors).toEqual([]);
@@ -65,6 +65,32 @@ test('local radio responds to text, changes a scout route and keeps concise mute
     before: before.companions, after: after.companions, radio: after.cooperation.radio,
     outcomes: after.cooperation.trace.filter(event => event.event.startsWith('radio-')), muted: muted.cooperation.radio, errors, outbound,
   }, null, 2));
+});
+
+test('a delayed character clip enters history before the audible subtitle and clears it on completion', async ({ page }) => {
+  test.setTimeout(120_000);
+  await page.setViewportSize({ width: 640, height: 360 });
+  await page.addInitScript(() => {
+    // Saving voice settings selects the returning-pilot setup, including its saved wingmate count.
+    localStorage.setItem('skimmer-scraper.rules.v3', JSON.stringify({ mode: 'free' }));
+    localStorage.setItem('skimmer-scraper.companions.v3', JSON.stringify({ count: 2 }));
+    localStorage.setItem('skimmer-scraper.voice.v1', JSON.stringify({ output: 'local', language: 'en-US' }));
+  });
+  let release!: () => void;
+  const gate = new Promise<void>(resolve => { release = resolve; });
+  await page.route('**/radio/en-US/2-command.opus', async route => { await gate; await route.continue(); });
+  await startClearFlight(page);
+  const subtitle = page.locator('#radio-subtitle');
+  const expected = 'Copy. Guardian moving.';
+  try {
+    await Promise.all([page.waitForRequest('**/radio/en-US/2-command.opus'), send(page, '二号去侦察左侧')]);
+    const history = (await snapshot(page)).cooperation.radio.history;
+    expect(history.find(line => line.catalog?.catalogId === '2-command')).toMatchObject({ text: expected, locale: 'en-US' });
+    await expect(subtitle).toBeHidden();
+  } finally { release(); }
+  await expect(subtitle).toContainText(expected);
+  await expect.poll(async () => (await snapshot(page)).voice.lastCompleted?.voiceId).toBe('2-command');
+  await expect(subtitle).not.toContainText(expected);
 });
 
 test('a mocked model validates orders, disconnect restores local radio, and reconnect resumes model orders', async ({ page }) => {

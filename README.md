@@ -1,6 +1,16 @@
 # Skimmer-Scraper
 
-## v0.9.0 development
+[简体中文](README.zh-CN.md) · [Play online](https://styayur.github.io/Skimmer-Scraper/) · [Windows downloads](https://github.com/styayur/Skimmer-Scraper/releases/latest)
+
+## SHIFT · Surface & Symbiosis
+
+**Shift your flight. Shift your gravity. Shift your world.** Fly in shielded Free Flight to practice surface maneuvers. Press Space or LB to engage Surface Glide and press it again to launch. In Surface Challenge, using motion assistance places the score in a separate category. Your original personal best stays available.
+
+The Flight Guide follows your browser language. Chinese regional settings use Simplified Chinese, and other settings use English. Press **T** and try **KITE-2 escort me**. [Wingmate missions](docs/COMPANION-INTELLIGENCE.md)
+
+The game includes its aircraft, generated worlds, collision geometry and local radio. You can fly with three wingmates without an account, API key or world pack. The in-game tutorial covers flight controls, surface maneuvers, wingmates and world changes. [Theme and AI disclosure](docs/GAME-OFF.md)
+
+## Worlds and aircraft
 
 WorldForge adds a seeded world of rock shelves, suspended islands and traversable vaults. Press Space or LB to arm Surface Glide near a wall, roof or overhang. Pick KITE-W or KITE-S in the hangar. The optional companion radio plays local Mandarin or English clips with matching captions. Enable original world-specific music under advanced flight settings.
 
@@ -50,9 +60,9 @@ Run `npm ci`, `npm run build`, and `npm run preview` to play locally. The
 static ZIP runs on a static HTTP server. The build uses WebGL2 and contains
 its source revision, licenses and credits. [Releases](https://github.com/styayur/Skimmer-Scraper/releases) · [Deployment](docs/DEPLOYMENT.md) · [Acceptance](docs/ACCEPTANCE.md)
 
-<img src="evidence/v0.7/pr4/title.jpg" alt="Title screen above the new sakura-dusk district" width="100%">
+<img src="docs/game-off/en-US-title.png" alt="English title screen at street level in the sakura-dusk city" width="100%">
 
-<img src="evidence/v0.7/pr4/chase.jpg" alt="Chase view approaching the streamed tower district" width="100%">
+<img src="docs/game-off/en-US-flight.png" alt="Chase view with three wingmates and a departure transmission" width="100%">
 
 ## Challenge mode
 
@@ -67,9 +77,9 @@ its source revision, licenses and credits. [Releases](https://github.com/styayur
 
 ## Controls
 
-Open **游戏教程** from the title screen or press **H**. Search by control name,
+Open **Flight Guide** from the title screen or press **H**. Search by control name,
 topic or provider. In settings, **?** opens the matching chapter and closing the
-tutorial returns to the same control. Use **复制种子** to copy a seed. Saved city URLs still restore their original world parameters. Older Dragonspine URLs open the unified world with the same seed.
+tutorial returns to the same control. Use **Copy seed** to copy a seed. Saved city URLs still restore their original world parameters. Older Dragonspine URLs open the unified world with the same seed.
 
 | Input | Action |
 | --- | --- |
@@ -77,6 +87,8 @@ tutorial returns to the same control. Use **复制种子** to copy a seed. Saved
 | A / D or Arrow Left / Right | Roll |
 | Q / E | Yaw |
 | Shift | Boost |
+| Space / gamepad LB | Arm Surface Glide or launch from a surface |
+| Alt+Enter | Toggle fullscreen |
 | C | Switch between Chase and Cockpit |
 | R | Instant retry |
 | Esc / gamepad Menu | Pause or close the current panel |
@@ -91,7 +103,7 @@ tutorial returns to the same control. Use **复制种子** to copy a seed. Saved
 
 ## Local GLB aircraft
 
-Open the aircraft library and choose **导入本机 GLB**. The app validates the GLB, rejects external
+Open the aircraft library and choose **Import local GLB**. The app validates the GLB, rejects external
 resource URIs, stores the file in IndexedDB, and preserves authored materials while normalizing the
 model to an 8 m envelope. Imported models can be rotated 180° or removed. No model bytes are uploaded.
 

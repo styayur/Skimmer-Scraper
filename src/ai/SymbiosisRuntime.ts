@@ -8,7 +8,14 @@ import { ModelClient, type ModelReply } from './modelClient';
 import { validatePlan } from './validator';
 import type { AgentAction, Perception, ValidatedPlan } from './contracts';
 import { RadioDialogue, radioLanguageOf, radioText, type RadioLanguage, type RadioPriority } from './radioDialogue';
+import { selectedLocale } from '../i18n/locale';
 import { addressedAgent, localRadioIntent, localRadioReply, type LocalRadioIntent } from './radioCommands';
+import { CompanionMemory } from './companionMemory';
+import { groundedDialogue } from './groundedDialogue';
+import { readUtterance, type SpeechAct } from './radioSpeech';
+import { directive, explicitLegacy, missionCommand, missionName, missionPrefix, missionReason, missionReport } from './missionCommands';
+import { matchesMissionIntent, MissionExecutive, validateMissions, type MissionContext, type MissionPlan, type MissionRecord } from './missions';
+import { clearApproach, SemanticTargets } from './semanticTargets';
 
 interface Context { player:FlightState; rules:RunRulesState; world:CompanionWorld; seed:number; active:boolean }
 interface Trace { time:number; event:string; data:unknown }
@@ -19,15 +26,12 @@ interface RadioOutcome {
   starts: Array<{ id: number; position: Vec3; action: AgentAction }>;
   chinese: boolean;
 }
-const readRadioReply = (raw: unknown): { plan: unknown; agent: number; text: string } | null => {
+const readRadioReply = (raw: unknown) => {
   if (!raw || typeof raw !== 'object' || Array.isArray(raw) || Object.keys(raw).length !== 2) return null;
-  const envelope = raw as { plan?: unknown; reply?: { agentId?: unknown; text?: unknown } };
-  const reply = envelope.reply;
-  if (!Object.hasOwn(envelope, 'plan') || !reply || typeof reply !== 'object' || Array.isArray(reply) || Object.keys(reply).length !== 2
-      || typeof reply.agentId !== 'number' || !Number.isInteger(reply.agentId) || typeof reply.text !== 'string'
-      || Array.from(reply.text).length > 140) return null;
-  const text = radioText(reply.text, 140);
-  return text ? { plan: envelope.plan, agent: reply.agentId, text } : null;
+  const envelope = raw as Record<string, unknown>;
+  if (!Object.hasOwn(envelope, 'plan')) return null;
+  const reply = readUtterance(envelope.reply);
+  return reply ? { plan: envelope.plan, ...reply } : null;
 };
 const tasks:Record<AgentAction,AgentTask>={FOLLOW:'FORMATION_FOLLOW',LEAD:'LEAD',REGROUP:'REGROUP',SCOUT:'SCOUT',PROTECT:'PROTECT',RELAY:'RELAY',HOLD:'HOLD'};
 /** Plain bounded state; async planning never runs inside fixed-step physics. */
@@ -49,29 +53,72 @@ export class SymbiosisRuntime {
   private radioOutcome: RadioOutcome | null = null;
   private nextReport = 0;
   private nextRisk = 0;
-  public constructor(public readonly team:CompanionTeam,public readonly client=new ModelClient()){}
+  private readonly pictures=new Map<string,{perception:Perception;registry:SemanticTargets}>();
+  private readonly dialogue=new CompanionMemory();
+  private readonly missions:MissionExecutive;
+  private nextMissionTick=0;
+  public constructor(public readonly team:CompanionTeam,public readonly client=new ModelClient()){
+    this.missions=new MissionExecutive(team,result=>this.missionOutcome(result));
+  }
   public reset():void {
     this.invalidate();this.time=0;this.trust=createTrust();this.relay=createRelay();this.trace=[];this.memory=[];
     this.cooldowns.clear();this.separated.clear();this.impacts=0;this.lastOutcome=0;
+    this.missions.reset();this.dialogue.clear();this.used.clear();
     this.radio.reset();this.nextReport=0;this.nextRisk=0;
   }
   public invalidate():void {
+    this.missions.invalidate();this.pictures.clear();this.nextMissionTick=0;
     this.epoch++;this.client.cancel();this.team.clearTargets();this.lastPlan=null;this.lead=null;
     this.context=null;this.planner='Local Autonomous Controller';this.relayFlash=null;
     this.separated.clear();this.impacts=this.team.agents.reduce((count,agent)=>count+agent.impacts,0);
     this.radioGeneration++;this.radioPending=false;this.radioPlanUntil=0;this.radioOutcome=null;this.radio.interrupt();
   }
-  public suspend():void { if(this.context?.active)this.invalidate(); }
+  public suspend():void {
+    if (!this.context?.active) return;
+    this.context.active=false;this.pictures.clear();
+    this.client.cancel();this.radioGeneration++;this.radioPending=false;this.radio.interrupt();
+  }
+  public disconnectModel(): void {
+    this.client.disconnect();
+    this.radioGeneration++;
+    this.radioPending = false;
+    if (this.lastPlan && this.planner.startsWith('Model Planner')) {
+      const agents = this.lastPlan.orders.flatMap(order => order.agents);
+      for (const id of agents) this.team.clearTarget(id);
+      this.removeOrders(agents);
+      this.team.cooperation.risk = 0.3;
+    }
+  }
+  private missionContext():MissionContext {
+    const c=this.context!;
+    return {team:this.team,world:c.world,time:this.time,epoch:this.epoch,player:c.player.position,active:c.active,
+      relayReason:id=>{
+        const partner=this.team.agents.find(a=>a.id===id);
+        return partner?relayEligibility(this.relay,{time:this.time,trust:this.trust.value,player:c.player.position,
+          rules:c.rules,world:c.world,partner,requested:true}):'agent-unavailable';
+      }};
+  }
+  private episode(event:string,action:string,progress:number):void {
+    this.memory.push({event,action,progress});if(this.memory.length>24)this.memory.shift();
+  }
+  private missionOutcome(result:MissionRecord):void {
+    this.record('mission-outcome',result);this.episode(result.outcome,result.type,result.progress);
+    if (!this.context?.active || result.reason==='world-changed' || result.reason==='replaced') return;
+    const speaker=this.radioAgent(result.agentId);if(speaker===null)return;
+    const locale=this.radioLanguage??selectedLocale, en=locale==='en-US';
+    this.radio.report(speaker,missionReport(result,en),'local','notice',this.time,locale);
+  }
   private record(event:string,data:unknown):void {this.trace.push({time:this.time,event,data});if(this.trace.length>256)this.trace.shift();}
   private event(event:TrustEvent,identity:string=event,cooldown=10):void {
     if(this.time<(this.cooldowns.get(identity)??-Infinity))return;
     this.cooldowns.set(identity,this.time+cooldown);this.trust=trustEvent(this.trust,event,this.time);
     this.record('trust',this.trust.events.at(-1));
-    if(event==='accepted-lead')this.flightReport(1,['领先航段已确认，继续沿安全间隔飞行。','Corridor is clear. Maintain separation.'],'notice','heading');
-    if(event==='regroup-benefit')this.flightReport(1,['队形已收拢，伴机回到你身边。','Formation closed. Wingmates back with you.'],'notice','formation');
-    if(event==='lost-coordination')this.flightReport(2,['编队距离拉大，正在重新集合。','Formation spreading. Regrouping now.'],'risk','risk');
-    if(event==='impact')this.flightReport(2,['伴机防护罩接触障碍，正在避开。','Wingmate shield contact. Avoiding.'],'risk','obstacle');
-    if(event==='relay-success')this.flightReport(2,['地表接力已生效。','Surface Relay active.'],'risk','rescue');
+    this.episode(event,'team',Math.round(this.trust.value*100));
+    if(event==='accepted-lead')this.flightReport(1, 'heading', 'notice');
+    if(event==='regroup-benefit')this.flightReport(1, 'formation', 'notice');
+    if(event==='lost-coordination')this.flightReport(2, 'risk', 'risk');
+    if(event==='impact')this.flightReport(2, 'obstacle', 'risk');
+    if(event==='relay-success')this.flightReport(2, 'rescue', 'risk');
   }
   public perception():Perception|null {
     const c=this.context;if(!c?.active||!this.team.agents.some(a=>a.deployed))return null;
@@ -81,6 +128,7 @@ export class SymbiosisRuntime {
       const position={x:c.player.position.x+f.x*90+right.x*side*38,y:c.player.position.y+f.y*90+8+Math.abs(side)*12,z:c.player.position.z+f.z*90+right.z*side*38};
       if((c.world.isCompanionCovered?.(position)??c.world.isCollisionCovered?.(position))===false)continue;
       const hit=c.world.queryNearest(position,40);if(hit&&hit.distance<=8)continue;
+      if(!clearApproach(c.world,c.player.position,position))continue;
       targets.push({id:side===0?'route-ahead':side<0?'route-left':'route-right',kind:'route',position,clearance:hit?.distance??null});
     }
     for(const agent of this.team.agents){
@@ -88,23 +136,28 @@ export class SymbiosisRuntime {
       if(agent.deployed&&!agent.uncovered&&hit&&hit.distance>6&&hit.distance<=32)
         targets.push({id:`surface-${agent.id}`,kind:'surface',agentId:agent.id,position:{...agent.flight.position},clearance:hit.distance});
     }
-    return{requestId:`${this.epoch}-${++this.serial}`,epoch:this.epoch,time:this.time,seed:c.seed,
+    const registry=new SemanticTargets();
+    targets.push(...registry.observe(c.world,c.player,this.epoch));
+    const perception:Perception={requestId:`${this.epoch}-${++this.serial}`,epoch:this.epoch,time:this.time,seed:c.seed,
       player:{position:{...c.player.position},velocity:{...c.player.velocity},grace:c.rules.grace,graceLimit:c.rules.config.graceSeconds,surfaceDistance:queryFlightSurface(c.world,c.player.position,90)?.distance??null,mode:c.rules.config.mode},
       trust:this.trust.value,riskLimit:clamp(0.15+this.trust.value*0.65,0.15,0.8),charges:this.relay.charges,
       relayReady:this.team.agents.some(partner=>!relayEligibility(this.relay,{time:this.time,trust:this.trust.value,player:c.player.position,rules:c.rules,world:c.world,partner,requested:true})),
       agents:this.team.agents.map(a=>({id:a.id,position:{...a.flight.position},velocity:{...a.flight.velocity},task:a.task,surfaceDistance:a.surfaceDistance,deployed:a.deployed&&!a.uncovered})),
       targets,memory:this.memory.slice(-8)};
+    this.pictures.set(perception.requestId,{perception:structuredClone(perception),registry});
+    if(this.pictures.size>16)this.pictures.delete(this.pictures.keys().next().value!);
+    return perception;
   }
   public async request():Promise<boolean>{
-    if(this.radioPending||this.time<this.radioPlanUntil||!this.client.canRequest())return false;
+    if(this.radioPending||this.missions.busy||this.time<this.radioPlanUntil||!this.client.backgroundAvailable()||!this.client.canRequest())return false;
     const perception=this.perception();if(!perception)return false;
-    this.record('perception',perception);const reply=await this.client.request(perception);
+    this.record('perception',perception);const reply=await this.client.request(perception,undefined,undefined,undefined,undefined,true);
     if(!reply){this.record('fallback',{reason:this.client.snapshot().error??'cancelled'});return false;}
     return this.accept(reply,perception,'Model Planner');
   }
 
   public canSendDialogue(): boolean {
-    return this.context?.active === true && !this.radioPending && this.team.agents.some(agent=>agent.deployed&&!agent.uncovered);
+    return this.context?.active === true && this.team.agents.some(agent=>agent.deployed&&!agent.uncovered);
   }
 
   /** Typed and transcribed commands share the existing plan validator and team controller. */
@@ -123,26 +176,97 @@ export class SymbiosisRuntime {
       }
       if(generation!==this.radioGeneration)return false;
       const perception=this.perception();if(!perception)return false;
-      const intent=localRadioIntent(message,perception,this.team.settings.formation);
+      const proposal=missionCommand(message,perception);
+      const explicitMission=missionPrefix.test(message);
+      const intent=!proposal&&explicitLegacy(message)?localRadioIntent(message,perception,this.team.settings.formation):null;
       const language=this.radioLanguage??radioLanguageOf(message);
-      const model=useModel&&this.client.canRequest(true) ? await this.client.request(perception,message,language,intent?.plan?.orders) : null;
-      if(generation!==this.radioGeneration||!this.context?.active)return false;
-      const response=model&&readRadioReply(model.decision);
-      if(model&&response&&radioLanguageOf(response.text)===language&&this.radioAgent(response.agent)===response.agent){
-        const isQuestion=response.plan===null;
-        if(isQuestion&&!intent || !isQuestion&&this.accept({...model,decision:response.plan},perception,'Model Radio',intent)){
-          this.radio.report(response.agent,response.text,'model','reply',this.time);
-          this.record('radio-interpretation',{source:'model',intent:intent?.kind??null,requestId:perception.requestId,agent:response.agent,
-            action:isQuestion?null:this.lastPlan?.orders,latencyMs:model.latencyMs,usage:model.usage});
-          if(!isQuestion)this.trackRadioOutcome(perception,response.agent,language);
-          return true;
+      const en=language==='en-US';
+      const speaker=this.radioAgent(addressedAgent(message)??proposal?.missions[0]?.agentIds[0]??intent?.agent??1)!;
+      const report=(text:string,agent=speaker,source:'model'|'local'='local')=>{
+        this.radio.report(agent,text,source,'reply',this.time,language);
+        this.dialogue.add({agent,epoch:this.epoch,pilot:message,reply:radioText(text,140)},useModel && this.client.snapshot().connected);
+        return true;
+      };
+      const addressed = addressedAgent(message);
+      if (addressed !== null && this.radioAgent(addressed) !== addressed)
+        return report(en ? 'That wingmate is unavailable.' : '指定的伴机暂时不可用。');
+      const conversation = (agent: number, picture: Perception, act?: SpeechAct) => {
+        const latest = this.missions.snapshot().filter(m => m.agentId === agent && m.epoch === this.epoch).at(-1);
+        return groundedDialogue(message, agent, language, picture, latest, this.dialogue.recent(agent), act);
+      };
+      if (/^(?:cancel|abort|stand down|取消|撤销|停止任务)/i.test(directive(message)??'')) {
+        const id=addressedAgent(message);
+        const ids=id===null?perception.agents.map(a=>a.id):[id];
+        const active=this.missions.snapshot().some(m=>m.outcome==='running'&&ids.includes(m.agentId)) ||
+          this.lastPlan?.orders.some(o=>o.agents.some(a=>ids.includes(a)));
+        this.missions.cancel(ids,'pilot-cancelled');this.removeOrders(ids);
+        for(const agent of ids)this.team.clearTarget(agent);
+        return report(active?(en?'Orders cancelled.':'任务已取消。'):(en?'No active order for that wingmate.':'该伴机没有进行中的任务。'));
+      }
+      const records = this.missions.snapshot();
+      if (!intent && !proposal && /mission status|task status|任务进度|任务状态/i.test(message)) {
+        return report(conversation(speaker, perception, 'mission'));
+      }
+      const working=records.slice(-4).map(({agentId,type,phase,outcome,reason,observed,epoch})=>({agentId,type,phase,outcome,reason,observed,epoch}));
+      const model=useModel&&this.client.canRequest(true) ? await this.client.request(perception,message,language,intent?.plan?.orders,
+        {turns:this.dialogue.context(),missions:proposal?.missions??(intent?undefined:[]),working,explicitMission}) : null;
+      if(generation!==this.radioGeneration||!this.context?.active || !this.pictures.has(perception.requestId))return false;
+      if (this.radioAgent(speaker) !== speaker) return false;
+      const modelSpeech = (agent: number, act?: SpeechAct, acceptedOrder = false) => {
+        const picture = this.perception();
+        if (!picture || !model) return false;
+        const acknowledgement = en ? 'Copy. Order accepted.' : '收到，指令已接受。';
+        report(acceptedOrder ? acknowledgement : conversation(agent, picture, act), agent, 'model');
+        this.record('radio-interpretation', {
+          source: 'model', intent: intent?.kind ?? null, requestId: perception.requestId, agent,
+          readings: { altitude: picture.player.position.y, surfaceDistance: picture.player.surfaceDistance, trust: picture.trust },
+          action: acceptedOrder ? this.lastPlan?.orders : null, latencyMs: model.latencyMs, usage: model.usage,
+        });
+        if (acceptedOrder) this.trackRadioOutcome(perception, agent, language);
+        return true;
+      };
+      if (proposal) {
+        const result=this.applyMission(proposal,perception,model?.decision);
+        const names=proposal.missions.map(m=>`KITE-${m.agentIds.join('/')} ${missionName(m.type,en)}`).join(en?', ':'，');
+        return report(result==='accepted'?(en?`Assigned: ${names}.`:`已分配：${names}。`):missionReason(result,en));
+      }
+      if (!intent && model) {
+        const checked=validateMissions(model.decision,perception,this.missionContext(),this.pictures.get(perception.requestId)!.registry,this.used);
+        if (explicitMission && checked.ok && checked.assignments.length) {
+          const assigned = addressedAgent(message);
+          if (assigned !== null && checked.assignments.some(({order}) => order.agentIds.some(id => id !== assigned)))
+            return report(en ? 'The plan did not match the requested wingmate.' : '任务分配与指定伴机不符。');
+          this.startMissions(checked.assignments, perception);
+          const names = checked.assignments.map(({order}) => missionName(order.type, en));
+          return report(en ? `Assigned: ${names.join(', ')}.` : `已分配：${names.join('，')}。`);
         }
+        if (explicitMission && !checked.ok) return report(missionReason(checked.reason,en));
+        if (!explicitMission && checked.ok && !checked.assignments.length) {
+          const line = checked.dialogue.find(line => line.agentId === speaker);
+          if (line) return modelSpeech(speaker, line.act);
+        }
+      }
+      if (explicitMission) return report(en ? 'No matching mission. Try “patrol” or “find a passage”.' : '没有匹配的任务。请试试“巡航”或“寻找通道”。');
+      const response=model&&readRadioReply(model.decision);
+      if (model && response && response.agentId === speaker && this.time - perception.time < 12) {
+        if (response.plan === null && !intent) return modelSpeech(speaker, response.act);
+        if (response.plan !== null && intent && this.accept({ ...model, decision: response.plan }, perception, 'Model Radio', intent))
+          return modelSpeech(speaker, response.act, true);
       }
       const agent=this.radioAgent(intent?.agent??addressedAgent(message)??1);
       if(agent===null)return false;
       const applied=!!intent?.plan&&this.accept({decision:intent.plan,usage:{input:0,output:0,total:0,cached:0},latencyMs:0,
         provider:'local',model:'local radio'},perception,'Local Radio');
-      this.radio.report(agent,localRadioReply(message,perception,intent,applied,agent,language),'local','reply',this.time,applied?'command':undefined);
+      if (applied) {
+        this.radio.reportFixed(agent, 'command', language, 'reply', this.time);
+        const line=this.radio.snapshot().history.at(-1);
+        if(line?.agent===agent)this.dialogue.add({agent,epoch:this.epoch,pilot:message,reply:line.text},useModel && this.client.snapshot().connected);
+      } else {
+        const current = this.perception();
+        if (!current) return false;
+        const reply = intent ? localRadioReply(message, current, intent, agent, language) : conversation(agent, current);
+        report(reply,agent);
+      }
       this.record('radio-interpretation',{source:'local',intent:intent?.kind??null,requestId:perception.requestId,agent,
         action:applied?this.lastPlan?.orders:null,modelFallback:useModel&&(!!model||this.client.snapshot().connected)});
       if(applied)this.trackRadioOutcome(perception,agent,language);
@@ -152,16 +276,23 @@ export class SymbiosisRuntime {
     }
   }
 
-  public flightReport(agent: number, text: readonly [string, string], kind: RadioPriority = 'notice', event?: string): void {
+  public flightReport(agent: number, message: string | readonly [string, string], kind: RadioPriority = 'notice'): void {
     const speaker=this.radioAgent(agent);if(speaker===null)return;
+    if(typeof message==='string'){
+      if (this.time<(this.cooldowns.get('report-'+message)??-Infinity))return;
+      this.cooldowns.set('report-'+message,this.time+(kind==='risk'?8:35));
+      if(['glide','island','crossing','dragon'].includes(message))this.episode(message,'observed',1);
+    }
     if(kind==='risk'){
       if(this.time<this.nextRisk)return;
       this.nextRisk=this.time+5;
     }else{
-      if(this.time<this.nextReport)return;
+      if(this.time<this.nextReport || this.time<this.nextRisk)return;
       this.nextReport=this.time+20;
     }
-    this.radio.report(speaker,text[this.radioLanguage==='en-US'?1:0],'local',kind,this.time,event);
+    const locale = this.radioLanguage ?? selectedLocale;
+    if (typeof message === 'string') this.radio.reportFixed(agent, message, locale, kind, this.time, speaker);
+    else this.radio.report(speaker, message[locale === 'en-US' ? 1 : 0], 'local', kind, this.time, locale);
   }
 
   private radioAgent(preferred: number): number | null {
@@ -195,11 +326,65 @@ export class SymbiosisRuntime {
     const meters=moving&&Math.round(moving.meters);
     const text=outcome.chinese ? meters ? `指令执行中。已飞行 ${meters} 米。` : '正在调整队形，安全避障优先。'
       : meters ? `Order in progress. ${meters} m flown.` : 'Adjusting the team flight path around hazards.';
-    this.radio.report(speaker,text,'local','notice',this.time);
+    this.radio.report(speaker,text,'local','notice',this.time,outcome.chinese ? 'zh-CN' : 'en-US');
   }
   /** Replays are deliberately labelled and still pass current geometry, epoch and TTL checks. */
   public replay(decision:unknown,perception:Perception):boolean {
+    const picture=this.pictures.get(perception.requestId);
+    if(!picture)return false;
+    perception=picture.perception;
+    if(decision && typeof decision==='object' && 'schemaVersion' in decision && this.context) {
+      const checked=validateMissions(decision,perception,this.missionContext(),picture.registry,this.used);
+      if (!checked.ok) return false;
+      this.startMissions(checked.assignments,perception);
+      return true;
+    }
     return this.accept({decision,usage:{input:0,output:0,total:0,cached:0},latencyMs:0,provider:'recording',model:'recorded'},perception,'Recorded Model Plan');
+  }
+  private consume(requestId:string):void {
+    this.used.add(requestId);
+    if (this.used.size > 128) this.used.delete(this.used.values().next().value!);
+  }
+  private removeOrders(ids:readonly number[]):void {
+    const plan = this.lastPlan;
+    if (!plan) return;
+    const resolved = plan.resolved
+      .map(order => ({ ...order, agents: order.agents.filter(id => !ids.includes(id)) }))
+      .filter(order => order.agents.length > 0);
+    const orders = resolved.map(({agents,action,targetId}) => ({agents,action,targetId}));
+    this.lastPlan = resolved.length ? { ...plan, resolved, orders } : null;
+    if (this.lead && ids.includes(this.lead.id)) this.lead = null;
+    if (!this.lastPlan) {
+      this.radioPlanUntil = 0;
+      this.planner = 'Local Autonomous Controller';
+    }
+  }
+  private startMissions(assignments:Parameters<MissionExecutive['start']>[0],p:Perception):void {
+    this.consume(p.requestId);
+    const ids=assignments.flatMap(a=>a.order.agentIds);
+    this.removeOrders(ids);
+    ids.forEach(id=>this.team.clearTarget(id));
+    this.missions.start(assignments,p,this.time);
+    this.nextMissionTick=this.time;
+  }
+  private applyMission(proposal:MissionPlan,p:Perception,model:unknown):string {
+    const live=this.missionContext();
+    const registry=this.pictures.get(p.requestId)!.registry;
+    if(model) {
+      const checked=validateMissions(model,p,live,registry,this.used);
+      if (checked.ok && matchesMissionIntent(checked.assignments,proposal.missions)) {
+        this.startMissions(checked.assignments,p);
+        this.record('mission-validation',{requestId:p.requestId,source:'model',result:'accepted'});
+        return 'accepted';
+      }
+      const result = checked.ok ? 'intent-mismatch' : checked.reason;
+      this.record('mission-validation',{requestId:p.requestId,source:'model',result});
+    }
+    const checked=validateMissions(proposal,p,live,registry,this.used);
+    this.record('mission-validation',{requestId:p.requestId,source:'local',result:checked.ok?'accepted':checked.reason});
+    if(!checked.ok)return checked.reason;
+    this.startMissions(checked.assignments,p);
+    return 'accepted';
   }
   private accept(reply:ModelReply,perception:Perception,label:string,pilotIntent:LocalRadioIntent|null=null):boolean {
     const c=this.context;
@@ -209,15 +394,22 @@ export class SymbiosisRuntime {
       const required=pilotIntent.plan?.orders[0];
       const matching=required&&result.plan.orders.filter(order=>order.action===required.action&&
         (pilotIntent.kind!=='scout-left'||order.targetId===required.targetId));
-      if(!required||!matching||!required.agents.every(id=>matching.some(order=>order.agents.includes(id)))){
-        this.record('decision',{...reply,validation:'radio-command-mismatch'});
+      if(!required||!matching||matching.length!==result.plan.orders.length||
+        matching.some(order=>order.targetId!==required.targetId||order.agents.some(id=>!required.agents.includes(id)))||
+        !required.agents.every(id=>matching.some(order=>order.agents.includes(id)))){
+        this.record('decision',{requestId:perception.requestId,validation:'radio-command-mismatch'});
         return false;
       }
     }
-    this.record('decision',{...reply,validation:result.ok?'accepted':result.reason});
+    this.record('decision',{requestId:perception.requestId,model:reply.model,usage:reply.usage,latencyMs:reply.latencyMs,
+      decision:result.ok?{...result.plan,reason:'Validated flight order',resolved:undefined}:undefined,validation:result.ok?'accepted':result.reason});
     if(!result.ok){if(!['stale-epoch','inactive-state'].includes(result.reason))this.event('bad-plan');return false;}
-    const plan=result.plan;this.used.add(plan.requestId);if(this.used.size>128)this.used.delete(this.used.values().next().value!);
-    this.team.clearTargets();this.team.configure({...this.team.settings,formation:plan.formation});
+    const plan={...result.plan,reason:'Validated flight order'};this.consume(plan.requestId);
+    for (const order of this.lastPlan?.orders ?? []) {
+      for (const id of order.agents) this.team.clearTarget(id);
+    }
+    this.missions.cancel(plan.orders.flatMap(o=>o.agents),'replaced');
+    this.team.configure({...this.team.settings,formation:plan.formation});
     this.team.cooperation={trust:this.trust.value,risk:plan.risk};
     for(const order of plan.resolved)for(const id of order.agents)this.team.setTarget(id,order.target,tasks[order.action],plan.ttl-(this.time-perception.time),order.targetId==='route-left'?-1:order.targetId==='route-right'?1:0);
     this.lastPlan=plan;this.planUntil=perception.time+plan.ttl;this.planner=`${label} · ${reply.model}`;
@@ -234,13 +426,24 @@ export class SymbiosisRuntime {
   }
   private positions():unknown {return this.team.agents.map(a=>({id:a.id,task:a.task,position:{...a.flight.position},target:{...a.target},impacts:a.impacts}));}
   public step(player:FlightState,rules:RunRulesState,world:CompanionWorld,seed:number,dt:number):RunRulesState {
+    if (!(dt>0) || !Number.isFinite(dt) || rules.status!=='running') {this.suspend();return rules;}
     this.time+=dt;this.context={player,rules,world,seed,active:rules.status==='running'};
     this.radio.step(this.time);this.reportRadioOutcome();
+    if(this.missions.busy && this.time>=this.nextMissionTick){
+      this.nextMissionTick=this.time+.2;
+      if(this.team.agents.some(agent=>agent.task==='AVOID' && this.missions.escorting(agent.id)))this.flightReport(2,'obstacle','risk');
+      this.missions.tick(this.missionContext(),id=>{
+        const reason=this.missionContext().relayReason(id);
+        if(reason)return{success:false,reason};
+        rules=this.relayAttempt(id);
+        return {success:true,reason:rules.config.mode==='challenge'?'survival-rescue':'free-flight-training'};
+      });
+    }
     this.team.cooperation.trust=this.trust.value;
-    if(this.lastPlan&&this.time>=this.planUntil){this.record('expired',{requestId:this.lastPlan.requestId});this.lastPlan=null;this.team.clearTargets();this.team.cooperation.risk=0.3;this.planner='Local Autonomous Controller';}
+    if(this.lastPlan&&this.time>=this.planUntil){this.record('expired',{requestId:this.lastPlan.requestId});this.lastPlan=null;this.team.cooperation.risk=0.3;this.planner='Local Autonomous Controller';}
     if(this.lastPlan&&this.time-this.lastOutcome>=1){
       this.lastOutcome=this.time;this.record('outcome',{agents:this.positions(),player:{...player.position},grace:rules.grace,trust:this.trust.value,relay:{...this.relay}});
-      this.memory.push({event:'flight',action:this.lastPlan.orders.map(o=>o.action).join('/'),progress:Math.round(player.speed)});if(this.memory.length>24)this.memory.shift();
+      this.episode('flight',this.lastPlan.orders.map(o=>o.action).join('/'),Math.round(player.speed));
     }
     if(!this.lead&&this.team.settings.behavior==='lead'&&this.time>1){
       const agent=this.team.agents.find(a=>a.id===1&&a.deployed&&a.navigationTask==='LEAD');
@@ -277,5 +480,5 @@ export class SymbiosisRuntime {
     if(result.success)this.relayFlash={from:{...c.player.position},to:{...partner.flight.position},until:this.time+1};
     return result.rules;
   }
-  public snapshot(){return{planner:this.planner,time:this.time,epoch:this.epoch,trust:{...this.trust,events:this.trust.events.slice()},relay:{...this.relay},model:this.client.snapshot(),config:this.client.publicConfig(),lastPlan:this.lastPlan,trace:this.trace.slice(),memory:this.memory.slice(),radio:{...this.radio.snapshot(),pending:this.radioPending}};}
+  public snapshot(){return{planner:this.planner,time:this.time,epoch:this.epoch,trust:{...this.trust,events:this.trust.events.slice()},relay:{...this.relay},model:this.client.snapshot(),config:this.client.publicConfig(),lastPlan:this.lastPlan,trace:this.trace.slice(),memory:this.memory.slice(),missions:this.missions.snapshot(),dialogueTurns:this.dialogue.size,radio:{...this.radio.snapshot(),pending:this.radioPending}};}
 }

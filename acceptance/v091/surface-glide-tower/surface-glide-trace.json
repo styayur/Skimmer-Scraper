@@ -1,0 +1,2025 @@
+{
+  "seed": 334458,
+  "fixedHz": 120,
+  "sampleMs": 32,
+  "geometry": {
+    "world": {
+      "manifest": {
+        "id": "5d162f5c3674cf3fe847dcc11e9164757057b95f94c6a3296b9c4a1333d05f63",
+        "name": "glide-tower",
+        "bytes": 2560,
+        "nodes": 5,
+        "triangles": 48,
+        "collisionTriangles": 36,
+        "materials": 4,
+        "textures": 0,
+        "texturePixels": 0,
+        "bounds": {
+          "x": 280,
+          "y": 240,
+          "z": 340
+        },
+        "animations": [],
+        "meshRoles": [
+          {
+            "id": "1",
+            "name": "Promenade",
+            "inferred": "SURFACE",
+            "role": "SURFACE"
+          },
+          {
+            "id": "2",
+            "name": "East Lantern Tower",
+            "inferred": "SURFACE",
+            "role": "SURFACE"
+          },
+          {
+            "id": "3",
+            "name": "West Atrium",
+            "inferred": "SURFACE",
+            "role": "SURFACE"
+          },
+          {
+            "id": "4",
+            "name": "Skybox far",
+            "inferred": "DECORATION",
+            "role": "DECORATION"
+          }
+        ],
+        "options": {
+          "scale": 1,
+          "yaw": 0,
+          "up": "y",
+          "spawnYaw": 0,
+          "spawn": {
+            "x": 55,
+            "y": 32,
+            "z": 70
+          }
+        }
+      },
+      "spawn": {
+        "x": 55,
+        "y": 32,
+        "z": 70
+      },
+      "collisionVisible": false
+    },
+    "face": {
+      "contact": {
+        "normal": {
+          "x": 0,
+          "y": 0,
+          "z": 1
+        },
+        "localPoint": {
+          "x": 55,
+          "y": 32,
+          "z": -14
+        },
+        "triangle": 21,
+        "geometryId": "f666d284-e584-49d6-a657-1ec6fc24bc7a",
+        "velocity": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        }
+      },
+      "distance": 6,
+      "point": {
+        "x": 55,
+        "y": 32,
+        "z": -14
+      },
+      "chunkId": "local-5d162f5c3674cf3fe847dcc11e9164757057b95f94c6a3296b9c4a1333d05f63-surface",
+      "surfaceId": "local-5d162f5c3674cf3fe847dcc11e9164757057b95f94c6a3296b9c4a1333d05f63-surface"
+    }
+  },
+  "pageErrors": [],
+  "trace": [
+    {
+      "time": 0,
+      "phase": "FLIGHT",
+      "mode": "running",
+      "position": {
+        "x": 55,
+        "y": 32,
+        "z": 70
+      },
+      "velocity": {
+        "x": 0,
+        "y": 0,
+        "z": -66
+      },
+      "attitude": {
+        "pitch": 0,
+        "roll": 0,
+        "yaw": 0
+      },
+      "speed": 66,
+      "clearance": 31,
+      "assisted": false,
+      "impacts": 0,
+      "shield": true,
+      "camera": "chase"
+    },
+    {
+      "time": 0,
+      "phase": "ARMED",
+      "mode": "running",
+      "position": {
+        "x": 55,
+        "y": 32,
+        "z": 70
+      },
+      "velocity": {
+        "x": 0,
+        "y": 0,
+        "z": -66
+      },
+      "attitude": {
+        "pitch": 0,
+        "roll": 0,
+        "yaw": 0
+      },
+      "speed": 66,
+      "clearance": 31,
+      "assisted": false,
+      "impacts": 0,
+      "shield": true,
+      "camera": "chase"
+    },
+    {
+      "time": 0.025,
+      "phase": "ARMED",
+      "mode": "running",
+      "position": {
+        "x": 55,
+        "y": 32,
+        "z": 68.35000000000001
+      },
+      "velocity": {
+        "x": 0,
+        "y": 0,
+        "z": -66
+      },
+      "attitude": {
+        "pitch": 0,
+        "roll": 0,
+        "yaw": 0
+      },
+      "speed": 66,
+      "clearance": 31,
+      "assisted": false,
+      "impacts": 0,
+      "shield": true,
+      "camera": "chase"
+    },
+    {
+      "time": 0.05833333333333333,
+      "phase": "ARMED",
+      "mode": "running",
+      "position": {
+        "x": 55,
+        "y": 32,
+        "z": 66.15000000000002
+      },
+      "velocity": {
+        "x": 0,
+        "y": 0,
+        "z": -66
+      },
+      "attitude": {
+        "pitch": 0,
+        "roll": 0,
+        "yaw": 0
+      },
+      "speed": 66,
+      "clearance": 31,
+      "assisted": false,
+      "impacts": 0,
+      "shield": true,
+      "camera": "chase"
+    },
+    {
+      "time": 0.09166666666666666,
+      "phase": "ARMED",
+      "mode": "running",
+      "position": {
+        "x": 55,
+        "y": 32,
+        "z": 63.95000000000003
+      },
+      "velocity": {
+        "x": 0,
+        "y": 0,
+        "z": -66
+      },
+      "attitude": {
+        "pitch": 0,
+        "roll": 0,
+        "yaw": 0
+      },
+      "speed": 66,
+      "clearance": 31,
+      "assisted": false,
+      "impacts": 0,
+      "shield": true,
+      "camera": "chase"
+    },
+    {
+      "time": 0.12499999999999999,
+      "phase": "ARMED",
+      "mode": "running",
+      "position": {
+        "x": 55,
+        "y": 32,
+        "z": 61.75000000000004
+      },
+      "velocity": {
+        "x": 0,
+        "y": 0,
+        "z": -66
+      },
+      "attitude": {
+        "pitch": 0,
+        "roll": 0,
+        "yaw": 0
+      },
+      "speed": 66,
+      "clearance": 31,
+      "assisted": false,
+      "impacts": 0,
+      "shield": true,
+      "camera": "chase"
+    },
+    {
+      "time": 0.15833333333333333,
+      "phase": "ARMED",
+      "mode": "running",
+      "position": {
+        "x": 55,
+        "y": 32,
+        "z": 59.550000000000054
+      },
+      "velocity": {
+        "x": 0,
+        "y": 0,
+        "z": -66
+      },
+      "attitude": {
+        "pitch": 0,
+        "roll": 0,
+        "yaw": 0
+      },
+      "speed": 66,
+      "clearance": 31,
+      "assisted": false,
+      "impacts": 0,
+      "shield": true,
+      "camera": "chase"
+    },
+    {
+      "time": 0.18333333333333332,
+      "phase": "ARMED",
+      "mode": "running",
+      "position": {
+        "x": 55,
+        "y": 32,
+        "z": 57.90000000000006
+      },
+      "velocity": {
+        "x": 0,
+        "y": 0,
+        "z": -66
+      },
+      "attitude": {
+        "pitch": 0,
+        "roll": 0,
+        "yaw": 0
+      },
+      "speed": 66,
+      "clearance": 31,
+      "assisted": false,
+      "impacts": 0,
+      "shield": true,
+      "camera": "chase"
+    },
+    {
+      "time": 0.21666666666666665,
+      "phase": "ARMED",
+      "mode": "running",
+      "position": {
+        "x": 55,
+        "y": 32,
+        "z": 55.700000000000074
+      },
+      "velocity": {
+        "x": 0,
+        "y": 0,
+        "z": -66
+      },
+      "attitude": {
+        "pitch": 0,
+        "roll": 0,
+        "yaw": 0
+      },
+      "speed": 66,
+      "clearance": 31,
+      "assisted": false,
+      "impacts": 0,
+      "shield": true,
+      "camera": "chase"
+    },
+    {
+      "time": 0.24999999999999997,
+      "phase": "ARMED",
+      "mode": "running",
+      "position": {
+        "x": 55,
+        "y": 32,
+        "z": 53.500000000000085
+      },
+      "velocity": {
+        "x": 0,
+        "y": 0,
+        "z": -66
+      },
+      "attitude": {
+        "pitch": 0,
+        "roll": 0,
+        "yaw": 0
+      },
+      "speed": 66,
+      "clearance": 31,
+      "assisted": false,
+      "impacts": 0,
+      "shield": true,
+      "camera": "chase"
+    },
+    {
+      "time": 0.2833333333333334,
+      "phase": "ARMED",
+      "mode": "running",
+      "position": {
+        "x": 55,
+        "y": 32,
+        "z": 51.3000000000001
+      },
+      "velocity": {
+        "x": 0,
+        "y": 0,
+        "z": -66
+      },
+      "attitude": {
+        "pitch": 0,
+        "roll": 0,
+        "yaw": 0
+      },
+      "speed": 66,
+      "clearance": 31,
+      "assisted": false,
+      "impacts": 0,
+      "shield": true,
+      "camera": "chase"
+    },
+    {
+      "time": 0.3166666666666668,
+      "phase": "ARMED",
+      "mode": "running",
+      "position": {
+        "x": 55,
+        "y": 32,
+        "z": 49.10000000000011
+      },
+      "velocity": {
+        "x": 0,
+        "y": 0,
+        "z": -66
+      },
+      "attitude": {
+        "pitch": 0,
+        "roll": 0,
+        "yaw": 0
+      },
+      "speed": 66,
+      "clearance": 31,
+      "assisted": false,
+      "impacts": 0,
+      "shield": true,
+      "camera": "chase"
+    },
+    {
+      "time": 0.35000000000000026,
+      "phase": "ARMED",
+      "mode": "running",
+      "position": {
+        "x": 55,
+        "y": 32,
+        "z": 46.90000000000012
+      },
+      "velocity": {
+        "x": 0,
+        "y": 0,
+        "z": -66
+      },
+      "attitude": {
+        "pitch": 0,
+        "roll": 0,
+        "yaw": 0
+      },
+      "speed": 66,
+      "clearance": 31,
+      "assisted": false,
+      "impacts": 0,
+      "shield": true,
+      "camera": "chase"
+    },
+    {
+      "time": 0.37500000000000033,
+      "phase": "ARMED",
+      "mode": "running",
+      "position": {
+        "x": 55,
+        "y": 32,
+        "z": 45.25000000000013
+      },
+      "velocity": {
+        "x": 0,
+        "y": 0,
+        "z": -66
+      },
+      "attitude": {
+        "pitch": 0,
+        "roll": 0,
+        "yaw": 0
+      },
+      "speed": 66,
+      "clearance": 31,
+      "assisted": false,
+      "impacts": 0,
+      "shield": true,
+      "camera": "chase"
+    },
+    {
+      "time": 0.40833333333333377,
+      "phase": "ARMED",
+      "mode": "running",
+      "position": {
+        "x": 55,
+        "y": 32,
+        "z": 43.05000000000014
+      },
+      "velocity": {
+        "x": 0,
+        "y": 0,
+        "z": -66
+      },
+      "attitude": {
+        "pitch": 0,
+        "roll": 0,
+        "yaw": 0
+      },
+      "speed": 66,
+      "clearance": 31,
+      "assisted": false,
+      "impacts": 0,
+      "shield": true,
+      "camera": "chase"
+    },
+    {
+      "time": 0.4416666666666672,
+      "phase": "ARMED",
+      "mode": "running",
+      "position": {
+        "x": 55,
+        "y": 32,
+        "z": 40.85000000000015
+      },
+      "velocity": {
+        "x": 0,
+        "y": 0,
+        "z": -66
+      },
+      "attitude": {
+        "pitch": 0,
+        "roll": 0,
+        "yaw": 0
+      },
+      "speed": 66,
+      "clearance": 31,
+      "assisted": false,
+      "impacts": 0,
+      "shield": true,
+      "camera": "chase"
+    },
+    {
+      "time": 0.47500000000000064,
+      "phase": "ARMED",
+      "mode": "running",
+      "position": {
+        "x": 55,
+        "y": 32,
+        "z": 38.65000000000016
+      },
+      "velocity": {
+        "x": 0,
+        "y": 0,
+        "z": -66
+      },
+      "attitude": {
+        "pitch": 0,
+        "roll": 0,
+        "yaw": 0
+      },
+      "speed": 66,
+      "clearance": 31,
+      "assisted": false,
+      "impacts": 0,
+      "shield": true,
+      "camera": "chase"
+    },
+    {
+      "time": 0.508333333333334,
+      "phase": "ARMED",
+      "mode": "running",
+      "position": {
+        "x": 55,
+        "y": 32,
+        "z": 36.45000000000017
+      },
+      "velocity": {
+        "x": 0,
+        "y": 0,
+        "z": -66
+      },
+      "attitude": {
+        "pitch": 0,
+        "roll": 0,
+        "yaw": 0
+      },
+      "speed": 66,
+      "clearance": 31,
+      "assisted": false,
+      "impacts": 0,
+      "shield": true,
+      "camera": "chase"
+    },
+    {
+      "time": 0.5416666666666672,
+      "phase": "ARMED",
+      "mode": "running",
+      "position": {
+        "x": 55,
+        "y": 32,
+        "z": 34.250000000000185
+      },
+      "velocity": {
+        "x": 0,
+        "y": 0,
+        "z": -66
+      },
+      "attitude": {
+        "pitch": 0,
+        "roll": 0,
+        "yaw": 0
+      },
+      "speed": 66,
+      "clearance": 31,
+      "assisted": false,
+      "impacts": 0,
+      "shield": true,
+      "camera": "chase"
+    },
+    {
+      "time": 0.5750000000000004,
+      "phase": "ARMED",
+      "mode": "running",
+      "position": {
+        "x": 55,
+        "y": 32,
+        "z": 32.050000000000196
+      },
+      "velocity": {
+        "x": 0,
+        "y": 0,
+        "z": -66
+      },
+      "attitude": {
+        "pitch": 0,
+        "roll": 0,
+        "yaw": 0
+      },
+      "speed": 66,
+      "clearance": 31,
+      "assisted": false,
+      "impacts": 0,
+      "shield": true,
+      "camera": "chase"
+    },
+    {
+      "time": 0.6000000000000003,
+      "phase": "ARMED",
+      "mode": "running",
+      "position": {
+        "x": 55,
+        "y": 32,
+        "z": 30.400000000000194
+      },
+      "velocity": {
+        "x": 0,
+        "y": 0,
+        "z": -66
+      },
+      "attitude": {
+        "pitch": 0,
+        "roll": 0,
+        "yaw": 0
+      },
+      "speed": 66,
+      "clearance": 31,
+      "assisted": false,
+      "impacts": 0,
+      "shield": true,
+      "camera": "chase"
+    },
+    {
+      "time": 0.6333333333333335,
+      "phase": "ARMED",
+      "mode": "running",
+      "position": {
+        "x": 55,
+        "y": 32,
+        "z": 28.20000000000019
+      },
+      "velocity": {
+        "x": 0,
+        "y": 0,
+        "z": -66
+      },
+      "attitude": {
+        "pitch": 0,
+        "roll": 0,
+        "yaw": 0
+      },
+      "speed": 66,
+      "clearance": 31,
+      "assisted": false,
+      "impacts": 0,
+      "shield": true,
+      "camera": "chase"
+    },
+    {
+      "time": 0.6666666666666667,
+      "phase": "ARMED",
+      "mode": "running",
+      "position": {
+        "x": 55,
+        "y": 32,
+        "z": 26.00000000000019
+      },
+      "velocity": {
+        "x": 0,
+        "y": 0,
+        "z": -66
+      },
+      "attitude": {
+        "pitch": 0,
+        "roll": 0,
+        "yaw": 0
+      },
+      "speed": 66,
+      "clearance": 31,
+      "assisted": false,
+      "impacts": 0,
+      "shield": true,
+      "camera": "chase"
+    },
+    {
+      "time": 0.7,
+      "phase": "REDIRECT",
+      "mode": "running",
+      "position": {
+        "x": 55,
+        "y": 32.00226551750458,
+        "z": 23.802265517504768
+      },
+      "velocity": {
+        "x": 0,
+        "y": 0.2027790555668613,
+        "z": -65.79722094443314
+      },
+      "attitude": {
+        "pitch": 0.0030818689705015526,
+        "yaw": 0,
+        "roll": 0
+      },
+      "speed": 65.79753341392006,
+      "clearance": 31.002265517504583,
+      "assisted": true,
+      "impacts": 0,
+      "shield": true,
+      "camera": "chase"
+    },
+    {
+      "time": 0.7333333333333332,
+      "phase": "REDIRECT",
+      "mode": "running",
+      "position": {
+        "x": 55,
+        "y": 32.01782613474455,
+        "z": 21.617826134744742
+      },
+      "velocity": {
+        "x": 0,
+        "y": 0.7932359047425116,
+        "z": -65.20676409525748
+      },
+      "attitude": {
+        "pitch": 0.012164332796768542,
+        "yaw": 0,
+        "roll": 0
+      },
+      "speed": 65.21158874751583,
+      "clearance": 31.017826134744553,
+      "assisted": true,
+      "impacts": 0,
+      "shield": true,
+      "camera": "chase"
+    },
+    {
+      "time": 0.7666666666666664,
+      "phase": "REDIRECT",
+      "mode": "running",
+      "position": {
+        "x": 55,
+        "y": 32.0591574369021,
+        "z": 19.459157436902288
+      },
+      "velocity": {
+        "x": 0,
+        "y": 1.7445500712395503,
+        "z": -64.25544992876046
+      },
+      "attitude": {
+        "pitch": 0.027143559129161,
+        "yaw": 0,
+        "roll": 0
+      },
+      "speed": 64.27912803156639,
+      "clearance": 31.059157436902098,
+      "assisted": true,
+      "impacts": 0,
+      "shield": true,
+      "camera": "chase"
+    },
+    {
+      "time": 0.7916666666666663,
+      "phase": "REDIRECT",
+      "mode": "running",
+      "position": {
+        "x": 55,
+        "y": 32.11406857618459,
+        "z": 17.86406857618479
+      },
+      "velocity": {
+        "x": 0,
+        "y": 2.678714117837851,
+        "z": -63.32128588216215
+      },
+      "attitude": {
+        "pitch": 0.04227832492295781,
+        "yaw": 0,
+        "roll": 0
+      },
+      "speed": 63.377920091271626,
+      "clearance": 31.114068576184593,
+      "assisted": true,
+      "impacts": 0,
+      "shield": true,
+      "camera": "chase"
+    },
+    {
+      "time": 0.8249999999999995,
+      "phase": "REDIRECT",
+      "mode": "running",
+      "position": {
+        "x": 55,
+        "y": 32.227828921664695,
+        "z": 15.777828921664886
+      },
+      "velocity": {
+        "x": 0,
+        "y": 4.196991818580764,
+        "z": -61.80300818141924
+      },
+      "attitude": {
+        "pitch": 0.06780508003193932,
+        "yaw": 0,
+        "roll": 0
+      },
+      "speed": 61.94535140426445,
+      "clearance": 29.777828921664884,
+      "assisted": true,
+      "impacts": 0,
+      "shield": true,
+      "camera": "chase"
+    },
+    {
+      "time": 0.8583333333333327,
+      "phase": "REDIRECT",
+      "mode": "running",
+      "position": {
+        "x": 55,
+        "y": 32.39705804195143,
+        "z": 13.747058041951625
+      },
+      "velocity": {
+        "x": 0,
+        "y": 6.002370526854713,
+        "z": -59.99762947314529
+      },
+      "attitude": {
+        "pitch": 0.09971168337142361,
+        "yaw": 0,
+        "roll": 0
+      },
+      "speed": 60.29713089640739,
+      "clearance": 27.747058041951625,
+      "assisted": true,
+      "impacts": 0,
+      "shield": true,
+      "camera": "chase"
+    },
+    {
+      "time": 0.8916666666666659,
+      "phase": "REDIRECT",
+      "mode": "running",
+      "position": {
+        "x": 55,
+        "y": 32.63087896269105,
+        "z": 11.780878962691244
+      },
+      "velocity": {
+        "x": 0,
+        "y": 8.068029766372298,
+        "z": -57.9319702336277
+      },
+      "attitude": {
+        "pitch": 0.138377265812612,
+        "yaw": 0,
+        "roll": 0
+      },
+      "speed": 58.491078631369035,
+      "clearance": 25.780878962691244,
+      "assisted": true,
+      "impacts": 0,
+      "shield": true,
+      "camera": "chase"
+    },
+    {
+      "time": 0.9249999999999992,
+      "phase": "REDIRECT",
+      "mode": "running",
+      "position": {
+        "x": 55,
+        "y": 32.937520693653546,
+        "z": 9.887520693653737
+      },
+      "velocity": {
+        "x": 0,
+        "y": 10.36714906084612,
+        "z": -55.63285093915388
+      },
+      "attitude": {
+        "pitch": 0.1842362073385475,
+        "yaw": 0,
+        "roll": 0
+      },
+      "speed": 56.59056355319248,
+      "clearance": 23.887520693653737,
+      "assisted": true,
+      "impacts": 0,
+      "shield": true,
+      "camera": "chase"
+    },
+    {
+      "time": 0.9583333333333324,
+      "phase": "REDIRECT",
+      "mode": "running",
+      "position": {
+        "x": 55,
+        "y": 33.32431822873267,
+        "z": 8.074318228732855
+      },
+      "velocity": {
+        "x": 0,
+        "y": 12.87290793398879,
+        "z": -53.12709206601121
+      },
+      "attitude": {
+        "pitch": 0.23772237434732132,
+        "yaw": 0,
+        "roll": 0
+      },
+      "speed": 54.66442783078757,
+      "clearance": 22.074318228732857,
+      "assisted": true,
+      "impacts": 0,
+      "shield": true,
+      "camera": "chase"
+    },
+    {
+      "time": 0.9833333333333323,
+      "phase": "REDIRECT",
+      "mode": "running",
+      "position": {
+        "x": 55,
+        "y": 33.67092689023381,
+        "z": 6.770926890233984
+      },
+      "velocity": {
+        "x": 0,
+        "y": 14.871700119580579,
+        "z": -51.12829988041942
+      },
+      "attitude": {
+        "pitch": 0.28305995206103135,
+        "yaw": 0,
+        "roll": 0
+      },
+      "speed": 53.24725826846702,
+      "clearance": 20.770926890233984,
+      "assisted": true,
+      "impacts": 0,
+      "shield": true,
+      "camera": "chase"
+    },
+    {
+      "time": 1.0166666666666655,
+      "phase": "REDIRECT",
+      "mode": "running",
+      "position": {
+        "x": 55,
+        "y": 34.212957879446094,
+        "z": 5.1129578794462684
+      },
+      "velocity": {
+        "x": 0,
+        "y": 17.674541484327154,
+        "z": -48.32545851567285
+      },
+      "attitude": {
+        "pitch": 0.3506274894446199,
+        "yaw": 0,
+        "roll": 0
+      },
+      "speed": 51.45618871847408,
+      "clearance": 19.11295787944627,
+      "assisted": true,
+      "impacts": 0,
+      "shield": true,
+      "camera": "chase"
+    },
+    {
+      "time": 1.0499999999999987,
+      "phase": "REDIRECT",
+      "mode": "running",
+      "position": {
+        "x": 55,
+        "y": 34.850706136620936,
+        "z": 3.550706136621101
+      },
+      "velocity": {
+        "x": 0,
+        "y": 20.61026611795222,
+        "z": -45.38973388204778
+      },
+      "attitude": {
+        "pitch": 0.42623611495899044,
+        "yaw": 0,
+        "roll": 0
+      },
+      "speed": 49.849884767529055,
+      "clearance": 17.550706136621102,
+      "assisted": true,
+      "impacts": 0,
+      "shield": true,
+      "camera": "chase"
+    },
+    {
+      "time": 1.083333333333332,
+      "phase": "REDIRECT",
+      "mode": "running",
+      "position": {
+        "x": 55,
+        "y": 35.58815409611615,
+        "z": 2.0881540961163054
+      },
+      "velocity": {
+        "x": 0,
+        "y": 23.652053544168364,
+        "z": -42.34794645583163
+      },
+      "attitude": {
+        "pitch": 0.5093587492106323,
+        "yaw": 0,
+        "roll": 0
+      },
+      "speed": 48.50534203448307,
+      "clearance": 16.088154096116305,
+      "assisted": true,
+      "impacts": 0,
+      "shield": true,
+      "camera": "chase"
+    },
+    {
+      "time": 1.1166666666666651,
+      "phase": "REDIRECT",
+      "mode": "running",
+      "position": {
+        "x": 55,
+        "y": 36.428390176413316,
+        "z": 0.728390176413467
+      },
+      "velocity": {
+        "x": 0,
+        "y": 26.773083286688205,
+        "z": -39.226916713311795
+      },
+      "attitude": {
+        "pitch": 0.5988965837320603,
+        "yaw": 0,
+        "roll": 0
+      },
+      "speed": 47.4926203057806,
+      "clearance": 14.728390176413466,
+      "assisted": true,
+      "impacts": 0,
+      "shield": true,
+      "camera": "chase"
+    },
+    {
+      "time": 1.1499999999999984,
+      "phase": "REDIRECT",
+      "mode": "running",
+      "position": {
+        "x": 55,
+        "y": 37.37360878011777,
+        "z": -0.5263912198820861
+      },
+      "velocity": {
+        "x": 0,
+        "y": 29.946534869224323,
+        "z": -36.05346513077568
+      },
+      "attitude": {
+        "pitch": 0.6931316367614253,
+        "yaw": 0,
+        "roll": 0
+      },
+      "speed": 46.868404054434436,
+      "clearance": 13.473608780117914,
+      "assisted": true,
+      "impacts": 0,
+      "shield": true,
+      "camera": "chase"
+    },
+    {
+      "time": 1.1749999999999983,
+      "phase": "REDIRECT",
+      "mode": "running",
+      "position": {
+        "x": 55,
+        "y": 38.152233390675455,
+        "z": -1.397766609324398
+      },
+      "velocity": {
+        "x": 0,
+        "y": 32.344891195870446,
+        "z": -33.655108804129554
+      },
+      "attitude": {
+        "pitch": 0.7655489886553988,
+        "yaw": 0,
+        "roll": 0
+      },
+      "speed": 46.67824263069997,
+      "clearance": 12.602233390675602,
+      "assisted": true,
+      "impacts": 0,
+      "shield": true,
+      "camera": "chase"
+    },
+    {
+      "time": 1.2083333333333315,
+      "phase": "REDIRECT",
+      "mode": "running",
+      "position": {
+        "x": 55,
+        "y": 39.28376265948396,
+        "z": -2.466237340515886
+      },
+      "velocity": {
+        "x": 0,
+        "y": 35.54554422736849,
+        "z": -30.454455772631512
+      },
+      "attitude": {
+        "pitch": 0.8623834155873535,
+        "yaw": 0,
+        "roll": 0
+      },
+      "speed": 46.807687304832506,
+      "clearance": 11.533762659484115,
+      "assisted": true,
+      "impacts": 0,
+      "shield": true,
+      "camera": "chase"
+    },
+    {
+      "time": 1.2416666666666647,
+      "phase": "REDIRECT",
+      "mode": "running",
+      "position": {
+        "x": 55,
+        "y": 40.52169928950252,
+        "z": -3.428300710497316
+      },
+      "velocity": {
+        "x": 0,
+        "y": 38.72486278909245,
+        "z": -27.275137210907552
+      },
+      "attitude": {
+        "pitch": 0.9571692873436499,
+        "yaw": 0,
+        "roll": 0
+      },
+      "speed": 47.36610716438359,
+      "clearance": 10.571699289502684,
+      "assisted": true,
+      "impacts": 0,
+      "shield": true,
+      "camera": "chase"
+    },
+    {
+      "time": 1.274999999999998,
+      "phase": "REDIRECT",
+      "mode": "running",
+      "position": {
+        "x": 55,
+        "y": 41.86488512380054,
+        "z": -4.285114876199289
+      },
+      "velocity": {
+        "x": 0,
+        "y": 41.856026404754964,
+        "z": -24.143973595245036
+      },
+      "attitude": {
+        "pitch": 1.0475849389599554,
+        "yaw": 0,
+        "roll": 0
+      },
+      "speed": 48.32037259131426,
+      "clearance": 9.71488512380071,
+      "assisted": true,
+      "impacts": 0,
+      "shield": true,
+      "camera": "chase"
+    },
+    {
+      "time": 1.3083333333333311,
+      "phase": "REDIRECT",
+      "mode": "running",
+      "position": {
+        "x": 55,
+        "y": 43.311267989571185,
+        "z": -5.0387320104286335
+      },
+      "velocity": {
+        "x": 0,
+        "y": 44.9122145980686,
+        "z": -21.0877854019314
+      },
+      "attitude": {
+        "pitch": 1.131817674649961,
+        "yaw": 0,
+        "roll": 0
+      },
+      "speed": 49.61654676880362,
+      "clearance": 8.961267989571366,
+      "assisted": true,
+      "impacts": 0,
+      "shield": true,
+      "camera": "chase"
+    },
+    {
+      "time": 1.3416666666666643,
+      "phase": "REDIRECT",
+      "mode": "running",
+      "position": {
+        "x": 55,
+        "y": 44.85790169813137,
+        "z": -5.692098301868443
+      },
+      "velocity": {
+        "x": 0,
+        "y": 47.86660689274598,
+        "z": -18.133393107254022
+      },
+      "attitude": {
+        "pitch": 1.2086705048247073,
+        "yaw": 0,
+        "roll": 0
+      },
+      "speed": 51.18624816302602,
+      "clearance": 8.307901698131557,
+      "assisted": true,
+      "impacts": 0,
+      "shield": true,
+      "camera": "chase"
+    },
+    {
+      "time": 1.3749999999999976,
+      "phase": "REDIRECT",
+      "mode": "running",
+      "position": {
+        "x": 55,
+        "y": 46.50094604492176,
+        "z": -6.249053955078047
+      },
+      "velocity": {
+        "x": 0,
+        "y": 50.69238281249969,
+        "z": -15.307617187500313
+      },
+      "attitude": {
+        "pitch": 1.2775324809467412,
+        "yaw": 0,
+        "roll": 0
+      },
+      "speed": 52.95319460776723,
+      "clearance": 7.750946044921953,
+      "assisted": true,
+      "impacts": 0,
+      "shield": true,
+      "camera": "chase"
+    },
+    {
+      "time": 1.3999999999999975,
+      "phase": "REDIRECT",
+      "mode": "running",
+      "position": {
+        "x": 55,
+        "y": 47.793684469773936,
+        "z": -6.606315530225865
+      },
+      "velocity": {
+        "x": 0,
+        "y": 52.711176063504666,
+        "z": -13.288823936495334
+      },
+      "attitude": {
+        "pitch": 1.3238361702930312,
+        "yaw": 0,
+        "roll": 0
+      },
+      "speed": 54.36047206944545,
+      "clearance": 7.393684469774135,
+      "assisted": true,
+      "impacts": 0,
+      "shield": true,
+      "camera": "chase"
+    },
+    {
+      "time": 1.4333333333333307,
+      "phase": "REDIRECT",
+      "mode": "running",
+      "position": {
+        "x": 55,
+        "y": 49.59351790911852,
+        "z": -7.006482090881278
+      },
+      "velocity": {
+        "x": 0,
+        "y": 55.247336556075396,
+        "z": -10.752663443924604
+      },
+      "attitude": {
+        "pitch": 1.3785717118914078,
+        "yaw": 0,
+        "roll": 0
+      },
+      "speed": 56.28399388528303,
+      "clearance": 6.993517909118722,
+      "assisted": true,
+      "impacts": 0,
+      "shield": true,
+      "camera": "chase"
+    },
+    {
+      "time": 1.466666666666664,
+      "phase": "REDIRECT",
+      "mode": "running",
+      "position": {
+        "x": 55,
+        "y": 51.474591654793244,
+        "z": -7.325408345206547
+      },
+      "velocity": {
+        "x": 0,
+        "y": 57.58112436393211,
+        "z": -8.418875636067888
+      },
+      "attitude": {
+        "pitch": 1.4256160553030026,
+        "yaw": 0,
+        "roll": 0
+      },
+      "speed": 58.193327366547734,
+      "clearance": 6.674591654793453,
+      "assisted": true,
+      "impacts": 0,
+      "shield": true,
+      "camera": "chase"
+    },
+    {
+      "time": 1.4999999999999971,
+      "phase": "REDIRECT",
+      "mode": "running",
+      "position": {
+        "x": 55,
+        "y": 53.42971294270285,
+        "z": -7.570287057296927
+      },
+      "velocity": {
+        "x": 0,
+        "y": 59.68571901078741,
+        "z": -6.314280989212591
+      },
+      "attitude": {
+        "pitch": 1.4653962145245656,
+        "yaw": 0,
+        "roll": 0
+      },
+      "speed": 60.018790376392964,
+      "clearance": 6.429712942703073,
+      "assisted": true,
+      "impacts": 0,
+      "shield": true,
+      "camera": "chase"
+    },
+    {
+      "time": 1.5333333333333303,
+      "phase": "REDIRECT",
+      "mode": "running",
+      "position": {
+        "x": 55,
+        "y": 55.45079499287584,
+        "z": -7.749205007123926
+      },
+      "velocity": {
+        "x": 0,
+        "y": 61.53430002035389,
+        "z": -4.465699979646111
+      },
+      "attitude": {
+        "pitch": 1.4983508009957218,
+        "yaw": 0,
+        "roll": 0
+      },
+      "speed": 61.696130796859016,
+      "clearance": 6.250794992876074,
+      "assisted": true,
+      "impacts": 0,
+      "shield": true,
+      "camera": "chase"
+    },
+    {
+      "time": 1.5666666666666635,
+      "phase": "REDIRECT",
+      "mode": "running",
+      "position": {
+        "x": 55,
+        "y": 57.52885700946447,
+        "z": -7.871142990535297
+      },
+      "velocity": {
+        "x": 0,
+        "y": 63.100046916344155,
+        "z": -2.899953083655845
+      },
+      "attitude": {
+        "pitch": 1.5248706245638406,
+        "yaw": 0,
+        "roll": 0
+      },
+      "speed": 63.16664981406121,
+      "clearance": 6.128857009464703,
+      "assisted": true,
+      "impacts": 0,
+      "shield": true,
+      "camera": "chase"
+    },
+    {
+      "time": 1.5916666666666635,
+      "phase": "REDIRECT",
+      "mode": "running",
+      "position": {
+        "x": 55,
+        "y": 59.11888992134008,
+        "z": -7.931110078659678
+      },
+      "velocity": {
+        "x": 0,
+        "y": 64.07261300853582,
+        "z": -1.927386991464175
+      },
+      "attitude": {
+        "pitch": 1.5407241030716932,
+        "yaw": 0,
+        "roll": 0
+      },
+      "speed": 64.10159559914604,
+      "clearance": 6.068889921340322,
+      "assisted": true,
+      "impacts": 0,
+      "shield": true,
+      "camera": "chase"
+    },
+    {
+      "time": 1.6249999999999967,
+      "phase": "REDIRECT",
+      "mode": "running",
+      "position": {
+        "x": 55,
+        "y": 61.272367807019634,
+        "z": -7.977632192980106
+      },
+      "velocity": {
+        "x": 0,
+        "y": 65.07886343470115,
+        "z": -0.9211365652988519
+      },
+      "attitude": {
+        "pitch": 1.5566431131320346,
+        "yaw": 0,
+        "roll": 0
+      },
+      "speed": 65.08538206482629,
+      "clearance": 6.022367807019894,
+      "assisted": true,
+      "impacts": 0,
+      "shield": true,
+      "camera": "chase"
+    },
+    {
+      "time": 1.6583333333333299,
+      "phase": "REDIRECT",
+      "mode": "running",
+      "position": {
+        "x": 55,
+        "y": 63.45351870117163,
+        "z": -7.996481298828119
+      },
+      "velocity": {
+        "x": 0,
+        "y": 65.72852343749992,
+        "z": -0.2714765625000837
+      },
+      "attitude": {
+        "pitch": 1.566666080067905,
+        "yaw": 0,
+        "roll": 0
+      },
+      "speed": 65.72908407088876,
+      "clearance": 6.003518701171881,
+      "assisted": true,
+      "impacts": 0,
+      "shield": true,
+      "camera": "chase"
+    },
+    {
+      "time": 1.691666666666663,
+      "phase": "REDIRECT",
+      "mode": "running",
+      "position": {
+        "x": 55,
+        "y": 65.65000924841235,
+        "z": -7.999990751587383
+      },
+      "velocity": {
+        "x": 0,
+        "y": 65.9947725406447,
+        "z": -0.00522745935529656
+      },
+      "attitude": {
+        "pitch": 1.5707171165916773,
+        "yaw": 0,
+        "roll": 0
+      },
+      "speed": 65.99477274767877,
+      "clearance": 6.000009248412617,
+      "assisted": true,
+      "impacts": 0,
+      "shield": true,
+      "camera": "chase"
+    },
+    {
+      "time": 1.7249999999999963,
+      "phase": "GLIDING",
+      "mode": "running",
+      "position": {
+        "x": 55,
+        "y": 67.84622472270622,
+        "z": -8
+      },
+      "velocity": {
+        "x": 0,
+        "y": 65.77432960850649,
+        "z": 0
+      },
+      "attitude": {
+        "pitch": 1.5707963267948966,
+        "yaw": 0,
+        "roll": 0
+      },
+      "speed": 65.77432960850649,
+      "clearance": 6,
+      "assisted": true,
+      "impacts": 0,
+      "shield": true,
+      "camera": "chase"
+    },
+    {
+      "time": 1.7249999999999963,
+      "phase": "DETACHING",
+      "mode": "running",
+      "position": {
+        "x": 55,
+        "y": 67.84622472270622,
+        "z": -8
+      },
+      "velocity": {
+        "x": 0,
+        "y": 65.77432960850649,
+        "z": 0
+      },
+      "attitude": {
+        "pitch": 1.5707963267948966,
+        "yaw": 0,
+        "roll": 0
+      },
+      "speed": 65.77432960850649,
+      "clearance": 6,
+      "assisted": true,
+      "impacts": 0,
+      "shield": true,
+      "camera": "chase"
+    },
+    {
+      "time": 1.7583333333333295,
+      "phase": "DETACHING",
+      "mode": "running",
+      "position": {
+        "x": 55,
+        "y": 70.03264166300256,
+        "z": -8
+      },
+      "velocity": {
+        "x": 0,
+        "y": 65.48504255047301,
+        "z": -1.4210854715202004e-14
+      },
+      "attitude": {
+        "pitch": 1.5707963267948966,
+        "yaw": 0,
+        "roll": 0
+      },
+      "speed": 65.48504255047301,
+      "clearance": 6,
+      "assisted": true,
+      "impacts": 0,
+      "shield": true,
+      "camera": "chase"
+    },
+    {
+      "time": 1.7833333333333294,
+      "phase": "DETACHING",
+      "mode": "running",
+      "position": {
+        "x": 55,
+        "y": 71.66627834758356,
+        "z": -8
+      },
+      "velocity": {
+        "x": 0,
+        "y": 65.27646196033793,
+        "z": 0
+      },
+      "attitude": {
+        "pitch": 1.5707963267948966,
+        "yaw": 0,
+        "roll": 0
+      },
+      "speed": 65.27646196033793,
+      "clearance": 6,
+      "assisted": true,
+      "impacts": 0,
+      "shield": true,
+      "camera": "chase"
+    },
+    {
+      "time": 1.8166666666666627,
+      "phase": "DETACHING",
+      "mode": "running",
+      "position": {
+        "x": 55,
+        "y": 73.83655867158906,
+        "z": -8
+      },
+      "velocity": {
+        "x": 0,
+        "y": 65.00908233253767,
+        "z": -1.4210854715202004e-14
+      },
+      "attitude": {
+        "pitch": 1.5707963267948966,
+        "yaw": 0,
+        "roll": 0
+      },
+      "speed": 65.00908233253767,
+      "clearance": 6,
+      "assisted": true,
+      "impacts": 0,
+      "shield": true,
+      "camera": "chase"
+    },
+    {
+      "time": 1.8499999999999959,
+      "phase": "DETACHING",
+      "mode": "running",
+      "position": {
+        "x": 55,
+        "y": 75.9981728320596,
+        "z": -8
+      },
+      "velocity": {
+        "x": 0,
+        "y": 64.75346808166717,
+        "z": -1.4210854715202004e-14
+      },
+      "attitude": {
+        "pitch": 1.5707963267948966,
+        "yaw": 0,
+        "roll": 0
+      },
+      "speed": 64.75346808166717,
+      "clearance": 6,
+      "assisted": true,
+      "impacts": 0,
+      "shield": true,
+      "camera": "chase"
+    },
+    {
+      "time": 1.883333333333329,
+      "phase": "DETACHING",
+      "mode": "running",
+      "position": {
+        "x": 55,
+        "y": 78.15150216201354,
+        "z": -8
+      },
+      "velocity": {
+        "x": 0,
+        "y": 64.50910150151431,
+        "z": -1.4210854715202004e-14
+      },
+      "attitude": {
+        "pitch": 1.5707963267948966,
+        "yaw": 0,
+        "roll": 0
+      },
+      "speed": 64.50910150151431,
+      "clearance": 6,
+      "assisted": true,
+      "impacts": 0,
+      "shield": true,
+      "camera": "chase"
+    },
+    {
+      "time": 1.9166666666666623,
+      "phase": "DETACHING",
+      "mode": "running",
+      "position": {
+        "x": 55,
+        "y": 80.29691121485624,
+        "z": -8
+      },
+      "velocity": {
+        "x": 0,
+        "y": 64.27548766624402,
+        "z": -1.4210854715202004e-14
+      },
+      "attitude": {
+        "pitch": 1.5707963267948966,
+        "yaw": 0,
+        "roll": 0
+      },
+      "speed": 64.27548766624402,
+      "clearance": 6,
+      "assisted": true,
+      "impacts": 0,
+      "shield": true,
+      "camera": "chase"
+    },
+    {
+      "time": 1.9499999999999955,
+      "phase": "DETACHING",
+      "mode": "running",
+      "position": {
+        "x": 55,
+        "y": 82.43474850272513,
+        "z": -8
+      },
+      "velocity": {
+        "x": 0,
+        "y": 64.05215342800425,
+        "z": -1.4210854715202004e-14
+      },
+      "attitude": {
+        "pitch": 1.5707963267948966,
+        "yaw": 0,
+        "roll": 0
+      },
+      "speed": 64.05215342800425,
+      "clearance": 6,
+      "assisted": true,
+      "impacts": 0,
+      "shield": true,
+      "camera": "chase"
+    },
+    {
+      "time": 1.9749999999999954,
+      "phase": "DETACHING",
+      "mode": "running",
+      "position": {
+        "x": 55,
+        "y": 84.03335848185738,
+        "z": -8
+      },
+      "velocity": {
+        "x": 0,
+        "y": 63.891125874521265,
+        "z": -7.105427357601002e-15
+      },
+      "attitude": {
+        "pitch": 1.5707963267948966,
+        "yaw": 0,
+        "roll": 0
+      },
+      "speed": 63.891125874521265,
+      "clearance": 6,
+      "assisted": true,
+      "impacts": 0,
+      "shield": true,
+      "camera": "chase"
+    },
+    {
+      "time": 2.008333333333329,
+      "phase": "FLIGHT",
+      "mode": "running",
+      "position": {
+        "x": 55,
+        "y": 86.15873804371675,
+        "z": -8
+      },
+      "velocity": {
+        "x": 0,
+        "y": 63.684704523004434,
+        "z": -3.899563477437117e-15
+      },
+      "attitude": {
+        "pitch": 1.5707963267948966,
+        "roll": 0,
+        "yaw": 0
+      },
+      "speed": 63.684704523004434,
+      "clearance": 6,
+      "assisted": true,
+      "impacts": 0,
+      "shield": true,
+      "camera": "chase"
+    },
+    {
+      "time": 2.041666666666662,
+      "phase": "FLIGHT",
+      "mode": "running",
+      "position": {
+        "x": 55,
+        "y": 88.2774271886432,
+        "z": -8
+      },
+      "velocity": {
+        "x": 0,
+        "y": 63.48736623075775,
+        "z": -3.887479992039662e-15
+      },
+      "attitude": {
+        "pitch": 1.5707963267948966,
+        "roll": 0,
+        "yaw": 0
+      },
+      "speed": 63.48736623075775,
+      "clearance": 6,
+      "assisted": true,
+      "impacts": 0,
+      "shield": true,
+      "camera": "chase"
+    },
+    {
+      "time": 2.0749999999999953,
+      "phase": "FLIGHT",
+      "mode": "running",
+      "position": {
+        "x": 55,
+        "y": 90.38972031182936,
+        "z": -8
+      },
+      "velocity": {
+        "x": 0,
+        "y": 63.298711320300676,
+        "z": -3.875928210427928e-15
+      },
+      "attitude": {
+        "pitch": 1.5707963267948966,
+        "roll": 0,
+        "yaw": 0
+      },
+      "speed": 63.298711320300676,
+      "clearance": 6,
+      "assisted": true,
+      "impacts": 0,
+      "shield": true,
+      "camera": "chase"
+    },
+    {
+      "time": 2.1083333333333285,
+      "phase": "FLIGHT",
+      "mode": "running",
+      "position": {
+        "x": 55,
+        "y": 92.49589885433805,
+        "z": -8
+      },
+      "velocity": {
+        "x": 0,
+        "y": 63.11835770096827,
+        "z": -3.864884736296424e-15
+      },
+      "attitude": {
+        "pitch": 1.5707963267948966,
+        "roll": 0,
+        "yaw": 0
+      },
+      "speed": 63.11835770096827,
+      "clearance": 6,
+      "assisted": true,
+      "impacts": 0,
+      "shield": true,
+      "camera": "chase"
+    },
+    {
+      "time": 2.1416666666666617,
+      "phase": "FLIGHT",
+      "mode": "running",
+      "position": {
+        "x": 55,
+        "y": 94.59623187311662,
+        "z": -8
+      },
+      "velocity": {
+        "x": 0,
+        "y": 62.945940095047,
+        "z": -3.8543272028360174e-15
+      },
+      "attitude": {
+        "pitch": 1.5707963267948966,
+        "roll": 0,
+        "yaw": 0
+      },
+      "speed": 62.945940095047,
+      "clearance": 6,
+      "assisted": true,
+      "impacts": 0,
+      "shield": true,
+      "camera": "chase"
+    },
+    {
+      "time": 2.174999999999995,
+      "phase": "FLIGHT",
+      "mode": "running",
+      "position": {
+        "x": 55,
+        "y": 96.69097658592919,
+        "z": -8
+      },
+      "velocity": {
+        "x": 0,
+        "y": 62.78110929796258,
+        "z": -3.844234227433501e-15
+      },
+      "attitude": {
+        "pitch": 1.5707963267948966,
+        "roll": 0,
+        "yaw": 0
+      },
+      "speed": 62.78110929796258,
+      "clearance": 6,
+      "assisted": true,
+      "impacts": 0,
+      "shield": true,
+      "camera": "chase"
+    },
+    {
+      "time": 2.199999999999995,
+      "phase": "FLIGHT",
+      "mode": "running",
+      "position": {
+        "x": 55,
+        "y": 98.25851613005204,
+        "z": -8
+      },
+      "velocity": {
+        "x": 0,
+        "y": 62.662263660131366,
+        "z": -3.8369570309353694e-15
+      },
+      "attitude": {
+        "pitch": 1.5707963267948966,
+        "roll": 0,
+        "yaw": 0
+      },
+      "speed": 62.662263660131366,
+      "clearance": 6,
+      "assisted": true,
+      "impacts": 0,
+      "shield": true,
+      "camera": "chase"
+    },
+    {
+      "time": 2.233333333333328,
+      "phase": "FLIGHT",
+      "mode": "running",
+      "position": {
+        "x": 55,
+        "y": 100.34406647605283,
+        "z": -8
+      },
+      "velocity": {
+        "x": 0,
+        "y": 62.50991534052785,
+        "z": -3.827628386837473e-15
+      },
+      "attitude": {
+        "pitch": 1.5707963267948966,
+        "roll": 0,
+        "yaw": 0
+      },
+      "speed": 62.50991534052785,
+      "clearance": 6,
+      "assisted": true,
+      "impacts": 0,
+      "shield": true,
+      "camera": "chase"
+    },
+    {
+      "time": 2.2666666666666613,
+      "phase": "FLIGHT",
+      "mode": "running",
+      "position": {
+        "x": 55,
+        "y": 102.42467899091507,
+        "z": -8
+      },
+      "velocity": {
+        "x": 0,
+        "y": 62.36427073062537,
+        "z": -3.818710226570966e-15
+      },
+      "attitude": {
+        "pitch": 1.5707963267948966,
+        "roll": 0,
+        "yaw": 0
+      },
+      "speed": 62.36427073062537,
+      "clearance": 6,
+      "assisted": true,
+      "impacts": 0,
+      "shield": true,
+      "camera": "chase"
+    }
+  ]
+}

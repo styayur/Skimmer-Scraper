@@ -34,7 +34,8 @@ for (const count of [1,2,3]) {
     }, count);
     await page.goto('/?debug=1&seed=334458');
     await page.waitForFunction(() => window.__SKIMMER_SCRAPER__?.snapshot().mode === 'running');
-    await expect(page.locator('#companion-status')).toHaveAttribute('title', 'Local Autonomous Controller');
+    await expect(page.locator('#companion-status')).toHaveAttribute('data-planner', 'Local Autonomous Controller');
+    await expect(page.locator('#companion-status')).toHaveAttribute('title', '本地自主控制');
     const { start, after } = await page.evaluate(async () => {
       const game = window.__SKIMMER_SCRAPER__!;
       const start = game.snapshot();return { start, after: await game.advance(8) };
