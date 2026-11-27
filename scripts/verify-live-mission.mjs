@@ -85,7 +85,7 @@ async function main() {
   if (git('rev-parse','HEAD') !== values.sha || git('status','--porcelain','--untracked-files=no')) throw Error('frozen-source-mismatch');
   const dist = path.join(source,'dist');
   const meta = JSON.parse(await readFile(path.join(dist,'build-info.json'),'utf8'));
-  if (meta.sourceCommit !== values.sha || meta.version !== '0.9.1' || meta.dirty !== false) throw Error('frozen-build-mismatch');
+  if (meta.sourceCommit !== values.sha || meta.version !== JSON.parse(await readFile(path.join(source,'package.json'),'utf8')).version || meta.dirty !== false) throw Error('frozen-build-mismatch');
   const html = await readFile(path.join(dist,'index.html'),'utf8');
   const entry = /<script\b[^>]*\btype="module"[^>]*\bsrc="\.\/(assets\/[\w.-]+\.js)"/.exec(html)?.[1];
   if (!entry) throw Error('frozen-module-missing');

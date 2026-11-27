@@ -1,0 +1,175 @@
+{
+  "suite": "tests/unit/surfaceTrajectory.test.ts",
+  "fixedHz": 120,
+  "planningHz": 15,
+  "chosenAccelerationMps2": 260,
+  "fixture": {
+    "wallThicknessM": 0.12,
+    "bodyRadiusM": 3.2,
+    "startSpeedMps": [
+      48,
+      76,
+      102
+    ],
+    "yawRad": [
+      0,
+      0.35
+    ],
+    "armDistanceM": [
+      14,
+      40,
+      76
+    ],
+    "seconds": 3
+  },
+  "results": [
+    {
+      "acceleration": 180,
+      "captured": 10,
+      "escaped": 0,
+      "rejected": 8,
+      "clearance": 5.999999999999998,
+      "maxAcceleration": 169.2524658254749,
+      "peakTurn": 4.200053461645673,
+      "longest": 1.4916666666666638,
+      "retention": 0.5843152132415035,
+      "error": 1.2434497875801753e-14,
+      "chords": 3864
+    },
+    {
+      "acceleration": 260,
+      "captured": 14,
+      "escaped": 0,
+      "rejected": 4,
+      "clearance": 5.999999999999991,
+      "maxAcceleration": 254.5161608351373,
+      "peakTurn": 4.200053593868022,
+      "longest": 1.3666666666666643,
+      "retention": 0.4327366125322145,
+      "error": 5.329070518200751e-15,
+      "chords": 5329
+    },
+    {
+      "acceleration": 320,
+      "captured": 14,
+      "escaped": 0,
+      "rejected": 4,
+      "clearance": 5.999999999999991,
+      "maxAcceleration": 305.21557098284126,
+      "peakTurn": 4.2000535966407675,
+      "longest": 1.2999999999999978,
+      "retention": 0.584374235190795,
+      "error": 8.881784197001252e-15,
+      "chords": 5314
+    },
+    {
+      "acceleration": 440,
+      "captured": 14,
+      "escaped": 1,
+      "rejected": 3,
+      "clearance": 4.439569150170243,
+      "maxAcceleration": 436.89457036480724,
+      "peakTurn": 4.200053596794556,
+      "longest": 1.2999999999999978,
+      "retention": 0.5701497551416256,
+      "error": 8.881784197001252e-15,
+      "chords": 5524
+    },
+    {
+      "acceleration": 560,
+      "captured": 15,
+      "escaped": 1,
+      "rejected": 2,
+      "clearance": 4.741010967906478,
+      "maxAcceleration": 556.0857619398452,
+      "peakTurn": 4.200053596794556,
+      "longest": 1.2999999999999978,
+      "retention": 0.4645801121128446,
+      "error": 8.881784197001252e-15,
+      "chords": 5850
+    },
+    {
+      "acceleration": 680,
+      "captured": 16,
+      "escaped": 0,
+      "rejected": 2,
+      "clearance": 5.999999999999991,
+      "maxAcceleration": 666.8336767598064,
+      "peakTurn": 4.200053596794556,
+      "longest": 1.2999999999999978,
+      "retention": 0.5847206703134349,
+      "error": 8.881784197001252e-15,
+      "chords": 6046
+    }
+  ],
+  "planner": [
+    {
+      "acceleration": 180,
+      "calls": 75,
+      "accepted": 10,
+      "declined": 65,
+      "totalMs": 5.843,
+      "meanUs": 77.9,
+      "p95Us": 92.2,
+      "maxUs": 3914.1
+    },
+    {
+      "acceleration": 260,
+      "calls": 63,
+      "accepted": 14,
+      "declined": 49,
+      "totalMs": 1.076,
+      "meanUs": 17.08,
+      "p95Us": 55.2,
+      "maxUs": 157.8
+    },
+    {
+      "acceleration": 320,
+      "calls": 66,
+      "accepted": 14,
+      "declined": 52,
+      "totalMs": 0.987,
+      "meanUs": 14.96,
+      "p95Us": 64.5,
+      "maxUs": 82.1
+    },
+    {
+      "acceleration": 440,
+      "calls": 80,
+      "accepted": 14,
+      "declined": 66,
+      "totalMs": 1.945,
+      "meanUs": 24.31,
+      "p95Us": 81.2,
+      "maxUs": 730
+    },
+    {
+      "acceleration": 560,
+      "calls": 74,
+      "accepted": 15,
+      "declined": 59,
+      "totalMs": 0.723,
+      "meanUs": 9.77,
+      "p95Us": 44.7,
+      "maxUs": 59.4
+    },
+    {
+      "acceleration": 680,
+      "calls": 61,
+      "accepted": 16,
+      "declined": 45,
+      "totalMs": 1.272,
+      "meanUs": 20.85,
+      "p95Us": 91.9,
+      "maxUs": 232.3
+    }
+  ],
+  "harnessMs": 863,
+  "timing": {
+    "method": "performance.now around each real planRedirect call, in process, including BVH queries",
+    "node": "v26.7.0",
+    "platform": "win32",
+    "arch": "x64",
+    "cpu": "AMD Ryzen 7 H 255 w/ Radeon 780M Graphics"
+  }
+}

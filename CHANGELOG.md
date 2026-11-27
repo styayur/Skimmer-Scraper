@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.9.2 · Surface Instinct
+
+- LB and Space open a two-second capture window. Side approaches, braking turns and open-air escape use swept paths. Following samples the surface ahead and can bridge short seams.
+- World music starts on takeoff at 35%. The music switch and volume carry over to the next launch.
+- 轻按 LB 或空格开启两秒捕获窗口。遇到急弯时飞机可减速，短暂失去接触时会尝试重新贴面。背景音乐随起飞播放，开关和音量保存在本机。
+
 ## 0.9.1 · SHIFT
 
 - Added predictive surface approaches, wall climbs, corner transfers and launches on the existing Space/LB control. Surface maneuvers use local collision geometry and affect the assisted score category.

@@ -21,6 +21,7 @@ test('an attached Challenge run saves to its glide category after detach and res
   });
   await page.keyboard.press('Space');
   await page.waitForFunction(() => window.__SKIMMER_SCRAPER__!.snapshot().glide.phase === 'GLIDING');
+  expect(await page.evaluate(() => window.__SKIMMER_SCRAPER__!.snapshot().surfaceGlideAssisted)).toBe(true);
   await page.keyboard.press('Space');
   await page.waitForFunction(() => window.__SKIMMER_SCRAPER__!.snapshot().glide.phase === 'FLIGHT');
   expect(await page.evaluate(() => window.__SKIMMER_SCRAPER__!.snapshot().surfaceGlideAssisted)).toBe(true);

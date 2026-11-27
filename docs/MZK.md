@@ -1,6 +1,6 @@
 # Background music
 
-Enable flight music in Advanced settings. The selection applies to the current session. The music pauses with flight, changes pools on world selection and ducks during radio transmissions. Local files remain in this window and take precedence over its bundled pool.
+Music starts on first takeoff at 35% volume. Advanced settings save the music switch and volume on this device. Selected local files last for the current window. The music pauses with flight, changes pools on world selection and ducks during radio transmissions. Local files remain in this window and take precedence over its bundled pool.
 
 The Web and Windows players share an HTML audio session. Each window owns its media element and object URLs. Closing the game releases them without contacting another mzk or mpv process.
 

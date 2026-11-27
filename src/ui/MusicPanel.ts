@@ -19,6 +19,9 @@ export function bindMusicPanel(session:MusicSession) {
   const volume=panel.querySelector<HTMLInputElement>('#bgm-volume')!;
   const files=panel.querySelector<HTMLInputElement>('input[type=file]')!;
   const status=panel.querySelector('[role=status]')!;
+  enabled.checked = session.enabled;
+  controls.hidden = !session.enabled;
+  volume.valueAsNumber = Math.round(100 * session.volume);
   enabled.onchange=()=>{session.setEnabled(enabled.checked);controls.hidden=!enabled.checked;};
   volume.oninput=()=>session.setVolume(volume.valueAsNumber/100);
   files.onchange=()=>session.setFiles(Array.from(files.files??[]));

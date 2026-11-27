@@ -409,8 +409,8 @@ export class WorldStreamer implements RenderableWorld {
   public queryProximity(position: Vec3, range: number) { return this.surfaces.queryProximity(position, range); }
   public queryStatic(position: Vec3, range: number) { return this.surfaces.queryStatic(position, range); }
   public queryGlide(position: Vec3, range: number) { return this.surfaces.queryGlide(position,range); }
-  public queryGlideAhead(position: Vec3, range: number, seconds: number) {
-    return this.surfaces.queryGlideAhead(position, range, seconds);
+  public queryGlideAhead(position: Vec3, range: number, seconds: number, includeObstacles = false) {
+    return this.surfaces.queryGlideAhead(position, range, seconds, includeObstacles);
   }
   public isGlideVolumeCovered(center: Vec3, radius: number) {
     for (let x = Math.floor((center.x - radius) / CHUNK_SIZE); x <= Math.floor((center.x + radius) / CHUNK_SIZE); x++) {

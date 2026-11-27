@@ -242,6 +242,21 @@ describe('local mission executive', () => {
 });
 
 describe('bounded cognition', () => {
+  it.each([['Tell me a story', true], ['Tell me a story about our current altitude', false]] as const)(
+    'uses the pilot topic to bound creative dialogue for %s', async (message, creative) => {
+      const text = 'I folded a paper glider from my oldest chart.';
+      const client = new ModelClient(async (_url, init) => {
+        const input = JSON.parse(JSON.parse(String(init?.body)).messages[1].content);
+        expect(input.freeDialogue).toBe(creative);
+        return response({ ...envelope(input.perception, []), dialogue: [{ agentId: 1, freeText: text }] });
+      });
+      client.connect(DEFAULT_MODEL_CONFIG, 'mock-creative-speech');
+      const { runtime } = setup(1, client);
+      await runtime.sendDialogue(message);
+      expect(runtime.radio.snapshot().history.at(-1)?.text === text).toBe(creative);
+      expect(runtime.lastPlan).toBeNull();
+      expect(runtime.snapshot().missions).toEqual([]);
+    });
   describe.each(['v1', 'v2'])('%s grounded radio', protocol => {
     it.each([
       ['en-US', 'Did you see a landmark?', 'Crystal citadel sighted at 9321, 7788.', 'Our scan has no confirmed landmark.'],

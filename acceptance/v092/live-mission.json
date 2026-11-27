@@ -1,0 +1,44 @@
+{
+  "sourceCommit": "e40656e76915c867ae07c25f4f2b5f1f4667a050",
+  "version": "0.9.2",
+  "expectedEntrySha256": "afc4da6062fd983a559e46a3eaf761ce9a6c073d0ae651963ee6820a7d250d88",
+  "loadedEntrySha256": "afc4da6062fd983a559e46a3eaf761ce9a6c073d0ae651963ee6820a7d250d88",
+  "loadedSourceCommit": "e40656e76915c867ae07c25f4f2b5f1f4667a050",
+  "provider": "DeepSeek",
+  "model": "deepseek-flash",
+  "maxPlayerRequests": 1,
+  "transport": "One official HTTPS POST bridged to the isolated browser; direct browser CORS is outside this smoke.",
+  "attempts": 1,
+  "blockedExternal": 0,
+  "duplicatePosts": 0,
+  "httpStatus": 200,
+  "providerUsage": {
+    "input": 1158,
+    "output": 56,
+    "total": 1214,
+    "cached": 0
+  },
+  "providerCost": null,
+  "outcome": "validated-model-mission",
+  "phase": "complete",
+  "mission": {
+    "type": "ESCORT",
+    "agentId": 2,
+    "phase": "formation",
+    "outcome": "running"
+  },
+  "lanes": {
+    "background": 0,
+    "dialogue": 0,
+    "planning": 1,
+    "asr": 0,
+    "tts": 0
+  },
+  "validation": [
+    {
+      "source": "model",
+      "result": "accepted"
+    }
+  ],
+  "clientError": null
+}

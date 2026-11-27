@@ -28,6 +28,12 @@ function requestedAct(message: string): SpeechAct | undefined {
   if (/\b(?:hello|hi|hey)\b|你好|嗨/i.test(message)) return 'greeting';
 }
 
+/** A creative exchange is opt-in by topic. Mixed requests stay grounded. */
+export function freeDialogueTopic(message: string) {
+  const operational = /altitude|speed|distance|where are (we|you) now|coordina|trust|charge|mission|task|hazard|danger|obstacle|see\b|status|height|高度|速度|距离|坐标|当前|现在在哪|信任|任务|危险|障碍|看见|看到|状态/i;
+  return !operational.test(message) && /your (background|story|dream|favorite|childhood)|philosoph|tell (me )?a (story|joke)|poem|poetry|童年|往事|你的经历|你的过去|哲学|讲个故事|笑话|写首诗/i.test(message);
+}
+
 /** Select a topic from the pilot or an enumerated act. All displayed values come from the simulator. */
 export function groundedDialogue(
   message: string, agent: number, language: RadioLanguage, picture: Perception,

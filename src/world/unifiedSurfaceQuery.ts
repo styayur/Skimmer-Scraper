@@ -21,9 +21,9 @@ export class UnifiedSurfaceQuery implements SurfaceProvider {
   public queryGlide(position: Vec3, range: number) {
     return this.queryGlideAhead(position, range, 0);
   }
-  public queryGlideAhead(position: Vec3, range: number, seconds: number) {
+  public queryGlideAhead(position: Vec3, range: number, seconds: number, includeObstacles = false) {
     const solid = this.solid.queryGlide?.(position,range);
-    return this.dynamic.queryNearest(position, solid?.distance ?? range, true, true, seconds) ?? solid ?? null;
+    return this.dynamic.queryNearest(position, solid?.distance ?? range, !includeObstacles, true, seconds) ?? solid ?? null;
   }
 
   public sweepDynamic(from: Vec3, to: Vec3, radius: number) { return this.dynamic.sweep(from, to, radius); }
