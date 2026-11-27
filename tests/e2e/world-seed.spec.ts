@@ -57,7 +57,7 @@ test.describe('v0.2 phase 2 seeded city', () => {
     await page.keyboard.press('g');
     await expect(page.locator('#world-panel')).toBeVisible();
     await page.locator('#world-seed-input').fill('seed-beta');
-    await expect(page.locator('#world-legacy-note')).toContainText('Neon Megacity');
+    await expect(page.locator('#world-legacy-note')).toContainText('霓虹巨城');
     await expect(page.getByRole('button', { name: '复制分享链接' })).toHaveCount(0);
     await page.locator('#world-copy-seed').click();
     expect(await page.evaluate(() => navigator.clipboard.readText())).toBe('seed-beta');
@@ -84,7 +84,7 @@ test.describe('v0.2 phase 2 seeded city', () => {
     expect(copiedSeed).toBe(await page.locator('#world-seed-input').inputValue());
     await page.locator('#world-reset').click();
     await expect(page.locator('#world-seed-input')).toHaveValue('334458');
-    await expect(page.locator('#world-legacy-note')).toContainText('Neon Megacity');
+    await expect(page.locator('#world-legacy-note')).toContainText('霓虹巨城');
     await page.screenshot({ path: 'evidence/v0.3/regression/v0.2/phase-2-world-panel.png', fullPage: true, animations: 'disabled' });
 
     writeFileSync(

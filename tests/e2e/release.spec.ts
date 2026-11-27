@@ -70,7 +70,7 @@ test.describe('v0.1.0 release acceptance', () => {
     await page.goto('/?seed=334458');
     await waitForReady(page);
 
-    await expect(page).toHaveTitle('Skimmer-Scraper — Close-Surface Flight');
+    await expect(page).toHaveTitle('Skimmer-Scraper — 近距飞行');
     await expect(page.getByRole('heading', { name: 'SKIMMER SCRAPER' })).toBeVisible();
     await page.screenshot({
       path: 'evidence/v0.3/regression/phase-4-v0.1.0-title.png',
