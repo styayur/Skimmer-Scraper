@@ -1,0 +1,63 @@
+{
+  "method": "Isolated synthetic Gamepad API fixture; no hardware input",
+  "expected": "3a5f557dc1ffa7189362729fb35a0f04c8dd74c8",
+  "cases": {
+    "cancel": {
+      "phase": "FLIGHT",
+      "elapsed": 0,
+      "mode": "running",
+      "sim": 1.0999999999999985
+    },
+    "held": {
+      "phase": "FLIGHT",
+      "elapsed": 0,
+      "mode": "running",
+      "sim": 3.1999999999999913
+    },
+    "pause": {
+      "before": {
+        "phase": "ARMED",
+        "elapsed": 0.4000000000000004,
+        "mode": "paused",
+        "sim": 3.799999999999989
+      },
+      "after": {
+        "phase": "ARMED",
+        "elapsed": 0.4000000000000004,
+        "mode": "paused",
+        "sim": 3.799999999999989
+      },
+      "resumed": {
+        "phase": "ARMED",
+        "elapsed": 0.7,
+        "mode": "running",
+        "sim": 4.099999999999993
+      }
+    },
+    "remapped": {
+      "phase": "ARMED",
+      "elapsed": 0.4000000000000004,
+      "mode": "running",
+      "sim": 5.300000000000053
+    },
+    "conflict": {
+      "phase": "FLIGHT",
+      "elapsed": 0,
+      "mode": "running",
+      "sim": 5.900000000000083
+    }
+  },
+  "passed": true,
+  "build": {
+    "version": "0.9.2",
+    "sourceCommit": "3a5f557dc1ffa7189362729fb35a0f04c8dd74c8",
+    "sourceCommitTime": "2026-11-27T19:35:45+08:00",
+    "dirty": false,
+    "sourceUrl": "https://github.com/styayur/Skimmer-Scraper/tree/3a5f557dc1ffa7189362729fb35a0f04c8dd74c8",
+    "toolchain": {
+      "node": "v26.7.0",
+      "platform": "win32",
+      "architecture": "x64"
+    }
+  }
+}
