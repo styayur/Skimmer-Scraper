@@ -1,6 +1,6 @@
 # Finite imported flight studies
 
-Download an original [contact deck or Relay District GLB](https://github.com/styayur/V2Wpro/tree/research/kinetogenesis/examples). Open Worlds with G, select the file, analyze and apply. Keep the current world to replay the exact layout. Start Free Flight and tap LB or Space on approach. Tap again to leave the surface along the current tangent. In Relay District the forward wall leads over a convex edge onto the roof. The other architectural forms are open for exploration.
+Download an original [contact deck or Relay District GLB](https://github.com/styayur/V2Wpro/tree/58442fd/examples). Open Worlds with G, select the file, analyze and apply. Keep the current world to replay the exact layout. Start Free Flight and tap LB or Space on approach. Tap again to leave the surface along the current tangent. In Relay District the forward wall leads over a convex edge onto the roof. The other architectural forms are open for exploration.
 
 The world library displays the collision triangle count, transformed dimensions and spawn position. Scene-local WorldIR topology nodes can guide a nearby forward scan or a wingmate's leading corridor. Hints move through the same up-axis, yaw, scale and recentering transform as the GLB. Generated layout variants can move structures independently, so their pilots use live perception. Manual spawn and heading retain priority. A flightEntry version 1 supplies position and toward as finite XYZ triples. The importer checks its level direction and 60 m departure corridor against collision before accepting it.
 
@@ -30,7 +30,7 @@ The baseline release commit is `18e8fbcc931156da5035cb6c694e098b0111982a`. The o
 | Corrected cruise roof, seeds 8131 and 8132 | Reached sustained GLIDING, active detachment and free flight with zero player shield strikes. |
 | Cruise roof under boost, seed 8132 | Peak speed 101.85 m/s. One strike after release. |
 | Boost-designed roof under boost, seed 8132 | Peak speed 101.64 m/s. Capture and release succeeded with zero player shield strikes. |
-| Relay District | Transferred from the wall to the roof and actively detached. A leader and a landmark scout accepted assignments. A near-roof escort approach was rejected as unreachable. |
+| Relay District | Transferred from the wall to the roof and actively detached. A leader and a landmark scout accepted assignments. A near-roof escort approach was rejected as unreachable. After clearing the tower, KITE-2 accepted the retry and entered escort formation. KITE-3 completed inspection and returned. |
 
 The matched 640 × 360 contact-deck samples on AMD Radeon 780M D3D11 gave p95 of 8.4 ms in both builds. One 120-frame sample per build supports a comparison of this scene and viewport only. This experiment covers emulated LB input. The historical physical-controller record belongs to v0.9.2. Continuous traversal of all spiral terraces, serpentine seams, general concave junctions and infinite imported layouts remain experimental.
 

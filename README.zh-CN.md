@@ -2,6 +2,10 @@
 
 **Make the surface your escape route.** 在樱色巨城贴着屋顶和墙面飞行，带领三台伴机穿过世界翻转。在稳定世界中可用种子重飞同一条航线。[在线游玩](https://styayur.github.io/Skimmer-Scraper/) · [Windows 下载](https://github.com/styayur/Skimmer-Scraper/releases/latest) · [English](README.md)
 
+## 可飞行建筑
+
+在世界库导入接力实验区，起飞后用 LB 或空格捕获前方墙面，越过凸缘转移到屋顶，再主动脱离。导入面板显示出生坐标和碰撞三角面数，伴机可沿作者标记的航路领航与侦察。[实验世界、飞行录像与复现步骤](docs/FLYABLE-ARCHITECTURE.md)
+
 ## 开始飞行
 
 从有护盾的自由飞行开始。发现危险时轻按空格或手柄 LB，飞机会在两秒内寻找附近可安全利用的表面。再按一次取消捕获或沿当前惯性脱离。挑战模式为实际使用运动辅助的飞行保存独立成绩。按 **H** 打开游戏教程，**C** 切换视角，**Esc** 暂停，**Alt+Enter** 切换全屏。中文地区的浏览器显示简体中文，其余浏览器显示英文。

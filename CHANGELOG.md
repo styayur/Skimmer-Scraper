@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.10.0 · Flyable Architecture
+
+- Imports optional bounded flight entries and forward topology hints. Existing GLBs and saved layout identities retain their original format.
+- Adds real-game flight diagnostics, finite contact and convex transfer evidence, and an installed-client check for Windows builds. [Qualification and compatibility](docs/FLYABLE-ARCHITECTURE.md)
+
 ## 0.9.2 · Surface Instinct
 
 - LB and Space open a two-second capture window. Side approaches, braking turns and open-air escape use swept paths. Following samples the surface ahead and can bridge short seams.
