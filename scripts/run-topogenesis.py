@@ -1,5 +1,6 @@
 """Replay one frozen batch on an independently served, identified game build."""
 import argparse
+import hashlib
 import json
 import subprocess
 import sys
@@ -12,7 +13,7 @@ root = Path(__file__).resolve().parents[1]
 evidence = root / "acceptance/joint-flight/topogenesis"
 matrix = json.loads((evidence / "matrix.json").read_text())
 parser = argparse.ArgumentParser(description=__doc__)
-parser.add_argument("batch", choices=["baseline", "paired", "development", "holdout", "second-holdout"])
+parser.add_argument("batch", choices=["baseline", "paired", "development", "holdout", "second-holdout", "third-holdout"])
 parser.add_argument("producer", type=Path, help="Independent V2Wpro checkout with its dependencies installed")
 parser.add_argument("output", type=Path, help="New directory, or an existing directory without the selected reports")
 parser.add_argument("--revision", type=int, choices=[0, 1, 2], default=0)
@@ -20,21 +21,22 @@ parser.add_argument("--url", default="http://127.0.0.1:4173")
 parser.add_argument("--browser")
 parser.add_argument("--controller", default=matrix["controller"], help="Expected clean game source commit")
 parser.add_argument("--entry-sha256", default=matrix["entrySha256"], help="Expected served JavaScript entry digest")
-parser.add_argument("--sealed-cases", type=Path, help="Revealed inputs for the second-holdout batch")
+parser.add_argument("--sealed-cases", type=Path, help="Input payload for the selected committed holdout")
 parser.add_argument("--verify-with", type=Path, help="Regenerate the GLB and validate an existing report with the producer reader")
 parser.add_argument("--only", help="Filter by module or decimal seed")
 parser.add_argument("--resume", action="store_true", help="Reuse completed reports matching the frozen case and controller")
 args = parser.parse_args()
 args.output.mkdir(parents=True, exist_ok=True)
 producer = args.producer.resolve()
+sealed_assets = {}
 if args.batch == "baseline":
     rows = [row + ["entry", 3] for row in matrix["baselines"]]
 elif args.batch == "paired":
     rows = matrix["pairedProbes"] + [row for row in matrix["development"] if row[1] in matrix["pairedSeeds"]]
-elif args.batch == "second-holdout":
+elif args.batch in {"second-holdout", "third-holdout"}:
     if not args.sealed_cases or args.revision != 2:
-        parser.error("The second holdout requires --sealed-cases and --revision 2")
-    rows = read_sealed_holdout(args.sealed_cases, evidence / "second-holdout-commitment.json", matrix)
+        parser.error("A sealed holdout requires --sealed-cases and --revision 2")
+    rows, sealed_assets = read_sealed_holdout(args.sealed_cases, evidence / f"{args.batch}-commitment.json", matrix)
 else:
     rows = matrix[args.batch]
 if args.only:
@@ -72,6 +74,10 @@ for module, seed, profile, tick, disposition, approach, wingmates in rows:
                            cwd=producer, check=True)
         else:
             asset = producer / "examples" / ("contact.glb" if module == "contact-deck" else "district.glb")
+        if seed in sealed_assets:
+            identity = {"bytes": asset.stat().st_size, "sha256": hashlib.sha256(asset.read_bytes()).hexdigest()}
+            if identity != sealed_assets[seed]:
+                raise ValueError("Generated GLB differs from its sealed byte count or digest")
         if args.verify_with:
             verified = json.loads(subprocess.check_output(["node", str(args.verify_with.resolve()), str(asset), str(report)]))
             print(report, verified["sha256"], verified["outcome"])
