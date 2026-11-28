@@ -1,0 +1,379 @@
+{
+  "scope": "Official main installer on four disposable current-user Windows installations",
+  "candidateSource": "67a568705cd0cabe18d467f465ae745e784aa245",
+  "sourceCommit": "67a568705cd0cabe18d467f465ae745e784aa245",
+  "harnessCommit": "67a568705cd0cabe18d467f465ae745e784aa245",
+  "run": "https://github.com/styayur/Skimmer-Scraper/actions/runs/46142150268",
+  "runAttempt": 1,
+  "target": "0.11.0",
+  "rollback": "0.10.0",
+  "candidatePackage": {
+    "source": "67a568705cd0cabe18d467f465ae745e784aa245",
+    "installer": "Skimmer-Scraper_0.11.0_x64-setup.exe",
+    "installerSha256": "73216758e8b1489dd1e0afc5d860b49eb9f6c9e57f9a22c7cc1f54693be60fc1",
+    "exeSha256": "986953923a2c8fdfd9bb5c9dc2890b9d63ecb2a0463b4e6e968450c73203ae22",
+    "buildRun": "46141199192",
+    "buildArtifactId": 15262276244,
+    "buildArtifactSha256": "a09d35d50fd12072afaae794abdc6174783fd252411c2ddb2da3360d86cc1ed9",
+    "artifactId": 15262221618,
+    "artifactSha256": "aeeb36e404e633dbba62e1fe1cff5aeb921c883403633bd9bb6cb49dfbbf05ac"
+  },
+  "journey": "Player opt-in, game-created historical visit, unchanged origin record after rollback, visible again after re-upgrade",
+  "hostedJobs": [
+    {
+      "fromVersion": "0.8.2",
+      "jobId": 140970359382,
+      "url": "https://github.com/styayur/Skimmer-Scraper/actions/runs/46142150268/job/140970359382",
+      "runner": "GitHub Actions 1000019788",
+      "labels": [
+        "windows-2022"
+      ]
+    },
+    {
+      "fromVersion": "0.9.1",
+      "jobId": 140970359365,
+      "url": "https://github.com/styayur/Skimmer-Scraper/actions/runs/46142150268/job/140970359365",
+      "runner": "GitHub Actions 1000019786",
+      "labels": [
+        "windows-2022"
+      ]
+    },
+    {
+      "fromVersion": "0.9.2",
+      "jobId": 140970359373,
+      "url": "https://github.com/styayur/Skimmer-Scraper/actions/runs/46142150268/job/140970359373",
+      "runner": "GitHub Actions 1000019787",
+      "labels": [
+        "windows-2022"
+      ]
+    },
+    {
+      "fromVersion": "0.10.0",
+      "jobId": 140970359388,
+      "url": "https://github.com/styayur/Skimmer-Scraper/actions/runs/46142150268/job/140970359388",
+      "runner": "GitHub Actions 1000019789",
+      "labels": [
+        "windows-2022"
+      ]
+    }
+  ],
+  "lanes": [
+    {
+      "fromVersion": "0.8.2",
+      "artifactId": 15262348176,
+      "artifactSha256": "72e8619a64f038cf85495f484504f8b414c19d419be9aa504d75123f1ec1df39",
+      "archive": "from-0.8.2.zip",
+      "webview2": "131.0.2903.86",
+      "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "worldId": "f081067586fa34c8cc796153bfedaf872061454f9ef54f0e1660d0c104b5a4d4",
+      "packId": "ascendant-web-2-334458",
+      "packBytes": 807408,
+      "journeySha256": "d40d84ba263e4765e1a26edccc4669515f937c9a28d73563d23f23252d0a9341",
+      "visitWorld": {
+        "realm": "city",
+        "seed": 73581,
+        "fingerprint": 1598222733
+      },
+      "witnesses": [
+        {
+          "stage": "original",
+          "version": "0.8.2",
+          "executedEntrySha256": "73cdc287645d37685f0dbb8c16de8331ab525d44426e0a9c6596f2dafc1c41d1",
+          "pilotSha256": "fbd9a379dac2dd10ddfbbc3d615e9327e6050446c449ed7d10c994ec5bfbf836"
+        },
+        {
+          "stage": "upgrade",
+          "version": "0.11.0",
+          "executedEntrySha256": "722ae5a1dd47688204352ca66dbf37f7bbcac4f4c4dff4012ba83680435f1a93",
+          "pilotSha256": "9667e663a7ab66f17280e7922d5002bc1936c12fb468a952044f7c2b40f131ee"
+        },
+        {
+          "stage": "rollback",
+          "version": "0.10.0",
+          "executedEntrySha256": "296cd7632c3f9943257eba28a702fa73ca7f1a0bca9289125599ea5119a9836e",
+          "pilotSha256": "9faa35a13c5f56ec092b42a631679a890370ddca698b49e251aa8f100e823c1a"
+        },
+        {
+          "stage": "reupgrade",
+          "version": "0.11.0",
+          "executedEntrySha256": "722ae5a1dd47688204352ca66dbf37f7bbcac4f4c4dff4012ba83680435f1a93",
+          "pilotSha256": "9faa35a13c5f56ec092b42a631679a890370ddca698b49e251aa8f100e823c1a"
+        },
+        {
+          "stage": "relaunch",
+          "version": "0.11.0",
+          "executedEntrySha256": "722ae5a1dd47688204352ca66dbf37f7bbcac4f4c4dff4012ba83680435f1a93",
+          "pilotSha256": "9faa35a13c5f56ec092b42a631679a890370ddca698b49e251aa8f100e823c1a"
+        }
+      ],
+      "sid": "S-1-5-21-1995136769-2955844435-1397185536-500",
+      "image": "20261123.376.1",
+      "profile": "C:\\Users\\runneradmin",
+      "registry": "HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\Skimmer-Scraper",
+      "snapshots": [
+        {
+          "stage": "upgrade",
+          "snapshotSha256": "47af83bc6ee99b1f586e1d8b4a1977b8be7a666ea6b99b592bae00c7e5559538",
+          "originFiles": 10
+        },
+        {
+          "stage": "rollback",
+          "snapshotSha256": "47af83bc6ee99b1f586e1d8b4a1977b8be7a666ea6b99b592bae00c7e5559538",
+          "originFiles": 12
+        },
+        {
+          "stage": "reupgrade",
+          "snapshotSha256": "47af83bc6ee99b1f586e1d8b4a1977b8be7a666ea6b99b592bae00c7e5559538",
+          "originFiles": 12
+        }
+      ],
+      "visitId": "247adaf8-de15-4cb2-aee0-d04968348b2e"
+    },
+    {
+      "fromVersion": "0.9.1",
+      "artifactId": 15262797857,
+      "artifactSha256": "d0a9de251efc7192f0238128b88d6a748b3c98a5e39f3b5d9574545435f0a8e8",
+      "archive": "from-0.9.1.zip",
+      "webview2": "131.0.2903.86",
+      "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "worldId": "f081067586fa34c8cc796153bfedaf872061454f9ef54f0e1660d0c104b5a4d4",
+      "packId": "ascendant-web-2-334458",
+      "packBytes": 807408,
+      "journeySha256": "c3b810a0d862f512bf669795e40eeb4025c4c9137d8e73adc22c0b14db3a0c33",
+      "visitWorld": {
+        "realm": "city",
+        "seed": 73581,
+        "fingerprint": 1598222733
+      },
+      "witnesses": [
+        {
+          "stage": "original",
+          "version": "0.9.1",
+          "executedEntrySha256": "38f7d6f34492a9994bb196a0bfbbcd3c22d007d5fdf1578f38c31e861c595fa6",
+          "pilotSha256": "fbd9a379dac2dd10ddfbbc3d615e9327e6050446c449ed7d10c994ec5bfbf836"
+        },
+        {
+          "stage": "upgrade",
+          "version": "0.11.0",
+          "executedEntrySha256": "722ae5a1dd47688204352ca66dbf37f7bbcac4f4c4dff4012ba83680435f1a93",
+          "pilotSha256": "9667e663a7ab66f17280e7922d5002bc1936c12fb468a952044f7c2b40f131ee"
+        },
+        {
+          "stage": "rollback",
+          "version": "0.10.0",
+          "executedEntrySha256": "296cd7632c3f9943257eba28a702fa73ca7f1a0bca9289125599ea5119a9836e",
+          "pilotSha256": "9faa35a13c5f56ec092b42a631679a890370ddca698b49e251aa8f100e823c1a"
+        },
+        {
+          "stage": "reupgrade",
+          "version": "0.11.0",
+          "executedEntrySha256": "722ae5a1dd47688204352ca66dbf37f7bbcac4f4c4dff4012ba83680435f1a93",
+          "pilotSha256": "9faa35a13c5f56ec092b42a631679a890370ddca698b49e251aa8f100e823c1a"
+        },
+        {
+          "stage": "relaunch",
+          "version": "0.11.0",
+          "executedEntrySha256": "722ae5a1dd47688204352ca66dbf37f7bbcac4f4c4dff4012ba83680435f1a93",
+          "pilotSha256": "9faa35a13c5f56ec092b42a631679a890370ddca698b49e251aa8f100e823c1a"
+        }
+      ],
+      "sid": "S-1-5-21-1995136769-2955844435-1397185536-500",
+      "image": "20261123.376.1",
+      "profile": "C:\\Users\\runneradmin",
+      "registry": "HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\Skimmer-Scraper",
+      "snapshots": [
+        {
+          "stage": "upgrade",
+          "snapshotSha256": "887589f6391b3987cd63bca0501407adce2581489ad93295a5db2a5f104fa4a9",
+          "originFiles": 10
+        },
+        {
+          "stage": "rollback",
+          "snapshotSha256": "887589f6391b3987cd63bca0501407adce2581489ad93295a5db2a5f104fa4a9",
+          "originFiles": 12
+        },
+        {
+          "stage": "reupgrade",
+          "snapshotSha256": "887589f6391b3987cd63bca0501407adce2581489ad93295a5db2a5f104fa4a9",
+          "originFiles": 12
+        }
+      ],
+      "visitId": "5357d029-a083-46a7-9ef3-e3a1f558cfb3"
+    },
+    {
+      "fromVersion": "0.9.2",
+      "artifactId": 15262777329,
+      "artifactSha256": "d4079a774b31f180a964f5b78697d8fceb37dbc3d3f4ae08fbc288eb6767393c",
+      "archive": "from-0.9.2.zip",
+      "webview2": "131.0.2903.86",
+      "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "worldId": "f081067586fa34c8cc796153bfedaf872061454f9ef54f0e1660d0c104b5a4d4",
+      "packId": "ascendant-web-2-334458",
+      "packBytes": 807408,
+      "journeySha256": "6a99dc96ab3c45eb6f79723fb677ca9e23ca9528beefd6bb320c7c15341688c2",
+      "visitWorld": {
+        "realm": "city",
+        "seed": 73581,
+        "fingerprint": 1598222733
+      },
+      "witnesses": [
+        {
+          "stage": "original",
+          "version": "0.9.2",
+          "executedEntrySha256": "c55a8497334e901f9abf5407a7fa9b8cd41536b91f81e2dd7b4c71b0b3375523",
+          "pilotSha256": "fbd9a379dac2dd10ddfbbc3d615e9327e6050446c449ed7d10c994ec5bfbf836"
+        },
+        {
+          "stage": "upgrade",
+          "version": "0.11.0",
+          "executedEntrySha256": "722ae5a1dd47688204352ca66dbf37f7bbcac4f4c4dff4012ba83680435f1a93",
+          "pilotSha256": "9667e663a7ab66f17280e7922d5002bc1936c12fb468a952044f7c2b40f131ee"
+        },
+        {
+          "stage": "rollback",
+          "version": "0.10.0",
+          "executedEntrySha256": "296cd7632c3f9943257eba28a702fa73ca7f1a0bca9289125599ea5119a9836e",
+          "pilotSha256": "9faa35a13c5f56ec092b42a631679a890370ddca698b49e251aa8f100e823c1a"
+        },
+        {
+          "stage": "reupgrade",
+          "version": "0.11.0",
+          "executedEntrySha256": "722ae5a1dd47688204352ca66dbf37f7bbcac4f4c4dff4012ba83680435f1a93",
+          "pilotSha256": "9faa35a13c5f56ec092b42a631679a890370ddca698b49e251aa8f100e823c1a"
+        },
+        {
+          "stage": "relaunch",
+          "version": "0.11.0",
+          "executedEntrySha256": "722ae5a1dd47688204352ca66dbf37f7bbcac4f4c4dff4012ba83680435f1a93",
+          "pilotSha256": "9faa35a13c5f56ec092b42a631679a890370ddca698b49e251aa8f100e823c1a"
+        }
+      ],
+      "sid": "S-1-5-21-1995136769-2955844435-1397185536-500",
+      "image": "20261123.376.1",
+      "profile": "C:\\Users\\runneradmin",
+      "registry": "HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\Skimmer-Scraper",
+      "snapshots": [
+        {
+          "stage": "upgrade",
+          "snapshotSha256": "95b1e299482339604e336583c397db8654010af955181a130b7b477284743f92",
+          "originFiles": 10
+        },
+        {
+          "stage": "rollback",
+          "snapshotSha256": "95b1e299482339604e336583c397db8654010af955181a130b7b477284743f92",
+          "originFiles": 12
+        },
+        {
+          "stage": "reupgrade",
+          "snapshotSha256": "95b1e299482339604e336583c397db8654010af955181a130b7b477284743f92",
+          "originFiles": 12
+        }
+      ],
+      "visitId": "df9a56ed-37ba-423f-88e6-743280202d5b"
+    },
+    {
+      "fromVersion": "0.10.0",
+      "artifactId": 15262643078,
+      "artifactSha256": "540cb65731352dd040787a279cfb928c88f2489ff0fd44b482e4b787610a8bd5",
+      "archive": "from-0.10.0.zip",
+      "webview2": "131.0.2903.86",
+      "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "worldId": "f081067586fa34c8cc796153bfedaf872061454f9ef54f0e1660d0c104b5a4d4",
+      "packId": "ascendant-web-2-334458",
+      "packBytes": 807408,
+      "journeySha256": "9a8486d61f7b75bc60406a03071001dcd234d5a47c1e40de336fa8cef4cb7891",
+      "visitWorld": {
+        "realm": "city",
+        "seed": 73581,
+        "fingerprint": 1598222733
+      },
+      "witnesses": [
+        {
+          "stage": "original",
+          "version": "0.10.0",
+          "executedEntrySha256": "296cd7632c3f9943257eba28a702fa73ca7f1a0bca9289125599ea5119a9836e",
+          "pilotSha256": "fbd9a379dac2dd10ddfbbc3d615e9327e6050446c449ed7d10c994ec5bfbf836"
+        },
+        {
+          "stage": "upgrade",
+          "version": "0.11.0",
+          "executedEntrySha256": "722ae5a1dd47688204352ca66dbf37f7bbcac4f4c4dff4012ba83680435f1a93",
+          "pilotSha256": "9667e663a7ab66f17280e7922d5002bc1936c12fb468a952044f7c2b40f131ee"
+        },
+        {
+          "stage": "rollback",
+          "version": "0.10.0",
+          "executedEntrySha256": "296cd7632c3f9943257eba28a702fa73ca7f1a0bca9289125599ea5119a9836e",
+          "pilotSha256": "9faa35a13c5f56ec092b42a631679a890370ddca698b49e251aa8f100e823c1a"
+        },
+        {
+          "stage": "reupgrade",
+          "version": "0.11.0",
+          "executedEntrySha256": "722ae5a1dd47688204352ca66dbf37f7bbcac4f4c4dff4012ba83680435f1a93",
+          "pilotSha256": "9faa35a13c5f56ec092b42a631679a890370ddca698b49e251aa8f100e823c1a"
+        },
+        {
+          "stage": "relaunch",
+          "version": "0.11.0",
+          "executedEntrySha256": "722ae5a1dd47688204352ca66dbf37f7bbcac4f4c4dff4012ba83680435f1a93",
+          "pilotSha256": "9faa35a13c5f56ec092b42a631679a890370ddca698b49e251aa8f100e823c1a"
+        }
+      ],
+      "sid": "S-1-5-21-1995136769-2955844435-1397185536-500",
+      "image": "20261123.376.1",
+      "profile": "C:\\Users\\runneradmin",
+      "registry": "HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\Skimmer-Scraper",
+      "snapshots": [
+        {
+          "stage": "upgrade",
+          "snapshotSha256": "20944e8c7a7913b2648be766ba894246753fcdf3ad50ce2670c9b31bfdd10c74",
+          "originFiles": 10
+        },
+        {
+          "stage": "rollback",
+          "snapshotSha256": "20944e8c7a7913b2648be766ba894246753fcdf3ad50ce2670c9b31bfdd10c74",
+          "originFiles": 12
+        },
+        {
+          "stage": "reupgrade",
+          "snapshotSha256": "20944e8c7a7913b2648be766ba894246753fcdf3ad50ce2670c9b31bfdd10c74",
+          "originFiles": 12
+        }
+      ],
+      "visitId": "b2f8a207-9b0a-4495-9ce8-594311e3cac5"
+    }
+  ],
+  "files": [
+    {
+      "path": "from-0.8.2/lifecycle.json",
+      "sha256": "31dfbaf125e83d16204c6068d467b48f6deb0f5d8cda78e078346cac4b6901a4",
+      "sourceCommit": "67a568705cd0cabe18d467f465ae745e784aa245",
+      "role": "windows-lifecycle"
+    },
+    {
+      "path": "from-0.9.1/lifecycle.json",
+      "sha256": "9e97777dab5335c09ab4b80ce11cec328c656c84e5f06664a3ec32dca7d7978a",
+      "sourceCommit": "67a568705cd0cabe18d467f465ae745e784aa245",
+      "role": "windows-lifecycle"
+    },
+    {
+      "path": "from-0.9.2/lifecycle.json",
+      "sha256": "75071c4b3e3d327f5960561f73468032e787e07dc3f7198e63ab89337b328066",
+      "sourceCommit": "67a568705cd0cabe18d467f465ae745e784aa245",
+      "role": "windows-lifecycle"
+    },
+    {
+      "path": "from-0.10.0/lifecycle.json",
+      "sha256": "46dd3a069b11af4089e37a456bd3c96cf1ae6e6b03cecae4d205ea6ea9724928",
+      "sourceCommit": "67a568705cd0cabe18d467f465ae745e784aa245",
+      "role": "windows-lifecycle"
+    }
+  ],
+  "verified": {
+    "lanes": 4,
+    "matchedCandidateInstallations": 8,
+    "installedWebViewLaunches": 20,
+    "matchedSnapshotPairs": 12,
+    "distinctVisits": 4
+  }
+}
