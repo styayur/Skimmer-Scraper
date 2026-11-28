@@ -1,0 +1,265 @@
+{
+  "stage": "flights",
+  "designCommit": "1ccf35240747aeb7405679d1b517823a7b3f072b",
+  "source": "ac943acd6a2c6d21431aa138327bc3e64ed8552f",
+  "entry": {
+    "url": "/assets/index-yT2wa0pU.js",
+    "bytes": 1307632,
+    "sha256": "176ab1ccad4a48f9aad5a73ca7f99c06d409807db34f5f797c3ad5ccc7a6483a"
+  },
+  "workflowRun": "46135808044",
+  "workflowAttempt": "1",
+  "workflowCommit": "3203290c9cf1dd6fad653abc829569036a519745",
+  "worlds": [
+    {
+      "world": "canopy",
+      "sha256": "d6c1ef9f3235a21c5a777c54acac1a8ed6c34caf5e33a291911509542afc72d9",
+      "target": "box-64",
+      "frames": 97,
+      "coarseSamples": 25,
+      "captureWindowSeconds": [
+        0.24999999999999997,
+        0.508333333333334
+      ],
+      "captured": true,
+      "firstGlideTime": 0.26666666666666666,
+      "glidingSamplesBeforeRelease": 16,
+      "onTarget": true,
+      "sustainedOnTarget": true,
+      "targetSegments": [
+        {
+          "firstTime": 0.26666666666666666,
+          "lastTime": 0.508333333333334,
+          "samples": 16,
+          "chordM": 16.07470203345273,
+          "firstContact": {
+            "x": -11.949999999999978,
+            "y": 9,
+            "z": -23.5
+          },
+          "lastContact": {
+            "x": 4.112944114200149,
+            "y": 9,
+            "z": -23.49999999999999
+          }
+        }
+      ],
+      "longestTargetChordM": 16.07470203345273,
+      "releaseEdgePhase": "GLIDING",
+      "activeRelease": true,
+      "finalPhase": "FLIGHT",
+      "shieldImpacts": 0,
+      "minimumSampledSolidDistanceM": 6.320552405669185,
+      "sampledHullIntrusion": false,
+      "phaseTransitions": [
+        {
+          "time": 0,
+          "phase": "FLIGHT"
+        },
+        {
+          "time": 0.26666666666666666,
+          "phase": "GLIDING"
+        },
+        {
+          "time": 0.5250000000000006,
+          "phase": "DETACHING"
+        },
+        {
+          "time": 0.7666666666666664,
+          "phase": "FLIGHT"
+        }
+      ],
+      "stockDiagnosticOutcome": "glide-and-release",
+      "stockDiagnosticMetrics": {
+        "captured": true,
+        "continuousPass": true,
+        "activeRelease": true,
+        "safeRejection": false,
+        "safeExit": false,
+        "shieldImpacts": 0,
+        "sampledHullIntrusion": false,
+        "minimumSampledSolidDistanceM": 6.320552405669185,
+        "minimumSampledGlideClearanceM": 6.322605546051999,
+        "sampledGlideM": 12.762252049025907,
+        "longestSampledGlideM": 12.762252049025907,
+        "contactLossesBeforeRelease": 0,
+        "releaseSpeedRetention": 0.9922878953483105,
+        "peakSampledAccelerationMps2": 34.77517447216861,
+        "flightDistanceM": 101.70440661813299,
+        "approachesPerKm": 9.832415656822768,
+        "completed": true,
+        "meetsDisposition": true
+      },
+      "reportSha256": "a4eff97625e6b576fd7441b72c27bbcf36f0285fb144f0eaf88a7e1417334c85",
+      "framesSha256": "f2b6caf375347c6b56da5e38f8c0b402a1251fb38de6891af819b2d4211ce42c",
+      "recorded": true
+    },
+    {
+      "world": "caldera",
+      "sha256": "1c0ebf2bb7725f1e43152dab448ce9e9e2c5a43ee649df75d3fd83cfee9ec813",
+      "target": "mound-49",
+      "frames": 97,
+      "coarseSamples": 25,
+      "captureWindowSeconds": [
+        0.3833333333333337,
+        0.508333333333334
+      ],
+      "captured": true,
+      "firstGlideTime": 0.4000000000000004,
+      "glidingSamplesBeforeRelease": 8,
+      "onTarget": true,
+      "sustainedOnTarget": true,
+      "targetSegments": [
+        {
+          "firstTime": 0.4000000000000004,
+          "lastTime": 0.508333333333334,
+          "samples": 8,
+          "chordM": 7.1895529339111794,
+          "firstContact": {
+            "x": -4.85,
+            "y": 19.600000381469727,
+            "z": -23.650000000000077
+          },
+          "lastContact": {
+            "x": -4.85,
+            "y": 19.600000381469727,
+            "z": -16.468630758650743
+          }
+        }
+      ],
+      "longestTargetChordM": 7.1895529339111794,
+      "releaseEdgePhase": "GLIDING",
+      "activeRelease": true,
+      "finalPhase": "FLIGHT",
+      "shieldImpacts": 0,
+      "minimumSampledSolidDistanceM": 6.509821485369372,
+      "sampledHullIntrusion": false,
+      "phaseTransitions": [
+        {
+          "time": 0,
+          "phase": "FLIGHT"
+        },
+        {
+          "time": 0.4000000000000004,
+          "phase": "GLIDING"
+        },
+        {
+          "time": 0.5250000000000006,
+          "phase": "DETACHING"
+        },
+        {
+          "time": 0.7666666666666664,
+          "phase": "FLIGHT"
+        }
+      ],
+      "stockDiagnosticOutcome": "glide-and-release",
+      "stockDiagnosticMetrics": {
+        "captured": true,
+        "continuousPass": true,
+        "activeRelease": true,
+        "safeRejection": false,
+        "safeExit": false,
+        "shieldImpacts": 0,
+        "sampledHullIntrusion": false,
+        "minimumSampledSolidDistanceM": 6.518032192049564,
+        "minimumSampledGlideClearanceM": 6.518032192049564,
+        "sampledGlideM": 4.430022271266531,
+        "longestSampledGlideM": 4.430022271266531,
+        "contactLossesBeforeRelease": 0,
+        "releaseSpeedRetention": 0.9939614000878578,
+        "peakSampledAccelerationMps2": 40.835163442252835,
+        "flightDistanceM": 101.536320003268,
+        "approachesPerKm": 9.848692566047445,
+        "completed": true,
+        "meetsDisposition": true
+      },
+      "reportSha256": "522b38d875d0ce1b38e110eb4038fe1aebc8c7a05b0986fc32cde0fb71dfca23",
+      "framesSha256": "f526ac0c19383663850615af9f5c9be36331dc6a08c88f61b7f9516ee5230262",
+      "recorded": true
+    },
+    {
+      "world": "lattice",
+      "sha256": "ccd5cfe69e084c7921f52399bb738539a455ed2e38959d66cf471e108252941f",
+      "target": "box-0",
+      "frames": 97,
+      "coarseSamples": 25,
+      "captureWindowSeconds": [
+        0.3833333333333337,
+        0.508333333333334
+      ],
+      "captured": true,
+      "firstGlideTime": 0.4000000000000004,
+      "glidingSamplesBeforeRelease": 8,
+      "onTarget": true,
+      "sustainedOnTarget": true,
+      "targetSegments": [
+        {
+          "firstTime": 0.4000000000000004,
+          "lastTime": 0.508333333333334,
+          "samples": 8,
+          "chordM": 7.189552973178746,
+          "firstContact": {
+            "x": -3.7212897063277453,
+            "y": 1.0399999618530273,
+            "z": 38.92128970632787
+          },
+          "lastContact": {
+            "x": 1.3567052040091596,
+            "y": 1.0399999618530273,
+            "z": 33.84329479599096
+          }
+        }
+      ],
+      "longestTargetChordM": 7.189552973178746,
+      "releaseEdgePhase": "GLIDING",
+      "activeRelease": true,
+      "finalPhase": "FLIGHT",
+      "shieldImpacts": 0,
+      "minimumSampledSolidDistanceM": 5.884912417407971,
+      "sampledHullIntrusion": false,
+      "phaseTransitions": [
+        {
+          "time": 0,
+          "phase": "FLIGHT"
+        },
+        {
+          "time": 0.4000000000000004,
+          "phase": "GLIDING"
+        },
+        {
+          "time": 0.5250000000000006,
+          "phase": "DETACHING"
+        },
+        {
+          "time": 0.7666666666666664,
+          "phase": "FLIGHT"
+        }
+      ],
+      "stockDiagnosticOutcome": "glide-and-release",
+      "stockDiagnosticMetrics": {
+        "captured": true,
+        "continuousPass": true,
+        "activeRelease": true,
+        "safeRejection": false,
+        "safeExit": false,
+        "shieldImpacts": 0,
+        "sampledHullIntrusion": false,
+        "minimumSampledSolidDistanceM": 5.961934112370515,
+        "minimumSampledGlideClearanceM": 6.518032469303849,
+        "sampledGlideM": 4.4300223015339215,
+        "longestSampledGlideM": 4.4300223015339215,
+        "contactLossesBeforeRelease": 0,
+        "releaseSpeedRetention": 0.9939613939853617,
+        "peakSampledAccelerationMps2": 40.83518552506987,
+        "flightDistanceM": 101.5363203442972,
+        "approachesPerKm": 9.848692532968723,
+        "completed": true,
+        "meetsDisposition": true
+      },
+      "reportSha256": "56c0ed3ce9317bd60e6d0b0eadef1b36d730c7ba8d99910e73e1340330ce9546",
+      "framesSha256": "399b18e9dd1a75bff714721dafc93a76b0d2ea8d078559ae899bcfa2c0a01fe8",
+      "recorded": true
+    }
+  ],
+  "complete": true
+}

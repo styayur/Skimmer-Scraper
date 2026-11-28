@@ -1,0 +1,3718 @@
+{
+  "stage": "survey",
+  "designCommit": "1ccf35240747aeb7405679d1b517823a7b3f072b",
+  "source": "ac943acd6a2c6d21431aa138327bc3e64ed8552f",
+  "entry": {
+    "url": "/assets/index-yT2wa0pU.js",
+    "bytes": 1307632,
+    "sha256": "176ab1ccad4a48f9aad5a73ca7f99c06d409807db34f5f797c3ad5ccc7a6483a"
+  },
+  "workflowRun": "46135808044",
+  "workflowAttempt": "1",
+  "workflowCommit": "3203290c9cf1dd6fad653abc829569036a519745",
+  "worlds": [
+    {
+      "world": "canopy",
+      "sha256": "d6c1ef9f3235a21c5a777c54acac1a8ed6c34caf5e33a291911509542afc72d9",
+      "browser": "153.0.8010.12",
+      "build": {
+        "version": "0.11.0",
+        "sourceCommit": "ac943acd6a2c6d21431aa138327bc3e64ed8552f",
+        "sourceCommitTime": "2026-11-28T09:13:19Z",
+        "dirty": false,
+        "sourceUrl": "https://github.com/styayur/Skimmer-Scraper/tree/ac943acd6a2c6d21431aa138327bc3e64ed8552f",
+        "toolchain": {
+          "node": "v24.22.3",
+          "platform": "linux",
+          "architecture": "x64"
+        }
+      },
+      "binary": {
+        "url": "/assets/index-yT2wa0pU.js",
+        "sha256": "176ab1ccad4a48f9aad5a73ca7f99c06d409807db34f5f797c3ad5ccc7a6483a",
+        "bytes": 1307632
+      },
+      "imported": {
+        "manifest": {
+          "id": "d6c1ef9f3235a21c5a777c54acac1a8ed6c34caf5e33a291911509542afc72d9",
+          "name": "canopy",
+          "bytes": 22148,
+          "nodes": 101,
+          "triangles": 1200,
+          "collisionTriangles": 1200,
+          "materials": 2,
+          "textures": 0,
+          "texturePixels": 0,
+          "bounds": {
+            "x": 36.5,
+            "y": 9,
+            "z": 49
+          },
+          "animations": [],
+          "meshRoles": [
+            {
+              "id": "1",
+              "name": "box-0",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "2",
+              "name": "box-1",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "3",
+              "name": "box-2",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "4",
+              "name": "box-3",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "5",
+              "name": "box-4",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "6",
+              "name": "box-5",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "7",
+              "name": "rock-6",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "8",
+              "name": "rock-7",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "9",
+              "name": "rock-8",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "10",
+              "name": "rock-9",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "11",
+              "name": "rock-10",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "12",
+              "name": "rock-11",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "13",
+              "name": "rock-12",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "14",
+              "name": "rock-13",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "15",
+              "name": "box-14",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "16",
+              "name": "box-15",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "17",
+              "name": "box-16",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "18",
+              "name": "box-17",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "19",
+              "name": "box-18",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "20",
+              "name": "box-19",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "21",
+              "name": "box-20",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "22",
+              "name": "box-21",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "23",
+              "name": "box-22",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "24",
+              "name": "box-23",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "25",
+              "name": "box-24",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "26",
+              "name": "box-25",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "27",
+              "name": "box-26",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "28",
+              "name": "box-27",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "29",
+              "name": "box-28",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "30",
+              "name": "box-29",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "31",
+              "name": "rock-30",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "32",
+              "name": "rock-31",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "33",
+              "name": "rock-32",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "34",
+              "name": "rock-33",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "35",
+              "name": "rock-34",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "36",
+              "name": "rock-35",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "37",
+              "name": "rock-36",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "38",
+              "name": "rock-37",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "39",
+              "name": "box-38",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "40",
+              "name": "box-39",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "41",
+              "name": "box-40",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "42",
+              "name": "box-41",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "43",
+              "name": "box-42",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "44",
+              "name": "rock-43",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "45",
+              "name": "rock-44",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "46",
+              "name": "rock-45",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "47",
+              "name": "rock-46",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "48",
+              "name": "rock-47",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "49",
+              "name": "rock-48",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "50",
+              "name": "rock-49",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "51",
+              "name": "rock-50",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "52",
+              "name": "box-51",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "53",
+              "name": "box-52",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "54",
+              "name": "box-53",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "55",
+              "name": "box-54",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "56",
+              "name": "box-55",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "57",
+              "name": "rock-56",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "58",
+              "name": "rock-57",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "59",
+              "name": "rock-58",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "60",
+              "name": "rock-59",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "61",
+              "name": "rock-60",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "62",
+              "name": "rock-61",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "63",
+              "name": "rock-62",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "64",
+              "name": "rock-63",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "65",
+              "name": "box-64",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "66",
+              "name": "box-65",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "67",
+              "name": "box-66",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "68",
+              "name": "box-67",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "69",
+              "name": "box-68",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "70",
+              "name": "box-69",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "71",
+              "name": "box-70",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "72",
+              "name": "box-71",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "73",
+              "name": "box-72",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "74",
+              "name": "box-73",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "75",
+              "name": "box-74",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "76",
+              "name": "box-75",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "77",
+              "name": "box-76",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "78",
+              "name": "box-77",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "79",
+              "name": "box-78",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "80",
+              "name": "box-79",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "81",
+              "name": "box-80",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "82",
+              "name": "box-81",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "83",
+              "name": "box-82",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "84",
+              "name": "box-83",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "85",
+              "name": "box-84",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "86",
+              "name": "box-85",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "87",
+              "name": "box-86",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "88",
+              "name": "box-87",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "89",
+              "name": "box-88",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "90",
+              "name": "box-89",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "91",
+              "name": "box-90",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "92",
+              "name": "box-91",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "93",
+              "name": "box-92",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "94",
+              "name": "box-93",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "95",
+              "name": "box-94",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "96",
+              "name": "box-95",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "97",
+              "name": "box-96",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "98",
+              "name": "box-97",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "99",
+              "name": "box-98",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "100",
+              "name": "box-99",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            }
+          ],
+          "options": {
+            "scale": 1,
+            "yaw": 0,
+            "up": "y",
+            "spawnYaw": 0,
+            "spawn": null
+          }
+        },
+        "spawn": {
+          "x": 0,
+          "y": 23,
+          "z": 34.5
+        },
+        "collisionVisible": false
+      },
+      "spawnCorridor": [
+        {
+          "at": {
+            "x": -29,
+            "y": 15.8,
+            "z": -23.5
+          },
+          "solid": {
+            "distance": 15.564061166674977,
+            "point": {
+              "x": -15,
+              "y": 9,
+              "z": -23.5
+            },
+            "chunkId": "local-d6c1ef9f3235a21c5a777c54acac1a8ed6c34caf5e33a291911509542afc72d9-surface",
+            "surfaceId": "local-d6c1ef9f3235a21c5a777c54acac1a8ed6c34caf5e33a291911509542afc72d9-surface"
+          },
+          "glide": {
+            "contact": {
+              "normal": {
+                "x": -0.9999999999999999,
+                "y": 0,
+                "z": 0
+              },
+              "localPoint": {
+                "x": -15,
+                "y": 9,
+                "z": -23.5
+              },
+              "triangle": 19,
+              "geometryId": "ebe098aa-9f88-4627-a7e1-9d166e868b7f",
+              "velocity": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              }
+            },
+            "distance": 15.564061166674977,
+            "point": {
+              "x": -15,
+              "y": 9,
+              "z": -23.5
+            },
+            "chunkId": "local-d6c1ef9f3235a21c5a777c54acac1a8ed6c34caf5e33a291911509542afc72d9-surface",
+            "surfaceId": "local-d6c1ef9f3235a21c5a777c54acac1a8ed6c34caf5e33a291911509542afc72d9-surface"
+          }
+        },
+        {
+          "at": {
+            "x": -27,
+            "y": 15.8,
+            "z": -23.5
+          },
+          "solid": {
+            "distance": 13.792751719653335,
+            "point": {
+              "x": -15,
+              "y": 9,
+              "z": -23.5
+            },
+            "chunkId": "local-d6c1ef9f3235a21c5a777c54acac1a8ed6c34caf5e33a291911509542afc72d9-surface",
+            "surfaceId": "local-d6c1ef9f3235a21c5a777c54acac1a8ed6c34caf5e33a291911509542afc72d9-surface"
+          },
+          "glide": {
+            "contact": {
+              "normal": {
+                "x": -0.9999999999999999,
+                "y": 0,
+                "z": 0
+              },
+              "localPoint": {
+                "x": -15,
+                "y": 9,
+                "z": -23.5
+              },
+              "triangle": 19,
+              "geometryId": "ebe098aa-9f88-4627-a7e1-9d166e868b7f",
+              "velocity": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              }
+            },
+            "distance": 13.792751719653335,
+            "point": {
+              "x": -15,
+              "y": 9,
+              "z": -23.5
+            },
+            "chunkId": "local-d6c1ef9f3235a21c5a777c54acac1a8ed6c34caf5e33a291911509542afc72d9-surface",
+            "surfaceId": "local-d6c1ef9f3235a21c5a777c54acac1a8ed6c34caf5e33a291911509542afc72d9-surface"
+          }
+        },
+        {
+          "at": {
+            "x": -25,
+            "y": 15.8,
+            "z": -23.5
+          },
+          "solid": {
+            "distance": 12.09297316626478,
+            "point": {
+              "x": -15,
+              "y": 9,
+              "z": -23.5
+            },
+            "chunkId": "local-d6c1ef9f3235a21c5a777c54acac1a8ed6c34caf5e33a291911509542afc72d9-surface",
+            "surfaceId": "local-d6c1ef9f3235a21c5a777c54acac1a8ed6c34caf5e33a291911509542afc72d9-surface"
+          },
+          "glide": {
+            "contact": {
+              "normal": {
+                "x": -0.9999999999999999,
+                "y": 0,
+                "z": 0
+              },
+              "localPoint": {
+                "x": -15,
+                "y": 9,
+                "z": -23.5
+              },
+              "triangle": 19,
+              "geometryId": "ebe098aa-9f88-4627-a7e1-9d166e868b7f",
+              "velocity": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              }
+            },
+            "distance": 12.09297316626478,
+            "point": {
+              "x": -15,
+              "y": 9,
+              "z": -23.5
+            },
+            "chunkId": "local-d6c1ef9f3235a21c5a777c54acac1a8ed6c34caf5e33a291911509542afc72d9-surface",
+            "surfaceId": "local-d6c1ef9f3235a21c5a777c54acac1a8ed6c34caf5e33a291911509542afc72d9-surface"
+          }
+        },
+        {
+          "at": {
+            "x": -23,
+            "y": 15.8,
+            "z": -23.5
+          },
+          "solid": {
+            "distance": 10.49952379872535,
+            "point": {
+              "x": -15,
+              "y": 9,
+              "z": -23.5
+            },
+            "chunkId": "local-d6c1ef9f3235a21c5a777c54acac1a8ed6c34caf5e33a291911509542afc72d9-surface",
+            "surfaceId": "local-d6c1ef9f3235a21c5a777c54acac1a8ed6c34caf5e33a291911509542afc72d9-surface"
+          },
+          "glide": {
+            "contact": {
+              "normal": {
+                "x": -0.9999999999999999,
+                "y": 0,
+                "z": 0
+              },
+              "localPoint": {
+                "x": -15,
+                "y": 9,
+                "z": -23.5
+              },
+              "triangle": 19,
+              "geometryId": "ebe098aa-9f88-4627-a7e1-9d166e868b7f",
+              "velocity": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              }
+            },
+            "distance": 10.49952379872535,
+            "point": {
+              "x": -15,
+              "y": 9,
+              "z": -23.5
+            },
+            "chunkId": "local-d6c1ef9f3235a21c5a777c54acac1a8ed6c34caf5e33a291911509542afc72d9-surface",
+            "surfaceId": "local-d6c1ef9f3235a21c5a777c54acac1a8ed6c34caf5e33a291911509542afc72d9-surface"
+          }
+        },
+        {
+          "at": {
+            "x": -21,
+            "y": 15.8,
+            "z": -23.5
+          },
+          "solid": {
+            "distance": 9.068627239003707,
+            "point": {
+              "x": -15,
+              "y": 9,
+              "z": -23.5
+            },
+            "chunkId": "local-d6c1ef9f3235a21c5a777c54acac1a8ed6c34caf5e33a291911509542afc72d9-surface",
+            "surfaceId": "local-d6c1ef9f3235a21c5a777c54acac1a8ed6c34caf5e33a291911509542afc72d9-surface"
+          },
+          "glide": {
+            "contact": {
+              "normal": {
+                "x": -0.9999999999999999,
+                "y": 0,
+                "z": 0
+              },
+              "localPoint": {
+                "x": -15,
+                "y": 9,
+                "z": -23.5
+              },
+              "triangle": 19,
+              "geometryId": "ebe098aa-9f88-4627-a7e1-9d166e868b7f",
+              "velocity": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              }
+            },
+            "distance": 9.068627239003707,
+            "point": {
+              "x": -15,
+              "y": 9,
+              "z": -23.5
+            },
+            "chunkId": "local-d6c1ef9f3235a21c5a777c54acac1a8ed6c34caf5e33a291911509542afc72d9-surface",
+            "surfaceId": "local-d6c1ef9f3235a21c5a777c54acac1a8ed6c34caf5e33a291911509542afc72d9-surface"
+          }
+        },
+        {
+          "at": {
+            "x": -19,
+            "y": 15.8,
+            "z": -23.5
+          },
+          "solid": {
+            "distance": 7.889233169326409,
+            "point": {
+              "x": -15,
+              "y": 9,
+              "z": -23.5
+            },
+            "chunkId": "local-d6c1ef9f3235a21c5a777c54acac1a8ed6c34caf5e33a291911509542afc72d9-surface",
+            "surfaceId": "local-d6c1ef9f3235a21c5a777c54acac1a8ed6c34caf5e33a291911509542afc72d9-surface"
+          },
+          "glide": {
+            "contact": {
+              "normal": {
+                "x": -0.9999999999999999,
+                "y": 0,
+                "z": 0
+              },
+              "localPoint": {
+                "x": -15,
+                "y": 9,
+                "z": -23.5
+              },
+              "triangle": 19,
+              "geometryId": "ebe098aa-9f88-4627-a7e1-9d166e868b7f",
+              "velocity": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              }
+            },
+            "distance": 7.889233169326409,
+            "point": {
+              "x": -15,
+              "y": 9,
+              "z": -23.5
+            },
+            "chunkId": "local-d6c1ef9f3235a21c5a777c54acac1a8ed6c34caf5e33a291911509542afc72d9-surface",
+            "surfaceId": "local-d6c1ef9f3235a21c5a777c54acac1a8ed6c34caf5e33a291911509542afc72d9-surface"
+          }
+        },
+        {
+          "at": {
+            "x": -17,
+            "y": 15.8,
+            "z": -23.5
+          },
+          "solid": {
+            "distance": 7.088018058667741,
+            "point": {
+              "x": -15,
+              "y": 9,
+              "z": -23.5
+            },
+            "chunkId": "local-d6c1ef9f3235a21c5a777c54acac1a8ed6c34caf5e33a291911509542afc72d9-surface",
+            "surfaceId": "local-d6c1ef9f3235a21c5a777c54acac1a8ed6c34caf5e33a291911509542afc72d9-surface"
+          },
+          "glide": {
+            "contact": {
+              "normal": {
+                "x": -0.9999999999999999,
+                "y": 0,
+                "z": 0
+              },
+              "localPoint": {
+                "x": -15,
+                "y": 9,
+                "z": -23.5
+              },
+              "triangle": 19,
+              "geometryId": "ebe098aa-9f88-4627-a7e1-9d166e868b7f",
+              "velocity": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              }
+            },
+            "distance": 7.088018058667741,
+            "point": {
+              "x": -15,
+              "y": 9,
+              "z": -23.5
+            },
+            "chunkId": "local-d6c1ef9f3235a21c5a777c54acac1a8ed6c34caf5e33a291911509542afc72d9-surface",
+            "surfaceId": "local-d6c1ef9f3235a21c5a777c54acac1a8ed6c34caf5e33a291911509542afc72d9-surface"
+          }
+        },
+        {
+          "at": {
+            "x": -15,
+            "y": 15.8,
+            "z": -23.5
+          },
+          "solid": {
+            "distance": 6.800000000000001,
+            "point": {
+              "x": -15,
+              "y": 9,
+              "z": -23.5
+            },
+            "chunkId": "local-d6c1ef9f3235a21c5a777c54acac1a8ed6c34caf5e33a291911509542afc72d9-surface",
+            "surfaceId": "local-d6c1ef9f3235a21c5a777c54acac1a8ed6c34caf5e33a291911509542afc72d9-surface"
+          },
+          "glide": {
+            "contact": {
+              "normal": {
+                "x": 0,
+                "y": 1,
+                "z": 0
+              },
+              "localPoint": {
+                "x": -15,
+                "y": 9,
+                "z": -23.5
+              },
+              "triangle": 563,
+              "geometryId": "ebe098aa-9f88-4627-a7e1-9d166e868b7f",
+              "velocity": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              }
+            },
+            "distance": 6.800000000000001,
+            "point": {
+              "x": -15,
+              "y": 9,
+              "z": -23.5
+            },
+            "chunkId": "local-d6c1ef9f3235a21c5a777c54acac1a8ed6c34caf5e33a291911509542afc72d9-surface",
+            "surfaceId": "local-d6c1ef9f3235a21c5a777c54acac1a8ed6c34caf5e33a291911509542afc72d9-surface"
+          }
+        },
+        {
+          "at": {
+            "x": -13,
+            "y": 15.8,
+            "z": -23.5
+          },
+          "solid": {
+            "distance": 6.800000000000001,
+            "point": {
+              "x": -13,
+              "y": 9,
+              "z": -23.5
+            },
+            "chunkId": "local-d6c1ef9f3235a21c5a777c54acac1a8ed6c34caf5e33a291911509542afc72d9-surface",
+            "surfaceId": "local-d6c1ef9f3235a21c5a777c54acac1a8ed6c34caf5e33a291911509542afc72d9-surface"
+          },
+          "glide": {
+            "contact": {
+              "normal": {
+                "x": 0,
+                "y": 1,
+                "z": 0
+              },
+              "localPoint": {
+                "x": -13,
+                "y": 9,
+                "z": -23.5
+              },
+              "triangle": 563,
+              "geometryId": "ebe098aa-9f88-4627-a7e1-9d166e868b7f",
+              "velocity": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              }
+            },
+            "distance": 6.800000000000001,
+            "point": {
+              "x": -13,
+              "y": 9,
+              "z": -23.5
+            },
+            "chunkId": "local-d6c1ef9f3235a21c5a777c54acac1a8ed6c34caf5e33a291911509542afc72d9-surface",
+            "surfaceId": "local-d6c1ef9f3235a21c5a777c54acac1a8ed6c34caf5e33a291911509542afc72d9-surface"
+          }
+        },
+        {
+          "at": {
+            "x": -11,
+            "y": 15.8,
+            "z": -23.5
+          },
+          "solid": {
+            "distance": 6.800000000000001,
+            "point": {
+              "x": -11,
+              "y": 9,
+              "z": -23.5
+            },
+            "chunkId": "local-d6c1ef9f3235a21c5a777c54acac1a8ed6c34caf5e33a291911509542afc72d9-surface",
+            "surfaceId": "local-d6c1ef9f3235a21c5a777c54acac1a8ed6c34caf5e33a291911509542afc72d9-surface"
+          },
+          "glide": {
+            "contact": {
+              "normal": {
+                "x": 0,
+                "y": 1,
+                "z": 0
+              },
+              "localPoint": {
+                "x": -11,
+                "y": 9,
+                "z": -23.5
+              },
+              "triangle": 563,
+              "geometryId": "ebe098aa-9f88-4627-a7e1-9d166e868b7f",
+              "velocity": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              }
+            },
+            "distance": 6.800000000000001,
+            "point": {
+              "x": -11,
+              "y": 9,
+              "z": -23.5
+            },
+            "chunkId": "local-d6c1ef9f3235a21c5a777c54acac1a8ed6c34caf5e33a291911509542afc72d9-surface",
+            "surfaceId": "local-d6c1ef9f3235a21c5a777c54acac1a8ed6c34caf5e33a291911509542afc72d9-surface"
+          }
+        },
+        {
+          "at": {
+            "x": -9,
+            "y": 15.8,
+            "z": -23.5
+          },
+          "solid": {
+            "distance": 6.800000000000001,
+            "point": {
+              "x": -9,
+              "y": 9,
+              "z": -23.5
+            },
+            "chunkId": "local-d6c1ef9f3235a21c5a777c54acac1a8ed6c34caf5e33a291911509542afc72d9-surface",
+            "surfaceId": "local-d6c1ef9f3235a21c5a777c54acac1a8ed6c34caf5e33a291911509542afc72d9-surface"
+          },
+          "glide": {
+            "contact": {
+              "normal": {
+                "x": 0,
+                "y": 1,
+                "z": 0
+              },
+              "localPoint": {
+                "x": -9,
+                "y": 9,
+                "z": -23.5
+              },
+              "triangle": 563,
+              "geometryId": "ebe098aa-9f88-4627-a7e1-9d166e868b7f",
+              "velocity": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              }
+            },
+            "distance": 6.800000000000001,
+            "point": {
+              "x": -9,
+              "y": 9,
+              "z": -23.5
+            },
+            "chunkId": "local-d6c1ef9f3235a21c5a777c54acac1a8ed6c34caf5e33a291911509542afc72d9-surface",
+            "surfaceId": "local-d6c1ef9f3235a21c5a777c54acac1a8ed6c34caf5e33a291911509542afc72d9-surface"
+          }
+        },
+        {
+          "at": {
+            "x": -7,
+            "y": 15.8,
+            "z": -23.5
+          },
+          "solid": {
+            "distance": 6.800000000000001,
+            "point": {
+              "x": -7,
+              "y": 9,
+              "z": -23.5
+            },
+            "chunkId": "local-d6c1ef9f3235a21c5a777c54acac1a8ed6c34caf5e33a291911509542afc72d9-surface",
+            "surfaceId": "local-d6c1ef9f3235a21c5a777c54acac1a8ed6c34caf5e33a291911509542afc72d9-surface"
+          },
+          "glide": {
+            "contact": {
+              "normal": {
+                "x": 0,
+                "y": 1,
+                "z": 0
+              },
+              "localPoint": {
+                "x": -7,
+                "y": 9,
+                "z": -23.5
+              },
+              "triangle": 563,
+              "geometryId": "ebe098aa-9f88-4627-a7e1-9d166e868b7f",
+              "velocity": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              }
+            },
+            "distance": 6.800000000000001,
+            "point": {
+              "x": -7,
+              "y": 9,
+              "z": -23.5
+            },
+            "chunkId": "local-d6c1ef9f3235a21c5a777c54acac1a8ed6c34caf5e33a291911509542afc72d9-surface",
+            "surfaceId": "local-d6c1ef9f3235a21c5a777c54acac1a8ed6c34caf5e33a291911509542afc72d9-surface"
+          }
+        }
+      ],
+      "topProbes": [
+        {
+          "at": {
+            "x": -14,
+            "y": 9.35,
+            "z": -23.5
+          },
+          "solid": {
+            "distance": 0.34999999999999964,
+            "point": {
+              "x": -14,
+              "y": 9,
+              "z": -23.5
+            },
+            "chunkId": "local-d6c1ef9f3235a21c5a777c54acac1a8ed6c34caf5e33a291911509542afc72d9-surface",
+            "surfaceId": "local-d6c1ef9f3235a21c5a777c54acac1a8ed6c34caf5e33a291911509542afc72d9-surface"
+          },
+          "glide": {
+            "contact": {
+              "normal": {
+                "x": 0,
+                "y": 1,
+                "z": 0
+              },
+              "localPoint": {
+                "x": -14,
+                "y": 9,
+                "z": -23.5
+              },
+              "triangle": 563,
+              "geometryId": "ebe098aa-9f88-4627-a7e1-9d166e868b7f",
+              "velocity": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              }
+            },
+            "distance": 0.34999999999999964,
+            "point": {
+              "x": -14,
+              "y": 9,
+              "z": -23.5
+            },
+            "chunkId": "local-d6c1ef9f3235a21c5a777c54acac1a8ed6c34caf5e33a291911509542afc72d9-surface",
+            "surfaceId": "local-d6c1ef9f3235a21c5a777c54acac1a8ed6c34caf5e33a291911509542afc72d9-surface"
+          }
+        },
+        {
+          "at": {
+            "x": -0.0,
+            "y": 9.35,
+            "z": -23.5
+          },
+          "solid": {
+            "distance": 0.34999999999999964,
+            "point": {
+              "x": 0,
+              "y": 9,
+              "z": -23.5
+            },
+            "chunkId": "local-d6c1ef9f3235a21c5a777c54acac1a8ed6c34caf5e33a291911509542afc72d9-surface",
+            "surfaceId": "local-d6c1ef9f3235a21c5a777c54acac1a8ed6c34caf5e33a291911509542afc72d9-surface"
+          },
+          "glide": {
+            "contact": {
+              "normal": {
+                "x": 0,
+                "y": 1,
+                "z": 0
+              },
+              "localPoint": {
+                "x": 0,
+                "y": 9,
+                "z": -23.5
+              },
+              "triangle": 562,
+              "geometryId": "ebe098aa-9f88-4627-a7e1-9d166e868b7f",
+              "velocity": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              }
+            },
+            "distance": 0.34999999999999964,
+            "point": {
+              "x": 0,
+              "y": 9,
+              "z": -23.5
+            },
+            "chunkId": "local-d6c1ef9f3235a21c5a777c54acac1a8ed6c34caf5e33a291911509542afc72d9-surface",
+            "surfaceId": "local-d6c1ef9f3235a21c5a777c54acac1a8ed6c34caf5e33a291911509542afc72d9-surface"
+          }
+        },
+        {
+          "at": {
+            "x": 14,
+            "y": 9.35,
+            "z": -23.500000000000004
+          },
+          "solid": {
+            "distance": 0.34999999999999964,
+            "point": {
+              "x": 13.999999999999998,
+              "y": 9,
+              "z": -23.500000000000007
+            },
+            "chunkId": "local-d6c1ef9f3235a21c5a777c54acac1a8ed6c34caf5e33a291911509542afc72d9-surface",
+            "surfaceId": "local-d6c1ef9f3235a21c5a777c54acac1a8ed6c34caf5e33a291911509542afc72d9-surface"
+          },
+          "glide": {
+            "contact": {
+              "normal": {
+                "x": 0,
+                "y": 1,
+                "z": 0
+              },
+              "localPoint": {
+                "x": 13.999999999999998,
+                "y": 9,
+                "z": -23.500000000000007
+              },
+              "triangle": 562,
+              "geometryId": "ebe098aa-9f88-4627-a7e1-9d166e868b7f",
+              "velocity": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              }
+            },
+            "distance": 0.34999999999999964,
+            "point": {
+              "x": 13.999999999999998,
+              "y": 9,
+              "z": -23.500000000000007
+            },
+            "chunkId": "local-d6c1ef9f3235a21c5a777c54acac1a8ed6c34caf5e33a291911509542afc72d9-surface",
+            "surfaceId": "local-d6c1ef9f3235a21c5a777c54acac1a8ed6c34caf5e33a291911509542afc72d9-surface"
+          }
+        }
+      ],
+      "minimumCorridorM": 6.800000000000001,
+      "spawnCorridorClear": true,
+      "topVerified": true,
+      "recorded": true
+    },
+    {
+      "world": "caldera",
+      "sha256": "1c0ebf2bb7725f1e43152dab448ce9e9e2c5a43ee649df75d3fd83cfee9ec813",
+      "browser": "153.0.8010.12",
+      "build": {
+        "version": "0.11.0",
+        "sourceCommit": "ac943acd6a2c6d21431aa138327bc3e64ed8552f",
+        "sourceCommitTime": "2026-11-28T09:13:19Z",
+        "dirty": false,
+        "sourceUrl": "https://github.com/styayur/Skimmer-Scraper/tree/ac943acd6a2c6d21431aa138327bc3e64ed8552f",
+        "toolchain": {
+          "node": "v24.22.3",
+          "platform": "linux",
+          "architecture": "x64"
+        }
+      },
+      "binary": {
+        "url": "/assets/index-yT2wa0pU.js",
+        "sha256": "176ab1ccad4a48f9aad5a73ca7f99c06d409807db34f5f797c3ad5ccc7a6483a",
+        "bytes": 1307632
+      },
+      "imported": {
+        "manifest": {
+          "id": "1c0ebf2bb7725f1e43152dab448ce9e9e2c5a43ee649df75d3fd83cfee9ec813",
+          "name": "caldera",
+          "bytes": 13068,
+          "nodes": 53,
+          "triangles": 624,
+          "collisionTriangles": 624,
+          "materials": 2,
+          "textures": 0,
+          "texturePixels": 0,
+          "bounds": {
+            "x": 49.28788321461164,
+            "y": 27.700000000000003,
+            "z": 51.400000000000006
+          },
+          "animations": [],
+          "meshRoles": [
+            {
+              "id": "1",
+              "name": "rock-0",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "2",
+              "name": "mound-1",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "3",
+              "name": "mound-2",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "4",
+              "name": "mound-3",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "5",
+              "name": "rock-4",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "6",
+              "name": "rock-5",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "7",
+              "name": "rock-6",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "8",
+              "name": "rock-7",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "9",
+              "name": "rock-8",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "10",
+              "name": "rock-9",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "11",
+              "name": "rock-10",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "12",
+              "name": "rock-11",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "13",
+              "name": "rock-12",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "14",
+              "name": "rock-13",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "15",
+              "name": "rock-14",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "16",
+              "name": "rock-15",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "17",
+              "name": "rock-16",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "18",
+              "name": "rock-17",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "19",
+              "name": "rock-18",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "20",
+              "name": "rock-19",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "21",
+              "name": "rock-20",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "22",
+              "name": "rock-21",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "23",
+              "name": "rock-22",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "24",
+              "name": "rock-23",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "25",
+              "name": "rock-24",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "26",
+              "name": "rock-25",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "27",
+              "name": "rock-26",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "28",
+              "name": "rock-27",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "29",
+              "name": "rock-28",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "30",
+              "name": "rock-29",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "31",
+              "name": "rock-30",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "32",
+              "name": "rock-31",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "33",
+              "name": "rock-32",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "34",
+              "name": "rock-33",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "35",
+              "name": "rock-34",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "36",
+              "name": "rock-35",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "37",
+              "name": "rock-36",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "38",
+              "name": "mound-37",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "39",
+              "name": "mound-38",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "40",
+              "name": "rock-39",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "41",
+              "name": "mound-40",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "42",
+              "name": "mound-41",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "43",
+              "name": "rock-42",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "44",
+              "name": "mound-43",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "45",
+              "name": "mound-44",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "46",
+              "name": "rock-45",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "47",
+              "name": "mound-46",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "48",
+              "name": "rock-47",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "49",
+              "name": "mound-48",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "50",
+              "name": "mound-49",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "51",
+              "name": "rock-50",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "52",
+              "name": "mound-51",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            }
+          ],
+          "options": {
+            "scale": 1,
+            "yaw": 0,
+            "up": "y",
+            "spawnYaw": 0,
+            "spawn": null
+          }
+        },
+        "spawn": {
+          "x": 0,
+          "y": 41.7,
+          "z": 0
+        },
+        "collisionVisible": false
+      },
+      "spawnCorridor": [
+        {
+          "at": {
+            "x": -4.85,
+            "y": 26.4,
+            "z": -49.5
+          },
+          "solid": {
+            "distance": 24.951936297622403,
+            "point": {
+              "x": 2.643941640853882,
+              "y": 26.4,
+              "z": -25.700000762939453
+            },
+            "chunkId": "local-1c0ebf2bb7725f1e43152dab448ce9e9e2c5a43ee649df75d3fd83cfee9ec813-surface",
+            "surfaceId": "local-1c0ebf2bb7725f1e43152dab448ce9e9e2c5a43ee649df75d3fd83cfee9ec813-surface"
+          },
+          "glide": {
+            "contact": {
+              "normal": {
+                "x": -1,
+                "y": 0,
+                "z": 0
+              },
+              "localPoint": {
+                "x": 2.643941640853882,
+                "y": 26.4,
+                "z": -25.700000762939453
+              },
+              "triangle": 272,
+              "geometryId": "d1e72fc3-29b8-4abf-967c-80252c77b95a",
+              "velocity": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              }
+            },
+            "distance": 24.951936297622403,
+            "point": {
+              "x": 2.643941640853882,
+              "y": 26.4,
+              "z": -25.700000762939453
+            },
+            "chunkId": "local-1c0ebf2bb7725f1e43152dab448ce9e9e2c5a43ee649df75d3fd83cfee9ec813-surface",
+            "surfaceId": "local-1c0ebf2bb7725f1e43152dab448ce9e9e2c5a43ee649df75d3fd83cfee9ec813-surface"
+          }
+        },
+        {
+          "at": {
+            "x": -4.85,
+            "y": 26.4,
+            "z": -47.5
+          },
+          "solid": {
+            "distance": 23.05209595790292,
+            "point": {
+              "x": 2.643941640853882,
+              "y": 26.4,
+              "z": -25.700000762939453
+            },
+            "chunkId": "local-1c0ebf2bb7725f1e43152dab448ce9e9e2c5a43ee649df75d3fd83cfee9ec813-surface",
+            "surfaceId": "local-1c0ebf2bb7725f1e43152dab448ce9e9e2c5a43ee649df75d3fd83cfee9ec813-surface"
+          },
+          "glide": {
+            "contact": {
+              "normal": {
+                "x": -1,
+                "y": 0,
+                "z": 0
+              },
+              "localPoint": {
+                "x": 2.643941640853882,
+                "y": 26.4,
+                "z": -25.700000762939453
+              },
+              "triangle": 272,
+              "geometryId": "d1e72fc3-29b8-4abf-967c-80252c77b95a",
+              "velocity": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              }
+            },
+            "distance": 23.05209595790292,
+            "point": {
+              "x": 2.643941640853882,
+              "y": 26.4,
+              "z": -25.700000762939453
+            },
+            "chunkId": "local-1c0ebf2bb7725f1e43152dab448ce9e9e2c5a43ee649df75d3fd83cfee9ec813-surface",
+            "surfaceId": "local-1c0ebf2bb7725f1e43152dab448ce9e9e2c5a43ee649df75d3fd83cfee9ec813-surface"
+          }
+        },
+        {
+          "at": {
+            "x": -4.8500000000000005,
+            "y": 26.4,
+            "z": -45.5
+          },
+          "solid": {
+            "distance": 21.17071399608719,
+            "point": {
+              "x": 2.643941640853882,
+              "y": 26.4,
+              "z": -25.700000762939453
+            },
+            "chunkId": "local-1c0ebf2bb7725f1e43152dab448ce9e9e2c5a43ee649df75d3fd83cfee9ec813-surface",
+            "surfaceId": "local-1c0ebf2bb7725f1e43152dab448ce9e9e2c5a43ee649df75d3fd83cfee9ec813-surface"
+          },
+          "glide": {
+            "contact": {
+              "normal": {
+                "x": -1,
+                "y": 0,
+                "z": 0
+              },
+              "localPoint": {
+                "x": 2.643941640853882,
+                "y": 26.4,
+                "z": -25.700000762939453
+              },
+              "triangle": 272,
+              "geometryId": "d1e72fc3-29b8-4abf-967c-80252c77b95a",
+              "velocity": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              }
+            },
+            "distance": 21.17071399608719,
+            "point": {
+              "x": 2.643941640853882,
+              "y": 26.4,
+              "z": -25.700000762939453
+            },
+            "chunkId": "local-1c0ebf2bb7725f1e43152dab448ce9e9e2c5a43ee649df75d3fd83cfee9ec813-surface",
+            "surfaceId": "local-1c0ebf2bb7725f1e43152dab448ce9e9e2c5a43ee649df75d3fd83cfee9ec813-surface"
+          }
+        },
+        {
+          "at": {
+            "x": -4.8500000000000005,
+            "y": 26.4,
+            "z": -43.5
+          },
+          "solid": {
+            "distance": 19.31318549996038,
+            "point": {
+              "x": 2.643941640853882,
+              "y": 26.4,
+              "z": -25.700000762939453
+            },
+            "chunkId": "local-1c0ebf2bb7725f1e43152dab448ce9e9e2c5a43ee649df75d3fd83cfee9ec813-surface",
+            "surfaceId": "local-1c0ebf2bb7725f1e43152dab448ce9e9e2c5a43ee649df75d3fd83cfee9ec813-surface"
+          },
+          "glide": {
+            "contact": {
+              "normal": {
+                "x": -1,
+                "y": 0,
+                "z": 0
+              },
+              "localPoint": {
+                "x": 2.643941640853882,
+                "y": 26.4,
+                "z": -25.700000762939453
+              },
+              "triangle": 272,
+              "geometryId": "d1e72fc3-29b8-4abf-967c-80252c77b95a",
+              "velocity": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              }
+            },
+            "distance": 19.31318549996038,
+            "point": {
+              "x": 2.643941640853882,
+              "y": 26.4,
+              "z": -25.700000762939453
+            },
+            "chunkId": "local-1c0ebf2bb7725f1e43152dab448ce9e9e2c5a43ee649df75d3fd83cfee9ec813-surface",
+            "surfaceId": "local-1c0ebf2bb7725f1e43152dab448ce9e9e2c5a43ee649df75d3fd83cfee9ec813-surface"
+          }
+        },
+        {
+          "at": {
+            "x": -4.8500000000000005,
+            "y": 26.4,
+            "z": -41.5
+          },
+          "solid": {
+            "distance": 17.48711346127878,
+            "point": {
+              "x": 2.643941640853882,
+              "y": 26.4,
+              "z": -25.700000762939453
+            },
+            "chunkId": "local-1c0ebf2bb7725f1e43152dab448ce9e9e2c5a43ee649df75d3fd83cfee9ec813-surface",
+            "surfaceId": "local-1c0ebf2bb7725f1e43152dab448ce9e9e2c5a43ee649df75d3fd83cfee9ec813-surface"
+          },
+          "glide": {
+            "contact": {
+              "normal": {
+                "x": -1,
+                "y": 0,
+                "z": 0
+              },
+              "localPoint": {
+                "x": 2.643941640853882,
+                "y": 26.4,
+                "z": -25.700000762939453
+              },
+              "triangle": 272,
+              "geometryId": "d1e72fc3-29b8-4abf-967c-80252c77b95a",
+              "velocity": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              }
+            },
+            "distance": 17.48711346127878,
+            "point": {
+              "x": 2.643941640853882,
+              "y": 26.4,
+              "z": -25.700000762939453
+            },
+            "chunkId": "local-1c0ebf2bb7725f1e43152dab448ce9e9e2c5a43ee649df75d3fd83cfee9ec813-surface",
+            "surfaceId": "local-1c0ebf2bb7725f1e43152dab448ce9e9e2c5a43ee649df75d3fd83cfee9ec813-surface"
+          }
+        },
+        {
+          "at": {
+            "x": -4.8500000000000005,
+            "y": 26.4,
+            "z": -39.5
+          },
+          "solid": {
+            "distance": 15.703475419772385,
+            "point": {
+              "x": 2.643941640853882,
+              "y": 26.4,
+              "z": -25.700000762939453
+            },
+            "chunkId": "local-1c0ebf2bb7725f1e43152dab448ce9e9e2c5a43ee649df75d3fd83cfee9ec813-surface",
+            "surfaceId": "local-1c0ebf2bb7725f1e43152dab448ce9e9e2c5a43ee649df75d3fd83cfee9ec813-surface"
+          },
+          "glide": {
+            "contact": {
+              "normal": {
+                "x": -1,
+                "y": 0,
+                "z": 0
+              },
+              "localPoint": {
+                "x": 2.643941640853882,
+                "y": 26.4,
+                "z": -25.700000762939453
+              },
+              "triangle": 272,
+              "geometryId": "d1e72fc3-29b8-4abf-967c-80252c77b95a",
+              "velocity": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              }
+            },
+            "distance": 15.703475419772385,
+            "point": {
+              "x": 2.643941640853882,
+              "y": 26.4,
+              "z": -25.700000762939453
+            },
+            "chunkId": "local-1c0ebf2bb7725f1e43152dab448ce9e9e2c5a43ee649df75d3fd83cfee9ec813-surface",
+            "surfaceId": "local-1c0ebf2bb7725f1e43152dab448ce9e9e2c5a43ee649df75d3fd83cfee9ec813-surface"
+          }
+        },
+        {
+          "at": {
+            "x": -4.850000000000001,
+            "y": 26.4,
+            "z": -37.5
+          },
+          "solid": {
+            "distance": 13.978524361002963,
+            "point": {
+              "x": 2.643941640853882,
+              "y": 26.4,
+              "z": -25.700000762939453
+            },
+            "chunkId": "local-1c0ebf2bb7725f1e43152dab448ce9e9e2c5a43ee649df75d3fd83cfee9ec813-surface",
+            "surfaceId": "local-1c0ebf2bb7725f1e43152dab448ce9e9e2c5a43ee649df75d3fd83cfee9ec813-surface"
+          },
+          "glide": {
+            "contact": {
+              "normal": {
+                "x": -1,
+                "y": 0,
+                "z": 0
+              },
+              "localPoint": {
+                "x": 2.643941640853882,
+                "y": 26.4,
+                "z": -25.700000762939453
+              },
+              "triangle": 272,
+              "geometryId": "d1e72fc3-29b8-4abf-967c-80252c77b95a",
+              "velocity": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              }
+            },
+            "distance": 13.978524361002963,
+            "point": {
+              "x": 2.643941640853882,
+              "y": 26.4,
+              "z": -25.700000762939453
+            },
+            "chunkId": "local-1c0ebf2bb7725f1e43152dab448ce9e9e2c5a43ee649df75d3fd83cfee9ec813-surface",
+            "surfaceId": "local-1c0ebf2bb7725f1e43152dab448ce9e9e2c5a43ee649df75d3fd83cfee9ec813-surface"
+          }
+        },
+        {
+          "at": {
+            "x": -4.850000000000001,
+            "y": 26.4,
+            "z": -35.5
+          },
+          "solid": {
+            "distance": 12.336901813782548,
+            "point": {
+              "x": 2.643941640853882,
+              "y": 26.4,
+              "z": -25.700000762939453
+            },
+            "chunkId": "local-1c0ebf2bb7725f1e43152dab448ce9e9e2c5a43ee649df75d3fd83cfee9ec813-surface",
+            "surfaceId": "local-1c0ebf2bb7725f1e43152dab448ce9e9e2c5a43ee649df75d3fd83cfee9ec813-surface"
+          },
+          "glide": {
+            "contact": {
+              "normal": {
+                "x": -1,
+                "y": 0,
+                "z": 0
+              },
+              "localPoint": {
+                "x": 2.643941640853882,
+                "y": 26.4,
+                "z": -25.700000762939453
+              },
+              "triangle": 272,
+              "geometryId": "d1e72fc3-29b8-4abf-967c-80252c77b95a",
+              "velocity": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              }
+            },
+            "distance": 12.336901813782548,
+            "point": {
+              "x": 2.643941640853882,
+              "y": 26.4,
+              "z": -25.700000762939453
+            },
+            "chunkId": "local-1c0ebf2bb7725f1e43152dab448ce9e9e2c5a43ee649df75d3fd83cfee9ec813-surface",
+            "surfaceId": "local-1c0ebf2bb7725f1e43152dab448ce9e9e2c5a43ee649df75d3fd83cfee9ec813-surface"
+          }
+        },
+        {
+          "at": {
+            "x": -4.850000000000001,
+            "y": 26.4,
+            "z": -33.5
+          },
+          "solid": {
+            "distance": 10.816614507999669,
+            "point": {
+              "x": 2.643941640853882,
+              "y": 26.4,
+              "z": -25.700000762939453
+            },
+            "chunkId": "local-1c0ebf2bb7725f1e43152dab448ce9e9e2c5a43ee649df75d3fd83cfee9ec813-surface",
+            "surfaceId": "local-1c0ebf2bb7725f1e43152dab448ce9e9e2c5a43ee649df75d3fd83cfee9ec813-surface"
+          },
+          "glide": {
+            "contact": {
+              "normal": {
+                "x": -1,
+                "y": 0,
+                "z": 0
+              },
+              "localPoint": {
+                "x": 2.643941640853882,
+                "y": 26.4,
+                "z": -25.700000762939453
+              },
+              "triangle": 272,
+              "geometryId": "d1e72fc3-29b8-4abf-967c-80252c77b95a",
+              "velocity": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              }
+            },
+            "distance": 10.816614507999669,
+            "point": {
+              "x": 2.643941640853882,
+              "y": 26.4,
+              "z": -25.700000762939453
+            },
+            "chunkId": "local-1c0ebf2bb7725f1e43152dab448ce9e9e2c5a43ee649df75d3fd83cfee9ec813-surface",
+            "surfaceId": "local-1c0ebf2bb7725f1e43152dab448ce9e9e2c5a43ee649df75d3fd83cfee9ec813-surface"
+          }
+        },
+        {
+          "at": {
+            "x": -4.850000000000001,
+            "y": 26.4,
+            "z": -31.5
+          },
+          "solid": {
+            "distance": 9.476241473623745,
+            "point": {
+              "x": 2.643941640853882,
+              "y": 26.4,
+              "z": -25.700000762939453
+            },
+            "chunkId": "local-1c0ebf2bb7725f1e43152dab448ce9e9e2c5a43ee649df75d3fd83cfee9ec813-surface",
+            "surfaceId": "local-1c0ebf2bb7725f1e43152dab448ce9e9e2c5a43ee649df75d3fd83cfee9ec813-surface"
+          },
+          "glide": {
+            "contact": {
+              "normal": {
+                "x": -1,
+                "y": 0,
+                "z": 0
+              },
+              "localPoint": {
+                "x": 2.643941640853882,
+                "y": 26.4,
+                "z": -25.700000762939453
+              },
+              "triangle": 272,
+              "geometryId": "d1e72fc3-29b8-4abf-967c-80252c77b95a",
+              "velocity": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              }
+            },
+            "distance": 9.476241473623745,
+            "point": {
+              "x": 2.643941640853882,
+              "y": 26.4,
+              "z": -25.700000762939453
+            },
+            "chunkId": "local-1c0ebf2bb7725f1e43152dab448ce9e9e2c5a43ee649df75d3fd83cfee9ec813-surface",
+            "surfaceId": "local-1c0ebf2bb7725f1e43152dab448ce9e9e2c5a43ee649df75d3fd83cfee9ec813-surface"
+          }
+        },
+        {
+          "at": {
+            "x": -4.850000000000002,
+            "y": 26.4,
+            "z": -29.5
+          },
+          "solid": {
+            "distance": 8.323460067051062,
+            "point": {
+              "x": -4.850000000000001,
+              "y": 19.600000381469727,
+              "z": -24.700000762939453
+            },
+            "chunkId": "local-1c0ebf2bb7725f1e43152dab448ce9e9e2c5a43ee649df75d3fd83cfee9ec813-surface",
+            "surfaceId": "local-1c0ebf2bb7725f1e43152dab448ce9e9e2c5a43ee649df75d3fd83cfee9ec813-surface"
+          },
+          "glide": {
+            "contact": {
+              "normal": {
+                "x": 0,
+                "y": 0,
+                "z": -1
+              },
+              "localPoint": {
+                "x": -4.850000000000001,
+                "y": 19.600000381469727,
+                "z": -24.700000762939453
+              },
+              "triangle": 49,
+              "geometryId": "d1e72fc3-29b8-4abf-967c-80252c77b95a",
+              "velocity": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              }
+            },
+            "distance": 8.323460067051062,
+            "point": {
+              "x": -4.850000000000001,
+              "y": 19.600000381469727,
+              "z": -24.700000762939453
+            },
+            "chunkId": "local-1c0ebf2bb7725f1e43152dab448ce9e9e2c5a43ee649df75d3fd83cfee9ec813-surface",
+            "surfaceId": "local-1c0ebf2bb7725f1e43152dab448ce9e9e2c5a43ee649df75d3fd83cfee9ec813-surface"
+          }
+        },
+        {
+          "at": {
+            "x": -4.850000000000002,
+            "y": 26.4,
+            "z": -27.5
+          },
+          "solid": {
+            "distance": 7.353909881114364,
+            "point": {
+              "x": -4.850000000000001,
+              "y": 19.600000381469727,
+              "z": -24.700000762939453
+            },
+            "chunkId": "local-1c0ebf2bb7725f1e43152dab448ce9e9e2c5a43ee649df75d3fd83cfee9ec813-surface",
+            "surfaceId": "local-1c0ebf2bb7725f1e43152dab448ce9e9e2c5a43ee649df75d3fd83cfee9ec813-surface"
+          },
+          "glide": {
+            "contact": {
+              "normal": {
+                "x": 0,
+                "y": 0,
+                "z": -1
+              },
+              "localPoint": {
+                "x": -4.850000000000001,
+                "y": 19.600000381469727,
+                "z": -24.700000762939453
+              },
+              "triangle": 49,
+              "geometryId": "d1e72fc3-29b8-4abf-967c-80252c77b95a",
+              "velocity": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              }
+            },
+            "distance": 7.353909881114364,
+            "point": {
+              "x": -4.850000000000001,
+              "y": 19.600000381469727,
+              "z": -24.700000762939453
+            },
+            "chunkId": "local-1c0ebf2bb7725f1e43152dab448ce9e9e2c5a43ee649df75d3fd83cfee9ec813-surface",
+            "surfaceId": "local-1c0ebf2bb7725f1e43152dab448ce9e9e2c5a43ee649df75d3fd83cfee9ec813-surface"
+          }
+        }
+      ],
+      "topProbes": [
+        {
+          "at": {
+            "x": -4.850000000000003,
+            "y": 19.950000000000003,
+            "z": -23.7
+          },
+          "solid": {
+            "distance": 0.3499996185302763,
+            "point": {
+              "x": -4.850000000000003,
+              "y": 19.600000381469727,
+              "z": -23.7
+            },
+            "chunkId": "local-1c0ebf2bb7725f1e43152dab448ce9e9e2c5a43ee649df75d3fd83cfee9ec813-surface",
+            "surfaceId": "local-1c0ebf2bb7725f1e43152dab448ce9e9e2c5a43ee649df75d3fd83cfee9ec813-surface"
+          },
+          "glide": {
+            "contact": {
+              "normal": {
+                "x": 0,
+                "y": 1,
+                "z": 0
+              },
+              "localPoint": {
+                "x": -4.850000000000003,
+                "y": 19.600000381469727,
+                "z": -23.7
+              },
+              "triangle": 65,
+              "geometryId": "d1e72fc3-29b8-4abf-967c-80252c77b95a",
+              "velocity": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              }
+            },
+            "distance": 0.3499996185302763,
+            "point": {
+              "x": -4.850000000000003,
+              "y": 19.600000381469727,
+              "z": -23.7
+            },
+            "chunkId": "local-1c0ebf2bb7725f1e43152dab448ce9e9e2c5a43ee649df75d3fd83cfee9ec813-surface",
+            "surfaceId": "local-1c0ebf2bb7725f1e43152dab448ce9e9e2c5a43ee649df75d3fd83cfee9ec813-surface"
+          }
+        },
+        {
+          "at": {
+            "x": -4.850000000000003,
+            "y": 19.950000000000003,
+            "z": -18.700000000000003
+          },
+          "solid": {
+            "distance": 0.3499996185302763,
+            "point": {
+              "x": -4.850000000000003,
+              "y": 19.600000381469727,
+              "z": -18.700000000000003
+            },
+            "chunkId": "local-1c0ebf2bb7725f1e43152dab448ce9e9e2c5a43ee649df75d3fd83cfee9ec813-surface",
+            "surfaceId": "local-1c0ebf2bb7725f1e43152dab448ce9e9e2c5a43ee649df75d3fd83cfee9ec813-surface"
+          },
+          "glide": {
+            "contact": {
+              "normal": {
+                "x": 0,
+                "y": 1,
+                "z": 0
+              },
+              "localPoint": {
+                "x": -4.850000000000003,
+                "y": 19.600000381469727,
+                "z": -18.700000000000003
+              },
+              "triangle": 65,
+              "geometryId": "d1e72fc3-29b8-4abf-967c-80252c77b95a",
+              "velocity": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              }
+            },
+            "distance": 0.3499996185302763,
+            "point": {
+              "x": -4.850000000000003,
+              "y": 19.600000381469727,
+              "z": -18.700000000000003
+            },
+            "chunkId": "local-1c0ebf2bb7725f1e43152dab448ce9e9e2c5a43ee649df75d3fd83cfee9ec813-surface",
+            "surfaceId": "local-1c0ebf2bb7725f1e43152dab448ce9e9e2c5a43ee649df75d3fd83cfee9ec813-surface"
+          }
+        },
+        {
+          "at": {
+            "x": -4.850000000000004,
+            "y": 19.950000000000003,
+            "z": -13.700000000000003
+          },
+          "solid": {
+            "distance": 0.3499996185302763,
+            "point": {
+              "x": -4.850000000000004,
+              "y": 19.600000381469727,
+              "z": -13.700000000000003
+            },
+            "chunkId": "local-1c0ebf2bb7725f1e43152dab448ce9e9e2c5a43ee649df75d3fd83cfee9ec813-surface",
+            "surfaceId": "local-1c0ebf2bb7725f1e43152dab448ce9e9e2c5a43ee649df75d3fd83cfee9ec813-surface"
+          },
+          "glide": {
+            "contact": {
+              "normal": {
+                "x": 0,
+                "y": 1,
+                "z": 0
+              },
+              "localPoint": {
+                "x": -4.850000000000004,
+                "y": 19.600000381469727,
+                "z": -13.700000000000003
+              },
+              "triangle": 64,
+              "geometryId": "d1e72fc3-29b8-4abf-967c-80252c77b95a",
+              "velocity": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              }
+            },
+            "distance": 0.3499996185302763,
+            "point": {
+              "x": -4.850000000000004,
+              "y": 19.600000381469727,
+              "z": -13.700000000000003
+            },
+            "chunkId": "local-1c0ebf2bb7725f1e43152dab448ce9e9e2c5a43ee649df75d3fd83cfee9ec813-surface",
+            "surfaceId": "local-1c0ebf2bb7725f1e43152dab448ce9e9e2c5a43ee649df75d3fd83cfee9ec813-surface"
+          }
+        }
+      ],
+      "minimumCorridorM": 7.353909881114364,
+      "spawnCorridorClear": true,
+      "topVerified": true,
+      "recorded": true
+    },
+    {
+      "world": "lattice",
+      "sha256": "ccd5cfe69e084c7921f52399bb738539a455ed2e38959d66cf471e108252941f",
+      "browser": "153.0.8010.12",
+      "build": {
+        "version": "0.11.0",
+        "sourceCommit": "ac943acd6a2c6d21431aa138327bc3e64ed8552f",
+        "sourceCommitTime": "2026-11-28T09:13:19Z",
+        "dirty": false,
+        "sourceUrl": "https://github.com/styayur/Skimmer-Scraper/tree/ac943acd6a2c6d21431aa138327bc3e64ed8552f",
+        "toolchain": {
+          "node": "v24.22.3",
+          "platform": "linux",
+          "architecture": "x64"
+        }
+      },
+      "binary": {
+        "url": "/assets/index-yT2wa0pU.js",
+        "sha256": "176ab1ccad4a48f9aad5a73ca7f99c06d409807db34f5f797c3ad5ccc7a6483a",
+        "bytes": 1307632
+      },
+      "imported": {
+        "manifest": {
+          "id": "ccd5cfe69e084c7921f52399bb738539a455ed2e38959d66cf471e108252941f",
+          "name": "lattice",
+          "bytes": 32796,
+          "nodes": 89,
+          "triangles": 9220,
+          "collisionTriangles": 660,
+          "materials": 2,
+          "textures": 0,
+          "texturePixels": 0,
+          "bounds": {
+            "x": 36.15,
+            "y": 10.715,
+            "z": 81.225
+          },
+          "animations": [],
+          "meshRoles": [
+            {
+              "id": "1",
+              "name": "box-0",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "2",
+              "name": "ring-1",
+              "inferred": "DECORATION",
+              "role": "DECORATION"
+            },
+            {
+              "id": "3",
+              "name": "box-2",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "4",
+              "name": "box-3",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "5",
+              "name": "box-4",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "6",
+              "name": "box-5",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "7",
+              "name": "box-6",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "8",
+              "name": "asset-7",
+              "inferred": "DECORATION",
+              "role": "DECORATION"
+            },
+            {
+              "id": "9",
+              "name": "asset-8",
+              "inferred": "DECORATION",
+              "role": "DECORATION"
+            },
+            {
+              "id": "10",
+              "name": "asset-9",
+              "inferred": "DECORATION",
+              "role": "DECORATION"
+            },
+            {
+              "id": "11",
+              "name": "asset-10",
+              "inferred": "DECORATION",
+              "role": "DECORATION"
+            },
+            {
+              "id": "12",
+              "name": "asset-11",
+              "inferred": "DECORATION",
+              "role": "DECORATION"
+            },
+            {
+              "id": "13",
+              "name": "asset-12",
+              "inferred": "DECORATION",
+              "role": "DECORATION"
+            },
+            {
+              "id": "14",
+              "name": "asset-13",
+              "inferred": "DECORATION",
+              "role": "DECORATION"
+            },
+            {
+              "id": "15",
+              "name": "asset-14",
+              "inferred": "DECORATION",
+              "role": "DECORATION"
+            },
+            {
+              "id": "16",
+              "name": "asset-15",
+              "inferred": "DECORATION",
+              "role": "DECORATION"
+            },
+            {
+              "id": "17",
+              "name": "asset-16",
+              "inferred": "DECORATION",
+              "role": "DECORATION"
+            },
+            {
+              "id": "18",
+              "name": "ring-17",
+              "inferred": "DECORATION",
+              "role": "DECORATION"
+            },
+            {
+              "id": "19",
+              "name": "box-18",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "20",
+              "name": "box-19",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "21",
+              "name": "box-20",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "22",
+              "name": "box-21",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "23",
+              "name": "ring-22",
+              "inferred": "DECORATION",
+              "role": "DECORATION"
+            },
+            {
+              "id": "24",
+              "name": "box-23",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "25",
+              "name": "box-24",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "26",
+              "name": "box-25",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "27",
+              "name": "box-26",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "28",
+              "name": "ring-27",
+              "inferred": "DECORATION",
+              "role": "DECORATION"
+            },
+            {
+              "id": "29",
+              "name": "box-28",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "30",
+              "name": "box-29",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "31",
+              "name": "box-30",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "32",
+              "name": "box-31",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "33",
+              "name": "ring-32",
+              "inferred": "DECORATION",
+              "role": "DECORATION"
+            },
+            {
+              "id": "34",
+              "name": "box-33",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "35",
+              "name": "box-34",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "36",
+              "name": "box-35",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "37",
+              "name": "box-36",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "38",
+              "name": "ring-37",
+              "inferred": "DECORATION",
+              "role": "DECORATION"
+            },
+            {
+              "id": "39",
+              "name": "box-38",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "40",
+              "name": "box-39",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "41",
+              "name": "box-40",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "42",
+              "name": "box-41",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "43",
+              "name": "ring-42",
+              "inferred": "DECORATION",
+              "role": "DECORATION"
+            },
+            {
+              "id": "44",
+              "name": "box-43",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "45",
+              "name": "box-44",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "46",
+              "name": "box-45",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "47",
+              "name": "box-46",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "48",
+              "name": "ring-47",
+              "inferred": "DECORATION",
+              "role": "DECORATION"
+            },
+            {
+              "id": "49",
+              "name": "box-48",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "50",
+              "name": "box-49",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "51",
+              "name": "box-50",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "52",
+              "name": "box-51",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "53",
+              "name": "ring-52",
+              "inferred": "DECORATION",
+              "role": "DECORATION"
+            },
+            {
+              "id": "54",
+              "name": "box-53",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "55",
+              "name": "box-54",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "56",
+              "name": "box-55",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "57",
+              "name": "box-56",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "58",
+              "name": "ring-57",
+              "inferred": "DECORATION",
+              "role": "DECORATION"
+            },
+            {
+              "id": "59",
+              "name": "box-58",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "60",
+              "name": "box-59",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "61",
+              "name": "box-60",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "62",
+              "name": "box-61",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "63",
+              "name": "box-62",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "64",
+              "name": "asset-63",
+              "inferred": "DECORATION",
+              "role": "DECORATION"
+            },
+            {
+              "id": "65",
+              "name": "asset-64",
+              "inferred": "DECORATION",
+              "role": "DECORATION"
+            },
+            {
+              "id": "66",
+              "name": "asset-65",
+              "inferred": "DECORATION",
+              "role": "DECORATION"
+            },
+            {
+              "id": "67",
+              "name": "asset-66",
+              "inferred": "DECORATION",
+              "role": "DECORATION"
+            },
+            {
+              "id": "68",
+              "name": "asset-67",
+              "inferred": "DECORATION",
+              "role": "DECORATION"
+            },
+            {
+              "id": "69",
+              "name": "asset-68",
+              "inferred": "DECORATION",
+              "role": "DECORATION"
+            },
+            {
+              "id": "70",
+              "name": "asset-69",
+              "inferred": "DECORATION",
+              "role": "DECORATION"
+            },
+            {
+              "id": "71",
+              "name": "asset-70",
+              "inferred": "DECORATION",
+              "role": "DECORATION"
+            },
+            {
+              "id": "72",
+              "name": "asset-71",
+              "inferred": "DECORATION",
+              "role": "DECORATION"
+            },
+            {
+              "id": "73",
+              "name": "asset-72",
+              "inferred": "DECORATION",
+              "role": "DECORATION"
+            },
+            {
+              "id": "74",
+              "name": "ring-73",
+              "inferred": "DECORATION",
+              "role": "DECORATION"
+            },
+            {
+              "id": "75",
+              "name": "box-74",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "76",
+              "name": "box-75",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "77",
+              "name": "box-76",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "78",
+              "name": "box-77",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "79",
+              "name": "ring-78",
+              "inferred": "DECORATION",
+              "role": "DECORATION"
+            },
+            {
+              "id": "80",
+              "name": "box-79",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "81",
+              "name": "box-80",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "82",
+              "name": "box-81",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "83",
+              "name": "box-82",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "84",
+              "name": "ring-83",
+              "inferred": "DECORATION",
+              "role": "DECORATION"
+            },
+            {
+              "id": "85",
+              "name": "box-84",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "86",
+              "name": "box-85",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "87",
+              "name": "box-86",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            },
+            {
+              "id": "88",
+              "name": "box-87",
+              "inferred": "SURFACE",
+              "role": "SURFACE"
+            }
+          ],
+          "options": {
+            "scale": 1,
+            "yaw": 0,
+            "up": "y",
+            "spawnYaw": 0,
+            "spawn": null
+          }
+        },
+        "spawn": {
+          "x": 0,
+          "y": 24.715,
+          "z": 50.6125
+        },
+        "collisionVisible": false
+      },
+      "spawnCorridor": [
+        {
+          "at": {
+            "x": -22,
+            "y": 7.84,
+            "z": 57.2
+          },
+          "solid": {
+            "distance": 24.364629734090272,
+            "point": {
+              "x": -5.5,
+              "y": 1.0399999618530273,
+              "z": 40.61249923706055
+            },
+            "chunkId": "local-ccd5cfe69e084c7921f52399bb738539a455ed2e38959d66cf471e108252941f-surface",
+            "surfaceId": "local-ccd5cfe69e084c7921f52399bb738539a455ed2e38959d66cf471e108252941f-surface"
+          },
+          "glide": {
+            "contact": {
+              "normal": {
+                "x": 0,
+                "y": 0,
+                "z": 1
+              },
+              "localPoint": {
+                "x": -5.5,
+                "y": 1.0399999618530273,
+                "z": 40.61249923706055
+              },
+              "triangle": 651,
+              "geometryId": "660559e2-e6f9-490d-99f1-c2d6aa4c8094",
+              "velocity": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              }
+            },
+            "distance": 24.364629734090272,
+            "point": {
+              "x": -5.5,
+              "y": 1.0399999618530273,
+              "z": 40.61249923706055
+            },
+            "chunkId": "local-ccd5cfe69e084c7921f52399bb738539a455ed2e38959d66cf471e108252941f-surface",
+            "surfaceId": "local-ccd5cfe69e084c7921f52399bb738539a455ed2e38959d66cf471e108252941f-surface"
+          }
+        },
+        {
+          "at": {
+            "x": -20.585786437626904,
+            "y": 7.84,
+            "z": 55.78578643762691
+          },
+          "solid": {
+            "distance": 22.451048916060863,
+            "point": {
+              "x": -5.5,
+              "y": 1.0399999618530273,
+              "z": 40.61249923706055
+            },
+            "chunkId": "local-ccd5cfe69e084c7921f52399bb738539a455ed2e38959d66cf471e108252941f-surface",
+            "surfaceId": "local-ccd5cfe69e084c7921f52399bb738539a455ed2e38959d66cf471e108252941f-surface"
+          },
+          "glide": {
+            "contact": {
+              "normal": {
+                "x": 0,
+                "y": 0,
+                "z": 1
+              },
+              "localPoint": {
+                "x": -5.5,
+                "y": 1.0399999618530273,
+                "z": 40.61249923706055
+              },
+              "triangle": 651,
+              "geometryId": "660559e2-e6f9-490d-99f1-c2d6aa4c8094",
+              "velocity": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              }
+            },
+            "distance": 22.451048916060863,
+            "point": {
+              "x": -5.5,
+              "y": 1.0399999618530273,
+              "z": 40.61249923706055
+            },
+            "chunkId": "local-ccd5cfe69e084c7921f52399bb738539a455ed2e38959d66cf471e108252941f-surface",
+            "surfaceId": "local-ccd5cfe69e084c7921f52399bb738539a455ed2e38959d66cf471e108252941f-surface"
+          }
+        },
+        {
+          "at": {
+            "x": -19.17157287525381,
+            "y": 7.84,
+            "z": 54.37157287525381
+          },
+          "solid": {
+            "distance": 20.55392937575196,
+            "point": {
+              "x": -5.5,
+              "y": 1.0399999618530273,
+              "z": 40.61249923706055
+            },
+            "chunkId": "local-ccd5cfe69e084c7921f52399bb738539a455ed2e38959d66cf471e108252941f-surface",
+            "surfaceId": "local-ccd5cfe69e084c7921f52399bb738539a455ed2e38959d66cf471e108252941f-surface"
+          },
+          "glide": {
+            "contact": {
+              "normal": {
+                "x": 0,
+                "y": 0,
+                "z": 1
+              },
+              "localPoint": {
+                "x": -5.5,
+                "y": 1.0399999618530273,
+                "z": 40.61249923706055
+              },
+              "triangle": 651,
+              "geometryId": "660559e2-e6f9-490d-99f1-c2d6aa4c8094",
+              "velocity": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              }
+            },
+            "distance": 20.55392937575196,
+            "point": {
+              "x": -5.5,
+              "y": 1.0399999618530273,
+              "z": 40.61249923706055
+            },
+            "chunkId": "local-ccd5cfe69e084c7921f52399bb738539a455ed2e38959d66cf471e108252941f-surface",
+            "surfaceId": "local-ccd5cfe69e084c7921f52399bb738539a455ed2e38959d66cf471e108252941f-surface"
+          }
+        },
+        {
+          "at": {
+            "x": -17.757359312880716,
+            "y": 7.84,
+            "z": 52.95735931288072
+          },
+          "solid": {
+            "distance": 18.67828761250456,
+            "point": {
+              "x": -5.5,
+              "y": 1.0399999618530273,
+              "z": 40.61249923706055
+            },
+            "chunkId": "local-ccd5cfe69e084c7921f52399bb738539a455ed2e38959d66cf471e108252941f-surface",
+            "surfaceId": "local-ccd5cfe69e084c7921f52399bb738539a455ed2e38959d66cf471e108252941f-surface"
+          },
+          "glide": {
+            "contact": {
+              "normal": {
+                "x": 0,
+                "y": 0,
+                "z": 1
+              },
+              "localPoint": {
+                "x": -5.5,
+                "y": 1.0399999618530273,
+                "z": 40.61249923706055
+              },
+              "triangle": 651,
+              "geometryId": "660559e2-e6f9-490d-99f1-c2d6aa4c8094",
+              "velocity": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              }
+            },
+            "distance": 18.67828761250456,
+            "point": {
+              "x": -5.5,
+              "y": 1.0399999618530273,
+              "z": 40.61249923706055
+            },
+            "chunkId": "local-ccd5cfe69e084c7921f52399bb738539a455ed2e38959d66cf471e108252941f-surface",
+            "surfaceId": "local-ccd5cfe69e084c7921f52399bb738539a455ed2e38959d66cf471e108252941f-surface"
+          }
+        },
+        {
+          "at": {
+            "x": -16.34314575050762,
+            "y": 7.84,
+            "z": 51.54314575050762
+          },
+          "solid": {
+            "distance": 16.831305459989814,
+            "point": {
+              "x": -5.5,
+              "y": 1.0399999618530273,
+              "z": 40.61249923706055
+            },
+            "chunkId": "local-ccd5cfe69e084c7921f52399bb738539a455ed2e38959d66cf471e108252941f-surface",
+            "surfaceId": "local-ccd5cfe69e084c7921f52399bb738539a455ed2e38959d66cf471e108252941f-surface"
+          },
+          "glide": {
+            "contact": {
+              "normal": {
+                "x": 0,
+                "y": 0,
+                "z": 1
+              },
+              "localPoint": {
+                "x": -5.5,
+                "y": 1.0399999618530273,
+                "z": 40.61249923706055
+              },
+              "triangle": 651,
+              "geometryId": "660559e2-e6f9-490d-99f1-c2d6aa4c8094",
+              "velocity": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              }
+            },
+            "distance": 16.831305459989814,
+            "point": {
+              "x": -5.5,
+              "y": 1.0399999618530273,
+              "z": 40.61249923706055
+            },
+            "chunkId": "local-ccd5cfe69e084c7921f52399bb738539a455ed2e38959d66cf471e108252941f-surface",
+            "surfaceId": "local-ccd5cfe69e084c7921f52399bb738539a455ed2e38959d66cf471e108252941f-surface"
+          }
+        },
+        {
+          "at": {
+            "x": -14.928932188134524,
+            "y": 7.84,
+            "z": 50.12893218813453
+          },
+          "solid": {
+            "distance": 15.023556797227638,
+            "point": {
+              "x": -5.5,
+              "y": 1.0399999618530273,
+              "z": 40.61249923706055
+            },
+            "chunkId": "local-ccd5cfe69e084c7921f52399bb738539a455ed2e38959d66cf471e108252941f-surface",
+            "surfaceId": "local-ccd5cfe69e084c7921f52399bb738539a455ed2e38959d66cf471e108252941f-surface"
+          },
+          "glide": {
+            "contact": {
+              "normal": {
+                "x": 0,
+                "y": 0,
+                "z": 1
+              },
+              "localPoint": {
+                "x": -5.5,
+                "y": 1.0399999618530273,
+                "z": 40.61249923706055
+              },
+              "triangle": 651,
+              "geometryId": "660559e2-e6f9-490d-99f1-c2d6aa4c8094",
+              "velocity": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              }
+            },
+            "distance": 15.023556797227638,
+            "point": {
+              "x": -5.5,
+              "y": 1.0399999618530273,
+              "z": 40.61249923706055
+            },
+            "chunkId": "local-ccd5cfe69e084c7921f52399bb738539a455ed2e38959d66cf471e108252941f-surface",
+            "surfaceId": "local-ccd5cfe69e084c7921f52399bb738539a455ed2e38959d66cf471e108252941f-surface"
+          }
+        },
+        {
+          "at": {
+            "x": -13.514718625761429,
+            "y": 7.84,
+            "z": 48.714718625761435
+          },
+          "solid": {
+            "distance": 13.271084137762317,
+            "point": {
+              "x": -5.5,
+              "y": 1.0399999618530273,
+              "z": 40.61249923706055
+            },
+            "chunkId": "local-ccd5cfe69e084c7921f52399bb738539a455ed2e38959d66cf471e108252941f-surface",
+            "surfaceId": "local-ccd5cfe69e084c7921f52399bb738539a455ed2e38959d66cf471e108252941f-surface"
+          },
+          "glide": {
+            "contact": {
+              "normal": {
+                "x": 0,
+                "y": 0,
+                "z": 1
+              },
+              "localPoint": {
+                "x": -5.5,
+                "y": 1.0399999618530273,
+                "z": 40.61249923706055
+              },
+              "triangle": 651,
+              "geometryId": "660559e2-e6f9-490d-99f1-c2d6aa4c8094",
+              "velocity": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              }
+            },
+            "distance": 13.271084137762317,
+            "point": {
+              "x": -5.5,
+              "y": 1.0399999618530273,
+              "z": 40.61249923706055
+            },
+            "chunkId": "local-ccd5cfe69e084c7921f52399bb738539a455ed2e38959d66cf471e108252941f-surface",
+            "surfaceId": "local-ccd5cfe69e084c7921f52399bb738539a455ed2e38959d66cf471e108252941f-surface"
+          }
+        },
+        {
+          "at": {
+            "x": -12.100505063388335,
+            "y": 7.84,
+            "z": 47.300505063388336
+          },
+          "solid": {
+            "distance": 11.598969331091807,
+            "point": {
+              "x": -5.5,
+              "y": 1.0399999618530273,
+              "z": 40.61249923706055
+            },
+            "chunkId": "local-ccd5cfe69e084c7921f52399bb738539a455ed2e38959d66cf471e108252941f-surface",
+            "surfaceId": "local-ccd5cfe69e084c7921f52399bb738539a455ed2e38959d66cf471e108252941f-surface"
+          },
+          "glide": {
+            "contact": {
+              "normal": {
+                "x": 0,
+                "y": 0,
+                "z": 1
+              },
+              "localPoint": {
+                "x": -5.5,
+                "y": 1.0399999618530273,
+                "z": 40.61249923706055
+              },
+              "triangle": 651,
+              "geometryId": "660559e2-e6f9-490d-99f1-c2d6aa4c8094",
+              "velocity": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              }
+            },
+            "distance": 11.598969331091807,
+            "point": {
+              "x": -5.5,
+              "y": 1.0399999618530273,
+              "z": 40.61249923706055
+            },
+            "chunkId": "local-ccd5cfe69e084c7921f52399bb738539a455ed2e38959d66cf471e108252941f-surface",
+            "surfaceId": "local-ccd5cfe69e084c7921f52399bb738539a455ed2e38959d66cf471e108252941f-surface"
+          }
+        },
+        {
+          "at": {
+            "x": -10.686291501015239,
+            "y": 7.84,
+            "z": 45.88629150101524
+          },
+          "solid": {
+            "distance": 10.047412845884761,
+            "point": {
+              "x": -5.5,
+              "y": 1.0399999618530273,
+              "z": 40.61249923706055
+            },
+            "chunkId": "local-ccd5cfe69e084c7921f52399bb738539a455ed2e38959d66cf471e108252941f-surface",
+            "surfaceId": "local-ccd5cfe69e084c7921f52399bb738539a455ed2e38959d66cf471e108252941f-surface"
+          },
+          "glide": {
+            "contact": {
+              "normal": {
+                "x": 0,
+                "y": 0,
+                "z": 1
+              },
+              "localPoint": {
+                "x": -5.5,
+                "y": 1.0399999618530273,
+                "z": 40.61249923706055
+              },
+              "triangle": 651,
+              "geometryId": "660559e2-e6f9-490d-99f1-c2d6aa4c8094",
+              "velocity": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              }
+            },
+            "distance": 10.047412845884761,
+            "point": {
+              "x": -5.5,
+              "y": 1.0399999618530273,
+              "z": 40.61249923706055
+            },
+            "chunkId": "local-ccd5cfe69e084c7921f52399bb738539a455ed2e38959d66cf471e108252941f-surface",
+            "surfaceId": "local-ccd5cfe69e084c7921f52399bb738539a455ed2e38959d66cf471e108252941f-surface"
+          }
+        },
+        {
+          "at": {
+            "x": -9.272077938642143,
+            "y": 7.84,
+            "z": 44.472077938642144
+          },
+          "solid": {
+            "distance": 8.681297152366799,
+            "point": {
+              "x": -5.5,
+              "y": 1.0399999618530273,
+              "z": 40.61249923706055
+            },
+            "chunkId": "local-ccd5cfe69e084c7921f52399bb738539a455ed2e38959d66cf471e108252941f-surface",
+            "surfaceId": "local-ccd5cfe69e084c7921f52399bb738539a455ed2e38959d66cf471e108252941f-surface"
+          },
+          "glide": {
+            "contact": {
+              "normal": {
+                "x": 0,
+                "y": 0,
+                "z": 1
+              },
+              "localPoint": {
+                "x": -5.5,
+                "y": 1.0399999618530273,
+                "z": 40.61249923706055
+              },
+              "triangle": 651,
+              "geometryId": "660559e2-e6f9-490d-99f1-c2d6aa4c8094",
+              "velocity": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              }
+            },
+            "distance": 8.681297152366799,
+            "point": {
+              "x": -5.5,
+              "y": 1.0399999618530273,
+              "z": 40.61249923706055
+            },
+            "chunkId": "local-ccd5cfe69e084c7921f52399bb738539a455ed2e38959d66cf471e108252941f-surface",
+            "surfaceId": "local-ccd5cfe69e084c7921f52399bb738539a455ed2e38959d66cf471e108252941f-surface"
+          }
+        },
+        {
+          "at": {
+            "x": -7.857864376269049,
+            "y": 7.84,
+            "z": 43.05786437626905
+          },
+          "solid": {
+            "distance": 7.601271972488137,
+            "point": {
+              "x": -5.5,
+              "y": 1.0399999618530273,
+              "z": 40.61249923706055
+            },
+            "chunkId": "local-ccd5cfe69e084c7921f52399bb738539a455ed2e38959d66cf471e108252941f-surface",
+            "surfaceId": "local-ccd5cfe69e084c7921f52399bb738539a455ed2e38959d66cf471e108252941f-surface"
+          },
+          "glide": {
+            "contact": {
+              "normal": {
+                "x": 0,
+                "y": 0,
+                "z": 1
+              },
+              "localPoint": {
+                "x": -5.5,
+                "y": 1.0399999618530273,
+                "z": 40.61249923706055
+              },
+              "triangle": 651,
+              "geometryId": "660559e2-e6f9-490d-99f1-c2d6aa4c8094",
+              "velocity": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              }
+            },
+            "distance": 7.601271972488137,
+            "point": {
+              "x": -5.5,
+              "y": 1.0399999618530273,
+              "z": 40.61249923706055
+            },
+            "chunkId": "local-ccd5cfe69e084c7921f52399bb738539a455ed2e38959d66cf471e108252941f-surface",
+            "surfaceId": "local-ccd5cfe69e084c7921f52399bb738539a455ed2e38959d66cf471e108252941f-surface"
+          }
+        },
+        {
+          "at": {
+            "x": -6.443650813895953,
+            "y": 7.84,
+            "z": 41.64365081389596
+          },
+          "solid": {
+            "distance": 6.942171918915253,
+            "point": {
+              "x": -5.5,
+              "y": 1.0399999618530273,
+              "z": 40.61249923706055
+            },
+            "chunkId": "local-ccd5cfe69e084c7921f52399bb738539a455ed2e38959d66cf471e108252941f-surface",
+            "surfaceId": "local-ccd5cfe69e084c7921f52399bb738539a455ed2e38959d66cf471e108252941f-surface"
+          },
+          "glide": {
+            "contact": {
+              "normal": {
+                "x": 0,
+                "y": 0,
+                "z": 1
+              },
+              "localPoint": {
+                "x": -5.5,
+                "y": 1.0399999618530273,
+                "z": 40.61249923706055
+              },
+              "triangle": 651,
+              "geometryId": "660559e2-e6f9-490d-99f1-c2d6aa4c8094",
+              "velocity": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              }
+            },
+            "distance": 6.942171918915253,
+            "point": {
+              "x": -5.5,
+              "y": 1.0399999618530273,
+              "z": 40.61249923706055
+            },
+            "chunkId": "local-ccd5cfe69e084c7921f52399bb738539a455ed2e38959d66cf471e108252941f-surface",
+            "surfaceId": "local-ccd5cfe69e084c7921f52399bb738539a455ed2e38959d66cf471e108252941f-surface"
+          }
+        }
+      ],
+      "topProbes": [
+        {
+          "at": {
+            "x": -4.705393218813448,
+            "y": 1.3900000000000001,
+            "z": 39.90539321881345
+          },
+          "solid": {
+            "distance": 0.3500000381469728,
+            "point": {
+              "x": -4.705393218813448,
+              "y": 1.0399999618530273,
+              "z": 39.90539321881345
+            },
+            "chunkId": "local-ccd5cfe69e084c7921f52399bb738539a455ed2e38959d66cf471e108252941f-surface",
+            "surfaceId": "local-ccd5cfe69e084c7921f52399bb738539a455ed2e38959d66cf471e108252941f-surface"
+          },
+          "glide": {
+            "contact": {
+              "normal": {
+                "x": 0,
+                "y": 1,
+                "z": 0
+              },
+              "localPoint": {
+                "x": -4.705393218813448,
+                "y": 1.0399999618530273,
+                "z": 39.90539321881345
+              },
+              "triangle": 654,
+              "geometryId": "660559e2-e6f9-490d-99f1-c2d6aa4c8094",
+              "velocity": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              }
+            },
+            "distance": 0.3500000381469728,
+            "point": {
+              "x": -4.705393218813448,
+              "y": 1.0399999618530273,
+              "z": 39.90539321881345
+            },
+            "chunkId": "local-ccd5cfe69e084c7921f52399bb738539a455ed2e38959d66cf471e108252941f-surface",
+            "surfaceId": "local-ccd5cfe69e084c7921f52399bb738539a455ed2e38959d66cf471e108252941f-surface"
+          }
+        },
+        {
+          "at": {
+            "x": 0.04375000000000284,
+            "y": 1.3900000000000001,
+            "z": 35.15625
+          },
+          "solid": {
+            "distance": 0.3500000381469728,
+            "point": {
+              "x": 0.04375000000000373,
+              "y": 1.0399999618530273,
+              "z": 35.15625
+            },
+            "chunkId": "local-ccd5cfe69e084c7921f52399bb738539a455ed2e38959d66cf471e108252941f-surface",
+            "surfaceId": "local-ccd5cfe69e084c7921f52399bb738539a455ed2e38959d66cf471e108252941f-surface"
+          },
+          "glide": {
+            "contact": {
+              "normal": {
+                "x": 0,
+                "y": 1,
+                "z": 0
+              },
+              "localPoint": {
+                "x": 0.04375000000000373,
+                "y": 1.0399999618530273,
+                "z": 35.15625
+              },
+              "triangle": 654,
+              "geometryId": "660559e2-e6f9-490d-99f1-c2d6aa4c8094",
+              "velocity": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              }
+            },
+            "distance": 0.3500000381469728,
+            "point": {
+              "x": 0.04375000000000373,
+              "y": 1.0399999618530273,
+              "z": 35.15625
+            },
+            "chunkId": "local-ccd5cfe69e084c7921f52399bb738539a455ed2e38959d66cf471e108252941f-surface",
+            "surfaceId": "local-ccd5cfe69e084c7921f52399bb738539a455ed2e38959d66cf471e108252941f-surface"
+          }
+        },
+        {
+          "at": {
+            "x": 4.79289321881345,
+            "y": 1.3900000000000001,
+            "z": 30.407106781186553
+          },
+          "solid": {
+            "distance": 0.3500000381469728,
+            "point": {
+              "x": 4.792893218813452,
+              "y": 1.0399999618530273,
+              "z": 30.407106781186553
+            },
+            "chunkId": "local-ccd5cfe69e084c7921f52399bb738539a455ed2e38959d66cf471e108252941f-surface",
+            "surfaceId": "local-ccd5cfe69e084c7921f52399bb738539a455ed2e38959d66cf471e108252941f-surface"
+          },
+          "glide": {
+            "contact": {
+              "normal": {
+                "x": 0,
+                "y": 1,
+                "z": 0
+              },
+              "localPoint": {
+                "x": 4.792893218813452,
+                "y": 1.0399999618530273,
+                "z": 30.407106781186553
+              },
+              "triangle": 654,
+              "geometryId": "660559e2-e6f9-490d-99f1-c2d6aa4c8094",
+              "velocity": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              }
+            },
+            "distance": 0.3500000381469728,
+            "point": {
+              "x": 4.792893218813452,
+              "y": 1.0399999618530273,
+              "z": 30.407106781186553
+            },
+            "chunkId": "local-ccd5cfe69e084c7921f52399bb738539a455ed2e38959d66cf471e108252941f-surface",
+            "surfaceId": "local-ccd5cfe69e084c7921f52399bb738539a455ed2e38959d66cf471e108252941f-surface"
+          }
+        }
+      ],
+      "minimumCorridorM": 6.942171918915253,
+      "spawnCorridorClear": true,
+      "topVerified": true,
+      "recorded": true
+    }
+  ],
+  "complete": true
+}

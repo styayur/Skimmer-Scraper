@@ -1,0 +1,114 @@
+{
+  "source": "ac943acd6a2c6d21431aa138327bc3e64ed8552f",
+  "entrySha256": "176ab1ccad4a48f9aad5a73ca7f99c06d409807db34f5f797c3ad5ccc7a6483a",
+  "evidenceCommit": "3203290c9cf1dd6fad653abc829569036a519745",
+  "siteFilesMatchedPriorMain": 105,
+  "zipMemberHashesVerified": [
+    {
+      "artifactId": 15259642080,
+      "members": 27,
+      "digest": "sha256:2fcf98da338ef3fb6780aa14ae97ba52ae3024942bb09d90a4e7947391b9b167"
+    },
+    {
+      "artifactId": 15259627049,
+      "members": 1,
+      "digest": "sha256:343b08f1333905438040697347b2c38ad4544ced6272509a79aae8efb3f41f54"
+    }
+  ],
+  "defaults": [
+    {
+      "world": "canopy",
+      "traceSha256": "fe7e63d1dc465a0b23dae059ad1124137fa9e9ac8272195b42d897e64af78a8f",
+      "glbSha256": "d6c1ef9f3235a21c5a777c54acac1a8ed6c34caf5e33a291911509542afc72d9",
+      "captured": false,
+      "activeRelease": false,
+      "glidingSamplesBeforeRelease": 0,
+      "longestSampledGlideM": 0.0,
+      "shieldImpacts": 0
+    },
+    {
+      "world": "caldera",
+      "traceSha256": "6fe0ebfcb59e049bc4e0d9f2bbfcd9d201c689ea35e01dd6475473de019db984",
+      "glbSha256": "1c0ebf2bb7725f1e43152dab448ce9e9e2c5a43ee649df75d3fd83cfee9ec813",
+      "captured": false,
+      "activeRelease": false,
+      "glidingSamplesBeforeRelease": 0,
+      "longestSampledGlideM": 0.0,
+      "shieldImpacts": 0
+    },
+    {
+      "world": "lattice",
+      "traceSha256": "d9e12b26b2e01f53289692b0d7453e61d39e825df596ca725171d82bdc93bfb6",
+      "glbSha256": "ccd5cfe69e084c7921f52399bb738539a455ed2e38959d66cf471e108252941f",
+      "captured": false,
+      "activeRelease": false,
+      "glidingSamplesBeforeRelease": 0,
+      "longestSampledGlideM": 0.0,
+      "shieldImpacts": 0
+    },
+    {
+      "world": "contact",
+      "traceSha256": "ce6b9ed00ba22a29b423aa301fb67984fc1bedd7425c1ae26a77e5ecd83a93d7",
+      "glbSha256": "243949bbceae959ee58da971859bd5f614bf4b2f30ae7e5cf711fb3f597d89f3",
+      "captured": true,
+      "activeRelease": true,
+      "glidingSamplesBeforeRelease": 36,
+      "longestSampledGlideM": 148.0071553127284,
+      "shieldImpacts": 0
+    },
+    {
+      "world": "district",
+      "traceSha256": "8bc42e99f2534646df0633e2388e8b578a469c2a0d884b6718f63ba8076c6d6f",
+      "glbSha256": "a707d463ce3279c9517d51b3dccde296c461eea2131b214315923b58b4f383d0",
+      "captured": true,
+      "activeRelease": false,
+      "glidingSamplesBeforeRelease": 1,
+      "longestSampledGlideM": 0.0,
+      "shieldImpacts": 0
+    }
+  ],
+  "directed": [
+    {
+      "world": "canopy",
+      "originalGlbSha256": "d6c1ef9f3235a21c5a777c54acac1a8ed6c34caf5e33a291911509542afc72d9",
+      "readerLevel": "engine-replayed",
+      "engineBoundsMatchDefault": true,
+      "geometryTarget": "box-64",
+      "otherOverlappingCoplanarTops": [],
+      "reclassifiedRawFrames": 97,
+      "coarseSamples": 25,
+      "verifiedEdges": 4,
+      "reported": "glide-and-release",
+      "longestTargetSampledChordM": 16.07470203345273,
+      "readerLongestSampledGlideM": 12.76225204902591
+    },
+    {
+      "world": "caldera",
+      "originalGlbSha256": "1c0ebf2bb7725f1e43152dab448ce9e9e2c5a43ee649df75d3fd83cfee9ec813",
+      "readerLevel": "engine-replayed",
+      "engineBoundsMatchDefault": true,
+      "geometryTarget": "mound-49",
+      "otherOverlappingCoplanarTops": [],
+      "reclassifiedRawFrames": 97,
+      "coarseSamples": 25,
+      "verifiedEdges": 4,
+      "reported": "glide-and-release",
+      "longestTargetSampledChordM": 7.1895529339111794,
+      "readerLongestSampledGlideM": 4.430022271266531
+    },
+    {
+      "world": "lattice",
+      "originalGlbSha256": "ccd5cfe69e084c7921f52399bb738539a455ed2e38959d66cf471e108252941f",
+      "readerLevel": "engine-replayed",
+      "engineBoundsMatchDefault": true,
+      "geometryTarget": "box-0",
+      "otherOverlappingCoplanarTops": [],
+      "reclassifiedRawFrames": 97,
+      "coarseSamples": 25,
+      "verifiedEdges": 4,
+      "reported": "glide-and-release",
+      "longestTargetSampledChordM": 7.189552973178746,
+      "readerLongestSampledGlideM": 4.4300223015339215
+    }
+  ]
+}

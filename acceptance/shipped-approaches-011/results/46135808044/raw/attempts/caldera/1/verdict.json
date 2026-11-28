@@ -1,0 +1,81 @@
+{
+  "world": "caldera",
+  "target": "mound-49",
+  "frames": 97,
+  "coarseSamples": 25,
+  "captureWindowSeconds": [
+    0.3833333333333337,
+    0.508333333333334
+  ],
+  "captured": true,
+  "firstGlideTime": 0.4000000000000004,
+  "glidingSamplesBeforeRelease": 8,
+  "onTarget": true,
+  "sustainedOnTarget": true,
+  "targetSegments": [
+    {
+      "firstTime": 0.4000000000000004,
+      "lastTime": 0.508333333333334,
+      "samples": 8,
+      "chordM": 7.1895529339111794,
+      "firstContact": {
+        "x": -4.85,
+        "y": 19.600000381469727,
+        "z": -23.650000000000077
+      },
+      "lastContact": {
+        "x": -4.85,
+        "y": 19.600000381469727,
+        "z": -16.468630758650743
+      }
+    }
+  ],
+  "longestTargetChordM": 7.1895529339111794,
+  "releaseEdgePhase": "GLIDING",
+  "activeRelease": true,
+  "finalPhase": "FLIGHT",
+  "shieldImpacts": 0,
+  "minimumSampledSolidDistanceM": 6.509821485369372,
+  "sampledHullIntrusion": false,
+  "phaseTransitions": [
+    {
+      "time": 0,
+      "phase": "FLIGHT"
+    },
+    {
+      "time": 0.4000000000000004,
+      "phase": "GLIDING"
+    },
+    {
+      "time": 0.5250000000000006,
+      "phase": "DETACHING"
+    },
+    {
+      "time": 0.7666666666666664,
+      "phase": "FLIGHT"
+    }
+  ],
+  "stockDiagnosticOutcome": "glide-and-release",
+  "stockDiagnosticMetrics": {
+    "captured": true,
+    "continuousPass": true,
+    "activeRelease": true,
+    "safeRejection": false,
+    "safeExit": false,
+    "shieldImpacts": 0,
+    "sampledHullIntrusion": false,
+    "minimumSampledSolidDistanceM": 6.518032192049564,
+    "minimumSampledGlideClearanceM": 6.518032192049564,
+    "sampledGlideM": 4.430022271266531,
+    "longestSampledGlideM": 4.430022271266531,
+    "contactLossesBeforeRelease": 0,
+    "releaseSpeedRetention": 0.9939614000878578,
+    "peakSampledAccelerationMps2": 40.835163442252835,
+    "flightDistanceM": 101.536320003268,
+    "approachesPerKm": 9.848692566047445,
+    "completed": true,
+    "meetsDisposition": true
+  },
+  "reportSha256": "522b38d875d0ce1b38e110eb4038fe1aebc8c7a05b0986fc32cde0fb71dfca23",
+  "framesSha256": "f526ac0c19383663850615af9f5c9be36331dc6a08c88f61b7f9516ee5230262"
+}

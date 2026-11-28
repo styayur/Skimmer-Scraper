@@ -1,0 +1,78 @@
+{
+  "absoluteToleranceForDerivedFloats": 5e-12,
+  "differences": [
+    {
+      "path": "geometry[2].heading[0]",
+      "registered": 0.7071067811865476,
+      "observed": 0.7071067811865475,
+      "absoluteDelta": 1.1102230246251565e-16
+    },
+    {
+      "path": "geometry[2].straightFootprintMetresFromSpawn[1]",
+      "registered": 38.89087296526011,
+      "observed": 38.890872965260115,
+      "absoluteDelta": 7.105427357601002e-15
+    },
+    {
+      "path": "geometry[2].straightLengthOnTopM",
+      "registered": 15.432605499396388,
+      "observed": 15.432605499396395,
+      "absoluteDelta": 7.105427357601002e-15
+    },
+    {
+      "path": "geometry[2].spawnCorridorPoints[6].x",
+      "registered": -13.514718625761429,
+      "observed": -13.51471862576143,
+      "absoluteDelta": 1.7763568394002505e-15
+    },
+    {
+      "path": "geometry[2].spawnCorridorPoints[7].x",
+      "registered": -12.100505063388335,
+      "observed": -12.100505063388336,
+      "absoluteDelta": 1.7763568394002505e-15
+    },
+    {
+      "path": "geometry[2].spawnCorridorPoints[8].x",
+      "registered": -10.686291501015239,
+      "observed": -10.68629150101524,
+      "absoluteDelta": 1.7763568394002505e-15
+    },
+    {
+      "path": "geometry[2].spawnCorridorPoints[9].x",
+      "registered": -9.272077938642143,
+      "observed": -9.272077938642145,
+      "absoluteDelta": 1.7763568394002505e-15
+    },
+    {
+      "path": "geometry[2].spawnCorridorPoints[10].x",
+      "registered": -7.857864376269049,
+      "observed": -7.857864376269051,
+      "absoluteDelta": 1.7763568394002505e-15
+    },
+    {
+      "path": "geometry[2].spawnCorridorPoints[11].x",
+      "registered": -6.443650813895953,
+      "observed": -6.443650813895957,
+      "absoluteDelta": 3.552713678800501e-15
+    },
+    {
+      "path": "geometry[2].minimumGeometryClearanceOnSpawnChecksM",
+      "registered": 6.942171768226769,
+      "observed": 6.94217176822677,
+      "absoluteDelta": 8.881784197001252e-16
+    },
+    {
+      "path": "geometry[2].topProbePoints[1].x",
+      "registered": 0.04375000000000284,
+      "observed": 0.04374999999999929,
+      "absoluteDelta": 3.552713678800501e-15
+    },
+    {
+      "path": "geometry[2].topProbePoints[2].z",
+      "registered": 30.407106781186553,
+      "observed": 30.40710678118655,
+      "absoluteDelta": 3.552713678800501e-15
+    }
+  ],
+  "maxAbsoluteDelta": 7.105427357601002e-15
+}

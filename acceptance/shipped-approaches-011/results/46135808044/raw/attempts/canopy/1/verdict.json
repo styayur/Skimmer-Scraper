@@ -1,0 +1,81 @@
+{
+  "world": "canopy",
+  "target": "box-64",
+  "frames": 97,
+  "coarseSamples": 25,
+  "captureWindowSeconds": [
+    0.24999999999999997,
+    0.508333333333334
+  ],
+  "captured": true,
+  "firstGlideTime": 0.26666666666666666,
+  "glidingSamplesBeforeRelease": 16,
+  "onTarget": true,
+  "sustainedOnTarget": true,
+  "targetSegments": [
+    {
+      "firstTime": 0.26666666666666666,
+      "lastTime": 0.508333333333334,
+      "samples": 16,
+      "chordM": 16.07470203345273,
+      "firstContact": {
+        "x": -11.949999999999978,
+        "y": 9,
+        "z": -23.5
+      },
+      "lastContact": {
+        "x": 4.112944114200149,
+        "y": 9,
+        "z": -23.49999999999999
+      }
+    }
+  ],
+  "longestTargetChordM": 16.07470203345273,
+  "releaseEdgePhase": "GLIDING",
+  "activeRelease": true,
+  "finalPhase": "FLIGHT",
+  "shieldImpacts": 0,
+  "minimumSampledSolidDistanceM": 6.320552405669185,
+  "sampledHullIntrusion": false,
+  "phaseTransitions": [
+    {
+      "time": 0,
+      "phase": "FLIGHT"
+    },
+    {
+      "time": 0.26666666666666666,
+      "phase": "GLIDING"
+    },
+    {
+      "time": 0.5250000000000006,
+      "phase": "DETACHING"
+    },
+    {
+      "time": 0.7666666666666664,
+      "phase": "FLIGHT"
+    }
+  ],
+  "stockDiagnosticOutcome": "glide-and-release",
+  "stockDiagnosticMetrics": {
+    "captured": true,
+    "continuousPass": true,
+    "activeRelease": true,
+    "safeRejection": false,
+    "safeExit": false,
+    "shieldImpacts": 0,
+    "sampledHullIntrusion": false,
+    "minimumSampledSolidDistanceM": 6.320552405669185,
+    "minimumSampledGlideClearanceM": 6.322605546051999,
+    "sampledGlideM": 12.762252049025907,
+    "longestSampledGlideM": 12.762252049025907,
+    "contactLossesBeforeRelease": 0,
+    "releaseSpeedRetention": 0.9922878953483105,
+    "peakSampledAccelerationMps2": 34.77517447216861,
+    "flightDistanceM": 101.70440661813299,
+    "approachesPerKm": 9.832415656822768,
+    "completed": true,
+    "meetsDisposition": true
+  },
+  "reportSha256": "a4eff97625e6b576fd7441b72c27bbcf36f0285fb144f0eaf88a7e1417334c85",
+  "framesSha256": "f2b6caf375347c6b56da5e38f8c0b402a1251fb38de6891af819b2d4211ce42c"
+}

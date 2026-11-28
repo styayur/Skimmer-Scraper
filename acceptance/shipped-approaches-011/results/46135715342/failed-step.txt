@@ -1,0 +1,35 @@
+﻿2026-11-28T10:33:26.4736540Z ##[group]Run python -B acceptance/final-web-011/stage.py
+2026-11-28T10:33:26.4736896Z [36;1mpython -B acceptance/final-web-011/stage.py[0m
+2026-11-28T10:33:26.4737174Z [36;1mcp preflight-float-check.json output/[0m
+2026-11-28T10:33:26.4775349Z shell: /usr/bin/bash -e {0}
+2026-11-28T10:33:26.4775563Z env:
+2026-11-28T10:33:26.4775783Z   pythonLocation: /opt/hostedtoolcache/Python/3.14.7/x64
+2026-11-28T10:33:26.4776123Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.14.7/x64/lib/pkgconfig
+2026-11-28T10:33:26.4776455Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.14.7/x64
+2026-11-28T10:33:26.4776753Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.14.7/x64
+2026-11-28T10:33:26.4777044Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.14.7/x64
+2026-11-28T10:33:26.4777334Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.14.7/x64/lib
+2026-11-28T10:33:26.4779736Z   GH_TOKEN: ***
+2026-11-28T10:33:26.4779916Z ##[endgroup]
+2026-11-28T10:33:28.1596423Z Traceback (most recent call last):
+2026-11-28T10:33:28.1601133Z   File "/home/runner/work/Skimmer-Scraper/Skimmer-Scraper/benchmark/scripts/freeze-flight-build.py", line 54, in <module>
+2026-11-28T10:33:28.1602404Z     "producerCommit": json.loads(matrix.read_bytes())["producerRevisions"][2]}
+2026-11-28T10:33:28.1602910Z                                  ~~~~~~~~~~~~~~~~~^^
+2026-11-28T10:33:28.1603582Z   File "/opt/hostedtoolcache/Python/3.14.7/x64/lib/python3.14/pathlib/__init__.py", line 777, in read_bytes
+2026-11-28T10:33:28.1604247Z     with self.open(mode='rb', buffering=0) as f:
+2026-11-28T10:33:28.1604613Z          ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-28T10:33:28.1605213Z   File "/opt/hostedtoolcache/Python/3.14.7/x64/lib/python3.14/pathlib/__init__.py", line 771, in open
+2026-11-28T10:33:28.1605940Z     return io.open(self, mode, buffering, encoding, errors, newline)
+2026-11-28T10:33:28.1606422Z            ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-28T10:33:28.1607517Z FileNotFoundError: [Errno 2] No such file or directory: '/home/runner/work/Skimmer-Scraper/Skimmer-Scraper/benchmark/acceptance/joint-flight/topogenesis/matrix.json'
+2026-11-28T10:33:28.1824824Z Traceback (most recent call last):
+2026-11-28T10:33:28.1828636Z   File "/home/runner/work/Skimmer-Scraper/Skimmer-Scraper/acceptance/final-web-011/stage.py", line 51, in <module>
+2026-11-28T10:33:28.1829678Z     subprocess.run([sys.executable, "-B", "benchmark/scripts/freeze-flight-build.py", str(info.parent),
+2026-11-28T10:33:28.1830395Z     ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-28T10:33:28.1831106Z                     str(workspace/"served"), str(workspace/"identity"), "--controller", target["source"]], check=True)
+2026-11-28T10:33:28.1831974Z                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-28T10:33:28.1832675Z   File "/opt/hostedtoolcache/Python/3.14.7/x64/lib/python3.14/subprocess.py", line 578, in run
+2026-11-28T10:33:28.1833384Z     raise CalledProcessError(retcode, process.args,
+2026-11-28T10:33:28.1833791Z                              output=stdout, stderr=stderr)
+2026-11-28T10:33:28.1835536Z subprocess.CalledProcessError: Command '['/opt/hostedtoolcache/Python/3.14.7/x64/bin/python', '-B', 'benchmark/scripts/freeze-flight-build.py', 'staging/extracted', 'staging/served', 'staging/identity', '--controller', 'ac943acd6a2c6d21431aa138327bc3e64ed8552f']' returned non-zero exit status 1.
+2026-11-28T10:33:28.1918029Z ##[error]Process completed with exit code 1.

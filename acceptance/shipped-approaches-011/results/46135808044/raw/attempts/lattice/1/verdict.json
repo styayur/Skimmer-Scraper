@@ -1,0 +1,81 @@
+{
+  "world": "lattice",
+  "target": "box-0",
+  "frames": 97,
+  "coarseSamples": 25,
+  "captureWindowSeconds": [
+    0.3833333333333337,
+    0.508333333333334
+  ],
+  "captured": true,
+  "firstGlideTime": 0.4000000000000004,
+  "glidingSamplesBeforeRelease": 8,
+  "onTarget": true,
+  "sustainedOnTarget": true,
+  "targetSegments": [
+    {
+      "firstTime": 0.4000000000000004,
+      "lastTime": 0.508333333333334,
+      "samples": 8,
+      "chordM": 7.189552973178746,
+      "firstContact": {
+        "x": -3.7212897063277453,
+        "y": 1.0399999618530273,
+        "z": 38.92128970632787
+      },
+      "lastContact": {
+        "x": 1.3567052040091596,
+        "y": 1.0399999618530273,
+        "z": 33.84329479599096
+      }
+    }
+  ],
+  "longestTargetChordM": 7.189552973178746,
+  "releaseEdgePhase": "GLIDING",
+  "activeRelease": true,
+  "finalPhase": "FLIGHT",
+  "shieldImpacts": 0,
+  "minimumSampledSolidDistanceM": 5.884912417407971,
+  "sampledHullIntrusion": false,
+  "phaseTransitions": [
+    {
+      "time": 0,
+      "phase": "FLIGHT"
+    },
+    {
+      "time": 0.4000000000000004,
+      "phase": "GLIDING"
+    },
+    {
+      "time": 0.5250000000000006,
+      "phase": "DETACHING"
+    },
+    {
+      "time": 0.7666666666666664,
+      "phase": "FLIGHT"
+    }
+  ],
+  "stockDiagnosticOutcome": "glide-and-release",
+  "stockDiagnosticMetrics": {
+    "captured": true,
+    "continuousPass": true,
+    "activeRelease": true,
+    "safeRejection": false,
+    "safeExit": false,
+    "shieldImpacts": 0,
+    "sampledHullIntrusion": false,
+    "minimumSampledSolidDistanceM": 5.961934112370515,
+    "minimumSampledGlideClearanceM": 6.518032469303849,
+    "sampledGlideM": 4.4300223015339215,
+    "longestSampledGlideM": 4.4300223015339215,
+    "contactLossesBeforeRelease": 0,
+    "releaseSpeedRetention": 0.9939613939853617,
+    "peakSampledAccelerationMps2": 40.83518552506987,
+    "flightDistanceM": 101.5363203442972,
+    "approachesPerKm": 9.848692532968723,
+    "completed": true,
+    "meetsDisposition": true
+  },
+  "reportSha256": "56c0ed3ce9317bd60e6d0b0eadef1b36d730c7ba8d99910e73e1340330ce9546",
+  "framesSha256": "399b18e9dd1a75bff714721dafc93a76b0d2ea8d078559ae899bcfa2c0a01fe8"
+}
