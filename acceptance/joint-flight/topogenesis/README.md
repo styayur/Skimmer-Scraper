@@ -59,7 +59,7 @@ The revised integrated source is `7845d30fcd428dbff50c5d45ba1c893ee7a3bf3b`, inc
 
 The revised controller met 13/14 development cases and 4/6 original holdouts. Its four required ribbons scored 3/4. The three development ribbons recovered their clean releases. Original holdout ribbon 104729 held through release and struck the shield at 3.775 s. Both cruise bowls still struck at 3.900 s. The separate eight-case panel scored 7/8 on stock and 8/8 on the revised client. Each of its three mandatory ribbons actively released on both builds. All 28 revised diagnostics passed the independent producer reader against regenerated GLBs. The [paired dispositions](integrated-7845d30f/results.md) include every case and failure. The [completion record](integrated-7845d30f/evaluation.json) includes the UTC timestamps.
 
-At 06:08:19 UTC on 28 November 2026, a [third commitment](third-holdout-commitment.json) fixed six fresh inputs and the exact size and SHA-256 of each corresponding GLB. The panel remains sealed for a separate future controller freeze.
+At 06:08:19 UTC on 28 November 2026, a [third commitment](third-holdout-commitment.json) fixed six fresh inputs and the exact size and SHA-256 of each corresponding GLB. Stock references were collected privately after the commitment. The panel remains sealed for a separate future controller freeze.
 
 ## Public catalog
 
