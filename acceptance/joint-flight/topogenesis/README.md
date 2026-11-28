@@ -83,6 +83,8 @@ The installed Windows client also opened `?catalog=switchyard`, fetched the same
 
 The official v0.11.0 Windows installer flew the v0.4.0 Switchyard through four active glide releases. The fresh and reopened layouts matched across 133 paired samples with zero shield strikes. The archived receipt includes the installed executable and JavaScript hashes, the exact layout and both producer-validated observations. [Final installed Windows handoff](windows-final/README.md)
 
+After PR #97 changed the public-main source identity, the same installed probe passed all four active releases and matched all 266 earlier flight samples on the newly hashed executable. [Windows repeat on ac943acd](windows-final/46130586145/README.md)
+
 ## Reproduce
 
 Extract the original Skimmer v0.10.0 static ZIP and serve its directory on loopback. The recorded functional flights used Python 3.14.7, Python Playwright 1.63.0, Chromium 153.0.8010.12, software WebGL and a 640 × 360 viewport. Install Playwright and its Chromium with `python -m pip install playwright==1.63.0` and `python -m playwright install chromium`. The producer runs as a separate Node process. Install its lockfile dependencies in a v0.3.0 checkout and in a second checkout at the revision-2 commit in matrix.json. The latter generator preserves all three rule revisions.
