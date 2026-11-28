@@ -1,0 +1,451 @@
+{
+  "workflowRun": "46137729038",
+  "workflowAttempt": "1",
+  "workflowSha": "da7a11d55956ec79cbfe1098602455900bc813d1",
+  "plan": {
+    "base": "ac943acd6a2c6d21431aa138327bc3e64ed8552f",
+    "candidate": "b84ab55ef543e40f9c345445cb3b8d85089d2b40",
+    "three": "0.187.0",
+    "threeGit": "7e89746a687bb88271253698fa108b1dd59825d0",
+    "mathRandomSeed": 191147,
+    "sceneSeed": 334458,
+    "devicePixelRatio": 2,
+    "pixelGate": "Exact RGBA8 on every paired canvas. Report all mismatch counts, maxima, means and >1 LSB counts even on failure.",
+    "storageGate": "Both starts have zero native composer targets and one after the first screen frame of each size epoch. From the second, stock has two and candidate one. Count distinct native FBOs, queried attachment bits, observed GL storage and retired handles. Both offscreen controls must swap and write the other target.",
+    "steps": [
+      {
+        "name": "first",
+        "mode": "title"
+      },
+      {
+        "name": "second",
+        "mode": "title"
+      },
+      {
+        "name": "third",
+        "mode": "title"
+      },
+      {
+        "name": "flight",
+        "mode": "flight",
+        "snap": true
+      },
+      {
+        "name": "resize-first",
+        "mode": "flight",
+        "resize": [
+          384,
+          216
+        ]
+      },
+      {
+        "name": "resize-second",
+        "mode": "flight"
+      },
+      {
+        "name": "resize-third",
+        "mode": "flight"
+      },
+      {
+        "name": "high-first",
+        "mode": "flight",
+        "quality": "high"
+      },
+      {
+        "name": "high-second",
+        "mode": "flight"
+      },
+      {
+        "name": "high-third",
+        "mode": "flight"
+      },
+      {
+        "name": "balanced-first",
+        "mode": "flight",
+        "quality": "balanced"
+      },
+      {
+        "name": "balanced-second",
+        "mode": "flight"
+      },
+      {
+        "name": "offscreen",
+        "mode": "flight",
+        "control": "offscreen"
+      },
+      {
+        "name": "appended-copy",
+        "mode": "flight",
+        "control": "appended"
+      },
+      {
+        "name": "screen-return",
+        "mode": "flight"
+      }
+    ]
+  },
+  "frames": [
+    {
+      "name": "first",
+      "width": 480,
+      "height": 270,
+      "base-repeat": {
+        "pixelCount": 129600,
+        "different": 0,
+        "overOneLsb": 0,
+        "maxChannelDelta": 0,
+        "meanAbsChannelDelta": 0.0
+      },
+      "candidate": {
+        "pixelCount": 129600,
+        "different": 0,
+        "overOneLsb": 0,
+        "maxChannelDelta": 0,
+        "meanAbsChannelDelta": 0.0
+      },
+      "stockTargets": 1,
+      "candidateTargets": 1,
+      "stockBytes": 1425600,
+      "candidateBytes": 1425600,
+      "savedPayloadBytes": 0
+    },
+    {
+      "name": "second",
+      "width": 480,
+      "height": 270,
+      "base-repeat": {
+        "pixelCount": 129600,
+        "different": 0,
+        "overOneLsb": 0,
+        "maxChannelDelta": 0,
+        "meanAbsChannelDelta": 0.0
+      },
+      "candidate": {
+        "pixelCount": 129600,
+        "different": 0,
+        "overOneLsb": 0,
+        "maxChannelDelta": 0,
+        "meanAbsChannelDelta": 0.0
+      },
+      "stockTargets": 2,
+      "candidateTargets": 1,
+      "stockBytes": 2851200,
+      "candidateBytes": 1425600,
+      "savedPayloadBytes": 1425600
+    },
+    {
+      "name": "third",
+      "width": 480,
+      "height": 270,
+      "base-repeat": {
+        "pixelCount": 129600,
+        "different": 0,
+        "overOneLsb": 0,
+        "maxChannelDelta": 0,
+        "meanAbsChannelDelta": 0.0
+      },
+      "candidate": {
+        "pixelCount": 129600,
+        "different": 0,
+        "overOneLsb": 0,
+        "maxChannelDelta": 0,
+        "meanAbsChannelDelta": 0.0
+      },
+      "stockTargets": 2,
+      "candidateTargets": 1,
+      "stockBytes": 2851200,
+      "candidateBytes": 1425600,
+      "savedPayloadBytes": 1425600
+    },
+    {
+      "name": "flight",
+      "width": 480,
+      "height": 270,
+      "base-repeat": {
+        "pixelCount": 129600,
+        "different": 0,
+        "overOneLsb": 0,
+        "maxChannelDelta": 0,
+        "meanAbsChannelDelta": 0.0
+      },
+      "candidate": {
+        "pixelCount": 129600,
+        "different": 0,
+        "overOneLsb": 0,
+        "maxChannelDelta": 0,
+        "meanAbsChannelDelta": 0.0
+      },
+      "stockTargets": 2,
+      "candidateTargets": 1,
+      "stockBytes": 2851200,
+      "candidateBytes": 1425600,
+      "savedPayloadBytes": 1425600
+    },
+    {
+      "name": "resize-first",
+      "width": 576,
+      "height": 324,
+      "base-repeat": {
+        "pixelCount": 186624,
+        "different": 0,
+        "overOneLsb": 0,
+        "maxChannelDelta": 0,
+        "meanAbsChannelDelta": 0.0
+      },
+      "candidate": {
+        "pixelCount": 186624,
+        "different": 0,
+        "overOneLsb": 0,
+        "maxChannelDelta": 0,
+        "meanAbsChannelDelta": 0.0
+      },
+      "stockTargets": 1,
+      "candidateTargets": 1,
+      "stockBytes": 2052864,
+      "candidateBytes": 2052864,
+      "savedPayloadBytes": 0
+    },
+    {
+      "name": "resize-second",
+      "width": 576,
+      "height": 324,
+      "base-repeat": {
+        "pixelCount": 186624,
+        "different": 0,
+        "overOneLsb": 0,
+        "maxChannelDelta": 0,
+        "meanAbsChannelDelta": 0.0
+      },
+      "candidate": {
+        "pixelCount": 186624,
+        "different": 0,
+        "overOneLsb": 0,
+        "maxChannelDelta": 0,
+        "meanAbsChannelDelta": 0.0
+      },
+      "stockTargets": 2,
+      "candidateTargets": 1,
+      "stockBytes": 4105728,
+      "candidateBytes": 2052864,
+      "savedPayloadBytes": 2052864
+    },
+    {
+      "name": "resize-third",
+      "width": 576,
+      "height": 324,
+      "base-repeat": {
+        "pixelCount": 186624,
+        "different": 0,
+        "overOneLsb": 0,
+        "maxChannelDelta": 0,
+        "meanAbsChannelDelta": 0.0
+      },
+      "candidate": {
+        "pixelCount": 186624,
+        "different": 0,
+        "overOneLsb": 0,
+        "maxChannelDelta": 0,
+        "meanAbsChannelDelta": 0.0
+      },
+      "stockTargets": 2,
+      "candidateTargets": 1,
+      "stockBytes": 4105728,
+      "candidateBytes": 2052864,
+      "savedPayloadBytes": 2052864
+    },
+    {
+      "name": "high-first",
+      "width": 768,
+      "height": 432,
+      "base-repeat": {
+        "pixelCount": 331776,
+        "different": 0,
+        "overOneLsb": 0,
+        "maxChannelDelta": 0,
+        "meanAbsChannelDelta": 0.0
+      },
+      "candidate": {
+        "pixelCount": 331776,
+        "different": 0,
+        "overOneLsb": 0,
+        "maxChannelDelta": 0,
+        "meanAbsChannelDelta": 0.0
+      },
+      "stockTargets": 1,
+      "candidateTargets": 1,
+      "stockBytes": 3649536,
+      "candidateBytes": 3649536,
+      "savedPayloadBytes": 0
+    },
+    {
+      "name": "high-second",
+      "width": 768,
+      "height": 432,
+      "base-repeat": {
+        "pixelCount": 331776,
+        "different": 0,
+        "overOneLsb": 0,
+        "maxChannelDelta": 0,
+        "meanAbsChannelDelta": 0.0
+      },
+      "candidate": {
+        "pixelCount": 331776,
+        "different": 0,
+        "overOneLsb": 0,
+        "maxChannelDelta": 0,
+        "meanAbsChannelDelta": 0.0
+      },
+      "stockTargets": 2,
+      "candidateTargets": 1,
+      "stockBytes": 7299072,
+      "candidateBytes": 3649536,
+      "savedPayloadBytes": 3649536
+    },
+    {
+      "name": "high-third",
+      "width": 768,
+      "height": 432,
+      "base-repeat": {
+        "pixelCount": 331776,
+        "different": 0,
+        "overOneLsb": 0,
+        "maxChannelDelta": 0,
+        "meanAbsChannelDelta": 0.0
+      },
+      "candidate": {
+        "pixelCount": 331776,
+        "different": 0,
+        "overOneLsb": 0,
+        "maxChannelDelta": 0,
+        "meanAbsChannelDelta": 0.0
+      },
+      "stockTargets": 2,
+      "candidateTargets": 1,
+      "stockBytes": 7299072,
+      "candidateBytes": 3649536,
+      "savedPayloadBytes": 3649536
+    },
+    {
+      "name": "balanced-first",
+      "width": 576,
+      "height": 324,
+      "base-repeat": {
+        "pixelCount": 186624,
+        "different": 0,
+        "overOneLsb": 0,
+        "maxChannelDelta": 0,
+        "meanAbsChannelDelta": 0.0
+      },
+      "candidate": {
+        "pixelCount": 186624,
+        "different": 0,
+        "overOneLsb": 0,
+        "maxChannelDelta": 0,
+        "meanAbsChannelDelta": 0.0
+      },
+      "stockTargets": 1,
+      "candidateTargets": 1,
+      "stockBytes": 2052864,
+      "candidateBytes": 2052864,
+      "savedPayloadBytes": 0
+    },
+    {
+      "name": "balanced-second",
+      "width": 576,
+      "height": 324,
+      "base-repeat": {
+        "pixelCount": 186624,
+        "different": 0,
+        "overOneLsb": 0,
+        "maxChannelDelta": 0,
+        "meanAbsChannelDelta": 0.0
+      },
+      "candidate": {
+        "pixelCount": 186624,
+        "different": 0,
+        "overOneLsb": 0,
+        "maxChannelDelta": 0,
+        "meanAbsChannelDelta": 0.0
+      },
+      "stockTargets": 2,
+      "candidateTargets": 1,
+      "stockBytes": 4105728,
+      "candidateBytes": 2052864,
+      "savedPayloadBytes": 2052864
+    },
+    {
+      "name": "offscreen",
+      "width": 576,
+      "height": 324,
+      "base-repeat": {
+        "pixelCount": 186624,
+        "different": 0,
+        "overOneLsb": 0,
+        "maxChannelDelta": 0,
+        "meanAbsChannelDelta": 0.0
+      },
+      "candidate": {
+        "pixelCount": 186624,
+        "different": 0,
+        "overOneLsb": 0,
+        "maxChannelDelta": 0,
+        "meanAbsChannelDelta": 0.0
+      },
+      "stockTargets": 2,
+      "candidateTargets": 2,
+      "stockBytes": 4105728,
+      "candidateBytes": 4105728,
+      "savedPayloadBytes": 0
+    },
+    {
+      "name": "appended-copy",
+      "width": 576,
+      "height": 324,
+      "base-repeat": {
+        "pixelCount": 186624,
+        "different": 0,
+        "overOneLsb": 0,
+        "maxChannelDelta": 0,
+        "meanAbsChannelDelta": 0.0
+      },
+      "candidate": {
+        "pixelCount": 186624,
+        "different": 0,
+        "overOneLsb": 0,
+        "maxChannelDelta": 0,
+        "meanAbsChannelDelta": 0.0
+      },
+      "stockTargets": 2,
+      "candidateTargets": 2,
+      "stockBytes": 4105728,
+      "candidateBytes": 4105728,
+      "savedPayloadBytes": 0
+    },
+    {
+      "name": "screen-return",
+      "width": 576,
+      "height": 324,
+      "base-repeat": {
+        "pixelCount": 186624,
+        "different": 0,
+        "overOneLsb": 0,
+        "maxChannelDelta": 0,
+        "meanAbsChannelDelta": 0.0
+      },
+      "candidate": {
+        "pixelCount": 186624,
+        "different": 0,
+        "overOneLsb": 0,
+        "maxChannelDelta": 0,
+        "meanAbsChannelDelta": 0.0
+      },
+      "stockTargets": 2,
+      "candidateTargets": 2,
+      "stockBytes": 4105728,
+      "candidateBytes": 4105728,
+      "savedPayloadBytes": 0
+    }
+  ],
+  "failures": [],
+  "passed": true
+}

@@ -1,0 +1,214 @@
+{
+  "id": 46137729038,
+  "run_attempt": 1,
+  "head_sha": "da7a11d55956ec79cbfe1098602455900bc813d1",
+  "event": "push",
+  "status": "completed",
+  "conclusion": "success",
+  "html_url": "https://github.com/styayur/Skimmer-Scraper/actions/runs/46137729038",
+  "created_at": "2026-11-28T10:59:40Z",
+  "updated_at": "2026-11-28T11:01:13Z",
+  "jobs": [
+    {
+      "id": 140956709996,
+      "name": "compare",
+      "started_at": "2026-11-28T10:59:43Z",
+      "completed_at": "2026-11-28T11:01:13Z",
+      "html_url": "https://github.com/styayur/Skimmer-Scraper/actions/runs/46137729038/job/140956709996",
+      "conclusion": "success",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-11-28T10:59:43Z",
+          "completed_at": "2026-11-28T10:59:45Z"
+        },
+        {
+          "name": "Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-11-28T10:59:45Z",
+          "completed_at": "2026-11-28T10:59:53Z"
+        },
+        {
+          "name": "Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-11-28T10:59:53Z",
+          "completed_at": "2026-11-28T10:59:56Z"
+        },
+        {
+          "name": "Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4,
+          "started_at": "2026-11-28T10:59:56Z",
+          "completed_at": "2026-11-28T11:00:02Z"
+        },
+        {
+          "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5,
+          "started_at": "2026-11-28T11:00:02Z",
+          "completed_at": "2026-11-28T11:00:06Z"
+        },
+        {
+          "name": "Run actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6,
+          "started_at": "2026-11-28T11:00:06Z",
+          "completed_at": "2026-11-28T11:00:06Z"
+        },
+        {
+          "name": "Verify candidate scope and install locked dependencies",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7,
+          "started_at": "2026-11-28T11:00:06Z",
+          "completed_at": "2026-11-28T11:00:46Z"
+        },
+        {
+          "name": "Build both clean production games and their paired renderer fixtures",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 8,
+          "started_at": "2026-11-28T11:00:46Z",
+          "completed_at": "2026-11-28T11:00:51Z"
+        },
+        {
+          "name": "Compare baseline, repeated baseline and candidate on one SwiftShader renderer",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 9,
+          "started_at": "2026-11-28T11:00:51Z",
+          "completed_at": "2026-11-28T11:01:06Z"
+        },
+        {
+          "name": "Retain observations, failures and lossless canvases",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 10,
+          "started_at": "2026-11-28T11:01:06Z",
+          "completed_at": "2026-11-28T11:01:08Z"
+        },
+        {
+          "name": "Post Run actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 16,
+          "started_at": "2026-11-28T11:01:08Z",
+          "completed_at": "2026-11-28T11:01:08Z"
+        },
+        {
+          "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 17,
+          "started_at": "2026-11-28T11:01:08Z",
+          "completed_at": "2026-11-28T11:01:08Z"
+        },
+        {
+          "name": "Post Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 18,
+          "started_at": "2026-11-28T11:01:08Z",
+          "completed_at": "2026-11-28T11:01:09Z"
+        },
+        {
+          "name": "Post Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 19,
+          "started_at": "2026-11-28T11:01:09Z",
+          "completed_at": "2026-11-28T11:01:09Z"
+        },
+        {
+          "name": "Post Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 20,
+          "started_at": "2026-11-28T11:01:09Z",
+          "completed_at": "2026-11-28T11:01:09Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 21,
+          "started_at": "2026-11-28T11:01:09Z",
+          "completed_at": "2026-11-28T11:01:09Z"
+        }
+      ]
+    }
+  ],
+  "logsArchiveSha256": "61ce82499730637db760e62fe03ce6533a2214e57dac4b4f733ef76ca81704e7",
+  "artifacts": [
+    {
+      "id": 15260338120,
+      "name": "composer-storage-46137729038-1",
+      "digest": "sha256:b4f73888c67ce22c4f96e40dda49b1fd8206c623ac816e184bfdafc6bed03b83",
+      "size_in_bytes": 4164985,
+      "created_at": "2026-11-28T11:01:08Z",
+      "expires_at": "2026-12-28T11:01:06Z",
+      "members": {
+        "base/appended-copy.png": "5cc3d873c53dbacc938937692e969fc0e0e2896a5034bdd3234a928c1040633e",
+        "base/balanced-second.png": "a2af23c3f72a6ce32140f6e819c6656812fce392935a9a0e3f81ca8d3095e6db",
+        "base/balanced-first.png": "2b1c2eae204e41593b2c975d87f551b18d92eb536662fcc81abfdddc53706636",
+        "base/first.png": "429b30dcd99726bfd5b7c8f5b712a492f203bcecb72a88ac2fc18d04438d5adc",
+        "base/flight.png": "bdc9cdc81f18387398713b6d9ea1377d3d948bd9780288ba682cd4cf725cf3b2",
+        "base/high-first.png": "5dca7701578b08def320a8f3a7a661af2ea07a2685949964c4906270aa2ea083",
+        "base/high-second.png": "5a8161e0623fdfdc7cf5e3e4edb63bbb3b567a24c22013244b373788709aee74",
+        "base/high-third.png": "8dc4861f2ff56378e575b0443699a8bbc2ecb408dfeb75823b926d699c1fc972",
+        "base/observations.json": "161b0ce2aa8ad7800ae567dcfc7bcf08abfec0a5a0e1d240271b04bb71ef2fa2",
+        "base/offscreen.png": "52513f15654350091336b51fee5947749241bd03e6ac6127405b69c5385abdcc",
+        "base/resize-first.png": "fdf067f490d359470c9cd1da0dc9e225404b26dbb7da732aa59dc62a3c838e5b",
+        "base/resize-second.png": "36cb6ae776722d75b65ecd285dbf9aeaa48dd6374e6e2b5b5e7ab7caeb5f57cf",
+        "base/resize-third.png": "ed320b800438caa9cff0f6ae0a790f53e18348e15b8a947716da952a0a2e6f72",
+        "base/second.png": "2745d7962713c31e978b22c4cec30bcd7203a73b2bf3d14f28a9f04adc6da389",
+        "base/screen-return.png": "bf9e5747faf6442c785473846d94bae180b3bbaecae969bfb39c19a34da730ca",
+        "base/third.png": "353897496db20c798df72b28095a2aa94cb0db56f45ce155ce4b0b80890842a9",
+        "base-repeat/appended-copy.png": "5cc3d873c53dbacc938937692e969fc0e0e2896a5034bdd3234a928c1040633e",
+        "base-repeat/balanced-first.png": "2b1c2eae204e41593b2c975d87f551b18d92eb536662fcc81abfdddc53706636",
+        "base-repeat/balanced-second.png": "a2af23c3f72a6ce32140f6e819c6656812fce392935a9a0e3f81ca8d3095e6db",
+        "base-repeat/first.png": "429b30dcd99726bfd5b7c8f5b712a492f203bcecb72a88ac2fc18d04438d5adc",
+        "base-repeat/flight.png": "bdc9cdc81f18387398713b6d9ea1377d3d948bd9780288ba682cd4cf725cf3b2",
+        "base-repeat/high-second.png": "5a8161e0623fdfdc7cf5e3e4edb63bbb3b567a24c22013244b373788709aee74",
+        "base-repeat/high-third.png": "8dc4861f2ff56378e575b0443699a8bbc2ecb408dfeb75823b926d699c1fc972",
+        "base-repeat/high-first.png": "5dca7701578b08def320a8f3a7a661af2ea07a2685949964c4906270aa2ea083",
+        "base-repeat/observations.json": "7cbd32314b3a21aa3e0f7ff4c26281a8d09ef72de62c7debc16c8a4e3ae45b26",
+        "base-repeat/offscreen.png": "52513f15654350091336b51fee5947749241bd03e6ac6127405b69c5385abdcc",
+        "base-repeat/resize-first.png": "fdf067f490d359470c9cd1da0dc9e225404b26dbb7da732aa59dc62a3c838e5b",
+        "base-repeat/resize-second.png": "36cb6ae776722d75b65ecd285dbf9aeaa48dd6374e6e2b5b5e7ab7caeb5f57cf",
+        "base-repeat/resize-third.png": "ed320b800438caa9cff0f6ae0a790f53e18348e15b8a947716da952a0a2e6f72",
+        "base-repeat/screen-return.png": "bf9e5747faf6442c785473846d94bae180b3bbaecae969bfb39c19a34da730ca",
+        "base-repeat/second.png": "2745d7962713c31e978b22c4cec30bcd7203a73b2bf3d14f28a9f04adc6da389",
+        "base-repeat/third.png": "353897496db20c798df72b28095a2aa94cb0db56f45ce155ce4b0b80890842a9",
+        "builds.json": "b270e482de5635643f8b1f80b086ef7e318d30d9d1382b70079312958780bdce",
+        "candidate/appended-copy.png": "5cc3d873c53dbacc938937692e969fc0e0e2896a5034bdd3234a928c1040633e",
+        "candidate/balanced-first.png": "2b1c2eae204e41593b2c975d87f551b18d92eb536662fcc81abfdddc53706636",
+        "candidate/balanced-second.png": "a2af23c3f72a6ce32140f6e819c6656812fce392935a9a0e3f81ca8d3095e6db",
+        "candidate/first.png": "429b30dcd99726bfd5b7c8f5b712a492f203bcecb72a88ac2fc18d04438d5adc",
+        "candidate/flight.png": "bdc9cdc81f18387398713b6d9ea1377d3d948bd9780288ba682cd4cf725cf3b2",
+        "candidate/high-second.png": "5a8161e0623fdfdc7cf5e3e4edb63bbb3b567a24c22013244b373788709aee74",
+        "candidate/high-third.png": "8dc4861f2ff56378e575b0443699a8bbc2ecb408dfeb75823b926d699c1fc972",
+        "candidate/high-first.png": "5dca7701578b08def320a8f3a7a661af2ea07a2685949964c4906270aa2ea083",
+        "candidate/observations.json": "1e09a9f3f08eac8aabc80112ec8e6c92fa42f2e0b993a9303ff8c96590ff5bc6",
+        "candidate/offscreen.png": "52513f15654350091336b51fee5947749241bd03e6ac6127405b69c5385abdcc",
+        "candidate/resize-first.png": "fdf067f490d359470c9cd1da0dc9e225404b26dbb7da732aa59dc62a3c838e5b",
+        "candidate/resize-second.png": "36cb6ae776722d75b65ecd285dbf9aeaa48dd6374e6e2b5b5e7ab7caeb5f57cf",
+        "candidate/resize-third.png": "ed320b800438caa9cff0f6ae0a790f53e18348e15b8a947716da952a0a2e6f72",
+        "candidate/screen-return.png": "bf9e5747faf6442c785473846d94bae180b3bbaecae969bfb39c19a34da730ca",
+        "candidate/second.png": "2745d7962713c31e978b22c4cec30bcd7203a73b2bf3d14f28a9f04adc6da389",
+        "candidate/third.png": "353897496db20c798df72b28095a2aa94cb0db56f45ce155ce4b0b80890842a9",
+        "comparison.json": "bf91a5d72df4865755b2a72caa8485a909b0327fe092936193454209a3b8cd5e"
+      }
+    }
+  ]
+}
