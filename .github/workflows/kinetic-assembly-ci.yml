@@ -1,0 +1,124 @@
+name: Stage Kinetic release qualification on hosted runners
+
+on:
+  push:
+    branches: [codex/kinetic-assembly-ac943ac]
+    paths:
+      - scripts/capture-kinetic-ci-inputs.py
+
+permissions:
+  contents: read
+  actions: read
+
+env:
+  SOURCE: ac943acd6a2c6d21431aa138327bc3e64ed8552f
+  SITE_RUN: '46129442515'
+  SITE_ARTIFACT: '15256573631'
+  SITE_SHA: '65f99fab675febfe9f21d8c42b9f0b3ef7d71f7d97780a14e358ba6ba9943038'
+  SITE_TREE: '1d1b6776332750e6e171e4e05ff61b76b1aaea048aa555b18cbe248bb32831c4'
+  NATIVE_RUN: '46129495362'
+  STAGE: hosted/2026-11-28-v0.11.0-ac943acd6a2c
+  PYTHONDONTWRITEBYTECODE: '1'
+
+jobs:
+  prepare:
+    runs-on: windows-2022
+    timeout-minutes: 35
+    steps:
+      - name: Check out the canonical package-lock bytes on Windows
+        run: |
+          git config --global core.longpaths true
+          git config --global core.autocrlf false
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          path: runner
+          persist-credentials: false
+          sparse-checkout: scripts/capture-kinetic-ci-inputs.py
+          sparse-checkout-cone-mode: false
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          path: product
+          ref: ${{ env.SOURCE }}
+          persist-credentials: false
+      - name: Read the official site and Windows workflow archives
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python runner/scripts/capture-kinetic-ci-inputs.py $env:SOURCE $env:SITE_RUN $env:SITE_ARTIFACT $env:SITE_SHA $env:NATIVE_RUN inputs
+      - name: Prepare release assets from the merged product checkout
+        run: |
+          node product/scripts/qualification/dist-manifest.mjs --record inputs/web $env:SOURCE inputs/served-files.json
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          $seal = Get-Content -Raw -LiteralPath inputs/served-files.json | ConvertFrom-Json
+          if ($seal.treeSha256 -cne $env:SITE_TREE) { throw 'Staged Web tree differs from the main CI readback' }
+          python product/scripts/assemble-kinetic-release.py prepare --source product --sha $env:SOURCE --dist inputs/web --site-seal inputs/served-files.json --native inputs/windows --date 2026-11-28 --output hosted
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          Copy-Item -LiteralPath inputs/ci-inputs.json -Destination $env:STAGE
+          Copy-Item -LiteralPath inputs/served-files.json -Destination $env:STAGE
+          New-Item -ItemType Directory -Path handoff | Out-Null
+          Copy-Item -LiteralPath "$env:STAGE/prepared/skimmer-scraper-v0.11.0-windows-x64-portable.zip" -Destination handoff
+          Copy-Item -LiteralPath "$env:STAGE/prepared/release-manifest.json","$env:STAGE/preparation.json","inputs/ci-inputs.json" -Destination handoff
+      - name: Retain the exact portable for the Windows owner
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: portable-handoff-ac943ac
+          path: handoff/
+          compression-level: 0
+          retention-days: 7
+          if-no-files-found: error
+      - name: Retain the complete preparation for final assembly
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: assembly-prepared-ac943ac
+          path: |
+            ${{ env.STAGE }}/
+            !${{ env.STAGE }}/installer-payload/**
+          compression-level: 0
+          retention-days: 7
+          if-no-files-found: error
+      - name: Retain preparation diagnostics
+        if: failure()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: failed-preparation-ac943ac
+          path: |
+            ${{ env.STAGE }}/*.log
+            ${{ env.STAGE }}/*.json
+            inputs/ci-inputs.json
+  qualification:
+    needs: prepare
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: ${{ env.SOURCE }}
+          path: product
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: 24.22.3
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: assembly-prepared-ac943ac
+          path: stage
+      - name: Rebuild the corresponding source on the Pages toolchain
+        run: python3 product/scripts/assemble-kinetic-release.py rebuild stage --work-root "$RUNNER_TEMP"
+      - name: Install the locked browser harness
+        if: '!cancelled()'
+        working-directory: product
+        run: |
+          npm ci
+          npx --no-install playwright install --with-deps chromium
+      - name: Qualify the exact itch ZIP in both locales and presentations
+        if: '!cancelled()'
+        run: python3 product/scripts/qualify-itch-zip.py --sha "$SOURCE" --zip stage/prepared/skimmer-scraper-v0.11.0-itch-html5.zip --output stage/itch
+      - name: Retain original rebuild and browser receipts
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: assembly-qualification-ac943ac
+          path: |
+            stage/source-rebuild-*/
+            stage/itch/
+          retention-days: 7
+          if-no-files-found: error
