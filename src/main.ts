@@ -891,14 +891,14 @@ const startRun = async (): Promise<void> => {
   lastSurfaceHit = queryFlightSurface(activeWorld, flightState.position, SURFACE_QUERY_RANGE);
   lastFrameTime = performance.now();
   mode = 'running';
-  playerDiagnostic.reset();
-  recordImportedFlight();
   symbiosis.flightReport(1, 'launch', 'notice');
   keyboard.setEnabled(!debugInputEnabled);
   audio.start();
   audio.setMuted(muted);
   ui.finishLoading();
   ui.showFlight();
+  playerDiagnostic.reset();
+  recordImportedFlight();
   syncHud();
   renderer.snapCamera(toRenderFlightState(flightState));
   if (document.hidden || !document.hasFocus()) actionRouter.route('menu');
