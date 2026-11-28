@@ -112,7 +112,7 @@ const RETENTION_MS = 1_250;
 const RETENTION_PRIORITY = 30;
 let nextStreamerLease = 0;
 const hintCapabilities = {
-  surface: ['glide', 'observe'], route: ['guide', 'scout'], socket: ['guide', 'scout'],
+  surface: ['glide', 'observe'], route: ['guide', 'scout'], socket: ['guide', 'scout', 'release'],
 } as const;
 
 export interface GenerationTiming {

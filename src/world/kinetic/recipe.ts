@@ -3,9 +3,10 @@ import { hashNumbers } from '../deterministic';
 import { CHUNK_SIZE } from '../worldConfig';
 
 export const KINETIC_RECIPE = 'kinetic-grid-1';
+export const KINETIC_WORLD_ID = 'kinetic-grid-1-r2';
 export const KINETIC_MODULES = ['s-curve', 'helix', 'sky-arch', 'bowl', 'ribbon-bridge', 'tunnel'] as const;
 export type KineticModuleId = typeof KINETIC_MODULES[number];
-export const KINETIC_CATALOG_SHA256 = '2ac10859708633e93f449b529acf34273dc0018fb69313c7120dac5acf71c294';
+export const KINETIC_CATALOG_SHA256 = '02d807f0ae74a011c45043d0fa0144260c5e36236c2d1695b912e839f9d9dabd';
 
 export function junctionRow(seed: number, band: number): number {
   return 4 * band + hashNumbers(seed, 0x4a, 0, band) % 4;

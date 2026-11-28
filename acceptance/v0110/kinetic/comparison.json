@@ -1,7 +1,7 @@
 {
   "recipe": {
     "recipe": "kinetic-grid-1",
-    "catalogSha256": "2ac10859708633e93f449b529acf34273dc0018fb69313c7120dac5acf71c294",
+    "catalogSha256": "02d807f0ae74a011c45043d0fa0144260c5e36236c2d1695b912e839f9d9dabd",
     "seed": 334458,
     "revision": 0,
     "region": {
@@ -18,10 +18,10 @@
   "generated": {
     "files": [
       {
-        "name": "kinetic-modules.v1.json",
-        "bytes": 240866,
-        "gzipBytes": 48823,
-        "sha256": "2ac10859708633e93f449b529acf34273dc0018fb69313c7120dac5acf71c294"
+        "name": "kinetic-flight-modules.r2.json",
+        "bytes": 281817,
+        "gzipBytes": 64076,
+        "sha256": "02d807f0ae74a011c45043d0fa0144260c5e36236c2d1695b912e839f9d9dabd"
       },
       {
         "name": "profiles.json",
@@ -32,12 +32,12 @@
       {
         "name": "region.json",
         "bytes": 199,
-        "gzipBytes": 173,
-        "sha256": "3dd1bf5e43a1d6a33733d1c3efe6f25e24cba0924b94d6bb55789dd0c20e84a2"
+        "gzipBytes": 172,
+        "sha256": "d0b6c469bc6f9b7f737e309468a5b8cc2399b3d65d61c133b445e85cd3286cd8"
       }
     ],
-    "bytes": 285311,
-    "gzipBytes": 52513
+    "bytes": 326262,
+    "gzipBytes": 67765
   },
   "baked": {
     "files": [
@@ -45,25 +45,25 @@
         "x": -4,
         "z": -4,
         "layout": "sky-arch",
-        "nearTriangles": 3326,
-        "distantTriangles": 3102,
-        "collisionTriangles": 2294,
+        "nearTriangles": 3038,
+        "distantTriangles": 3006,
+        "collisionTriangles": 2198,
         "name": "-4_-4.glb",
-        "bytes": 439108,
-        "gzipBytes": 85343,
-        "sha256": "c1450a58dd26fb2a0b7556326cd8a0beb675ccb81521b6e5059bb4b1cb789aef"
+        "bytes": 428752,
+        "gzipBytes": 80046,
+        "sha256": "f5cd97cb5b774e6b727868471b7a3d998a3776cdf003289b4fe59756be59d807"
       },
       {
         "x": -3,
         "z": -4,
         "layout": "bowl",
-        "nearTriangles": 5646,
-        "distantTriangles": 3982,
-        "collisionTriangles": 3446,
+        "nearTriangles": 5022,
+        "distantTriangles": 3566,
+        "collisionTriangles": 3030,
         "name": "-3_-4.glb",
-        "bytes": 525848,
-        "gzipBytes": 137071,
-        "sha256": "319af908e2e4065493633df627391a5c0cabecb103643732af5bfc53d29e5320"
+        "bytes": 495980,
+        "gzipBytes": 117073,
+        "sha256": "2e35e89e289e09def5f968758d34bf71301103586bb005d0838b07e330c4bccd"
       },
       {
         "x": -2,
@@ -73,9 +73,9 @@
         "distantTriangles": 3706,
         "collisionTriangles": 2978,
         "name": "-2_-4.glb",
-        "bytes": 504136,
-        "gzipBytes": 126804,
-        "sha256": "99efd3de8b7abe631988910d4440906ce6820e08355bd92fb530e744810612ee"
+        "bytes": 504160,
+        "gzipBytes": 126806,
+        "sha256": "02a8252d496f5725f1dc8e8b26d030fa6b731d66827c4f870e02efdac428d19c"
       },
       {
         "x": -1,
@@ -85,9 +85,9 @@
         "distantTriangles": 5130,
         "collisionTriangles": 3166,
         "name": "-1_-4.glb",
-        "bytes": 608124,
-        "gzipBytes": 158672,
-        "sha256": "0e0c3817f9b9027369440c4439c0a3253d1b375b2dda45aced581870d9cb5ea1"
+        "bytes": 608152,
+        "gzipBytes": 158675,
+        "sha256": "7ceab215e553241edfbe75d3b57a458233391826980268926c5f6363ee476af7"
       },
       {
         "x": -4,
@@ -97,9 +97,9 @@
         "distantTriangles": 2110,
         "collisionTriangles": 1678,
         "name": "-4_-3.glb",
-        "bytes": 284824,
-        "gzipBytes": 55244,
-        "sha256": "1ce61d0f06538be5953b1f279a12258ca78c7c4d8cfd1c4b4f081a350d1c3cd8"
+        "bytes": 284860,
+        "gzipBytes": 55249,
+        "sha256": "d0973d53629cba57f96e6fdfcd1881507d127a8722d63ae3196cb595d68bafba"
       },
       {
         "x": -3,
@@ -109,9 +109,9 @@
         "distantTriangles": 2766,
         "collisionTriangles": 1350,
         "name": "-3_-3.glb",
-        "bytes": 345828,
-        "gzipBytes": 63405,
-        "sha256": "a4072c76a674d313ff3f8ab83eae016ef0443a585aa3e7cae37e48100ae5af03"
+        "bytes": 345864,
+        "gzipBytes": 63407,
+        "sha256": "a436d76d118038d01bf30e13aec3d76a4f1633b031e49119d3f2176d33537e05"
       },
       {
         "x": -2,
@@ -121,9 +121,9 @@
         "distantTriangles": 2386,
         "collisionTriangles": 1542,
         "name": "-2_-3.glb",
-        "bytes": 310576,
-        "gzipBytes": 58029,
-        "sha256": "35835b24e9b3e5b53fa8dbf3899e6b225c5e3dc2bfb7761478e27f832e9fd500"
+        "bytes": 310612,
+        "gzipBytes": 58032,
+        "sha256": "7da64f5856a549585292b2542860fa5db22ae1f8bb861ae0129bcacb9e9dd89f"
       },
       {
         "x": -1,
@@ -133,9 +133,9 @@
         "distantTriangles": 2214,
         "collisionTriangles": 1622,
         "name": "-1_-3.glb",
-        "bytes": 294324,
-        "gzipBytes": 58471,
-        "sha256": "d8e608175c463f5c7972c2d3eec0f345f12cbc664c4bf7dfd5934b7ca622998f"
+        "bytes": 294360,
+        "gzipBytes": 58478,
+        "sha256": "271f7826b5dfda17f6f57fee4a6e1ce4cdd1c7a5083902b2b164a417ee716f8b"
       },
       {
         "x": -4,
@@ -145,69 +145,69 @@
         "distantTriangles": 3194,
         "collisionTriangles": 2466,
         "name": "-4_-2.glb",
-        "bytes": 444584,
-        "gzipBytes": 88960,
-        "sha256": "0d2c9b9cde672a9acd13a933815ed53e70718c53cb035e9f7c88a600e4eb0f2c"
+        "bytes": 444608,
+        "gzipBytes": 88964,
+        "sha256": "617bb947bf3607595b81227ddb89201117b53dd7b2b31f71e7a3dc139a768ed8"
       },
       {
         "x": -3,
         "z": -2,
         "layout": "helix",
-        "nearTriangles": 7966,
-        "distantTriangles": 4054,
-        "collisionTriangles": 3050,
+        "nearTriangles": 10238,
+        "distantTriangles": 4454,
+        "collisionTriangles": 3598,
         "name": "-3_-2.glb",
-        "bytes": 514412,
-        "gzipBytes": 183972,
-        "sha256": "9ec0425efa6914b1cce8a6f36a9eb239ff1467a8132939f8bc92c6141f9c28d5"
+        "bytes": 542740,
+        "gzipBytes": 233650,
+        "sha256": "902ea30e020bd1e3689af171b0ef0559bcd1ae23bc3507bffd134cb5d843896e"
       },
       {
         "x": -2,
         "z": -2,
         "layout": "sky-arch",
-        "nearTriangles": 3878,
-        "distantTriangles": 3654,
-        "collisionTriangles": 2022,
+        "nearTriangles": 3590,
+        "distantTriangles": 3558,
+        "collisionTriangles": 1926,
         "name": "-2_-2.glb",
-        "bytes": 490604,
-        "gzipBytes": 91556,
-        "sha256": "4141c568a2e70bcc397c6f25cf6f522f05ac1e39532f0d9ff02e1c774623bad9"
+        "bytes": 480264,
+        "gzipBytes": 85244,
+        "sha256": "087eba1e348fccbfbc89c1833752423cbf87d216023480345683d1ccd8f52205"
       },
       {
         "x": -1,
         "z": -2,
         "layout": "bowl",
-        "nearTriangles": 5974,
-        "distantTriangles": 4310,
-        "collisionTriangles": 3282,
+        "nearTriangles": 5350,
+        "distantTriangles": 3894,
+        "collisionTriangles": 2866,
         "name": "-1_-2.glb",
-        "bytes": 556360,
-        "gzipBytes": 143864,
-        "sha256": "7dd2045c7370c2a1b16d6886cbd136258efb09392fad8d3feb2779ea3f6042f3"
+        "bytes": 526448,
+        "gzipBytes": 122824,
+        "sha256": "9f7417f7f45d47653c0d1fab78f7e45420944edf42c0b9196df7a6dca009fc33"
       },
       {
         "x": -4,
         "z": -1,
         "layout": "sky-arch",
-        "nearTriangles": 3602,
-        "distantTriangles": 3378,
-        "collisionTriangles": 2158,
+        "nearTriangles": 3314,
+        "distantTriangles": 3282,
+        "collisionTriangles": 2062,
         "name": "-4_-1.glb",
-        "bytes": 464852,
-        "gzipBytes": 88354,
-        "sha256": "3b4dfcd7b512ecd5b276cd7ce1812af3eb5dc02984ac88d198d44463842a2976"
+        "bytes": 454504,
+        "gzipBytes": 82659,
+        "sha256": "766451359baaed3b9b4dec41f4cb252617fef3892ddcb5e5c331ebad27eb9cf9"
       },
       {
         "x": -3,
         "z": -1,
         "layout": "bowl",
-        "nearTriangles": 5670,
-        "distantTriangles": 4006,
-        "collisionTriangles": 3534,
+        "nearTriangles": 5046,
+        "distantTriangles": 3590,
+        "collisionTriangles": 3118,
         "name": "-3_-1.glb",
-        "bytes": 532300,
-        "gzipBytes": 140592,
-        "sha256": "8e87d662559e43ad381f5e1408ea38c98ce89eee561cbbcdfae0ec8fed0cff5f"
+        "bytes": 502416,
+        "gzipBytes": 120451,
+        "sha256": "9aa6b0b42c272cb9c361592d55e01c929dca3d824c7ed6ae7b200d3243d0b047"
       },
       {
         "x": -2,
@@ -217,9 +217,9 @@
         "distantTriangles": 3614,
         "collisionTriangles": 3078,
         "name": "-2_-1.glb",
-        "bytes": 497852,
-        "gzipBytes": 125580,
-        "sha256": "e24899af9b91855652ccf0626110b5c0df2e45e3542a6602dfa78bf9ab7f0961"
+        "bytes": 497876,
+        "gzipBytes": 125584,
+        "sha256": "81e722e171a8e99df8589115424a825435ad6083b7556a477362ec14ab04b55f"
       },
       {
         "x": -1,
@@ -229,12 +229,12 @@
         "distantTriangles": 4814,
         "collisionTriangles": 3374,
         "name": "-1_-1.glb",
-        "bytes": 580816,
+        "bytes": 580840,
         "gzipBytes": 155893,
-        "sha256": "b452831730590db0f88e6de0af762afe86fdce6a5282ee6de5d2fb08d112614d"
+        "sha256": "e83f5cdda38159cb29b5c1e5ea9473fe035bea227432e77300f8eda3e87b3caa"
       }
     ],
-    "bytes": 7394548,
-    "gzipBytes": 1761810
+    "bytes": 7302436,
+    "gzipBytes": 1733035
   }
 }

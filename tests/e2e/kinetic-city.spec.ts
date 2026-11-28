@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test';
 import { writeFile } from 'node:fs/promises';
-import { boundarySocket, junctionRow, kineticLayout } from '../../src/world/kinetic/recipe';
+import { boundarySocket, junctionRow, kineticLayout, KINETIC_WORLD_ID } from '../../src/world/kinetic/recipe';
 
 test('selects Kinetic City, flies a shared opening, evicts and restores the district, then inverts', async ({page}, info) => {
   test.setTimeout(150_000);
@@ -32,7 +32,7 @@ test('selects Kinetic City, flies a shared opening, evicts and restores the dist
   }, portal);
   expect(flight.opening).toBeNull();
   expect(flight.wall?.distance).toBeCloseTo(1,1);
-  expect(flight.forwardDeck?.contact?.logicalSurfaceId).toBe('kinetic-grid-1.'+seed+'.spine.0');
+  expect(flight.forwardDeck?.contact?.logicalSurfaceId).toBe(KINETIC_WORLD_ID+'.'+seed+'.spine.0');
   expect(flight.rearDeck?.contact?.logicalSurfaceId).toBe(flight.forwardDeck?.contact?.logicalSurfaceId);
   expect(flight.rearDeck?.chunkId).not.toBe(flight.forwardDeck?.chunkId);
   expect(flight.crossed.position.z).toBeLessThan(portal.z-10);

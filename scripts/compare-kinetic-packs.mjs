@@ -30,7 +30,7 @@ try {
     region:{x:-1,z:-1}, chunkSize:220, width:4, depth:4};
   const source = [];
   for (const [name, bytes] of [
-    ['kinetic-modules.v1.json',await readFile('src/world/kinetic/kinetic-modules.v1.json')],
+    ['kinetic-flight-modules.r2.json',await readFile('src/world/kinetic/kinetic-flight-modules.r2.json')],
     ['profiles.json',await readFile('art/district/profiles.json')],
     ['region.json',Buffer.from(JSON.stringify(recipe)+'\n')],
   ]) {

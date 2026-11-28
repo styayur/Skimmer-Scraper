@@ -5,7 +5,7 @@ import type { WorldMaterialKey } from '../materials';
 import { packGeometry, unpackGeometry } from '../packedGeometry';
 import { CHUNK_SIZE, type WorldSettings } from '../worldConfig';
 import type { CollisionSurfaceSpan, GeneratedChunk, TopologyHint } from '../worldTypes';
-import { boundarySocket, kineticLayout, KINETIC_RECIPE } from './recipe';
+import { boundarySocket, kineticLayout, KINETIC_WORLD_ID } from './recipe';
 import { appendSweep, kineticLibrary, MeshBuffer, smooth, stationPoint,
   type KineticModule, type Placement, type Point, type Station, type Sweep } from './sweep';
 
@@ -68,12 +68,12 @@ export class KineticChunkGenerator {
     const skyline = new MeshBuffer(true);
     const hints: TopologyHint[] = [];
     const surfaceSpans: CollisionSurfaceSpan[] = [];
-    const spine = [KINETIC_RECIPE, seed, 'spine', cx].join('.');
-    const feature = [KINETIC_RECIPE, seed, cx, cz, layout].join('.');
+    const spine = [KINETIC_WORLD_ID, seed, 'spine', cx].join('.');
+    const feature = [KINETIC_WORLD_ID, seed, cx, cz, layout].join('.');
     const hint = (kind: TopologyHint['kind'], id: string, [x, y, z]: Point) =>
       hints.push({ kind, id, position: { x: origin.x + x, y, z: origin.z + z } });
     // Each shared socket has one semantic owner.
-    hint('socket', [KINETIC_RECIPE, seed, 'N', cx, cz].join('.'), [north[0], north[1] + 6, north[2]]);
+    hint('socket', [KINETIC_WORLD_ID, seed, 'N', cx, cz].join('.'), [north[0], north[1] + 6, north[2]]);
     const add = (surface: Sweep, place: Placement, id: string, caps = false) => {
       appendSweep(near, surface, place, caps);
       if (layout !== 'junction') appendSweep(far, surface, place, caps, true);
@@ -83,14 +83,14 @@ export class KineticChunkGenerator {
     };
     if (layout === 'junction') {
       const west = localSocket('W', cx, cz), east = localSocket('W', cx + 1, cz);
-      hint('socket', [KINETIC_RECIPE, seed, 'W', cx, cz].join('.'), [west[0], west[1] + 6, west[2]]);
+      hint('socket', [KINETIC_WORLD_ID, seed, 'W', cx, cz].join('.'), [west[0], west[1] + 6, west[2]]);
       const mid = CHUNK_SIZE / 2, half = footprint.width / 2;
       const low = mid - half, high = mid + half, y = (north[1] + south[1] + west[1] + east[1]) / 4;
       for (const [i, path] of [
         arm(north, [mid, y, low], false, footprint.section), arm([mid, y, high], south, false, footprint.section),
         arm(west, [low, y, mid], true, footprint.section), arm([high, y, mid], east, true, footprint.section),
       ].entries()) {
-        add(path, identity, i < 2 ? spine : [KINETIC_RECIPE, seed, 'crossing', cz].join('.'));
+        add(path, identity, i < 2 ? spine : [KINETIC_WORLD_ID, seed, 'crossing', cz].join('.'));
         hint('route', feature + '.arm.' + i, stationPoint(path.stations[4]!, 0, 6));
       }
       const plazaStart = collision.positions.length / 3;

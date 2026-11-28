@@ -25,6 +25,8 @@ A region at `rx=floor(x/4), rz=floor(z/4)` starts its six-module palette at `H(s
 
 ## Module and streaming contract
 
+The production catalog pins V2Wpro boost rules revision 2. The rule profile describes a 102 m/s boost, 44 m/s² lateral acceleration, a 3.2 m hull radius and 6.5 m clearance. Skimmer still evaluates the placed module through its own flight model and BVH.
+
 The fixed MIT catalog contains ordered parameter stations in metres. Skimmer sweeps the primary deck, per-station loft sections and secondary shells. It interpolates the offsets between the two shared centres with `t²(3−2t)`. The helix doubles back in Z. Both ends use the source 32 m flat ring, with a 1.6 m underside. Socket ends are open, and the tunnel shell has solid end rims. [Source and license](../CREDITS.md#kinetic-city-and-dragonspine-canyon-spans)
 
 The worker sends indexed near and distant road meshes, a single shared skyline and an independently sampled collider with its serialized BVH. The distant road uses the source collision stations, switches at 310 m with 10% hysteresis, and retains the socket rings. Each resident chunk draws from shared material and prototype owners. The existing predictive streamer activates collision before adding render objects and caps the combined pilot and companion working set at 41 chunks. Chunk geometry is local to its origin. Semantic positions and boundary addresses stay in simulation metres.

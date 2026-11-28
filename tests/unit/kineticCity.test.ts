@@ -1,8 +1,8 @@
 import { createHash } from 'node:crypto';
-import { readFileSync } from 'node:fs';
+import { readFileSync, writeFileSync } from 'node:fs';
 import { MeshBVH } from 'three-mesh-bvh';
 import { Mesh, Vector3 } from 'three';
-import { describe, expect, it } from 'vitest';
+import { afterAll, describe, expect, it } from 'vitest';
 import { bestStorageKey, scoreContextFor } from '../../src/game/storage';
 import { ChunkRevisionHistory } from '../../src/world/chunkRevisionHistory';
 import { InlineChunkSource } from '../../src/world/chunkSource';
@@ -23,11 +23,22 @@ const digest = (geometry: PackedGeometry) => {
 };
 const tree = (packed: PackedGeometry) => new MeshBVH(unpackGeometry(packed));
 const distance = (bvh: MeshBVH, p: Vector3) => bvh.closestPointToPoint(p)!.distance;
+const evidence = {
+  catalog:KINETIC_CATALOG_SHA256, surfaceErrorMetres:[] as Array<{seed:number; id:string; worst:number}>,
+  visitOrder:[] as Array<{key:string; collisionSha256:string}>, eviction:[] as Array<{
+    mode:string; beforeRevision:number; afterRevision:number; beforeFingerprint:number|null;
+    afterFingerprint:number|null; residentBvhs:number; leasesChanged:boolean;
+  }>, dragonSeamHeights:[] as number[],
+};
+afterAll(() => {
+  if (process.env.KINETIC_EVIDENCE_FILE) writeFileSync(process.env.KINETIC_EVIDENCE_FILE,JSON.stringify(evidence,null,2)+'\n');
+});
 
 it('pins the source bytes, six shapes, world URLs and independent score keys', async () => {
-  const bytes = readFileSync(new URL('../../src/world/kinetic/kinetic-modules.v1.json', import.meta.url));
+  const bytes = readFileSync(new URL('../../src/world/kinetic/kinetic-flight-modules.r2.json', import.meta.url));
   expect(createHash('sha256').update(bytes).digest('hex')).toBe(KINETIC_CATALOG_SHA256);
-  expect(JSON.parse(bytes.toString())).toMatchObject({format:'kinetic-module-library-1', units:'metres', chunkSize:220});
+  expect(JSON.parse(bytes.toString())).toMatchObject({format:'kinetic-module-library-1', units:'metres', chunkSize:220,
+    ruleRevision:2, profile:{id:'skimmer-boost', speed:102}});
   expect((await kineticLibrary()).map(m => m.id)).toEqual(KINETIC_MODULES);
   const cities = ['?theme=kinetic-city&world=ephemeral', '?theme=dragonspine&spans=1', '?theme=dragonspine', '?gen=4'];
   const worlds = cities.map(worldSettingsFromSearch);
@@ -66,6 +77,7 @@ describe.each([334458, 17, 0xffffffff])('seed %i', seed => {
           geometry.dispose();
         }
         expect(worst, id).toBeLessThanOrEqual(module.collisionTolerance);
+        evidence.surfaceErrorMetres.push({seed,id,worst});
         const offset = new Vector3().copy(packet.origin);
         for (const hint of packet.topology.hints.filter(h => h.kind === 'route')) {
           expect(distance(collider, new Vector3().copy(hint.position).sub(offset)), id).toBeGreaterThan(1.5);
@@ -108,16 +120,20 @@ it('regenerates byte-identical mesh buffers after different visit orders', async
   const coordinates = [[-1,-5], [2,0], [4,-1], [-4,3]] as const;
   const visit = async (order: ReadonlyArray<readonly [number,number]>) => {
     const gen = new KineticChunkGenerator(settings());
-    const chunks = new Map<string, unknown>();
+    const chunks = new Map<string, {topology:KineticPacket['topology']; fingerprint:number; render:string;
+      near:string; collision:string; distant:string|null}>();
     try {
       for (const [x,z] of order) {
         const p = await gen.prepare(x,z,0);
-        chunks.set(p.key, [p.topology,p.fingerprint,...[p.render,p.road,p.collision].map(digest),p.distantRoad && digest(p.distantRoad)]);
+        chunks.set(p.key, {topology:p.topology,fingerprint:p.fingerprint,render:digest(p.render),near:digest(p.road),
+          collision:digest(p.collision),distant:p.distantRoad && digest(p.distantRoad)});
       }
     } finally { gen.dispose(); }
     return chunks;
   };
-  expect(await visit(coordinates)).toEqual(await visit([...coordinates].reverse()));
+  const original = await visit(coordinates);
+  expect(original).toEqual(await visit([...coordinates].reverse()));
+  for (const [key, value] of original) evidence.visitOrder.push({key,collisionSha256:value.collision});
 });
 
 it.each(['stable','ephemeral'])('expires live leases across eviction and rebases in %s mode', async mode => {
@@ -133,6 +149,7 @@ it.each(['stable','ephemeral'])('expires live leases across eviction and rebases
     await stream.prime(home);
     const before = homeChunk(), hint = stream.semanticCandidates(home).find(h => h.semantic.kind === 'socket')!;
     expect(hint).toBeDefined();
+    expect(hint.semantic.capabilities).toContain('release');
     expect(stream.routeHint(home,{x:0,y:0,z:-1})).toBeDefined();
     const remote = {x:home.x+15400, y:home.y, z:home.z-15400};
     await stream.prime(remote);
@@ -146,6 +163,9 @@ it.each(['stable','ephemeral'])('expires live leases across eviction and rebases
     expect(homeChunk().fingerprint === before.fingerprint).toBe(mode === 'stable');
     expect(homeChunk().revision === before.revision).toBe(mode === 'stable');
     expect(stream.getAdapterStats().bvhCount).toBe(9);
+    evidence.eviction.push({mode,beforeRevision:before.revision,afterRevision:homeChunk().revision,
+      beforeFingerprint:before.fingerprint,afterFingerprint:homeChunk().fingerprint,
+      residentBvhs:stream.getAdapterStats().bvhCount,leasesChanged:restored.lease !== hint.lease});
   } finally { stream.dispose(); }
   expect(stream.semanticCandidates(home)).toEqual([]);
   expect(stream.getAdapterStats().bvhCount).toBe(0);
@@ -180,4 +200,5 @@ it('clips the same sky-arch deck at a Dragonspine canyon boundary in each owning
     }
   } finally { source.dispose(); }
   expect(crossings[0]).toBeCloseTo(crossings[1]!,4);
+  evidence.dragonSeamHeights.push(...crossings);
 });

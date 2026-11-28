@@ -23,9 +23,9 @@ export interface KineticModule extends Sweep {
   shells: Sweep[];
 }
 
-// Vite emits a separate local asset. Other built-ins never request the full catalog.
+// Only the Kinetic City and canyon span generators request this local asset.
 export async function kineticLibrary(): Promise<readonly KineticModule[]> {
-  return (await import('./kinetic-modules.v1.json')).default.modules;
+  return (await import('./kinetic-flight-modules.r2.json')).default.modules;
 }
 
 export type Point = [number, number, number];
