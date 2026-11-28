@@ -57,6 +57,7 @@ def main():
     parser.add_argument("handoff", type=Path)
     parser.add_argument("directory", type=Path, help="new staging directory")
     parser.add_argument("--archive", type=Path)
+    parser.add_argument("--installed-exe", type=Path, help="already installed local client from the same NSIS")
     opts = parser.parse_args()
     handoff = read_json(opts.handoff)
     sha = handoff["sourceCommit"]
@@ -74,10 +75,15 @@ def main():
     assert artifact["digest"] == "sha256:" + handoff["artifactSha256"]
     archive = opts.archive or opts.handoff.parent / "actions-artifact.zip"
     identity = official_bytes(handoff, archive)
+    exe = (opts.installed_exe or Path(handoff["exe"])).resolve(strict=True)
+    assert exe.name.lower() == identity["executable"]["name"].lower()
+    assert digest(exe) == identity["executable"]["sha256"]
     identity.update({
         "preparedUtc": datetime.now(timezone.utc).isoformat(), "pr97Merge": merge,
         "tree": source["commit"]["tree"]["sha"], "verifiedSourceSignature": source["commit"]["verification"]["verified"],
         "workflow": run["html_url"], "artifactId": artifact["id"], "archiveSha256": handoff["artifactSha256"],
+        "launchImage": ("supplied local installation of the revised official NSIS" if opts.installed_exe
+                        else "official NSIS payload from the release handoff, verified against the CI installation"),
         "method": "Official main Windows build. Local NSIS bytes match the installer member of the verified Actions ZIP. "
                   "The launched NSIS payload matches the SHA-256 of that workflow's normally installed, smoke-tested exe.",
     })
@@ -85,7 +91,6 @@ def main():
     def save(name, data):
         (opts.directory / name).write_bytes((json.dumps(data, indent=2) + "\n").encode())
     save("inputs.json", identity)
-    exe = Path(handoff["exe"]).resolve(strict=True)
     save("local-launch.json", {"exe": str(exe), "bytes": exe.stat().st_size, "mtimeNs": str(exe.stat().st_mtime_ns)})
     print("Verified", sha, "and staged its installed client identity in", opts.directory)
 

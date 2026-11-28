@@ -1,0 +1,431 @@
+{
+  "kind": "hosted UI rehearsal",
+  "nativeMeasurement": false,
+  "events": [
+    {
+      "hostReceivedMs": 905.991923,
+      "hostReceivedUtc": "2026-11-28T08:19:01.834Z",
+      "event": "titleReady",
+      "selected": false,
+      "originMs": 1795853940971.2,
+      "nowMs": 860.8000000000029,
+      "href": "http://127.0.0.1:4175/",
+      "focus": true,
+      "visibility": "visible"
+    },
+    {
+      "hostReceivedMs": 976.76708,
+      "hostReceivedUtc": "2026-11-28T08:19:01.905Z",
+      "event": "worldMenu",
+      "selected": false,
+      "originMs": 1795853940971.2,
+      "nowMs": 933.4000000000015,
+      "trusted": true,
+      "key": "g"
+    },
+    {
+      "hostReceivedMs": 5382.191809,
+      "hostReceivedUtc": "2026-11-28T08:19:06.310Z",
+      "event": "applyWorld",
+      "selected": false,
+      "originMs": 1795853940971.2,
+      "nowMs": 5338.199999999997,
+      "trusted": true,
+      "theme": "kinetic-city",
+      "seed": "334458",
+      "mode": "stable"
+    },
+    {
+      "hostReceivedMs": 17262.086875,
+      "hostReceivedUtc": "2026-11-28T08:19:18.190Z",
+      "event": "titleReady",
+      "selected": true,
+      "originMs": 1795853946318.5,
+      "nowMs": 11871.099999999999,
+      "href": "http://127.0.0.1:4175/?theme=kinetic-city&seed=334458&world=stable&gen=4",
+      "focus": true,
+      "visibility": "visible"
+    },
+    {
+      "hostReceivedMs": 17580.8313,
+      "hostReceivedUtc": "2026-11-28T08:19:18.509Z",
+      "event": "startClick",
+      "selected": true,
+      "originMs": 1795853946318.5,
+      "nowMs": 12187.400000000001,
+      "trusted": true,
+      "beforeMode": "title",
+      "titleDraw": {
+        "rafMs": 12158.7,
+        "serial": 150,
+        "position": {
+          "x": 115,
+          "y": 94.31465651486624,
+          "z": 220
+        }
+      }
+    },
+    {
+      "hostReceivedMs": 17614.234552,
+      "hostReceivedUtc": "2026-11-28T08:19:18.542Z",
+      "event": "runningCoveredFrame",
+      "selected": true,
+      "originMs": 1795853946318.5,
+      "nowMs": 12222.700000000004,
+      "readyMs": 12222.400000000001,
+      "rafMs": 12175.3,
+      "sampleBeginMs": 12220.500000000007,
+      "frames": 1,
+      "previous": [],
+      "ring": [
+        {
+          "key": "-1:0",
+          "state": "ACTIVE",
+          "revision": 0,
+          "fingerprint": 48499198,
+          "layout": "junction"
+        },
+        {
+          "key": "0:0",
+          "state": "ACTIVE",
+          "revision": 0,
+          "fingerprint": 1854590936,
+          "layout": "junction"
+        },
+        {
+          "key": "1:0",
+          "state": "ACTIVE",
+          "revision": 0,
+          "fingerprint": 2774396571,
+          "layout": "junction"
+        },
+        {
+          "key": "-1:1",
+          "state": "ACTIVE",
+          "revision": 0,
+          "fingerprint": 523811331,
+          "layout": "helix"
+        },
+        {
+          "key": "0:1",
+          "state": "ACTIVE",
+          "revision": 0,
+          "fingerprint": 4210502787,
+          "layout": "helix"
+        },
+        {
+          "key": "1:1",
+          "state": "ACTIVE",
+          "revision": 0,
+          "fingerprint": 608602127,
+          "layout": "sky-arch"
+        },
+        {
+          "key": "-1:2",
+          "state": "ACTIVE",
+          "revision": 0,
+          "fingerprint": 295028075,
+          "layout": "bowl"
+        },
+        {
+          "key": "0:2",
+          "state": "ACTIVE",
+          "revision": 0,
+          "fingerprint": 3102257661,
+          "layout": "bowl"
+        },
+        {
+          "key": "1:2",
+          "state": "ACTIVE",
+          "revision": 0,
+          "fingerprint": 341632360,
+          "layout": "ribbon-bridge"
+        }
+      ],
+      "draw": {
+        "rafMs": 12175.3,
+        "serial": 165,
+        "position": {
+          "x": 115,
+          "y": 94,
+          "z": 220
+        }
+      },
+      "titleDraw": {
+        "rafMs": 12158.7,
+        "serial": 150,
+        "position": {
+          "x": 115,
+          "y": 94.31465651486624,
+          "z": 220
+        }
+      },
+      "mode": "running",
+      "seed": 334458,
+      "worldMode": "stable",
+      "generator": 4,
+      "fingerprint": 603677033,
+      "position": {
+        "x": 115,
+        "y": 94,
+        "z": 220
+      },
+      "runTime": 0,
+      "focus": true,
+      "visibility": "visible",
+      "buffering": false,
+      "adapter": {
+        "chunks": 32,
+        "bvhCount": 32,
+        "lastBroadPhaseCandidates": 2,
+        "lastQueries": 2
+      },
+      "streaming": {
+        "stateCounts": {
+          "UNLOADED": 0,
+          "QUEUED": 0,
+          "GENERATING": 1,
+          "READY": 0,
+          "ACTIVE": 32,
+          "RETIRING": 0,
+          "DISPOSED": 0
+        },
+        "loadedChunks": 32,
+        "activeChunks": 32,
+        "queuedChunks": 0,
+        "generatingChunks": 1,
+        "generatedTotal": 32,
+        "retiredTotal": 0,
+        "disposedGeometryCount": 0,
+        "bvhCount": 32,
+        "dynamicBvhCount": 0,
+        "renderObjectCount": 91,
+        "estimatedCpuGeometryBytes": 16377312,
+        "generationAvgMs": 23.118750000001,
+        "generationP95Ms": 54.40000000000873,
+        "generationMinMs": 3.099999999991269,
+        "generationMaxMs": 300,
+        "generationSampleCount": 32,
+        "synchronousBuildP95Ms": 2.5,
+        "workerBuildP95Ms": 21.80000000000291,
+        "activationP95Ms": 58.80000000000291,
+        "maxLoadedChunks": 41,
+        "coverageComplete": true,
+        "rebaseCount": 0
+      },
+      "world": {
+        "chunks": 32,
+        "buildings": 169,
+        "bridges": 47,
+        "islands": 0,
+        "collisionTriangles": 84772,
+        "renderTriangles": 180008
+      },
+      "render": {
+        "gpuMs": null,
+        "calls": 125,
+        "triangles": 145064,
+        "points": 560,
+        "lines": 0,
+        "fps": 84.67327896409478,
+        "geometries": 53,
+        "textures": 19,
+        "inversionAngle": 0,
+        "mirrorSky": {
+          "seed": 334458,
+          "triangles": 2880,
+          "cameraOffset": 0,
+          "ground": {
+            "height": 650,
+            "radius": 1530
+          }
+        }
+      },
+      "companions": 3,
+      "shieldImpacts": 0,
+      "contact": {
+        "id": "chunk:0:1:r0",
+        "distance": 9.999883678221892,
+        "surface": "kinetic-grid-1-r2.334458.spine.0",
+        "geometryId": "f8dd7438-db0b-46f4-8a14-86b8f7bc5fb5",
+        "triangle": 405,
+        "point": {
+          "x": 115,
+          "y": 84.00023264220314,
+          "z": 220.04823243627558
+        }
+      }
+    }
+  ],
+  "pageErrors": [],
+  "clocks": {
+    "initial": {
+      "best": {
+        "sendMs": 969.417367,
+        "receiveMs": 970.814279,
+        "originMs": 1795853940971.2,
+        "nowMs": 927.6999999999971
+      },
+      "probes": [
+        {
+          "sendMs": 907.475803,
+          "receiveMs": 925.431288,
+          "originMs": 1795853940971.2,
+          "nowMs": 879.5999999999985
+        },
+        {
+          "sendMs": 925.438889,
+          "receiveMs": 949.793488,
+          "originMs": 1795853940971.2,
+          "nowMs": 906
+        },
+        {
+          "sendMs": 949.797855,
+          "receiveMs": 969.412911,
+          "originMs": 1795853940971.2,
+          "nowMs": 925.8000000000029
+        },
+        {
+          "sendMs": 969.417367,
+          "receiveMs": 970.814279,
+          "originMs": 1795853940971.2,
+          "nowMs": 927.6999999999971
+        },
+        {
+          "sendMs": 970.816422,
+          "receiveMs": 973.963183,
+          "originMs": 1795853940971.2,
+          "nowMs": 930.6999999999971
+        }
+      ]
+    },
+    "kinetic": {
+      "best": {
+        "sendMs": 17645.017397,
+        "receiveMs": 17647.263241,
+        "originMs": 1795853946318.5,
+        "nowMs": 12257.099999999999
+      },
+      "probes": [
+        {
+          "sendMs": 17632.554884,
+          "receiveMs": 17645.013691,
+          "originMs": 1795853946318.5,
+          "nowMs": 12254.099999999999
+        },
+        {
+          "sendMs": 17645.017397,
+          "receiveMs": 17647.263241,
+          "originMs": 1795853946318.5,
+          "nowMs": 12257.099999999999
+        },
+        {
+          "sendMs": 17647.266666,
+          "receiveMs": 17650.160373,
+          "originMs": 1795853946318.5,
+          "nowMs": 12259.000000000007
+        },
+        {
+          "sendMs": 17650.163608,
+          "receiveMs": 17652.915963,
+          "originMs": 1795853946318.5,
+          "nowMs": 12261.099999999999
+        },
+        {
+          "sendMs": 17652.918907,
+          "receiveMs": 18173.536971,
+          "originMs": 1795853946318.5,
+          "nowMs": 12782.099999999999
+        }
+      ]
+    }
+  },
+  "drawObserverSetupMs": 115.56856900000275,
+  "timing": {
+    "monotonicMarks": {
+      "initialTitle": {
+        "hostMs": 903.2158230000059,
+        "earliestMs": 902.5173670000058,
+        "latestMs": 903.9142790000059
+      },
+      "worldMenu": {
+        "hostMs": 975.8158230000045,
+        "earliestMs": 975.1173670000044,
+        "latestMs": 976.5142790000044
+      },
+      "apply": {
+        "hostMs": 5380.615823,
+        "earliestMs": 5379.917367,
+        "latestMs": 5381.314279
+      },
+      "kineticTitle": {
+        "hostMs": 17260.140319,
+        "earliestMs": 17259.017397,
+        "latestMs": 17261.263241
+      },
+      "start": {
+        "hostMs": 17576.440319,
+        "earliestMs": 17575.317397000003,
+        "latestMs": 17577.563241000003
+      },
+      "firstRunningCoveredFrame": {
+        "hostMs": 17611.440319,
+        "earliestMs": 17610.317397000003,
+        "latestMs": 17612.563241000003
+      }
+    },
+    "launchToFrameMs": 17611.440319,
+    "launchToInitialTitleMs": 903.2158230000059,
+    "initialTitleToMenuMs": 72.59999999999854,
+    "menuSelectionMs": 4404.799999999996,
+    "applyToKineticTitleMs": 11879.524495999998,
+    "kineticTitleToStartMs": 316.3000000000029,
+    "startToFrameMs": 35,
+    "directHostObservationUpperBoundMs": 17614.234552
+  },
+  "identity": {
+    "build": {
+      "version": "0.11.0",
+      "sourceCommit": "d167158166ae08d8c0d74925da0fe169d1566eb1",
+      "sourceCommitTime": "2026-11-28T16:00:22+08:00",
+      "dirty": false,
+      "sourceUrl": "https://github.com/styayur/Skimmer-Scraper/tree/d167158166ae08d8c0d74925da0fe169d1566eb1",
+      "toolchain": {
+        "node": "v24.22.3",
+        "platform": "linux",
+        "architecture": "x64"
+      }
+    },
+    "meta": {
+      "version": "0.11.0",
+      "sourceCommit": "d167158166ae08d8c0d74925da0fe169d1566eb1",
+      "dirty": false,
+      "binary": {
+        "url": "assets/index-yT2wa0pU.js",
+        "bytes": 1307632,
+        "sha256": "176ab1ccad4a48f9aad5a73ca7f99c06d409807db34f5f797c3ad5ccc7a6483a"
+      }
+    },
+    "entry": "http://127.0.0.1:4175/assets/index-yT2wa0pU.js",
+    "url": "http://127.0.0.1:4175/?theme=kinetic-city&seed=334458&world=stable&gen=4",
+    "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/159.0.8154.6 Safari/537.36",
+    "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+    "viewport": [
+      800,
+      600
+    ],
+    "drawingBuffer": [
+      800,
+      600
+    ],
+    "dpr": 1,
+    "executedEntry": {
+      "sha256": "176ab1ccad4a48f9aad5a73ca7f99c06d409807db34f5f797c3ad5ccc7a6483a",
+      "bytes": 1307632,
+      "loader": "2F3FF57D428FB9D5DDA38A4D15A5653C",
+      "frame": "FF4FDD33DC10AB47E34E92CCDC0D29A4",
+      "script": "4"
+    }
+  },
+  "status": "passed"
+}
