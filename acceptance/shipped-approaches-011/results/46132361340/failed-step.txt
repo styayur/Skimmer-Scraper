@@ -1,0 +1,23 @@
+﻿2026-11-28T09:51:02.8704880Z ##[group]Run design=1ccf35240747aeb7405679d1b517823a7b3f072b
+2026-11-28T09:51:02.8705402Z [36;1mdesign=1ccf35240747aeb7405679d1b517823a7b3f072b[0m
+2026-11-28T09:51:02.8705971Z [36;1mgit cat-file -e "$design^{commit}" || git fetch --depth=1 https://github.com/styayur/Skimmer-Scraper.git "$design"[0m
+2026-11-28T09:51:02.8706674Z [36;1mgit diff --exit-code "$design" HEAD -- acceptance/shipped-approaches-011/{DESIGN.md,plan.json,geometry.json,geometry.py} acceptance/final-web-011[0m
+2026-11-28T09:51:02.8707288Z [36;1mpython -B acceptance/shipped-approaches-011/geometry.py --check[0m
+2026-11-28T09:51:02.8707766Z [36;1mtest "$(git -C benchmark rev-parse HEAD)" = d66b343cdd88d7d499e77afa4a63e8e3594f2813[0m
+2026-11-28T09:51:02.8708262Z [36;1mgit -C benchmark apply --check "$GITHUB_WORKSPACE/acceptance/shipped-approaches-011/directed.patch"[0m
+2026-11-28T09:51:02.8708843Z [36;1mgit -C benchmark apply "$GITHUB_WORKSPACE/acceptance/shipped-approaches-011/directed.patch"[0m
+2026-11-28T09:51:03.2732037Z shell: /usr/bin/bash -e {0}
+2026-11-28T09:51:03.2732657Z env:
+2026-11-28T09:51:03.2733277Z   pythonLocation: /opt/hostedtoolcache/Python/3.14.7/x64
+2026-11-28T09:51:03.2733664Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.14.7/x64/lib/pkgconfig
+2026-11-28T09:51:03.2734082Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.14.7/x64
+2026-11-28T09:51:03.2734412Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.14.7/x64
+2026-11-28T09:51:03.2734763Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.14.7/x64
+2026-11-28T09:51:03.2735091Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.14.7/x64/lib
+2026-11-28T09:51:03.2735366Z ##[endgroup]
+2026-11-28T09:51:03.3255472Z Traceback (most recent call last):
+2026-11-28T09:51:03.3256261Z   File "/home/runner/work/Skimmer-Scraper/Skimmer-Scraper/acceptance/shipped-approaches-011/geometry.py", line 121, in <module>
+2026-11-28T09:51:03.3257005Z     assert json.loads((HERE/"geometry.json").read_bytes()) == inventory
+2026-11-28T09:51:03.3257410Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-28T09:51:03.3257780Z AssertionError
+2026-11-28T09:51:03.3333547Z ##[error]Process completed with exit code 1.

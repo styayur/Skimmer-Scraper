@@ -23,7 +23,9 @@ jobs:
         with:
           ref: d66b343cdd88d7d499e77afa4a63e8e3594f2813
           path: benchmark
-          sparse-checkout: scripts
+          sparse-checkout: |
+            scripts
+            acceptance/joint-flight/topogenesis
           persist-credentials: false
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with:
