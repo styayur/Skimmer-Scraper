@@ -11,6 +11,8 @@ import { RadioDialogue, radioLanguageOf, radioText, type RadioLanguage, type Rad
 import { selectedLocale } from '../i18n/locale';
 import { addressedAgent, localRadioIntent, localRadioReply, type LocalRadioIntent } from './radioCommands';
 import { CompanionMemory } from './companionMemory';
+import { shareableObservation, type HistoricalWorld, type JourneyMemory, type JourneyEvent, type JourneyDetail } from './journeyMemory';
+import { describeObservation, journeyText } from '../i18n/journeyMemory';
 import { freeDialogueTopic, groundedDialogue } from './groundedDialogue';
 import { readUtterance, type SpeechAct } from './radioSpeech';
 import { directive, explicitLegacy, missionCommand, missionName, missionPrefix, missionReason, missionReport } from './missionCommands';
@@ -57,8 +59,17 @@ export class SymbiosisRuntime {
   private readonly dialogue=new CompanionMemory();
   private readonly missions:MissionExecutive;
   private nextMissionTick=0;
-  public constructor(public readonly team:CompanionTeam,public readonly client=new ModelClient()){
+  private historicalWorld: HistoricalWorld | null = null;
+  public constructor(public readonly team:CompanionTeam,public readonly client=new ModelClient(),private readonly journal?: JourneyMemory){
     this.missions=new MissionExecutive(team,result=>this.missionOutcome(result));
+  }
+  public enterWorld(world: HistoricalWorld): void {
+    this.historicalWorld = world;
+    this.remember('visit', 'visit', 0);
+  }
+  private remember(event: JourneyEvent, detail: JourneyDetail, agent: number) {
+    if (this.historicalWorld && this.team.agents.some(a => a.deployed))
+      return this.journal?.remember(this.historicalWorld, event, detail, agent);
   }
   public reset():void {
     this.invalidate();this.time=0;this.trust=createTrust();this.relay=createRelay();this.trace=[];this.memory=[];
@@ -67,6 +78,7 @@ export class SymbiosisRuntime {
     this.radio.reset();this.nextReport=0;this.nextRisk=0;
   }
   public invalidate():void {
+    this.historicalWorld = null;
     this.missions.invalidate();this.pictures.clear();this.nextMissionTick=0;
     this.epoch++;this.client.cancel();this.team.clearTargets();this.lastPlan=null;this.lead=null;
     this.context=null;this.planner='Local Autonomous Controller';this.relayFlash=null;
@@ -104,6 +116,10 @@ export class SymbiosisRuntime {
   private missionOutcome(result:MissionRecord):void {
     this.record('mission-outcome',result);this.episode(result.outcome,result.type,result.progress);
     if (!this.context?.active || result.reason==='world-changed' || result.reason==='replaced') return;
+    if (result.outcome === 'completed') {
+      void this.remember('mission', result.type, result.agentId);
+      if (result.observed === 'structure') void this.remember('landmark', 'structure', result.agentId);
+    }
     const speaker=this.radioAgent(result.agentId);if(speaker===null)return;
     const locale=this.radioLanguage??selectedLocale, en=locale==='en-US';
     this.radio.report(speaker,missionReport(result,en),'local','notice',this.time,locale);
@@ -190,6 +206,33 @@ export class SymbiosisRuntime {
       const addressed = addressedAgent(message);
       if (addressed !== null && this.radioAgent(addressed) !== addressed)
         return report(en ? 'That wingmate is unavailable.' : '指定的伴机暂时不可用。');
+      if (/remember this conversation|记下这次通话/i.test(message)) {
+        const saved = await this.remember('dialogue', 'radio-contact', speaker);
+        if (generation !== this.radioGeneration) return false;
+        const labels = journeyText(language);
+        this.radio.report(speaker, saved ? labels.saved : this.journal?.unavailable ? labels.unavailable : labels.off,
+          'local', 'reply', this.time, language, 'journey-recall');
+        return true;
+      }
+      if (/past flights?|journey memor(?:y|ies)|以前的飞行|过往飞行|旅程记忆/i.test(message)) {
+        const snapshot = this.journal?.snapshot();
+        const recent = snapshot?.enabled ? snapshot.entries.filter(e => !addressed || !e.agent || e.agent === addressed).slice(-6).reverse() : [];
+        const model = recent.length && snapshot?.shareWithModel && useModel && this.client.canRequest(true)
+          ? await this.client.request(perception, 'Recall a shared flight', language, undefined,
+            { turns: [], working: [], historicalObservations: recent.map(shareableObservation) }) : null;
+        if (generation !== this.radioGeneration || !this.context?.active) return false;
+        const current = this.journal?.snapshot();
+        const choice = model?.decision;
+        const index = current?.shareWithModel && choice && typeof choice === 'object'
+          && Object.keys(choice).length === 1 && 'observation' in choice && typeof choice.observation === 'number'
+          && Number.isInteger(choice.observation) && recent[choice.observation] ? choice.observation : 0;
+        const entry = current?.entries.find(e => e.id === recent[index]?.id);
+        const labels = journeyText(language);
+        const line = !current?.enabled ? labels.off : entry ? `${labels.past} · ${describeObservation(entry, language)}` : labels.empty;
+        // History bypasses session dialogue context and cloud speech even after model consent is revoked.
+        this.radio.report(speaker, line, 'local', 'reply', this.time, language, 'journey-recall');
+        return true;
+      }
       const conversation = (agent: number, picture: Perception, act?: SpeechAct) => {
         const latest = this.missions.snapshot().filter(m => m.agentId === agent && m.epoch === this.epoch).at(-1);
         return groundedDialogue(message, agent, language, picture, latest, this.dialogue.recent(agent), act);
@@ -284,6 +327,8 @@ export class SymbiosisRuntime {
       if (this.time<(this.cooldowns.get('report-'+message)??-Infinity))return;
       this.cooldowns.set('report-'+message,this.time+(kind==='risk'?8:35));
       if(['glide','island','crossing','dragon'].includes(message))this.episode(message,'observed',1);
+      if (message === 'glide' || message === 'crossing') void this.remember('maneuver', message, speaker);
+      if (message === 'island' || message === 'dragon') void this.remember('landmark', message, speaker);
     }
     if(kind==='risk'){
       if(this.time<this.nextRisk)return;
@@ -478,6 +523,7 @@ export class SymbiosisRuntime {
     if(!partner)return c.rules;
     const result=attemptRelay(this.relay,{time:this.time,trust:this.trust.value,player:c.player.position,rules:c.rules,partner,world:c.world,requested});
     this.relay=result.state;c.rules=result.rules;this.event(result.success?'relay-success':'relay-failure',`relay-${id}`,1);
+    if (result.success && result.reason === 'survival-rescue') void this.remember('rescue', 'survival-rescue', id);
     this.record('relay',{agent:id,success:result.success,reason:result.reason,bonus:result.bonus,charges:this.relay.charges,player:{...c.player.position},partner:{...partner.flight.position},surface: queryFlightSurface(c.world,partner.flight.position,33)?.distance??null});
     if(result.success)this.relayFlash={from:{...c.player.position},to:{...partner.flight.position},until:this.time+1};
     return result.rules;

@@ -47,8 +47,8 @@ export class RadioDialogue {
     this.publish(this.remember(speaker, catalog.text, 'local', kind, locale, event, speaker === agent ? catalog : undefined), time);
   }
 
-  public report(agent: number, text: string, source: 'local' | 'model', kind: RadioPriority, time: number, locale = selectedLocale): void {
-    this.publish(this.remember(agent, text, source, kind, locale), time);
+  public report(agent: number, text: string, source: 'local' | 'model', kind: RadioPriority, time: number, locale = selectedLocale, event?: 'journey-recall'): void {
+    this.publish(this.remember(agent, text, source, kind, locale, event), time);
   }
 
   private publish(line: RadioLine | null, time: number): void {

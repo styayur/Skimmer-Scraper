@@ -3,6 +3,7 @@ import { COMPANION_PROFILES, radioLanguageOf, type RadioLanguage } from './radio
 import { identities, type DialogueTurn } from './companionMemory';
 import type { MissionPlan } from './missions';
 import { speechActs } from './radioSpeech';
+import type { shareableObservation } from './journeyMemory';
 export const validateModelConfig=(value:PublicModelConfig):PublicModelConfig=>{
   const endpoint=new URL(value.endpoint);
   if(endpoint.username||endpoint.password||endpoint.search||endpoint.hash)throw Error('Endpoint must not contain credentials, query or fragment.');
@@ -21,6 +22,7 @@ export interface ModelStats { connected:boolean; pending:boolean; requests:numbe
 export interface ModelReply { decision:unknown; usage:TokenUsage; latencyMs:number; provider:string; model:string }
 type BudgetLane='background'|'dialogue'|'planning'|'asr'|'tts';
 interface RadioContext {
+  historicalObservations?: ReturnType<typeof shareableObservation>[];
   turns:DialogueTurn[]; missions?:MissionPlan['missions']; working:unknown; explicitMission?:boolean; freeDialogue?:boolean;
 }
 const MISSION_PROMPT = `You are the radio of three aircraft in a flight game. Return JSON with exactly schemaVersion:2, requestId, epoch, dialogue, missions.
@@ -105,11 +107,14 @@ export class ModelClient {
     if(!this.canRequest(message !== undefined) || (message !== undefined && this.containsCredential(message)))return null;
     if(this.#stats.requests>=this.#config.maxRequests){this.#stats.error='request-budget';return null;}
     const turns=context?.turns.slice()??[];
-    const input = message === undefined ? perception : { perception, message, replyLanguage: replyLanguage ?? radioLanguageOf(message),
+    const history = context?.historicalObservations;
+    const input = history ? { historicalObservations: history } : message === undefined ? perception : { perception, message, replyLanguage: replyLanguage ?? radioLanguageOf(message),
       suggestedOrders, profiles: COMPANION_PROFILES, identities:identities.map(({id,en})=>({id,background:en})), turns,
       suggestedMissions:context?.missions, working:context?.working, explicitMission:context?.explicitMission, freeDialogue:context?.freeDialogue };
     const deepSeek=this.#config.provider==='deepseek';
-    const body={model:this.#config.model,messages:[{role:'system',content:message === undefined ? PLAN_PROMPT : context?.missions ? MISSION_PROMPT : RADIO_PROMPT},{role:'user',content:JSON.stringify(input)}],
+    const prompt = history ? 'Select a memorable shared experience from historicalObservations. Return only JSON {"observation":0} with a zero-based index. The entries describe past flights.' :
+      message === undefined ? PLAN_PROMPT : context?.missions ? MISSION_PROMPT : RADIO_PROMPT;
+    const body={model:this.#config.model,messages:[{role:'system',content:prompt},{role:'user',content:JSON.stringify(input)}],
       max_tokens:512,temperature:0.2,stream:false,
       ...(deepSeek?{thinking:{type:'disabled'},safety_check:{level:'high'}}:{response_format:{type:'json_object'}})};
     let serialized=JSON.stringify(body);const encoder=new TextEncoder();let bytes=encoder.encode(serialized).length;
