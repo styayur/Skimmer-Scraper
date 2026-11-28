@@ -26,7 +26,10 @@ jobs:
     runs-on: windows-2022
     timeout-minutes: 35
     steps:
-      - run: git config --global core.longpaths true
+      - name: Check out the canonical package-lock bytes on Windows
+        run: |
+          git config --global core.longpaths true
+          git config --global core.autocrlf false
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           path: runner
