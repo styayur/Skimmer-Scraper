@@ -1,7 +1,6 @@
 import assert from 'node:assert/strict';
 import { readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
-import { createWorldFixture } from '../../tests/fixtures/worldGlb.ts';
 import { hash, ready, withInstalledGame } from './webview.mjs';
 
 const [exe, out, stage, version, source, scope] = process.argv.slice(2);
@@ -24,8 +23,10 @@ const records = {
   [prefix + 'journey.v3']: JSON.stringify({ fifthUnlocked: true }),
 };
 const memoryKey = 'skimmer.journey-memory.v1';
-const fixture = createWorldFixture('arches');
+// Freeze the original generator's bytes so every installed version sees the same saved world.
+const fixture = await readFile(new URL('./lifecycle-arches.glb', import.meta.url));
 const worldId = hash(fixture);
+assert.equal(worldId, 'f081067586fa34c8cc796153bfedaf872061454f9ef54f0e1660d0c104b5a4d4');
 const packDir = 'public/realms/dragonspine/web';
 const manifest = JSON.parse(await readFile(path.join(packDir, 'world-pack.json'), 'utf8'));
 const readMemory = page => page.evaluate(key => localStorage.getItem(key), memoryKey);

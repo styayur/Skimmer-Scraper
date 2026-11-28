@@ -25,6 +25,8 @@ WorldForge 用内置原型和种子在本机生成地形。KITE-W 与 KITE-S 可
 gh workflow run windows-desktop.yml --ref codex/windows-011-compat -f expected_sha=$candidateSha -f installer_lifecycle=true
 ```
 
+如已有相同 SHA 的成功 Windows desktop 手动构建，再传入 `-f windows_build_run=$runId`。工作流核验原始 Actions 附件摘要、安装包散列、内嵌版本和已安装客户端的冒烟测试记录，然后将同一安装包交给四台主机。
+
 流水线在该 SHA 上构建一次 NSIS，四台临时 Windows 主机分别从 v0.8.2、v0.9.1、v0.9.2、v0.10.0 开始。每台主机依次运行旧版、候选、回滚的 v0.10.0、重新升级的候选，然后关闭并再次启动。所有安装使用同一目录、同一 Windows SID 的 HKCU 注册项和 WebView2 默认用户数据目录。安装包和安装后的可执行文件均校验 SHA-256。每次启动的 CDP 记录包含内嵌构建 SHA、实际执行的入口脚本散列、WebView2 版本和 WebGL 渲染器。
 
 每次替换程序前，测试关闭客户端，通过 SQLite 备份 API 保存含已提交 WAL 页的世界库，并复制该应用已关闭的 Local Storage 和 IndexedDB。安装后、首次启动前，对照快照检查数据。每次启动后再由游戏导入或导出飞行员存档，重读 GLB 和资源包瓦片，并核对种子、世界指纹和历史成绩。候选通过玩家设置启用旅程记忆并生成真实访问记录。回滚版本保留同一来源下的 `skimmer.journey-memory.v1`，重新升级后从界面查看。原始存储备份留在临时主机，Actions 附件只含测试生成的数据与摘要。
