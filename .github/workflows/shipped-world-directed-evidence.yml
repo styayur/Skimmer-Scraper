@@ -4,6 +4,7 @@ on:
     branches: [codex/shipped-world-directed-evidence]
     paths:
       - .github/workflows/shipped-world-directed-evidence.yml
+      - acceptance/final-web-011/target.json
       - acceptance/shipped-approaches-011/*.py
       - acceptance/shipped-approaches-011/directed.patch
 permissions:
@@ -43,7 +44,10 @@ jobs:
         run: |
           design=1ccf35240747aeb7405679d1b517823a7b3f072b
           git cat-file -e "$design^{commit}" || git fetch --depth=1 https://github.com/styayur/Skimmer-Scraper.git "$design"
-          git diff --exit-code "$design" HEAD -- acceptance/shipped-approaches-011/{DESIGN.md,plan.json,geometry.json,geometry.py} acceptance/final-web-011
+          git diff --exit-code "$design" HEAD -- acceptance/shipped-approaches-011/{DESIGN.md,plan.json,geometry.json,geometry.py} acceptance/final-web-011 ':(exclude)acceptance/final-web-011/target.json'
+          previous=68a9b1f9a04aed4898565f8197ba2c9503d2ad8a
+          git cat-file -e "$previous^{commit}" || git fetch --depth=1 https://github.com/styayur/Skimmer-Scraper.git "$previous"
+          git diff --exit-code "$previous" HEAD -- acceptance/shipped-approaches-011/{classify.py,directed.patch,directed_flight.py,verify_inventory.py}
           python -B acceptance/shipped-approaches-011/verify_inventory.py
           test "$(git -C benchmark rev-parse HEAD)" = d66b343cdd88d7d499e77afa4a63e8e3594f2813
           git -C benchmark apply --check "$GITHUB_WORKSPACE/acceptance/shipped-approaches-011/directed.patch"

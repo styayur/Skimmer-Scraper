@@ -82,17 +82,18 @@ def run(kind):
     from playwright.sync_api import sync_playwright
     from contextlib import ExitStack
     runt = load(OUT/"runtime.json")
-    assert runt["controller"] == plan["source"] and runt["entry"]["sha256"] == plan["entrySha256"]
+    target = load(OUT/"target.json")
+    assert runt["controller"] == target["source"] and runt["entry"]["sha256"] == target["entrySha256"]
     producer = subprocess.check_output(["git","-C",str(ROOT/"producer"),"rev-parse","HEAD"],text=True).strip()
     assert producer == plan["producer"]
     geometry = {r["world"]:r for r in load(HERE/"geometry.json")}
-    results = {"stage":kind,"designCommit":DESIGN,"source":runt["controller"],"entry":runt["entry"],
+    results = {"stage":kind,"designCommit":DESIGN,"registeredOn":plan["source"],"source":runt["controller"],"entry":runt["entry"],
                "workflowRun":os.environ["GITHUB_RUN_ID"],"workflowAttempt":os.environ["GITHUB_RUN_ATTEMPT"],
                "workflowCommit":os.environ["GITHUB_SHA"],"worlds":[]}
     report = OUT/("geometry-survey.json" if kind == "survey" else "directed-summary.json")
     if kind == "flights":
         checks = load(OUT/"geometry-survey.json")
-        assert checks["complete"] and checks["source"] == plan["source"]
+        assert checks["complete"] and checks["source"] == runt["controller"] and checks["entry"] == runt["entry"]
     save(report,results)
     with ExitStack() as stack:
         url = stack.enter_context(site())
