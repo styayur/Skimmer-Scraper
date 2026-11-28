@@ -1,0 +1,46 @@
+name: Record Kinetic gameplay visual
+on:
+  push:
+    branches: [codex/kinetic-city-evidence]
+    paths:
+      - .github/workflows/record-kinetic-visual.yml
+      - scripts/capture-kinetic-demo.mjs
+permissions:
+  contents: read
+jobs:
+  capture:
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          ref: 9eafa89baaa3b9702b4d72a29d4bd986d6f7ceff
+          path: candidate
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Build the pinned integration candidate
+        working-directory: candidate
+        run: |
+          npm ci
+          npx playwright install --with-deps chromium
+          npm run build
+          cat dist/build-info.json
+      - name: Record from the shipping spawn
+        shell: bash
+        run: |
+          if ! command -v ffmpeg; then sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg; fi
+          mkdir recordings
+          npm --prefix candidate run preview -- --port 4175 --strictPort > "$RUNNER_TEMP/kinetic-preview.log" 2>&1 &
+          for i in {1..60}; do if curl -fsS http://127.0.0.1:4175/build-info.json >/dev/null; then break; fi; sleep 1; done
+          failed=0
+          for seed in 17 11; do node scripts/capture-kinetic-demo.mjs http://127.0.0.1:4175/ candidate "recordings/seed-$seed" "$seed" || failed=1; done
+          exit "$failed"
+      - name: Upload gameplay and flight inputs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kinetic-free-flight-visual
+          path: recordings/
+          if-no-files-found: warn
