@@ -1,0 +1,542 @@
+{
+  "schema": "kinetic-native-cold-start-1",
+  "source": "ac943acd6a2c6d21431aa138327bc3e64ed8552f",
+  "identity": {
+    "build": {
+      "version": "0.11.0",
+      "sourceCommit": "ac943acd6a2c6d21431aa138327bc3e64ed8552f",
+      "sourceCommitTime": "2026-11-28T09:13:19Z",
+      "dirty": false,
+      "sourceUrl": "https://github.com/styayur/Skimmer-Scraper/tree/ac943acd6a2c6d21431aa138327bc3e64ed8552f",
+      "toolchain": {
+        "node": "v24.22.3",
+        "platform": "win32",
+        "architecture": "x64"
+      }
+    },
+    "nsis": {
+      "name": "Skimmer-Scraper_0.11.0_x64-setup.exe",
+      "sha256": "1ef368e51b05d7d1660178a9efb9626b414f0fc33fcca2bbc82a33ff966f2602"
+    },
+    "executable": {
+      "name": "skimmer-scraper.exe",
+      "sha256": "c8af4c3ebdcbfc19ace15d21c8ea3d7d7bdd51f95bf41ca7f30c9b4e09523275",
+      "bytes": 18225664
+    },
+    "hostedInstalledSmoke": {
+      "file": "acceptance/installed-smoke/desktop-smoke.json",
+      "origin": "http://tauri.localhost",
+      "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "flight": {
+        "time": 2.099999999999995,
+        "speed": 66.09600711000381,
+        "companions": 3
+      },
+      "errors": []
+    },
+    "preparedUtc": "2026-11-28T09:28:53.837006+00:00",
+    "pr97Merge": "ac943acd6a2c6d21431aa138327bc3e64ed8552f",
+    "tree": "cb5158950278ead4c800c54dfee7dd360acff798",
+    "verifiedSourceSignature": true,
+    "workflow": "https://github.com/styayur/Skimmer-Scraper/actions/runs/46129495362",
+    "artifactId": 15256599925,
+    "archiveSha256": "2b96bb555c0a39e79219e6ccd7ec502f3cd4adf2f8d56c7f1897420f3660277f",
+    "launchImage": "flight client extracted from the official NSIS and verified against the CI installation",
+    "method": "Official main Windows build. Local NSIS bytes match the installer member of the verified Actions ZIP. The staged flight client matches the SHA-256 of that workflow's normally installed, smoke-tested exe."
+  },
+  "slotClearance": "Parent explicitly granted exclusive Radeon window after successful physical-controller attach and release, 2026-11-28T10:37:35Z. One official ac943ac Kinetic launch.",
+  "launches": 1,
+  "stage": "exit",
+  "status": "passed",
+  "method": "One normal process launch with empty app, temp and WebView2 directories. The host monotonic clock starts immediately before spawn. Main-frame clocks are correlated independently per document. No OS cache flush or reboot. Default native graphics and window settings.",
+  "observerFiles": {
+    "observe.mjs": "a5c409ee7872c80a9f7c196c789a9004a501bba48e6009edf77d5fc22efd6c40",
+    "launch.mjs": "b24deb101f497f4e6ad8a868875a6daa32582a4760cf0006eaf623201e245585",
+    "window-owner.py": "7c89eea310d10ed28fd2a3f0c6a8ba0eb0027d360e94c5aa0fd6b9b83fe03cfd"
+  },
+  "profile": {
+    "new": true,
+    "knownLocalAndRoamingVerified": true,
+    "webViewWasEmpty": true,
+    "otherClientCount": 0,
+    "runtimeLibraryInsideIsolatedLocal": true
+  },
+  "launch": {
+    "utcBeforeSpawn": "2026-11-28T10:37:46.338Z",
+    "monotonicNs": "123517266975600",
+    "returnedFromSpawnMs": 302.1572,
+    "returnedFromSpawnUtc": "2026-11-28T10:37:46.640Z",
+    "pid": 5488,
+    "spawnAcknowledgedMs": 302.2756,
+    "privateEndpointMs": 1771.0193
+  },
+  "events": [
+    {
+      "hostReceivedMs": 10796.2991,
+      "hostReceivedUtc": "2026-11-28T10:37:57.134Z",
+      "event": "titleReady",
+      "selected": false,
+      "originMs": 1795862268927,
+      "nowMs": 8206.70000000298,
+      "href": "http://tauri.localhost/",
+      "focus": true,
+      "visibility": "visible"
+    },
+    {
+      "hostReceivedMs": 11196.4122,
+      "hostReceivedUtc": "2026-11-28T10:37:57.534Z",
+      "event": "worldMenu",
+      "selected": false,
+      "originMs": 1795862268927,
+      "nowMs": 8606.10000000894,
+      "trusted": true,
+      "key": "g"
+    },
+    {
+      "hostReceivedMs": 11648.6854,
+      "hostReceivedUtc": "2026-11-28T10:37:57.986Z",
+      "event": "applyWorld",
+      "selected": false,
+      "originMs": 1795862268927,
+      "nowMs": 9056.800000011921,
+      "trusted": true,
+      "theme": "kinetic-city",
+      "seed": "334458",
+      "mode": "stable"
+    },
+    {
+      "hostReceivedMs": 12938.0394,
+      "hostReceivedUtc": "2026-11-28T10:37:59.276Z",
+      "event": "titleReady",
+      "selected": true,
+      "originMs": 1795862277993.4,
+      "nowMs": 1281.7000000029802,
+      "href": "http://tauri.localhost/?theme=kinetic-city&seed=334458&world=stable&gen=4",
+      "focus": true,
+      "visibility": "visible"
+    },
+    {
+      "hostReceivedMs": 13123.6555,
+      "hostReceivedUtc": "2026-11-28T10:37:59.461Z",
+      "event": "startClick",
+      "selected": true,
+      "originMs": 1795862277993.4,
+      "nowMs": 1466.9000000059605,
+      "trusted": true,
+      "beforeMode": "title",
+      "titleDraw": {
+        "rafMs": 1458.8,
+        "serial": 240,
+        "position": {
+          "x": 115,
+          "y": 94.34436009117965,
+          "z": 220
+        }
+      }
+    },
+    {
+      "hostReceivedMs": 13489.4008,
+      "hostReceivedUtc": "2026-11-28T10:37:59.827Z",
+      "event": "runningCoveredFrame",
+      "selected": true,
+      "originMs": 1795862277993.4,
+      "nowMs": 1832.4000000059605,
+      "readyMs": 1832.0999999940395,
+      "rafMs": 1468.5,
+      "sampleBeginMs": 1827.4000000059605,
+      "frames": 1,
+      "previous": [],
+      "ring": [
+        {
+          "key": "-1:0",
+          "state": "ACTIVE",
+          "revision": 0,
+          "fingerprint": 48499198,
+          "layout": "junction"
+        },
+        {
+          "key": "0:0",
+          "state": "ACTIVE",
+          "revision": 0,
+          "fingerprint": 1854590936,
+          "layout": "junction"
+        },
+        {
+          "key": "1:0",
+          "state": "ACTIVE",
+          "revision": 0,
+          "fingerprint": 2774396571,
+          "layout": "junction"
+        },
+        {
+          "key": "-1:1",
+          "state": "ACTIVE",
+          "revision": 0,
+          "fingerprint": 523811331,
+          "layout": "helix"
+        },
+        {
+          "key": "0:1",
+          "state": "ACTIVE",
+          "revision": 0,
+          "fingerprint": 4210502787,
+          "layout": "helix"
+        },
+        {
+          "key": "1:1",
+          "state": "ACTIVE",
+          "revision": 0,
+          "fingerprint": 608602127,
+          "layout": "sky-arch"
+        },
+        {
+          "key": "-1:2",
+          "state": "ACTIVE",
+          "revision": 0,
+          "fingerprint": 295028075,
+          "layout": "bowl"
+        },
+        {
+          "key": "0:2",
+          "state": "ACTIVE",
+          "revision": 0,
+          "fingerprint": 3102257661,
+          "layout": "bowl"
+        },
+        {
+          "key": "1:2",
+          "state": "ACTIVE",
+          "revision": 0,
+          "fingerprint": 341632360,
+          "layout": "ribbon-bridge"
+        }
+      ],
+      "draw": {
+        "rafMs": 1468.5,
+        "serial": 255,
+        "position": {
+          "x": 115,
+          "y": 94,
+          "z": 220
+        }
+      },
+      "titleDraw": {
+        "rafMs": 1458.8,
+        "serial": 240,
+        "position": {
+          "x": 115,
+          "y": 94.34436009117965,
+          "z": 220
+        }
+      },
+      "mode": "running",
+      "seed": 334458,
+      "worldMode": "stable",
+      "generator": 4,
+      "fingerprint": 603677033,
+      "position": {
+        "x": 115,
+        "y": 94,
+        "z": 220
+      },
+      "runTime": 0,
+      "focus": true,
+      "visibility": "visible",
+      "buffering": false,
+      "adapter": {
+        "chunks": 29,
+        "bvhCount": 29,
+        "lastBroadPhaseCandidates": 2,
+        "lastQueries": 2
+      },
+      "streaming": {
+        "stateCounts": {
+          "UNLOADED": 0,
+          "QUEUED": 0,
+          "GENERATING": 1,
+          "READY": 0,
+          "ACTIVE": 29,
+          "RETIRING": 0,
+          "DISPOSED": 0
+        },
+        "loadedChunks": 29,
+        "activeChunks": 29,
+        "queuedChunks": 0,
+        "generatingChunks": 1,
+        "generatedTotal": 32,
+        "retiredTotal": 3,
+        "disposedGeometryCount": 12,
+        "bvhCount": 29,
+        "dynamicBvhCount": 0,
+        "renderObjectCount": 82,
+        "estimatedCpuGeometryBytes": 14803704,
+        "generationAvgMs": 34.181249998509884,
+        "generationP95Ms": 282.09999999403954,
+        "generationMinMs": 2.5,
+        "generationMaxMs": 306.8999999910593,
+        "generationSampleCount": 32,
+        "synchronousBuildP95Ms": 0.5999999940395355,
+        "workerBuildP95Ms": 10.5,
+        "activationP95Ms": 282.20000000298023,
+        "maxLoadedChunks": 41,
+        "coverageComplete": true,
+        "rebaseCount": 0
+      },
+      "world": {
+        "chunks": 29,
+        "buildings": 151,
+        "bridges": 44,
+        "islands": 0,
+        "collisionTriangles": 75330,
+        "renderTriangles": 164926
+      },
+      "render": {
+        "gpuMs": 10.50928,
+        "calls": 131,
+        "triangles": 152984,
+        "points": 560,
+        "lines": 0,
+        "fps": 88.0384145636585,
+        "geometries": 56,
+        "textures": 19,
+        "inversionAngle": 0,
+        "mirrorSky": {
+          "seed": 334458,
+          "triangles": 2880,
+          "cameraOffset": 0,
+          "ground": {
+            "height": 650,
+            "radius": 1530
+          }
+        }
+      },
+      "companions": 3,
+      "shieldImpacts": 0,
+      "contact": {
+        "id": "chunk:0:1:r0",
+        "distance": 9.999883678221892,
+        "surface": "kinetic-grid-1-r2.334458.spine.0",
+        "geometryId": "d95fe953-fee1-42e9-b9ea-e7c03697aed5",
+        "triangle": 405,
+        "point": {
+          "x": 115,
+          "y": 84.00023264220314,
+          "z": 220.04823243627558
+        }
+      }
+    }
+  ],
+  "pageErrors": [],
+  "clocks": {
+    "initial": {
+      "best": {
+        "sendMs": 10827.7734,
+        "receiveMs": 10828.6499,
+        "originMs": 1795862268927,
+        "nowMs": 8239.60000000894
+      },
+      "probes": [
+        {
+          "sendMs": 10819.7245,
+          "receiveMs": 10822.9046,
+          "originMs": 1795862268927,
+          "nowMs": 8232.800000011921
+        },
+        {
+          "sendMs": 10822.9138,
+          "receiveMs": 10824.7244,
+          "originMs": 1795862268927,
+          "nowMs": 8235.300000011921
+        },
+        {
+          "sendMs": 10824.7288,
+          "receiveMs": 10826.605,
+          "originMs": 1795862268927,
+          "nowMs": 8237.10000000894
+        },
+        {
+          "sendMs": 10826.6078,
+          "receiveMs": 10827.7713,
+          "originMs": 1795862268927,
+          "nowMs": 8238.5
+        },
+        {
+          "sendMs": 10827.7734,
+          "receiveMs": 10828.6499,
+          "originMs": 1795862268927,
+          "nowMs": 8239.60000000894
+        }
+      ]
+    },
+    "kinetic": {
+      "best": {
+        "sendMs": 13520.8359,
+        "receiveMs": 13522.4481,
+        "originMs": 1795862277993.4,
+        "nowMs": 1866.5
+      },
+      "probes": [
+        {
+          "sendMs": 13515.4856,
+          "receiveMs": 13518.9397,
+          "originMs": 1795862277993.4,
+          "nowMs": 1863
+        },
+        {
+          "sendMs": 13518.9471,
+          "receiveMs": 13520.8271,
+          "originMs": 1795862277993.4,
+          "nowMs": 1865.0999999940395
+        },
+        {
+          "sendMs": 13520.8359,
+          "receiveMs": 13522.4481,
+          "originMs": 1795862277993.4,
+          "nowMs": 1866.5
+        },
+        {
+          "sendMs": 13522.4531,
+          "receiveMs": 13524.3738,
+          "originMs": 1795862277993.4,
+          "nowMs": 1868.5
+        },
+        {
+          "sendMs": 13524.3773,
+          "receiveMs": 13531.4809,
+          "originMs": 1795862277993.4,
+          "nowMs": 1874.9000000059605
+        }
+      ]
+    }
+  },
+  "titleFocus": {
+    "initial": {
+      "ownedBefore": true,
+      "activationRequested": false,
+      "owned": true
+    },
+    "verified": {
+      "ownedBefore": true,
+      "activationRequested": false,
+      "owned": true
+    },
+    "dom": true
+  },
+  "drawObserverSetupMs": 95.80249999999978,
+  "timing": {
+    "monotonicMarks": {
+      "initialTitle": {
+        "hostMs": 10795.31164999404,
+        "earliestMs": 10794.87339999404,
+        "latestMs": 10795.74989999404
+      },
+      "worldMenu": {
+        "hostMs": 11194.711650000001,
+        "earliestMs": 11194.2734,
+        "latestMs": 11195.1499
+      },
+      "apply": {
+        "hostMs": 11645.411650002981,
+        "earliestMs": 11644.97340000298,
+        "latestMs": 11645.84990000298
+      },
+      "kineticTitle": {
+        "hostMs": 12936.84200000298,
+        "earliestMs": 12936.03590000298,
+        "latestMs": 12937.64810000298
+      },
+      "start": {
+        "hostMs": 13122.04200000596,
+        "earliestMs": 13121.23590000596,
+        "latestMs": 13122.84810000596
+      },
+      "firstRunningCoveredFrame": {
+        "hostMs": 13487.24199999404,
+        "earliestMs": 13486.43589999404,
+        "latestMs": 13488.04809999404
+      }
+    },
+    "launchToFrameMs": 13487.24199999404,
+    "launchToInitialTitleMs": 10795.31164999404,
+    "initialTitleToMenuMs": 399.40000000596046,
+    "menuSelectionMs": 450.70000000298023,
+    "applyToKineticTitleMs": 1291.4303499999987,
+    "kineticTitleToStartMs": 185.20000000298023,
+    "startToFrameMs": 365.19999998807907,
+    "directHostObservationUpperBoundMs": 13489.4008
+  },
+  "endpointHostReceiptUtc": "2026-11-28T10:37:59.827Z",
+  "endpointEstimatedMonotonicNs": "123530754217600",
+  "endpointEstimatedUtc": "2026-11-28T10:37:59.825Z",
+  "endpointWindow": {
+    "ownedBefore": true,
+    "activationRequested": false,
+    "owned": true
+  },
+  "running": {
+    "build": {
+      "version": "0.11.0",
+      "sourceCommit": "ac943acd6a2c6d21431aa138327bc3e64ed8552f",
+      "sourceCommitTime": "2026-11-28T09:13:19Z",
+      "dirty": false,
+      "sourceUrl": "https://github.com/styayur/Skimmer-Scraper/tree/ac943acd6a2c6d21431aa138327bc3e64ed8552f",
+      "toolchain": {
+        "node": "v24.22.3",
+        "platform": "win32",
+        "architecture": "x64"
+      }
+    },
+    "meta": {
+      "version": "0.11.0",
+      "sourceCommit": "ac943acd6a2c6d21431aa138327bc3e64ed8552f",
+      "dirty": false,
+      "binary": {
+        "url": "assets/index-DleFn7qJ.js",
+        "bytes": 1307632,
+        "sha256": "170b3c411f84f3057f1b175e70b3327e6ff20c8ac0190603ab68755eb2865ebe"
+      }
+    },
+    "entry": "http://tauri.localhost/assets/index-DleFn7qJ.js",
+    "url": "http://tauri.localhost/?theme=kinetic-city&seed=334458&world=stable&gen=4",
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/158.0.0.0 Safari/537.36 Edg/158.0.0.0",
+    "renderer": "ANGLE (AMD, AMD Radeon 780M Graphics (0x00001900) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+    "viewport": [
+      1440,
+      900
+    ],
+    "drawingBuffer": [
+      2160,
+      1350
+    ],
+    "dpr": 2,
+    "executedEntry": {
+      "sha256": "170b3c411f84f3057f1b175e70b3327e6ff20c8ac0190603ab68755eb2865ebe",
+      "bytes": 1307632,
+      "loader": "2FE4A160031639700CFB246F44D39992",
+      "frame": "F47036188F24886D984EE8805FCEC678",
+      "script": "14"
+    }
+  },
+  "window": {
+    "webview2": "158.0.4370.45",
+    "fullscreen": true,
+    "focused": true
+  },
+  "screenshot": {
+    "file": "first-flight.jpg",
+    "bytes": 202188,
+    "sha256": "ce3ab3ebadfacfeb0986466821132893ff9582679837860c5358eb2e1a0d7eb7",
+    "afterEndpoint": true
+  },
+  "shutdown": {
+    "closeRequestError": null,
+    "forced": false,
+    "observedExit": true,
+    "exitCode": 0,
+    "signal": null,
+    "hostMs": 15039.8092,
+    "utc": "2026-11-28T10:38:01.378Z"
+  },
+  "executedFileHashRechecked": true,
+  "profileRemoved": true
+}
