@@ -59,7 +59,21 @@ The revised integrated source is `7845d30fcd428dbff50c5d45ba1c893ee7a3bf3b`, inc
 
 The revised controller met 13/14 development cases and 4/6 original holdouts. Its four required ribbons scored 3/4. The three development ribbons recovered their clean releases. Original holdout ribbon 104729 held through release and struck the shield at 3.775 s. Both cruise bowls still struck at 3.900 s. The separate eight-case panel scored 7/8 on stock and 8/8 on the revised client. Each of its three mandatory ribbons actively released on both builds. All 28 revised diagnostics passed the independent producer reader against regenerated GLBs. The [paired dispositions](integrated-7845d30f/results.md) include every case and failure. The [completion record](integrated-7845d30f/evaluation.json) includes the UTC timestamps.
 
-At 06:08:19 UTC on 28 November 2026, a [third commitment](third-holdout-commitment.json) fixed six fresh inputs and the exact size and SHA-256 of each corresponding GLB. The panel remains sealed for a separate future controller freeze.
+At 06:08:19 UTC on 28 November 2026, a [third commitment](third-holdout-commitment.json) fixed six fresh inputs and the exact size and SHA-256 of each corresponding GLB. Stock references were collected privately after the commitment. The [six inputs](third-holdout.json) were revealed after the separate `946d2f7e` integrated freeze. At disclosure, each private GLB and stock report matched its committed size and SHA-256.
+
+### Integrated departure correction
+
+The integrated client at `946d2f7e8381f9f9af68a0cf7e488ac41debde04` includes flight source `38f4c3d8c4e1f8e0c5e2049d9bf71c3f19bc7271`. Both copies of the 105-file distribution reproduced manifest SHA-256 `48e1957e0beb76938caf8a900a3bbc9af025c49e4afa7b547535078f908706c6`. The browser executed the 1,307,632-byte entry `/assets/index-BYs4BVvb.js` with SHA-256 `a700cba1c3cca8ed755c31809aeb05a4c2f874c5d623c7948dc3a8d81b849a4c`. All four required historical ribbons were checked first and completed uninterrupted glide and active release with zero shield strikes by 06:23:23 UTC. [Runtime identity](integrated-946d2f7e/runtime.json) · [File hashes](integrated-946d2f7e/SHA256SUMS) · [Four required releases](integrated-946d2f7e/mandatory.json)
+
+| Prespecified panel | Stock 991138b8 | Integrated 0a5272b3 | Integrated 7845d30f | Integrated 946d2f7e |
+| --- | ---: | ---: | ---: | ---: |
+| Original 20 | 17/20 | 14/20 | 17/20 | 20/20 |
+| Second eight | 7/8 | — | 8/8 | 8/8 |
+| Third six | 5/6 | — | — | 5/6 |
+
+On the original 20, the departure correction restored all four required ribbons and both previously striking cruise bowls. It recorded 12 clean active releases and zero shield strikes. The previously revealed second panel passed all eight gates. On the independent third panel, all three boost ribbons released cleanly and the open-air control rejected capture. Oblique cruise S-curve 661077278 remained in RECOVERY at the 2.300 s release sample on both stock and the new controller. It returned to FLIGHT at 2.367 s on the new controller with zero impacts. The six-case denominator includes this failed timing gate.
+
+The last of the 34 candidate traces completed at 06:35:09 UTC on 28 November 2026. Every candidate report matched its stock GLB, layout, input and sampled simulation times, and passed the producer reader against a regenerated GLB. The three additional legacy checks retained clean Contact Deck releases in cruise and boost and a wall-to-roof TRANSFER followed by active release in Relay District. [All paired dispositions](integrated-946d2f7e/results.md) · [UTC completion record](integrated-946d2f7e/evaluation.json) · [Private stock reference receipt after disclosure](integrated-946d2f7e/third-stock-reference.json)
 
 ## Public catalog
 
@@ -105,4 +119,4 @@ For a new controller, `python -B scripts/freeze-flight-build.py path/to/dist new
 
 After the second holdout is revealed, pass `second-holdout`, `--sealed-cases path/to/reveal.json` and `--revision 2` to run-topogenesis.py. Save the stock runs in new-results/second-holdout-stock and the revised runs in new-results/second-holdout. Pass the same `--sealed-cases` to compare-flight-controllers.py for the independent denominator. Both commands verify the published commitment before using the inputs.
 
-For a subsequent third-panel evaluation, use the `third-holdout` batch and pass `--panel third-holdout` to the comparison command. Its commitment also checks each regenerated GLB against the privately frozen size and digest.
+For the third panel, use the `third-holdout` batch and pass `--panel third-holdout --sealed-cases acceptance/joint-flight/topogenesis/third-holdout.json` to the comparison command. Its commitment also checks each regenerated GLB against the privately frozen size and digest. The `946d2f7e` second-panel comparison reuses its existing stock traces with `--panel-stock acceptance/joint-flight/topogenesis/integrated-7845d30f/second-holdout-stock`.

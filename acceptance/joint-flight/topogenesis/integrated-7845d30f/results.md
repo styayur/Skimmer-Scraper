@@ -51,6 +51,8 @@ The eight precommitted inputs first ran after the revised controller freeze. Sto
 
 ## Original holdout 104729
 
+Seed 104729 was blind during the producer-rule evaluation and retains its original holdout label and denominator. After the revised controller recorded its strike, the trace was disclosed to the controller owner for root-cause analysis. It is a known regression case for any later controller. The second panel was blind through the `7845d30f` freeze and has since been published in full.
+
 The original held-out boost ribbon stayed in its published denominator. On the revised client it held GLIDING through the release press at sample 48. DETACHING was first observed at 3.1333 s and FLIGHT at 3.3250 s. At sample 58 (3.7083 s) the nearest solid was 3.383 m from the aircraft centre, speed was 89.655 m/s and the shield counter was zero. At sample 59 (3.7750 s) the counter reached one, speed was 53.071 m/s and vertical velocity was +20.316 m/s. The sampled interval brackets fixed steps 446–453. Stock released with zero strikes. The first integrated controller lost contact before the release press. [Revised trace](holdout/ribbon-bridge-104729-boost.json)
 
 The [original comparison](comparison.json), [independent comparison](second-comparison.json) and [UTC completion record](evaluation.json) retain the underlying decisions and sample metrics.

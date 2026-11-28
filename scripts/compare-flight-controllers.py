@@ -37,6 +37,7 @@ parser.add_argument("candidate", type=Path, help="Directory with runtime.json an
 parser.add_argument("--stock", type=Path, help="Stock evidence directory containing matrix.json")
 parser.add_argument("--sealed-cases", type=Path, help="Compare only the selected independently committed panel")
 parser.add_argument("--panel", choices=["second-holdout", "third-holdout"], default="second-holdout")
+parser.add_argument("--panel-stock", type=Path, help="Reuse a previously recorded stock panel directory")
 args = parser.parse_args()
 stock_dir = args.stock or args.candidate.parent
 matrix = load(stock_dir / "matrix.json")
@@ -58,7 +59,7 @@ groups = {split: (matrix[split], stock_dir / split) for split in ("development",
 sealed_assets = {}
 if args.sealed_cases:
     rows, sealed_assets = read_sealed_holdout(args.sealed_cases, stock_dir / f"{args.panel}-commitment.json", matrix)
-    groups = {args.panel: (rows, args.candidate / (args.panel + "-stock"))}
+    groups = {args.panel: (rows, args.panel_stock or args.candidate / (args.panel + "-stock"))}
 for split, (rows, stock_group) in groups.items():
     for module, seed, profile, tick, disposition, approach, wingmates in rows:
         path = Path(split, f"{module}-{seed}-{profile}.json")
