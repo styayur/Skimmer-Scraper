@@ -10,7 +10,7 @@ const browser = await chromium.launch({headless:true,args:['--use-angle=swiftsha
 const report = {kind:'hosted UI rehearsal', nativeMeasurement:false};
 const start=process.hrtime.bigint(), clock=()=>Number(process.hrtime.bigint()-start)/1e6;
 try {
-  const page=await browser.newPage();
+  const page=await browser.newPage({viewport:{width:800,height:600},deviceScaleFactor:1});
   await page.goto(url,{waitUntil:'domcontentloaded'});
   await measureMenus(page,report,clock);
   report.identity=await identifyRunningBuild(page);

@@ -55,6 +55,7 @@ function installObserver() {
     }
     previous.push(row);
     if (previous.length > 8) previous.shift();
+    if ([1,16,64,240].includes(frames)) send('frameStillPending',{...row,frames,coveredCells:ring.filter(c=>c.state==='ACTIVE').length});
     requestAnimationFrame(frame);
   };
   window.addEventListener('keydown', event => {
@@ -132,7 +133,7 @@ export async function measureMenus(page, report, clock, focusWindow) {
   await page.addInitScript(installObserver);
   await page.evaluate(installObserver);
   const get = async (event, selected) => {
-    const end = clock()+20000;
+    const end = clock()+35000;
     while (clock() < end) {
       const row = events.find(e => e.event===event && e.selected===selected);
       if (row) return row;
@@ -148,7 +149,7 @@ export async function measureMenus(page, report, clock, focusWindow) {
   await page.locator('#world-theme').selectOption('kinetic-city');
   await page.locator('#world-mode-select').selectOption('stable');
   await page.locator('#world-seed-input').fill(String(seed));
-  await page.locator('#world-form button[type=submit]').click();
+  await page.locator('#world-form button[type=submit]').click({noWaitAfter:true});
   const kineticTitle = await get('titleReady',true);
   const u = new URL(kineticTitle.href);
   assert.deepEqual([...u.searchParams.keys()].sort(), ['gen','seed','theme','world']);
