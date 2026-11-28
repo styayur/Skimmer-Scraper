@@ -4,6 +4,7 @@
   "sampleMs": 64,
   "postReleaseTicks": 16,
   "controller": "991138b8c67c188bd47731d6c193142750225818",
+  "entrySha256": "91f1a9bcdb190878af05d6b93ebdc16c01fbbb5ffc898d70bf5fdb22e52687c8",
   "historicalProducer": "7eb42fd3db2693989db7d3626101ed1b6e92e533",
   "producerRevisions": ["43cbe696592ce7bbab17140cbb8c6fc6a07478e9", "382a5c201b246849d5023a9eabdac5eef13e4d02", "6522b42c9a020c96712a523e3492d8fc2377340a"],
   "baselines": [
@@ -11,6 +12,8 @@
     ["lattice", 8131, "boost", 48, "may-reject"],
     ["contact-deck", 8131, "cruise", 48, "must-succeed"],
     ["contact-deck", 8131, "boost", 48, "may-reject"],
+    ["cruise-deck", 8132, "boost", 48, "may-reject"],
+    ["boost-deck", 8132, "boost", 48, "must-succeed"],
     ["relay-district", 8131, "cruise", 74, "must-succeed"]
   ],
   "columns": ["module", "seed", "profile", "releaseTick", "disposition", "approach", "wingmates"],

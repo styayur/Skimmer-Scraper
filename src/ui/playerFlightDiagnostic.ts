@@ -23,7 +23,7 @@ interface Provenance {
   version: string;
   sourceCommit: string | null;
   dirty?: boolean;
-  binary?: { url: string; bytes: number; sha256: string };
+  binary?: { url: string; bytes: number; sha256: string } | null;
 }
 
 /** Two minutes at 15 Hz in volatile memory for the active imported world. */
