@@ -42,6 +42,23 @@ describe('declarative AI boundary',()=>{
  it.each(['FOLLOW','LEAD','REGROUP','SCOUT','PROTECT','HOLD'])('supports %s with published targets',action=>{const f=fixture();expect(validatePlan({...f.plan,orders:[{agents:[1,2,3],action,targetId:'route-ahead'}]},f.context).ok).toBe(true);});
 });
 describe('observable Trust and finite Surface Relay',()=>{
+ it('consults relay geometry for automatic Challenge rescue and skips it in unrequested Free Flight',()=>{
+  const {player,team,runtime}=fixture();
+  const nearest=vi.fn(ground.queryNearest);
+  const world={...ground,queryNearest:nearest};
+  const free=createRunRules({mode:'free',assisted:true});
+  team.agents[0].flight.position={x:6,y:20,z:0};
+  runtime.trust.value=.85;
+  expect(runtime.step(player,free,world,334458,1/120)).toBe(free);
+  expect(nearest).not.toHaveBeenCalled();
+  expect(runtime.relay.attempts).toBe(0);
+
+  const challenge={...createRunRules({mode:'challenge',assisted:true}),grace:.5};
+  const rescued=runtime.step(player,challenge,world,334458,1/120);
+  expect(nearest).toHaveBeenCalled();
+  expect(rescued.grace).toBe(1.75);
+  expect(runtime.relay.successes).toBe(1);
+ });
  it('does not count the same impact again after a pause or world invalidation',()=>{
   const f=fixture();f.team.agents[0].impacts=1;f.runtime.step(f.player,f.rules,ground,1,1);const trust=f.runtime.trust.value;
   f.runtime.invalidate();f.runtime.step(f.player,f.rules,ground,1,1);expect(f.runtime.trust.value).toBe(trust);
