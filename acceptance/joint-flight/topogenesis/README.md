@@ -81,6 +81,8 @@ Chromium loaded Relay District, Contact Deck and Switchyard from their displayed
 
 The installed Windows client also opened `?catalog=switchyard`, fetched the same bytes after confirmation and activated the world session-only. The [WebView2 report](catalog/windows.json) records the executable and installer hashes, renderer, request and world identity from the [Windows workflow](https://github.com/styayur/Skimmer-Scraper/actions/runs/46109586361). Both the web and installed acceptance runs used isolated profiles.
 
+The official v0.11.0 Windows installer flew the v0.4.0 Switchyard through four active glide releases. The fresh and reopened layouts matched across 133 paired samples with zero shield strikes. The archived receipt includes the installed executable and JavaScript hashes, the exact layout and both producer-validated observations. [Final installed Windows handoff](windows-final/README.md)
+
 ## Reproduce
 
 Extract the original Skimmer v0.10.0 static ZIP and serve its directory on loopback. The recorded functional flights used Python 3.14.7, Python Playwright 1.63.0, Chromium 153.0.8010.12, software WebGL and a 640 × 360 viewport. Install Playwright and its Chromium with `python -m pip install playwright==1.63.0` and `python -m playwright install chromium`. The producer runs as a separate Node process. Install its lockfile dependencies in a v0.3.0 checkout and in a second checkout at the revision-2 commit in matrix.json. The latter generator preserves all three rule revisions.

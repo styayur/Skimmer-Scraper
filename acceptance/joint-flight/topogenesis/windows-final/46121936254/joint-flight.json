@@ -1,0 +1,117 @@
+{
+  "runtime": {
+    "origin": "http://tauri.localhost",
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36 Edg/131.0.0.0",
+    "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+    "app": {
+      "version": "0.11.0",
+      "sourceCommit": "c4bc8eac5425197ebb08c937316de415e75b89b1",
+      "sourceCommitTime": "2026-11-28T07:20:58Z",
+      "dirty": false,
+      "sourceUrl": "https://github.com/styayur/Skimmer-Scraper/tree/c4bc8eac5425197ebb08c937316de415e75b89b1",
+      "toolchain": {
+        "node": "v24.22.3",
+        "platform": "win32",
+        "architecture": "x64"
+      }
+    },
+    "wasm": true,
+    "webgpu": false,
+    "localRadio": true
+  },
+  "producer": "241bd0eec72439d77a43e8d289cc29c714bf0e4e",
+  "source": {
+    "source": "https://raw.githubusercontent.com/styayur/V2Wpro/241bd0eec72439d77a43e8d289cc29c714bf0e4e/examples/switchyard.glb",
+    "bytes": 326792,
+    "sha256": "7227e0cfe7d9c4051ea509e298028c7ae7eece2cde0e1d54b324f7f09197a348"
+  },
+  "binary": {
+    "url": "http://tauri.localhost/assets/index-DleFn7qJ.js",
+    "bytes": 1307632,
+    "sha256": "170b3c411f84f3057f1b175e70b3327e6ff20c8ac0190603ab68755eb2865ebe"
+  },
+  "layoutSeed": "glb-world:WzEsIjcyMjdlMGNmZTdkOWM0MDUxZWE1MDllMjk4MDI4YzdhZTdlZWNlMmNkZTBlMWQ1NGIzMjRmN2YwOTE5N2EzNDgiLDAseyJzY2FsZSI6MSwieWF3IjowLCJ1cCI6InkiLCJzcGF3bllhdyI6MCwic3Bhd24iOm51bGx9XQ",
+  "identity": {
+    "id": "7227e0cfe7d9c4051ea509e298028c7ae7eece2cde0e1d54b324f7f09197a348",
+    "spawn": {
+      "x": -67.87848732208107,
+      "y": 28,
+      "z": -652.75
+    },
+    "variant": 0,
+    "bounds": {
+      "x": 228.75697464416214,
+      "y": 86.98212822828955,
+      "z": 1321.5
+    },
+    "collisionTriangles": 6100
+  },
+  "beforeConfirmation": 0,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://raw.githubusercontent.com/styayur/V2Wpro/241bd0eec72439d77a43e8d289cc29c714bf0e4e/examples/switchyard.glb"
+    }
+  ],
+  "input": "standard virtual Gamepad API",
+  "reopenedVia": "Fresh built-in world, saved local library and submitted exact exported layout",
+  "capture": "Application layout and observation Blob bytes collected at the download anchor",
+  "fresh": [
+    {
+      "capture": 8,
+      "release": 40,
+      "beforeCapture": "FLIGHT",
+      "beforeRelease": "GLIDING",
+      "captureTime": 0.24999999999999997,
+      "releaseTime": 1.274999999999998,
+      "firstGlideTime": 0.7333333333333332,
+      "glideMeters": 40.64675375133305,
+      "detachingTime": 1.3083333333333311,
+      "freeFlightTime": 1.5333333333333303,
+      "passed": true
+    },
+    {
+      "capture": 70,
+      "release": 106,
+      "beforeCapture": "FLIGHT",
+      "beforeRelease": "GLIDING",
+      "captureTime": 2.233333333333328,
+      "releaseTime": 3.3916666666666573,
+      "firstGlideTime": 2.2666666666666613,
+      "glideMeters": 75.4310106333316,
+      "detachingTime": 3.416666666666657,
+      "freeFlightTime": 3.6749999999999896,
+      "passed": true
+    }
+  ],
+  "reopened": [
+    {
+      "capture": 8,
+      "release": 40,
+      "beforeCapture": "FLIGHT",
+      "beforeRelease": "GLIDING",
+      "captureTime": 0.24999999999999997,
+      "releaseTime": 1.274999999999998,
+      "firstGlideTime": 0.7333333333333332,
+      "glideMeters": 40.64675375133305,
+      "detachingTime": 1.3083333333333311,
+      "freeFlightTime": 1.5333333333333303,
+      "passed": true
+    },
+    {
+      "capture": 70,
+      "release": 106,
+      "beforeCapture": "FLIGHT",
+      "beforeRelease": "GLIDING",
+      "captureTime": 2.233333333333328,
+      "releaseTime": 3.3916666666666573,
+      "firstGlideTime": 2.2666666666666613,
+      "glideMeters": 75.4310106333316,
+      "detachingTime": 3.416666666666657,
+      "freeFlightTime": 3.6749999999999896,
+      "passed": true
+    }
+  ],
+  "errors": [],
+  "passed": true
+}
