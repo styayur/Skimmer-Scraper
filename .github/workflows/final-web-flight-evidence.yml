@@ -1,0 +1,97 @@
+name: Final Web flight evidence
+on:
+  push:
+    branches: [codex/final-web-flight-evidence]
+    paths:
+      - .github/workflows/final-web-flight-evidence.yml
+      - acceptance/final-web-011/target.json
+      - acceptance/final-web-011/run_shard.py
+      - acceptance/final-web-011/stage.py
+      - acceptance/final-web-011/inputs.json
+      - acceptance/final-web-011/inputs.zip
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  plan:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 3
+    outputs:
+      indices: ${{ steps.schedule.outputs.indices }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - id: schedule
+        run: |
+          python3 - <<'PY'
+          import json, os
+          from pathlib import Path
+          shards = json.loads(Path("acceptance/final-web-011/target.json").read_bytes())["shards"]
+          assert 1 <= shards <= 6
+          with open(os.environ["GITHUB_OUTPUT"], "a") as out:
+              print("indices=" + json.dumps(list(range(shards))), file=out)
+          PY
+
+  replay:
+    needs: plan
+    runs-on: ubuntu-24.04
+    timeout-minutes: 40
+    strategy:
+      fail-fast: false
+      max-parallel: 4
+      matrix:
+        shard: ${{ fromJSON(needs.plan.outputs.indices) }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - name: Check out frozen game replay and historical reports
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: d66b343cdd88d7d499e77afa4a63e8e3594f2813
+          path: benchmark
+          sparse-checkout: |
+            scripts
+            acceptance/joint-flight/topogenesis
+          persist-credentials: false
+      - name: Check out revision-2 producer
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          repository: styayur/V2Wpro
+          ref: 6522b42c9a020c96712a523e3492d8fc2377340a
+          path: producer
+          persist-credentials: false
+      - name: Check out diagnostic reader
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          repository: styayur/V2Wpro
+          ref: 5656a74f5786001e1011b1b3beb4649a903f76e6
+          path: reader
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: 24
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.14.7'
+      - name: Verify and stage exact game archive
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python -B acceptance/final-web-011/stage.py
+      - name: Install fixed replay dependencies
+        run: |
+          npm --prefix producer ci --no-fund --no-audit
+          python -m pip install playwright==1.63.0
+          python -m playwright install --with-deps chromium
+      - name: Run controlled flights
+        run: python -Bu acceptance/final-web-011/run_shard.py "${{ matrix.shard }}"
+      - name: Retain all collected evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: final-web-flight-${{ github.run_id }}-${{ github.run_attempt }}-${{ matrix.shard }}
+          path: output/
+          retention-days: 30
+          if-no-files-found: warn

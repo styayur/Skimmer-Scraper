@@ -1,0 +1,1781 @@
+{
+  "harness": "d66b343cdd88d7d499e77afa4a63e8e3594f2813",
+  "v2wRelease": "241bd0eec72439d77a43e8d289cc29c714bf0e4e",
+  "generator": "6522b42c9a020c96712a523e3492d8fc2377340a",
+  "reader": "5656a74f5786001e1011b1b3beb4649a903f76e6",
+  "releaseWorldsZipSha256": "9c02582b401a238fb8bdedb72b102f52c73bb599e0482588602f770ba37be59c",
+  "inputZipSha256": "d996f98c1f112fa8d793bace4a56c6233ad93c4d64663cb5477b4ef23f30617b",
+  "historicalSources": {
+    "stock": {
+      "controller": "991138b8c67c188bd47731d6c193142750225818",
+      "entrySha256": "91f1a9bcdb190878af05d6b93ebdc16c01fbbb5ffc898d70bf5fdb22e52687c8"
+    },
+    "integrated-0a5272b3": {
+      "controller": "0a5272b36352a1300253080bd38cfb5d520c7e0d",
+      "entrySha256": "e5993c151442ba79878303908d507e016ea05a1908895891f1bab943583c15b9"
+    },
+    "integrated-7845d30f": {
+      "controller": "7845d30fcd428dbff50c5d45ba1c893ee7a3bf3b",
+      "entrySha256": "687b453f76c6d59c857af580c28838ba2ef0d4d9f79466edfb14949efaf99994"
+    },
+    "integrated-946d2f7e": {
+      "controller": "946d2f7e8381f9f9af68a0cf7e488ac41debde04",
+      "entrySha256": "a700cba1c3cca8ed755c31809aeb05a4c2f874c5d623c7948dc3a8d81b849a4c"
+    }
+  },
+  "cases": [
+    {
+      "group": "development",
+      "name": "ribbon-bridge-8131-cruise.json",
+      "experiment": {
+        "module": "ribbon-bridge",
+        "seed": 8131,
+        "profile": "cruise",
+        "ruleRevision": 2,
+        "inputId": "lb4-release48-cruise",
+        "disposition": "must-succeed",
+        "approach": "entry",
+        "wingmates": 3
+      },
+      "schedule": {
+        "captureTick": 4,
+        "releaseTick": 48,
+        "releasePulse": true,
+        "postReleaseTicks": 16,
+        "yawAxis": 0,
+        "wingmates": 3,
+        "launchFrameOffsetMs": 0
+      },
+      "world": {
+        "sha256": "ea7a65d31b4d35dbf200d255181663b16ac1bd33be3d7600fdf93f6a1c8d2f91",
+        "bytes": 72540,
+        "layoutSeed": "glb-world:WzEsImVhN2E2NWQzMWI0ZDM1ZGJmMjAwZDI1NTE4MTY2M2IxNmFjMWJkMzNiZTNkNzYwMGZkZjkzZjZhMWM4ZDJmOTEiLDAseyJzY2FsZSI6MSwieWF3IjowLCJ1cCI6InkiLCJzcGF3bllhdyI6MCwic3Bhd24iOm51bGx9XQ"
+      },
+      "history": {
+        "stock": {
+          "report": "development/ribbon-bridge-8131-cruise.json",
+          "outcome": "glide-and-release",
+          "met": true
+        },
+        "integrated-0a5272b3": {
+          "report": "integrated-0a5272b3/development/ribbon-bridge-8131-cruise.json",
+          "outcome": "contact-lost",
+          "met": false
+        },
+        "integrated-7845d30f": {
+          "report": "integrated-7845d30f/development/ribbon-bridge-8131-cruise.json",
+          "outcome": "glide-and-release",
+          "met": true
+        },
+        "integrated-946d2f7e": {
+          "report": "integrated-946d2f7e/development/ribbon-bridge-8131-cruise.json",
+          "outcome": "glide-and-release",
+          "met": true
+        }
+      }
+    },
+    {
+      "group": "development",
+      "name": "ribbon-bridge-8132-boost.json",
+      "experiment": {
+        "module": "ribbon-bridge",
+        "seed": 8132,
+        "profile": "boost",
+        "ruleRevision": 2,
+        "inputId": "lb4-release48-boost",
+        "disposition": "must-succeed",
+        "approach": "entry",
+        "wingmates": 3
+      },
+      "schedule": {
+        "captureTick": 4,
+        "releaseTick": 48,
+        "releasePulse": true,
+        "postReleaseTicks": 16,
+        "yawAxis": 0,
+        "wingmates": 3,
+        "launchFrameOffsetMs": 0
+      },
+      "world": {
+        "sha256": "f569312a5736222e16124c68886d30de7679397b88c705656a1d769fddb9266e",
+        "bytes": 72548,
+        "layoutSeed": "glb-world:WzEsImY1NjkzMTJhNTczNjIyMmUxNjEyNGM2ODg4NmQzMGRlNzY3OTM5N2I4OGM3MDU2NTZhMWQ3NjlmZGRiOTI2NmUiLDAseyJzY2FsZSI6MSwieWF3IjowLCJ1cCI6InkiLCJzcGF3bllhdyI6MCwic3Bhd24iOm51bGx9XQ"
+      },
+      "history": {
+        "stock": {
+          "report": "development/ribbon-bridge-8132-boost.json",
+          "outcome": "glide-and-release",
+          "met": true
+        },
+        "integrated-0a5272b3": {
+          "report": "integrated-0a5272b3/development/ribbon-bridge-8132-boost.json",
+          "outcome": "impact",
+          "met": false
+        },
+        "integrated-7845d30f": {
+          "report": "integrated-7845d30f/development/ribbon-bridge-8132-boost.json",
+          "outcome": "glide-and-release",
+          "met": true
+        },
+        "integrated-946d2f7e": {
+          "report": "integrated-946d2f7e/development/ribbon-bridge-8132-boost.json",
+          "outcome": "glide-and-release",
+          "met": true
+        }
+      }
+    },
+    {
+      "group": "development",
+      "name": "s-curve-10243-cruise.json",
+      "experiment": {
+        "module": "s-curve",
+        "seed": 10243,
+        "profile": "cruise",
+        "ruleRevision": 2,
+        "inputId": "lb4-release36-cruise",
+        "disposition": "may-reject",
+        "approach": "entry",
+        "wingmates": 1
+      },
+      "schedule": {
+        "captureTick": 4,
+        "releaseTick": 36,
+        "releasePulse": true,
+        "postReleaseTicks": 16,
+        "yawAxis": 0,
+        "wingmates": 1,
+        "launchFrameOffsetMs": 0
+      },
+      "world": {
+        "sha256": "d4c443602eae62ef7d16761adb815d0f7884b8634e376fc3140bbe962d848339",
+        "bytes": 29636,
+        "layoutSeed": "glb-world:WzEsImQ0YzQ0MzYwMmVhZTYyZWY3ZDE2NzYxYWRiODE1ZDBmNzg4NGI4NjM0ZTM3NmZjMzE0MGJiZTk2MmQ4NDgzMzkiLDAseyJzY2FsZSI6MSwieWF3IjowLCJ1cCI6InkiLCJzcGF3bllhdyI6MCwic3Bhd24iOm51bGx9XQ"
+      },
+      "history": {
+        "stock": {
+          "report": "development/s-curve-10243-cruise.json",
+          "outcome": "glide-and-release",
+          "met": true
+        },
+        "integrated-0a5272b3": {
+          "report": "integrated-0a5272b3/development/s-curve-10243-cruise.json",
+          "outcome": "glide-and-release",
+          "met": true
+        },
+        "integrated-7845d30f": {
+          "report": "integrated-7845d30f/development/s-curve-10243-cruise.json",
+          "outcome": "glide-and-release",
+          "met": true
+        },
+        "integrated-946d2f7e": {
+          "report": "integrated-946d2f7e/development/s-curve-10243-cruise.json",
+          "outcome": "glide-and-release",
+          "met": true
+        }
+      }
+    },
+    {
+      "group": "development",
+      "name": "helix-18731-boost.json",
+      "experiment": {
+        "module": "helix",
+        "seed": 18731,
+        "profile": "boost",
+        "ruleRevision": 2,
+        "inputId": "lb4-release56-boost",
+        "disposition": "may-reject",
+        "approach": "entry",
+        "wingmates": 2
+      },
+      "schedule": {
+        "captureTick": 4,
+        "releaseTick": 56,
+        "releasePulse": true,
+        "postReleaseTicks": 16,
+        "yawAxis": 0,
+        "wingmates": 2,
+        "launchFrameOffsetMs": 0
+      },
+      "world": {
+        "sha256": "1442e2a32ec2d6c1a56aacf6afae7b6fc7545413529d4ca692b4d4086a3ab4a7",
+        "bytes": 224916,
+        "layoutSeed": "glb-world:WzEsIjE0NDJlMmEzMmVjMmQ2YzFhNTZhYWNmNmFmYWU3YjZmYzc1NDU0MTM1MjlkNGNhNjkyYjRkNDA4NmEzYWI0YTciLDAseyJzY2FsZSI6MSwieWF3IjowLCJ1cCI6InkiLCJzcGF3bllhdyI6MCwic3Bhd24iOm51bGx9XQ"
+      },
+      "history": {
+        "stock": {
+          "report": "development/helix-18731-boost.json",
+          "outcome": "contact-lost",
+          "met": true
+        },
+        "integrated-0a5272b3": {
+          "report": "integrated-0a5272b3/development/helix-18731-boost.json",
+          "outcome": "contact-lost",
+          "met": true
+        },
+        "integrated-7845d30f": {
+          "report": "integrated-7845d30f/development/helix-18731-boost.json",
+          "outcome": "contact-lost",
+          "met": true
+        },
+        "integrated-946d2f7e": {
+          "report": "integrated-946d2f7e/development/helix-18731-boost.json",
+          "outcome": "contact-lost",
+          "met": true
+        }
+      }
+    },
+    {
+      "group": "development",
+      "name": "sky-arch-25057-cruise.json",
+      "experiment": {
+        "module": "sky-arch",
+        "seed": 25057,
+        "profile": "cruise",
+        "ruleRevision": 2,
+        "inputId": "lb4-release48-cruise",
+        "disposition": "may-reject",
+        "approach": "entry",
+        "wingmates": 0
+      },
+      "schedule": {
+        "captureTick": 4,
+        "releaseTick": 48,
+        "releasePulse": true,
+        "postReleaseTicks": 16,
+        "yawAxis": 0,
+        "wingmates": 0,
+        "launchFrameOffsetMs": 0
+      },
+      "world": {
+        "sha256": "40e0e7cf70561cea90c3ff687eb303aefa0d36e56c4f75094c2fc7bef0ab3b16",
+        "bytes": 16776,
+        "layoutSeed": "glb-world:WzEsIjQwZTBlN2NmNzA1NjFjZWE5MGMzZmY2ODdlYjMwM2FlZmEwZDM2ZTU2YzRmNzUwOTRjMmZjN2JlZjBhYjNiMTYiLDAseyJzY2FsZSI6MSwieWF3IjowLCJ1cCI6InkiLCJzcGF3bllhdyI6MCwic3Bhd24iOm51bGx9XQ"
+      },
+      "history": {
+        "stock": {
+          "report": "development/sky-arch-25057-cruise.json",
+          "outcome": "glide-and-release",
+          "met": true
+        },
+        "integrated-0a5272b3": {
+          "report": "integrated-0a5272b3/development/sky-arch-25057-cruise.json",
+          "outcome": "glide-and-release",
+          "met": true
+        },
+        "integrated-7845d30f": {
+          "report": "integrated-7845d30f/development/sky-arch-25057-cruise.json",
+          "outcome": "glide-and-release",
+          "met": true
+        },
+        "integrated-946d2f7e": {
+          "report": "integrated-946d2f7e/development/sky-arch-25057-cruise.json",
+          "outcome": "glide-and-release",
+          "met": true
+        }
+      }
+    },
+    {
+      "group": "development",
+      "name": "bowl-31607-boost.json",
+      "experiment": {
+        "module": "bowl",
+        "seed": 31607,
+        "profile": "boost",
+        "ruleRevision": 2,
+        "inputId": "lb4-release36-boost",
+        "disposition": "may-reject",
+        "approach": "entry",
+        "wingmates": 3
+      },
+      "schedule": {
+        "captureTick": 4,
+        "releaseTick": 36,
+        "releasePulse": true,
+        "postReleaseTicks": 16,
+        "yawAxis": 0,
+        "wingmates": 3,
+        "launchFrameOffsetMs": 0
+      },
+      "world": {
+        "sha256": "37eb1d225b62422ccfa154da905f8b0a4b02189a26cdf158f5e53e3aa1bffaec",
+        "bytes": 66340,
+        "layoutSeed": "glb-world:WzEsIjM3ZWIxZDIyNWI2MjQyMmNjZmExNTRkYTkwNWY4YjBhNGIwMjE4OWEyNmNkZjE1OGY1ZTUzZTNhYTFiZmZhZWMiLDAseyJzY2FsZSI6MSwieWF3IjowLCJ1cCI6InkiLCJzcGF3bllhdyI6MCwic3Bhd24iOm51bGx9XQ"
+      },
+      "history": {
+        "stock": {
+          "report": "development/bowl-31607-boost.json",
+          "outcome": "glide-and-release",
+          "met": true
+        },
+        "integrated-0a5272b3": {
+          "report": "integrated-0a5272b3/development/bowl-31607-boost.json",
+          "outcome": "glide-and-release",
+          "met": true
+        },
+        "integrated-7845d30f": {
+          "report": "integrated-7845d30f/development/bowl-31607-boost.json",
+          "outcome": "glide-and-release",
+          "met": true
+        },
+        "integrated-946d2f7e": {
+          "report": "integrated-946d2f7e/development/bowl-31607-boost.json",
+          "outcome": "glide-and-release",
+          "met": true
+        }
+      }
+    },
+    {
+      "group": "development",
+      "name": "tunnel-40751-cruise.json",
+      "experiment": {
+        "module": "tunnel",
+        "seed": 40751,
+        "profile": "cruise",
+        "ruleRevision": 2,
+        "inputId": "lb4-release48-cruise",
+        "disposition": "may-reject",
+        "approach": "entry",
+        "wingmates": 1
+      },
+      "schedule": {
+        "captureTick": 4,
+        "releaseTick": 48,
+        "releasePulse": true,
+        "postReleaseTicks": 16,
+        "yawAxis": 0,
+        "wingmates": 1,
+        "launchFrameOffsetMs": 0
+      },
+      "world": {
+        "sha256": "c1c378cd2724bd0d990a4f497856942a6685bce1df0a3a9182ab352f93f91079",
+        "bytes": 84956,
+        "layoutSeed": "glb-world:WzEsImMxYzM3OGNkMjcyNGJkMGQ5OTBhNGY0OTc4NTY5NDJhNjY4NWJjZTFkZjBhM2E5MTgyYWIzNTJmOTNmOTEwNzkiLDAseyJzY2FsZSI6MSwieWF3IjowLCJ1cCI6InkiLCJzcGF3bllhdyI6MCwic3Bhd24iOm51bGx9XQ"
+      },
+      "history": {
+        "stock": {
+          "report": "development/tunnel-40751-cruise.json",
+          "outcome": "glide-and-release",
+          "met": true
+        },
+        "integrated-0a5272b3": {
+          "report": "integrated-0a5272b3/development/tunnel-40751-cruise.json",
+          "outcome": "glide-and-release",
+          "met": true
+        },
+        "integrated-7845d30f": {
+          "report": "integrated-7845d30f/development/tunnel-40751-cruise.json",
+          "outcome": "glide-and-release",
+          "met": true
+        },
+        "integrated-946d2f7e": {
+          "report": "integrated-946d2f7e/development/tunnel-40751-cruise.json",
+          "outcome": "glide-and-release",
+          "met": true
+        }
+      }
+    },
+    {
+      "group": "development",
+      "name": "ribbon-bridge-48947-cruise.json",
+      "experiment": {
+        "module": "ribbon-bridge",
+        "seed": 48947,
+        "profile": "cruise",
+        "ruleRevision": 2,
+        "inputId": "lb4-release48-cruise-open-air",
+        "disposition": "must-reject",
+        "approach": "open-air",
+        "wingmates": 3
+      },
+      "schedule": {
+        "captureTick": 4,
+        "releaseTick": 48,
+        "releasePulse": false,
+        "postReleaseTicks": 16,
+        "yawAxis": 0,
+        "wingmates": 3,
+        "launchFrameOffsetMs": 0
+      },
+      "world": {
+        "sha256": "7c974a2c59c5592fb6de1c0847aecb39c639d27dacf0b00bcceb3657681e2722",
+        "bytes": 72696,
+        "layoutSeed": "glb-world:WzEsIjdjOTc0YTJjNTljNTU5MmZiNmRlMWMwODQ3YWVjYjM5YzYzOWQyN2RhY2YwYjAwYmNjZWIzNjU3NjgxZTI3MjIiLDAseyJzY2FsZSI6MSwieWF3IjowLCJ1cCI6InkiLCJzcGF3bllhdyI6OTAsInNwYXduIjp7IngiOjAsInkiOjEwMDAsInoiOjB9fV0"
+      },
+      "history": {
+        "stock": {
+          "report": "development/ribbon-bridge-48947-cruise.json",
+          "outcome": "capture-missed",
+          "met": true
+        },
+        "integrated-0a5272b3": {
+          "report": "integrated-0a5272b3/development/ribbon-bridge-48947-cruise.json",
+          "outcome": "capture-missed",
+          "met": true
+        },
+        "integrated-7845d30f": {
+          "report": "integrated-7845d30f/development/ribbon-bridge-48947-cruise.json",
+          "outcome": "capture-missed",
+          "met": true
+        },
+        "integrated-946d2f7e": {
+          "report": "integrated-946d2f7e/development/ribbon-bridge-48947-cruise.json",
+          "outcome": "capture-missed",
+          "met": true
+        }
+      }
+    },
+    {
+      "group": "development",
+      "name": "s-curve-55001-boost.json",
+      "experiment": {
+        "module": "s-curve",
+        "seed": 55001,
+        "profile": "boost",
+        "ruleRevision": 2,
+        "inputId": "lb4-release36-boost-yaw",
+        "disposition": "may-reject",
+        "approach": "yaw",
+        "wingmates": 2
+      },
+      "schedule": {
+        "captureTick": 4,
+        "releaseTick": 36,
+        "releasePulse": true,
+        "postReleaseTicks": 16,
+        "yawAxis": 0.45,
+        "wingmates": 2,
+        "launchFrameOffsetMs": 0
+      },
+      "world": {
+        "sha256": "83165b8209b6fe2e372681c93373b3999057eeb625a3f1925ce43869d58052aa",
+        "bytes": 29280,
+        "layoutSeed": "glb-world:WzEsIjgzMTY1YjgyMDliNmZlMmUzNzI2ODFjOTMzNzNiMzk5OTA1N2VlYjYyNWEzZjE5MjVjZTQzODY5ZDU4MDUyYWEiLDAseyJzY2FsZSI6MSwieWF3IjowLCJ1cCI6InkiLCJzcGF3bllhdyI6MCwic3Bhd24iOm51bGx9XQ"
+      },
+      "history": {
+        "stock": {
+          "report": "development/s-curve-55001-boost.json",
+          "outcome": "contact-lost",
+          "met": true
+        },
+        "integrated-0a5272b3": {
+          "report": "integrated-0a5272b3/development/s-curve-55001-boost.json",
+          "outcome": "contact-lost",
+          "met": true
+        },
+        "integrated-7845d30f": {
+          "report": "integrated-7845d30f/development/s-curve-55001-boost.json",
+          "outcome": "contact-lost",
+          "met": true
+        },
+        "integrated-946d2f7e": {
+          "report": "integrated-946d2f7e/development/s-curve-55001-boost.json",
+          "outcome": "contact-lost",
+          "met": true
+        }
+      }
+    },
+    {
+      "group": "development",
+      "name": "helix-62819-cruise.json",
+      "experiment": {
+        "module": "helix",
+        "seed": 62819,
+        "profile": "cruise",
+        "ruleRevision": 2,
+        "inputId": "lb4-release56-cruise",
+        "disposition": "may-reject",
+        "approach": "entry",
+        "wingmates": 0
+      },
+      "schedule": {
+        "captureTick": 4,
+        "releaseTick": 56,
+        "releasePulse": true,
+        "postReleaseTicks": 16,
+        "yawAxis": 0,
+        "wingmates": 0,
+        "launchFrameOffsetMs": 0
+      },
+      "world": {
+        "sha256": "1930e684f9f77c6e1246ed9bb9add876857f0bbc6992446c093d743c1b44f427",
+        "bytes": 223368,
+        "layoutSeed": "glb-world:WzEsIjE5MzBlNjg0ZjlmNzdjNmUxMjQ2ZWQ5YmI5YWRkODc2ODU3ZjBiYmM2OTkyNDQ2YzA5M2Q3NDNjMWI0NGY0MjciLDAseyJzY2FsZSI6MSwieWF3IjowLCJ1cCI6InkiLCJzcGF3bllhdyI6MCwic3Bhd24iOm51bGx9XQ"
+      },
+      "history": {
+        "stock": {
+          "report": "development/helix-62819-cruise.json",
+          "outcome": "contact-lost",
+          "met": true
+        },
+        "integrated-0a5272b3": {
+          "report": "integrated-0a5272b3/development/helix-62819-cruise.json",
+          "outcome": "contact-lost",
+          "met": true
+        },
+        "integrated-7845d30f": {
+          "report": "integrated-7845d30f/development/helix-62819-cruise.json",
+          "outcome": "contact-lost",
+          "met": true
+        },
+        "integrated-946d2f7e": {
+          "report": "integrated-946d2f7e/development/helix-62819-cruise.json",
+          "outcome": "contact-lost",
+          "met": true
+        }
+      }
+    },
+    {
+      "group": "development",
+      "name": "sky-arch-71023-boost.json",
+      "experiment": {
+        "module": "sky-arch",
+        "seed": 71023,
+        "profile": "boost",
+        "ruleRevision": 2,
+        "inputId": "lb4-release48-boost-yaw",
+        "disposition": "may-reject",
+        "approach": "yaw",
+        "wingmates": 1
+      },
+      "schedule": {
+        "captureTick": 4,
+        "releaseTick": 48,
+        "releasePulse": true,
+        "postReleaseTicks": 16,
+        "yawAxis": 0.45,
+        "wingmates": 1,
+        "launchFrameOffsetMs": 0
+      },
+      "world": {
+        "sha256": "be464bb60483f863e1d71ffe1480c2cc19b4cabe85b391ceabec6051891fd9a9",
+        "bytes": 15584,
+        "layoutSeed": "glb-world:WzEsImJlNDY0YmI2MDQ4M2Y4NjNlMWQ3MWZmZTE0ODBjMmNjMTliNGNhYmU4NWIzOTFjZWFiZWM2MDUxODkxZmQ5YTkiLDAseyJzY2FsZSI6MSwieWF3IjowLCJ1cCI6InkiLCJzcGF3bllhdyI6MCwic3Bhd24iOm51bGx9XQ"
+      },
+      "history": {
+        "stock": {
+          "report": "development/sky-arch-71023-boost.json",
+          "outcome": "glide-and-release",
+          "met": true
+        },
+        "integrated-0a5272b3": {
+          "report": "integrated-0a5272b3/development/sky-arch-71023-boost.json",
+          "outcome": "glide-and-release",
+          "met": true
+        },
+        "integrated-7845d30f": {
+          "report": "integrated-7845d30f/development/sky-arch-71023-boost.json",
+          "outcome": "glide-and-release",
+          "met": true
+        },
+        "integrated-946d2f7e": {
+          "report": "integrated-946d2f7e/development/sky-arch-71023-boost.json",
+          "outcome": "glide-and-release",
+          "met": true
+        }
+      }
+    },
+    {
+      "group": "development",
+      "name": "bowl-79757-cruise.json",
+      "experiment": {
+        "module": "bowl",
+        "seed": 79757,
+        "profile": "cruise",
+        "ruleRevision": 2,
+        "inputId": "lb4-release48-cruise",
+        "disposition": "may-reject",
+        "approach": "entry",
+        "wingmates": 3
+      },
+      "schedule": {
+        "captureTick": 4,
+        "releaseTick": 48,
+        "releasePulse": true,
+        "postReleaseTicks": 16,
+        "yawAxis": 0,
+        "wingmates": 3,
+        "launchFrameOffsetMs": 0
+      },
+      "world": {
+        "sha256": "ce9e41a80cf91c1a74c53be8e2ac5faa5b3647af1f0d33380a8fe5e900e29d93",
+        "bytes": 66380,
+        "layoutSeed": "glb-world:WzEsImNlOWU0MWE4MGNmOTFjMWE3NGM1M2JlOGUyYWM1ZmFhNWIzNjQ3YWYxZjBkMzMzODBhOGZlNWU5MDBlMjlkOTMiLDAseyJzY2FsZSI6MSwieWF3IjowLCJ1cCI6InkiLCJzcGF3bllhdyI6MCwic3Bhd24iOm51bGx9XQ"
+      },
+      "history": {
+        "stock": {
+          "report": "development/bowl-79757-cruise.json",
+          "outcome": "impact",
+          "met": false
+        },
+        "integrated-0a5272b3": {
+          "report": "integrated-0a5272b3/development/bowl-79757-cruise.json",
+          "outcome": "impact",
+          "met": false
+        },
+        "integrated-7845d30f": {
+          "report": "integrated-7845d30f/development/bowl-79757-cruise.json",
+          "outcome": "impact",
+          "met": false
+        },
+        "integrated-946d2f7e": {
+          "report": "integrated-946d2f7e/development/bowl-79757-cruise.json",
+          "outcome": "glide-and-release",
+          "met": true
+        }
+      }
+    },
+    {
+      "group": "development",
+      "name": "tunnel-87337-boost.json",
+      "experiment": {
+        "module": "tunnel",
+        "seed": 87337,
+        "profile": "boost",
+        "ruleRevision": 2,
+        "inputId": "lb4-release48-boost-open-air",
+        "disposition": "must-reject",
+        "approach": "open-air",
+        "wingmates": 1
+      },
+      "schedule": {
+        "captureTick": 4,
+        "releaseTick": 48,
+        "releasePulse": false,
+        "postReleaseTicks": 16,
+        "yawAxis": 0,
+        "wingmates": 1,
+        "launchFrameOffsetMs": 0
+      },
+      "world": {
+        "sha256": "5d75cd8d2521b6c5d46accf2bd71bed055f733eeefe430d893bfcbb5f504ea3c",
+        "bytes": 84956,
+        "layoutSeed": "glb-world:WzEsIjVkNzVjZDhkMjUyMWI2YzVkNDZhY2NmMmJkNzFiZWQwNTVmNzMzZWVlZmU0MzBkODkzYmZjYmI1ZjUwNGVhM2MiLDAseyJzY2FsZSI6MSwieWF3IjowLCJ1cCI6InkiLCJzcGF3bllhdyI6OTAsInNwYXduIjp7IngiOjAsInkiOjEwMDAsInoiOjB9fV0"
+      },
+      "history": {
+        "stock": {
+          "report": "development/tunnel-87337-boost.json",
+          "outcome": "capture-missed",
+          "met": true
+        },
+        "integrated-0a5272b3": {
+          "report": "integrated-0a5272b3/development/tunnel-87337-boost.json",
+          "outcome": "capture-missed",
+          "met": true
+        },
+        "integrated-7845d30f": {
+          "report": "integrated-7845d30f/development/tunnel-87337-boost.json",
+          "outcome": "capture-missed",
+          "met": true
+        },
+        "integrated-946d2f7e": {
+          "report": "integrated-946d2f7e/development/tunnel-87337-boost.json",
+          "outcome": "capture-missed",
+          "met": true
+        }
+      }
+    },
+    {
+      "group": "development",
+      "name": "ribbon-bridge-95603-cruise.json",
+      "experiment": {
+        "module": "ribbon-bridge",
+        "seed": 95603,
+        "profile": "cruise",
+        "ruleRevision": 2,
+        "inputId": "lb4-release36-cruise",
+        "disposition": "must-succeed",
+        "approach": "entry",
+        "wingmates": 2
+      },
+      "schedule": {
+        "captureTick": 4,
+        "releaseTick": 36,
+        "releasePulse": true,
+        "postReleaseTicks": 16,
+        "yawAxis": 0,
+        "wingmates": 2,
+        "launchFrameOffsetMs": 0
+      },
+      "world": {
+        "sha256": "78588147dbc5c430676602bd250f07febca5fe9fee563722c521662dfd4276c1",
+        "bytes": 72664,
+        "layoutSeed": "glb-world:WzEsIjc4NTg4MTQ3ZGJjNWM0MzA2NzY2MDJiZDI1MGYwN2ZlYmNhNWZlOWZlZTU2MzcyMmM1MjE2NjJkZmQ0Mjc2YzEiLDAseyJzY2FsZSI6MSwieWF3IjowLCJ1cCI6InkiLCJzcGF3bllhdyI6MCwic3Bhd24iOm51bGx9XQ"
+      },
+      "history": {
+        "stock": {
+          "report": "development/ribbon-bridge-95603-cruise.json",
+          "outcome": "glide-and-release",
+          "met": true
+        },
+        "integrated-0a5272b3": {
+          "report": "integrated-0a5272b3/development/ribbon-bridge-95603-cruise.json",
+          "outcome": "contact-lost",
+          "met": false
+        },
+        "integrated-7845d30f": {
+          "report": "integrated-7845d30f/development/ribbon-bridge-95603-cruise.json",
+          "outcome": "glide-and-release",
+          "met": true
+        },
+        "integrated-946d2f7e": {
+          "report": "integrated-946d2f7e/development/ribbon-bridge-95603-cruise.json",
+          "outcome": "glide-and-release",
+          "met": true
+        }
+      }
+    },
+    {
+      "group": "holdout",
+      "name": "ribbon-bridge-104729-boost.json",
+      "experiment": {
+        "module": "ribbon-bridge",
+        "seed": 104729,
+        "profile": "boost",
+        "ruleRevision": 2,
+        "inputId": "lb4-release48-boost",
+        "disposition": "must-succeed",
+        "approach": "entry",
+        "wingmates": 3
+      },
+      "schedule": {
+        "captureTick": 4,
+        "releaseTick": 48,
+        "releasePulse": true,
+        "postReleaseTicks": 16,
+        "yawAxis": 0,
+        "wingmates": 3,
+        "launchFrameOffsetMs": 0
+      },
+      "world": {
+        "sha256": "269abb1b4ee7832b0af77d491f3837d55738880831d5628b7e992a11b1472997",
+        "bytes": 72692,
+        "layoutSeed": "glb-world:WzEsIjI2OWFiYjFiNGVlNzgzMmIwYWY3N2Q0OTFmMzgzN2Q1NTczODg4MDgzMWQ1NjI4YjdlOTkyYTExYjE0NzI5OTciLDAseyJzY2FsZSI6MSwieWF3IjowLCJ1cCI6InkiLCJzcGF3bllhdyI6MCwic3Bhd24iOm51bGx9XQ"
+      },
+      "history": {
+        "stock": {
+          "report": "holdout/ribbon-bridge-104729-boost.json",
+          "outcome": "glide-and-release",
+          "met": true
+        },
+        "integrated-0a5272b3": {
+          "report": "integrated-0a5272b3/holdout/ribbon-bridge-104729-boost.json",
+          "outcome": "contact-lost",
+          "met": false
+        },
+        "integrated-7845d30f": {
+          "report": "integrated-7845d30f/holdout/ribbon-bridge-104729-boost.json",
+          "outcome": "impact",
+          "met": false
+        },
+        "integrated-946d2f7e": {
+          "report": "integrated-946d2f7e/holdout/ribbon-bridge-104729-boost.json",
+          "outcome": "glide-and-release",
+          "met": true
+        }
+      }
+    },
+    {
+      "group": "holdout",
+      "name": "s-curve-112909-cruise.json",
+      "experiment": {
+        "module": "s-curve",
+        "seed": 112909,
+        "profile": "cruise",
+        "ruleRevision": 2,
+        "inputId": "lb4-release36-cruise-yaw",
+        "disposition": "may-reject",
+        "approach": "yaw",
+        "wingmates": 0
+      },
+      "schedule": {
+        "captureTick": 4,
+        "releaseTick": 36,
+        "releasePulse": true,
+        "postReleaseTicks": 16,
+        "yawAxis": 0.45,
+        "wingmates": 0,
+        "launchFrameOffsetMs": 0
+      },
+      "world": {
+        "sha256": "aeb8de750e779a4f35b6b1c30f74026f4709760e28dfad3f57c81fee8d60adf0",
+        "bytes": 29544,
+        "layoutSeed": "glb-world:WzEsImFlYjhkZTc1MGU3NzlhNGYzNWI2YjFjMzBmNzQwMjZmNDcwOTc2MGUyOGRmYWQzZjU3YzgxZmVlOGQ2MGFkZjAiLDAseyJzY2FsZSI6MSwieWF3IjowLCJ1cCI6InkiLCJzcGF3bllhdyI6MCwic3Bhd24iOm51bGx9XQ"
+      },
+      "history": {
+        "stock": {
+          "report": "holdout/s-curve-112909-cruise.json",
+          "outcome": "contact-lost",
+          "met": false
+        },
+        "integrated-0a5272b3": {
+          "report": "integrated-0a5272b3/holdout/s-curve-112909-cruise.json",
+          "outcome": "contact-lost",
+          "met": true
+        },
+        "integrated-7845d30f": {
+          "report": "integrated-7845d30f/holdout/s-curve-112909-cruise.json",
+          "outcome": "contact-lost",
+          "met": true
+        },
+        "integrated-946d2f7e": {
+          "report": "integrated-946d2f7e/holdout/s-curve-112909-cruise.json",
+          "outcome": "contact-lost",
+          "met": true
+        }
+      }
+    },
+    {
+      "group": "holdout",
+      "name": "helix-120011-cruise.json",
+      "experiment": {
+        "module": "helix",
+        "seed": 120011,
+        "profile": "cruise",
+        "ruleRevision": 2,
+        "inputId": "lb4-release56-cruise",
+        "disposition": "may-reject",
+        "approach": "entry",
+        "wingmates": 1
+      },
+      "schedule": {
+        "captureTick": 4,
+        "releaseTick": 56,
+        "releasePulse": true,
+        "postReleaseTicks": 16,
+        "yawAxis": 0,
+        "wingmates": 1,
+        "launchFrameOffsetMs": 0
+      },
+      "world": {
+        "sha256": "0f87f1e63cb9a3676443da82198374128a0774f8456e402669151504376841f9",
+        "bytes": 225044,
+        "layoutSeed": "glb-world:WzEsIjBmODdmMWU2M2NiOWEzNjc2NDQzZGE4MjE5ODM3NDEyOGEwNzc0Zjg0NTZlNDAyNjY5MTUxNTA0Mzc2ODQxZjkiLDAseyJzY2FsZSI6MSwieWF3IjowLCJ1cCI6InkiLCJzcGF3bllhdyI6MCwic3Bhd24iOm51bGx9XQ"
+      },
+      "history": {
+        "stock": {
+          "report": "holdout/helix-120011-cruise.json",
+          "outcome": "contact-lost",
+          "met": true
+        },
+        "integrated-0a5272b3": {
+          "report": "integrated-0a5272b3/holdout/helix-120011-cruise.json",
+          "outcome": "contact-lost",
+          "met": true
+        },
+        "integrated-7845d30f": {
+          "report": "integrated-7845d30f/holdout/helix-120011-cruise.json",
+          "outcome": "contact-lost",
+          "met": true
+        },
+        "integrated-946d2f7e": {
+          "report": "integrated-946d2f7e/holdout/helix-120011-cruise.json",
+          "outcome": "contact-lost",
+          "met": true
+        }
+      }
+    },
+    {
+      "group": "holdout",
+      "name": "sky-arch-131071-boost.json",
+      "experiment": {
+        "module": "sky-arch",
+        "seed": 131071,
+        "profile": "boost",
+        "ruleRevision": 2,
+        "inputId": "lb4-release48-boost",
+        "disposition": "may-reject",
+        "approach": "entry",
+        "wingmates": 2
+      },
+      "schedule": {
+        "captureTick": 4,
+        "releaseTick": 48,
+        "releasePulse": true,
+        "postReleaseTicks": 16,
+        "yawAxis": 0,
+        "wingmates": 2,
+        "launchFrameOffsetMs": 0
+      },
+      "world": {
+        "sha256": "4224278d8ff6732987a9fac31368c9a632e1ac10918832022d99ed98896d5641",
+        "bytes": 15588,
+        "layoutSeed": "glb-world:WzEsIjQyMjQyNzhkOGZmNjczMjk4N2E5ZmFjMzEzNjhjOWE2MzJlMWFjMTA5MTg4MzIwMjJkOTllZDk4ODk2ZDU2NDEiLDAseyJzY2FsZSI6MSwieWF3IjowLCJ1cCI6InkiLCJzcGF3bllhdyI6MCwic3Bhd24iOm51bGx9XQ"
+      },
+      "history": {
+        "stock": {
+          "report": "holdout/sky-arch-131071-boost.json",
+          "outcome": "glide-and-release",
+          "met": true
+        },
+        "integrated-0a5272b3": {
+          "report": "integrated-0a5272b3/holdout/sky-arch-131071-boost.json",
+          "outcome": "glide-and-release",
+          "met": true
+        },
+        "integrated-7845d30f": {
+          "report": "integrated-7845d30f/holdout/sky-arch-131071-boost.json",
+          "outcome": "glide-and-release",
+          "met": true
+        },
+        "integrated-946d2f7e": {
+          "report": "integrated-946d2f7e/holdout/sky-arch-131071-boost.json",
+          "outcome": "glide-and-release",
+          "met": true
+        }
+      }
+    },
+    {
+      "group": "holdout",
+      "name": "bowl-140053-cruise.json",
+      "experiment": {
+        "module": "bowl",
+        "seed": 140053,
+        "profile": "cruise",
+        "ruleRevision": 2,
+        "inputId": "lb4-release48-cruise",
+        "disposition": "may-reject",
+        "approach": "entry",
+        "wingmates": 3
+      },
+      "schedule": {
+        "captureTick": 4,
+        "releaseTick": 48,
+        "releasePulse": true,
+        "postReleaseTicks": 16,
+        "yawAxis": 0,
+        "wingmates": 3,
+        "launchFrameOffsetMs": 0
+      },
+      "world": {
+        "sha256": "b11109e5bd46160c50986385d72b856e8f1b7da91626e941340f991385f42daf",
+        "bytes": 68252,
+        "layoutSeed": "glb-world:WzEsImIxMTEwOWU1YmQ0NjE2MGM1MDk4NjM4NWQ3MmI4NTZlOGYxYjdkYTkxNjI2ZTk0MTM0MGY5OTEzODVmNDJkYWYiLDAseyJzY2FsZSI6MSwieWF3IjowLCJ1cCI6InkiLCJzcGF3bllhdyI6MCwic3Bhd24iOm51bGx9XQ"
+      },
+      "history": {
+        "stock": {
+          "report": "holdout/bowl-140053-cruise.json",
+          "outcome": "impact",
+          "met": false
+        },
+        "integrated-0a5272b3": {
+          "report": "integrated-0a5272b3/holdout/bowl-140053-cruise.json",
+          "outcome": "impact",
+          "met": false
+        },
+        "integrated-7845d30f": {
+          "report": "integrated-7845d30f/holdout/bowl-140053-cruise.json",
+          "outcome": "impact",
+          "met": false
+        },
+        "integrated-946d2f7e": {
+          "report": "integrated-946d2f7e/holdout/bowl-140053-cruise.json",
+          "outcome": "glide-and-release",
+          "met": true
+        }
+      }
+    },
+    {
+      "group": "holdout",
+      "name": "tunnel-150001-boost.json",
+      "experiment": {
+        "module": "tunnel",
+        "seed": 150001,
+        "profile": "boost",
+        "ruleRevision": 2,
+        "inputId": "lb4-release48-boost-open-air",
+        "disposition": "must-reject",
+        "approach": "open-air",
+        "wingmates": 2
+      },
+      "schedule": {
+        "captureTick": 4,
+        "releaseTick": 48,
+        "releasePulse": false,
+        "postReleaseTicks": 16,
+        "yawAxis": 0,
+        "wingmates": 2,
+        "launchFrameOffsetMs": 0
+      },
+      "world": {
+        "sha256": "d0b19559a4d49b4815d171619862b12103217607ea9a3c20d0af7d7a6b9c8f04",
+        "bytes": 84952,
+        "layoutSeed": "glb-world:WzEsImQwYjE5NTU5YTRkNDliNDgxNWQxNzE2MTk4NjJiMTIxMDMyMTc2MDdlYTlhM2MyMGQwYWY3ZDdhNmI5YzhmMDQiLDAseyJzY2FsZSI6MSwieWF3IjowLCJ1cCI6InkiLCJzcGF3bllhdyI6OTAsInNwYXduIjp7IngiOjAsInkiOjEwMDAsInoiOjB9fV0"
+      },
+      "history": {
+        "stock": {
+          "report": "holdout/tunnel-150001-boost.json",
+          "outcome": "capture-missed",
+          "met": true
+        },
+        "integrated-0a5272b3": {
+          "report": "integrated-0a5272b3/holdout/tunnel-150001-boost.json",
+          "outcome": "capture-missed",
+          "met": true
+        },
+        "integrated-7845d30f": {
+          "report": "integrated-7845d30f/holdout/tunnel-150001-boost.json",
+          "outcome": "capture-missed",
+          "met": true
+        },
+        "integrated-946d2f7e": {
+          "report": "integrated-946d2f7e/holdout/tunnel-150001-boost.json",
+          "outcome": "capture-missed",
+          "met": true
+        }
+      }
+    },
+    {
+      "group": "second-holdout",
+      "name": "ribbon-bridge-741401678-cruise.json",
+      "experiment": {
+        "module": "ribbon-bridge",
+        "seed": 741401678,
+        "profile": "cruise",
+        "ruleRevision": 2,
+        "inputId": "lb4-release36-cruise",
+        "disposition": "must-succeed",
+        "approach": "entry",
+        "wingmates": 0
+      },
+      "schedule": {
+        "captureTick": 4,
+        "releaseTick": 36,
+        "releasePulse": true,
+        "postReleaseTicks": 16,
+        "yawAxis": 0,
+        "wingmates": 0,
+        "launchFrameOffsetMs": 0
+      },
+      "world": {
+        "sha256": "840cda968635ccb19df630ae0ae1e90a97624735913a8dfa02d06aa80effd856",
+        "bytes": 72444,
+        "layoutSeed": "glb-world:WzEsIjg0MGNkYTk2ODYzNWNjYjE5ZGY2MzBhZTBhZTFlOTBhOTc2MjQ3MzU5MTNhOGRmYTAyZDA2YWE4MGVmZmQ4NTYiLDAseyJzY2FsZSI6MSwieWF3IjowLCJ1cCI6InkiLCJzcGF3bllhdyI6MCwic3Bhd24iOm51bGx9XQ"
+      },
+      "history": {
+        "stock": {
+          "report": "integrated-7845d30f/second-holdout-stock/ribbon-bridge-741401678-cruise.json",
+          "outcome": "glide-and-release",
+          "met": true
+        },
+        "integrated-7845d30f": {
+          "report": "integrated-7845d30f/second-holdout/ribbon-bridge-741401678-cruise.json",
+          "outcome": "glide-and-release",
+          "met": true
+        },
+        "integrated-946d2f7e": {
+          "report": "integrated-946d2f7e/second-holdout/ribbon-bridge-741401678-cruise.json",
+          "outcome": "glide-and-release",
+          "met": true
+        }
+      }
+    },
+    {
+      "group": "second-holdout",
+      "name": "ribbon-bridge-936778437-boost.json",
+      "experiment": {
+        "module": "ribbon-bridge",
+        "seed": 936778437,
+        "profile": "boost",
+        "ruleRevision": 2,
+        "inputId": "lb4-release48-boost",
+        "disposition": "must-succeed",
+        "approach": "entry",
+        "wingmates": 3
+      },
+      "schedule": {
+        "captureTick": 4,
+        "releaseTick": 48,
+        "releasePulse": true,
+        "postReleaseTicks": 16,
+        "yawAxis": 0,
+        "wingmates": 3,
+        "launchFrameOffsetMs": 0
+      },
+      "world": {
+        "sha256": "cf7629c6c0fe6f896bd0035fc8b1b85406999a3af34ff1691c38221583931eb3",
+        "bytes": 72704,
+        "layoutSeed": "glb-world:WzEsImNmNzYyOWM2YzBmZTZmODk2YmQwMDM1ZmM4YjFiODU0MDY5OTlhM2FmMzRmZjE2OTFjMzgyMjE1ODM5MzFlYjMiLDAseyJzY2FsZSI6MSwieWF3IjowLCJ1cCI6InkiLCJzcGF3bllhdyI6MCwic3Bhd24iOm51bGx9XQ"
+      },
+      "history": {
+        "stock": {
+          "report": "integrated-7845d30f/second-holdout-stock/ribbon-bridge-936778437-boost.json",
+          "outcome": "glide-and-release",
+          "met": true
+        },
+        "integrated-7845d30f": {
+          "report": "integrated-7845d30f/second-holdout/ribbon-bridge-936778437-boost.json",
+          "outcome": "glide-and-release",
+          "met": true
+        },
+        "integrated-946d2f7e": {
+          "report": "integrated-946d2f7e/second-holdout/ribbon-bridge-936778437-boost.json",
+          "outcome": "glide-and-release",
+          "met": true
+        }
+      }
+    },
+    {
+      "group": "second-holdout",
+      "name": "ribbon-bridge-1753094196-cruise.json",
+      "experiment": {
+        "module": "ribbon-bridge",
+        "seed": 1753094196,
+        "profile": "cruise",
+        "ruleRevision": 2,
+        "inputId": "lb4-release48-cruise",
+        "disposition": "must-succeed",
+        "approach": "entry",
+        "wingmates": 2
+      },
+      "schedule": {
+        "captureTick": 4,
+        "releaseTick": 48,
+        "releasePulse": true,
+        "postReleaseTicks": 16,
+        "yawAxis": 0,
+        "wingmates": 2,
+        "launchFrameOffsetMs": 0
+      },
+      "world": {
+        "sha256": "2a623d96f937fadd228d823248aa16f7d0b4de9fd7989f3af31cc3888e4df3e0",
+        "bytes": 72616,
+        "layoutSeed": "glb-world:WzEsIjJhNjIzZDk2ZjkzN2ZhZGQyMjhkODIzMjQ4YWExNmY3ZDBiNGRlOWZkNzk4OWYzYWYzMWNjMzg4OGU0ZGYzZTAiLDAseyJzY2FsZSI6MSwieWF3IjowLCJ1cCI6InkiLCJzcGF3bllhdyI6MCwic3Bhd24iOm51bGx9XQ"
+      },
+      "history": {
+        "stock": {
+          "report": "integrated-7845d30f/second-holdout-stock/ribbon-bridge-1753094196-cruise.json",
+          "outcome": "glide-and-release",
+          "met": true
+        },
+        "integrated-7845d30f": {
+          "report": "integrated-7845d30f/second-holdout/ribbon-bridge-1753094196-cruise.json",
+          "outcome": "glide-and-release",
+          "met": true
+        },
+        "integrated-946d2f7e": {
+          "report": "integrated-946d2f7e/second-holdout/ribbon-bridge-1753094196-cruise.json",
+          "outcome": "glide-and-release",
+          "met": true
+        }
+      }
+    },
+    {
+      "group": "second-holdout",
+      "name": "s-curve-873882295-cruise.json",
+      "experiment": {
+        "module": "s-curve",
+        "seed": 873882295,
+        "profile": "cruise",
+        "ruleRevision": 2,
+        "inputId": "lb4-release36-cruise-yaw",
+        "disposition": "may-reject",
+        "approach": "yaw",
+        "wingmates": 1
+      },
+      "schedule": {
+        "captureTick": 4,
+        "releaseTick": 36,
+        "releasePulse": true,
+        "postReleaseTicks": 16,
+        "yawAxis": 0.45,
+        "wingmates": 1,
+        "launchFrameOffsetMs": 0
+      },
+      "world": {
+        "sha256": "cbafee375971a32d8f6b38b25d90f40dd84102d92dd2d995dcf9397af7a8c6e5",
+        "bytes": 29612,
+        "layoutSeed": "glb-world:WzEsImNiYWZlZTM3NTk3MWEzMmQ4ZjZiMzhiMjVkOTBmNDBkZDg0MTAyZDkyZGQyZDk5NWRjZjkzOTdhZjdhOGM2ZTUiLDAseyJzY2FsZSI6MSwieWF3IjowLCJ1cCI6InkiLCJzcGF3bllhdyI6MCwic3Bhd24iOm51bGx9XQ"
+      },
+      "history": {
+        "stock": {
+          "report": "integrated-7845d30f/second-holdout-stock/s-curve-873882295-cruise.json",
+          "outcome": "contact-lost",
+          "met": false
+        },
+        "integrated-7845d30f": {
+          "report": "integrated-7845d30f/second-holdout/s-curve-873882295-cruise.json",
+          "outcome": "contact-lost",
+          "met": true
+        },
+        "integrated-946d2f7e": {
+          "report": "integrated-946d2f7e/second-holdout/s-curve-873882295-cruise.json",
+          "outcome": "contact-lost",
+          "met": true
+        }
+      }
+    },
+    {
+      "group": "second-holdout",
+      "name": "bowl-1085831800-boost.json",
+      "experiment": {
+        "module": "bowl",
+        "seed": 1085831800,
+        "profile": "boost",
+        "ruleRevision": 2,
+        "inputId": "lb4-release36-boost",
+        "disposition": "may-reject",
+        "approach": "entry",
+        "wingmates": 2
+      },
+      "schedule": {
+        "captureTick": 4,
+        "releaseTick": 36,
+        "releasePulse": true,
+        "postReleaseTicks": 16,
+        "yawAxis": 0,
+        "wingmates": 2,
+        "launchFrameOffsetMs": 0
+      },
+      "world": {
+        "sha256": "c5107e80d0b978dc13617bef6d453f4e991425f84cc8f089d2b293ad59784f10",
+        "bytes": 66344,
+        "layoutSeed": "glb-world:WzEsImM1MTA3ZTgwZDBiOTc4ZGMxMzYxN2JlZjZkNDUzZjRlOTkxNDI1Zjg0Y2M4ZjA4OWQyYjI5M2FkNTk3ODRmMTAiLDAseyJzY2FsZSI6MSwieWF3IjowLCJ1cCI6InkiLCJzcGF3bllhdyI6MCwic3Bhd24iOm51bGx9XQ"
+      },
+      "history": {
+        "stock": {
+          "report": "integrated-7845d30f/second-holdout-stock/bowl-1085831800-boost.json",
+          "outcome": "glide-and-release",
+          "met": true
+        },
+        "integrated-7845d30f": {
+          "report": "integrated-7845d30f/second-holdout/bowl-1085831800-boost.json",
+          "outcome": "glide-and-release",
+          "met": true
+        },
+        "integrated-946d2f7e": {
+          "report": "integrated-946d2f7e/second-holdout/bowl-1085831800-boost.json",
+          "outcome": "glide-and-release",
+          "met": true
+        }
+      }
+    },
+    {
+      "group": "second-holdout",
+      "name": "helix-798281854-cruise.json",
+      "experiment": {
+        "module": "helix",
+        "seed": 798281854,
+        "profile": "cruise",
+        "ruleRevision": 2,
+        "inputId": "lb4-release56-cruise",
+        "disposition": "may-reject",
+        "approach": "entry",
+        "wingmates": 1
+      },
+      "schedule": {
+        "captureTick": 4,
+        "releaseTick": 56,
+        "releasePulse": true,
+        "postReleaseTicks": 16,
+        "yawAxis": 0,
+        "wingmates": 1,
+        "launchFrameOffsetMs": 0
+      },
+      "world": {
+        "sha256": "a0087468145d1252f290c92522492f258a5e435c7b8896bd2ae415af3bcc72a1",
+        "bytes": 224680,
+        "layoutSeed": "glb-world:WzEsImEwMDg3NDY4MTQ1ZDEyNTJmMjkwYzkyNTIyNDkyZjI1OGE1ZTQzNWM3Yjg4OTZiZDJhZTQxNWFmM2JjYzcyYTEiLDAseyJzY2FsZSI6MSwieWF3IjowLCJ1cCI6InkiLCJzcGF3bllhdyI6MCwic3Bhd24iOm51bGx9XQ"
+      },
+      "history": {
+        "stock": {
+          "report": "integrated-7845d30f/second-holdout-stock/helix-798281854-cruise.json",
+          "outcome": "contact-lost",
+          "met": true
+        },
+        "integrated-7845d30f": {
+          "report": "integrated-7845d30f/second-holdout/helix-798281854-cruise.json",
+          "outcome": "contact-lost",
+          "met": true
+        },
+        "integrated-946d2f7e": {
+          "report": "integrated-946d2f7e/second-holdout/helix-798281854-cruise.json",
+          "outcome": "contact-lost",
+          "met": true
+        }
+      }
+    },
+    {
+      "group": "second-holdout",
+      "name": "sky-arch-459273010-boost.json",
+      "experiment": {
+        "module": "sky-arch",
+        "seed": 459273010,
+        "profile": "boost",
+        "ruleRevision": 2,
+        "inputId": "lb4-release48-boost-yaw",
+        "disposition": "may-reject",
+        "approach": "yaw",
+        "wingmates": 3
+      },
+      "schedule": {
+        "captureTick": 4,
+        "releaseTick": 48,
+        "releasePulse": true,
+        "postReleaseTicks": 16,
+        "yawAxis": 0.45,
+        "wingmates": 3,
+        "launchFrameOffsetMs": 0
+      },
+      "world": {
+        "sha256": "4fa6893042c3f1fa93ad7d6f17f738b7c1706ade7c0eaee0db94e5148092947a",
+        "bytes": 15588,
+        "layoutSeed": "glb-world:WzEsIjRmYTY4OTMwNDJjM2YxZmE5M2FkN2Q2ZjE3ZjczOGI3YzE3MDZhZGU3YzBlYWVlMGRiOTRlNTE0ODA5Mjk0N2EiLDAseyJzY2FsZSI6MSwieWF3IjowLCJ1cCI6InkiLCJzcGF3bllhdyI6MCwic3Bhd24iOm51bGx9XQ"
+      },
+      "history": {
+        "stock": {
+          "report": "integrated-7845d30f/second-holdout-stock/sky-arch-459273010-boost.json",
+          "outcome": "glide-and-release",
+          "met": true
+        },
+        "integrated-7845d30f": {
+          "report": "integrated-7845d30f/second-holdout/sky-arch-459273010-boost.json",
+          "outcome": "glide-and-release",
+          "met": true
+        },
+        "integrated-946d2f7e": {
+          "report": "integrated-946d2f7e/second-holdout/sky-arch-459273010-boost.json",
+          "outcome": "glide-and-release",
+          "met": true
+        }
+      }
+    },
+    {
+      "group": "second-holdout",
+      "name": "tunnel-1623444429-boost.json",
+      "experiment": {
+        "module": "tunnel",
+        "seed": 1623444429,
+        "profile": "boost",
+        "ruleRevision": 2,
+        "inputId": "lb4-release48-boost-open-air",
+        "disposition": "must-reject",
+        "approach": "open-air",
+        "wingmates": 0
+      },
+      "schedule": {
+        "captureTick": 4,
+        "releaseTick": 48,
+        "releasePulse": false,
+        "postReleaseTicks": 16,
+        "yawAxis": 0,
+        "wingmates": 0,
+        "launchFrameOffsetMs": 0
+      },
+      "world": {
+        "sha256": "83f5d4f5dd8a9d358873ebdd27da45b652d350775a3c387fc330a802547f51e2",
+        "bytes": 84960,
+        "layoutSeed": "glb-world:WzEsIjgzZjVkNGY1ZGQ4YTlkMzU4ODczZWJkZDI3ZGE0NWI2NTJkMzUwNzc1YTNjMzg3ZmMzMzBhODAyNTQ3ZjUxZTIiLDAseyJzY2FsZSI6MSwieWF3IjowLCJ1cCI6InkiLCJzcGF3bllhdyI6OTAsInNwYXduIjp7IngiOjAsInkiOjEwMDAsInoiOjB9fV0"
+      },
+      "history": {
+        "stock": {
+          "report": "integrated-7845d30f/second-holdout-stock/tunnel-1623444429-boost.json",
+          "outcome": "capture-missed",
+          "met": true
+        },
+        "integrated-7845d30f": {
+          "report": "integrated-7845d30f/second-holdout/tunnel-1623444429-boost.json",
+          "outcome": "capture-missed",
+          "met": true
+        },
+        "integrated-946d2f7e": {
+          "report": "integrated-946d2f7e/second-holdout/tunnel-1623444429-boost.json",
+          "outcome": "capture-missed",
+          "met": true
+        }
+      }
+    },
+    {
+      "group": "third-holdout",
+      "name": "ribbon-bridge-2146666385-boost.json",
+      "experiment": {
+        "module": "ribbon-bridge",
+        "seed": 2146666385,
+        "profile": "boost",
+        "ruleRevision": 2,
+        "inputId": "lb4-release36-boost",
+        "disposition": "must-succeed",
+        "approach": "entry",
+        "wingmates": 0
+      },
+      "schedule": {
+        "captureTick": 4,
+        "releaseTick": 36,
+        "releasePulse": true,
+        "postReleaseTicks": 16,
+        "yawAxis": 0,
+        "wingmates": 0,
+        "launchFrameOffsetMs": 0
+      },
+      "world": {
+        "sha256": "f61244a1f52c751c6ebf2d7788e4c246fd813c285a8fb5a3f71e5d22c1569100",
+        "bytes": 72668,
+        "layoutSeed": "glb-world:WzEsImY2MTI0NGExZjUyYzc1MWM2ZWJmMmQ3Nzg4ZTRjMjQ2ZmQ4MTNjMjg1YThmYjVhM2Y3MWU1ZDIyYzE1NjkxMDAiLDAseyJzY2FsZSI6MSwieWF3IjowLCJ1cCI6InkiLCJzcGF3bllhdyI6MCwic3Bhd24iOm51bGx9XQ"
+      },
+      "history": {
+        "stock": {
+          "report": "integrated-946d2f7e/third-holdout-stock/ribbon-bridge-2146666385-boost.json",
+          "outcome": "glide-and-release",
+          "met": true
+        },
+        "integrated-946d2f7e": {
+          "report": "integrated-946d2f7e/third-holdout/ribbon-bridge-2146666385-boost.json",
+          "outcome": "glide-and-release",
+          "met": true
+        }
+      }
+    },
+    {
+      "group": "third-holdout",
+      "name": "ribbon-bridge-1566703471-boost.json",
+      "experiment": {
+        "module": "ribbon-bridge",
+        "seed": 1566703471,
+        "profile": "boost",
+        "ruleRevision": 2,
+        "inputId": "lb4-release48-boost",
+        "disposition": "must-succeed",
+        "approach": "entry",
+        "wingmates": 3
+      },
+      "schedule": {
+        "captureTick": 4,
+        "releaseTick": 48,
+        "releasePulse": true,
+        "postReleaseTicks": 16,
+        "yawAxis": 0,
+        "wingmates": 3,
+        "launchFrameOffsetMs": 0
+      },
+      "world": {
+        "sha256": "e85ab213a40a7975deef2260c1dedb0e02dc3e4e4d3e3ba3c0ad9378d156dcd8",
+        "bytes": 72720,
+        "layoutSeed": "glb-world:WzEsImU4NWFiMjEzYTQwYTc5NzVkZWVmMjI2MGMxZGVkYjBlMDJkYzNlNGU0ZDNlM2JhM2MwYWQ5Mzc4ZDE1NmRjZDgiLDAseyJzY2FsZSI6MSwieWF3IjowLCJ1cCI6InkiLCJzcGF3bllhdyI6MCwic3Bhd24iOm51bGx9XQ"
+      },
+      "history": {
+        "stock": {
+          "report": "integrated-946d2f7e/third-holdout-stock/ribbon-bridge-1566703471-boost.json",
+          "outcome": "glide-and-release",
+          "met": true
+        },
+        "integrated-946d2f7e": {
+          "report": "integrated-946d2f7e/third-holdout/ribbon-bridge-1566703471-boost.json",
+          "outcome": "glide-and-release",
+          "met": true
+        }
+      }
+    },
+    {
+      "group": "third-holdout",
+      "name": "ribbon-bridge-1360618348-boost.json",
+      "experiment": {
+        "module": "ribbon-bridge",
+        "seed": 1360618348,
+        "profile": "boost",
+        "ruleRevision": 2,
+        "inputId": "lb4-release48-boost",
+        "disposition": "must-succeed",
+        "approach": "entry",
+        "wingmates": 1
+      },
+      "schedule": {
+        "captureTick": 4,
+        "releaseTick": 48,
+        "releasePulse": true,
+        "postReleaseTicks": 16,
+        "yawAxis": 0,
+        "wingmates": 1,
+        "launchFrameOffsetMs": 0
+      },
+      "world": {
+        "sha256": "0ce151c82478da2ab5f467dd994ac3e2699e577a9c3b13167483732b5ee4da33",
+        "bytes": 72564,
+        "layoutSeed": "glb-world:WzEsIjBjZTE1MWM4MjQ3OGRhMmFiNWY0NjdkZDk5NGFjM2UyNjk5ZTU3N2E5YzNiMTMxNjc0ODM3MzJiNWVlNGRhMzMiLDAseyJzY2FsZSI6MSwieWF3IjowLCJ1cCI6InkiLCJzcGF3bllhdyI6MCwic3Bhd24iOm51bGx9XQ"
+      },
+      "history": {
+        "stock": {
+          "report": "integrated-946d2f7e/third-holdout-stock/ribbon-bridge-1360618348-boost.json",
+          "outcome": "glide-and-release",
+          "met": true
+        },
+        "integrated-946d2f7e": {
+          "report": "integrated-946d2f7e/third-holdout/ribbon-bridge-1360618348-boost.json",
+          "outcome": "glide-and-release",
+          "met": true
+        }
+      }
+    },
+    {
+      "group": "third-holdout",
+      "name": "s-curve-661077278-cruise.json",
+      "experiment": {
+        "module": "s-curve",
+        "seed": 661077278,
+        "profile": "cruise",
+        "ruleRevision": 2,
+        "inputId": "lb4-release36-cruise-yaw",
+        "disposition": "may-reject",
+        "approach": "yaw",
+        "wingmates": 2
+      },
+      "schedule": {
+        "captureTick": 4,
+        "releaseTick": 36,
+        "releasePulse": true,
+        "postReleaseTicks": 16,
+        "yawAxis": 0.45,
+        "wingmates": 2,
+        "launchFrameOffsetMs": 0
+      },
+      "world": {
+        "sha256": "74d0528b124f07781d8883764dbd6ade07edfb98d5a102f3417eb23139fbe075",
+        "bytes": 29556,
+        "layoutSeed": "glb-world:WzEsIjc0ZDA1MjhiMTI0ZjA3NzgxZDg4ODM3NjRkYmQ2YWRlMDdlZGZiOThkNWExMDJmMzQxN2ViMjMxMzlmYmUwNzUiLDAseyJzY2FsZSI6MSwieWF3IjowLCJ1cCI6InkiLCJzcGF3bllhdyI6MCwic3Bhd24iOm51bGx9XQ"
+      },
+      "history": {
+        "stock": {
+          "report": "integrated-946d2f7e/third-holdout-stock/s-curve-661077278-cruise.json",
+          "outcome": "contact-lost",
+          "met": false
+        },
+        "integrated-946d2f7e": {
+          "report": "integrated-946d2f7e/third-holdout/s-curve-661077278-cruise.json",
+          "outcome": "contact-lost",
+          "met": false
+        }
+      }
+    },
+    {
+      "group": "third-holdout",
+      "name": "helix-699134824-boost.json",
+      "experiment": {
+        "module": "helix",
+        "seed": 699134824,
+        "profile": "boost",
+        "ruleRevision": 2,
+        "inputId": "lb4-release56-boost",
+        "disposition": "may-reject",
+        "approach": "entry",
+        "wingmates": 1
+      },
+      "schedule": {
+        "captureTick": 4,
+        "releaseTick": 56,
+        "releasePulse": true,
+        "postReleaseTicks": 16,
+        "yawAxis": 0,
+        "wingmates": 1,
+        "launchFrameOffsetMs": 0
+      },
+      "world": {
+        "sha256": "46008b178a2473e40733146cf1bc5ac53838ea081080f04d89ffb152c863350b",
+        "bytes": 225196,
+        "layoutSeed": "glb-world:WzEsIjQ2MDA4YjE3OGEyNDczZTQwNzMzMTQ2Y2YxYmM1YWM1MzgzOGVhMDgxMDgwZjA0ZDg5ZmZiMTUyYzg2MzM1MGIiLDAseyJzY2FsZSI6MSwieWF3IjowLCJ1cCI6InkiLCJzcGF3bllhdyI6MCwic3Bhd24iOm51bGx9XQ"
+      },
+      "history": {
+        "stock": {
+          "report": "integrated-946d2f7e/third-holdout-stock/helix-699134824-boost.json",
+          "outcome": "contact-lost",
+          "met": true
+        },
+        "integrated-946d2f7e": {
+          "report": "integrated-946d2f7e/third-holdout/helix-699134824-boost.json",
+          "outcome": "contact-lost",
+          "met": true
+        }
+      }
+    },
+    {
+      "group": "third-holdout",
+      "name": "sky-arch-1173553645-cruise.json",
+      "experiment": {
+        "module": "sky-arch",
+        "seed": 1173553645,
+        "profile": "cruise",
+        "ruleRevision": 2,
+        "inputId": "lb4-release48-cruise-open-air",
+        "disposition": "must-reject",
+        "approach": "open-air",
+        "wingmates": 0
+      },
+      "schedule": {
+        "captureTick": 4,
+        "releaseTick": 48,
+        "releasePulse": false,
+        "postReleaseTicks": 16,
+        "yawAxis": 0,
+        "wingmates": 0,
+        "launchFrameOffsetMs": 0
+      },
+      "world": {
+        "sha256": "4816a6075fd02be41e674d32fd0e834dae78e70e6ab7bd5f9821e690b88820bb",
+        "bytes": 16780,
+        "layoutSeed": "glb-world:WzEsIjQ4MTZhNjA3NWZkMDJiZTQxZTY3NGQzMmZkMGU4MzRkYWU3OGU3MGU2YWI3YmQ1Zjk4MjFlNjkwYjg4ODIwYmIiLDAseyJzY2FsZSI6MSwieWF3IjowLCJ1cCI6InkiLCJzcGF3bllhdyI6OTAsInNwYXduIjp7IngiOjAsInkiOjEwMDAsInoiOjB9fV0"
+      },
+      "history": {
+        "stock": {
+          "report": "integrated-946d2f7e/third-holdout-stock/sky-arch-1173553645-cruise.json",
+          "outcome": "capture-missed",
+          "met": true
+        },
+        "integrated-946d2f7e": {
+          "report": "integrated-946d2f7e/third-holdout/sky-arch-1173553645-cruise.json",
+          "outcome": "capture-missed",
+          "met": true
+        }
+      }
+    },
+    {
+      "group": "legacy",
+      "name": "contact-deck-8131-boost.json",
+      "experiment": {
+        "module": "contact-deck",
+        "seed": 8131,
+        "profile": "boost",
+        "ruleRevision": 0,
+        "inputId": "lb4-release48-boost",
+        "disposition": "may-reject",
+        "approach": "entry",
+        "wingmates": 3
+      },
+      "schedule": {
+        "captureTick": 4,
+        "releaseTick": 48,
+        "releasePulse": true,
+        "postReleaseTicks": 16,
+        "yawAxis": 0,
+        "wingmates": 3,
+        "launchFrameOffsetMs": 0
+      },
+      "world": {
+        "sha256": "243949bbceae959ee58da971859bd5f614bf4b2f30ae7e5cf711fb3f597d89f3",
+        "bytes": 72744,
+        "layoutSeed": "glb-world:WzEsIjI0Mzk0OWJiY2VhZTk1OWVlNThkYTk3MTg1OWJkNWY2MTRiZjRiMmYzMGFlN2U1Y2Y3MTFmYjNmNTk3ZDg5ZjMiLDAseyJzY2FsZSI6MSwieWF3IjowLCJ1cCI6InkiLCJzcGF3bllhdyI6MCwic3Bhd24iOm51bGx9XQ"
+      },
+      "history": {
+        "stock": {
+          "report": "baseline/contact-deck-8131-boost.json",
+          "outcome": "glide-and-release",
+          "met": true
+        },
+        "integrated-0a5272b3": {
+          "report": "integrated-0a5272b3/legacy/contact-deck-8131-boost.json",
+          "outcome": "glide-and-release",
+          "met": true
+        },
+        "integrated-7845d30f": {
+          "report": "integrated-7845d30f/legacy/contact-deck-8131-boost.json",
+          "outcome": "glide-and-release",
+          "met": true
+        },
+        "integrated-946d2f7e": {
+          "report": "integrated-946d2f7e/legacy/contact-deck-8131-boost.json",
+          "outcome": "glide-and-release",
+          "met": true
+        }
+      },
+      "releaseArchiveMember": "examples/contact.glb"
+    },
+    {
+      "group": "legacy",
+      "name": "contact-deck-8131-cruise.json",
+      "experiment": {
+        "module": "contact-deck",
+        "seed": 8131,
+        "profile": "cruise",
+        "ruleRevision": 0,
+        "inputId": "lb4-release48-cruise",
+        "disposition": "must-succeed",
+        "approach": "entry",
+        "wingmates": 3
+      },
+      "schedule": {
+        "captureTick": 4,
+        "releaseTick": 48,
+        "releasePulse": true,
+        "postReleaseTicks": 16,
+        "yawAxis": 0,
+        "wingmates": 3,
+        "launchFrameOffsetMs": 0
+      },
+      "world": {
+        "sha256": "243949bbceae959ee58da971859bd5f614bf4b2f30ae7e5cf711fb3f597d89f3",
+        "bytes": 72744,
+        "layoutSeed": "glb-world:WzEsIjI0Mzk0OWJiY2VhZTk1OWVlNThkYTk3MTg1OWJkNWY2MTRiZjRiMmYzMGFlN2U1Y2Y3MTFmYjNmNTk3ZDg5ZjMiLDAseyJzY2FsZSI6MSwieWF3IjowLCJ1cCI6InkiLCJzcGF3bllhdyI6MCwic3Bhd24iOm51bGx9XQ"
+      },
+      "history": {
+        "stock": {
+          "report": "baseline/contact-deck-8131-cruise.json",
+          "outcome": "glide-and-release",
+          "met": true
+        },
+        "integrated-0a5272b3": {
+          "report": "integrated-0a5272b3/legacy/contact-deck-8131-cruise.json",
+          "outcome": "glide-and-release",
+          "met": true
+        },
+        "integrated-7845d30f": {
+          "report": "integrated-7845d30f/legacy/contact-deck-8131-cruise.json",
+          "outcome": "glide-and-release",
+          "met": true
+        },
+        "integrated-946d2f7e": {
+          "report": "integrated-946d2f7e/legacy/contact-deck-8131-cruise.json",
+          "outcome": "glide-and-release",
+          "met": true
+        }
+      },
+      "releaseArchiveMember": "examples/contact.glb"
+    },
+    {
+      "group": "legacy",
+      "name": "relay-district-8131-cruise.json",
+      "experiment": {
+        "module": "relay-district",
+        "seed": 8131,
+        "profile": "cruise",
+        "ruleRevision": 0,
+        "inputId": "lb4-release74-cruise",
+        "disposition": "must-succeed",
+        "approach": "entry",
+        "wingmates": 3
+      },
+      "schedule": {
+        "captureTick": 4,
+        "releaseTick": 74,
+        "releasePulse": true,
+        "postReleaseTicks": 16,
+        "yawAxis": 0,
+        "wingmates": 3,
+        "launchFrameOffsetMs": 0
+      },
+      "world": {
+        "sha256": "a707d463ce3279c9517d51b3dccde296c461eea2131b214315923b58b4f383d0",
+        "bytes": 18928,
+        "layoutSeed": "glb-world:WzEsImE3MDdkNDYzY2UzMjc5Yzk1MTdkNTFiM2RjY2RlMjk2YzQ2MWVlYTIxMzFiMjE0MzE1OTIzYjU4YjRmMzgzZDAiLDAseyJzY2FsZSI6MSwieWF3IjowLCJ1cCI6InkiLCJzcGF3bllhdyI6MCwic3Bhd24iOm51bGx9XQ"
+      },
+      "history": {
+        "stock": {
+          "report": "baseline/relay-district-8131-cruise.json",
+          "outcome": "contact-lost",
+          "met": false
+        },
+        "integrated-0a5272b3": {
+          "report": "integrated-0a5272b3/legacy/relay-district-8131-cruise.json",
+          "outcome": "contact-lost",
+          "met": false
+        },
+        "integrated-7845d30f": {
+          "report": "integrated-7845d30f/legacy/relay-district-8131-cruise.json",
+          "outcome": "contact-lost",
+          "met": false
+        },
+        "integrated-946d2f7e": {
+          "report": "integrated-946d2f7e/legacy/relay-district-8131-cruise.json",
+          "outcome": "contact-lost",
+          "met": false
+        }
+      },
+      "releaseArchiveMember": "examples/district.glb"
+    }
+  ]
+}
