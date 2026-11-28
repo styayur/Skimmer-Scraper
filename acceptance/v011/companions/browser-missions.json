@@ -1,0 +1,208 @@
+{
+  "browser": "159.0.8154.6",
+  "fixedHz": 120,
+  "command": "npm run test:e2e -- tests/e2e/semantic-missions.spec.ts",
+  "seconds": 38,
+  "pilotHeld": true,
+  "targets": [
+    {
+      "id": "site-4-70088325",
+      "kind": "route",
+      "semanticKind": "socket",
+      "position": {
+        "x": -13.999999999999986,
+        "y": 28,
+        "z": 28
+      },
+      "clearance": 26,
+      "capabilities": [
+        "scout"
+      ]
+    },
+    {
+      "id": "site-4-2396275027",
+      "kind": "route",
+      "semanticKind": "escape",
+      "position": {
+        "x": 14.000000000000014,
+        "y": 28,
+        "z": 28
+      },
+      "clearance": 26,
+      "capabilities": [
+        "release"
+      ]
+    },
+    {
+      "id": "site-4-968827269",
+      "kind": "structure",
+      "semanticKind": "surface",
+      "position": {
+        "x": 0,
+        "y": 28,
+        "z": 30
+      },
+      "clearance": 26,
+      "capabilities": [
+        "glide"
+      ]
+    },
+    {
+      "id": "site-4-4019631404",
+      "kind": "structure",
+      "semanticKind": "landmark",
+      "position": {
+        "x": 0,
+        "y": 26.43462901069936,
+        "z": 38.885319640254316
+      },
+      "clearance": 24.43462901069936,
+      "capabilities": [
+        "inspect",
+        "guide"
+      ]
+    },
+    {
+      "id": "site-4-3933167124",
+      "kind": "structure",
+      "semanticKind": "landmark",
+      "position": {
+        "x": -4.263256414560601e-14,
+        "y": 28,
+        "z": 42
+      },
+      "clearance": 26,
+      "capabilities": [
+        "inspect",
+        "guide",
+        "glide"
+      ]
+    },
+    {
+      "id": "site-4-3019844856",
+      "kind": "route",
+      "semanticKind": "route",
+      "position": {
+        "x": 0,
+        "y": 35,
+        "z": -23
+      },
+      "clearance": 33,
+      "capabilities": [
+        "scout",
+        "release"
+      ]
+    }
+  ],
+  "missions": [
+    {
+      "id": "4-2/3",
+      "requestId": "4-2",
+      "epoch": 4,
+      "agentId": 3,
+      "type": "SCOUT_BRANCH",
+      "targetId": "site-4-70088325",
+      "priority": "local",
+      "phase": "return",
+      "started": 8.000000000000187,
+      "deadline": 53.000000000000185,
+      "progress": 1,
+      "observed": "branch",
+      "outcome": "completed",
+      "reason": "returned"
+    },
+    {
+      "id": "4-2/1",
+      "requestId": "4-2",
+      "epoch": 4,
+      "agentId": 1,
+      "type": "FIND_GLIDE_ROUTE",
+      "targetId": "site-4-968827269",
+      "priority": "local",
+      "phase": "return",
+      "started": 8.000000000000187,
+      "deadline": 53.000000000000185,
+      "progress": 1,
+      "observed": "glide-route",
+      "outcome": "completed",
+      "reason": "returned"
+    },
+    {
+      "id": "4-2/2",
+      "requestId": "4-2",
+      "epoch": 4,
+      "agentId": 2,
+      "type": "FIND_ESCAPE",
+      "targetId": "site-4-2396275027",
+      "priority": "local",
+      "phase": "return",
+      "started": 8.000000000000187,
+      "deadline": 53.000000000000185,
+      "progress": 1,
+      "observed": "escape",
+      "outcome": "completed",
+      "reason": "returned"
+    }
+  ],
+  "from": [
+    {
+      "x": -6.7261595658640845,
+      "y": 42.6505025626729,
+      "z": 3.8592681285566783
+    },
+    {
+      "x": 12.486187234402372,
+      "y": 44.75218213882776,
+      "z": 21.855589344330806
+    },
+    {
+      "x": -6.14374914044928,
+      "y": 47.18221242286415,
+      "z": 37.84937418174782
+    }
+  ],
+  "to": [
+    {
+      "x": -14.90758545910328,
+      "y": 32.819587825482394,
+      "z": 6.129755961764872
+    },
+    {
+      "x": 23.899697830838303,
+      "y": 35.085856894167634,
+      "z": 27.835520489812488
+    },
+    {
+      "x": 13.124626884044718,
+      "y": 52.68968107798682,
+      "z": 45.91530991857631
+    }
+  ],
+  "impacts": [
+    0,
+    0,
+    0
+  ],
+  "requests": 0,
+  "entries": [
+    [
+      "visit",
+      "visit"
+    ],
+    [
+      "mission",
+      "SCOUT_BRANCH"
+    ],
+    [
+      "mission",
+      "FIND_GLIDE_ROUTE"
+    ],
+    [
+      "mission",
+      "FIND_ESCAPE"
+    ]
+  ],
+  "worldFingerprint": 528663008,
+  "externalRequests": [],
+  "pageErrors": []
+}
