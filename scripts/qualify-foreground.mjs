@@ -252,13 +252,21 @@ try {
   throw error;
 } finally {
   monitorLines?.close();
-  if (monitor && monitor.exitCode === null) monitor.kill();
+  if (monitor && monitor.exitCode === null && monitor.signalCode === null) {
+    const exited = once(monitor, 'exit');
+    monitor.kill();
+    await exited;
+  }
   await browser?.close().catch(() => {});
-  if (app?.pid && app.exitCode === null) {
+  if (app?.pid && app.exitCode === null && app.signalCode === null) {
     execFileSync('powershell.exe', ['-NoProfile', '-NonInteractive', '-Command',
-      `(Get-Process -Id ${app.pid} -ErrorAction SilentlyContinue).CloseMainWindow()`], { windowsHide: true, stdio: 'ignore' });
-    for (let i = 0; i < 50 && app.exitCode === null; i++) await delay(100);
-    if (app.exitCode === null) app.kill();
+      `$client = Get-Process -Id ${app.pid} -ErrorAction SilentlyContinue; if ($client) { $null = $client.CloseMainWindow() }`], { windowsHide: true, stdio: 'ignore' });
+    for (let i = 0; i < 50 && app.exitCode === null && app.signalCode === null; i++) await delay(100);
+    if (app.exitCode === null && app.signalCode === null) {
+      const exited = once(app, 'exit');
+      app.kill();
+      await exited;
+    }
   }
   await server?.close();
   const owned = await realpath(scratch);

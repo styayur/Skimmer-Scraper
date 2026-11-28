@@ -49,6 +49,13 @@ the last 300 seconds ran on different worlds, seed 2436865534 for stock and
 were unavailable in this first pair. The data establish a Windows mean-FPS
 failure and leave its cause undetermined. [Stock Windows samples](v0.10.0/windows/) · [Candidate Windows samples](candidate-0a5272b/windows/)
 
+Every sampled Windows glide state was `FLIGHT` in both versions, 946 stock
+samples and 942 candidate samples. In this state the candidate returns from
+`stepGlide` before terrain-following work. The automatic semantic survey also
+checks for independent companion behavior before computing a perception. The
+fresh-profile default is formation. A function-level CPU profile would be
+needed to attribute the regression to a particular call. [Flight-state guard](https://github.com/styayur/Skimmer-Scraper/blob/0a5272b36352a1300253080bd38cfb5d520c7e0d/src/flight/surfaceGlide.ts#L138-L143) · [Survey guard](https://github.com/styayur/Skimmer-Scraper/blob/0a5272b36352a1300253080bd38cfb5d520c7e0d/src/ai/SymbiosisRuntime.ts#L492-L499) · [Companion defaults](https://github.com/styayur/Skimmer-Scraper/blob/0a5272b36352a1300253080bd38cfb5d520c7e0d/src/companions/settings.ts#L6-L11)
+
 | Kinetic City | Simulation / wall | Mean FPS | p95 | Peak chunks / cap | Peak BVHs | Peak resident geometry | Peak collision triangles |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
 | Web | 181.4 / 228.0 s | 98.12 | 16.8 ms | 36 / 41 | 36 | 17,925,264 B | 100,188 |
