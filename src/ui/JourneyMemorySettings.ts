@@ -6,7 +6,6 @@ export function bindJourneyMemory(journal: JourneyMemory) {
   const labels = journeyText(selectedLocale);
   const panel = document.createElement('details');
   panel.id = 'journey-memory-settings';
-  panel.className = 'model-settings';
   panel.innerHTML = `<summary>${labels.title}</summary>
     <label><input id="journey-memory-enabled" type="checkbox">${labels.enabled}</label>
     <label><input id="journey-memory-share" type="checkbox">${labels.share}</label>
