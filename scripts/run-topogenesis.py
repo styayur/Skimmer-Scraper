@@ -15,6 +15,7 @@ parser.add_argument("output", type=Path, help="New directory, or an existing dir
 parser.add_argument("--revision", type=int, choices=[0, 1, 2], default=0)
 parser.add_argument("--url", default="http://127.0.0.1:4173")
 parser.add_argument("--browser")
+parser.add_argument("--verify-with", type=Path, help="Regenerate the GLB and validate an existing report with the producer reader")
 parser.add_argument("--only", help="Filter by module or decimal seed")
 parser.add_argument("--resume", action="store_true", help="Reuse completed reports matching the frozen case and controller")
 args = parser.parse_args()
@@ -32,7 +33,9 @@ if not rows:
     parser.error("No matching case")
 for module, seed, profile, tick, disposition, approach, wingmates in rows:
     report = args.output / f"{module}-{seed}-{profile}.json"
-    if report.exists():
+    if args.verify_with and not report.is_file():
+        parser.error(f"Missing report to verify: {report}")
+    if report.exists() and not args.verify_with:
         if args.resume:
             saved = json.loads(report.read_text())
             expected = dict(module=module, seed=seed, profile=profile, ruleRevision=args.revision,
@@ -51,14 +54,23 @@ for module, seed, profile, tick, disposition, approach, wingmates in rows:
         elif module == "lattice":
             subprocess.run(["node", "tools/export-exchange.js", "examples/lattice.json", str(asset)],
                            cwd=producer, check=True)
+        elif module in {"cruise-deck", "boost-deck"}:
+            preset = module.removesuffix("-deck")
+            subprocess.run(["node", "tools/generate-contact-study.js", "examples/lattice.json",
+                            f"examples/profiles/skimmer-{preset}.json", str(seed), str(asset.with_suffix(""))],
+                           cwd=producer, check=True)
         else:
             asset = producer / "examples" / ("contact.glb" if module == "contact-deck" else "district.glb")
+        if args.verify_with:
+            verified = json.loads(subprocess.check_output(["node", str(args.verify_with.resolve()), str(asset), str(report)]))
+            print(report, verified["sha256"], verified["outcome"])
+            continue
         input_id = f"lb4-release{tick}-{profile}"
         if approach != "entry":
             input_id += "-" + approach
         case = dict(module=module, seed=seed, profile=profile, ruleRevision=args.revision, inputId=input_id,
                     disposition=disposition, approach=approach, wingmates=wingmates)
-        command = [sys.executable, str(root / "scripts/measure-import-flight.py"), str(asset), str(report),
+        command = [sys.executable, "-B", str(root / "scripts/measure-import-flight.py"), str(asset), str(report),
                    "--url", args.url, "--release-tick", str(tick), "--case", json.dumps(case)]
         if args.browser:
             command.extend(["--browser", args.browser])
