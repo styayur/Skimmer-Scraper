@@ -1,0 +1,2588 @@
+{
+  "schema": "kinetic-residency-evidence-1",
+  "source": "c4bc8eac5425197ebb08c937316de415e75b89b1",
+  "catalog": "02d807f0ae74a011c45043d0fa0144260c5e36236c2d1695b912e839f9d9dabd",
+  "seed": 4294967295,
+  "mode": "ephemeral",
+  "cells": [
+    {
+      "x": -10,
+      "z": -7
+    },
+    {
+      "x": 11,
+      "z": -8
+    },
+    {
+      "x": 9,
+      "z": 10
+    },
+    {
+      "x": -12,
+      "z": 9
+    }
+  ],
+  "park": {
+    "x": 96,
+    "z": -96
+  },
+  "workflowRun": "46123403397",
+  "workflowAttempt": "1",
+  "observer": "53a89b3898bf64aba0f55bb0c901dc46aa730a7b",
+  "method": "Shipping production browser at the title screen. setPose drives normal coverage, scheduling, worker generation and retirement. Chromium inspector reads the active world closed over by glideSurface. The hashed typed arrays belong to the indexed live MeshBVH.geometry. Coordinate and index bytes are concatenated in that order, including their actual view offsets and lengths. All relocation, alignment and eviction data is retained.",
+  "startedUtc": "2026-11-28T07:55:59.884Z",
+  "stage": "reverse after -12:9",
+  "orders": {
+    "forward": {
+      "initial": {
+        "seed": 4294967295,
+        "mode": "ephemeral",
+        "fingerprint": 4094860385,
+        "spawn": {
+          "x": 103,
+          "y": 98,
+          "z": 880
+        },
+        "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+        "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/159.0.8154.6 Safari/537.36"
+      },
+      "workers": [
+        "http://127.0.0.1:4175/assets/cityChunk.worker-kxNDcCkz.js"
+      ],
+      "browserErrors": [],
+      "warm": [
+        {
+          "requested": "-10:-7",
+          "active": {
+            "cell": "-10:-7",
+            "id": "chunk:-10:-7:r1",
+            "worldFingerprint": 4094860385,
+            "revision": 1,
+            "chunkFingerprint": 4128905008,
+            "publicState": {
+              "key": "-10:-7",
+              "state": "ACTIVE",
+              "revision": 1,
+              "fingerprint": 4128905008,
+              "layout": "sky-arch"
+            },
+            "layout": "sky-arch",
+            "origin": {
+              "x": -2200,
+              "y": 0,
+              "z": -1540
+            },
+            "socket": {
+              "id": "kinetic-grid-1-r2.4294967295.N.-10.-7",
+              "position": {
+                "x": -2100,
+                "y": 94,
+                "z": -1540
+              },
+              "lease": "1.19"
+            },
+            "geometryUuid": "bd14bcd0-4aa1-4f6e-82e6-b3fc709274e7",
+            "contact": {
+              "chunkId": "chunk:-10:-7:r1",
+              "logicalSurfaceId": "kinetic-grid-1-r2.4294967295.spine.-10",
+              "distance": 0.09947242022192988
+            },
+            "workerBuildMs": 3.900000000001455,
+            "active": 32,
+            "bvhs": 32,
+            "cap": 41,
+            "retiredTotal": 18,
+            "disposedGeometryCount": 64,
+            "renderOrigin": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "history": {
+              "key": "-10:-7",
+              "chunkX": -10,
+              "chunkZ": -7,
+              "revision": 1,
+              "retireCount": 0,
+              "lastUsed": 33
+            },
+            "positionType": "Float32Array",
+            "indexType": "Uint16Array",
+            "positionBytes": 75312,
+            "indexBytes": 13188,
+            "triangles": 2198,
+            "collisionSha256": "da50301491886dbf85cf3110d3df5bfe5c0b2fa031a23d2f99c3c201238781b2",
+            "positionSha256": "469beac2fd11d07672900e4683c2373866b3a4ab68b63e584107dd4b269623d7",
+            "indexSha256": "0aa65790da358cb8bc69840b951f5fc6151056c27b9d755cba56ff7b244d3f33"
+          },
+          "evicted": {
+            "cell": "-10:-7",
+            "id": "chunk:-10:-7:r1",
+            "oldLease": "1.19",
+            "managed": false,
+            "indexed": false,
+            "socketStillExposed": false,
+            "leaseStillExposed": false,
+            "history": {
+              "key": "-10:-7",
+              "chunkX": -10,
+              "chunkZ": -7,
+              "revision": 2,
+              "retireCount": 1,
+              "lastUsed": 108
+            },
+            "epoch": 2,
+            "historySize": 81,
+            "historyCap": 256,
+            "retiredTotal": 50,
+            "disposedGeometryCount": 187,
+            "active": 32,
+            "bvhs": 32,
+            "cap": 41,
+            "renderOrigin": {
+              "x": 20000,
+              "y": 0,
+              "z": -20000
+            }
+          }
+        },
+        {
+          "requested": "11:-8",
+          "active": {
+            "cell": "11:-8",
+            "id": "chunk:11:-8:r3",
+            "worldFingerprint": 4094860385,
+            "revision": 3,
+            "chunkFingerprint": 2461164613,
+            "publicState": {
+              "key": "11:-8",
+              "state": "ACTIVE",
+              "revision": 3,
+              "fingerprint": 2461164613,
+              "layout": "sky-arch"
+            },
+            "layout": "sky-arch",
+            "origin": {
+              "x": 2420,
+              "y": 0,
+              "z": -1760
+            },
+            "socket": {
+              "id": "kinetic-grid-1-r2.4294967295.N.11.-8",
+              "position": {
+                "x": 2534,
+                "y": 87,
+                "z": -1760
+              },
+              "lease": "1.83"
+            },
+            "geometryUuid": "b8070b07-45fb-462c-af07-a30079c1882f",
+            "contact": {
+              "chunkId": "chunk:11:-8:r3",
+              "logicalSurfaceId": "kinetic-grid-1-r2.4294967295.spine.11",
+              "distance": 0.09909461493615405
+            },
+            "workerBuildMs": 2.900000000001455,
+            "active": 32,
+            "bvhs": 32,
+            "cap": 41,
+            "retiredTotal": 82,
+            "disposedGeometryCount": 305,
+            "renderOrigin": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "history": {
+              "key": "11:-8",
+              "chunkX": 11,
+              "chunkZ": -8,
+              "revision": 3,
+              "retireCount": 0,
+              "lastUsed": 162
+            },
+            "positionType": "Float32Array",
+            "indexType": "Uint16Array",
+            "positionBytes": 62640,
+            "indexBytes": 11076,
+            "triangles": 1846,
+            "collisionSha256": "0359b5f747db7c3a253c6e2fe19378698451a8242dae525efbbf52a72d30d8a2",
+            "positionSha256": "bc071da58459a891f0e1bc05eab8d31e7bd434ca1a18205633ca7c6359df3198",
+            "indexSha256": "b2dca5da697a331b51e7fcaa8b80c22c7e037fbe1185d503813c66e2d4ddbb2d"
+          },
+          "evicted": {
+            "cell": "11:-8",
+            "id": "chunk:11:-8:r3",
+            "oldLease": "1.83",
+            "managed": false,
+            "indexed": false,
+            "socketStillExposed": false,
+            "leaseStillExposed": false,
+            "history": {
+              "key": "11:-8",
+              "chunkX": 11,
+              "chunkZ": -8,
+              "revision": 4,
+              "retireCount": 1,
+              "lastUsed": 267
+            },
+            "epoch": 4,
+            "historySize": 113,
+            "historyCap": 256,
+            "retiredTotal": 114,
+            "disposedGeometryCount": 433,
+            "active": 32,
+            "bvhs": 32,
+            "cap": 41,
+            "renderOrigin": {
+              "x": 20000,
+              "y": 0,
+              "z": -20000
+            }
+          }
+        },
+        {
+          "requested": "9:10",
+          "active": {
+            "cell": "9:10",
+            "id": "chunk:9:10:r4",
+            "worldFingerprint": 4094860385,
+            "revision": 4,
+            "chunkFingerprint": 3324063555,
+            "publicState": {
+              "key": "9:10",
+              "state": "ACTIVE",
+              "revision": 4,
+              "fingerprint": 3324063555,
+              "layout": "ribbon-bridge"
+            },
+            "layout": "ribbon-bridge",
+            "origin": {
+              "x": 1980,
+              "y": 0,
+              "z": 2200
+            },
+            "socket": {
+              "id": "kinetic-grid-1-r2.4294967295.N.9.10",
+              "position": {
+                "x": 2098,
+                "y": 91,
+                "z": 2200
+              },
+              "lease": "1.147"
+            },
+            "geometryUuid": "b4d0c286-5fe8-4709-a5a5-305da4718763",
+            "contact": {
+              "chunkId": "chunk:9:10:r4",
+              "logicalSurfaceId": "kinetic-grid-1-r2.4294967295.spine.9",
+              "distance": 0.10010413780341101
+            },
+            "workerBuildMs": 3.1999999999970896,
+            "active": 32,
+            "bvhs": 32,
+            "cap": 41,
+            "retiredTotal": 146,
+            "disposedGeometryCount": 551,
+            "renderOrigin": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "history": {
+              "key": "9:10",
+              "chunkX": 9,
+              "chunkZ": 10,
+              "revision": 4,
+              "retireCount": 0,
+              "lastUsed": 322
+            },
+            "positionType": "Float32Array",
+            "indexType": "Uint16Array",
+            "positionBytes": 56928,
+            "indexBytes": 13884,
+            "triangles": 2314,
+            "collisionSha256": "cf53ac9aa6094e5c6083e9456befc6aee355cdc1ed293aa50405f56a63bc9984",
+            "positionSha256": "4b0533be9bc6c0ff3cec1ca29dbf510f3a92ac0675ae4aa20ef255902436ee15",
+            "indexSha256": "409f41f939a46a3500ac9dda2f87f7e3cb4f51da4906245544763fd80b72d9b0"
+          },
+          "evicted": {
+            "cell": "9:10",
+            "id": "chunk:9:10:r4",
+            "oldLease": "1.147",
+            "managed": false,
+            "indexed": false,
+            "socketStillExposed": false,
+            "leaseStillExposed": false,
+            "history": {
+              "key": "9:10",
+              "chunkX": 9,
+              "chunkZ": 10,
+              "revision": 5,
+              "retireCount": 1,
+              "lastUsed": 427
+            },
+            "epoch": 5,
+            "historySize": 145,
+            "historyCap": 256,
+            "retiredTotal": 178,
+            "disposedGeometryCount": 674,
+            "active": 32,
+            "bvhs": 32,
+            "cap": 41,
+            "renderOrigin": {
+              "x": 20000,
+              "y": 0,
+              "z": -20000
+            }
+          }
+        },
+        {
+          "requested": "-12:9",
+          "active": {
+            "cell": "-12:9",
+            "id": "chunk:-12:9:r5",
+            "worldFingerprint": 4094860385,
+            "revision": 5,
+            "chunkFingerprint": 43877788,
+            "publicState": {
+              "key": "-12:9",
+              "state": "ACTIVE",
+              "revision": 5,
+              "fingerprint": 43877788,
+              "layout": "junction"
+            },
+            "layout": "junction",
+            "origin": {
+              "x": -2640,
+              "y": 0,
+              "z": 1980
+            },
+            "socket": {
+              "id": "kinetic-grid-1-r2.4294967295.N.-12.9",
+              "position": {
+                "x": -2537,
+                "y": 97,
+                "z": 1980
+              },
+              "lease": "1.211"
+            },
+            "geometryUuid": "dd35013e-ae6d-4391-8082-07426aab3a59",
+            "contact": {
+              "chunkId": "chunk:-12:9:r5",
+              "logicalSurfaceId": "kinetic-grid-1-r2.4294967295.spine.-12",
+              "distance": 0.1007206080401408
+            },
+            "workerBuildMs": 2,
+            "active": 32,
+            "bvhs": 32,
+            "cap": 41,
+            "retiredTotal": 210,
+            "disposedGeometryCount": 792,
+            "renderOrigin": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "history": {
+              "key": "-12:9",
+              "chunkX": -12,
+              "chunkZ": 9,
+              "revision": 5,
+              "retireCount": 0,
+              "lastUsed": 482
+            },
+            "positionType": "Float32Array",
+            "indexType": "Uint16Array",
+            "positionBytes": 55440,
+            "indexBytes": 10500,
+            "triangles": 1750,
+            "collisionSha256": "3ec763d2fce8b38e8e375942ebce27c42ca87dab13f4cd4f3c155d930e42fea1",
+            "positionSha256": "8c4947923112967594881e11e25452851c4d76b6a9e3f083debd1eda857da6cc",
+            "indexSha256": "dd91bf3c5354e3727304f1c8556be7e19293b566d307971bff29dc6ae8173f36"
+          },
+          "evicted": {
+            "cell": "-12:9",
+            "id": "chunk:-12:9:r5",
+            "oldLease": "1.211",
+            "managed": false,
+            "indexed": false,
+            "socketStillExposed": false,
+            "leaseStillExposed": false,
+            "history": {
+              "key": "-12:9",
+              "chunkX": -12,
+              "chunkZ": 9,
+              "revision": 6,
+              "retireCount": 1,
+              "lastUsed": 587
+            },
+            "epoch": 6,
+            "historySize": 177,
+            "historyCap": 256,
+            "retiredTotal": 242,
+            "disposedGeometryCount": 915,
+            "active": 32,
+            "bvhs": 32,
+            "cap": 41,
+            "renderOrigin": {
+              "x": 20000,
+              "y": 0,
+              "z": -20000
+            }
+          }
+        }
+      ],
+      "alignment": [],
+      "before": [
+        {
+          "requested": "-10:-7",
+          "active": {
+            "cell": "-10:-7",
+            "id": "chunk:-10:-7:r2",
+            "worldFingerprint": 4094860385,
+            "revision": 2,
+            "chunkFingerprint": 3037665606,
+            "publicState": {
+              "key": "-10:-7",
+              "state": "ACTIVE",
+              "revision": 2,
+              "fingerprint": 3037665606,
+              "layout": "bowl"
+            },
+            "layout": "bowl",
+            "origin": {
+              "x": -2200,
+              "y": 0,
+              "z": -1540
+            },
+            "socket": {
+              "id": "kinetic-grid-1-r2.4294967295.N.-10.-7",
+              "position": {
+                "x": -2100,
+                "y": 94,
+                "z": -1540
+              },
+              "lease": "1.275"
+            },
+            "geometryUuid": "546dd883-5b58-4f02-a34b-22e55e060807",
+            "contact": {
+              "chunkId": "chunk:-10:-7:r2",
+              "logicalSurfaceId": "kinetic-grid-1-r2.4294967295.spine.-10",
+              "distance": 0.10067528966669691
+            },
+            "workerBuildMs": 6.69999999999709,
+            "active": 32,
+            "bvhs": 32,
+            "cap": 41,
+            "retiredTotal": 274,
+            "disposedGeometryCount": 1033,
+            "renderOrigin": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "history": {
+              "key": "-10:-7",
+              "chunkX": -10,
+              "chunkZ": -7,
+              "revision": 2,
+              "retireCount": 1,
+              "lastUsed": 674
+            },
+            "positionType": "Float32Array",
+            "indexType": "Uint16Array",
+            "positionBytes": 79800,
+            "indexBytes": 17412,
+            "triangles": 2902,
+            "collisionSha256": "91eb46ac3481721f402205bbfb5801937152b732094a21c2a40f1fce71d106ac",
+            "positionSha256": "836144957327a9f3a2a6245659d1438db8f5b635e1fee017550f372b200fdf27",
+            "indexSha256": "f45b9a7a36b6c3d0be6eebde5c04cfd4258ff87f09900fd6003083b3a149af92"
+          },
+          "evicted": {
+            "cell": "-10:-7",
+            "id": "chunk:-10:-7:r2",
+            "oldLease": "1.275",
+            "managed": false,
+            "indexed": false,
+            "socketStillExposed": false,
+            "leaseStillExposed": false,
+            "history": {
+              "key": "-10:-7",
+              "chunkX": -10,
+              "chunkZ": -7,
+              "revision": 3,
+              "retireCount": 2,
+              "lastUsed": 779
+            },
+            "epoch": 6,
+            "historySize": 177,
+            "historyCap": 256,
+            "retiredTotal": 306,
+            "disposedGeometryCount": 1156,
+            "active": 32,
+            "bvhs": 32,
+            "cap": 41,
+            "renderOrigin": {
+              "x": 20000,
+              "y": 0,
+              "z": -20000
+            }
+          }
+        },
+        {
+          "requested": "11:-8",
+          "active": {
+            "cell": "11:-8",
+            "id": "chunk:11:-8:r4",
+            "worldFingerprint": 4094860385,
+            "revision": 4,
+            "chunkFingerprint": 2579934700,
+            "publicState": {
+              "key": "11:-8",
+              "state": "ACTIVE",
+              "revision": 4,
+              "fingerprint": 2579934700,
+              "layout": "bowl"
+            },
+            "layout": "bowl",
+            "origin": {
+              "x": 2420,
+              "y": 0,
+              "z": -1760
+            },
+            "socket": {
+              "id": "kinetic-grid-1-r2.4294967295.N.11.-8",
+              "position": {
+                "x": 2534,
+                "y": 87,
+                "z": -1760
+              },
+              "lease": "1.339"
+            },
+            "geometryUuid": "e8648f4b-d71d-4c1e-b569-08560f66a823",
+            "contact": {
+              "chunkId": "chunk:11:-8:r4",
+              "logicalSurfaceId": "kinetic-grid-1-r2.4294967295.spine.11",
+              "distance": 0.10031593701275954
+            },
+            "workerBuildMs": 3.6999999999970896,
+            "active": 32,
+            "bvhs": 32,
+            "cap": 41,
+            "retiredTotal": 338,
+            "disposedGeometryCount": 1274,
+            "renderOrigin": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "history": {
+              "key": "11:-8",
+              "chunkX": 11,
+              "chunkZ": -8,
+              "revision": 4,
+              "retireCount": 1,
+              "lastUsed": 866
+            },
+            "positionType": "Float32Array",
+            "indexType": "Uint16Array",
+            "positionBytes": 85416,
+            "indexBytes": 18348,
+            "triangles": 3058,
+            "collisionSha256": "4f088b56fdbea8d2a9ecc83b81baebda41a476f9434101a1e4b5f2a81b582b6f",
+            "positionSha256": "d97e37864979bef76fe723722a521393cc14786075c1c1718462bbc2abd15b4f",
+            "indexSha256": "82aa1b35b33ff9fb4bb9a2cfeeceb27ce83c67970694be3bb56bb7e9d4b01354"
+          },
+          "evicted": {
+            "cell": "11:-8",
+            "id": "chunk:11:-8:r4",
+            "oldLease": "1.339",
+            "managed": false,
+            "indexed": false,
+            "socketStillExposed": false,
+            "leaseStillExposed": false,
+            "history": {
+              "key": "11:-8",
+              "chunkX": 11,
+              "chunkZ": -8,
+              "revision": 5,
+              "retireCount": 2,
+              "lastUsed": 972
+            },
+            "epoch": 7,
+            "historySize": 177,
+            "historyCap": 256,
+            "retiredTotal": 370,
+            "disposedGeometryCount": 1402,
+            "active": 32,
+            "bvhs": 32,
+            "cap": 41,
+            "renderOrigin": {
+              "x": 20000,
+              "y": 0,
+              "z": -20000
+            }
+          }
+        },
+        {
+          "requested": "9:10",
+          "active": {
+            "cell": "9:10",
+            "id": "chunk:9:10:r5",
+            "worldFingerprint": 4094860385,
+            "revision": 5,
+            "chunkFingerprint": 2035546939,
+            "publicState": {
+              "key": "9:10",
+              "state": "ACTIVE",
+              "revision": 5,
+              "fingerprint": 2035546939,
+              "layout": "tunnel"
+            },
+            "layout": "tunnel",
+            "origin": {
+              "x": 1980,
+              "y": 0,
+              "z": 2200
+            },
+            "socket": {
+              "id": "kinetic-grid-1-r2.4294967295.N.9.10",
+              "position": {
+                "x": 2098,
+                "y": 91,
+                "z": 2200
+              },
+              "lease": "1.403"
+            },
+            "geometryUuid": "debfae61-82fc-43d7-9aa3-2e66bf0e6459",
+            "contact": {
+              "chunkId": "chunk:9:10:r5",
+              "logicalSurfaceId": "kinetic-grid-1-r2.4294967295.spine.9",
+              "distance": 0.10021000164454208
+            },
+            "workerBuildMs": 4.599999999991269,
+            "active": 32,
+            "bvhs": 32,
+            "cap": 41,
+            "retiredTotal": 402,
+            "disposedGeometryCount": 1520,
+            "renderOrigin": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "history": {
+              "key": "9:10",
+              "chunkX": 9,
+              "chunkZ": 10,
+              "revision": 5,
+              "retireCount": 1,
+              "lastUsed": 1058
+            },
+            "positionType": "Float32Array",
+            "indexType": "Uint16Array",
+            "positionBytes": 71328,
+            "indexBytes": 19260,
+            "triangles": 3210,
+            "collisionSha256": "31a99ad25661ba0651ec9e0abe4d5e0e17fa548b0d3c8319fdaec70ebd05b9b4",
+            "positionSha256": "e7946f9095714cf5e5ba102a94c65bcce1417af4e163e38f1b8d2302871d09f0",
+            "indexSha256": "f8c6862dafd18d85868e7b38f573748be0dac738d701b8652d213cc5172f9b34"
+          },
+          "evicted": {
+            "cell": "9:10",
+            "id": "chunk:9:10:r5",
+            "oldLease": "1.403",
+            "managed": false,
+            "indexed": false,
+            "socketStillExposed": false,
+            "leaseStillExposed": false,
+            "history": {
+              "key": "9:10",
+              "chunkX": 9,
+              "chunkZ": 10,
+              "revision": 6,
+              "retireCount": 2,
+              "lastUsed": 1164
+            },
+            "epoch": 8,
+            "historySize": 177,
+            "historyCap": 256,
+            "retiredTotal": 434,
+            "disposedGeometryCount": 1643,
+            "active": 32,
+            "bvhs": 32,
+            "cap": 41,
+            "renderOrigin": {
+              "x": 20000,
+              "y": 0,
+              "z": -20000
+            }
+          }
+        },
+        {
+          "requested": "-12:9",
+          "active": {
+            "cell": "-12:9",
+            "id": "chunk:-12:9:r6",
+            "worldFingerprint": 4094860385,
+            "revision": 6,
+            "chunkFingerprint": 255576689,
+            "publicState": {
+              "key": "-12:9",
+              "state": "ACTIVE",
+              "revision": 6,
+              "fingerprint": 255576689,
+              "layout": "junction"
+            },
+            "layout": "junction",
+            "origin": {
+              "x": -2640,
+              "y": 0,
+              "z": 1980
+            },
+            "socket": {
+              "id": "kinetic-grid-1-r2.4294967295.N.-12.9",
+              "position": {
+                "x": -2537,
+                "y": 97,
+                "z": 1980
+              },
+              "lease": "1.467"
+            },
+            "geometryUuid": "91dc3512-79bb-47fe-a330-e7b6d5180086",
+            "contact": {
+              "chunkId": "chunk:-12:9:r6",
+              "logicalSurfaceId": "kinetic-grid-1-r2.4294967295.spine.-12",
+              "distance": 0.1007206080401408
+            },
+            "workerBuildMs": 1.8999999999941792,
+            "active": 32,
+            "bvhs": 32,
+            "cap": 41,
+            "retiredTotal": 466,
+            "disposedGeometryCount": 1761,
+            "renderOrigin": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "history": {
+              "key": "-12:9",
+              "chunkX": -12,
+              "chunkZ": 9,
+              "revision": 6,
+              "retireCount": 1,
+              "lastUsed": 1250
+            },
+            "positionType": "Float32Array",
+            "indexType": "Uint16Array",
+            "positionBytes": 55440,
+            "indexBytes": 10500,
+            "triangles": 1750,
+            "collisionSha256": "cc55e7e75c6cd3cd7cd61ece3e5150cac89e17922a6fd4bcdc88db2ad21d368d",
+            "positionSha256": "00d8e534cce35fbb1a3328d516c2b07ffecdbcfaa58dd7c28c66df4599a3e056",
+            "indexSha256": "303769f2f51227928f76744a4c1f8b0e1b2f887d7613c9b55507b6fa8f2eff66"
+          },
+          "evicted": {
+            "cell": "-12:9",
+            "id": "chunk:-12:9:r6",
+            "oldLease": "1.467",
+            "managed": false,
+            "indexed": false,
+            "socketStillExposed": false,
+            "leaseStillExposed": false,
+            "history": {
+              "key": "-12:9",
+              "chunkX": -12,
+              "chunkZ": 9,
+              "revision": 7,
+              "retireCount": 2,
+              "lastUsed": 1357
+            },
+            "epoch": 9,
+            "historySize": 177,
+            "historyCap": 256,
+            "retiredTotal": 498,
+            "disposedGeometryCount": 1884,
+            "active": 32,
+            "bvhs": 32,
+            "cap": 41,
+            "renderOrigin": {
+              "x": 20000,
+              "y": 0,
+              "z": -20000
+            }
+          }
+        }
+      ],
+      "after": [
+        {
+          "requested": "-12:9",
+          "active": {
+            "cell": "-12:9",
+            "id": "chunk:-12:9:r7",
+            "worldFingerprint": 4094860385,
+            "revision": 7,
+            "chunkFingerprint": 3221440411,
+            "publicState": {
+              "key": "-12:9",
+              "state": "ACTIVE",
+              "revision": 7,
+              "fingerprint": 3221440411,
+              "layout": "junction"
+            },
+            "layout": "junction",
+            "origin": {
+              "x": -2640,
+              "y": 0,
+              "z": 1980
+            },
+            "socket": {
+              "id": "kinetic-grid-1-r2.4294967295.N.-12.9",
+              "position": {
+                "x": -2537,
+                "y": 97,
+                "z": 1980
+              },
+              "lease": "1.531"
+            },
+            "geometryUuid": "cf2c2981-dd33-485d-b91d-b035c7e6f6e5",
+            "contact": {
+              "chunkId": "chunk:-12:9:r7",
+              "logicalSurfaceId": "kinetic-grid-1-r2.4294967295.spine.-12",
+              "distance": 0.1007206080401408
+            },
+            "workerBuildMs": 1.8999999999941792,
+            "active": 32,
+            "bvhs": 32,
+            "cap": 41,
+            "retiredTotal": 530,
+            "disposedGeometryCount": 2002,
+            "renderOrigin": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "history": {
+              "key": "-12:9",
+              "chunkX": -12,
+              "chunkZ": 9,
+              "revision": 7,
+              "retireCount": 2,
+              "lastUsed": 1442
+            },
+            "positionType": "Float32Array",
+            "indexType": "Uint16Array",
+            "positionBytes": 54864,
+            "indexBytes": 10404,
+            "triangles": 1734,
+            "collisionSha256": "35612c34aa9a01b63d3287653cac8223505cfa53e5acbb506d8e23e55eda01b6",
+            "positionSha256": "cf2151e7d9615b143686eb58454036708ff066597f5848f38dcff8a0a2f99cd6",
+            "indexSha256": "1e4fba9a12d0d8cefe90f23dfc9b03aff58ab30d7852f5613ece33967d40006d"
+          },
+          "evicted": {
+            "cell": "-12:9",
+            "id": "chunk:-12:9:r7",
+            "oldLease": "1.531",
+            "managed": false,
+            "indexed": false,
+            "socketStillExposed": false,
+            "leaseStillExposed": false,
+            "history": {
+              "key": "-12:9",
+              "chunkX": -12,
+              "chunkZ": 9,
+              "revision": 8,
+              "retireCount": 3,
+              "lastUsed": 1548
+            },
+            "epoch": 10,
+            "historySize": 177,
+            "historyCap": 256,
+            "retiredTotal": 562,
+            "disposedGeometryCount": 2125,
+            "active": 32,
+            "bvhs": 32,
+            "cap": 41,
+            "renderOrigin": {
+              "x": 20000,
+              "y": 0,
+              "z": -20000
+            }
+          }
+        },
+        {
+          "requested": "9:10",
+          "active": {
+            "cell": "9:10",
+            "id": "chunk:9:10:r6",
+            "worldFingerprint": 4094860385,
+            "revision": 6,
+            "chunkFingerprint": 1389937273,
+            "publicState": {
+              "key": "9:10",
+              "state": "ACTIVE",
+              "revision": 6,
+              "fingerprint": 1389937273,
+              "layout": "s-curve"
+            },
+            "layout": "s-curve",
+            "origin": {
+              "x": 1980,
+              "y": 0,
+              "z": 2200
+            },
+            "socket": {
+              "id": "kinetic-grid-1-r2.4294967295.N.9.10",
+              "position": {
+                "x": 2098,
+                "y": 91,
+                "z": 2200
+              },
+              "lease": "1.595"
+            },
+            "geometryUuid": "86c70602-bf67-48a1-8d23-f3e029ed011f",
+            "contact": {
+              "chunkId": "chunk:9:10:r6",
+              "logicalSurfaceId": "kinetic-grid-1-r2.4294967295.spine.9",
+              "distance": 0.09993223861981258
+            },
+            "workerBuildMs": 4.599999999991269,
+            "active": 32,
+            "bvhs": 32,
+            "cap": 41,
+            "retiredTotal": 594,
+            "disposedGeometryCount": 2243,
+            "renderOrigin": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "history": {
+              "key": "9:10",
+              "chunkX": 9,
+              "chunkZ": 10,
+              "revision": 6,
+              "retireCount": 2,
+              "lastUsed": 1634
+            },
+            "positionType": "Float32Array",
+            "indexType": "Uint16Array",
+            "positionBytes": 52272,
+            "indexBytes": 10548,
+            "triangles": 1758,
+            "collisionSha256": "4d1b54d8a4479ed80d36e35891e51607912e377863efda487797f3d739febfe9",
+            "positionSha256": "08d3dc3af881769291b20ab9772c1937342990bd4442103d4b832c783d3452fb",
+            "indexSha256": "39401c471402c489c63da700937dcf0bf23adc7d4f2c3abaa14f267a70cad379"
+          },
+          "evicted": {
+            "cell": "9:10",
+            "id": "chunk:9:10:r6",
+            "oldLease": "1.595",
+            "managed": false,
+            "indexed": false,
+            "socketStillExposed": false,
+            "leaseStillExposed": false,
+            "history": {
+              "key": "9:10",
+              "chunkX": 9,
+              "chunkZ": 10,
+              "revision": 7,
+              "retireCount": 3,
+              "lastUsed": 1739
+            },
+            "epoch": 11,
+            "historySize": 177,
+            "historyCap": 256,
+            "retiredTotal": 626,
+            "disposedGeometryCount": 2366,
+            "active": 32,
+            "bvhs": 32,
+            "cap": 41,
+            "renderOrigin": {
+              "x": 20000,
+              "y": 0,
+              "z": -20000
+            }
+          }
+        },
+        {
+          "requested": "11:-8",
+          "active": {
+            "cell": "11:-8",
+            "id": "chunk:11:-8:r5",
+            "worldFingerprint": 4094860385,
+            "revision": 5,
+            "chunkFingerprint": 2563414204,
+            "publicState": {
+              "key": "11:-8",
+              "state": "ACTIVE",
+              "revision": 5,
+              "fingerprint": 2563414204,
+              "layout": "ribbon-bridge"
+            },
+            "layout": "ribbon-bridge",
+            "origin": {
+              "x": 2420,
+              "y": 0,
+              "z": -1760
+            },
+            "socket": {
+              "id": "kinetic-grid-1-r2.4294967295.N.11.-8",
+              "position": {
+                "x": 2534,
+                "y": 87,
+                "z": -1760
+              },
+              "lease": "1.659"
+            },
+            "geometryUuid": "7f973125-97bc-40b1-a46d-274e4507a870",
+            "contact": {
+              "chunkId": "chunk:11:-8:r5",
+              "logicalSurfaceId": "kinetic-grid-1-r2.4294967295.spine.11",
+              "distance": 0.09987173807334832
+            },
+            "workerBuildMs": 3.5,
+            "active": 32,
+            "bvhs": 32,
+            "cap": 41,
+            "retiredTotal": 658,
+            "disposedGeometryCount": 2484,
+            "renderOrigin": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "history": {
+              "key": "11:-8",
+              "chunkX": 11,
+              "chunkZ": -8,
+              "revision": 5,
+              "retireCount": 2,
+              "lastUsed": 1826
+            },
+            "positionType": "Float32Array",
+            "indexType": "Uint16Array",
+            "positionBytes": 76944,
+            "indexBytes": 17220,
+            "triangles": 2870,
+            "collisionSha256": "4bef690dcad0efb57ade6b63a7c41a559ea649f5949d85b3fc051a0f4e7c393b",
+            "positionSha256": "8f4da81b24fff93e3c314dbe0d4d2f588255195d15041f0f9d38980a0bc7a171",
+            "indexSha256": "a3c3cef016f8b7108b097511ddccb26c8e76c55b911a2061f8d0c68d0ad55823"
+          },
+          "evicted": {
+            "cell": "11:-8",
+            "id": "chunk:11:-8:r5",
+            "oldLease": "1.659",
+            "managed": false,
+            "indexed": false,
+            "socketStillExposed": false,
+            "leaseStillExposed": false,
+            "history": {
+              "key": "11:-8",
+              "chunkX": 11,
+              "chunkZ": -8,
+              "revision": 6,
+              "retireCount": 3,
+              "lastUsed": 1934
+            },
+            "epoch": 12,
+            "historySize": 177,
+            "historyCap": 256,
+            "retiredTotal": 690,
+            "disposedGeometryCount": 2612,
+            "active": 32,
+            "bvhs": 32,
+            "cap": 41,
+            "renderOrigin": {
+              "x": 20000,
+              "y": 0,
+              "z": -20000
+            }
+          }
+        },
+        {
+          "requested": "-10:-7",
+          "active": {
+            "cell": "-10:-7",
+            "id": "chunk:-10:-7:r3",
+            "worldFingerprint": 4094860385,
+            "revision": 3,
+            "chunkFingerprint": 2444717762,
+            "publicState": {
+              "key": "-10:-7",
+              "state": "ACTIVE",
+              "revision": 3,
+              "fingerprint": 2444717762,
+              "layout": "ribbon-bridge"
+            },
+            "layout": "ribbon-bridge",
+            "origin": {
+              "x": -2200,
+              "y": 0,
+              "z": -1540
+            },
+            "socket": {
+              "id": "kinetic-grid-1-r2.4294967295.N.-10.-7",
+              "position": {
+                "x": -2100,
+                "y": 94,
+                "z": -1540
+              },
+              "lease": "1.723"
+            },
+            "geometryUuid": "7795c34d-ac37-4b31-b40a-4a9f96d51b58",
+            "contact": {
+              "chunkId": "chunk:-10:-7:r3",
+              "logicalSurfaceId": "kinetic-grid-1-r2.4294967295.spine.-10",
+              "distance": 0.10004624026229755
+            },
+            "workerBuildMs": 2.8999999999941792,
+            "active": 32,
+            "bvhs": 32,
+            "cap": 41,
+            "retiredTotal": 722,
+            "disposedGeometryCount": 2730,
+            "renderOrigin": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "history": {
+              "key": "-10:-7",
+              "chunkX": -10,
+              "chunkZ": -7,
+              "revision": 3,
+              "retireCount": 2,
+              "lastUsed": 2018
+            },
+            "positionType": "Float32Array",
+            "indexType": "Uint16Array",
+            "positionBytes": 80832,
+            "indexBytes": 17868,
+            "triangles": 2978,
+            "collisionSha256": "336ed373e0ed73b3b7c2c1b52128f835dfd40dbdcd14d22e56b8a15beb9c094b",
+            "positionSha256": "a3fada9c5c8b8c493592207d7ac8a98b79c1ab5019569d7ad2c9b90190b89980",
+            "indexSha256": "3f97ddc61e0aee85916c87ea9667d7efad813e688d8f37317263d1b1b0cc591d"
+          },
+          "evicted": {
+            "cell": "-10:-7",
+            "id": "chunk:-10:-7:r3",
+            "oldLease": "1.723",
+            "managed": false,
+            "indexed": false,
+            "socketStillExposed": false,
+            "leaseStillExposed": false,
+            "history": {
+              "key": "-10:-7",
+              "chunkX": -10,
+              "chunkZ": -7,
+              "revision": 4,
+              "retireCount": 3,
+              "lastUsed": 2126
+            },
+            "epoch": 13,
+            "historySize": 177,
+            "historyCap": 256,
+            "retiredTotal": 754,
+            "disposedGeometryCount": 2853,
+            "active": 32,
+            "bvhs": 32,
+            "cap": 41,
+            "renderOrigin": {
+              "x": 20000,
+              "y": 0,
+              "z": -20000
+            }
+          }
+        }
+      ],
+      "pairs": [
+        {
+          "cell": "-10:-7",
+          "expectedReloadRevision": 3,
+          "beforeRevision": 2,
+          "afterRevision": 3,
+          "shaEqual": false,
+          "fingerprintEqual": false,
+          "chunkIdEqual": false,
+          "leaseChanged": true,
+          "geometryInstanceChanged": true,
+          "socketEqual": true,
+          "logicalSurfaceEqual": true
+        },
+        {
+          "cell": "11:-8",
+          "expectedReloadRevision": 5,
+          "beforeRevision": 4,
+          "afterRevision": 5,
+          "shaEqual": false,
+          "fingerprintEqual": false,
+          "chunkIdEqual": false,
+          "leaseChanged": true,
+          "geometryInstanceChanged": true,
+          "socketEqual": true,
+          "logicalSurfaceEqual": true
+        },
+        {
+          "cell": "9:10",
+          "expectedReloadRevision": 6,
+          "beforeRevision": 5,
+          "afterRevision": 6,
+          "shaEqual": false,
+          "fingerprintEqual": false,
+          "chunkIdEqual": false,
+          "leaseChanged": true,
+          "geometryInstanceChanged": true,
+          "socketEqual": true,
+          "logicalSurfaceEqual": true
+        },
+        {
+          "cell": "-12:9",
+          "expectedReloadRevision": 7,
+          "beforeRevision": 6,
+          "afterRevision": 7,
+          "shaEqual": false,
+          "fingerprintEqual": false,
+          "chunkIdEqual": false,
+          "leaseChanged": true,
+          "geometryInstanceChanged": true,
+          "socketEqual": true,
+          "logicalSurfaceEqual": true
+        }
+      ]
+    },
+    "reverse": {
+      "initial": {
+        "seed": 4294967295,
+        "mode": "ephemeral",
+        "fingerprint": 4094860385,
+        "spawn": {
+          "x": 103,
+          "y": 98,
+          "z": 880
+        },
+        "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+        "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/159.0.8154.6 Safari/537.36"
+      },
+      "workers": [
+        "http://127.0.0.1:4175/assets/cityChunk.worker-kxNDcCkz.js"
+      ],
+      "browserErrors": [],
+      "warm": [
+        {
+          "requested": "-10:-7",
+          "active": {
+            "cell": "-10:-7",
+            "id": "chunk:-10:-7:r1",
+            "worldFingerprint": 4094860385,
+            "revision": 1,
+            "chunkFingerprint": 4128905008,
+            "publicState": {
+              "key": "-10:-7",
+              "state": "ACTIVE",
+              "revision": 1,
+              "fingerprint": 4128905008,
+              "layout": "sky-arch"
+            },
+            "layout": "sky-arch",
+            "origin": {
+              "x": -2200,
+              "y": 0,
+              "z": -1540
+            },
+            "socket": {
+              "id": "kinetic-grid-1-r2.4294967295.N.-10.-7",
+              "position": {
+                "x": -2100,
+                "y": 94,
+                "z": -1540
+              },
+              "lease": "1.22"
+            },
+            "geometryUuid": "11626add-87cc-40c8-8899-c3f191aad465",
+            "contact": {
+              "chunkId": "chunk:-10:-7:r1",
+              "logicalSurfaceId": "kinetic-grid-1-r2.4294967295.spine.-10",
+              "distance": 0.09947242022192988
+            },
+            "workerBuildMs": 3.3000000000029104,
+            "active": 32,
+            "bvhs": 32,
+            "cap": 41,
+            "retiredTotal": 21,
+            "disposedGeometryCount": 76,
+            "renderOrigin": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "history": {
+              "key": "-10:-7",
+              "chunkX": -10,
+              "chunkZ": -7,
+              "revision": 1,
+              "retireCount": 0,
+              "lastUsed": 39
+            },
+            "positionType": "Float32Array",
+            "indexType": "Uint16Array",
+            "positionBytes": 75312,
+            "indexBytes": 13188,
+            "triangles": 2198,
+            "collisionSha256": "da50301491886dbf85cf3110d3df5bfe5c0b2fa031a23d2f99c3c201238781b2",
+            "positionSha256": "469beac2fd11d07672900e4683c2373866b3a4ab68b63e584107dd4b269623d7",
+            "indexSha256": "0aa65790da358cb8bc69840b951f5fc6151056c27b9d755cba56ff7b244d3f33"
+          },
+          "evicted": {
+            "cell": "-10:-7",
+            "id": "chunk:-10:-7:r1",
+            "oldLease": "1.22",
+            "managed": false,
+            "indexed": false,
+            "socketStillExposed": false,
+            "leaseStillExposed": false,
+            "history": {
+              "key": "-10:-7",
+              "chunkX": -10,
+              "chunkZ": -7,
+              "revision": 2,
+              "retireCount": 1,
+              "lastUsed": 114
+            },
+            "epoch": 2,
+            "historySize": 84,
+            "historyCap": 256,
+            "retiredTotal": 53,
+            "disposedGeometryCount": 199,
+            "active": 32,
+            "bvhs": 32,
+            "cap": 41,
+            "renderOrigin": {
+              "x": 20000,
+              "y": 0,
+              "z": -20000
+            }
+          }
+        },
+        {
+          "requested": "11:-8",
+          "active": {
+            "cell": "11:-8",
+            "id": "chunk:11:-8:r3",
+            "worldFingerprint": 4094860385,
+            "revision": 3,
+            "chunkFingerprint": 2461164613,
+            "publicState": {
+              "key": "11:-8",
+              "state": "ACTIVE",
+              "revision": 3,
+              "fingerprint": 2461164613,
+              "layout": "sky-arch"
+            },
+            "layout": "sky-arch",
+            "origin": {
+              "x": 2420,
+              "y": 0,
+              "z": -1760
+            },
+            "socket": {
+              "id": "kinetic-grid-1-r2.4294967295.N.11.-8",
+              "position": {
+                "x": 2534,
+                "y": 87,
+                "z": -1760
+              },
+              "lease": "1.86"
+            },
+            "geometryUuid": "726853d8-d517-40e5-bec6-d40370605d32",
+            "contact": {
+              "chunkId": "chunk:11:-8:r3",
+              "logicalSurfaceId": "kinetic-grid-1-r2.4294967295.spine.11",
+              "distance": 0.09909461493615405
+            },
+            "workerBuildMs": 3.1999999999970896,
+            "active": 32,
+            "bvhs": 32,
+            "cap": 41,
+            "retiredTotal": 85,
+            "disposedGeometryCount": 317,
+            "renderOrigin": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "history": {
+              "key": "11:-8",
+              "chunkX": 11,
+              "chunkZ": -8,
+              "revision": 3,
+              "retireCount": 0,
+              "lastUsed": 168
+            },
+            "positionType": "Float32Array",
+            "indexType": "Uint16Array",
+            "positionBytes": 62640,
+            "indexBytes": 11076,
+            "triangles": 1846,
+            "collisionSha256": "0359b5f747db7c3a253c6e2fe19378698451a8242dae525efbbf52a72d30d8a2",
+            "positionSha256": "bc071da58459a891f0e1bc05eab8d31e7bd434ca1a18205633ca7c6359df3198",
+            "indexSha256": "b2dca5da697a331b51e7fcaa8b80c22c7e037fbe1185d503813c66e2d4ddbb2d"
+          },
+          "evicted": {
+            "cell": "11:-8",
+            "id": "chunk:11:-8:r3",
+            "oldLease": "1.86",
+            "managed": false,
+            "indexed": false,
+            "socketStillExposed": false,
+            "leaseStillExposed": false,
+            "history": {
+              "key": "11:-8",
+              "chunkX": 11,
+              "chunkZ": -8,
+              "revision": 4,
+              "retireCount": 1,
+              "lastUsed": 275
+            },
+            "epoch": 4,
+            "historySize": 116,
+            "historyCap": 256,
+            "retiredTotal": 117,
+            "disposedGeometryCount": 445,
+            "active": 32,
+            "bvhs": 32,
+            "cap": 41,
+            "renderOrigin": {
+              "x": 20000,
+              "y": 0,
+              "z": -20000
+            }
+          }
+        },
+        {
+          "requested": "9:10",
+          "active": {
+            "cell": "9:10",
+            "id": "chunk:9:10:r4",
+            "worldFingerprint": 4094860385,
+            "revision": 4,
+            "chunkFingerprint": 3324063555,
+            "publicState": {
+              "key": "9:10",
+              "state": "ACTIVE",
+              "revision": 4,
+              "fingerprint": 3324063555,
+              "layout": "ribbon-bridge"
+            },
+            "layout": "ribbon-bridge",
+            "origin": {
+              "x": 1980,
+              "y": 0,
+              "z": 2200
+            },
+            "socket": {
+              "id": "kinetic-grid-1-r2.4294967295.N.9.10",
+              "position": {
+                "x": 2098,
+                "y": 91,
+                "z": 2200
+              },
+              "lease": "1.150"
+            },
+            "geometryUuid": "2da67198-8d2e-47e8-9891-db884045eb67",
+            "contact": {
+              "chunkId": "chunk:9:10:r4",
+              "logicalSurfaceId": "kinetic-grid-1-r2.4294967295.spine.9",
+              "distance": 0.10010413780341101
+            },
+            "workerBuildMs": 2.6000000000058208,
+            "active": 32,
+            "bvhs": 32,
+            "cap": 41,
+            "retiredTotal": 149,
+            "disposedGeometryCount": 563,
+            "renderOrigin": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "history": {
+              "key": "9:10",
+              "chunkX": 9,
+              "chunkZ": 10,
+              "revision": 4,
+              "retireCount": 0,
+              "lastUsed": 328
+            },
+            "positionType": "Float32Array",
+            "indexType": "Uint16Array",
+            "positionBytes": 56928,
+            "indexBytes": 13884,
+            "triangles": 2314,
+            "collisionSha256": "cf53ac9aa6094e5c6083e9456befc6aee355cdc1ed293aa50405f56a63bc9984",
+            "positionSha256": "4b0533be9bc6c0ff3cec1ca29dbf510f3a92ac0675ae4aa20ef255902436ee15",
+            "indexSha256": "409f41f939a46a3500ac9dda2f87f7e3cb4f51da4906245544763fd80b72d9b0"
+          },
+          "evicted": {
+            "cell": "9:10",
+            "id": "chunk:9:10:r4",
+            "oldLease": "1.150",
+            "managed": false,
+            "indexed": false,
+            "socketStillExposed": false,
+            "leaseStillExposed": false,
+            "history": {
+              "key": "9:10",
+              "chunkX": 9,
+              "chunkZ": 10,
+              "revision": 5,
+              "retireCount": 1,
+              "lastUsed": 436
+            },
+            "epoch": 5,
+            "historySize": 148,
+            "historyCap": 256,
+            "retiredTotal": 181,
+            "disposedGeometryCount": 686,
+            "active": 32,
+            "bvhs": 32,
+            "cap": 41,
+            "renderOrigin": {
+              "x": 20000,
+              "y": 0,
+              "z": -20000
+            }
+          }
+        },
+        {
+          "requested": "-12:9",
+          "active": {
+            "cell": "-12:9",
+            "id": "chunk:-12:9:r5",
+            "worldFingerprint": 4094860385,
+            "revision": 5,
+            "chunkFingerprint": 43877788,
+            "publicState": {
+              "key": "-12:9",
+              "state": "ACTIVE",
+              "revision": 5,
+              "fingerprint": 43877788,
+              "layout": "junction"
+            },
+            "layout": "junction",
+            "origin": {
+              "x": -2640,
+              "y": 0,
+              "z": 1980
+            },
+            "socket": {
+              "id": "kinetic-grid-1-r2.4294967295.N.-12.9",
+              "position": {
+                "x": -2537,
+                "y": 97,
+                "z": 1980
+              },
+              "lease": "1.214"
+            },
+            "geometryUuid": "af312b92-2a21-4ba5-9309-ad2b730f7853",
+            "contact": {
+              "chunkId": "chunk:-12:9:r5",
+              "logicalSurfaceId": "kinetic-grid-1-r2.4294967295.spine.-12",
+              "distance": 0.1007206080401408
+            },
+            "workerBuildMs": 2.1000000000058208,
+            "active": 32,
+            "bvhs": 32,
+            "cap": 41,
+            "retiredTotal": 213,
+            "disposedGeometryCount": 804,
+            "renderOrigin": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "history": {
+              "key": "-12:9",
+              "chunkX": -12,
+              "chunkZ": 9,
+              "revision": 5,
+              "retireCount": 0,
+              "lastUsed": 488
+            },
+            "positionType": "Float32Array",
+            "indexType": "Uint16Array",
+            "positionBytes": 55440,
+            "indexBytes": 10500,
+            "triangles": 1750,
+            "collisionSha256": "3ec763d2fce8b38e8e375942ebce27c42ca87dab13f4cd4f3c155d930e42fea1",
+            "positionSha256": "8c4947923112967594881e11e25452851c4d76b6a9e3f083debd1eda857da6cc",
+            "indexSha256": "dd91bf3c5354e3727304f1c8556be7e19293b566d307971bff29dc6ae8173f36"
+          },
+          "evicted": {
+            "cell": "-12:9",
+            "id": "chunk:-12:9:r5",
+            "oldLease": "1.214",
+            "managed": false,
+            "indexed": false,
+            "socketStillExposed": false,
+            "leaseStillExposed": false,
+            "history": {
+              "key": "-12:9",
+              "chunkX": -12,
+              "chunkZ": 9,
+              "revision": 6,
+              "retireCount": 1,
+              "lastUsed": 594
+            },
+            "epoch": 6,
+            "historySize": 180,
+            "historyCap": 256,
+            "retiredTotal": 245,
+            "disposedGeometryCount": 927,
+            "active": 32,
+            "bvhs": 32,
+            "cap": 41,
+            "renderOrigin": {
+              "x": 20000,
+              "y": 0,
+              "z": -20000
+            }
+          }
+        }
+      ],
+      "alignment": [],
+      "before": [
+        {
+          "requested": "-12:9",
+          "active": {
+            "cell": "-12:9",
+            "id": "chunk:-12:9:r6",
+            "worldFingerprint": 4094860385,
+            "revision": 6,
+            "chunkFingerprint": 255576689,
+            "publicState": {
+              "key": "-12:9",
+              "state": "ACTIVE",
+              "revision": 6,
+              "fingerprint": 255576689,
+              "layout": "junction"
+            },
+            "layout": "junction",
+            "origin": {
+              "x": -2640,
+              "y": 0,
+              "z": 1980
+            },
+            "socket": {
+              "id": "kinetic-grid-1-r2.4294967295.N.-12.9",
+              "position": {
+                "x": -2537,
+                "y": 97,
+                "z": 1980
+              },
+              "lease": "1.278"
+            },
+            "geometryUuid": "2fd0ef0c-1dd6-42d8-a0dd-3504833e4c1c",
+            "contact": {
+              "chunkId": "chunk:-12:9:r6",
+              "logicalSurfaceId": "kinetic-grid-1-r2.4294967295.spine.-12",
+              "distance": 0.1007206080401408
+            },
+            "workerBuildMs": 1.8999999999941792,
+            "active": 32,
+            "bvhs": 32,
+            "cap": 41,
+            "retiredTotal": 277,
+            "disposedGeometryCount": 1045,
+            "renderOrigin": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "history": {
+              "key": "-12:9",
+              "chunkX": -12,
+              "chunkZ": 9,
+              "revision": 6,
+              "retireCount": 1,
+              "lastUsed": 680
+            },
+            "positionType": "Float32Array",
+            "indexType": "Uint16Array",
+            "positionBytes": 55440,
+            "indexBytes": 10500,
+            "triangles": 1750,
+            "collisionSha256": "cc55e7e75c6cd3cd7cd61ece3e5150cac89e17922a6fd4bcdc88db2ad21d368d",
+            "positionSha256": "00d8e534cce35fbb1a3328d516c2b07ffecdbcfaa58dd7c28c66df4599a3e056",
+            "indexSha256": "303769f2f51227928f76744a4c1f8b0e1b2f887d7613c9b55507b6fa8f2eff66"
+          },
+          "evicted": {
+            "cell": "-12:9",
+            "id": "chunk:-12:9:r6",
+            "oldLease": "1.278",
+            "managed": false,
+            "indexed": false,
+            "socketStillExposed": false,
+            "leaseStillExposed": false,
+            "history": {
+              "key": "-12:9",
+              "chunkX": -12,
+              "chunkZ": 9,
+              "revision": 7,
+              "retireCount": 2,
+              "lastUsed": 788
+            },
+            "epoch": 7,
+            "historySize": 180,
+            "historyCap": 256,
+            "retiredTotal": 309,
+            "disposedGeometryCount": 1168,
+            "active": 32,
+            "bvhs": 32,
+            "cap": 41,
+            "renderOrigin": {
+              "x": 20000,
+              "y": 0,
+              "z": -20000
+            }
+          }
+        },
+        {
+          "requested": "9:10",
+          "active": {
+            "cell": "9:10",
+            "id": "chunk:9:10:r5",
+            "worldFingerprint": 4094860385,
+            "revision": 5,
+            "chunkFingerprint": 2035546939,
+            "publicState": {
+              "key": "9:10",
+              "state": "ACTIVE",
+              "revision": 5,
+              "fingerprint": 2035546939,
+              "layout": "tunnel"
+            },
+            "layout": "tunnel",
+            "origin": {
+              "x": 1980,
+              "y": 0,
+              "z": 2200
+            },
+            "socket": {
+              "id": "kinetic-grid-1-r2.4294967295.N.9.10",
+              "position": {
+                "x": 2098,
+                "y": 91,
+                "z": 2200
+              },
+              "lease": "1.342"
+            },
+            "geometryUuid": "834f62df-2f00-4ebf-b1f9-6e9eec51a195",
+            "contact": {
+              "chunkId": "chunk:9:10:r5",
+              "logicalSurfaceId": "kinetic-grid-1-r2.4294967295.spine.9",
+              "distance": 0.10021000164454208
+            },
+            "workerBuildMs": 4.399999999994179,
+            "active": 32,
+            "bvhs": 32,
+            "cap": 41,
+            "retiredTotal": 341,
+            "disposedGeometryCount": 1286,
+            "renderOrigin": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "history": {
+              "key": "9:10",
+              "chunkX": 9,
+              "chunkZ": 10,
+              "revision": 5,
+              "retireCount": 1,
+              "lastUsed": 872
+            },
+            "positionType": "Float32Array",
+            "indexType": "Uint16Array",
+            "positionBytes": 71328,
+            "indexBytes": 19260,
+            "triangles": 3210,
+            "collisionSha256": "31a99ad25661ba0651ec9e0abe4d5e0e17fa548b0d3c8319fdaec70ebd05b9b4",
+            "positionSha256": "e7946f9095714cf5e5ba102a94c65bcce1417af4e163e38f1b8d2302871d09f0",
+            "indexSha256": "f8c6862dafd18d85868e7b38f573748be0dac738d701b8652d213cc5172f9b34"
+          },
+          "evicted": {
+            "cell": "9:10",
+            "id": "chunk:9:10:r5",
+            "oldLease": "1.342",
+            "managed": false,
+            "indexed": false,
+            "socketStillExposed": false,
+            "leaseStillExposed": false,
+            "history": {
+              "key": "9:10",
+              "chunkX": 9,
+              "chunkZ": 10,
+              "revision": 6,
+              "retireCount": 2,
+              "lastUsed": 977
+            },
+            "epoch": 7,
+            "historySize": 180,
+            "historyCap": 256,
+            "retiredTotal": 373,
+            "disposedGeometryCount": 1409,
+            "active": 32,
+            "bvhs": 32,
+            "cap": 41,
+            "renderOrigin": {
+              "x": 20000,
+              "y": 0,
+              "z": -20000
+            }
+          }
+        },
+        {
+          "requested": "11:-8",
+          "active": {
+            "cell": "11:-8",
+            "id": "chunk:11:-8:r4",
+            "worldFingerprint": 4094860385,
+            "revision": 4,
+            "chunkFingerprint": 2579934700,
+            "publicState": {
+              "key": "11:-8",
+              "state": "ACTIVE",
+              "revision": 4,
+              "fingerprint": 2579934700,
+              "layout": "bowl"
+            },
+            "layout": "bowl",
+            "origin": {
+              "x": 2420,
+              "y": 0,
+              "z": -1760
+            },
+            "socket": {
+              "id": "kinetic-grid-1-r2.4294967295.N.11.-8",
+              "position": {
+                "x": 2534,
+                "y": 87,
+                "z": -1760
+              },
+              "lease": "1.406"
+            },
+            "geometryUuid": "815ca00e-2fa1-4268-80a9-60188304f2c7",
+            "contact": {
+              "chunkId": "chunk:11:-8:r4",
+              "logicalSurfaceId": "kinetic-grid-1-r2.4294967295.spine.11",
+              "distance": 0.10031593701275954
+            },
+            "workerBuildMs": 3.3999999999941792,
+            "active": 32,
+            "bvhs": 32,
+            "cap": 41,
+            "retiredTotal": 405,
+            "disposedGeometryCount": 1527,
+            "renderOrigin": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "history": {
+              "key": "11:-8",
+              "chunkX": 11,
+              "chunkZ": -8,
+              "revision": 4,
+              "retireCount": 1,
+              "lastUsed": 1064
+            },
+            "positionType": "Float32Array",
+            "indexType": "Uint16Array",
+            "positionBytes": 85416,
+            "indexBytes": 18348,
+            "triangles": 3058,
+            "collisionSha256": "4f088b56fdbea8d2a9ecc83b81baebda41a476f9434101a1e4b5f2a81b582b6f",
+            "positionSha256": "d97e37864979bef76fe723722a521393cc14786075c1c1718462bbc2abd15b4f",
+            "indexSha256": "82aa1b35b33ff9fb4bb9a2cfeeceb27ce83c67970694be3bb56bb7e9d4b01354"
+          },
+          "evicted": {
+            "cell": "11:-8",
+            "id": "chunk:11:-8:r4",
+            "oldLease": "1.406",
+            "managed": false,
+            "indexed": false,
+            "socketStillExposed": false,
+            "leaseStillExposed": false,
+            "history": {
+              "key": "11:-8",
+              "chunkX": 11,
+              "chunkZ": -8,
+              "revision": 5,
+              "retireCount": 2,
+              "lastUsed": 1170
+            },
+            "epoch": 8,
+            "historySize": 180,
+            "historyCap": 256,
+            "retiredTotal": 437,
+            "disposedGeometryCount": 1655,
+            "active": 32,
+            "bvhs": 32,
+            "cap": 41,
+            "renderOrigin": {
+              "x": 20000,
+              "y": 0,
+              "z": -20000
+            }
+          }
+        },
+        {
+          "requested": "-10:-7",
+          "active": {
+            "cell": "-10:-7",
+            "id": "chunk:-10:-7:r2",
+            "worldFingerprint": 4094860385,
+            "revision": 2,
+            "chunkFingerprint": 3037665606,
+            "publicState": {
+              "key": "-10:-7",
+              "state": "ACTIVE",
+              "revision": 2,
+              "fingerprint": 3037665606,
+              "layout": "bowl"
+            },
+            "layout": "bowl",
+            "origin": {
+              "x": -2200,
+              "y": 0,
+              "z": -1540
+            },
+            "socket": {
+              "id": "kinetic-grid-1-r2.4294967295.N.-10.-7",
+              "position": {
+                "x": -2100,
+                "y": 94,
+                "z": -1540
+              },
+              "lease": "1.470"
+            },
+            "geometryUuid": "81ef22e2-c408-4671-8b22-a5cf0243d03c",
+            "contact": {
+              "chunkId": "chunk:-10:-7:r2",
+              "logicalSurfaceId": "kinetic-grid-1-r2.4294967295.spine.-10",
+              "distance": 0.10067528966669691
+            },
+            "workerBuildMs": 3.6000000000058208,
+            "active": 32,
+            "bvhs": 32,
+            "cap": 41,
+            "retiredTotal": 469,
+            "disposedGeometryCount": 1773,
+            "renderOrigin": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "history": {
+              "key": "-10:-7",
+              "chunkX": -10,
+              "chunkZ": -7,
+              "revision": 2,
+              "retireCount": 1,
+              "lastUsed": 1256
+            },
+            "positionType": "Float32Array",
+            "indexType": "Uint16Array",
+            "positionBytes": 79800,
+            "indexBytes": 17412,
+            "triangles": 2902,
+            "collisionSha256": "91eb46ac3481721f402205bbfb5801937152b732094a21c2a40f1fce71d106ac",
+            "positionSha256": "836144957327a9f3a2a6245659d1438db8f5b635e1fee017550f372b200fdf27",
+            "indexSha256": "f45b9a7a36b6c3d0be6eebde5c04cfd4258ff87f09900fd6003083b3a149af92"
+          },
+          "evicted": {
+            "cell": "-10:-7",
+            "id": "chunk:-10:-7:r2",
+            "oldLease": "1.470",
+            "managed": false,
+            "indexed": false,
+            "socketStillExposed": false,
+            "leaseStillExposed": false,
+            "history": {
+              "key": "-10:-7",
+              "chunkX": -10,
+              "chunkZ": -7,
+              "revision": 3,
+              "retireCount": 2,
+              "lastUsed": 1361
+            },
+            "epoch": 9,
+            "historySize": 180,
+            "historyCap": 256,
+            "retiredTotal": 501,
+            "disposedGeometryCount": 1896,
+            "active": 32,
+            "bvhs": 32,
+            "cap": 41,
+            "renderOrigin": {
+              "x": 20000,
+              "y": 0,
+              "z": -20000
+            }
+          }
+        }
+      ],
+      "after": [
+        {
+          "requested": "-10:-7",
+          "active": {
+            "cell": "-10:-7",
+            "id": "chunk:-10:-7:r3",
+            "worldFingerprint": 4094860385,
+            "revision": 3,
+            "chunkFingerprint": 2444717762,
+            "publicState": {
+              "key": "-10:-7",
+              "state": "ACTIVE",
+              "revision": 3,
+              "fingerprint": 2444717762,
+              "layout": "ribbon-bridge"
+            },
+            "layout": "ribbon-bridge",
+            "origin": {
+              "x": -2200,
+              "y": 0,
+              "z": -1540
+            },
+            "socket": {
+              "id": "kinetic-grid-1-r2.4294967295.N.-10.-7",
+              "position": {
+                "x": -2100,
+                "y": 94,
+                "z": -1540
+              },
+              "lease": "1.534"
+            },
+            "geometryUuid": "34f698c5-078e-4c17-a86b-206ddc2b555a",
+            "contact": {
+              "chunkId": "chunk:-10:-7:r3",
+              "logicalSurfaceId": "kinetic-grid-1-r2.4294967295.spine.-10",
+              "distance": 0.10004624026229755
+            },
+            "workerBuildMs": 3,
+            "active": 32,
+            "bvhs": 32,
+            "cap": 41,
+            "retiredTotal": 533,
+            "disposedGeometryCount": 2014,
+            "renderOrigin": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "history": {
+              "key": "-10:-7",
+              "chunkX": -10,
+              "chunkZ": -7,
+              "revision": 3,
+              "retireCount": 2,
+              "lastUsed": 1448
+            },
+            "positionType": "Float32Array",
+            "indexType": "Uint16Array",
+            "positionBytes": 80832,
+            "indexBytes": 17868,
+            "triangles": 2978,
+            "collisionSha256": "336ed373e0ed73b3b7c2c1b52128f835dfd40dbdcd14d22e56b8a15beb9c094b",
+            "positionSha256": "a3fada9c5c8b8c493592207d7ac8a98b79c1ab5019569d7ad2c9b90190b89980",
+            "indexSha256": "3f97ddc61e0aee85916c87ea9667d7efad813e688d8f37317263d1b1b0cc591d"
+          },
+          "evicted": {
+            "cell": "-10:-7",
+            "id": "chunk:-10:-7:r3",
+            "oldLease": "1.534",
+            "managed": false,
+            "indexed": false,
+            "socketStillExposed": false,
+            "leaseStillExposed": false,
+            "history": {
+              "key": "-10:-7",
+              "chunkX": -10,
+              "chunkZ": -7,
+              "revision": 4,
+              "retireCount": 3,
+              "lastUsed": 1554
+            },
+            "epoch": 10,
+            "historySize": 180,
+            "historyCap": 256,
+            "retiredTotal": 565,
+            "disposedGeometryCount": 2137,
+            "active": 32,
+            "bvhs": 32,
+            "cap": 41,
+            "renderOrigin": {
+              "x": 20000,
+              "y": 0,
+              "z": -20000
+            }
+          }
+        },
+        {
+          "requested": "11:-8",
+          "active": {
+            "cell": "11:-8",
+            "id": "chunk:11:-8:r5",
+            "worldFingerprint": 4094860385,
+            "revision": 5,
+            "chunkFingerprint": 2563414204,
+            "publicState": {
+              "key": "11:-8",
+              "state": "ACTIVE",
+              "revision": 5,
+              "fingerprint": 2563414204,
+              "layout": "ribbon-bridge"
+            },
+            "layout": "ribbon-bridge",
+            "origin": {
+              "x": 2420,
+              "y": 0,
+              "z": -1760
+            },
+            "socket": {
+              "id": "kinetic-grid-1-r2.4294967295.N.11.-8",
+              "position": {
+                "x": 2534,
+                "y": 87,
+                "z": -1760
+              },
+              "lease": "1.598"
+            },
+            "geometryUuid": "e9d8f8db-4ae4-4869-8e93-3336f35ba6ab",
+            "contact": {
+              "chunkId": "chunk:11:-8:r5",
+              "logicalSurfaceId": "kinetic-grid-1-r2.4294967295.spine.11",
+              "distance": 0.09987173807334832
+            },
+            "workerBuildMs": 4.099999999991269,
+            "active": 32,
+            "bvhs": 32,
+            "cap": 41,
+            "retiredTotal": 597,
+            "disposedGeometryCount": 2255,
+            "renderOrigin": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "history": {
+              "key": "11:-8",
+              "chunkX": 11,
+              "chunkZ": -8,
+              "revision": 5,
+              "retireCount": 2,
+              "lastUsed": 1640
+            },
+            "positionType": "Float32Array",
+            "indexType": "Uint16Array",
+            "positionBytes": 76944,
+            "indexBytes": 17220,
+            "triangles": 2870,
+            "collisionSha256": "4bef690dcad0efb57ade6b63a7c41a559ea649f5949d85b3fc051a0f4e7c393b",
+            "positionSha256": "8f4da81b24fff93e3c314dbe0d4d2f588255195d15041f0f9d38980a0bc7a171",
+            "indexSha256": "a3c3cef016f8b7108b097511ddccb26c8e76c55b911a2061f8d0c68d0ad55823"
+          },
+          "evicted": {
+            "cell": "11:-8",
+            "id": "chunk:11:-8:r5",
+            "oldLease": "1.598",
+            "managed": false,
+            "indexed": false,
+            "socketStillExposed": false,
+            "leaseStillExposed": false,
+            "history": {
+              "key": "11:-8",
+              "chunkX": 11,
+              "chunkZ": -8,
+              "revision": 6,
+              "retireCount": 3,
+              "lastUsed": 1747
+            },
+            "epoch": 11,
+            "historySize": 180,
+            "historyCap": 256,
+            "retiredTotal": 629,
+            "disposedGeometryCount": 2383,
+            "active": 32,
+            "bvhs": 32,
+            "cap": 41,
+            "renderOrigin": {
+              "x": 20000,
+              "y": 0,
+              "z": -20000
+            }
+          }
+        },
+        {
+          "requested": "9:10",
+          "active": {
+            "cell": "9:10",
+            "id": "chunk:9:10:r6",
+            "worldFingerprint": 4094860385,
+            "revision": 6,
+            "chunkFingerprint": 1389937273,
+            "publicState": {
+              "key": "9:10",
+              "state": "ACTIVE",
+              "revision": 6,
+              "fingerprint": 1389937273,
+              "layout": "s-curve"
+            },
+            "layout": "s-curve",
+            "origin": {
+              "x": 1980,
+              "y": 0,
+              "z": 2200
+            },
+            "socket": {
+              "id": "kinetic-grid-1-r2.4294967295.N.9.10",
+              "position": {
+                "x": 2098,
+                "y": 91,
+                "z": 2200
+              },
+              "lease": "1.662"
+            },
+            "geometryUuid": "ad8272d4-d757-4db1-9ae2-6a2600a7c040",
+            "contact": {
+              "chunkId": "chunk:9:10:r6",
+              "logicalSurfaceId": "kinetic-grid-1-r2.4294967295.spine.9",
+              "distance": 0.09993223861981258
+            },
+            "workerBuildMs": 3.2999999999883585,
+            "active": 32,
+            "bvhs": 32,
+            "cap": 41,
+            "retiredTotal": 661,
+            "disposedGeometryCount": 2501,
+            "renderOrigin": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "history": {
+              "key": "9:10",
+              "chunkX": 9,
+              "chunkZ": 10,
+              "revision": 6,
+              "retireCount": 2,
+              "lastUsed": 1832
+            },
+            "positionType": "Float32Array",
+            "indexType": "Uint16Array",
+            "positionBytes": 52272,
+            "indexBytes": 10548,
+            "triangles": 1758,
+            "collisionSha256": "4d1b54d8a4479ed80d36e35891e51607912e377863efda487797f3d739febfe9",
+            "positionSha256": "08d3dc3af881769291b20ab9772c1937342990bd4442103d4b832c783d3452fb",
+            "indexSha256": "39401c471402c489c63da700937dcf0bf23adc7d4f2c3abaa14f267a70cad379"
+          },
+          "evicted": {
+            "cell": "9:10",
+            "id": "chunk:9:10:r6",
+            "oldLease": "1.662",
+            "managed": false,
+            "indexed": false,
+            "socketStillExposed": false,
+            "leaseStillExposed": false,
+            "history": {
+              "key": "9:10",
+              "chunkX": 9,
+              "chunkZ": 10,
+              "revision": 7,
+              "retireCount": 3,
+              "lastUsed": 1939
+            },
+            "epoch": 12,
+            "historySize": 180,
+            "historyCap": 256,
+            "retiredTotal": 693,
+            "disposedGeometryCount": 2624,
+            "active": 32,
+            "bvhs": 32,
+            "cap": 41,
+            "renderOrigin": {
+              "x": 20000,
+              "y": 0,
+              "z": -20000
+            }
+          }
+        },
+        {
+          "requested": "-12:9",
+          "active": {
+            "cell": "-12:9",
+            "id": "chunk:-12:9:r7",
+            "worldFingerprint": 4094860385,
+            "revision": 7,
+            "chunkFingerprint": 3221440411,
+            "publicState": {
+              "key": "-12:9",
+              "state": "ACTIVE",
+              "revision": 7,
+              "fingerprint": 3221440411,
+              "layout": "junction"
+            },
+            "layout": "junction",
+            "origin": {
+              "x": -2640,
+              "y": 0,
+              "z": 1980
+            },
+            "socket": {
+              "id": "kinetic-grid-1-r2.4294967295.N.-12.9",
+              "position": {
+                "x": -2537,
+                "y": 97,
+                "z": 1980
+              },
+              "lease": "1.726"
+            },
+            "geometryUuid": "e7129d3f-de7c-4ba7-89a4-b7e3911a8b8b",
+            "contact": {
+              "chunkId": "chunk:-12:9:r7",
+              "logicalSurfaceId": "kinetic-grid-1-r2.4294967295.spine.-12",
+              "distance": 0.1007206080401408
+            },
+            "workerBuildMs": 1.8999999999941792,
+            "active": 32,
+            "bvhs": 32,
+            "cap": 41,
+            "retiredTotal": 725,
+            "disposedGeometryCount": 2742,
+            "renderOrigin": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "history": {
+              "key": "-12:9",
+              "chunkX": -12,
+              "chunkZ": 9,
+              "revision": 7,
+              "retireCount": 2,
+              "lastUsed": 2024
+            },
+            "positionType": "Float32Array",
+            "indexType": "Uint16Array",
+            "positionBytes": 54864,
+            "indexBytes": 10404,
+            "triangles": 1734,
+            "collisionSha256": "35612c34aa9a01b63d3287653cac8223505cfa53e5acbb506d8e23e55eda01b6",
+            "positionSha256": "cf2151e7d9615b143686eb58454036708ff066597f5848f38dcff8a0a2f99cd6",
+            "indexSha256": "1e4fba9a12d0d8cefe90f23dfc9b03aff58ab30d7852f5613ece33967d40006d"
+          },
+          "evicted": {
+            "cell": "-12:9",
+            "id": "chunk:-12:9:r7",
+            "oldLease": "1.726",
+            "managed": false,
+            "indexed": false,
+            "socketStillExposed": false,
+            "leaseStillExposed": false,
+            "history": {
+              "key": "-12:9",
+              "chunkX": -12,
+              "chunkZ": 9,
+              "revision": 8,
+              "retireCount": 3,
+              "lastUsed": 2130
+            },
+            "epoch": 13,
+            "historySize": 180,
+            "historyCap": 256,
+            "retiredTotal": 757,
+            "disposedGeometryCount": 2865,
+            "active": 32,
+            "bvhs": 32,
+            "cap": 41,
+            "renderOrigin": {
+              "x": 20000,
+              "y": 0,
+              "z": -20000
+            }
+          }
+        }
+      ],
+      "pairs": [
+        {
+          "cell": "-12:9",
+          "expectedReloadRevision": 7,
+          "beforeRevision": 6,
+          "afterRevision": 7,
+          "shaEqual": false,
+          "fingerprintEqual": false,
+          "chunkIdEqual": false,
+          "leaseChanged": true,
+          "geometryInstanceChanged": true,
+          "socketEqual": true,
+          "logicalSurfaceEqual": true
+        },
+        {
+          "cell": "9:10",
+          "expectedReloadRevision": 6,
+          "beforeRevision": 5,
+          "afterRevision": 6,
+          "shaEqual": false,
+          "fingerprintEqual": false,
+          "chunkIdEqual": false,
+          "leaseChanged": true,
+          "geometryInstanceChanged": true,
+          "socketEqual": true,
+          "logicalSurfaceEqual": true
+        },
+        {
+          "cell": "11:-8",
+          "expectedReloadRevision": 5,
+          "beforeRevision": 4,
+          "afterRevision": 5,
+          "shaEqual": false,
+          "fingerprintEqual": false,
+          "chunkIdEqual": false,
+          "leaseChanged": true,
+          "geometryInstanceChanged": true,
+          "socketEqual": true,
+          "logicalSurfaceEqual": true
+        },
+        {
+          "cell": "-10:-7",
+          "expectedReloadRevision": 3,
+          "beforeRevision": 2,
+          "afterRevision": 3,
+          "shaEqual": false,
+          "fingerprintEqual": false,
+          "chunkIdEqual": false,
+          "leaseChanged": true,
+          "geometryInstanceChanged": true,
+          "socketEqual": true,
+          "logicalSurfaceEqual": true
+        }
+      ]
+    }
+  },
+  "crossOrder": [
+    {
+      "phase": "before",
+      "cell": "-10:-7",
+      "forwardRevision": 2,
+      "reverseRevision": 2,
+      "forwardSha256": "91eb46ac3481721f402205bbfb5801937152b732094a21c2a40f1fce71d106ac",
+      "reverseSha256": "91eb46ac3481721f402205bbfb5801937152b732094a21c2a40f1fce71d106ac",
+      "mismatch": []
+    },
+    {
+      "phase": "before",
+      "cell": "11:-8",
+      "forwardRevision": 4,
+      "reverseRevision": 4,
+      "forwardSha256": "4f088b56fdbea8d2a9ecc83b81baebda41a476f9434101a1e4b5f2a81b582b6f",
+      "reverseSha256": "4f088b56fdbea8d2a9ecc83b81baebda41a476f9434101a1e4b5f2a81b582b6f",
+      "mismatch": []
+    },
+    {
+      "phase": "before",
+      "cell": "9:10",
+      "forwardRevision": 5,
+      "reverseRevision": 5,
+      "forwardSha256": "31a99ad25661ba0651ec9e0abe4d5e0e17fa548b0d3c8319fdaec70ebd05b9b4",
+      "reverseSha256": "31a99ad25661ba0651ec9e0abe4d5e0e17fa548b0d3c8319fdaec70ebd05b9b4",
+      "mismatch": []
+    },
+    {
+      "phase": "before",
+      "cell": "-12:9",
+      "forwardRevision": 6,
+      "reverseRevision": 6,
+      "forwardSha256": "cc55e7e75c6cd3cd7cd61ece3e5150cac89e17922a6fd4bcdc88db2ad21d368d",
+      "reverseSha256": "cc55e7e75c6cd3cd7cd61ece3e5150cac89e17922a6fd4bcdc88db2ad21d368d",
+      "mismatch": []
+    },
+    {
+      "phase": "after",
+      "cell": "-10:-7",
+      "forwardRevision": 3,
+      "reverseRevision": 3,
+      "forwardSha256": "336ed373e0ed73b3b7c2c1b52128f835dfd40dbdcd14d22e56b8a15beb9c094b",
+      "reverseSha256": "336ed373e0ed73b3b7c2c1b52128f835dfd40dbdcd14d22e56b8a15beb9c094b",
+      "mismatch": []
+    },
+    {
+      "phase": "after",
+      "cell": "11:-8",
+      "forwardRevision": 5,
+      "reverseRevision": 5,
+      "forwardSha256": "4bef690dcad0efb57ade6b63a7c41a559ea649f5949d85b3fc051a0f4e7c393b",
+      "reverseSha256": "4bef690dcad0efb57ade6b63a7c41a559ea649f5949d85b3fc051a0f4e7c393b",
+      "mismatch": []
+    },
+    {
+      "phase": "after",
+      "cell": "9:10",
+      "forwardRevision": 6,
+      "reverseRevision": 6,
+      "forwardSha256": "4d1b54d8a4479ed80d36e35891e51607912e377863efda487797f3d739febfe9",
+      "reverseSha256": "4d1b54d8a4479ed80d36e35891e51607912e377863efda487797f3d739febfe9",
+      "mismatch": []
+    },
+    {
+      "phase": "after",
+      "cell": "-12:9",
+      "forwardRevision": 7,
+      "reverseRevision": 7,
+      "forwardSha256": "35612c34aa9a01b63d3287653cac8223505cfa53e5acbb506d8e23e55eda01b6",
+      "reverseSha256": "35612c34aa9a01b63d3287653cac8223505cfa53e5acbb506d8e23e55eda01b6",
+      "mismatch": []
+    }
+  ],
+  "checks": 156,
+  "failures": [],
+  "build": {
+    "version": "0.11.0",
+    "sourceCommit": "c4bc8eac5425197ebb08c937316de415e75b89b1",
+    "sourceCommitTime": "2026-11-28T07:20:58Z",
+    "dirty": false,
+    "sourceUrl": "https://github.com/styayur/Skimmer-Scraper/tree/c4bc8eac5425197ebb08c937316de415e75b89b1",
+    "toolchain": {
+      "node": "v24.22.3",
+      "platform": "linux",
+      "architecture": "x64"
+    }
+  },
+  "gitTree": "eb4ab2a1a8ff67c776bf6469f3223633324c7bd7",
+  "sourceFiles": {
+    "src/world/worldStreamer.ts": "96962b0cab1d4fe3ddeaf067bedd060b8c38c5f334f80566b4ede1d9624e811f",
+    "src/world/chunkedWorldAdapter.ts": "a5921d1aaadb3a6b5673c783acc83ebda293c88b6f371a432cd4f07c0d0a9553",
+    "src/world/chunkSource.ts": "3d168632508cb22e7cdd3258daf4f31550fef6e5ff3654076b6cabd693e9e0ff",
+    "src/world/cityChunk.worker.ts": "4585a7b3be70a0ca9cc6e1ce945edc02c8719043a475e7b9ba1c603140ab4b4f",
+    "src/world/chunkRevisionHistory.ts": "2c2a832fe106adf5d887e7f06a40d261bcdc17f975daf886e3abf7f74d3136fa",
+    "src/world/kinetic/kinetic-flight-modules.r2.json": "02d807f0ae74a011c45043d0fa0144260c5e36236c2d1695b912e839f9d9dabd"
+  },
+  "servedScripts": {
+    "/assets/cityChunk.worker-kxNDcCkz.js": {
+      "bytes": 282582,
+      "sha256": "f5ab1e796c621eccc97428aa0eabffe8c7b2b1eceb87c3388afd89263d1d8690"
+    },
+    "/assets/index-yT2wa0pU.js": {
+      "bytes": 1307632,
+      "sha256": "176ab1ccad4a48f9aad5a73ca7f99c06d409807db34f5f797c3ad5ccc7a6483a"
+    },
+    "/assets/kinetic-flight-modules.r2-DsN8DY3t.js": {
+      "bytes": 251038,
+      "sha256": "5bf97011675d4ad2e961b8038a90efadbed91a2715f495eb33e4ce92e73ed531"
+    }
+  },
+  "finishedUtc": "2026-11-28T07:56:13.824Z",
+  "status": "passed"
+}
