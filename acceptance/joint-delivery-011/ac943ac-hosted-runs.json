@@ -1,0 +1,97 @@
+{
+  "sourceCommit": "ac943acd6a2c6d21431aa138327bc3e64ed8552f",
+  "description": "Official product build and qualification runs for this main revision. Evidence-only workflows have their own runner head and use the named main product artifacts. Hardware regression, physical trial, production deployment and release promotion are recorded separately.",
+  "runs": [
+    {
+      "measurement": "main web build, three Chromium shards and protected aggregate",
+      "workflowExecutedOnMeasuredSource": true,
+      "attempt": 1,
+      "conclusion": "success",
+      "databaseId": 46129442515,
+      "event": "push",
+      "headBranch": "main",
+      "headSha": "ac943acd6a2c6d21431aa138327bc3e64ed8552f",
+      "status": "completed",
+      "url": "https://github.com/styayur/Skimmer-Scraper/actions/runs/46129442515",
+      "workflowName": "CI"
+    },
+    {
+      "measurement": "current-user Windows installer and installed WebView2 smoke",
+      "workflowExecutedOnMeasuredSource": true,
+      "attempt": 1,
+      "conclusion": "success",
+      "databaseId": 46129495362,
+      "event": "workflow_dispatch",
+      "headBranch": "main",
+      "headSha": "ac943acd6a2c6d21431aa138327bc3e64ed8552f",
+      "status": "completed",
+      "url": "https://github.com/styayur/Skimmer-Scraper/actions/runs/46129495362",
+      "workflowName": "Windows desktop"
+    },
+    {
+      "measurement": "Linux GTK3 native, dependent-package audits, four full CodeQL jobs",
+      "workflowExecutedOnMeasuredSource": true,
+      "attempt": 1,
+      "conclusion": "success",
+      "databaseId": 46129499917,
+      "event": "workflow_dispatch",
+      "headBranch": "main",
+      "headSha": "ac943acd6a2c6d21431aa138327bc3e64ed8552f",
+      "status": "completed",
+      "url": "https://github.com/styayur/Skimmer-Scraper/actions/runs/46129499917",
+      "workflowName": "Linux GLib verification"
+    },
+    {
+      "measurement": "four legacy installer paths with the prebuilt 46129495362 installer",
+      "workflowExecutedOnMeasuredSource": true,
+      "attempt": 1,
+      "conclusion": "success",
+      "databaseId": 46130569084,
+      "event": "workflow_dispatch",
+      "headBranch": "main",
+      "headSha": "ac943acd6a2c6d21431aa138327bc3e64ed8552f",
+      "status": "completed",
+      "url": "https://github.com/styayur/Skimmer-Scraper/actions/runs/46130569084",
+      "workflowName": "Windows desktop"
+    },
+    {
+      "measurement": "34 frozen Web flight inputs and five shipped worlds on the main build",
+      "workflowExecutedOnMeasuredSource": false,
+      "attempt": 1,
+      "conclusion": "success",
+      "databaseId": 46129621281,
+      "event": "push",
+      "headBranch": "codex/final-web-flight-evidence",
+      "headSha": "758a75e28bb292f56b9654e1af51f712238445c0",
+      "status": "completed",
+      "url": "https://github.com/styayur/Skimmer-Scraper/actions/runs/46129621281",
+      "workflowName": "Final Web flight evidence"
+    },
+    {
+      "measurement": "Linux source rebuild and root-index itch ZIP in four locale/presentation cases",
+      "workflowExecutedOnMeasuredSource": false,
+      "attempt": 1,
+      "conclusion": "success",
+      "databaseId": 46129699362,
+      "event": "push",
+      "headBranch": "codex/kinetic-assembly-ac943ac",
+      "headSha": "838427a3339a301ae851bf9278dfce53b3eb6a19",
+      "status": "completed",
+      "url": "https://github.com/styayur/Skimmer-Scraper/actions/runs/46129699362",
+      "workflowName": "Stage Kinetic release qualification on hosted runners"
+    },
+    {
+      "measurement": "installed Windows Switchyard import and same-layout reopen",
+      "workflowExecutedOnMeasuredSource": false,
+      "attempt": 1,
+      "conclusion": "success",
+      "databaseId": 46130586145,
+      "event": "push",
+      "headBranch": "codex/flight-diagnostic-v2",
+      "headSha": "be4e7cd8853c6f5e92045532a8b455fbdfba4850",
+      "status": "completed",
+      "url": "https://github.com/styayur/Skimmer-Scraper/actions/runs/46130586145",
+      "workflowName": "Installed Windows Switchyard handoff"
+    }
+  ]
+}

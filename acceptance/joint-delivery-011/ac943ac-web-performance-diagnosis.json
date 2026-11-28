@@ -1,0 +1,331 @@
+{
+  "definition": "Descriptive only. Match nonbuffering snapshots by seed, draw calls, rendered triangle count, render objects, collision triangles and resident chunk count. GPU values are renderer timer samples, and each matched group receives equal weight. Driver clocks, power and temperature were not recorded. These measurements do not establish a cause.",
+  "stock": {
+    "source": "991138b8c67c188bd47731d6c193142750225818",
+    "rawSha256": "1057e240d14182494839fd2d7d8110ad4f73659dfd7b6ca2ad756ba3d077806e",
+    "measuredStart": "2026-11-28T07:44:32.038Z",
+    "measuredFinish": "2026-11-28T07:59:48.131Z",
+    "meanFps": 109.18930946022427,
+    "frames": 100110,
+    "p95Ms": 16.699999999953434,
+    "focus": false,
+    "idleHostCpu": {
+      "count": 60,
+      "medianPercent": 6.784660766961648,
+      "p95Percent": 21.135029354207436
+    },
+    "runningHostCpu": {
+      "count": 913,
+      "medianPercent": 17.039922103213247,
+      "p95Percent": 35.12993262752647
+    },
+    "intervalFractions": {
+      "under12ms": 0.9016381979822196,
+      "12to20ms": 0.09792228548596543,
+      "20msOrLonger": 0.0004395165318150035
+    },
+    "observedRendererThreadMsPerDeliveredFrame": {
+      "ThreadTime": 6.34468889221856,
+      "TaskDuration": 6.300111787034262,
+      "ScriptDuration": 4.46269262810908,
+      "LayoutDuration": 0.26274360203775843,
+      "RecalcStyleDuration": 0.10842898811307561
+    },
+    "oneSecondSamples": {
+      "gpuMs": {
+        "count": 914,
+        "median": 5.73972,
+        "p95": 7.16304
+      },
+      "calls": {
+        "count": 914,
+        "median": 471.0,
+        "p95": 569
+      },
+      "triangles": {
+        "count": 914,
+        "median": 404872.0,
+        "p95": 497600
+      },
+      "loadedChunks": {
+        "count": 914,
+        "median": 33.0,
+        "p95": 36
+      },
+      "heap": {
+        "count": 914,
+        "median": 76426789.0,
+        "p95": 99553119
+      },
+      "residentGeometry": {
+        "count": 914,
+        "median": 40126492.0,
+        "p95": 45119656
+      }
+    },
+    "perSeed": {
+      "334458": {
+        "gpuMs": {
+          "count": 303,
+          "median": 5.823,
+          "p95": 6.56928
+        },
+        "calls": {
+          "count": 303,
+          "median": 471,
+          "p95": 578
+        },
+        "triangles": {
+          "count": 303,
+          "median": 428156,
+          "p95": 520544
+        }
+      },
+      "479568308": {
+        "gpuMs": {
+          "count": 307,
+          "median": 5.70232,
+          "p95": 7.16304
+        },
+        "calls": {
+          "count": 307,
+          "median": 472,
+          "p95": 570
+        },
+        "triangles": {
+          "count": 307,
+          "median": 360252,
+          "p95": 421928
+        }
+      },
+      "501763084": {
+        "gpuMs": {
+          "count": 304,
+          "median": 5.693759999999999,
+          "p95": 7.36776
+        },
+        "calls": {
+          "count": 304,
+          "median": 468.5,
+          "p95": 567
+        },
+        "triangles": {
+          "count": 304,
+          "median": 428560.0,
+          "p95": 497060
+        }
+      }
+    },
+    "wallClockSegments": [
+      {
+        "startSeconds": 0,
+        "sampledSeconds": 119.99290000000298,
+        "meanFps": 106.83132085314783
+      },
+      {
+        "startSeconds": 120,
+        "sampledSeconds": 119.9983,
+        "meanFps": 108.53487091067123
+      },
+      {
+        "startSeconds": 240,
+        "sampledSeconds": 119.99820000000001,
+        "meanFps": 110.12665189977848
+      },
+      {
+        "startSeconds": 360,
+        "sampledSeconds": 120.00670000000001,
+        "meanFps": 110.7188181993172
+      },
+      {
+        "startSeconds": 480,
+        "sampledSeconds": 119.99809999999998,
+        "meanFps": 110.80175436111074
+      },
+      {
+        "startSeconds": 600,
+        "sampledSeconds": 119.99819999999995,
+        "meanFps": 107.79328356592019
+      },
+      {
+        "startSeconds": 720,
+        "sampledSeconds": 120.00670000000007,
+        "meanFps": 109.70220829337022
+      },
+      {
+        "startSeconds": 840,
+        "sampledSeconds": 76.84890000000003,
+        "meanFps": 108.90201421230489
+      }
+    ]
+  },
+  "candidate": {
+    "source": "ac943acd6a2c6d21431aa138327bc3e64ed8552f",
+    "rawSha256": "73ddbedd1af5785e6fc4dc8d608202160edfea3f98314cd7dd7b85c5a0ccc5aa",
+    "measuredStart": "2026-11-28T09:17:23.445Z",
+    "measuredFinish": "2026-11-28T09:32:41.240Z",
+    "meanFps": 100.54249705733886,
+    "frames": 92166,
+    "p95Ms": 16.70000000001164,
+    "focus": false,
+    "idleHostCpu": {
+      "count": 60,
+      "medianPercent": 8.803165182987138,
+      "p95Percent": 21.32424537487828
+    },
+    "runningHostCpu": {
+      "count": 913,
+      "medianPercent": 17.151162790697672,
+      "p95Percent": 37.109375
+    },
+    "intervalFractions": {
+      "under12ms": 0.8071848620966517,
+      "12to20ms": 0.19238113838074777,
+      "20msOrLonger": 0.00043399952260052515
+    },
+    "observedRendererThreadMsPerDeliveredFrame": {
+      "ThreadTime": 6.244581657010177,
+      "TaskDuration": 6.195203610876027,
+      "ScriptDuration": 4.261996864353449,
+      "LayoutDuration": 0.25373613914024695,
+      "RecalcStyleDuration": 0.10456746522578826
+    },
+    "oneSecondSamples": {
+      "gpuMs": {
+        "count": 913,
+        "median": 6.25396,
+        "p95": 7.15705
+      },
+      "calls": {
+        "count": 913,
+        "median": 470,
+        "p95": 567
+      },
+      "triangles": {
+        "count": 913,
+        "median": 404324,
+        "p95": 497600
+      },
+      "loadedChunks": {
+        "count": 913,
+        "median": 33,
+        "p95": 36
+      },
+      "heap": {
+        "count": 913,
+        "median": 76381371,
+        "p95": 99205311
+      },
+      "residentGeometry": {
+        "count": 913,
+        "median": 40126492,
+        "p95": 44861524
+      }
+    },
+    "perSeed": {
+      "334458": {
+        "gpuMs": {
+          "count": 304,
+          "median": 6.2769200000000005,
+          "p95": 6.94392
+        },
+        "calls": {
+          "count": 304,
+          "median": 468.0,
+          "p95": 583
+        },
+        "triangles": {
+          "count": 304,
+          "median": 428676.0,
+          "p95": 522448
+        }
+      },
+      "479568308": {
+        "gpuMs": {
+          "count": 305,
+          "median": 6.19592,
+          "p95": 6.73632
+        },
+        "calls": {
+          "count": 305,
+          "median": 475,
+          "p95": 570
+        },
+        "triangles": {
+          "count": 305,
+          "median": 360180,
+          "p95": 415192
+        }
+      },
+      "501763084": {
+        "gpuMs": {
+          "count": 304,
+          "median": 6.305400000000001,
+          "p95": 7.72222
+        },
+        "calls": {
+          "count": 304,
+          "median": 469.0,
+          "p95": 566
+        },
+        "triangles": {
+          "count": 304,
+          "median": 429920.0,
+          "p95": 496512
+        }
+      }
+    },
+    "wallClockSegments": [
+      {
+        "startSeconds": 0,
+        "sampledSeconds": 119.9983,
+        "meanFps": 99.70974588806675
+      },
+      {
+        "startSeconds": 120,
+        "sampledSeconds": 119.9901,
+        "meanFps": 101.19168164706922
+      },
+      {
+        "startSeconds": 240,
+        "sampledSeconds": 120.00650000000003,
+        "meanFps": 101.96947665334793
+      },
+      {
+        "startSeconds": 360,
+        "sampledSeconds": 119.99809999999998,
+        "meanFps": 101.60160869213765
+      },
+      {
+        "startSeconds": 480,
+        "sampledSeconds": 119.99830000000004,
+        "meanFps": 102.00977847186165
+      },
+      {
+        "startSeconds": 600,
+        "sampledSeconds": 120.00669999999995,
+        "meanFps": 98.82781544697092
+      },
+      {
+        "startSeconds": 720,
+        "sampledSeconds": 119.99809999999998,
+        "meanFps": 98.68489584418423
+      },
+      {
+        "startSeconds": 840,
+        "sampledSeconds": 76.69090000000003,
+        "meanFps": 100.23353487832321
+      }
+    ]
+  },
+  "matchedGpuTiming": {
+    "groups": 293,
+    "stockObservations": 644,
+    "candidateObservations": 594,
+    "candidateToStockRatioOfWithinGroupMedians": {
+      "count": 293,
+      "median": 1.0921712193748239,
+      "p95": 1.211164918970448
+    }
+  }
+}
