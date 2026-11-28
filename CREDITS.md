@@ -37,6 +37,11 @@ generation service, textures or runtime dependencies were added for this feature
 | [fake-indexeddb](https://github.com/dumbmatter/fakeIndexedDB) | 6.2.8 | Apache-2.0 | IndexedDB tests |
 | [Syne](https://fontsource.org/fonts/syne) | 5.3.0 | SIL OFL 1.1 | display typography |
 | [IBM Plex Sans](https://fontsource.org/fonts/ibm-plex-sans) | 5.3.0 | SIL OFL 1.1 | interface typography |
+| [gtk-rs GLib](https://crates.io/crates/glib/0.18.5) | 0.18.5 | MIT | Linux GTK3 bindings with the [Vextessera source backport](https://github.com/styayur/vextessera/tree/c3c5b32edb915f2173b7fb2436e3facb64e67b71/vendor/glib) |
+
+The Linux desktop source includes the gtk-rs contributors’ [copyright notice](vendor/glib/COPYRIGHT)
+and [MIT license](vendor/glib/LICENSE). The [backport record](security/glib-backport.md)
+identifies the upstream fix and the donor’s subsequent changes.
 
 Exact transitive dependency versions are recorded in `package-lock.json`; their license terms remain
 in their respective packages. Font files are distributed through Fontsource under the SIL Open Font
