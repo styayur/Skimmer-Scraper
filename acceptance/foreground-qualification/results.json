@@ -1,0 +1,614 @@
+{
+  "hardware": "host.json",
+  "baseline": "991138b8c67c188bd47731d6c193142750225818",
+  "candidate": "0a5272b36352a1300253080bd38cfb5d520c7e0d",
+  "method": "One foreground run per source, platform and scene. FPS and p95 use all valid frame intervals.",
+  "limits": {
+    "maximumMeanFpsLossPercent": 5,
+    "maximumFrameP95IncreasePercent": 10
+  },
+  "flights": [
+    {
+      "directory": "v0.10.0/web",
+      "source": "991138b8c67c188bd47731d6c193142750225818",
+      "world": "city",
+      "platform": "web",
+      "simulationSeconds": 901.599999999342,
+      "wallSeconds": 952.6798999999911,
+      "frames": 81153,
+      "frameSamples": 947,
+      "meanFps": 85.18693353177453,
+      "p95Ms": 17.900000000023283,
+      "foregroundChecks": 7229,
+      "musicPlayingSamples": 947,
+      "scriptedCrossings": 2,
+      "naturalCrossings": 11,
+      "rawSha256": "20354e3aa3cb32db136e45610692389cd63a5dfe595baf0470910d090e96dfd6"
+    },
+    {
+      "directory": "v0.10.0/windows",
+      "source": "991138b8c67c188bd47731d6c193142750225818",
+      "world": "city",
+      "platform": "windows",
+      "simulationSeconds": 902.1583333326739,
+      "wallSeconds": 953.1646000000089,
+      "frames": 74416,
+      "frameSamples": 946,
+      "meanFps": 78.07578689557339,
+      "p95Ms": 23.70000000006985,
+      "foregroundChecks": 8915,
+      "musicPlayingSamples": 945,
+      "scriptedCrossings": 2,
+      "naturalCrossings": 11,
+      "rawSha256": "1fdc6b4628cb6255bf99b1812874b232041d137a3781bb633b0236442cf6e247"
+    },
+    {
+      "directory": "candidate-0a5272b/web",
+      "source": "0a5272b36352a1300253080bd38cfb5d520c7e0d",
+      "world": "city",
+      "platform": "web",
+      "simulationSeconds": 902.1166666660074,
+      "wallSeconds": 960.602,
+      "frames": 82796,
+      "frameSamples": 955,
+      "meanFps": 86.19548080662541,
+      "p95Ms": 17,
+      "foregroundChecks": 8603,
+      "musicPlayingSamples": 954,
+      "scriptedCrossings": 2,
+      "naturalCrossings": 13,
+      "rawSha256": "2072ebe3a4d19e75aaae9099e264d7f60992ae42163035877742c52c332b5cc8"
+    },
+    {
+      "directory": "candidate-0a5272b/windows",
+      "source": "0a5272b36352a1300253080bd38cfb5d520c7e0d",
+      "world": "city",
+      "platform": "windows",
+      "simulationSeconds": 902.6083333326725,
+      "wallSeconds": 949.3326000000089,
+      "frames": 68901,
+      "frameSamples": 942,
+      "meanFps": 72.58198827728383,
+      "p95Ms": 25,
+      "foregroundChecks": 8611,
+      "musicPlayingSamples": 942,
+      "scriptedCrossings": 2,
+      "naturalCrossings": 10,
+      "rawSha256": "29971d3d0c4bc6059144003dcbead16f7419eacad6f5b364cbe2670869132aba"
+    },
+    {
+      "directory": "candidate-0a5272b/kinetic/web",
+      "source": "0a5272b36352a1300253080bd38cfb5d520c7e0d",
+      "world": "kinetic-city",
+      "platform": "web",
+      "simulationSeconds": 181.41666666666234,
+      "wallSeconds": 227.96920000000299,
+      "frames": 22366,
+      "frameSamples": 227,
+      "meanFps": 98.12076320633656,
+      "p95Ms": 16.800000000017462,
+      "foregroundChecks": 1882,
+      "musicPlayingSamples": 226,
+      "scriptedCrossings": 2,
+      "naturalCrossings": 10,
+      "rawSha256": "87cacd2845b1bee67655baf4400e5823e7ad2782e3fff9bc7e0fb9b5b11216fe"
+    },
+    {
+      "directory": "candidate-0a5272b/kinetic/windows",
+      "source": "0a5272b36352a1300253080bd38cfb5d520c7e0d",
+      "world": "kinetic-city",
+      "platform": "windows",
+      "simulationSeconds": 180.98333333332988,
+      "wallSeconds": 226.29270000000298,
+      "frames": 19845,
+      "frameSamples": 225,
+      "meanFps": 87.70499301939905,
+      "p95Ms": 22.29999999998836,
+      "foregroundChecks": 2014,
+      "musicPlayingSamples": 225,
+      "scriptedCrossings": 2,
+      "naturalCrossings": 10,
+      "rawSha256": "cdd00730fd188b67c8dd2ee7374755199af88ae397d2a23b458b9610bf2c2b2d"
+    }
+  ],
+  "regression": {
+    "web": {
+      "exitCode": 0,
+      "fpsChangePercent": 1.1839225020051858,
+      "p95ChangePercent": -5.02793296101739,
+      "fpsPassed": true,
+      "p95Passed": true
+    },
+    "windows": {
+      "exitCode": 1,
+      "fpsChangePercent": -7.036494714600227,
+      "p95ChangePercent": 5.4852320671996635,
+      "fpsPassed": false,
+      "p95Passed": true
+    }
+  },
+  "platformSettingsParity": {
+    "stock": true,
+    "candidate": true
+  },
+  "kineticBudget": {
+    "pass": true,
+    "web": {
+      "loadedChunks": {
+        "min": 0,
+        "max": 36,
+        "last": 36
+      },
+      "activeChunks": {
+        "min": 0,
+        "max": 36,
+        "last": 36
+      },
+      "maxLoadedChunks": {
+        "min": 41,
+        "max": 41,
+        "last": 41
+      },
+      "bvh": {
+        "min": 0,
+        "max": 36,
+        "last": 36
+      },
+      "dynamic": {
+        "min": 0,
+        "max": 0,
+        "last": 0
+      },
+      "collisionTriangles": {
+        "min": 0,
+        "max": 100188,
+        "last": 89028
+      },
+      "geometries": {
+        "min": 24,
+        "max": 108,
+        "last": 103
+      },
+      "textures": {
+        "min": 19,
+        "max": 19,
+        "last": 19
+      },
+      "renderObjects": {
+        "min": 0,
+        "max": 103,
+        "last": 96
+      },
+      "residentGeometry": {
+        "min": 0,
+        "max": 17925264,
+        "last": 16308960
+      },
+      "triangles": {
+        "min": 11792,
+        "max": 204628,
+        "last": 175840
+      },
+      "calls": {
+        "min": 52,
+        "max": 158,
+        "last": 138
+      },
+      "gpuMs": {
+        "min": 3.31548,
+        "max": 16.45049,
+        "last": 5.79584
+      },
+      "heap": {
+        "min": 26542169,
+        "max": 111678591,
+        "last": 58375216
+      },
+      "disposedGeometry": {
+        "min": 0,
+        "max": 536,
+        "last": 100
+      },
+      "generatedTotal": {
+        "min": 0,
+        "max": 183,
+        "last": 63
+      },
+      "retiredTotal": {
+        "min": 0,
+        "max": 147,
+        "last": 27
+      },
+      "rebaseCount": {
+        "min": 0,
+        "max": 0,
+        "last": 0
+      },
+      "missionRecords": {
+        "min": 0,
+        "max": 0,
+        "last": 0
+      },
+      "runningMissionTargets": {
+        "min": 0,
+        "max": 0,
+        "last": 0
+      },
+      "staleMissionTargets": {
+        "min": 0,
+        "max": 0,
+        "last": 0
+      },
+      "queuedSpeech": {
+        "min": 0,
+        "max": 0,
+        "last": 0
+      },
+      "playbackEvents": {
+        "min": 5,
+        "max": 32,
+        "last": 32
+      }
+    },
+    "windows": {
+      "loadedChunks": {
+        "min": 6,
+        "max": 36,
+        "last": 33
+      },
+      "activeChunks": {
+        "min": 6,
+        "max": 36,
+        "last": 33
+      },
+      "maxLoadedChunks": {
+        "min": 41,
+        "max": 41,
+        "last": 41
+      },
+      "bvh": {
+        "min": 6,
+        "max": 36,
+        "last": 33
+      },
+      "dynamic": {
+        "min": 0,
+        "max": 0,
+        "last": 0
+      },
+      "collisionTriangles": {
+        "min": 16080,
+        "max": 98144,
+        "last": 89302
+      },
+      "geometries": {
+        "min": 24,
+        "max": 106,
+        "last": 97
+      },
+      "textures": {
+        "min": 19,
+        "max": 19,
+        "last": 19
+      },
+      "renderObjects": {
+        "min": 16,
+        "max": 103,
+        "last": 94
+      },
+      "residentGeometry": {
+        "min": 2657448,
+        "max": 18093264,
+        "last": 16057752
+      },
+      "triangles": {
+        "min": 11792,
+        "max": 205252,
+        "last": 178232
+      },
+      "calls": {
+        "min": 52,
+        "max": 160,
+        "last": 128
+      },
+      "gpuMs": {
+        "min": 3.64688,
+        "max": 23.46825,
+        "last": 5.74532
+      },
+      "heap": {
+        "min": 31330455,
+        "max": 106140740,
+        "last": 53130287
+      },
+      "disposedGeometry": {
+        "min": 0,
+        "max": 382,
+        "last": 267
+      },
+      "generatedTotal": {
+        "min": 6,
+        "max": 133,
+        "last": 104
+      },
+      "retiredTotal": {
+        "min": 0,
+        "max": 102,
+        "last": 71
+      },
+      "rebaseCount": {
+        "min": 0,
+        "max": 0,
+        "last": 0
+      },
+      "missionRecords": {
+        "min": 0,
+        "max": 0,
+        "last": 0
+      },
+      "runningMissionTargets": {
+        "min": 0,
+        "max": 0,
+        "last": 0
+      },
+      "staleMissionTargets": {
+        "min": 0,
+        "max": 0,
+        "last": 0
+      },
+      "queuedSpeech": {
+        "min": 0,
+        "max": 0,
+        "last": 0
+      },
+      "playbackEvents": {
+        "min": 2,
+        "max": 32,
+        "last": 32
+      }
+    }
+  },
+  "firstWindowsDiagnosis": {
+    "units": "Per-second telemetry sample counts and nearest-rank median/p95. Frame FPS is calculated from chronological rAF intervals.",
+    "hostCpu": "unavailable for the first pair",
+    "stock": {
+      "first240": {
+        "frames": 20273,
+        "meanFps": 84.47431789894668,
+        "p95Ms": 20.59999999999127,
+        "telemetry": {
+          "phaseSamples": {
+            "ASCENT": 239
+          },
+          "seedSamples": {
+            "334458": 239
+          },
+          "resources": {
+            "gpuMs": {
+              "median": 6.1694,
+              "p95": 8.07017
+            },
+            "triangles": {
+              "median": 383056,
+              "p95": 482252
+            },
+            "calls": {
+              "median": 485,
+              "p95": 569
+            },
+            "residentGeometry": {
+              "median": 37011096,
+              "p95": 39417820
+            },
+            "collisionTriangles": {
+              "median": 158856,
+              "p95": 167808
+            },
+            "heap": {
+              "median": 73499995,
+              "p95": 90473065
+            },
+            "activeChunks": {
+              "median": 36,
+              "p95": 36
+            },
+            "bvh": {
+              "median": 36,
+              "p95": 36
+            },
+            "dynamic": {
+              "median": 8,
+              "p95": 8
+            }
+          }
+        }
+      },
+      "full": {
+        "phaseSamples": {
+          "ASCENT": 897,
+          "THRESHOLD": 6,
+          "INVERSION": 16,
+          "DIVE": 16,
+          "RECOVERY": 10,
+          "WORLD_SWAP": 1
+        },
+        "seedSamples": {
+          "334458": 302,
+          "479568308": 48,
+          "501763084": 37,
+          "1260951991": 20,
+          "1897042955": 29,
+          "2161577063": 15,
+          "2436865534": 300,
+          "3038270385": 19,
+          "3090090432": 36,
+          "3975412444": 30,
+          "3996501713": 25,
+          "4183856814": 17,
+          "4214583617": 39,
+          "4293657168": 29
+        },
+        "resources": {
+          "gpuMs": {
+            "median": 6.4326,
+            "p95": 14.99564
+          },
+          "triangles": {
+            "median": 379532,
+            "p95": 482396
+          },
+          "calls": {
+            "median": 489,
+            "p95": 590
+          },
+          "residentGeometry": {
+            "median": 37796280,
+            "p95": 44517940
+          },
+          "collisionTriangles": {
+            "median": 181372,
+            "p95": 210244
+          },
+          "heap": {
+            "median": 79661587,
+            "p95": 111382630
+          },
+          "activeChunks": {
+            "median": 36,
+            "p95": 36
+          },
+          "bvh": {
+            "median": 36,
+            "p95": 36
+          },
+          "dynamic": {
+            "median": 8,
+            "p95": 8
+          }
+        }
+      },
+      "glidePhaseSamples": {
+        "FLIGHT": 946
+      }
+    },
+    "candidate": {
+      "first240": {
+        "frames": 19265,
+        "meanFps": 80.27176983731577,
+        "p95Ms": 18.5,
+        "telemetry": {
+          "phaseSamples": {
+            "ASCENT": 239
+          },
+          "seedSamples": {
+            "334458": 239
+          },
+          "resources": {
+            "gpuMs": {
+              "median": 6.9832,
+              "p95": 9.13529
+            },
+            "triangles": {
+              "median": 384816,
+              "p95": 494156
+            },
+            "calls": {
+              "median": 483,
+              "p95": 576
+            },
+            "residentGeometry": {
+              "median": 37376556,
+              "p95": 41943840
+            },
+            "collisionTriangles": {
+              "median": 160000,
+              "p95": 177344
+            },
+            "heap": {
+              "median": 75492756,
+              "p95": 94626930
+            },
+            "activeChunks": {
+              "median": 36,
+              "p95": 36
+            },
+            "bvh": {
+              "median": 36,
+              "p95": 36
+            },
+            "dynamic": {
+              "median": 8,
+              "p95": 8
+            }
+          }
+        }
+      },
+      "full": {
+        "phaseSamples": {
+          "ASCENT": 897,
+          "INVERSION": 15,
+          "DIVE": 15,
+          "RECOVERY": 9,
+          "THRESHOLD": 2,
+          "WORLD_SWAP": 4
+        },
+        "seedSamples": {
+          "334458": 302,
+          "479568308": 44,
+          "501763084": 25,
+          "1260951991": 18,
+          "1897042955": 23,
+          "2161577063": 37,
+          "3038270385": 40,
+          "3090090432": 33,
+          "3975412444": 21,
+          "3996501713": 37,
+          "4183856814": 300,
+          "4214583617": 21,
+          "4293657168": 41
+        },
+        "resources": {
+          "gpuMs": {
+            "median": 7.35372,
+            "p95": 14.50558
+          },
+          "triangles": {
+            "median": 412824,
+            "p95": 505916
+          },
+          "calls": {
+            "median": 499,
+            "p95": 597
+          },
+          "residentGeometry": {
+            "median": 40267488,
+            "p95": 46524172
+          },
+          "collisionTriangles": {
+            "median": 177368,
+            "p95": 210116
+          },
+          "heap": {
+            "median": 85387488,
+            "p95": 119426818
+          },
+          "activeChunks": {
+            "median": 36,
+            "p95": 36
+          },
+          "bvh": {
+            "median": 36,
+            "p95": 36
+          },
+          "dynamic": {
+            "median": 8,
+            "p95": 8
+          }
+        }
+      },
+      "glidePhaseSamples": {
+        "FLIGHT": 942
+      }
+    }
+  }
+}
