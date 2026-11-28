@@ -94,7 +94,7 @@ def content():
             with archive.open(name) as src,(high/name).open("xb") as dst:
                 shutil.copyfileobj(src,dst)
     forge=Path("forge").resolve()
-    subprocess.run(["node",product/"scripts/export-worldforge.mjs","amber",forge,"2"],check=True)
+    subprocess.run(["node",product/"scripts/export-worldforge.mjs","amber",forge,"2"],cwd=product,check=True)
     target=Path("content-build")
     target.mkdir()
     shutil.copyfile(stage/"prepared/release-manifest.json",target/"release-manifest.json")
