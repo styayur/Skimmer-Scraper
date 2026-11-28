@@ -68,6 +68,7 @@ with ExitStack() as stack:
     pilot.locator("#partner-world-catalog details > summary").click()
     source, digest = pilot.locator("#partner-world-pin").inner_text().split(" · SHA-256 ")
     assert digest == expected and not transfers
+    assert source == f"https://raw.githubusercontent.com/styayur/V2Wpro/{args.producer_sha}/examples/switchyard.glb"
     pilot.locator("#partner-world-import").click()
     pilot.locator("#local-world-config").wait_for(timeout=90000)
     pilot.locator("#local-world-save").uncheck()
@@ -85,6 +86,7 @@ with ExitStack() as stack:
     saved.value.save_as(file)
     observation = json.loads(file.read_bytes())
     assert observation["sha256"] == expected and observation["world"]["layoutSeed"] == layout
+    assert observation["imported"]["id"] == expected and observation["replayed"] is None
     assert observation["recording"]["kind"] == "player" and len(observation["trace"]) >= 2
     assert observation["build"]["sourceCommit"] == args.game_sha
     entry = pilot.locator("script[type=module][src]").first.evaluate("e=>e.src")
@@ -92,15 +94,27 @@ with ExitStack() as stack:
     pilot.locator("#local-world-keep").click()
     pilot.wait_for_function("""Object.values(sessionStorage).some(v=>v.includes('"replay":true'))""")
     pilot.reload()
-    pilot.wait_for_function("window.__SKIMMER_SCRAPER__?.snapshot().localWorld")
+    pilot.wait_for_function("window.__SKIMMER_SCRAPER__?.snapshot().ready && window.__SKIMMER_SCRAPER__.snapshot().localWorld", timeout=90000)
     assert pilot.locator("#world-seed-input").input_value() == layout
+    pilot.locator("#world-close").click()
+    pilot.locator("#start-button").click()
+    pilot.wait_for_function("window.__SKIMMER_SCRAPER__.snapshot().runTime > 0.3")
+    pilot.keyboard.press("g")
+    with pilot.expect_download() as reopened_download:
+        pilot.locator("#local-world-diagnostic").click()
+    replay_file = args.output/"reopened-observation.json"
+    reopened_download.value.save_as(replay_file)
+    reopened = json.loads(replay_file.read_bytes())
+    assert reopened["world"] == observation["world"] and reopened["binary"] == observation["binary"]
+    assert reopened["replayed"] == reopened["imported"] == observation["imported"]
     designer.locator("#flight-report").set_input_files(file)
     designer.wait_for_function("document.getElementById('report-result').textContent.includes('player-observation')")
     assert transfers == [{"method":"GET","url":source}] and not errors
     receipt = {"publicSites":args.preview_sites is None,"producer":producer,"game":game,
         "producerCommit":build["commit"],"consumerCommit":consumer["sourceCommit"],"handoff":link.get_attribute("href"),
         "glbSha256":expected,"bytes":observation["world"]["bytes"],"browser":browser.version,
-        "binary":observation["binary"],"layoutRestored":True,"traceSamples":len(observation["trace"]),
+        "binary":observation["binary"],"layoutRestored":True,"reopenedImport":reopened["replayed"],
+        "traceSamples":len(observation["trace"]),
         "result":designer.locator("#report-result").inner_text(),"requests":transfers,"errors":errors}
     (args.output/"handoff.json").write_text(json.dumps(receipt,indent=2)+"\n",encoding="utf-8")
     print(json.dumps(receipt,ensure_ascii=True))
