@@ -1,4 +1,6 @@
 import { ForgeChunkGenerator } from './procedural/forgeChunk';
+import { KineticChunkGenerator } from './kinetic/kineticChunk';
+import { kineticLibrary } from './kinetic/sweep';
 import { DragonspineChunkGenerator } from './dragonspineChunk';
 import { ChunkGenerator } from './chunkGenerator';
 import { MeshBVH } from 'three-mesh-bvh';
@@ -22,19 +24,24 @@ export interface ChunkSource {
 export class CityWorkerSource implements ChunkSource {
   private worker: Worker | null = null;
   private workerReady = false;
-  private readonly generator: ChunkGenerator | ForgeChunkGenerator;
+  private readonly generator: ChunkGenerator | ForgeChunkGenerator | KineticChunkGenerator;
   private pending?: { resolve: (result: GeneratedChunk) => void; reject: (error: Error) => void };
   private disposed = false;
 
   constructor(settings: WorldSettings) {
-    this.generator = settings.theme === 'worldforge' ? new ForgeChunkGenerator(settings) : new ChunkGenerator(settings);
+    this.generator = settings.theme === 'kinetic-city' ? new KineticChunkGenerator(settings) :
+      settings.theme === 'worldforge' ? new ForgeChunkGenerator(settings) : new ChunkGenerator(settings);
     try {
       this.worker = new Worker(new URL('./cityChunk.worker.ts', import.meta.url), { type: 'module' });
       this.worker.onerror = () => this.stopWorker(new Error('City geometry worker unavailable'));
       this.worker.onmessageerror = () => this.stopWorker(new Error('Invalid city geometry packet'));
-      this.worker.onmessage = ({ data }: MessageEvent<'ready' | CityWorkerResult>) => {
+      this.worker.onmessage = ({ data }: MessageEvent<'ready' | CityWorkerResult | { error: string }>) => {
         if (data === 'ready') {
           this.workerReady = true;
+          return;
+        }
+        if ('error' in data) {
+          this.stopWorker(new Error(data.error));
           return;
         }
         const pending = this.pending;
@@ -42,9 +49,9 @@ export class CityWorkerSource implements ChunkSource {
         try {
           const started = performance.now();
           const packet = data.packet;
-          const chunk = 'forge' in packet && this.generator instanceof ForgeChunkGenerator
-            ? this.generator.assemble(packet)
-            : !('forge' in packet) && this.generator instanceof ChunkGenerator ? this.generator.assemble(packet) : null;
+          const chunk = 'kinetic' in packet && this.generator instanceof KineticChunkGenerator ? this.generator.assemble(packet) :
+            'forge' in packet && this.generator instanceof ForgeChunkGenerator ? this.generator.assemble(packet) :
+            'surfaces' in packet && this.generator instanceof ChunkGenerator ? this.generator.assemble(packet) : null;
           if (!chunk) throw new Error('Worker returned geometry for a different world');
           chunk.collisionTree = MeshBVH.deserialize(data.collisionTree, chunk.collisionGeometry);
           chunk.workerBuildMs = data.workerBuildMs;
@@ -87,7 +94,7 @@ export class CityWorkerSource implements ChunkSource {
     await yieldToBrowser();
     if (this.disposed) throw new Error('City source disposed');
     const started = performance.now();
-    const chunk = this.generator.generate(request.chunkX, request.chunkZ, request.revision);
+    const chunk = await this.generator.generate(request.chunkX, request.chunkZ, request.revision);
     chunk.synchronousBuildMs = performance.now() - started;
     return chunk;
   }
@@ -108,18 +115,23 @@ const yieldToBrowser = (): Promise<void> => new Promise((resolve) => {
  * but the streamer can cancel queued work and never generates the whole city in a physics tick.
  */
 export class InlineChunkSource implements ChunkSource {
-  private readonly generator: ChunkGenerator | DragonspineChunkGenerator | ForgeChunkGenerator;
+  private readonly generator: ChunkGenerator | DragonspineChunkGenerator | ForgeChunkGenerator | KineticChunkGenerator;
   private disposed = false;
 
-  public constructor(settings: WorldSettings) {
-    this.generator = settings.theme === 'worldforge' ? new ForgeChunkGenerator(settings) : settings.theme ? new DragonspineChunkGenerator(settings) : new ChunkGenerator(settings);
+  public constructor(private readonly settings: WorldSettings) {
+    this.generator = settings.theme === 'kinetic-city' ? new KineticChunkGenerator(settings) :
+      settings.theme === 'worldforge' ? new ForgeChunkGenerator(settings) :
+      settings.theme === 'dragonspine' ? new DragonspineChunkGenerator(settings) : new ChunkGenerator(settings);
   }
 
   public async generate(request: ChunkSourceRequest): Promise<GeneratedChunk> {
     await yieldToBrowser();
+    const span = this.settings.dragonSpans ? (await kineticLibrary()).find(m => m.id === 'sky-arch') : undefined;
     if (this.disposed) throw new Error('Chunk source was disposed before generation started.');
     const started = performance.now();
-    const chunk = this.generator.generate(request.chunkX, request.chunkZ, request.revision);
+    const chunk = this.generator instanceof DragonspineChunkGenerator
+      ? this.generator.generate(request.chunkX, request.chunkZ, request.revision, span)
+      : await this.generator.generate(request.chunkX, request.chunkZ, request.revision);
     chunk.synchronousBuildMs = performance.now() - started;
     return chunk;
   }

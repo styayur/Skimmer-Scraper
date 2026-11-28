@@ -3,6 +3,8 @@ import { dragonspineFloor, valleyAxis, VALLEY_SPACING } from './dragonspineTerra
 import { fingerprintValues } from './deterministic';
 import { CHUNK_SIZE, type WorldSettings } from './worldConfig';
 import type { GeneratedChunk } from './worldTypes';
+import type { TopologyHint } from './worldTypes';
+import { appendSweep, asVec, MeshBuffer, smooth, stationPoint, type KineticModule, type Placement } from './kinetic/sweep';
 
 import { islandFaces, islandsAround, type Vertex, type Face } from './dragonspineIslands';
 const moss=0x678573, basalt=0x465763, cut=0x826e63, gold=0xc1aa76;
@@ -50,12 +52,48 @@ function gorgeVault(seed: number,lane: number,row: number): Face[] {
   return faces;
 }
 
+function canyonSpan(seed: number, ox: number, oz: number, module: KineticModule) {
+  const row = Math.round((oz + CHUNK_SIZE / 2 + 90) / (8 * CHUNK_SIZE));
+  const z = row * 8 * CHUNK_SIZE - 90;
+  if (z + module.width / 2 < oz || z - module.width / 2 > oz + CHUNK_SIZE) return;
+  const lane = Math.round((ox + CHUNK_SIZE / 2) / VALLEY_SPACING);
+  const x = valleyAxis(z, seed, lane) - CHUNK_SIZE / 2;
+  if (x > ox + CHUNK_SIZE || x + CHUNK_SIZE < ox) return;
+  const left = dragonspineFloor(x, z, seed) - 1, right = dragonspineFloor(x + CHUNK_SIZE, z, seed) - 1;
+  const place: Placement = ([u, v, w], t) => [x + w, v + left + (right - left) * smooth(t), z - u];
+  const clippedMesh = (visible: boolean) => {
+    const buffer = new MeshBuffer(visible);
+    appendSweep(buffer, module, place);
+    const triangles: Vertex[][] = [];
+    for (let i = 0; i < buffer.indices.length; i += 3) {
+      let polygon = buffer.indices.slice(i, i + 3).map(index => {
+        const p = index * 3;
+        return [buffer.positions[p]!, buffer.positions[p+1]!, buffer.positions[p+2]!] as Vertex;
+      });
+      polygon = clipped(clipped(polygon, 0, ox, 1), 0, ox + CHUNK_SIZE, -1);
+      polygon = clipped(clipped(polygon, 2, oz, 1), 2, oz + CHUNK_SIZE, -1);
+      for (let j = 2; j < polygon.length; j++) triangles.push([polygon[0]!, polygon[j-1]!, polygon[j]!]);
+    }
+    return triangles;
+  };
+  const hints: TopologyHint[] = [];
+  for (const t of [0.25, 0.5, 0.75]) {
+    const station = module.stations.find(s => s.t >= t)!;
+    for (const kind of ['surface', 'route'] as const) {
+      const position = asVec(place(stationPoint(station, 0, kind === 'surface' ? 0 : 6), station.t));
+      if (position.x < ox || position.x >= ox + CHUNK_SIZE || position.z < oz || position.z >= oz + CHUNK_SIZE) continue;
+      hints.push({ id: ['canyon-span-1', seed, lane, row, kind, t].join('.'), kind, position });
+    }
+  }
+  return { render: clippedMesh(true), collision: clippedMesh(false), hints, id:['canyon-span-1',seed,lane,row].join('.') };
+}
+
 export class DragonspineChunkGenerator {
   private readonly material=new T.MeshStandardMaterial({vertexColors:true,flatShading:true,side:T.DoubleSide,roughness:.9});
   private readonly vaults=new Map<string,Face[]>();
   private readonly islandCollision=new Map<string,Face[]>();
   constructor(private readonly settings: WorldSettings) {}
-  generate(cx: number,cz: number,revision: number): GeneratedChunk {
+  generate(cx: number,cz: number,revision: number, module?: KineticModule): GeneratedChunk {
     const seed=this.settings.seed, ox=cx*CHUNK_SIZE, oz=cz*CHUNK_SIZE;
     const positions: number[]=[], colors: number[]=[];
     const tint=new T.Color();
@@ -110,7 +148,16 @@ export class DragonspineChunkGenerator {
     group.position.set(ox,0,oz);
     group.add(surface(0,groundFloats,'dragonspine-bedrock'));
     if(positions.length>groundFloats)group.add(surface(groundFloats,positions.length,'dragonspine-vault'));
+    const rockEnd = positions.length;
+    const span = module && canyonSpan(seed, ox, oz, module);
+    if (span) {
+      for (const [a,b,c] of span.render) emit(a!, b!, c!, gold);
+      if (positions.length > rockEnd) group.add(surface(rockEnd, positions.length, 'dragonspine-sky-arch'));
+    }
     const renderTriangles=positions.length/9;
+    positions.length = rockEnd;
+    if (span) for (const face of span.collision) for (const [x,y,z] of face) positions.push(x-ox, y, z-oz);
+    const spanEnd = positions.length / 3;
     const sites=islandsAround(seed,ox+CHUNK_SIZE*.5,oz+CHUNK_SIZE*.5,CHUNK_SIZE*.5);
     for(const site of sites){
       let faces=this.islandCollision.get(site.id);
@@ -136,8 +183,10 @@ export class DragonspineChunkGenerator {
     return {key:cx+':'+cz,chunkX:cx,chunkZ:cz,revision,origin:{x:ox,y:0,z:oz},group,
       bounds:collision.boundingBox!.clone(),collisionGeometry:collision,
       fingerprint:fingerprintValues('ascendant-2',seed,cx,cz,positions.length),
+      ...(span ? { topology: { layout: 'canyon-sky-arch', hints: span.hints },
+        surfaceSpans: [{first:rockEnd / 3, end:spanEnd, id:span.id}] } : {}),
       stats:{buildings:0,islands:sites.filter(s=>Math.floor(s.x/CHUNK_SIZE)===cx && Math.floor(s.z/CHUNK_SIZE)===cz).length,
-        bridges:vault?1:0,renderTriangles,collisionTriangles:positions.length/9}};
+        bridges:Number(vault)+Number(!!span),renderTriangles,collisionTriangles:positions.length/9}};
   }
   dispose(){this.material.dispose();this.vaults.clear();this.islandCollision.clear();}
 }

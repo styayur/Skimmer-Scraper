@@ -132,3 +132,7 @@ The celadon gate GLB and its authoring script in art/world-modules are original 
 World music and its composition scripts are original project works. The music selector is adapted from styayur/mzk under MIT. See [MZK integration](docs/MZK.md) and [MIT notice](licenses/MZK-MIT.txt).
 
 KITE-W, KITE-S and the WorldForge terrain and vault recipes are original project assets under AGPL-3.0-only. Blender source and generation scripts are under art/aircraft and art/world-modules.
+
+### Kinetic City and Dragonspine canyon spans
+
+The six parametric modules in `src/world/kinetic/kinetic-flight-modules.r2.json` are by the V2Wpro contributors, copyright 2026, under MIT. Skimmer vendors the boost-profile revision 2 source bytes at commit `0ddae11cabf6c053f074b51b7e7efdd7e75da18c` with SHA-256 `02d807f0ae74a011c45043d0fa0144260c5e36236c2d1695b912e839f9d9dabd`. The runtime builds its meshes locally. [Production catalog](https://raw.githubusercontent.com/styayur/V2Wpro/0ddae11cabf6c053f074b51b7e7efdd7e75da18c/examples/kinetic-flight-modules.json) · [Original research catalog](https://github.com/styayur/V2Wpro/blob/43cbe696592ce7bbab17140cbb8c6fc6a07478e9/examples/kinetic-modules.json) · [MIT notice](licenses/V2Wpro-kinetic-MIT.txt)

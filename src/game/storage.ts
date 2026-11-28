@@ -6,6 +6,7 @@ import {
   type WorldSettings,
 } from '../world/worldConfig';
 import { normalizeRules, type RuleConfig } from './ruleConfig';
+import { KINETIC_WORLD_ID } from '../world/kinetic/recipe';
 
 const LEGACY_BEST_KEY = 'skimmer-scraper.best.v1';
 const SCOPED_BEST_PREFIX = 'skimmer-scraper.best.v2';
@@ -30,7 +31,8 @@ export const defaultScoreContext: ScoreContext = Object.freeze({
 
 export const scoreContextFor = (settings: WorldSettings, rules?: RuleConfig): ScoreContext => ({
   // Keep the existing score key for the same terrain, including after a rollback.
-  ...(settings.theme === 'worldforge' ? { worldAsset: 'worldforge-1' } : settings.theme === 'dragonspine' ? { worldAsset: 'ascendant' } :
+  ...(settings.theme === 'kinetic-city' ? { worldAsset: KINETIC_WORLD_ID } :
+    settings.theme === 'worldforge' ? { worldAsset: 'worldforge-1' } : settings.theme === 'dragonspine' ? { worldAsset: settings.dragonSpans ? 'dragonspine-spans-1' : 'ascendant' } :
     settings.generatedPassages ? { worldAsset: 'generated-passages-v1' } : {}),
   seedText: settings.seedText,
   preset: settings.preset,

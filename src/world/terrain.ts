@@ -32,7 +32,7 @@ const spawnClearFactor = (x: number, z: number): number => {
 
 export const terrainHeightAt = (x: number, z: number, settings: WorldSettings): number => {
   if (settings.theme === 'worldforge') return forgeFloor(x,z,forgeLanes(settings.seed));
-  if (settings.theme) return dragonspineFloor(x, z, settings.seed);
+  if (settings.theme === 'dragonspine') return dragonspineFloor(x, z, settings.seed);
   const amplitude = settings.config.terrainAmplitude;
   if (amplitude <= 0) return 0;
   const terrainSeed = hashNumbers(settings.seed, settings.generatorVersion, 0x7e44a1);
