@@ -39,9 +39,17 @@ export async function withInstalledGame(exe, version, source, visit) {
     const cdp = await context.newCDPSession(page);
     const scripts = new Map();
     cdp.on('Debugger.scriptParsed', s => scripts.set(s.url, s.scriptId));
+    await cdp.send('Debugger.enable');
+    const scriptHash = async url => hash((await cdp.send('Debugger.getScriptSource', { scriptId: scripts.get(url) })).scriptSource);
+    // Witness the normal first document before any navigation or cache override.
+    const firstLaunch = await page.evaluate(() => ({
+      url: location.href, sourceLink: document.querySelector('#guide-source-links a').href,
+      entry: document.querySelector('script[type=module][src]').src,
+    }));
+    assert.equal(firstLaunch.sourceLink, 'https://github.com/styayur/Skimmer-Scraper/tree/' + source);
+    firstLaunch.executedEntrySha256 = await scriptHash(firstLaunch.entry);
     await cdp.send('Network.enable');
     await cdp.send('Network.setCacheDisabled', { cacheDisabled: true });
-    await cdp.send('Debugger.enable');
     // A previously shared legacy world URL is replayed on the installed origin.
     const world = new URL('/?gen=2&preset=sakura&seed=73581&world=stable', page.url());
     await page.goto(world.href);
@@ -62,8 +70,9 @@ export async function withInstalledGame(exe, version, source, visit) {
     assert(identity.environment.webview2 && identity.renderer);
     assert.equal(path.resolve(identity.environment.directory).toLowerCase(),
       path.join(process.env.LOCALAPPDATA, 'io.github.styayur.skimmer-scraper', 'world-library-v1').toLowerCase());
-    const { scriptSource } = await cdp.send('Debugger.getScriptSource', { scriptId: scripts.get(identity.entry) });
-    identity.executedEntrySha256 = hash(scriptSource);
+    identity.executedEntrySha256 = await scriptHash(identity.entry);
+    assert.equal(firstLaunch.executedEntrySha256, identity.executedEntrySha256, 'First launch executed a stale client');
+    identity.firstLaunch = firstLaunch;
     await cdp.detach();
     console.log('Installed WebView2', identity.build.version, identity.build.sourceCommit, identity.environment.webview2);
     await visit(page, identity);

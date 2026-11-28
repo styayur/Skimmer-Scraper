@@ -29,4 +29,4 @@ gh workflow run windows-desktop.yml --ref codex/windows-011-compat -f expected_s
 
 每次替换程序前，测试关闭客户端，通过 SQLite 备份 API 保存含已提交 WAL 页的世界库，并复制该应用已关闭的 Local Storage 和 IndexedDB。安装后、首次启动前，对照快照检查数据。每次启动后再由游戏导入或导出飞行员存档，重读 GLB 和资源包瓦片，并核对种子、世界指纹和历史成绩。候选通过玩家设置启用旅程记忆并生成真实访问记录。回滚版本保留同一来源下的 `skimmer.journey-memory.v1`，重新升级后从界面查看。原始存储备份留在临时主机，Actions 附件只含测试生成的数据与摘要。
 
-日常 PR 演练以已发布的 v0.10.0 为目标，回滚到 v0.9.2；v0.10.0 起点的第一步是同版重装。演练使用合成记忆记录验证旧版保留陌生键。正式候选的验收以该候选 SHA 的四份 `lifecycle-<SHA>-from-*` 附件为准。每份 `lifecycle.json` 给出安装轨迹，各阶段 JSON 给出运行时观测及安装前后快照。
+日常 PR 演练以已发布的 v0.10.0 为目标，回滚到 v0.9.2。从 v0.10.0 开始的测试首先执行同版重装。演练使用合成记忆记录验证旧版保留陌生键。正式候选的验收以该候选 SHA 的四份 `lifecycle-<SHA>-from-*` 附件为准。每份 `lifecycle.json` 给出安装轨迹，各阶段 JSON 给出运行时观测及安装前后快照。仓库保留了四份历史演练原始附件及其 SHA-256。[历史验收索引](../acceptance/v011/windows-lifecycle/historical/receipts.json)

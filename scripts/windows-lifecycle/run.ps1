@@ -50,6 +50,17 @@ function Save-Receipt {
     $receipt | ConvertTo-Json -Depth 12 | Set-Content -Encoding utf8 "$out/lifecycle.json"
 }
 function Get-Digest($file) { (Get-FileHash -LiteralPath $file -Algorithm SHA256).Hash.ToLowerInvariant() }
+function Read-Installed($version) {
+    $reg = Get-ItemProperty $registration
+    $hive = Get-ItemProperty $sidRegistration
+    if ($reg.DisplayVersion -cne $version -or $hive.DisplayVersion -cne $version -or
+        $reg.InstallLocation.Trim('"') -ine $install -or $hive.InstallLocation -ine $reg.InstallLocation) {
+        throw "Expected the current-user registration at $install for $version"
+    }
+    $hash = Get-Digest $exe
+    if ($hash -cne $releases[$version].exeSha256) { throw "Installed executable hash mismatch for $version" }
+    return [ordered]@{ displayVersion = $reg.DisplayVersion; installLocation = $reg.InstallLocation; exeSha256 = $hash }
+}
 function Install-Version($version) {
     $identity = $releases[$version]
     if ($CandidateSha -and $version -ceq $target) {
@@ -64,17 +75,10 @@ function Install-Version($version) {
     if ((Get-Digest $installer) -cne $identity.installerSha256) { throw "Installer hash mismatch for $version" }
     $process = Start-Process -FilePath (Resolve-Path -LiteralPath $installer).Path -ArgumentList '/S',"/D=$install" -Wait -PassThru -WindowStyle Hidden
     if ($process.ExitCode -ne 0) { throw "NSIS $version exited with $($process.ExitCode)" }
-    $reg = Get-ItemProperty $registration
-    $hive = Get-ItemProperty $sidRegistration
-    if ($reg.DisplayVersion -cne $version -or $hive.DisplayVersion -cne $version -or
-        $reg.InstallLocation.Trim('"') -ine $install -or $hive.InstallLocation -ine $reg.InstallLocation) {
-        throw "Expected the existing current-user registration at $install for $version"
-    }
-    $hash = Get-Digest $exe
-    if ($hash -cne $identity.exeSha256) { throw "Installed executable hash mismatch for $version" }
+    $registered = Read-Installed $version
     return [ordered]@{ version = $version; source = $identity.source; installer = $identity.installer
-        installerSha256 = $identity.installerSha256; exeSha256 = $hash; exitCode = $process.ExitCode
-        displayVersion = $reg.DisplayVersion; installLocation = $reg.InstallLocation }
+        installerSha256 = $identity.installerSha256; exeSha256 = $registered.exeSha256; exitCode = $process.ExitCode
+        displayVersion = $registered.displayVersion; installLocation = $registered.installLocation }
 }
 try {
     foreach ($stage in @('original','upgrade','rollback','reupgrade')) {
@@ -84,6 +88,7 @@ try {
         Save-Receipt
         Write-Host "Running $stage with registered version $version"
         if ($stage -ne 'original') {
+            $entry.beforeInstall = Read-Installed $receipt.stages[-2].version
             python "$PSScriptRoot/snapshot.py" capture $appData "$scratch/backup-$stage" "$out/$stage-before.json"
         }
         $entry.install = Install-Version $version
