@@ -1,0 +1,377 @@
+{
+  "runId": "46120953678",
+  "runAttempt": "1",
+  "shard": 3,
+  "harness": "d66b343cdd88d7d499e77afa4a63e8e3594f2813",
+  "reader": "5656a74f5786001e1011b1b3beb4649a903f76e6",
+  "python": "3.14.7",
+  "system": "Linux-7.0.0-1018-aws-x86_64-with-glibc2.39",
+  "rendererFlags": [
+    "--use-angle=swiftshader",
+    "--enable-unsafe-swiftshader"
+  ],
+  "beganUtc": "2026-11-28T07:24:24.969581+00:00",
+  "selected": [
+    "holdout/ribbon-bridge-104729-boost.json",
+    "third-holdout/ribbon-bridge-1360618348-boost.json",
+    "development/ribbon-bridge-48947-cruise.json",
+    "holdout/s-curve-112909-cruise.json",
+    "second-holdout/bowl-1085831800-boost.json",
+    "third-holdout/sky-arch-1173553645-cruise.json"
+  ],
+  "cases": [
+    {
+      "group": "holdout",
+      "name": "ribbon-bridge-104729-boost.json",
+      "attempts": [
+        {
+          "number": 1,
+          "startedUtc": "2026-11-28T07:24:24.972043+00:00",
+          "exitCode": 0,
+          "finishedUtc": "2026-11-28T07:25:18.672703+00:00"
+        }
+      ],
+      "observation": {
+        "outcome": "glide-and-release",
+        "met": true,
+        "shieldImpacts": 0,
+        "activeRelease": true,
+        "sampledHullIntrusion": false,
+        "captureLosses": 0,
+        "releasePhase": "GLIDING",
+        "sampleCount": 65,
+        "longestGlideM": 182.90407361886176,
+        "minimumSolidM": 5.235430217669089,
+        "comparisonSource": "946d2f7e8381f9f9af68a0cf7e488ac41debde04",
+        "identicalTrace": true,
+        "maximumPositionDifferenceM": 0.0
+      },
+      "producerReader": {
+        "sha256": "269abb1b4ee7832b0af77d491f3837d55738880831d5628b7e992a11b1472997",
+        "consumer": "c4bc8eac5425197ebb08c937316de415e75b89b1",
+        "outcome": "glide-and-release",
+        "sampledGlideMeters": 182.90407361886176,
+        "sampledGlideSeconds": 2.3666666666666583,
+        "longestContinuousSeconds": 2.3666666666666583,
+        "longestContinuousMeters": 182.90407361886176,
+        "minimumGlideClearance": 5.235430217669089,
+        "impacts": 0,
+        "phases": [
+          "FLIGHT",
+          "ATTACHING",
+          "GLIDING",
+          "DETACHING"
+        ],
+        "minimumSampledSolidDistance": 5.235430217669089,
+        "peakSampledAcceleration": 173.14608025529276,
+        "level": "engine-replayed",
+        "dirty": false,
+        "binarySha256": "176ab1ccad4a48f9aad5a73ca7f99c06d409807db34f5f797c3ad5ccc7a6483a",
+        "experiment": {
+          "module": "ribbon-bridge",
+          "seed": 104729,
+          "profile": "boost",
+          "ruleRevision": 2,
+          "inputId": "lb4-release48-boost",
+          "disposition": "must-succeed",
+          "approach": "entry",
+          "wingmates": 3
+        }
+      }
+    },
+    {
+      "group": "third-holdout",
+      "name": "ribbon-bridge-1360618348-boost.json",
+      "attempts": [
+        {
+          "number": 1,
+          "startedUtc": "2026-11-28T07:25:18.761222+00:00",
+          "exitCode": 0,
+          "finishedUtc": "2026-11-28T07:26:22.323539+00:00"
+        }
+      ],
+      "observation": {
+        "outcome": "glide-and-release",
+        "met": true,
+        "shieldImpacts": 0,
+        "activeRelease": true,
+        "sampledHullIntrusion": false,
+        "captureLosses": 0,
+        "releasePhase": "GLIDING",
+        "sampleCount": 65,
+        "longestGlideM": 183.6727756494435,
+        "minimumSolidM": 4.357898727474734,
+        "comparisonSource": "946d2f7e8381f9f9af68a0cf7e488ac41debde04",
+        "identicalTrace": true,
+        "maximumPositionDifferenceM": 0.0
+      },
+      "producerReader": {
+        "sha256": "0ce151c82478da2ab5f467dd994ac3e2699e577a9c3b13167483732b5ee4da33",
+        "consumer": "c4bc8eac5425197ebb08c937316de415e75b89b1",
+        "outcome": "glide-and-release",
+        "sampledGlideMeters": 183.6727756494435,
+        "sampledGlideSeconds": 2.3666666666666583,
+        "longestContinuousSeconds": 2.3666666666666583,
+        "longestContinuousMeters": 183.6727756494435,
+        "minimumGlideClearance": 5.199611635761763,
+        "impacts": 0,
+        "phases": [
+          "FLIGHT",
+          "ATTACHING",
+          "GLIDING",
+          "DETACHING"
+        ],
+        "minimumSampledSolidDistance": 4.357898727474734,
+        "peakSampledAcceleration": 143.44558744414635,
+        "level": "engine-replayed",
+        "dirty": false,
+        "binarySha256": "176ab1ccad4a48f9aad5a73ca7f99c06d409807db34f5f797c3ad5ccc7a6483a",
+        "experiment": {
+          "module": "ribbon-bridge",
+          "seed": 1360618348,
+          "profile": "boost",
+          "ruleRevision": 2,
+          "inputId": "lb4-release48-boost",
+          "disposition": "must-succeed",
+          "approach": "entry",
+          "wingmates": 1
+        }
+      }
+    },
+    {
+      "group": "development",
+      "name": "ribbon-bridge-48947-cruise.json",
+      "attempts": [
+        {
+          "number": 1,
+          "startedUtc": "2026-11-28T07:26:22.414590+00:00",
+          "exitCode": 0,
+          "finishedUtc": "2026-11-28T07:27:09.573565+00:00"
+        }
+      ],
+      "observation": {
+        "outcome": "capture-missed",
+        "met": true,
+        "shieldImpacts": 0,
+        "activeRelease": false,
+        "sampledHullIntrusion": false,
+        "captureLosses": 0,
+        "releasePhase": "FLIGHT",
+        "sampleCount": 65,
+        "longestGlideM": 0.0,
+        "minimumSolidM": null,
+        "comparisonSource": "946d2f7e8381f9f9af68a0cf7e488ac41debde04",
+        "identicalTrace": true,
+        "maximumPositionDifferenceM": 0.0
+      },
+      "producerReader": {
+        "sha256": "7c974a2c59c5592fb6de1c0847aecb39c639d27dacf0b00bcceb3657681e2722",
+        "consumer": "c4bc8eac5425197ebb08c937316de415e75b89b1",
+        "outcome": "capture-missed",
+        "sampledGlideMeters": 0,
+        "sampledGlideSeconds": 0,
+        "longestContinuousSeconds": 0,
+        "longestContinuousMeters": 0,
+        "minimumGlideClearance": null,
+        "impacts": 0,
+        "phases": [
+          "FLIGHT",
+          "ARMED"
+        ],
+        "minimumSampledSolidDistance": null,
+        "peakSampledAcceleration": 0,
+        "level": "engine-replayed",
+        "dirty": false,
+        "binarySha256": "176ab1ccad4a48f9aad5a73ca7f99c06d409807db34f5f797c3ad5ccc7a6483a",
+        "experiment": {
+          "module": "ribbon-bridge",
+          "seed": 48947,
+          "profile": "cruise",
+          "ruleRevision": 2,
+          "inputId": "lb4-release48-cruise-open-air",
+          "disposition": "must-reject",
+          "approach": "open-air",
+          "wingmates": 3
+        }
+      }
+    },
+    {
+      "group": "holdout",
+      "name": "s-curve-112909-cruise.json",
+      "attempts": [
+        {
+          "number": 1,
+          "startedUtc": "2026-11-28T07:27:09.666740+00:00",
+          "exitCode": 0,
+          "finishedUtc": "2026-11-28T07:28:08.402318+00:00"
+        }
+      ],
+      "observation": {
+        "outcome": "contact-lost",
+        "met": true,
+        "shieldImpacts": 0,
+        "activeRelease": false,
+        "sampledHullIntrusion": false,
+        "captureLosses": 1,
+        "releasePhase": "FLIGHT",
+        "sampleCount": 53,
+        "longestGlideM": 88.2297829678625,
+        "minimumSolidM": 5.846438651636105,
+        "comparisonSource": "946d2f7e8381f9f9af68a0cf7e488ac41debde04",
+        "identicalTrace": true,
+        "maximumPositionDifferenceM": 0.0
+      },
+      "producerReader": {
+        "sha256": "aeb8de750e779a4f35b6b1c30f74026f4709760e28dfad3f57c81fee8d60adf0",
+        "consumer": "c4bc8eac5425197ebb08c937316de415e75b89b1",
+        "outcome": "contact-lost",
+        "sampledGlideMeters": 148.35409854577003,
+        "sampledGlideSeconds": 2.116666666666659,
+        "longestContinuousSeconds": 1.2166666666666623,
+        "longestContinuousMeters": 88.2297829678625,
+        "minimumGlideClearance": 5.874506445257686,
+        "impacts": 0,
+        "phases": [
+          "FLIGHT",
+          "ATTACHING",
+          "GLIDING",
+          "REACQUIRE",
+          "RECOVERY",
+          "ARMED"
+        ],
+        "minimumSampledSolidDistance": 5.846438651636105,
+        "peakSampledAcceleration": 139.0306714930794,
+        "level": "engine-replayed",
+        "dirty": false,
+        "binarySha256": "176ab1ccad4a48f9aad5a73ca7f99c06d409807db34f5f797c3ad5ccc7a6483a",
+        "experiment": {
+          "module": "s-curve",
+          "seed": 112909,
+          "profile": "cruise",
+          "ruleRevision": 2,
+          "inputId": "lb4-release36-cruise-yaw",
+          "disposition": "may-reject",
+          "approach": "yaw",
+          "wingmates": 0
+        }
+      }
+    },
+    {
+      "group": "second-holdout",
+      "name": "bowl-1085831800-boost.json",
+      "attempts": [
+        {
+          "number": 1,
+          "startedUtc": "2026-11-28T07:28:08.493856+00:00",
+          "exitCode": 0,
+          "finishedUtc": "2026-11-28T07:29:02.358099+00:00"
+        }
+      ],
+      "observation": {
+        "outcome": "glide-and-release",
+        "met": true,
+        "shieldImpacts": 0,
+        "activeRelease": true,
+        "sampledHullIntrusion": false,
+        "captureLosses": 0,
+        "releasePhase": "GLIDING",
+        "sampleCount": 53,
+        "longestGlideM": 159.9038173454402,
+        "minimumSolidM": 4.822959341492731,
+        "comparisonSource": "946d2f7e8381f9f9af68a0cf7e488ac41debde04",
+        "identicalTrace": true,
+        "maximumPositionDifferenceM": 0.0
+      },
+      "producerReader": {
+        "sha256": "c5107e80d0b978dc13617bef6d453f4e991425f84cc8f089d2b293ad59784f10",
+        "consumer": "c4bc8eac5425197ebb08c937316de415e75b89b1",
+        "outcome": "glide-and-release",
+        "sampledGlideMeters": 159.9038173454402,
+        "sampledGlideSeconds": 1.5999999999999945,
+        "longestContinuousSeconds": 1.5999999999999945,
+        "longestContinuousMeters": 159.9038173454402,
+        "minimumGlideClearance": 6.006192308069675,
+        "impacts": 0,
+        "phases": [
+          "FLIGHT",
+          "ATTACHING",
+          "GLIDING",
+          "DETACHING"
+        ],
+        "minimumSampledSolidDistance": 4.822959341492731,
+        "peakSampledAcceleration": 143.44558744414635,
+        "level": "engine-replayed",
+        "dirty": false,
+        "binarySha256": "176ab1ccad4a48f9aad5a73ca7f99c06d409807db34f5f797c3ad5ccc7a6483a",
+        "experiment": {
+          "module": "bowl",
+          "seed": 1085831800,
+          "profile": "boost",
+          "ruleRevision": 2,
+          "inputId": "lb4-release36-boost",
+          "disposition": "may-reject",
+          "approach": "entry",
+          "wingmates": 2
+        }
+      }
+    },
+    {
+      "group": "third-holdout",
+      "name": "sky-arch-1173553645-cruise.json",
+      "attempts": [
+        {
+          "number": 1,
+          "startedUtc": "2026-11-28T07:29:02.448029+00:00",
+          "exitCode": 0,
+          "finishedUtc": "2026-11-28T07:29:58.428975+00:00"
+        }
+      ],
+      "observation": {
+        "outcome": "capture-missed",
+        "met": true,
+        "shieldImpacts": 0,
+        "activeRelease": false,
+        "sampledHullIntrusion": false,
+        "captureLosses": 0,
+        "releasePhase": "FLIGHT",
+        "sampleCount": 65,
+        "longestGlideM": 0.0,
+        "minimumSolidM": null,
+        "comparisonSource": "946d2f7e8381f9f9af68a0cf7e488ac41debde04",
+        "identicalTrace": true,
+        "maximumPositionDifferenceM": 0.0
+      },
+      "producerReader": {
+        "sha256": "4816a6075fd02be41e674d32fd0e834dae78e70e6ab7bd5f9821e690b88820bb",
+        "consumer": "c4bc8eac5425197ebb08c937316de415e75b89b1",
+        "outcome": "capture-missed",
+        "sampledGlideMeters": 0,
+        "sampledGlideSeconds": 0,
+        "longestContinuousSeconds": 0,
+        "longestContinuousMeters": 0,
+        "minimumGlideClearance": null,
+        "impacts": 0,
+        "phases": [
+          "FLIGHT",
+          "ARMED"
+        ],
+        "minimumSampledSolidDistance": null,
+        "peakSampledAcceleration": 0,
+        "level": "engine-replayed",
+        "dirty": false,
+        "binarySha256": "176ab1ccad4a48f9aad5a73ca7f99c06d409807db34f5f797c3ad5ccc7a6483a",
+        "experiment": {
+          "module": "sky-arch",
+          "seed": 1173553645,
+          "profile": "cruise",
+          "ruleRevision": 2,
+          "inputId": "lb4-release48-cruise-open-air",
+          "disposition": "must-reject",
+          "approach": "open-air",
+          "wingmates": 0
+        }
+      }
+    }
+  ],
+  "finishedUtc": "2026-11-28T07:29:58.701176+00:00"
+}

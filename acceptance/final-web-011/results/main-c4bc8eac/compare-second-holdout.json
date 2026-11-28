@@ -1,0 +1,320 @@
+{
+  "stock": {
+    "controller": "991138b8c67c188bd47731d6c193142750225818",
+    "entrySha256": "91f1a9bcdb190878af05d6b93ebdc16c01fbbb5ffc898d70bf5fdb22e52687c8"
+  },
+  "candidate": {
+    "build": "0.11.0",
+    "controller": "c4bc8eac5425197ebb08c937316de415e75b89b1",
+    "entry": {
+      "url": "/assets/index-yT2wa0pU.js",
+      "bytes": 1307632,
+      "sha256": "176ab1ccad4a48f9aad5a73ca7f99c06d409807db34f5f797c3ad5ccc7a6483a"
+    },
+    "files": 105,
+    "totalBytes": 9935929,
+    "sha256sums": "f086ffaa39ce4d6d3ab7b3083e93d36768bc70cad86f241a88440d9335f83a57",
+    "producerRevision": 2,
+    "producerCommit": "6522b42c9a020c96712a523e3492d8fc2377340a"
+  },
+  "bySplit": {
+    "second-holdout": {
+      "runs": 8,
+      "stockMet": 7,
+      "candidateMet": 8
+    }
+  },
+  "byClass": {
+    "must-succeed": {
+      "runs": 3,
+      "stockMet": 3,
+      "candidateMet": 3
+    },
+    "may-reject": {
+      "runs": 4,
+      "stockMet": 3,
+      "candidateMet": 4
+    },
+    "must-reject": {
+      "runs": 1,
+      "stockMet": 1,
+      "candidateMet": 1
+    }
+  },
+  "cases": [
+    {
+      "case": "second-holdout/ribbon-bridge-741401678-cruise.json",
+      "inputId": "lb4-release36-cruise",
+      "disposition": "must-succeed",
+      "sha256": "840cda968635ccb19df630ae0ae1e90a97624735913a8dfa02d06aa80effd856",
+      "identicalTrace": false,
+      "stock": {
+        "outcome": "glide-and-release",
+        "met": true,
+        "captured": true,
+        "activeRelease": true,
+        "preReleasePhase": "GLIDING",
+        "endPhase": "FLIGHT",
+        "sampledGlideM": 116.889,
+        "minimumSolidM": 5.279719090063894,
+        "hullIntrusion": false,
+        "impactTimesS": []
+      },
+      "candidate": {
+        "outcome": "glide-and-release",
+        "met": true,
+        "captured": true,
+        "activeRelease": true,
+        "preReleasePhase": "GLIDING",
+        "endPhase": "FLIGHT",
+        "sampledGlideM": 111.768,
+        "minimumSolidM": 4.206229312087518,
+        "hullIntrusion": false,
+        "impactTimesS": []
+      }
+    },
+    {
+      "case": "second-holdout/ribbon-bridge-936778437-boost.json",
+      "inputId": "lb4-release48-boost",
+      "disposition": "must-succeed",
+      "sha256": "cf7629c6c0fe6f896bd0035fc8b1b85406999a3af34ff1691c38221583931eb3",
+      "identicalTrace": false,
+      "stock": {
+        "outcome": "glide-and-release",
+        "met": true,
+        "captured": true,
+        "activeRelease": true,
+        "preReleasePhase": "GLIDING",
+        "endPhase": "FLIGHT",
+        "sampledGlideM": 217.618,
+        "minimumSolidM": 5.328444996652879,
+        "hullIntrusion": false,
+        "impactTimesS": []
+      },
+      "candidate": {
+        "outcome": "glide-and-release",
+        "met": true,
+        "captured": true,
+        "activeRelease": true,
+        "preReleasePhase": "GLIDING",
+        "endPhase": "FLIGHT",
+        "sampledGlideM": 182.483,
+        "minimumSolidM": 5.0079280068571,
+        "hullIntrusion": false,
+        "impactTimesS": []
+      }
+    },
+    {
+      "case": "second-holdout/ribbon-bridge-1753094196-cruise.json",
+      "inputId": "lb4-release48-cruise",
+      "disposition": "must-succeed",
+      "sha256": "2a623d96f937fadd228d823248aa16f7d0b4de9fd7989f3af31cc3888e4df3e0",
+      "identicalTrace": false,
+      "stock": {
+        "outcome": "glide-and-release",
+        "met": true,
+        "captured": true,
+        "activeRelease": true,
+        "preReleasePhase": "GLIDING",
+        "endPhase": "FLIGHT",
+        "sampledGlideM": 167.859,
+        "minimumSolidM": 5.237168020895349,
+        "hullIntrusion": false,
+        "impactTimesS": []
+      },
+      "candidate": {
+        "outcome": "glide-and-release",
+        "met": true,
+        "captured": true,
+        "activeRelease": true,
+        "preReleasePhase": "GLIDING",
+        "endPhase": "FLIGHT",
+        "sampledGlideM": 154.937,
+        "minimumSolidM": 5.302265553795257,
+        "hullIntrusion": false,
+        "impactTimesS": []
+      }
+    },
+    {
+      "case": "second-holdout/s-curve-873882295-cruise.json",
+      "inputId": "lb4-release36-cruise-yaw",
+      "disposition": "may-reject",
+      "sha256": "cbafee375971a32d8f6b38b25d90f40dd84102d92dd2d995dcf9397af7a8c6e5",
+      "identicalTrace": false,
+      "stock": {
+        "outcome": "contact-lost",
+        "met": false,
+        "captured": true,
+        "activeRelease": false,
+        "preReleasePhase": "RECOVERY",
+        "endPhase": "FLIGHT",
+        "sampledGlideM": 92.794,
+        "minimumSolidM": 5.949561155195274,
+        "hullIntrusion": false,
+        "impactTimesS": [],
+        "phaseChanges": [
+          [
+            0,
+            "FLIGHT"
+          ],
+          [
+            0.3167,
+            "ATTACHING"
+          ],
+          [
+            0.7,
+            "GLIDING"
+          ],
+          [
+            2.0417,
+            "REACQUIRE"
+          ],
+          [
+            2.1083,
+            "RECOVERY"
+          ],
+          [
+            2.3667,
+            "FLIGHT"
+          ]
+        ]
+      },
+      "candidate": {
+        "outcome": "contact-lost",
+        "met": true,
+        "captured": true,
+        "activeRelease": false,
+        "preReleasePhase": "FLIGHT",
+        "endPhase": "GLIDING",
+        "sampledGlideM": 148.355,
+        "minimumSolidM": 5.85469863809099,
+        "hullIntrusion": false,
+        "impactTimesS": []
+      }
+    },
+    {
+      "case": "second-holdout/bowl-1085831800-boost.json",
+      "inputId": "lb4-release36-boost",
+      "disposition": "may-reject",
+      "sha256": "c5107e80d0b978dc13617bef6d453f4e991425f84cc8f089d2b293ad59784f10",
+      "identicalTrace": false,
+      "stock": {
+        "outcome": "glide-and-release",
+        "met": true,
+        "captured": true,
+        "activeRelease": true,
+        "preReleasePhase": "GLIDING",
+        "endPhase": "FLIGHT",
+        "sampledGlideM": 159.901,
+        "minimumSolidM": 4.820393105468299,
+        "hullIntrusion": false,
+        "impactTimesS": []
+      },
+      "candidate": {
+        "outcome": "glide-and-release",
+        "met": true,
+        "captured": true,
+        "activeRelease": true,
+        "preReleasePhase": "GLIDING",
+        "endPhase": "FLIGHT",
+        "sampledGlideM": 159.904,
+        "minimumSolidM": 4.822959341492731,
+        "hullIntrusion": false,
+        "impactTimesS": []
+      }
+    },
+    {
+      "case": "second-holdout/helix-798281854-cruise.json",
+      "inputId": "lb4-release56-cruise",
+      "disposition": "may-reject",
+      "sha256": "a0087468145d1252f290c92522492f258a5e435c7b8896bd2ae415af3bcc72a1",
+      "identicalTrace": false,
+      "stock": {
+        "outcome": "contact-lost",
+        "met": true,
+        "captured": true,
+        "activeRelease": false,
+        "preReleasePhase": "FLIGHT",
+        "endPhase": "RECOVERY",
+        "sampledGlideM": 127.278,
+        "minimumSolidM": 5.934062897902375,
+        "hullIntrusion": false,
+        "impactTimesS": []
+      },
+      "candidate": {
+        "outcome": "contact-lost",
+        "met": true,
+        "captured": true,
+        "activeRelease": false,
+        "preReleasePhase": "FLIGHT",
+        "endPhase": "RECOVERY",
+        "sampledGlideM": 127.266,
+        "minimumSolidM": 5.937837330837466,
+        "hullIntrusion": false,
+        "impactTimesS": []
+      }
+    },
+    {
+      "case": "second-holdout/sky-arch-459273010-boost.json",
+      "inputId": "lb4-release48-boost-yaw",
+      "disposition": "may-reject",
+      "sha256": "4fa6893042c3f1fa93ad7d6f17f738b7c1706ade7c0eaee0db94e5148092947a",
+      "identicalTrace": false,
+      "stock": {
+        "outcome": "glide-and-release",
+        "met": true,
+        "captured": true,
+        "activeRelease": true,
+        "preReleasePhase": "GLIDING",
+        "endPhase": "FLIGHT",
+        "sampledGlideM": 237.487,
+        "minimumSolidM": 4.837752432106651,
+        "hullIntrusion": false,
+        "impactTimesS": []
+      },
+      "candidate": {
+        "outcome": "glide-and-release",
+        "met": true,
+        "captured": true,
+        "activeRelease": true,
+        "preReleasePhase": "GLIDING",
+        "endPhase": "FLIGHT",
+        "sampledGlideM": 237.486,
+        "minimumSolidM": 4.84041504683027,
+        "hullIntrusion": false,
+        "impactTimesS": []
+      }
+    },
+    {
+      "case": "second-holdout/tunnel-1623444429-boost.json",
+      "inputId": "lb4-release48-boost-open-air",
+      "disposition": "must-reject",
+      "sha256": "83f5d4f5dd8a9d358873ebdd27da45b652d350775a3c387fc330a802547f51e2",
+      "identicalTrace": true,
+      "stock": {
+        "outcome": "capture-missed",
+        "met": true,
+        "captured": false,
+        "activeRelease": false,
+        "preReleasePhase": "FLIGHT",
+        "endPhase": "FLIGHT",
+        "sampledGlideM": 0.0,
+        "minimumSolidM": null,
+        "hullIntrusion": false,
+        "impactTimesS": []
+      },
+      "candidate": {
+        "outcome": "capture-missed",
+        "met": true,
+        "captured": false,
+        "activeRelease": false,
+        "preReleasePhase": "FLIGHT",
+        "endPhase": "FLIGHT",
+        "sampledGlideM": 0.0,
+        "minimumSolidM": null,
+        "hullIntrusion": false,
+        "impactTimesS": []
+      }
+    }
+  ]
+}
