@@ -63,6 +63,14 @@ const required = <T extends HTMLElement>(id: string): T => {
   return element as T;
 };
 
+function updateHudText(element: HTMLElement, value: string): void {
+  if (element.textContent !== value) element.textContent = value;
+}
+
+function updateMeterAttribute(meter: HTMLElement, name: string, value: string): void {
+  if (meter.getAttribute(name) !== value) meter.setAttribute(name, value);
+}
+
 export class GameUI {
   private readonly titleScreen = required<HTMLElement>('title-screen');
   private readonly loadingScreen = required<HTMLElement>('loading-screen');
@@ -210,23 +218,28 @@ export class GameUI {
   }
 
   public updateFlight(snapshot: FlightHudSnapshot): void {
-    this.hudTimer.textContent = formatTime(snapshot.runTime);
-    this.hudBest.textContent = formatTime(snapshot.best);
-    this.hudSpeed.textContent = String(Math.round(snapshot.speed)).padStart(3, '0');
-    this.hudAltitude.textContent = String(Math.max(0, Math.round(snapshot.altitude))).padStart(3, '0');
+    updateHudText(this.hudTimer, formatTime(snapshot.runTime));
+    updateHudText(this.hudBest, formatTime(snapshot.best));
+    updateHudText(this.hudSpeed, String(Math.round(snapshot.speed)).padStart(3, '0'));
+    updateHudText(this.hudAltitude, String(Math.max(0, Math.round(snapshot.altitude))).padStart(3, '0'));
     this.hudSpeed.parentElement?.classList.toggle('is-boosting', snapshot.boosting);
   }
 
   public updateSurface(snapshot: SurfaceHudSnapshot): void {
-    const gracePercent = Math.max(0, Math.min(1, snapshot.grace / (snapshot.graceSeconds ?? 5)));
-    this.graceMeter.setAttribute('aria-valuemax', String(snapshot.graceSeconds ?? 5));
+    const graceSeconds = snapshot.graceSeconds ?? 5;
+    const grace = snapshot.grace.toFixed(2);
+    const gracePercent = Math.max(0, Math.min(1, snapshot.grace / graceSeconds));
+    updateMeterAttribute(this.graceMeter, 'aria-valuemax', String(graceSeconds));
     const app = document.getElementById('app');
     app?.classList.toggle('is-free-flight', Boolean(snapshot.freeFlight));
     this.graceBar.style.transform = `scaleX(${gracePercent})`;
-    this.graceValue.textContent = `${snapshot.grace.toFixed(2)}s`;
-    this.graceMeter.setAttribute('aria-valuenow', snapshot.grace.toFixed(2));
-    this.surfaceDistance.textContent = snapshot.distance === null ? '-- m' : `${snapshot.distance.toFixed(1)} m`;
-    app?.style.setProperty('--proximity-intensity', Math.max(0, Math.min(1, snapshot.proximity)).toFixed(4));
+    updateHudText(this.graceValue, `${grace}s`);
+    updateMeterAttribute(this.graceMeter, 'aria-valuenow', grace);
+    updateHudText(this.surfaceDistance, snapshot.distance === null ? '-- m' : `${snapshot.distance.toFixed(1)} m`);
+    const intensity = Math.max(0, Math.min(1, snapshot.proximity)).toFixed(4);
+    if (app && app.style.getPropertyValue('--proximity-intensity') !== intensity) {
+      app.style.setProperty('--proximity-intensity', intensity);
+    }
     const buffering = Boolean(snapshot.buffering);
     this.surfaceStatus.classList.toggle('is-locked', snapshot.locked && !buffering);
     this.surfaceStatus.classList.toggle('is-warning', !snapshot.freeFlight && !snapshot.locked && !snapshot.prototype && !buffering);
@@ -236,26 +249,26 @@ export class GameUI {
     app?.classList.toggle('is-danger', !snapshot.freeFlight && !buffering && !snapshot.locked && !snapshot.prototype && snapshot.grace < 2.4);
     app?.classList.toggle('is-buffering', buffering);
     if (buffering) {
-      this.surfaceState.textContent = t('gameUI.worldStreaming');
-      this.flightStatus.textContent = t('gameUI.loadingTheCityAheadSurvivalTimerPaused');
+      updateHudText(this.surfaceState, t('gameUI.worldStreaming'));
+      updateHudText(this.flightStatus, t('gameUI.loadingTheCityAheadSurvivalTimerPaused'));
     } else if (snapshot.freeFlight) {
-      this.surfaceState.textContent = t('gameUI.freeFlight');
-      this.flightStatus.textContent = snapshot.shieldContact ? t('gameUI.shieldAbsorbedTheImpact') : '';
+      updateHudText(this.surfaceState, t('gameUI.freeFlight'));
+      updateHudText(this.flightStatus, snapshot.shieldContact ? t('gameUI.shieldAbsorbedTheImpact') : '');
     } else if (snapshot.prototype) {
-      this.surfaceState.textContent = t('ui.surfaceModelPending');
-      this.flightStatus.textContent = t('ui.prototypeFlightProximityRulesPending');
+      updateHudText(this.surfaceState, t('ui.surfaceModelPending'));
+      updateHudText(this.flightStatus, t('ui.prototypeFlightProximityRulesPending'));
     } else if (snapshot.zone === 'extreme') {
-      this.surfaceState.textContent = t('gameUI.razorLine');
-      this.flightStatus.textContent = t('gameUI.extremelyCloseEaseOffToKeepYour');
+      updateHudText(this.surfaceState, t('gameUI.razorLine'));
+      updateHudText(this.flightStatus, t('gameUI.extremelyCloseEaseOffToKeepYour'));
     } else if (snapshot.zone === 'strong') {
-      this.surfaceState.textContent = t('gameUI.closeVector');
-      this.flightStatus.textContent = t('gameUI.closeToSurfaceWindAndTrailsIntensifying');
+      updateHudText(this.surfaceState, t('gameUI.closeVector'));
+      updateHudText(this.flightStatus, t('gameUI.closeToSurfaceWindAndTrailsIntensifying'));
     } else if (snapshot.locked) {
-      this.surfaceState.textContent = t('gameUI.surfaceLock');
-      this.flightStatus.textContent = t('gameUI.surfaceLockedHoldThisLine');
+      updateHudText(this.surfaceState, t('gameUI.surfaceLock'));
+      updateHudText(this.flightStatus, t('gameUI.surfaceLockedHoldThisLine'));
     } else {
-      this.surfaceState.textContent = t('gameUI.surfaceLost');
-      this.flightStatus.textContent = t('gameUI.clearOfAllSurfacesReturnToCover');
+      updateHudText(this.surfaceState, t('gameUI.surfaceLost'));
+      updateHudText(this.flightStatus, t('gameUI.clearOfAllSurfacesReturnToCover'));
     }
     this.surfaceState.style.color = buffering
       ? 'var(--peach)'

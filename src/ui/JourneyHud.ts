@@ -38,7 +38,8 @@ export class JourneyHud {
     if (journey.phase === 'INVERSION') opacity = Math.max(0, (p - 0.65) / 0.35);
     if (journey.phase === 'DIVE') opacity = Math.max(0, 1 - p / 0.35);
     this.veil.style.opacity = String(running ? opacity : 0);
-    this.halo.hidden = !running || journey.time >= this.until;
+    const hidden = !running || journey.time >= this.until;
+    if (this.halo.hidden !== hidden) this.halo.hidden = hidden;
   }
 
   snapshot() {
