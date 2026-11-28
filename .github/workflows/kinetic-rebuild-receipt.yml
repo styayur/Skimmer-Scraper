@@ -1,0 +1,45 @@
+name: Retain source verifier receipt for the prepared Kinetic archives
+
+on:
+  push:
+    branches: [codex/kinetic-assembly-c4bc8ea]
+    paths: [.github/workflows/kinetic-rebuild-receipt.yml]
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  rebuild:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: c4bc8eac5425197ebb08c937316de415e75b89b1
+          path: product
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: 24.22.3
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          github-token: ${{ github.token }}
+          run-id: '46121982781'
+          name: assembly-prepared-c4bc8ea
+          path: stage
+      - name: Rebuild and retain the repository verifier's original output
+        run: |
+          printf '%s  %s\n' \
+            a1545c3aa7fbb70e715a70536b5f76ce63294cf26911a839f67419ba7338d1f6 stage/prepared/skimmer-scraper-v0.11.0-static.zip \
+            4f27b7bb4f6af25868626f6a057cdf85dca9d9134a8f05eaf6cb86067e50a97c stage/prepared/skimmer-scraper-v0.11.0-source.zip | sha256sum -c -
+          python3 product/scripts/assemble-kinetic-release.py rebuild stage --work-root "$RUNNER_TEMP"
+          test -s stage/source-rebuild-*/source-rebuild.json
+          cat stage/source-rebuild-*/source-rebuild.json
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: exact-source-rebuild-c4bc8ea
+          path: stage/source-rebuild-*/*
+          if-no-files-found: error
+          retention-days: 7

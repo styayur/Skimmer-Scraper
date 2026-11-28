@@ -4,7 +4,6 @@ on:
   push:
     branches: [codex/kinetic-assembly-c4bc8ea]
     paths:
-      - .github/workflows/kinetic-assembly-ci.yml
       - scripts/capture-kinetic-ci-inputs.py
 
 permissions:
@@ -119,7 +118,7 @@ jobs:
         with:
           name: assembly-qualification-c4bc8ea
           path: |
-            stage/rebuild-*/
+            stage/source-rebuild-*/
             stage/itch/
           retention-days: 7
           if-no-files-found: error
