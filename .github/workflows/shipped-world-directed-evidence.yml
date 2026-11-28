@@ -42,14 +42,16 @@ jobs:
           design=1ccf35240747aeb7405679d1b517823a7b3f072b
           git cat-file -e "$design^{commit}" || git fetch --depth=1 https://github.com/styayur/Skimmer-Scraper.git "$design"
           git diff --exit-code "$design" HEAD -- acceptance/shipped-approaches-011/{DESIGN.md,plan.json,geometry.json,geometry.py} acceptance/final-web-011
-          python -B acceptance/shipped-approaches-011/geometry.py --check
+          python -B acceptance/shipped-approaches-011/verify_inventory.py
           test "$(git -C benchmark rev-parse HEAD)" = d66b343cdd88d7d499e77afa4a63e8e3594f2813
           git -C benchmark apply --check "$GITHUB_WORKSPACE/acceptance/shipped-approaches-011/directed.patch"
           git -C benchmark apply "$GITHUB_WORKSPACE/acceptance/shipped-approaches-011/directed.patch"
       - name: Verify and stage the official main Web archive
         env:
           GH_TOKEN: ${{ github.token }}
-        run: python -B acceptance/final-web-011/stage.py
+        run: |
+          python -B acceptance/final-web-011/stage.py
+          cp preflight-float-check.json output/
       - name: Install the pinned browser and original producer reader
         run: |
           npm --prefix producer ci --omit=dev --no-fund --no-audit
