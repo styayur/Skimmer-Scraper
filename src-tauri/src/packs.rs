@@ -13,8 +13,7 @@ const MAX_PACK: i64 = 1 << 30;
 
 pub(crate) fn init(db: &Connection) -> Result<()> {
     db.execute_batch(
-        "PRAGMA foreign_keys=ON;
-      CREATE TABLE IF NOT EXISTS packs(
+        "CREATE TABLE IF NOT EXISTS packs(
         token TEXT PRIMARY KEY, id TEXT NOT NULL, metadata TEXT NOT NULL,
         ready INTEGER NOT NULL DEFAULT 0, created INTEGER NOT NULL DEFAULT(unixepoch())
       );
@@ -111,7 +110,6 @@ pub(crate) fn begin(db: &mut Connection, manifest: Value) -> Result<String> {
 
 #[tauri::command]
 pub async fn pack_begin(app: AppHandle, manifest: Value) -> std::result::Result<String, String> {
-    let directory = super::library::directory(&app)?;
     run(app, move |db| {
         let total = manifest["files"]
             .as_array()
@@ -122,7 +120,11 @@ pub async fn pack_begin(app: AppHandle, manifest: Value) -> std::result::Result<
         if total > MAX_PACK as u64 {
             return Err("Pack exceeds budget".into());
         }
-        super::official_pack::check_space(&directory, total * 2 + (16 << 20))?;
+        let directory = db
+            .path()
+            .and_then(|p| std::path::Path::new(p).parent())
+            .ok_or("Missing library directory")?;
+        super::official_pack::check_space(directory, total * 2 + (16 << 20))?;
         begin(db, manifest)
     })
     .await
@@ -132,20 +134,34 @@ pub async fn pack_begin(app: AppHandle, manifest: Value) -> std::result::Result<
 pub async fn pack_verify(app: AppHandle, id: String) -> std::result::Result<u64, String> {
     run(app, move |db| {
         let tx = db.transaction()?;
-        let metadata: String = tx.query_row("SELECT metadata FROM packs WHERE ready=1 AND id=?1", [&id], |r| r.get(0))?;
-        let manifest: Value = serde_json::from_str(&metadata)?;
-        let mut total = 0;
-        for f in manifest["files"].as_array().ok_or("Missing files")? {
-            let digest = f["sha256"].as_str().ok_or("Missing digest")?;
-            let bytes: Vec<u8> = tx.query_row("SELECT data FROM tiles JOIN packs USING(token) WHERE ready=1 AND id=?1 AND digest=?2",
-                params![id, digest], |r| r.get(0))?;
-            if f["bytes"].as_u64() != Some(bytes.len() as u64) || crate::library::hex_digest(&Sha256::digest(&bytes)) != digest {
-                return Err("资源包校验失败，请修复或重新导入。".into());
-            }
-            total += bytes.len() as u64;
+        verify(&tx, &id)
+    })
+    .await
+}
+
+pub(crate) fn verify(db: &Connection, id: &str) -> Result<u64> {
+    let metadata: String = db.query_row(
+        "SELECT metadata FROM packs WHERE ready=1 AND id=?1",
+        [id],
+        |r| r.get(0),
+    )?;
+    let manifest: Value = serde_json::from_str(&metadata)?;
+    let mut total = 0;
+    for f in manifest["files"].as_array().ok_or("Missing files")? {
+        let digest = f["sha256"].as_str().ok_or("Missing digest")?;
+        let bytes: Vec<u8> = db.query_row(
+            "SELECT data FROM tiles JOIN packs USING(token) WHERE ready=1 AND id=?1 AND digest=?2",
+            params![id, digest],
+            |r| r.get(0),
+        )?;
+        if f["bytes"].as_u64() != Some(bytes.len() as u64)
+            || crate::library::hex_digest(&Sha256::digest(&bytes)) != digest
+        {
+            return Err("资源包校验失败，请修复或重新导入。".into());
         }
-        Ok(total)
-    }).await
+        total += bytes.len() as u64;
+    }
+    Ok(total)
 }
 
 pub(crate) fn put(db: &mut Connection, token: &str, data: &[u8]) -> Result<()> {
@@ -265,6 +281,7 @@ mod tests {
     #[test]
     fn a_failed_replacement_preserves_the_complete_pack() -> Result<()> {
         let mut db = Connection::open_in_memory()?;
+        db.execute_batch("PRAGMA foreign_keys=ON")?;
         init(&db)?;
         let data = include_bytes!("../../public/realms/dragonspine/web/ridge_0_0.glb");
         let digest: String = Sha256::digest(data)

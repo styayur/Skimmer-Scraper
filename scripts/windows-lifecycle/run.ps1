@@ -15,9 +15,9 @@ if ([Environment]::ExpandEnvironmentVariables($osProfile.ProfileImagePath) -ine 
     $env:USERPROFILE -ine $profileRoot -or $localData -ine $env:LOCALAPPDATA -or
     $env:WEBVIEW2_USER_DATA_FOLDER) { throw 'Windows profile identity mismatch' }
 $appData = Join-Path $localData 'io.github.styayur.skimmer-scraper'
-$uninstallKey = 'Software/Microsoft/Windows/CurrentVersion/Uninstall/Skimmer-Scraper'
-$registration = "HKCU:/$uninstallKey"
-$sidRegistration = "Registry::HKEY_USERS/$sid/$uninstallKey"
+$uninstallKey = 'Software\Microsoft\Windows\CurrentVersion\Uninstall\Skimmer-Scraper'
+$registration = "HKCU:\$uninstallKey"
+$sidRegistration = "Registry::HKEY_USERS\$sid\$uninstallKey"
 $scratch = Join-Path $env:RUNNER_TEMP "skimmer-lifecycle"
 $install = Join-Path $scratch 'installed'
 $exe = Join-Path $install 'skimmer-scraper.exe'

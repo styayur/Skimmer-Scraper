@@ -117,12 +117,12 @@ pub async fn desktop_choose_library(
             return Ok(None);
         };
         let target = parent.join("Skimmer-Scraper-Worlds");
-        let _guard = library::LOCATION_LOCK
-            .try_write()
-            .map_err(|_| "世界库忙，请稍后重试。")?;
+        let root = app.path().app_local_data_dir()?;
+        let guard = library::location_lock(&root)?;
+        guard.try_lock().map_err(|_| "世界库忙，请稍后重试。")?;
         let original = library::directory(&app)?;
         if original != target {
-            migrate_library(&original, &target, &app.path().app_local_data_dir()?)?;
+            migrate_library(&original, &target, &root)?;
         }
         Ok(Some(target.display().to_string()))
     })
@@ -137,7 +137,10 @@ fn migrate_library(
     root: &std::path::Path,
 ) -> LibraryResult<()> {
     library::check_path(target)?;
-    let source = library::connect(original)?;
+    let mut db = library::connect(original)?;
+    // Hold the writer reservation from the staged-pack check through pointer
+    // publication, including against clients that predate the location lock.
+    let source = db.transaction_with_behavior(rusqlite::TransactionBehavior::Immediate)?;
     let active: bool = source.query_row(
         "SELECT EXISTS(SELECT 1 FROM packs WHERE ready=0 AND created>=unixepoch()-3600)",
         [],
@@ -148,9 +151,17 @@ fn migrate_library(
     }
     std::fs::create_dir_all(target)?;
     let destination = target.join("worlds.sqlite");
-    library::check_path(&destination)?;
-    if destination.exists() {
-        return Err("此目录已有世界库，请选择空目录。".into());
+    for name in [
+        "worlds.sqlite",
+        "worlds.sqlite-wal",
+        "worlds.sqlite-shm",
+        "worlds.sqlite-journal",
+    ] {
+        let path = target.join(name);
+        library::check_path(&path)?;
+        if path.try_exists()? {
+            return Err("此目录已有世界库，请选择空目录。".into());
+        }
     }
     let pages = u64::try_from(source.query_row("PRAGMA page_count", [], |r| r.get::<_, i64>(0))?)?;
     let page_size =
@@ -160,19 +171,34 @@ fn migrate_library(
         pages.saturating_mul(page_size).saturating_add(16 << 20),
     )?;
     let temporary = tempfile::NamedTempFile::new_in(target)?;
-    let (_, path) = temporary.into_parts();
-    source.execute("VACUUM INTO ?1", [path.to_str().ok_or("无效目录。")?])?;
-    let copy =
-        rusqlite::Connection::open_with_flags(&path, rusqlite::OpenFlags::SQLITE_OPEN_READ_ONLY)?;
-    if copy.query_row("PRAGMA quick_check", [], |r| r.get::<_, String>(0))? != "ok" {
-        return Err("世界库复制校验失败。".into());
+    let readonly = rusqlite::OpenFlags::SQLITE_OPEN_READ_ONLY;
+    {
+        // VACUUM INTO needs its own connection outside a transaction. SQLite
+        // includes committed WAL frames in this logical snapshot.
+        let reader =
+            rusqlite::Connection::open_with_flags(original.join("worlds.sqlite"), readonly)?;
+        reader.execute_batch("PRAGMA trusted_schema=OFF")?;
+        reader.execute(
+            "VACUUM INTO ?1",
+            [temporary.path().to_str().ok_or("无效目录。")?],
+        )?;
+        let copy = rusqlite::Connection::open_with_flags(temporary.path(), readonly)?;
+        copy.execute_batch("PRAGMA trusted_schema=OFF")?;
+        library::verify_snapshot(&copy)?;
     }
-    drop(copy);
-    path.persist_noclobber(destination)?;
+    temporary.as_file().sync_all()?;
+    let location = root.join("library-location.json");
+    library::check_path(&location)?;
     let mut pointer = tempfile::NamedTempFile::new_in(root)?;
     pointer.write_all(&serde_json::to_vec(target)?)?;
     pointer.as_file().sync_all()?;
-    pointer.persist(root.join("library-location.json"))?;
+    drop(temporary.persist_noclobber(&destination)?);
+    if let Err(error) = pointer.persist(location) {
+        // Only our newly created copy was published. The source and its old
+        // pointer are still authoritative; leave the destination retryable.
+        std::fs::remove_file(destination)?;
+        return Err(error.into());
+    }
     Ok(())
 }
 
@@ -188,9 +214,10 @@ mod tests {
         let target = scratch.path().join("Skimmer-Scraper-Worlds");
         let db = library::connect(&original)?;
         db.execute_batch(
-            "CREATE TABLE marker(value BLOB); INSERT INTO marker VALUES(x'000102FF');",
+            "PRAGMA journal_mode=WAL; PRAGMA wal_autocheckpoint=0;
+             CREATE TABLE marker(value BLOB); INSERT INTO marker VALUES(x'000102FF');",
         )?;
-        drop(db);
+        assert!(original.join("worlds.sqlite-wal").metadata()?.len() > 32);
         migrate_library(&original, &target, scratch.path())?;
         for location in [&original, &target] {
             let value: Vec<u8> =
@@ -203,6 +230,47 @@ mod tests {
         )?)?;
         assert_eq!(pointer, target);
         assert!(migrate_library(&original, &target, scratch.path()).is_err());
+        Ok(())
+    }
+
+    #[cfg(windows)]
+    #[test]
+    fn failed_migrations_keep_the_source_and_can_be_retried() -> LibraryResult<()> {
+        let scratch = tempfile::tempdir()?;
+        let root = scratch.path();
+        let original = root.join("original");
+        let target = root.join("Skimmer-Scraper-Worlds");
+        let pointer = root.join("library-location.json");
+        let db = library::connect(&original)?;
+        db.execute(
+            "INSERT INTO packs(token,id,metadata) VALUES('busy','in-progress','{}')",
+            [],
+        )?;
+        assert!(migrate_library(&original, &target, root).is_err());
+        assert!(!target.join("worlds.sqlite").exists());
+        db.execute("DELETE FROM packs WHERE token='busy'", [])?;
+        db.execute_batch(
+            "PRAGMA foreign_keys=OFF; INSERT INTO tiles VALUES ('orphan','x',1,x'01')",
+        )?;
+        assert!(migrate_library(&original, &target, root).is_err());
+        assert!(!pointer.exists());
+        assert!(!target.join("worlds.sqlite").exists());
+        assert_eq!(
+            db.query_row("SELECT count(*) FROM tiles", [], |r| r.get::<_, i32>(0))?,
+            1
+        );
+        db.execute("DELETE FROM tiles", [])?;
+        db.execute("INSERT INTO worlds VALUES ('bad','{}',x'01',0)", [])?;
+        assert!(migrate_library(&original, &target, root).is_err());
+        assert!(!pointer.exists());
+        db.execute("DELETE FROM worlds", [])?;
+        // A failed pointer replacement must not leave a conflicting world database.
+        std::fs::create_dir(&pointer)?;
+        assert!(migrate_library(&original, &target, root).is_err());
+        assert!(!target.join("worlds.sqlite").exists());
+        std::fs::remove_dir(&pointer)?;
+        migrate_library(&original, &target, root)?;
+        assert!(original.join("worlds.sqlite").is_file() && target.join("worlds.sqlite").is_file());
         Ok(())
     }
     #[test]
