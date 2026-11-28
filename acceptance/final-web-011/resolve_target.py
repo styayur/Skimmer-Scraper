@@ -29,10 +29,11 @@ class Entries(HTMLParser):
 parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument("archive_directory", type=Path)
 parser.add_argument("output", type=Path)
+parser.add_argument("--pr", type=int, default=92, help="Pull request that produced the main push")
 args = parser.parse_args()
-pr = api("pulls/92")
+pr = api(f"pulls/{args.pr}")
 if not pr["merged"] or pr["base"]["ref"] != "main":
-    raise SystemExit("PR #92 has not merged into main.")
+    raise SystemExit(f"PR #{args.pr} has not merged into main.")
 source = pr["merge_commit_sha"]
 runs = api(f"actions/workflows/ci.yml/runs?branch=main&event=push&head_sha={source}&per_page=30")
 matches = []
@@ -63,7 +64,7 @@ with zipfile.ZipFile(archive) as z:
     entry, = entries.paths
     body = z.read(str(metadata.parent / entry.removeprefix("./")))
 target = {
-    "kind": "merged-main-artifact", "source": source, "mergedAt": pr["merged_at"],
+    "kind": "merged-main-artifact", "pullRequest": args.pr, "source": source, "mergedAt": pr["merged_at"],
     "mainRunId": run["id"], "artifactId": asset["id"], "archiveSha256": digest,
     "entryUrl": "/" + entry.removeprefix("./"), "entrySha256": hashlib.sha256(body).hexdigest(),
     "entryBytes": len(body), "shards": 6, "shippedWorlds": True,

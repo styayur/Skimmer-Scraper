@@ -28,7 +28,7 @@ if target["kind"] == "stock-calibration":
                     "--output", str(artifact)], check=True)
 else:
     assert target["kind"] == "merged-main-artifact"
-    pr = api("pulls/92")
+    pr = api(f'pulls/{target.get("pullRequest", 92)}')
     assert pr["merged"] and pr["merge_commit_sha"] == target["source"] and pr["base"]["ref"] == "main"
     asset = api(f'actions/artifacts/{target["artifactId"]}')
     run = api(f'actions/runs/{target["mainRunId"]}')
