@@ -1,7 +1,7 @@
 import { Euler, Matrix4, Quaternion, Vector3 } from 'three';
 import { clamp, type Vec3 } from '../core/math';
 import type { SurfaceQuery } from '../world/worldTypes';
-import type { FlightState } from './flightModel';
+import { FLIGHT, stepFlight, type FlightState } from './flightModel';
 import { clearCoast, continuationContact, planSurfacePatches, transportTangent } from './surfacePatchGraph';
 import { clearChord, glideTuning, planEscape, planMagnetic, planRedirect, planTransfer, sampleTrajectory, supported,
   type GlideContext, type SurfaceTrajectory } from './surfaceTrajectory';
@@ -23,6 +23,7 @@ export interface GlideState {
   speedLimit?: number;
   normalLead?: number;
   turnRate?: number;
+  departureNormalSpeed?: number;
   awaitingPlan?: boolean;
   coast?: { distance: number; since: number; last: number };
   lostAt?: Vec3;
@@ -33,7 +34,8 @@ export const freeGlide = (): GlideState => ({ phase: 'FLIGHT', time: 0 });
 export const toggleGlide = (state: GlideState): GlideState => {
   if (state.phase === 'ARMED') return freeGlide();
   if (state.phase === 'DETACHING' || state.phase === 'RECOVERY') return state;
-  if (state.phase !== 'FLIGHT') return { phase: 'DETACHING', time: 0, normal: state.normal };
+  if (state.phase !== 'FLIGHT') return { phase: 'DETACHING', time: 0,
+    normal: state.normal, surfaceVelocity: state.surfaceVelocity };
   return { phase: 'ARMED', time: 0 };
 };
 
@@ -44,25 +46,34 @@ const vector = (v: Vec3) => new Vector3(v.x, v.y, v.z);
 const clearance = glideTuning.clearance;
 export const glideRange = 11;
 
-function releaseSurface(state: GlideState, previous: FlightState, free: FlightState, dt: number, ctx?: GlideContext) {
+const releaseAcceleration = 110, handoffSeconds = 0.25;
+
+function advanceRelease(state: GlideState, previous: FlightState, free: FlightState, dt: number,
+  ctx?: GlideContext, begin = 0) {
   const time = state.time + dt;
   const last = previous.attitude, next = free.attitude;
   const angles = new Euler(last.pitch, last.yaw, last.roll, 'YXZ');
   const current = new Quaternion().setFromEuler(angles);
   const target = new Quaternion().setFromEuler(new Euler(next.pitch, next.yaw, next.roll, 'YXZ'));
-  // At vertical, free flight's pitch limit can tip the nose into the wall.
-  // Select the outward solution of the same pitch change if its step is clear.
+  // Preserve the tangential heading while turning outward. The default
+  // reflection also protects vertical exits from free flight's pitch limit.
   if (ctx && state.normal) {
     const normal = vector(state.normal);
     const forward = new Vector3(0, 0, -1).applyQuaternion(target);
-    if (forward.dot(normal) < 0) {
+    const along = forward.dot(normal);
+    const desired = state.departureNormalSpeed === undefined ? -along :
+      clamp(state.departureNormalSpeed / free.speed, -1, 1);
+    if (along < desired) {
       const outward = forward.clone().reflect(normal);
+      if (state.departureNormalSpeed !== undefined && Math.abs(along) < 1 - 1e-10) {
+        outward.copy(forward).projectOnPlane(normal).setLength(Math.sqrt(1 - desired * desired)).addScaledVector(normal, desired);
+      }
       const adjusted = target.clone().premultiply(new Quaternion().setFromUnitVectors(forward, outward));
       const facing = current.clone().rotateTowards(adjusted, 3.1 * dt);
       const v = vector(previous.velocity);
       const delta = new Vector3(0, 0, -free.speed).applyQuaternion(facing).sub(v);
-      const end = vector(previous.position).addScaledVector(v.add(delta.clampLength(0, 110 * dt)), dt);
-      if (clearChord(ctx, vector(previous.position), end, 0, dt, 110)) target.copy(adjusted);
+      const end = vector(previous.position).addScaledVector(v.add(delta.clampLength(0, releaseAcceleration * dt)), dt);
+      if (clearChord(ctx, vector(previous.position), end, begin, begin + dt, releaseAcceleration)) target.copy(adjusted);
     }
   }
   current.rotateTowards(target, 3.1 * dt);
@@ -71,14 +82,49 @@ function releaseSurface(state: GlideState, previous: FlightState, free: FlightSt
   // Keep momentum inherited from a moving surface while free flight takes over.
   const velocity = vector(previous.velocity);
   const difference = new Vector3(0, 0, -free.speed).applyQuaternion(current).sub(velocity);
-  const aligned = difference.length() <= 110 * dt;
-  velocity.add(difference.clampLength(0, 110 * dt));
-  const released = time >= 0.25 && aligned && current.angleTo(target) <= 0.01;
+  const aligned = difference.length() <= releaseAcceleration * dt;
+  velocity.add(difference.clampLength(0, releaseAcceleration * dt));
+  const released = time >= handoffSeconds && aligned && current.angleTo(target) <= 0.01;
   return {
     state: released ? ((state.deadline ?? 0) > free.elapsed ? { phase: 'ARMED' as const, time: 0, deadline: state.deadline } : freeGlide()) : { ...state, time },
     flight: { ...free, velocity, position: vector(previous.position).addScaledVector(velocity, dt),
       attitude: { pitch: angles.x, yaw: angles.y, roll: angles.z } },
   };
+}
+
+function clearDeparture(phase: GlideState, sample: FlightState, free: FlightState, dt: number,
+  ctx: GlideContext, horizon: number) {
+  const input = ctx.input ?? free.control;
+  for (let seconds = 0; seconds < horizon;) {
+    const interval = seconds === 0 ? dt : FLIGHT.fixedDt;
+    const pilot = seconds === 0 ? free : stepFlight(sample, input, interval, ctx.settings);
+    const next = phase.phase === 'DETACHING' ? advanceRelease(phase, sample, pilot, interval, ctx, seconds) :
+      { flight: pilot, state: phase };
+    if (!clearChord(ctx, vector(sample.position), vector(next.flight.position),
+      seconds, seconds + interval, releaseAcceleration)) return false;
+    sample = next.flight;
+    phase = next.state;
+    seconds += interval;
+  }
+  return true;
+}
+
+function releaseSurface(state: GlideState, previous: FlightState, free: FlightState, dt: number, ctx?: GlideContext) {
+  if (state.phase === 'DETACHING' && state.time === 0 && state.normal && ctx && dt > 0) {
+    // At lower speed the same LB edge can occur on the descending side of a
+    // fold. Check the handoff and one velocity-change time of pilot flight.
+    const horizon = Math.min(1.25, handoffSeconds + previous.speed / releaseAcceleration);
+    if (!clearDeparture(state, previous, free, dt, ctx, horizon)) {
+      const normal = vector(state.normal);
+      const entry = Math.max(normal.dot(previous.velocity), normal.dot(free.velocity),
+        state.surfaceVelocity ? normal.dot(state.surfaceVelocity) : 0);
+      for (const rise of [ctx.bodyRadius, clearance, 2 * clearance]) {
+        const option = { ...state, departureNormalSpeed: entry + rise / horizon };
+        if (clearDeparture(option, previous, free, dt, ctx, horizon)) { state = option; break; }
+      }
+    }
+  }
+  return advanceRelease(state, previous, free, dt, ctx);
 }
 
 function orient(previous: FlightState, forward: Vector3, up: Vector3, dt: number) {

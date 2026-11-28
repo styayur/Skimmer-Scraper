@@ -701,7 +701,7 @@ const simulateFixedStep = timedFlightFunction('fixedStep', (dt: number, holdPosi
   const hit = !holdPosition && !glide.trajectory && needsGlideContact(glide)
     ? activeWorld.queryGlide(flightState.position, glideRange) : null;
   const candidate = stepGlide(glide, flightState, free, hit, dt, holdPosition ? undefined :
-    { world: activeWorld, worldUp: activeWorld.root.up, bodyRadius: COLLISION_RADIUS, input });
+    { world: activeWorld, worldUp: activeWorld.root.up, bodyRadius: COLLISION_RADIUS, input, settings: controls });
   let nextState = candidate.flight;
   if (holdPosition) {
     nextState = {
