@@ -26,6 +26,21 @@ The attempt ledger links the measurement history to the original failure
 receipts. When a rejected attempt produced samples, its partial telemetry is
 retained with the receipt. [Attempt ledger](attempts.json) · [Rejected attempts](rejected/)
 
+## Controlled merged-release repeat
+
+Stock Web averaged 109.19 FPS with a 16.7 ms p95 across 901.86 simulation
+seconds and 916.87 wall seconds. It completed 72 scheduled circuit placements
+and two scripted inversions across seeds 334458, 479568308 and 501763084.
+The observer recorded 9,132 foreground checks. Total host CPU measured 6.78%
+median and 21.14% p95 before launch, then 17.04% median and 35.13% p95
+during the flight. [Stock Web frames and resources](controlled-repeat/stock/web/)
+
+The maintainer superseded `c4bc8ea` during its first Web admission to correct
+a test assertion reported by CodeQL. The sampler stopped before client launch.
+The corrected main artifacts are pending. [Registered order](final-repeat.md)
+· [All controlled attempts](controlled-repeat/suite.json)
+· [Superseded build identities](superseded-c4bc8ea/inputs.json)
+
 ## Measured initial candidate
 
 | Legacy city | Stock FPS | Candidate FPS | Change | Stock p95 | Candidate p95 | Change | Full-run gate |

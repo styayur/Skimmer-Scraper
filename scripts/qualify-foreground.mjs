@@ -17,12 +17,13 @@ import { captureNativeBoot } from './qualification/native-boot.mjs';
 
 const { values: options } = parseArgs({ options: {
   dist: { type: 'string' }, sha: { type: 'string' }, output: { type: 'string' },
+  edge: { type: 'string' },
   exe: { type: 'string' }, 'exe-sha256': { type: 'string' }, 'native-build-info': { type: 'string' },
   seconds: { type: 'string', default: '901' }, world: { type: 'string', default: 'city' },
   route: { type: 'string', default: 'reference' }, help: { type: 'boolean' },
 } });
 if (options.help) {
-  console.log('node scripts/qualify-foreground.mjs --dist DIST --sha COMMIT --output NEW_DIRECTORY [--seconds 901] [--world city|kinetic-city] [--route reference|controlled] [--exe PORTABLE --exe-sha256 SHA256 [--native-build-info FILE]]');
+  console.log('node scripts/qualify-foreground.mjs --dist DIST --sha COMMIT --output NEW_DIRECTORY [--edge INSTALLED_EDGE] [--seconds 901] [--world city|kinetic-city] [--route reference|controlled] [--exe PORTABLE --exe-sha256 SHA256 [--native-build-info FILE]]');
   process.exit(0);
 }
 assert.equal(process.platform, 'win32', 'Windows foreground window ownership is required');
@@ -35,6 +36,9 @@ const readJson = async file => JSON.parse((await readFile(file, 'utf8')).replace
 const dist = await realpath(options.dist);
 const output = path.resolve(options.output);
 const native = !!options.exe;
+assert(!native || !options.edge, 'Choose the installed Edge binary only for a Web run');
+const edgeExecutable = options.edge && await realpath(options.edge);
+const edgeSha256 = edgeExecutable && hash(await readFile(edgeExecutable));
 assert(['city', 'kinetic-city'].includes(options.world), 'Unknown qualification world');
 assert(['reference','controlled'].includes(options.route), 'Unknown flight route');
 const controlled = options.route === 'controlled';
@@ -84,7 +88,7 @@ async function startClient() {
   if (!native) {
     server = await preview({ configFile: false, root: dist, build: { outDir: dist },
       preview: { host: '127.0.0.1', port: 0, strictPort: true }, logLevel: 'error' });
-    browser = await chromium.launch({ channel: 'msedge', headless: false, args: [...switches, '--start-maximized'] });
+    browser = await chromium.launch({ channel: 'msedge', executablePath: edgeExecutable, headless: false, args: [...switches, '--start-maximized'] });
     const tools = await browser.newBrowserCDPSession();
     const { processInfo } = await tools.send('SystemInfo.getProcessInfo');
     await tools.detach();
@@ -181,7 +185,7 @@ async function identify(client) {
   assert.doesNotMatch(identity.renderer, /swiftshader|llvmpipe|software|warp|basic render/i);
   assert.deepEqual(identity.viewport, [size.width, size.height]);
   assert.equal(identity.dpr, 1);
-  return { ...identity, entry: loadedEntry, entrySha256: loadedHash, binarySha256: binaryHash,
+  return { ...identity, entry: loadedEntry, entrySha256: loadedHash, binarySha256: binaryHash, edgeSha256, browserVersion: browser.version(),
     profileVerified: client.profileVerified, webview2: client.webview2 };
 }
 
@@ -199,6 +203,7 @@ async function measure(pid) {
   monitorLines.on('line', line => {
     if (line === 'owned') focus.samples++;
     if (line.startsWith('cpu ')) hostCpu.push(JSON.parse(line.slice(4)));
+    if (line.startsWith('window ')) focus.acquisition = JSON.parse(line.slice(7));
   });
   const stopped = once(monitor, 'exit').then(() => { focus.lost = true; throw Error(diagnostic.trim() || 'Windows foreground observer exited'); });
   await Promise.race([once(monitorLines, 'line'), stopped, delay(60000, null, { ref: false }).then(() => { throw Error('Foreground observer did not start'); })]);

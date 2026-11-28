@@ -110,6 +110,10 @@ if (mode !== '--regression') {
 } else {
   assert.equal(a.platform, b.platform);
   assert.notEqual(a.sourceCommit, b.sourceCommit);
+  if (a.controlledRoute) {
+    assert.equal(a.identity.browserVersion, b.identity.browserVersion, 'Browser runtime versions differ');
+    assert.equal(a.identity.edgeSha256, b.identity.edgeSha256, 'Installed Edge executable digests differ');
+  }
 }
 const fpsChange = b.meanFps / a.meanFps - 1;
 const p95Change = b.frameMs.p95 / a.frameMs.p95 - 1;

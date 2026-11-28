@@ -1,0 +1,227 @@
+{
+  "directory": "controlled-repeat/stock/web",
+  "source": "991138b8c67c188bd47731d6c193142750225818",
+  "platform": "web",
+  "simulationSeconds": 901.8583333326746,
+  "wallSeconds": 916.873799999997,
+  "measuredStartedUtc": "2026-11-28T07:44:32.038Z",
+  "measuredFinishedUtc": "2026-11-28T07:59:48.131Z",
+  "meanFps": 109.18930946022427,
+  "p95Ms": 16.699999999953434,
+  "frames": 100110,
+  "worldSamples": 914,
+  "musicPlayingSamples": 908,
+  "foregroundChecks": 9132,
+  "foregroundAcquisition": {
+    "attempts": 3,
+    "restored": true,
+    "targetInputAttached": true,
+    "accessibilityFocus": false,
+    "captionAction": "clicked verified QA caption"
+  },
+  "scriptedCrossings": 2,
+  "naturalCrossings": 0,
+  "circuitPlacements": 72,
+  "runnerSha256": "e58177268e754ce1648fa61342622fb3be82681128bd6c0204e91b660a652cee",
+  "rawSha256": "1057e240d14182494839fd2d7d8110ad4f73659dfd7b6ca2ad756ba3d077806e",
+  "idleCpu": {
+    "count": 60,
+    "medianPercent": 6.784660766961648,
+    "p95Percent": 21.135029354207436
+  },
+  "measuredCpu": {
+    "count": 913,
+    "medianPercent": 17.039922103213247,
+    "p95Percent": 35.12993262752647
+  },
+  "rendererThreadCpu": {
+    "timeDomain": "threadTicks",
+    "available": true,
+    "seconds": {
+      "ThreadTime": 635.1668050000001,
+      "TaskDuration": 630.704191,
+      "ScriptDuration": 446.760159,
+      "LayoutDuration": 26.303262,
+      "RecalcStyleDuration": 10.854826
+    }
+  },
+  "resources": {
+    "gpuMs": {
+      "median": 5.73924,
+      "p95": 7.16304
+    },
+    "triangles": {
+      "median": 404796,
+      "p95": 497600
+    },
+    "calls": {
+      "median": 471,
+      "p95": 569
+    },
+    "activeChunks": {
+      "median": 33,
+      "p95": 36
+    },
+    "bvh": {
+      "median": 33,
+      "p95": 36
+    },
+    "dynamic": {
+      "median": 8,
+      "p95": 8
+    },
+    "residentGeometry": {
+      "median": 40126492,
+      "p95": 45119656
+    },
+    "collisionTriangles": {
+      "median": 172200,
+      "p95": 196684
+    },
+    "heap": {
+      "median": 76422357,
+      "p95": 99553119
+    }
+  },
+  "perSeed": [
+    {
+      "seed": 334458,
+      "worldSamples": 303,
+      "approximateDwellSeconds": 304.2570000000028,
+      "frames": 32977,
+      "meanFps": 108.39129464439681,
+      "p95Ms": 16.69999999999709,
+      "resources": {
+        "gpuMs": {
+          "median": 5.823,
+          "p95": 6.56928
+        },
+        "triangles": {
+          "median": 428156,
+          "p95": 520544
+        },
+        "calls": {
+          "median": 471,
+          "p95": 578
+        },
+        "activeChunks": {
+          "median": 33,
+          "p95": 36
+        },
+        "bvh": {
+          "median": 33,
+          "p95": 36
+        },
+        "dynamic": {
+          "median": 8,
+          "p95": 8
+        },
+        "residentGeometry": {
+          "median": 40374552,
+          "p95": 45119656
+        },
+        "collisionTriangles": {
+          "median": 176436,
+          "p95": 198156
+        },
+        "heap": {
+          "median": 74130199,
+          "p95": 94751384
+        }
+      }
+    },
+    {
+      "seed": 479568308,
+      "worldSamples": 307,
+      "approximateDwellSeconds": 308.2621999999998,
+      "frames": 34017,
+      "meanFps": 110.35086364789453,
+      "p95Ms": 16.699999999953434,
+      "resources": {
+        "gpuMs": {
+          "median": 5.70232,
+          "p95": 7.16304
+        },
+        "triangles": {
+          "median": 360252,
+          "p95": 421928
+        },
+        "calls": {
+          "median": 472,
+          "p95": 570
+        },
+        "activeChunks": {
+          "median": 33,
+          "p95": 36
+        },
+        "bvh": {
+          "median": 33,
+          "p95": 36
+        },
+        "dynamic": {
+          "median": 8,
+          "p95": 8
+        },
+        "residentGeometry": {
+          "median": 36975624,
+          "p95": 40599456
+        },
+        "collisionTriangles": {
+          "median": 177072,
+          "p95": 196684
+        },
+        "heap": {
+          "median": 74945799,
+          "p95": 96651865
+        }
+      }
+    },
+    {
+      "seed": 501763084,
+      "worldSamples": 304,
+      "approximateDwellSeconds": 304.35459999999387,
+      "frames": 33116,
+      "meanFps": 108.8105459091723,
+      "p95Ms": 16.699999999953434,
+      "resources": {
+        "gpuMs": {
+          "median": 5.69272,
+          "p95": 7.36776
+        },
+        "triangles": {
+          "median": 428340,
+          "p95": 497060
+        },
+        "calls": {
+          "median": 468,
+          "p95": 567
+        },
+        "activeChunks": {
+          "median": 33,
+          "p95": 36
+        },
+        "bvh": {
+          "median": 33,
+          "p95": 36
+        },
+        "dynamic": {
+          "median": 8,
+          "p95": 8
+        },
+        "residentGeometry": {
+          "median": 41275848,
+          "p95": 44861524
+        },
+        "collisionTriangles": {
+          "median": 160980,
+          "p95": 174372
+        },
+        "heap": {
+          "median": 80281139,
+          "p95": 107180307
+        }
+      }
+    }
+  ],
+  "perSeedMethod": "Attribute each positive animation-frame interval to the most recent one-second world observation at its endpoint. The first observation covers the beginning of the interval. World-boundary dwell is approximate."
+}

@@ -50,6 +50,55 @@ Run each invocation from the reproduction instructions with `--route controlled
 and puts in-flight CPU readings beside the frame intervals in `samples.json.gz`.
 On Chromium versions that expose thread-tick performance metrics, the result
 also includes renderer main-thread CPU deltas for the measured flight.
+Use `--edge` with the same installed `msedge.exe` on both Web legs. The result
+records its SHA-256 and the running browser version.
+
+Before timing, the observer locates the window belonging to the launched test
+process. If normal activation fails, it can temporarily raise that window
+without activating it, confirm its root HWND and PID under the cursor, and
+check that Windows reports the point as the titlebar. It rechecks the point
+immediately before sending one mouse click, then restores the cursor and
+original topmost state. Windows foreground ownership and DOM focus must both
+pass before measurement starts. A later loss of foreground invalidates the
+flight. Each fresh attempt retains its own admission sample and receipt.
+
+The maintainer superseded main `c4bc8ea` after the stock Web measurement
+to correct a test assertion flagged by the main CodeQL run. The first
+candidate admission stopped before Edge launched. Stock Web retains its
+original position in the four-flight order. The 105-file staged Web artifact
+and installed executable from that checkpoint have independent identities.
+[Superseded artifact identities](superseded-c4bc8ea/inputs.json)
+· [Superseded Web inventory](superseded-c4bc8ea/served-files.json)
+
+With the official archives extracted in fresh directories, use the following
+PowerShell commands from this checkout. Supply the two Web roots, both
+portable executable paths, the Windows build metadata for each release, the
+installed Edge path, and an empty results root. Each command performs its own
+60-second host admission check. An interrupted attempt needs a new output
+directory. Keep its existing receipt.
+
+```powershell
+$Evidence = 'acceptance/foreground-qualification'
+$Inputs = Get-Content -LiteralPath "$Evidence/controlled-repeat/inputs.json" -Raw | ConvertFrom-Json
+$StockSha = $Inputs.stock.source
+$FinalSha = $Inputs.final.source
+$Runner = 'scripts/qualify-foreground.mjs'
+$Manifest = 'scripts/qualification/dist-manifest.mjs'
+$Route = @('--route', 'controlled', '--seconds', '901')
+
+node $Manifest --verify $StockWeb $StockSha "$Evidence/v0.10.0/official-dist-sha256.json"
+if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+node $Manifest --verify $FinalWeb $FinalSha "$Evidence/controlled-repeat/served-files.json"
+if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+node $Runner --sha $StockSha --dist $StockWeb --edge $EdgeExe @Route --output "$Results/web-stock"
+if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+node $Runner --sha $FinalSha --dist $FinalWeb --edge $EdgeExe @Route --output "$Results/web-final"
+if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+node $Runner --sha $FinalSha --dist $FinalWeb --exe $FinalExe --exe-sha256 $Inputs.final.windows.executableSha256 --native-build-info $FinalMetadata @Route --output "$Results/windows-final"
+if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+node $Runner --sha $StockSha --dist $StockWeb --exe $StockExe --exe-sha256 $Inputs.stock.windows.executableSha256 --native-build-info $StockMetadata @Route --output "$Results/windows-stock"
+if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+```
 
 When the maintainer deploys Pages, obtain the Pages artifact actually used by
 that successful deployment. Extract its `artifact.tar` into a fresh directory
