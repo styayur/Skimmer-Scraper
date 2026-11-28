@@ -119,3 +119,39 @@ class PortableIdentity(unittest.TestCase):
         assembly.write(index, dict(sourceCommit=sha, files=rows))
         with self.assertRaisesRegex(ValueError, "Public response bytes differ"):
             assembly.evidence_files(index, state, None, static)
+
+    def test_accepts_the_repository_source_rebuild_verifier_receipt(self):
+        static = self.root / "static.zip"
+        rebuilt = self.root / "rebuilt"
+        with ZipFile(static) as z:
+            z.extractall(rebuilt)
+        receipt = self.root / "rebuild.json"
+        command = [sys.executable, SCRIPTS / "verify-source-rebuild.py", static, rebuilt, receipt]
+        state = {"version": self.site["version"], "sourceCommit": self.site["sourceCommit"], "site": {"files": 4, "build": self.site}}
+        self.assertEqual(subprocess.run(command, capture_output=True).returncode, 0)
+        self.assertTrue(assembly.check_rebuild(assembly.read(receipt), state, None))
+        from_other_build = {**assembly.read(receipt), "toolchain": self.native["toolchain"]}
+        self.assertFalse(assembly.check_rebuild(from_other_build, state, None))
+        (rebuilt / "LICENSE").write_text("changed")
+        self.assertNotEqual(subprocess.run(command, capture_output=True).returncode, 0)
+        self.assertFalse(assembly.check_rebuild(assembly.read(receipt), state, None))
+
+    def test_foreground_result_keeps_separate_measured_web_and_native_executables(self):
+        sample = self.root / "samples.json.gz"
+        sample.write_bytes(b"fixture raw samples")
+        report_path = self.root / "result.json"
+        native_exe = self.smoke["executableSha256"]
+        state = {"version": self.site["version"], "sourceCommit": self.site["sourceCommit"], "site": {"entry": {"sha256": "a" * 64}},
+                 "installer": {"installedExecutableSha256": native_exe}}
+        for platform, role in (("web", "web-soak"), ("windows", "desktop-soak")):
+            with self.subTest(platform):
+                identity = {"build": self.native, "entrySha256": "b" * 64}
+                if platform == "windows":
+                    identity["binarySha256"] = native_exe
+                assembly.write(report_path, dict(platform=platform, identity=identity, sourceCommit=state["sourceCommit"],
+                    status="passed", enduranceQualified=True, seconds=901, meanFps=78, frameMs={"p95": 24},
+                    rawSha256=assembly.digest(sample)))
+                item = dict(path="result.json", role=role, sourceCommit=state["sourceCommit"])
+                row = assembly.foreground_result(report_path, item, state)
+                self.assertTrue(row["sameReleaseSource"])
+                self.assertEqual(row["sameReleaseExecutable"], platform == "windows")

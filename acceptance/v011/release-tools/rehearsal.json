@@ -1,0 +1,144 @@
+{
+  "product": "0a5272b36352a1300253080bd38cfb5d520c7e0d",
+  "stage": "rehearsal",
+  "date": "2026-11-28",
+  "site": {
+    "build": {
+      "version": "0.11.0",
+      "sourceCommit": "0a5272b36352a1300253080bd38cfb5d520c7e0d",
+      "sourceCommitTime": "2026-11-28T13:07:00+08:00",
+      "dirty": false,
+      "sourceUrl": "https://github.com/styayur/Skimmer-Scraper/tree/0a5272b36352a1300253080bd38cfb5d520c7e0d",
+      "toolchain": {
+        "node": "v24.22.3",
+        "platform": "linux",
+        "architecture": "x64"
+      }
+    },
+    "entry": {
+      "url": "assets/index-RufhkwiX.js",
+      "bytes": 1306335,
+      "sha256": "46334dd86f02f7c2851a77e000e272974c8ace2c398c0533afa5da012a875f30"
+    },
+    "originalFiles": 104,
+    "rebuild": {
+      "version": "0.11.0",
+      "sourceCommit": "0a5272b36352a1300253080bd38cfb5d520c7e0d",
+      "toolchain": {
+        "node": "v24.22.3",
+        "platform": "linux",
+        "architecture": "x64"
+      },
+      "originalFiles": 104,
+      "rebuiltFiles": 104,
+      "mismatches": [],
+      "status": "passed"
+    },
+    "scope": "Local Debian x64 build with the Pages npm ci and npm run build commands. A second source ZIP checkout reproduced all files in the repository verifier."
+  },
+  "source": {
+    "trackedFiles": 1355,
+    "archiveSha256": "789b4c54c6dff5a5cadfef644303f8d9f2503ae4f185f3df14902b5323f00bc6",
+    "windowsCanonicalMismatches": 28,
+    "windowsGitCheckoutMismatches": []
+  },
+  "native": {
+    "installedBuild": {
+      "version": "0.11.0",
+      "sourceCommit": "0a5272b36352a1300253080bd38cfb5d520c7e0d",
+      "sourceCommitTime": "2026-11-28T13:07:00+08:00",
+      "dirty": false,
+      "sourceUrl": "https://github.com/styayur/Skimmer-Scraper/tree/0a5272b36352a1300253080bd38cfb5d520c7e0d",
+      "toolchain": {
+        "node": "v24.22.3",
+        "platform": "win32",
+        "architecture": "x64"
+      }
+    },
+    "installerSha256": "e4fdff0f12e209971f6f429313e0879f0154b097bdc8c57c07718d624e662c04",
+    "installedExeSha256": "d74696be680324a79b615e5badc0778568a8825b9e2c3f2c90f7386df09bfff8",
+    "authenticode": "NotSigned",
+    "extractedNotices": 18,
+    "portableSmokeMethod": "fixture",
+    "scope": "7-Zip extraction and the packaged portable match the installed executable. The #93 Windows run flew the actual portable. The separate pause/fullscreen smoke input was a labelled fixture.",
+    "lifecycle": {
+      "run": "https://github.com/styayur/Skimmer-Scraper/actions/runs/46111711278",
+      "sourceCommit": "0a5272b36352a1300253080bd38cfb5d520c7e0d",
+      "lanes": [
+        "from-0.8.2",
+        "from-0.9.1",
+        "from-0.9.2",
+        "from-0.10.0"
+      ]
+    },
+    "lifecycleIndex": "https://github.com/styayur/Skimmer-Scraper/blob/0c95e3c89017447e63f88f9e1e16bb91cd544e90/acceptance/v011/windows-lifecycle/candidate-0a5272b/receipts.json"
+  },
+  "itch": {
+    "linuxSite": "935393c5b5e05393a61dba6ed481a62bb8a7eeccf9d0975d428972fea0cc3435",
+    "windowsSite": "14e1b66ed7725706e9d7fd5cccfe69ffc86b72cd78f00b5be62193a4642db2e0",
+    "casesPerSite": 4,
+    "results": "Every locale and presentation passed in Chromium for each site archive."
+  },
+  "foreground": {
+    "regression": [
+      {
+        "platform": "web",
+        "exitCode": 0,
+        "fpsChange": 0.011839225020051858,
+        "p95Change": -0.050279329610173895,
+        "limits": {
+          "fpsPassed": true,
+          "p95Passed": true
+        }
+      },
+      {
+        "platform": "windows",
+        "exitCode": 1,
+        "fpsChange": -0.07036494714600228,
+        "p95Change": 0.054852320671996635,
+        "limits": {
+          "fpsPassed": false,
+          "p95Passed": true
+        }
+      }
+    ],
+    "candidate": [
+      {
+        "platform": "web",
+        "seconds": 901,
+        "meanFps": 86.19548080662541,
+        "p95Ms": 17,
+        "entrySha256": "e5993c151442ba79878303908d507e016ea05a1908895891f1bab943583c15b9",
+        "binarySha256": null,
+        "sameReleaseExecutable": false
+      },
+      {
+        "platform": "windows",
+        "seconds": 901,
+        "meanFps": 72.58198827728383,
+        "p95Ms": 25,
+        "entrySha256": "e5993c151442ba79878303908d507e016ea05a1908895891f1bab943583c15b9",
+        "binarySha256": "d74696be680324a79b615e5badc0778568a8825b9e2c3f2c90f7386df09bfff8",
+        "sameReleaseExecutable": true
+      }
+    ],
+    "validator": {
+      "compare-foreground.mjs": "f0af4b185630fd41b6df5a4534384a511c9c12e40641f60f6f2e9b392604dbe6",
+      "qualification/flight.mjs": "1895a51117a3f4209fba8375d5e42f00341e5ddd5365aae93f94c9e2ce24e4d5"
+    }
+  },
+  "verification": {
+    "status": "passed",
+    "archives": 9,
+    "manifestSha256": "34951f858914ce877419e6620ad77f7327e089b21517f543614832d115a6a66d",
+    "sha256sumsSha256": "973be8d4b38763e3875fd88ae52e28b0f33b0744ae650814ec2ddc01cb51382d",
+    "qualificationZipSha256": "74421f224ae5edd65bb6275353e4753e8f9bda670ea04b9cb5d020e21074ab81",
+    "receiptsZipSha256": "05bf1c534f39b3604f7273ef7e8f7eaf3c5785056dead89377f5bd4a72350939",
+    "packagerRegressionTests": 8,
+    "priorRelease": "The verifier also passed the nine original v0.10.0 release assets. Packaging the historical Linux site and actual Windows client preserved the installed executable digest."
+  },
+  "limits": [
+    "Production Pages and public downloads are final-source checks.",
+    "The Windows mean FPS comparison failed the 5 percent target in the first candidate run. Its raw comparison is retained."
+  ]
+}
