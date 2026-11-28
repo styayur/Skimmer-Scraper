@@ -1,11 +1,18 @@
 {
-  "state": "Stock Web complete. Corrected artifacts pending.",
+  "state": "All four qualified acquisition intervals completed. Both platform performance gates failed.",
   "order": [
     "web-stock",
     "web-final",
     "windows-final",
     "windows-stock"
   ],
+  "measuredRelease": "ac943acd6a2c6d21431aa138327bc3e64ed8552f",
+  "runnerSha256": "e58177268e754ce1648fa61342622fb3be82681128bd6c0204e91b660a652cee",
+  "foregroundReleased": {
+    "ended": "2026-11-28T10:05:47.777Z",
+    "officialNativeSha256": "c8af4c3ebdcbfc19ace15d21c8ea3d7d7bdd51f95bf41ca7f30c9b4e09523275",
+    "officialSource": "ac943acd6a2c6d21431aa138327bc3e64ed8552f"
+  },
   "supersession": {
     "source": "c4bc8eac5425197ebb08c937316de415e75b89b1",
     "requestedUtc": "2026-11-28T08:00:16.3908625Z",
@@ -147,7 +154,12 @@
       "gapSinceLastAcceptedMeasurementSeconds": null,
       "directory": "stock/web",
       "source": "991138b8c67c188bd47731d6c193142750225818",
-      "rawSha256": "1057e240d14182494839fd2d7d8110ad4f73659dfd7b6ca2ad756ba3d077806e"
+      "rawSha256": "1057e240d14182494839fd2d7d8110ad4f73659dfd7b6ca2ad756ba3d077806e",
+      "frames": 100110,
+      "worldSamples": 914,
+      "foregroundChecks": 9132,
+      "simulationSeconds": 901.8583333326746,
+      "wallSeconds": 916.873799999997
     },
     {
       "order": 2,
@@ -165,6 +177,69 @@
       "source": "c4bc8eac5425197ebb08c937316de415e75b89b1",
       "reason": "The private host CPU sampler stopped when the maintainer superseded this release before launch.",
       "foregroundChecks": 0
+    },
+    {
+      "order": 2,
+      "lane": "web-final",
+      "attempt": 2,
+      "status": "accepted",
+      "processStartedUtc": "2026-11-28T09:16:15.138Z",
+      "processFinishedUtc": "2026-11-28T09:32:43.465Z",
+      "artifactWaitSeconds": 4528.45,
+      "gapSinceLastAcceptedProcessSeconds": 4584.847,
+      "measuredStartedUtc": "2026-11-28T09:17:23.445Z",
+      "measuredFinishedUtc": "2026-11-28T09:32:41.240Z",
+      "gapSinceLastAcceptedMeasurementSeconds": 4655.314,
+      "directory": "final/web",
+      "source": "ac943acd6a2c6d21431aa138327bc3e64ed8552f",
+      "rawSha256": "73ddbedd1af5785e6fc4dc8d608202160edfea3f98314cd7dd7b85c5a0ccc5aa",
+      "frames": 92166,
+      "worldSamples": 913,
+      "foregroundChecks": 9133,
+      "simulationSeconds": 901.8999999993413,
+      "wallSeconds": 916.712800000012
+    },
+    {
+      "order": 3,
+      "lane": "windows-final",
+      "attempt": 1,
+      "status": "accepted",
+      "processStartedUtc": "2026-11-28T09:32:44.192Z",
+      "processFinishedUtc": "2026-11-28T09:49:15.156Z",
+      "artifactWaitSeconds": 0,
+      "gapSinceLastAcceptedProcessSeconds": 0.727,
+      "measuredStartedUtc": "2026-11-28T09:33:53.836Z",
+      "measuredFinishedUtc": "2026-11-28T09:49:11.998Z",
+      "gapSinceLastAcceptedMeasurementSeconds": 72.596,
+      "directory": "final/windows",
+      "source": "ac943acd6a2c6d21431aa138327bc3e64ed8552f",
+      "rawSha256": "388d37bd84ca4ef97d226916cdb5dfebaeaeb7249325f79757110dad8b34aaff",
+      "frames": 88485,
+      "worldSamples": 913,
+      "foregroundChecks": 9129,
+      "simulationSeconds": 902.0916666660085,
+      "wallSeconds": 917.263899999991
+    },
+    {
+      "order": 4,
+      "lane": "windows-stock",
+      "attempt": 1,
+      "status": "accepted",
+      "processStartedUtc": "2026-11-28T09:49:18.100Z",
+      "processFinishedUtc": "2026-11-28T10:05:47.777Z",
+      "artifactWaitSeconds": 0,
+      "gapSinceLastAcceptedProcessSeconds": 2.944,
+      "measuredStartedUtc": "2026-11-28T09:50:27.521Z",
+      "measuredFinishedUtc": "2026-11-28T10:05:44.978Z",
+      "gapSinceLastAcceptedMeasurementSeconds": 75.523,
+      "directory": "stock/windows",
+      "source": "991138b8c67c188bd47731d6c193142750225818",
+      "rawSha256": "78a21889d551e7aaa466bf762f4be9b925f81d62b5cfb8c089665260c5d9e5fa",
+      "frames": 97762,
+      "worldSamples": 913,
+      "foregroundChecks": 9131,
+      "simulationSeconds": 901.958333332675,
+      "wallSeconds": 916.616399999991
     }
   ]
 }

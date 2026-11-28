@@ -1,0 +1,169 @@
+{
+  "source": "ac943acd6a2c6d21431aa138327bc3e64ed8552f",
+  "stock": "991138b8c67c188bd47731d6c193142750225818",
+  "hardware": "../host.json",
+  "inputs": "inputs.json",
+  "attempts": "suite.json",
+  "runnerSha256": "e58177268e754ce1648fa61342622fb3be82681128bd6c0204e91b660a652cee",
+  "performanceGate": "failed",
+  "limits": {
+    "minimumCandidateToStockMeanFps": 0.95,
+    "maximumCandidateToStockP95FrameTime": 1.1
+  },
+  "platforms": {
+    "web": {
+      "order": [
+        "stock",
+        "final"
+      ],
+      "withinPairGapSeconds": 4655.314,
+      "gate": "failed",
+      "meanFpsGate": "failed",
+      "p95Gate": "passed",
+      "fpsChangePercent": -7.919101646150883,
+      "p95ChangePercent": 3.4854341635082164e-10,
+      "rawReplay": "web-pair.json",
+      "stock": {
+        "source": "991138b8c67c188bd47731d6c193142750225818",
+        "wallSeconds": 916.873799999997,
+        "frames": 100110,
+        "meanFps": 109.18930946022427,
+        "p95Ms": 16.699999999953434,
+        "idleCpu": {
+          "count": 60,
+          "medianPercent": 6.784660766961648,
+          "p95Percent": 21.135029354207436
+        },
+        "measuredCpu": {
+          "count": 913,
+          "medianPercent": 17.039922103213247,
+          "p95Percent": 35.12993262752647
+        },
+        "medianGpuMs": 5.73924,
+        "p95GpuMs": 7.16304,
+        "scriptMsPerFrame": 4.46269262810908,
+        "rendererThreadMsPerFrame": 6.34468889221856
+      },
+      "final": {
+        "source": "ac943acd6a2c6d21431aa138327bc3e64ed8552f",
+        "wallSeconds": 916.712800000012,
+        "frames": 92166,
+        "meanFps": 100.54249705733886,
+        "p95Ms": 16.70000000001164,
+        "idleCpu": {
+          "count": 60,
+          "medianPercent": 8.803165182987138,
+          "p95Percent": 21.32424537487828
+        },
+        "measuredCpu": {
+          "count": 913,
+          "medianPercent": 17.151162790697672,
+          "p95Percent": 37.109375
+        },
+        "medianGpuMs": 6.25396,
+        "p95GpuMs": 7.15705,
+        "scriptMsPerFrame": 4.261996864353449,
+        "rendererThreadMsPerFrame": 6.244581657010177
+      },
+      "matchedDraws": {
+        "fields": [
+          "seed",
+          "phase",
+          "triangles",
+          "calls",
+          "activeChunks",
+          "bvh",
+          "dynamic"
+        ],
+        "groups": 294,
+        "stockSamples": 644,
+        "candidateSamples": 595,
+        "gpuTimerRatio": {
+          "p25": 1.0732674802017867,
+          "median": 1.0934270971394748,
+          "p75": 1.1154303029440844
+        }
+      }
+    },
+    "windows": {
+      "order": [
+        "final",
+        "stock"
+      ],
+      "withinPairGapSeconds": 75.523,
+      "gate": "failed",
+      "meanFpsGate": "failed",
+      "p95Gate": "failed",
+      "fpsChangePercent": -9.553453312593907,
+      "p95ChangePercent": 15.68627451078859,
+      "rawReplay": "windows-pair.json",
+      "stock": {
+        "source": "991138b8c67c188bd47731d6c193142750225818",
+        "wallSeconds": 916.616399999991,
+        "frames": 97762,
+        "meanFps": 106.65867761219098,
+        "p95Ms": 10.199999999953434,
+        "idleCpu": {
+          "count": 60,
+          "medianPercent": 7.345739471106761,
+          "p95Percent": 20.38834951456311
+        },
+        "measuredCpu": {
+          "count": 913,
+          "medianPercent": 13.455953533397869,
+          "p95Percent": 21.579961464354525
+        },
+        "medianGpuMs": 5.71572,
+        "p95GpuMs": 6.14024,
+        "scriptMsPerFrame": 4.371970019025797,
+        "rendererThreadMsPerFrame": 6.129360283136596
+      },
+      "final": {
+        "source": "ac943acd6a2c6d21431aa138327bc3e64ed8552f",
+        "wallSeconds": 917.263899999991,
+        "frames": 88485,
+        "meanFps": 96.46909064268027,
+        "p95Ms": 11.800000000046566,
+        "idleCpu": {
+          "count": 60,
+          "medianPercent": 7.2063178677196476,
+          "p95Percent": 22.211350293542075
+        },
+        "measuredCpu": {
+          "count": 912,
+          "medianPercent": 18.846153846153847,
+          "p95Percent": 55.4054054054054
+        },
+        "medianGpuMs": 6.40644,
+        "p95GpuMs": 7.07804,
+        "scriptMsPerFrame": 4.618923772390801,
+        "rendererThreadMsPerFrame": 6.669724800813697
+      },
+      "matchedDraws": {
+        "fields": [
+          "seed",
+          "phase",
+          "triangles",
+          "calls",
+          "activeChunks",
+          "bvh",
+          "dynamic"
+        ],
+        "groups": 301,
+        "stockSamples": 634,
+        "candidateSamples": 626,
+        "gpuTimerRatio": {
+          "p25": 1.1023395879988316,
+          "median": 1.1110781776383327,
+          "p75": 1.1270179736150872
+        }
+      }
+    }
+  },
+  "sourceSettingsParity": {
+    "stock": true,
+    "final": true
+  },
+  "followUpProtocol": "../final-repeat.md#cross-period-abba-follow-up",
+  "followUpStatusAtHandoff": "Preregistered for later authorization after the human controller trial."
+}

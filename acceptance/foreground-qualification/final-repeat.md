@@ -45,6 +45,16 @@ frame intervals, ownership checks, per-seed dwell, host CPU and available GPU
 timings and renderer resources. The original open-route measurements remain
 available alongside this controlled-route comparison.
 
+One completed receipt can be independently replayed before its paired build
+arrives. The report includes per-seed frame counts, mean FPS, p95 frame time
+and resource percentiles. It assigns each frame to the latest world sampled
+at that frame's endpoint. Per-seed dwell is approximate to the roughly
+one-second world sampling interval.
+
+```powershell
+node scripts/compare-foreground.mjs --inspect acceptance/foreground-qualification/controlled-repeat/stock/web
+```
+
 Run each invocation from the reproduction instructions with `--route controlled
 --seconds 901` and a fresh output directory. The runner saves `idle-cpu.json`
 and puts in-flight CPU readings beside the frame intervals in `samples.json.gz`.
@@ -116,3 +126,59 @@ tar -xf (Join-Path $PagesArtifact artifact.tar) -C $DeployedWeb
 if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 node scripts/qualification/dist-manifest.mjs --verify $DeployedWeb $Revision $StagedManifest
 ```
+
+## Cross-period AB/BA follow-up
+
+The initial four flights are complete. This dual-platform follow-up is
+specified before collecting any follow-up frames. The maintainer will reserve
+new slots after the user's physical controller trial. Use A for official
+v0.10.0 stock. For a reproduction use B for main
+`ac943acd6a2c6d21431aa138327bc3e64ed8552f`. For a repair, register a new
+comparison with the repaired merged SHA, official staged Web inventory,
+installed Windows executable digest and runner digest before the first flight.
+Report each release revision independently.
+
+| Reserved period | First adjacent pair | Second adjacent pair |
+| --- | --- | --- |
+| 1 | Web A → B | Windows B → A |
+| 2 | Windows A → B | Web B → A |
+
+Schedule two quiet periods at comparable local times and record their actual
+separation. Keep each adjacent pair within one period. Use one machine and
+display throughout. Pin Edge 158.0.4370.45 and its executable digest for Web
+and the same measured WebView2 runtime on both Windows builds. Keep AMD Radeon 780M/D3D11,
+the existing 2880 × 1800 at 120 Hz desktop, the 1920 × 1080 drawing buffer
+at DPR 1, High quality, chase camera, wedge formation, three companions
+and default music. Use a new private browser or isolated native profile for each invocation.
+Run the same 901-second controlled route, seeds, 72 placements, two
+scheduled inversions, focus checks and whole-flight sample rules.
+
+Rest the machine for 120 seconds before each invocation, starting at the
+previous test client's exit within each period. Immediately follow
+that rest with the existing 60-second total CPU screen. Its median must be at
+most 15% and its p95 at most 25%. Record all UTC boundaries. Require at most
+240 seconds between the end of a measured flight and the start of the next
+within each block. Fully stage both builds before starting the sequence.
+Record AC power status, active power scheme, display mode and driver at each
+boundary. Record GPU core clock and temperature only when an existing
+read-only source exposes them. Use the same collector and cadence for all
+eight flights and record unavailable readings as null.
+
+Preserve each completed flight, partial flight and rejected admission. A
+focus loss, failed CPU admission, changed power source, changed build or
+display identity, or excessive within-block gap invalidates that block for
+the paired comparison. Changed runtime identity also invalidates that block.
+A block invalidated during collection may be repeated
+once in its original order in another reserved session. Record the resulting
+session boundary. A second invalidation leaves that block incomplete. A valid
+performance failure stays in the results and ends measurement for its block.
+
+Compute B/A mean FPS and p95 frame-time ratios independently in each block
+from all positive frame intervals. Each block must meet both original limits,
+FPS ratio at least 0.95 and p95 ratio at most 1.10. Both valid orders on a
+platform must pass for its follow-up gate to pass. Report each discordant
+pair separately and retain every failed dimension. Also report the equal-weight
+geometric mean of the two ratios for each metric, per-seed dwell, host CPU,
+renderer CPU per frame, GPU timer distributions and matched draw counts.
+These summaries are descriptive. Keep the original Web and Windows failures
+and each subsequent build's results in the ledger.

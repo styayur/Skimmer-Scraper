@@ -1,0 +1,831 @@
+{
+  "sourceCommit": "ac943acd6a2c6d21431aa138327bc3e64ed8552f",
+  "world": "city",
+  "platform": "web",
+  "started": "2026-11-28T09:16:15.622Z",
+  "finished": "2026-11-28T09:32:41.317Z",
+  "status": "passed",
+  "enduranceQualified": true,
+  "identity": {
+    "build": {
+      "version": "0.11.0",
+      "sourceCommit": "ac943acd6a2c6d21431aa138327bc3e64ed8552f",
+      "sourceCommitTime": "2026-11-28T09:13:19Z",
+      "dirty": false,
+      "sourceUrl": "https://github.com/styayur/Skimmer-Scraper/tree/ac943acd6a2c6d21431aa138327bc3e64ed8552f",
+      "toolchain": {
+        "node": "v24.22.3",
+        "platform": "linux",
+        "architecture": "x64"
+      }
+    },
+    "renderer": "ANGLE (AMD, AMD Radeon 780M Graphics (0x00001900) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/158.0.0.0 Safari/537.36 Edg/158.0.0.0",
+    "viewport": [
+      1920,
+      1080
+    ],
+    "dpr": 1,
+    "buffer": [
+      1920,
+      1080
+    ],
+    "language": "en-US",
+    "sourceUrl": "https://github.com/styayur/Skimmer-Scraper/tree/ac943acd6a2c6d21431aa138327bc3e64ed8552f",
+    "entry": "assets/index-yT2wa0pU.js",
+    "entrySha256": "176ab1ccad4a48f9aad5a73ca7f99c06d409807db34f5f797c3ad5ccc7a6483a",
+    "edgeSha256": "7b8f341751a1b3ccf73858cf5a5813616976b849748ea3ac6fc796cd93516c0f",
+    "browserVersion": "158.0.4370.45",
+    "profileVerified": true
+  },
+  "runner": {
+    "files": {
+      "qualify-foreground.mjs": "358a61ce257563e2b59ad24ff428cf68a1a1ab52bf5ad1052a4df6b65f5de3fc",
+      "qualification/flight.mjs": "2a5873db4d3f9539050734d76e6db381bcc45d0d653c8238299f5a414c6380a1",
+      "qualification/native-boot.mjs": "b119950cd4e8e62b9cef1c397c3fb0b80ed992960b0f9e444e7658aa2085978f",
+      "qualification/verify-native-profile.ps1": "f0dd82c174a35149613b45900b4e3e5de173569f15fd7eee6919b9c2ec24d353",
+      "qualification/watch-window.py": "778a8ca02b264d2f1722c75ed7baa2a7898dfee00ed70d440ae128af15deb914",
+      "qualification/host_cpu.py": "5155688883f8e0f2b7d91fb3d551f3d86ebb535831131411ab8312c8d49591a9"
+    },
+    "sha256": "e58177268e754ce1648fa61342622fb3be82681128bd6c0204e91b660a652cee"
+  },
+  "focus": {
+    "samples": 9133,
+    "lost": false,
+    "acquisition": {
+      "attempts": 3,
+      "restored": true,
+      "targetInputAttached": true,
+      "accessibilityFocus": false,
+      "captionAction": "clicked verified QA caption"
+    }
+  },
+  "route": "Sakura 12-second circuits with two scheduled Sky Inversions",
+  "quality": "high",
+  "seconds": 901,
+  "method": "Wall-clock foreground animation frames and shipping fixed steps. Scripted keyboard and repeatable approach poses.",
+  "settings": {
+    "mode": "free",
+    "shield": true,
+    "companions": 3,
+    "camera": "chase",
+    "aircraft": "procedural",
+    "worldMode": "stable",
+    "preset": "city",
+    "generator": 4,
+    "language": "en-US",
+    "musicEnabled": true,
+    "viewport": [
+      1920,
+      1080
+    ],
+    "buffer": [
+      1920,
+      1080
+    ],
+    "dpr": 1,
+    "theme": "city",
+    "formation": "wedge",
+    "behavior": "formation",
+    "worldFingerprint": 53102820
+  },
+  "startSeed": 334458,
+  "startCrossings": 0,
+  "flightSeconds": 901.8999999993413,
+  "wallMs": 916712.8000000119,
+  "frames": 92166,
+  "meanFps": 100.54249705733886,
+  "frameMs": {
+    "p50": 8.399999999965075,
+    "p95": 16.70000000001164,
+    "p99": 16.80000000000291,
+    "worst": 83.40000000000055
+  },
+  "bufferEntries": 73,
+  "bufferMs": 4891.3999999165535,
+  "finalAgents": [
+    {
+      "id": 1,
+      "deployed": true,
+      "uncovered": false
+    },
+    {
+      "id": 2,
+      "deployed": true,
+      "uncovered": false
+    },
+    {
+      "id": 3,
+      "deployed": true,
+      "uncovered": false
+    }
+  ],
+  "finalWorldIndex": 2,
+  "finalPhase": "ASCENT",
+  "crossings": 2,
+  "error": null,
+  "scriptedCrossings": 2,
+  "naturalCrossings": 0,
+  "transitions": [
+    {
+      "before": {
+        "seed": 334458,
+        "index": 0,
+        "crossings": 0,
+        "epoch": 2,
+        "charges": 2,
+        "runTime": 304.1083333332211,
+        "phase": "ASCENT"
+      },
+      "after": {
+        "seed": 479568308,
+        "index": 1,
+        "crossings": 1,
+        "epoch": 3,
+        "charges": 2,
+        "phase": "ASCENT",
+        "release": {
+          "seed": 334458,
+          "bvhBefore": 33,
+          "bvhAfter": 0,
+          "dynamicBvhBefore": 8,
+          "dynamicBvhAfter": 0,
+          "rootChildrenAfter": 0,
+          "disposedGeometryCount": 19212
+        },
+        "deployed": 3,
+        "covered": 3,
+        "phases": [
+          "THRESHOLD",
+          "INVERSION",
+          "WORLD_SWAP",
+          "DIVE",
+          "RECOVERY",
+          "ASCENT"
+        ]
+      }
+    },
+    {
+      "before": {
+        "seed": 479568308,
+        "index": 1,
+        "crossings": 1,
+        "epoch": 3,
+        "charges": 2,
+        "runTime": 604.1749999996149,
+        "phase": "ASCENT"
+      },
+      "after": {
+        "seed": 501763084,
+        "index": 2,
+        "crossings": 2,
+        "epoch": 4,
+        "charges": 2,
+        "phase": "ASCENT",
+        "release": {
+          "seed": 479568308,
+          "bvhBefore": 33,
+          "bvhAfter": 0,
+          "dynamicBvhBefore": 8,
+          "dynamicBvhAfter": 0,
+          "rootChildrenAfter": 0,
+          "disposedGeometryCount": 18605
+        },
+        "deployed": 3,
+        "covered": 3,
+        "phases": [
+          "THRESHOLD",
+          "INVERSION",
+          "WORLD_SWAP",
+          "DIVE",
+          "RECOVERY",
+          "ASCENT"
+        ]
+      }
+    }
+  ],
+  "controlledRoute": {
+    "schedule": {
+      "inversions": [
+        300,
+        600
+      ],
+      "circuits": [
+        12,
+        24,
+        36,
+        48,
+        60,
+        72,
+        84,
+        96,
+        108,
+        120,
+        132,
+        144,
+        156,
+        168,
+        180,
+        192,
+        204,
+        216,
+        228,
+        240,
+        252,
+        264,
+        276,
+        288,
+        312,
+        324,
+        336,
+        348,
+        360,
+        372,
+        384,
+        396,
+        408,
+        420,
+        432,
+        444,
+        456,
+        468,
+        480,
+        492,
+        504,
+        516,
+        528,
+        540,
+        552,
+        564,
+        576,
+        588,
+        612,
+        624,
+        636,
+        648,
+        660,
+        672,
+        684,
+        696,
+        708,
+        720,
+        732,
+        744,
+        756,
+        768,
+        780,
+        792,
+        804,
+        816,
+        828,
+        840,
+        852,
+        864,
+        876,
+        888
+      ],
+      "seeds": [
+        334458,
+        479568308,
+        501763084
+      ]
+    },
+    "circuits": [
+      {
+        "scheduled": 12,
+        "observed": 12.074999999999783,
+        "worldIndex": 0,
+        "seed": 334458
+      },
+      {
+        "scheduled": 24,
+        "observed": 24.083333333332437,
+        "worldIndex": 0,
+        "seed": 334458
+      },
+      {
+        "scheduled": 36,
+        "observed": 36.016666666665095,
+        "worldIndex": 0,
+        "seed": 334458
+      },
+      {
+        "scheduled": 48,
+        "observed": 48.958333333331026,
+        "worldIndex": 0,
+        "seed": 334458
+      },
+      {
+        "scheduled": 60,
+        "observed": 60.87499999999705,
+        "worldIndex": 0,
+        "seed": 334458
+      },
+      {
+        "scheduled": 72,
+        "observed": 72.85000000000657,
+        "worldIndex": 0,
+        "seed": 334458
+      },
+      {
+        "scheduled": 84,
+        "observed": 84.80000000001608,
+        "worldIndex": 0,
+        "seed": 334458
+      },
+      {
+        "scheduled": 96,
+        "observed": 96.74166666669225,
+        "worldIndex": 0,
+        "seed": 334458
+      },
+      {
+        "scheduled": 108,
+        "observed": 108.7000000000351,
+        "worldIndex": 0,
+        "seed": 334458
+      },
+      {
+        "scheduled": 120,
+        "observed": 120.69166666671131,
+        "worldIndex": 0,
+        "seed": 334458
+      },
+      {
+        "scheduled": 132,
+        "observed": 132.65000000004082,
+        "worldIndex": 0,
+        "seed": 334458
+      },
+      {
+        "scheduled": 144,
+        "observed": 144.60833333336328,
+        "worldIndex": 0,
+        "seed": 334458
+      },
+      {
+        "scheduled": 156,
+        "observed": 156.55000000001908,
+        "worldIndex": 0,
+        "seed": 334458
+      },
+      {
+        "scheduled": 168,
+        "observed": 168.50833333334154,
+        "worldIndex": 0,
+        "seed": 334458
+      },
+      {
+        "scheduled": 180,
+        "observed": 180.49166666666397,
+        "worldIndex": 0,
+        "seed": 334458
+      },
+      {
+        "scheduled": 192,
+        "observed": 192.44999999998643,
+        "worldIndex": 0,
+        "seed": 334458
+      },
+      {
+        "scheduled": 204,
+        "observed": 204.43333333330887,
+        "worldIndex": 0,
+        "seed": 334458
+      },
+      {
+        "scheduled": 216,
+        "observed": 216.39166666663132,
+        "worldIndex": 0,
+        "seed": 334458
+      },
+      {
+        "scheduled": 228,
+        "observed": 228.3249999999538,
+        "worldIndex": 0,
+        "seed": 334458
+      },
+      {
+        "scheduled": 240,
+        "observed": 240.2999999999429,
+        "worldIndex": 0,
+        "seed": 334458
+      },
+      {
+        "scheduled": 252,
+        "observed": 252.24999999993204,
+        "worldIndex": 0,
+        "seed": 334458
+      },
+      {
+        "scheduled": 264,
+        "observed": 264.1916666665878,
+        "worldIndex": 0,
+        "seed": 334458
+      },
+      {
+        "scheduled": 276,
+        "observed": 276.1583333332436,
+        "worldIndex": 0,
+        "seed": 334458
+      },
+      {
+        "scheduled": 288,
+        "observed": 288.0916666665661,
+        "worldIndex": 0,
+        "seed": 334458
+      },
+      {
+        "scheduled": 312,
+        "observed": 312.2666666665441,
+        "worldIndex": 1,
+        "seed": 479568308
+      },
+      {
+        "scheduled": 324,
+        "observed": 324.2999999998665,
+        "worldIndex": 1,
+        "seed": 479568308
+      },
+      {
+        "scheduled": 336,
+        "observed": 336.2416666665223,
+        "worldIndex": 1,
+        "seed": 479568308
+      },
+      {
+        "scheduled": 348,
+        "observed": 348.19999999984475,
+        "worldIndex": 1,
+        "seed": 479568308
+      },
+      {
+        "scheduled": 360,
+        "observed": 360.14166666650056,
+        "worldIndex": 1,
+        "seed": 479568308
+      },
+      {
+        "scheduled": 372,
+        "observed": 372.08333333315636,
+        "worldIndex": 1,
+        "seed": 479568308
+      },
+      {
+        "scheduled": 384,
+        "observed": 384.01666666647884,
+        "worldIndex": 1,
+        "seed": 479568308
+      },
+      {
+        "scheduled": 396,
+        "observed": 396.95833333313374,
+        "worldIndex": 1,
+        "seed": 479568308
+      },
+      {
+        "scheduled": 408,
+        "observed": 408.9499999997895,
+        "worldIndex": 1,
+        "seed": 479568308
+      },
+      {
+        "scheduled": 420,
+        "observed": 420.8666666664453,
+        "worldIndex": 1,
+        "seed": 479568308
+      },
+      {
+        "scheduled": 432,
+        "observed": 432.7916666664345,
+        "worldIndex": 1,
+        "seed": 479568308
+      },
+      {
+        "scheduled": 444,
+        "observed": 444.7416666664236,
+        "worldIndex": 1,
+        "seed": 479568308
+      },
+      {
+        "scheduled": 456,
+        "observed": 456.7333333330794,
+        "worldIndex": 1,
+        "seed": 479568308
+      },
+      {
+        "scheduled": 468,
+        "observed": 468.6833333330685,
+        "worldIndex": 1,
+        "seed": 479568308
+      },
+      {
+        "scheduled": 480,
+        "observed": 480.616666666391,
+        "worldIndex": 1,
+        "seed": 479568308
+      },
+      {
+        "scheduled": 492,
+        "observed": 492.5666666663801,
+        "worldIndex": 1,
+        "seed": 479568308
+      },
+      {
+        "scheduled": 504,
+        "observed": 504.51666666636925,
+        "worldIndex": 1,
+        "seed": 479568308
+      },
+      {
+        "scheduled": 516,
+        "observed": 516.4999999996918,
+        "worldIndex": 1,
+        "seed": 479568308
+      },
+      {
+        "scheduled": 528,
+        "observed": 528.4416666663476,
+        "worldIndex": 1,
+        "seed": 479568308
+      },
+      {
+        "scheduled": 540,
+        "observed": 540.3916666663367,
+        "worldIndex": 1,
+        "seed": 479568308
+      },
+      {
+        "scheduled": 552,
+        "observed": 552.3249999996592,
+        "worldIndex": 1,
+        "seed": 479568308
+      },
+      {
+        "scheduled": 564,
+        "observed": 564.2833333329817,
+        "worldIndex": 1,
+        "seed": 479568308
+      },
+      {
+        "scheduled": 576,
+        "observed": 576.2333333329708,
+        "worldIndex": 1,
+        "seed": 479568308
+      },
+      {
+        "scheduled": 588,
+        "observed": 588.2083333329599,
+        "worldIndex": 1,
+        "seed": 479568308
+      },
+      {
+        "scheduled": 612,
+        "observed": 612.333333332938,
+        "worldIndex": 2,
+        "seed": 501763084
+      },
+      {
+        "scheduled": 624,
+        "observed": 624.358333332927,
+        "worldIndex": 2,
+        "seed": 501763084
+      },
+      {
+        "scheduled": 636,
+        "observed": 636.2999999995828,
+        "worldIndex": 2,
+        "seed": 501763084
+      },
+      {
+        "scheduled": 648,
+        "observed": 648.274999999572,
+        "worldIndex": 2,
+        "seed": 501763084
+      },
+      {
+        "scheduled": 660,
+        "observed": 660.2416666662277,
+        "worldIndex": 2,
+        "seed": 501763084
+      },
+      {
+        "scheduled": 672,
+        "observed": 672.2249999995502,
+        "worldIndex": 2,
+        "seed": 501763084
+      },
+      {
+        "scheduled": 684,
+        "observed": 684.2083333328726,
+        "worldIndex": 2,
+        "seed": 501763084
+      },
+      {
+        "scheduled": 696,
+        "observed": 696.1416666661951,
+        "worldIndex": 2,
+        "seed": 501763084
+      },
+      {
+        "scheduled": 708,
+        "observed": 708.0749999995176,
+        "worldIndex": 2,
+        "seed": 501763084
+      },
+      {
+        "scheduled": 720,
+        "observed": 720.0166666661734,
+        "worldIndex": 2,
+        "seed": 501763084
+      },
+      {
+        "scheduled": 732,
+        "observed": 732.9833333328282,
+        "worldIndex": 2,
+        "seed": 501763084
+      },
+      {
+        "scheduled": 744,
+        "observed": 744.9583333328173,
+        "worldIndex": 2,
+        "seed": 501763084
+      },
+      {
+        "scheduled": 756,
+        "observed": 756.8666666661398,
+        "worldIndex": 2,
+        "seed": 501763084
+      },
+      {
+        "scheduled": 768,
+        "observed": 768.841666666129,
+        "worldIndex": 2,
+        "seed": 501763084
+      },
+      {
+        "scheduled": 780,
+        "observed": 780.8083333327847,
+        "worldIndex": 2,
+        "seed": 501763084
+      },
+      {
+        "scheduled": 792,
+        "observed": 792.7583333327739,
+        "worldIndex": 2,
+        "seed": 501763084
+      },
+      {
+        "scheduled": 804,
+        "observed": 804.733333332763,
+        "worldIndex": 2,
+        "seed": 501763084
+      },
+      {
+        "scheduled": 816,
+        "observed": 816.6499999994188,
+        "worldIndex": 2,
+        "seed": 501763084
+      },
+      {
+        "scheduled": 828,
+        "observed": 828.6333333327412,
+        "worldIndex": 2,
+        "seed": 501763084
+      },
+      {
+        "scheduled": 840,
+        "observed": 840.5833333327304,
+        "worldIndex": 2,
+        "seed": 501763084
+      },
+      {
+        "scheduled": 852,
+        "observed": 852.5499999993862,
+        "worldIndex": 2,
+        "seed": 501763084
+      },
+      {
+        "scheduled": 864,
+        "observed": 864.4833333327086,
+        "worldIndex": 2,
+        "seed": 501763084
+      },
+      {
+        "scheduled": 876,
+        "observed": 876.4166666660311,
+        "worldIndex": 2,
+        "seed": 501763084
+      },
+      {
+        "scheduled": 888,
+        "observed": 888.3583333326869,
+        "worldIndex": 2,
+        "seed": 501763084
+      }
+    ]
+  },
+  "measuredStartedUtc": "2026-11-28T09:17:23.445Z",
+  "measuredFinishedUtc": "2026-11-28T09:32:41.240Z",
+  "rendererThreadCpu": {
+    "timeDomain": "threadTicks",
+    "available": true,
+    "seconds": {
+      "ThreadTime": 575.5381130000001,
+      "TaskDuration": 570.987136,
+      "ScriptDuration": 392.811203,
+      "LayoutDuration": 23.385845,
+      "RecalcStyleDuration": 9.637565
+    }
+  },
+  "resources": {
+    "loadedChunks": {
+      "min": 12,
+      "max": 36,
+      "last": 36
+    },
+    "activeChunks": {
+      "min": 12,
+      "max": 36,
+      "last": 36
+    },
+    "maxLoadedChunks": {
+      "min": 41,
+      "max": 41,
+      "last": 41
+    },
+    "bvh": {
+      "min": 12,
+      "max": 36,
+      "last": 36
+    },
+    "dynamic": {
+      "min": 8,
+      "max": 8,
+      "last": 8
+    },
+    "collisionTriangles": {
+      "min": 58224,
+      "max": 210552,
+      "last": 167968
+    },
+    "geometries": {
+      "min": 176,
+      "max": 474,
+      "last": 453
+    },
+    "textures": {
+      "min": 23,
+      "max": 25,
+      "last": 25
+    },
+    "renderObjects": {
+      "min": 155,
+      "max": 476,
+      "last": 461
+    },
+    "residentGeometry": {
+      "min": 13043152,
+      "max": 48570332,
+      "last": 43465632
+    },
+    "triangles": {
+      "min": 42092,
+      "max": 538416,
+      "last": 394948
+    },
+    "calls": {
+      "min": 69,
+      "max": 593,
+      "last": 478
+    },
+    "gpuMs": {
+      "min": 4.13136,
+      "max": 61.11361,
+      "last": 6.11436
+    },
+    "heap": {
+      "min": 36000775,
+      "max": 123358455,
+      "last": 82528403
+    },
+    "disposedGeometry": {
+      "min": 0,
+      "max": 18770,
+      "last": 17771
+    }
+  },
+  "idleCpu": {
+    "count": 60,
+    "medianPercent": 8.803165182987138,
+    "p95Percent": 21.32424537487828
+  },
+  "measuredCpu": {
+    "count": 913,
+    "medianPercent": 17.151162790697672,
+    "p95Percent": 37.109375
+  },
+  "sampleCount": 913,
+  "musicPlayingSamples": 905,
+  "rawSha256": "73ddbedd1af5785e6fc4dc8d608202160edfea3f98314cd7dd7b85c5a0ccc5aa"
+}

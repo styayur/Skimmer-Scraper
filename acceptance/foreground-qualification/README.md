@@ -28,18 +28,45 @@ retained with the receipt. [Attempt ledger](attempts.json) · [Rejected attempts
 
 ## Controlled merged-release repeat
 
-Stock Web averaged 109.19 FPS with a 16.7 ms p95 across 901.86 simulation
-seconds and 916.87 wall seconds. It completed 72 scheduled circuit placements
-and two scripted inversions across seeds 334458, 479568308 and 501763084.
-The observer recorded 9,132 foreground checks. Total host CPU measured 6.78%
-median and 21.14% p95 before launch, then 17.04% median and 35.13% p95
-during the flight. [Stock Web frames and resources](controlled-repeat/stock/web/)
+Both platforms failed the full-run performance gate for merged main
+`ac943acd6a2c6d21431aa138327bc3e64ed8552f` against official v0.10.0.
+The limits allow 5% mean-FPS loss and 10% p95 frame-time increase.
 
-The maintainer superseded `c4bc8ea` during its first Web admission to correct
-a test assertion reported by CodeQL. The sampler stopped before client launch.
-The corrected main artifacts are pending. [Registered order](final-repeat.md)
-· [All controlled attempts](controlled-repeat/suite.json)
-· [Superseded build identities](superseded-c4bc8ea/inputs.json)
+| Platform | Stock FPS | Release FPS | Change | Stock p95 | Release p95 | Change | Failed dimensions |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | --- |
+| Web | 109.19 | 100.54 | −7.92% | 16.7 ms | 16.7 ms | 0.00% | Mean FPS |
+| Windows | 106.66 | 96.47 | −9.55% | 10.2 ms | 11.8 ms | +15.69% | Mean FPS and p95 |
+
+All four flights passed the 60-second idle screen, exceeded 901 simulation
+and wall seconds, and used the same runner bytes. Every flight recorded 72
+circuit placements and exactly two scheduled inversions on seeds 334458,
+479568308 and 501763084. Each world swap released its static BVHs, dynamic
+BVHs and scene children. The four records contain 100,110, 92,166, 88,485
+and 97,762 positive frame intervals in run order. [Input hashes](controlled-repeat/inputs.json)
+· [Full gate results](controlled-repeat/results.json) · [Attempts and UTC intervals](controlled-repeat/suite.json)
+
+The stock-to-release Web gap was 4,655.314 seconds. The maintainer superseded
+`c4bc8ea` during idle admission and supplied the corrected official build.
+Windows ran in reverse order with a 75.523-second gap. The release had lower
+mean FPS on every seed on both platforms. Median total host CPU was 17.04%
+and 17.15% for Web stock and release, and 13.46% and 18.85% for Windows.
+Windows host CPU p95 was 21.58% and 55.41% respectively. [Web pair](controlled-repeat/web-pair.json)
+· [Windows pair](controlled-repeat/windows-pair.json) · [Superseded inputs](superseded-c4bc8ea/inputs.json)
+
+For the roughly one-second observations with the same seed, journey phase, triangle count, draw
+calls, active chunks and static/dynamic BVH counts, the median ratio of
+release to stock GPU timers was 1.0934 across 294 shared Web groups and
+1.1111 across 301 Windows groups. Each group contributes one ratio of
+its two median timings. Renderer script CPU per frame went from 4.463 to
+4.262 ms on Web and 4.372 to 4.619 ms on Windows. These measurements cover
+the renderer thread and GPU timer. Function-level cost, power state and GPU
+clock remain undetermined for this suite. [Per-seed and matched-group replay](controlled-repeat/)
+
+The fourth client and foreground observer exited at 10:05:47.777 UTC on
+2026-11-28. The user received the physical controller slot. The cross-period
+repeat is preregistered for a separately authorized reservation. A repaired
+release needs measurements on its own official Web and Windows builds.
+[Cross-period protocol](final-repeat.md#cross-period-abba-follow-up)
 
 ## Measured initial candidate
 
