@@ -1,0 +1,96 @@
+name: Stage Kinetic content and check partner catalog
+on:
+  push:
+    branches: [codex/kinetic-content-67a5687]
+    paths: [scripts/stage-kinetic-content.py]
+permissions:
+  contents: read
+  actions: read
+env:
+  SOURCE: 67a568705cd0cabe18d467f465ae745e784aa245
+  SITE_TREE: a97acaf4a40bed31ea0c1c123aa0328a0a7dcef17b4ce50a1be665fac397b80f
+  ASSEMBLY_RUN: '46141402324'
+  ASSEMBLY_RUNNER: 3cbc60e690c85ae8560122642faaf65d62ee00ce
+  PYTHONDONTWRITEBYTECODE: '1'
+jobs:
+  catalog:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: ${{ env.SOURCE }}
+          path: product
+          persist-credentials: false
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          path: runner
+          sparse-checkout: scripts/stage-kinetic-content.py
+          sparse-checkout-cone-mode: false
+          persist-credentials: false
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          github-token: ${{ github.token }}
+          run-id: 46141030022
+          name: release-web-67a568705cd0cabe18d467f465ae745e784aa245
+          path: site
+      - name: Install the Python browser harness
+        run: |
+          python -m pip install playwright
+          python -m playwright install --with-deps chromium
+      - name: Test the exact staged site with the repository's catalog probe
+        run: python runner/scripts/stage-kinetic-content.py catalog
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: staged-partner-catalog-67a5687
+          path: receipts/
+          if-no-files-found: error
+          retention-days: 14
+  content:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: ${{ env.SOURCE }}
+          path: product
+          persist-credentials: false
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          path: runner
+          sparse-checkout: scripts/stage-kinetic-content.py
+          sparse-checkout-cone-mode: false
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: 24.22.3
+      - run: npm ci
+        working-directory: product
+      - name: Wait for the exact official preparation
+        run: python runner/scripts/stage-kinetic-content.py wait-stage
+        env:
+          GH_TOKEN: ${{ github.token }}
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          github-token: ${{ github.token }}
+          run-id: 46141402324
+          name: assembly-prepared-67a5687
+          path: stage
+      - name: Rebuild the Dragonspine, WorldForge and character radio packs
+        run: python runner/scripts/stage-kinetic-content.py content
+        env:
+          GH_TOKEN: ${{ github.token }}
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: candidate-content-67a5687
+          path: content/
+          compression-level: 0
+          retention-days: 14
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: candidate-content-receipts-67a5687
+          path: receipts/
+          if-no-files-found: error
+          retention-days: 14
