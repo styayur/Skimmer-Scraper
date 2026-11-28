@@ -2,6 +2,14 @@
 
 [简体中文](README.zh-CN.md) · [Play online](https://styayur.github.io/Skimmer-Scraper/) · [Windows downloads](https://github.com/styayur/Skimmer-Scraper/releases/latest)
 
+## Kinetic City
+
+Choose Kinetic City in the World panel. Fly along the elevated spine, turn across an open plaza or drop between decks. Each 220 m cell builds its own part of the route from a pinned V2Wpro module library. Neighboring cells agree on the same endpoints. The Dragonspine canyon also uses a sky-arch from this library. [Start at the junction](https://styayur.github.io/Skimmer-Scraper/?theme=kinetic-city&seed=334458&gen=4) · [City geometry, captures and streaming measurements](docs/KINETIC-CITY.md)
+
+Tap LB or Space near a deck, then tap again to launch. Press T and try **KITE-2 scout the branch** near a junction. The scout checks the live collision geometry before flying the route. Enable Journey Memory in settings to keep visits and completed missions across sessions. You can inspect or erase each entry and choose separately whether a connected model can help recall it. [Wingmate commands](docs/companion-semantics.md) · [Journey Memory](docs/journey-memory.md)
+
+The partner catalog includes Switchyard, Relay District and Contact Deck. Open the source details, confirm the download, and keep the layout to repeat an approach. Download your flight report from the game and read it in V2Wpro with the matching study selected. [Switchyard in the catalog](https://styayur.github.io/Skimmer-Scraper/?catalog=switchyard) · [Motion Inspector](https://styayur.github.io/V2Wpro/?world=topogenesis)
+
 ## Flyable Architecture
 
 Import the finite Relay District and capture its transfer wall with LB or Space. The roof leads into a second flight surface. The world library reports launch coordinates and collision cost, and wingmates can use authored route hints. [Worlds, transfer recording and flight results](docs/FLYABLE-ARCHITECTURE.md)

@@ -1,5 +1,13 @@
 # Finite imported flight studies
 
+In Worlds (G), open **V2Wpro worlds** and select Relay District, Contact Deck or Switchyard. The source host, exact byte count, source URL and SHA-256 are available before you confirm. Confirmation fetches the pinned GLB for inspection. Activate world enters it. The desktop pack library and the local file picker also accept their existing inputs.
+
+Use **Play link** to share the selected catalog entry. Opening `?catalog=relay-district`, `?catalog=contact-deck` or `?catalog=switchyard` shows that selection. `?catalog=kinetic-city` points to the built-in city when the build includes its streaming source. A public link carries the catalog ID alone.
+
+**Download exact layout** saves the active `glb-world:` seed as text. To replay it on another device, open the same GLB and paste the text into World seed. **Download player flight diagnostic** saves a local observation of the latest flight in that imported world. It records up to two minutes at 15 samples per second. A saved-layout reopen is reported only when it happened. The `player-observation` outcome distinguishes ordinary play from the controlled benchmark. Both downloads work with session-only imports.
+
+The [Topogenesis benchmark](../acceptance/joint-flight/topogenesis) records controlled v2 reports, original baselines, generator revisions and holdout seeds.
+
 Download an original [contact deck or Relay District GLB](https://github.com/styayur/V2Wpro/tree/58442fd/examples). Open Worlds with G, select the file, analyze and apply. Keep the current world to replay the exact layout. Start Free Flight and tap LB or Space on approach. Tap again to leave the surface along the current tangent. In Relay District the forward wall leads over a convex edge onto the roof. The other architectural forms are open for exploration.
 
 The world library displays the collision triangle count, transformed dimensions and spawn position. Scene-local WorldIR topology nodes can guide a nearby forward scan or a wingmate's leading corridor. Hints move through the same up-axis, yaw, scale and recentering transform as the GLB. Generated layout variants can move structures independently, so their pilots use live perception. Manual spawn and heading retain priority. A flightEntry version 1 supplies position and toward as finite XYZ triples. The importer checks its level direction and 60 m departure corridor against collision before accepting it.

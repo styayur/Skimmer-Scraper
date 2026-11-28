@@ -4,6 +4,12 @@
 
 ## 可飞行建筑
 
+在世界面板选择 **Kinetic City**。沿高架桥前行，在开阔的交汇平台转向，或俯冲到下一层桥面。每个 220 米区块从固定版本的 V2Wpro 模块库构建自己的路段，相邻区块共享同一个接口。龙脊峡谷也采用其中的拱桥。轻按 LB 或空格尝试捕获桥面，再按一次主动脱离。[从交汇点起飞](https://styayur.github.io/Skimmer-Scraper/?theme=kinetic-city&seed=334458&gen=4) · [城市实景与流送测量](docs/KINETIC-CITY.md)
+
+在岔路附近按 T，输入“二号，侦察分支”。伴机会先检查附近碰撞面，再飞到目标处。设置中的“旅程记忆”可保存到访、滑行和已完成的任务。玩家可以查看、逐条删除或全部清除，也可单独决定是否允许已连接的模型参与回忆。[伴机任务](docs/companion-semantics.md) · [记忆与数据格式](docs/journey-memory.md)
+
+合作目录收录道岔区、接力实验区和接触甲板。核对来源后确认导入，保留布局可复飞相同入口。飞行后下载诊断，在 V2Wpro 打开原世界并读取文件即可查看实测滑行距离、净空和撞击。[合作世界目录](https://styayur.github.io/Skimmer-Scraper/?catalog=switchyard) · [运动检查器](https://styayur.github.io/V2Wpro/?world=topogenesis)
+
 在世界库导入接力实验区，起飞后用 LB 或空格捕获前方墙面，越过凸缘转移到屋顶，再主动脱离。导入面板显示出生坐标和碰撞三角面数，伴机可沿作者标记的航路领航与侦察。[实验世界、飞行录像与复现步骤](docs/FLYABLE-ARCHITECTURE.md)
 
 ## 开始飞行

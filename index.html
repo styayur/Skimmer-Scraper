@@ -302,6 +302,8 @@
             <div class="world-inline-actions">
               <button id="local-world-new-variant" class="secondary-button" type="button" data-i18n="ui.generateNewVariant">Generate new variant</button>
               <button id="local-world-keep" class="text-button" type="button" data-i18n="ui.keepThisWorld">Keep this world</button>
+              <button id="local-world-layout" class="text-button" type="button" data-i18n="partner.layout">Download exact layout</button>
+              <button id="local-world-diagnostic" class="text-button" type="button" data-i18n="partner.diagnostic" disabled>Download player flight diagnostic</button>
             </div>
             <div class="world-inline-actions">
               <label><input id="local-world-collision" type="checkbox" /> <span data-i18n="ui.showCollisionGeometry">Show collision geometry</span></label>
@@ -314,7 +316,7 @@
           </div>
           <details id="world-packs" hidden>
             <summary data-i18n="ui.worldLibrary">World library</summary>
-            <p data-i18n="ui.sakuraMegacityBuiltInDragonspineBuiltIn">Sakura Megacity · built in　Dragonspine · built in</p>
+            <p data-i18n="ui.builtInWorlds">Built-in worlds include Sakura Megacity, Kinetic City, Dragonspine and WorldForge.</p>
             <button class="text-button" type="button" data-pack-imports data-i18n="ui.manageLocalGlbWorlds">Manage local GLB worlds</button>
             <button class="text-button" type="button" data-pack-download data-i18n="ui.installOfficialDragonspineHighPack">Install official Dragonspine High Pack</button>
             <label class="world-field"><span data-i18n="ui.installFromPackFolder">Install from pack folder</span><input type="file" webkitdirectory multiple /></label>
@@ -326,6 +328,17 @@
               <button class="text-button" type="button" data-pack-cancel hidden data-i18n="ui.cancelInstallation">Cancel installation</button>
             </div>
             <p class="world-description" role="status"></p>
+          </details>
+          <details id="partner-world-catalog">
+            <summary data-i18n="partner.catalog">V2Wpro worlds</summary>
+            <label class="world-field"><span data-i18n="partner.world">World</span><select id="partner-world-select"></select></label>
+            <p id="partner-world-source" class="world-description"></p>
+            <details><summary data-i18n="partner.details">Source and SHA-256</summary><p id="partner-world-pin" class="world-description"></p></details>
+            <div class="world-inline-actions">
+              <button id="partner-world-import" type="button" class="secondary-button" data-i18n="partner.confirm">Confirm download and inspect</button>
+              <a id="partner-world-inspect" class="text-button" rel="noopener noreferrer" target="_blank" data-i18n="partner.inspect">View in V2Wpro</a>
+              <a id="partner-world-play-link" class="text-button" rel="noopener noreferrer" target="_blank" data-i18n="partner.playLink">Play link</a>
+            </div>
           </details>
           <details id="local-world-library">
             <summary data-i18n="ui.localGlbWorlds">Local GLB worlds</summary>
@@ -385,7 +398,7 @@
           </details>
         </section>
         <form id="world-form" class="world-form">
-          <label class="world-field"><span data-i18n="ui.worldTheme">World theme</span><select id="world-theme"><option value="city" data-i18n="ui.sakuraMegacity">Sakura Megacity</option><option value="dragonspine" data-i18n="ui.dragonspine">Dragonspine</option><option value="worldforge" data-i18n="ui.worldforge">WorldForge</option></select></label>
+          <label class="world-field"><span data-i18n="ui.worldTheme">World theme</span><select id="world-theme"><option value="city" data-i18n="ui.sakuraMegacity">Sakura Megacity</option><option value="kinetic-city" data-i18n="ui.kineticCity">Kinetic City</option><option value="dragonspine" data-i18n="ui.dragonspine">Dragonspine</option><option value="worldforge" data-i18n="ui.worldforge">WorldForge</option></select></label>
           <label><input id="world-passages" type="checkbox" /> <span data-i18n="ui.generatedCityAirPassagesExperimental">Generated city air passages (experimental)</span></label>
           <div class="setting-heading"><label class="world-field"><span data-i18n="ui.worldSeed">World seed</span><input id="world-seed-input" name="seed" type="text" maxlength="64" autocomplete="off" spellcheck="false" /></label><button class="setting-help" type="button" aria-label="Seed help" data-i18n-aria-label="ui.seedHelp" data-help-section="guide-world">?</button></div>
           <div id="world-legacy" data-procedural-world hidden>

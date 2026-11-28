@@ -222,8 +222,7 @@ pub async fn official_pack_install(
         *active = Some(transfer.clone());
     }
     let result = tauri::async_runtime::spawn_blocking(move || {
-        let _guard = library::LOCATION_LOCK.read().map_err(|_| "世界库忙。")?;
-        download(&library::directory(&app)?, &transfer)
+        library::with_directory(&app, |directory| download(directory, &transfer))
     })
     .await;
     *state.0.lock().map_err(|e| e.to_string())? = None;

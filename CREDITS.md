@@ -7,6 +7,8 @@ player-owned local models retain their original terms.
 
 ## Project code and generated art
 
+The partner catalog references V2Wpro's original MIT worlds. The deterministic browser import test includes the 18,928-byte Relay District from V2Wpro v0.3.0. Copyright © 2026 V2Wpro contributors. [Source GLB](https://github.com/styayur/V2Wpro/blob/7eb42fd3db2693989db7d3626101ed1b6e92e533/examples/district.glb) · [MIT license](licenses/V2Wpro-MIT.txt).
+
 The Blender district, loft profiles, materials, GLB, procedural tower library and
 inverted city geometry introduced for v0.7 are original work licensed under
 AGPL-3.0-only. Blender 5.2.4 generated the reference scene and Cycles renders. The three bridge spans share an original metre-scaled Geometry Nodes group.
@@ -125,6 +127,8 @@ The Windows world library downloads the official terrain archive with reqwest (M
 
 The native Windows folder picker uses rfd (MIT, https://github.com/PolyMeilex/rfd).
 
+The Windows release QA meter uses pycaw and comtypes under MIT, and psutil under BSD-3-Clause. [pycaw](https://github.com/AndreMiras/pycaw) · [comtypes](https://github.com/enthought/comtypes) · [psutil](https://github.com/giampaolo/psutil)
+
 ### City passage module
 
 The celadon gate GLB and its authoring script in art/world-modules are original Skimmer-Scraper work under AGPL-3.0-only.
@@ -132,3 +136,9 @@ The celadon gate GLB and its authoring script in art/world-modules are original 
 World music and its composition scripts are original project works. The music selector is adapted from styayur/mzk under MIT. See [MZK integration](docs/MZK.md) and [MIT notice](licenses/MZK-MIT.txt).
 
 KITE-W, KITE-S and the WorldForge terrain and vault recipes are original project assets under AGPL-3.0-only. Blender source and generation scripts are under art/aircraft and art/world-modules.
+
+### Kinetic City and Dragonspine canyon spans
+
+The [producer lock](src/world/kinetic/upstream.json) records the V2Wpro source revision and the digest of the [bundled exchange manifest](public/contracts/v2wpro-0.4.0.json). The manifest binds the WorldIR and flight schemas, six-module library, three partner GLBs and the included source recipes and profiles. Run `python scripts/verify-v2w-release.py PATH_TO_V2WPRO --require-tag` to check the release tag and all listed bytes from the independent producer repository.
+
+The six parametric modules in `src/world/kinetic/kinetic-flight-modules.r2.json` are by the V2Wpro contributors, copyright 2026, under MIT. Skimmer vendors the boost-profile revision 2 source bytes at commit `0ddae11cabf6c053f074b51b7e7efdd7e75da18c` with SHA-256 `02d807f0ae74a011c45043d0fa0144260c5e36236c2d1695b912e839f9d9dabd`. The runtime builds its meshes locally. [Production catalog](https://raw.githubusercontent.com/styayur/V2Wpro/0ddae11cabf6c053f074b51b7e7efdd7e75da18c/examples/kinetic-flight-modules.json) · [Original research catalog](https://github.com/styayur/V2Wpro/blob/43cbe696592ce7bbab17140cbb8c6fc6a07478e9/examples/kinetic-modules.json) · [MIT notice](licenses/V2Wpro-kinetic-MIT.txt)

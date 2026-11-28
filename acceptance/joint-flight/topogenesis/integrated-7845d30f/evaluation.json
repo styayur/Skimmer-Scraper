@@ -1,0 +1,98 @@
+{
+  "format": "skimmer-integrated-evaluation-1",
+  "controller": "7845d30fcd428dbff50c5d45ba1c893ee7a3bf3b",
+  "entry": {
+    "url": "/assets/index-CyXXuYIk.js",
+    "bytes": 1306626,
+    "sha256": "687b453f76c6d59c857af580c28838ba2ef0d4d9f79466edfb14949efaf99994"
+  },
+  "priorController": "0a5272b36352a1300253080bd38cfb5d520c7e0d",
+  "stock": {
+    "controller": "991138b8c67c188bd47731d6c193142750225818",
+    "entrySha256": "91f1a9bcdb190878af05d6b93ebdc16c01fbbb5ffc898d70bf5fdb22e52687c8"
+  },
+  "producerRevision": 2,
+  "independentReaderCommit": "5656a74f5786001e1011b1b3beb4649a903f76e6",
+  "lastIntegratedMatrixTraceUtc": "2026-11-28T06:10:53+00:00",
+  "verificationRecordedUtc": "2026-11-28T06:11:55+00:00",
+  "traceFileCompletionTimes": {
+    "development": {
+      "firstTraceCompletedUtc": "2026-11-28T05:44:26+00:00",
+      "lastTraceCompletedUtc": "2026-11-28T06:04:30+00:00",
+      "runs": 14
+    },
+    "holdout": {
+      "firstTraceCompletedUtc": "2026-11-28T06:06:01+00:00",
+      "lastTraceCompletedUtc": "2026-11-28T06:10:53+00:00",
+      "runs": 6
+    },
+    "second-holdout-stock": {
+      "firstTraceCompletedUtc": "2026-11-28T05:52:27+00:00",
+      "lastTraceCompletedUtc": "2026-11-28T06:02:42+00:00",
+      "runs": 8
+    },
+    "second-holdout": {
+      "firstTraceCompletedUtc": "2026-11-28T05:56:19+00:00",
+      "lastTraceCompletedUtc": "2026-11-28T06:06:54+00:00",
+      "runs": 8
+    },
+    "legacy": {
+      "firstTraceCompletedUtc": "2026-11-28T05:47:52+00:00",
+      "lastTraceCompletedUtc": "2026-11-28T05:51:02+00:00",
+      "runs": 3
+    }
+  },
+  "gates": {
+    "original20": {
+      "stock": {
+        "gateMet": 17,
+        "runs": 20,
+        "captured": 17,
+        "activeRelease": 12,
+        "cleanRelease": 10,
+        "shieldStrikes": 2,
+        "sampledIntrusions": 0
+      },
+      "initialIntegrated": {
+        "gateMet": 14,
+        "runs": 20,
+        "captured": 17,
+        "activeRelease": 9,
+        "cleanRelease": 6,
+        "shieldStrikes": 3,
+        "sampledIntrusions": 0
+      },
+      "revisedIntegrated": {
+        "gateMet": 17,
+        "runs": 20,
+        "captured": 17,
+        "activeRelease": 12,
+        "cleanRelease": 9,
+        "shieldStrikes": 3,
+        "sampledIntrusions": 0
+      }
+    },
+    "second8": {
+      "stock": {
+        "gateMet": 7,
+        "runs": 8,
+        "captured": 7,
+        "activeRelease": 5,
+        "cleanRelease": 5,
+        "shieldStrikes": 0,
+        "sampledIntrusions": 0
+      },
+      "revisedIntegrated": {
+        "gateMet": 8,
+        "runs": 8,
+        "captured": 7,
+        "activeRelease": 5,
+        "cleanRelease": 5,
+        "shieldStrikes": 0,
+        "sampledIntrusions": 0
+      }
+    }
+  },
+  "originalComparison": "comparison.json",
+  "secondComparison": "second-comparison.json"
+}

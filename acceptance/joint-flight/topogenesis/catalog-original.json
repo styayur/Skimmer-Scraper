@@ -1,0 +1,62 @@
+{
+  "build": {
+    "version": "0.10.0",
+    "sourceCommit": "14f407593a225257ba084be341be53745e96ccc1",
+    "sourceCommitTime": "2026-11-28T12:40:50+08:00",
+    "dirty": false,
+    "sourceUrl": "https://github.com/styayur/Skimmer-Scraper/tree/14f407593a225257ba084be341be53745e96ccc1",
+    "toolchain": {
+      "node": "v26.7.0",
+      "platform": "win32",
+      "architecture": "x64"
+    }
+  },
+  "browser": "153.0.8010.12",
+  "worlds": [
+    {
+      "id": "relay-district",
+      "confirmedSource": "https://raw.githubusercontent.com/styayur/V2Wpro/7eb42fd3db2693989db7d3626101ed1b6e92e533/examples/district.glb",
+      "beforeConfirmation": 0,
+      "requests": [
+        {
+          "method": "GET",
+          "url": "https://raw.githubusercontent.com/styayur/V2Wpro/7eb42fd3db2693989db7d3626101ed1b6e92e533/examples/district.glb"
+        }
+      ],
+      "sha256": "a707d463ce3279c9517d51b3dccde296c461eea2131b214315923b58b4f383d0",
+      "bytes": 18928,
+      "collisionTriangles": 1104,
+      "errors": []
+    },
+    {
+      "id": "contact-deck",
+      "confirmedSource": "https://raw.githubusercontent.com/styayur/V2Wpro/7eb42fd3db2693989db7d3626101ed1b6e92e533/examples/contact.glb",
+      "beforeConfirmation": 0,
+      "requests": [
+        {
+          "method": "GET",
+          "url": "https://raw.githubusercontent.com/styayur/V2Wpro/7eb42fd3db2693989db7d3626101ed1b6e92e533/examples/contact.glb"
+        }
+      ],
+      "sha256": "243949bbceae959ee58da971859bd5f614bf4b2f30ae7e5cf711fb3f597d89f3",
+      "bytes": 72744,
+      "collisionTriangles": 1240,
+      "errors": []
+    },
+    {
+      "id": "switchyard",
+      "confirmedSource": "https://raw.githubusercontent.com/styayur/V2Wpro/43cbe696592ce7bbab17140cbb8c6fc6a07478e9/examples/topogenesis.glb",
+      "beforeConfirmation": 0,
+      "requests": [
+        {
+          "method": "GET",
+          "url": "https://raw.githubusercontent.com/styayur/V2Wpro/43cbe696592ce7bbab17140cbb8c6fc6a07478e9/examples/topogenesis.glb"
+        }
+      ],
+      "sha256": "3c2565ea3e0aac99cf553e0b774569d0e0c72395458e42c2e2cea9dbc95e8027",
+      "bytes": 436240,
+      "collisionTriangles": 6528,
+      "errors": []
+    }
+  ]
+}

@@ -77,13 +77,14 @@ import {
 } from './world/chunkRevisionHistory';
 import { WorldStreamer, type StreamerStats, type StreamerUpdate } from './world/worldStreamer';
 import type { WorldMode, WorldPresetId } from './world/worldConfig';
-import { buildWorldShareUrl, DEFAULT_WORLD_SEED, DENSE_GENERATOR_VERSION, GENERATOR_VERSION, resolveWorldSettings, worldSettingsFromSearch } from './world/worldConfig';
+import { buildWorldShareUrl, DEFAULT_WORLD_SEED, DENSE_GENERATOR_VERSION, GENERATOR_VERSION, resolveWorldSettings, supportsSkyInversion, worldSettingsFromSearch } from './world/worldConfig';
 import { queryFlightSurface as nearestSurface, type SurfaceQuery, type WorldStats } from './world/worldTypes';
 import { ImportedWorldAdapter } from './world/imports/importedWorldAdapter';
 import type { WorldManifest } from './world/imports/worldManifest';
 import { WorldImporter } from './world/imports/worldImporter';
 import { createWorldLibrary } from './platform/worldLibrary';
 import { WorldImportPanel, type ImportedWorldSource } from './ui/WorldImportPanel';
+import { PlayerFlightDiagnostic } from './ui/playerFlightDiagnostic';
 
 type GameMode = 'title' | 'running' | 'paused' | 'failed';
 
@@ -266,6 +267,16 @@ let pendingRadio: { message: string; useModel: boolean; until: number } | null =
 let modelLoadVersion = 0;
 
 const stepRunner = new FixedStepRunner(FLIGHT.fixedDt, 12);
+const playerDiagnostic = new PlayerFlightDiagnostic();
+
+function recordImportedFlight(): void {
+  if (!(activeWorld instanceof ImportedWorldAdapter) || !flightState || !playerDiagnostic.due(flightState.boosting)) return;
+  playerDiagnostic.add({ time: runRules.elapsed, position: { ...flightState.position }, velocity: { ...flightState.velocity },
+    speed: flightState.speed, phase: glide.phase, normal: glide.normal ? { ...glide.normal } : null,
+    clearance: lastSurfaceHit?.distance ?? null, impacts: shieldImpacts, mode,
+    ...(runRules.failureReason && { failureReason: runRules.failureReason }),
+    deployed: companions.agents.filter(a => a.deployed && !a.uncovered).length });
+}
 const visualScaleFor = (level: VisualStimulation): number => level === 'reduced'
   ? EXPERIENCE_CONFIG.visuals.reducedScale
   : EXPERIENCE_CONFIG.visuals.standardScale;
@@ -439,9 +450,12 @@ const applyWorldSettings = (
   const passages = theme === 'city' && worldPassages.checked;
   const next = resolveWorldSettings({
     seed: seedValue, preset: baseWorldSettings.preset, mode: worldMode,
-    generatorVersion: upgrade || passages || theme === 'worldforge' || theme === 'dragonspine' ? GENERATOR_VERSION : baseWorldSettings.generatorVersion,
+    generatorVersion: upgrade || passages || theme !== 'city' ? GENERATOR_VERSION : baseWorldSettings.generatorVersion,
   });
-  if (theme === 'dragonspine' || theme === 'worldforge') next.theme = theme;
+  if (theme === 'dragonspine' || theme === 'worldforge' || theme === 'kinetic-city') next.theme = theme;
+  if (theme === 'dragonspine' && (baseWorldSettings.theme !== theme || baseWorldSettings.dragonSpans)) {
+    next.dragonSpans = true;
+  }
   if (passages) next.generatedPassages = true;
   worldPanel.clearVisit();
   window.location.assign(buildWorldShareUrl(window.location.href, next));
@@ -713,7 +727,7 @@ const simulateFixedStep = timedFlightFunction('fixedStep', (dt: number, holdPosi
   const hit = !holdPosition && !glide.trajectory && needsGlideContact(glide)
     ? activeWorld.queryGlide(flightState.position, glideRange) : null;
   const candidate = stepGlide(glide, flightState, free, hit, dt, holdPosition ? undefined :
-    { world: activeWorld, worldUp: activeWorld.root.up, bodyRadius: COLLISION_RADIUS, input });
+    { world: activeWorld, worldUp: activeWorld.root.up, bodyRadius: COLLISION_RADIUS, input, settings: controls });
   let nextState = candidate.flight;
   if (holdPosition) {
     nextState = {
@@ -781,7 +795,7 @@ const simulateFixedStep = timedFlightFunction('fixedStep', (dt: number, holdPosi
       symbiosis.flightReport(3, 'island', 'notice');
     }
   }
-  if(activeWorld instanceof WorldStreamer && !activeWorld.settings.theme && journey.observe(previousY,flightState,runRules,dt)){
+  if(activeWorld instanceof WorldStreamer && supportsSkyInversion(activeWorld.settings) && journey.observe(previousY,flightState,runRules,dt)){
     pendingRadio=null;
     voiceRadio.reset();
     glide = freeGlide();
@@ -794,6 +808,7 @@ const simulateFixedStep = timedFlightFunction('fixedStep', (dt: number, holdPosi
     dt,
     visualScaleFor(preferences.visualStimulation),
   );
+  recordImportedFlight();
   return runRules.status === 'running';
 });
 
@@ -891,6 +906,8 @@ const startRun = async (): Promise<void> => {
   lastSurfaceHit = queryFlightSurface(activeWorld, flightState.position, SURFACE_QUERY_RANGE);
   lastFrameTime = performance.now();
   mode = 'running';
+  playerDiagnostic.reset();
+  recordImportedFlight();
   enterFlightJournal();
   symbiosis.flightReport(1, 'launch', 'notice');
   keyboard.setEnabled(!debugInputEnabled);
@@ -1227,6 +1244,7 @@ const activateWorld = (world: ImportedWorldAdapter | WorldStreamer, history: Chu
 
 bindPackPanel();
 const worldPanel = new WorldImportPanel(worldResources, {
+  recording: playerDiagnostic,
   read: file => worldImporter.read(file),
   open: (data, name, options, variant) => worldImporter.load(data, name, options, loader => {
     if (!renderer) throw new Error(t('main.webgl2SceneIsStillLoading'));
@@ -1405,6 +1423,7 @@ const boot = async (): Promise<void> => {
   ui.finishLoading();
   ui.showTitle();
   renderer.renderTitle(performance.now());
+  if (worldPanel.catalogRequested) actionRouter.route('world');
   requestAnimationFrame(frame);
 
   window.__SKIMMER_SCRAPER__ = {

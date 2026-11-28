@@ -37,10 +37,11 @@ set to a writable directory. Set `SKIMMER_FULL_JOURNEY=1` to run all five worlds
 The real GPU matrix and sustained flight are exercised by
 `node scripts/benchmark-world-art.mjs <local-preview-url> matrix 4`. Use the matrix for city baselines. For current Windows Dragonspine qualification, run `scripts/desktop-smoke.mjs` with the installed executable, evidence directory, `pack` and the unpacked high terrain directory. Set `SKIMMER_SOAK_SECONDS=901` and `SKIMMER_QA_SHA` to the tested revision.
 
-After Pages reports success, download the workflow's `github-pages` artifact
-and extract `artifact.tar`. Run the same verifier against the public project
-URL with the final version and commit, and set `SKIMMER_DEPLOY_ARTIFACT_DIR`
-to the extracted directory. The verifier compares hashes of the served
+The main push CI stages `release-web-<full-main-sha>` from its first Chromium shard. Download this static build for the foreground Web qualification while the current public version is still live. Keep the full file inventory from that qualification for comparison with the published site.
+
+For the complete deployment receipt, run `python scripts/verify-pages-release.py <run-id> <full-main-sha> <new-directory>` with authenticated GitHub CLI access. The command checks the GitHub artifact digest, extracts the site, and compares every file with the public response. Run `node scripts/qualification/dist-manifest.mjs --verify <new-directory>/site <full-main-sha> <qualified-manifest>` to compare it with the foreground build. Use its `site/` as the static release input and `live-proof.json` as deployment evidence.
+
+Run the browser verifier against the public project URL with the final version and commit. Set `SKIMMER_DEPLOY_ARTIFACT_DIR` to the verified `site/` directory. The verifier compares hashes of the served
 `build-info.json` and runtime entry bundle against the artifact. Check all three character previews and actual music output on the installed WebView2 and production Web clients.
 [Public build metadata](https://styayur.github.io/Skimmer-Scraper/build-info.json)
 

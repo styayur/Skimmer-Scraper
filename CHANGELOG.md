@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.11.0 · Kinetic City
+
+[联合验收、实飞记录与历史存档兼容性](acceptance/v011/README.md)
+
+- Adds a streamed network of elevated junctions, lofted decks, vaults and helical ramps. Stable seeds reproduce geometry after a return visit. The Dragonspine span variant has a separate score scope. [World generation](docs/KINETIC-CITY.md)
+- Surface Glide plans a bounded sequence of nearby contact patches at the existing 120 Hz flight step. The library can import confirmed partner worlds, preserve their layouts and export bounded player diagnostics. [Controlled flight experiment](acceptance/joint-flight/topogenesis/README.md)
+- Wingmates can survey glide runs, lead to landmarks, scout branches and check escape corridors against live collision geometry. Cross-session Journey Memory is an opt-in local journal with independent model-sharing consent. [Mission verification](docs/companion-semantics.md) · [Journal controls](docs/journey-memory.md)
+- Adds consistent native library snapshots for Windows lifecycle qualification. The Linux desktop keeps the GTK3-compatible GLib ABI and ships the reviewed source backport under its upstream license. [Desktop compatibility](docs/windows-desktop.md)
+
 ## 0.10.0 · Flyable Architecture
 
 - Imports optional bounded flight entries and forward topology hints. Existing GLBs and saved layout identities retain their original format.

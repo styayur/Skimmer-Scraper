@@ -5,6 +5,7 @@ import os
 import pathlib
 import sys
 import zipfile
+from release_identity import same_clean_source
 
 folder = pathlib.Path(sys.argv[1]).resolve()
 manifest_name = 'release-manifest.json'
@@ -39,6 +40,36 @@ if report_name in checksums:
         raise SystemExit("Visual comparison digest differs from the acceptance report")
 if any(secret in (folder / name).read_bytes() for name in metadata_names for secret in secrets):
     raise SystemExit('An operator credential matched release metadata')
+
+if 'qualificationStage' in manifest:
+    # A fresh download must bind both Windows products to the installer that was actually exercised.
+    kinds = {a.get('kind'): a for a in manifest['assets'] if a.get('kind')}
+    stage = manifest['qualificationStage']
+    expected_kinds = {'windows-nsis', 'windows-portable', 'itch-html5', 'world-pack', 'worldforge-kit',
+                      'character-radio', 'qualification'}
+    if (stage not in ('rehearsal', 'release') or {report_name, visual_name} - checksums.keys()
+            or not expected_kinds.issubset(kinds) or len(set(a['name'] for a in manifest['assets'])) != len(manifest['assets'])):
+        raise SystemExit('Missing dated qualification report, visual or required distribution assets')
+    qualified = kinds['qualification']['name']
+    installer = kinds['windows-nsis']['name']
+    portable = kinds['windows-portable']
+    static, = (a['name'] for a in manifest['assets'] if a['name'].endswith('-static.zip'))
+    with zipfile.ZipFile(folder / qualified) as q, zipfile.ZipFile(folder / portable['name']) as p, zipfile.ZipFile(folder / static) as web:
+        installed = json.loads(q.read('installed/desktop-smoke.json'))
+        measured = json.loads(q.read('portable/desktop-smoke.json'))
+        receipt = json.loads(q.read('installed/install.json'))
+        hashes = {r['File']: r['Hash'].lower() for r in json.loads(q.read('installed/hashes.json'))}
+        native = json.loads(p.read('build-info.json'))
+        site = json.loads(web.read('build-info.json'))
+        if (report['qualificationArchive'] != qualified or report['qualificationStage'] != stage
+                or report['installed'] != installed or receipt['installExit'] != 0
+                or receipt['sha'] != manifest['sourceCommit'] or receipt['installer'] != installer
+                or not same_clean_source(site, native) or installed['runtime']['app'] != native
+                or measured['runtime']['app'] != native or (stage == 'release' and measured.get('fixture'))
+                or not (checksums[installer] == receipt['installerSha256'] == hashes[installer])
+                or not (portable['executableSha256'] == hashes['skimmer-scraper.exe'] == receipt['installedExecutableSha256']
+                        == installed['executableSha256'].lower() == measured['executableSha256'].lower())):
+            raise SystemExit('Release artifacts differ from the installed or portable qualification evidence')
 
 # Compare shipped v0.9 audio with the authored repertoire in the matching source.
 authored_audio = {}

@@ -1,0 +1,264 @@
+{
+  "sourceCommit": "991138b8c67c188bd47731d6c193142750225818",
+  "platform": "windows",
+  "started": "2026-11-28T05:09:12.386Z",
+  "finished": "2026-11-28T05:25:33.234Z",
+  "status": "passed",
+  "enduranceQualified": true,
+  "identity": {
+    "build": {
+      "version": "0.10.0",
+      "sourceCommit": "991138b8c67c188bd47731d6c193142750225818",
+      "sourceCommitTime": "2026-11-28T00:56:13+08:00",
+      "dirty": false,
+      "sourceUrl": "https://github.com/styayur/Skimmer-Scraper/tree/991138b8c67c188bd47731d6c193142750225818",
+      "toolchain": {
+        "node": "v24.22.3",
+        "platform": "win32",
+        "architecture": "x64"
+      }
+    },
+    "renderer": "ANGLE (AMD, AMD Radeon 780M Graphics (0x00001900) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/158.0.0.0 Safari/537.36 Edg/158.0.0.0",
+    "viewport": [
+      1920,
+      1080
+    ],
+    "dpr": 1,
+    "buffer": [
+      1920,
+      1080
+    ],
+    "language": "en-US",
+    "sourceUrl": "https://github.com/styayur/Skimmer-Scraper/tree/991138b8c67c188bd47731d6c193142750225818",
+    "entry": "assets/index-BTwq0aTb.js",
+    "entrySha256": "296cd7632c3f9943257eba28a702fa73ca7f1a0bca9289125599ea5119a9836e",
+    "binarySha256": "63f9652666533a9ccb736fc1cf7c73e9be7fc8837fed9162d39d9e6f146adaec",
+    "profileVerified": true,
+    "webview2": "158.0.4370.45"
+  },
+  "focus": {
+    "samples": 8915,
+    "lost": false
+  },
+  "route": "Sakura city with two scripted Sky Inversions",
+  "quality": "high",
+  "seconds": 901,
+  "method": "Wall-clock foreground animation frames and shipping fixed steps. Scripted keyboard and repeatable approach poses.",
+  "settings": {
+    "mode": "free",
+    "shield": true,
+    "companions": 3,
+    "camera": "chase",
+    "aircraft": "procedural",
+    "worldMode": "stable",
+    "preset": "city",
+    "generator": 4,
+    "language": "en-US",
+    "musicEnabled": true,
+    "viewport": [
+      1920,
+      1080
+    ],
+    "buffer": [
+      1920,
+      1080
+    ],
+    "dpr": 1
+  },
+  "startSeed": 334458,
+  "startCrossings": 0,
+  "flightSeconds": 902.1583333326739,
+  "wallMs": 953164.6000000089,
+  "frames": 74416,
+  "meanFps": 78.07578689557339,
+  "frameMs": {
+    "p50": 11.199999999953434,
+    "p95": 23.70000000006985,
+    "p99": 33.100000000034925,
+    "worst": 136
+  },
+  "bufferEntries": 20,
+  "bufferMs": 2899.2000000178814,
+  "finalAgents": [
+    {
+      "id": 1,
+      "deployed": true,
+      "uncovered": false
+    },
+    {
+      "id": 2,
+      "deployed": true,
+      "uncovered": false
+    },
+    {
+      "id": 3,
+      "deployed": true,
+      "uncovered": false
+    }
+  ],
+  "finalWorldIndex": 13,
+  "finalPhase": "ASCENT",
+  "crossings": 13,
+  "error": null,
+  "scriptedCrossings": 2,
+  "naturalCrossings": 11,
+  "transitions": [
+    {
+      "before": {
+        "seed": 334458,
+        "index": 0,
+        "crossings": 0,
+        "epoch": 2,
+        "charges": 2,
+        "runTime": 304.96666666655364,
+        "phase": "ASCENT"
+      },
+      "after": {
+        "seed": 479568308,
+        "index": 1,
+        "crossings": 1,
+        "epoch": 3,
+        "charges": 2,
+        "phase": "ASCENT",
+        "release": {
+          "seed": 334458,
+          "bvhBefore": 33,
+          "bvhAfter": 0,
+          "dynamicBvhBefore": 8,
+          "dynamicBvhAfter": 0,
+          "rootChildrenAfter": 0,
+          "disposedGeometryCount": 21046
+        },
+        "deployed": 3,
+        "covered": 3,
+        "phases": [
+          "THRESHOLD",
+          "INVERSION",
+          "WORLD_SWAP",
+          "DIVE",
+          "RECOVERY",
+          "ASCENT"
+        ]
+      }
+    },
+    {
+      "before": {
+        "seed": 4183856814,
+        "index": 12,
+        "crossings": 12,
+        "epoch": 14,
+        "charges": 2,
+        "runTime": 605.3166666662805,
+        "phase": "ASCENT"
+      },
+      "after": {
+        "seed": 2436865534,
+        "index": 13,
+        "crossings": 13,
+        "epoch": 15,
+        "charges": 2,
+        "phase": "ASCENT",
+        "release": {
+          "seed": 4183856814,
+          "bvhBefore": 33,
+          "bvhAfter": 0,
+          "dynamicBvhBefore": 8,
+          "dynamicBvhAfter": 0,
+          "rootChildrenAfter": 0,
+          "disposedGeometryCount": 2383
+        },
+        "deployed": 3,
+        "covered": 3,
+        "phases": [
+          "THRESHOLD",
+          "INVERSION",
+          "WORLD_SWAP",
+          "DIVE",
+          "RECOVERY",
+          "ASCENT"
+        ]
+      }
+    }
+  ],
+  "resources": {
+    "loadedChunks": {
+      "min": 5,
+      "max": 36,
+      "last": 35
+    },
+    "activeChunks": {
+      "min": 5,
+      "max": 36,
+      "last": 35
+    },
+    "maxLoadedChunks": {
+      "min": 41,
+      "max": 41,
+      "last": 41
+    },
+    "bvh": {
+      "min": 5,
+      "max": 36,
+      "last": 35
+    },
+    "dynamic": {
+      "min": 8,
+      "max": 8,
+      "last": 8
+    },
+    "collisionTriangles": {
+      "min": 30016,
+      "max": 240472,
+      "last": 207976
+    },
+    "geometries": {
+      "min": 23,
+      "max": 496,
+      "last": 449
+    },
+    "textures": {
+      "min": 19,
+      "max": 25,
+      "last": 25
+    },
+    "renderObjects": {
+      "min": 75,
+      "max": 495,
+      "last": 445
+    },
+    "residentGeometry": {
+      "min": 6236232,
+      "max": 48083492,
+      "last": 40354324
+    },
+    "triangles": {
+      "min": 81616,
+      "max": 574780,
+      "last": 390452
+    },
+    "calls": {
+      "min": 90,
+      "max": 663,
+      "last": 475
+    },
+    "gpuMs": {
+      "min": 4.0892,
+      "max": 104.26089,
+      "last": 12.68784
+    },
+    "heap": {
+      "min": 31614079,
+      "max": 150889332,
+      "last": 70400924
+    },
+    "disposedGeometry": {
+      "min": 0,
+      "max": 20602,
+      "last": 20107
+    }
+  },
+  "sampleCount": 946,
+  "musicPlayingSamples": 945,
+  "rawSha256": "1fdc6b4628cb6255bf99b1812874b232041d137a3781bb633b0236442cf6e247"
+}

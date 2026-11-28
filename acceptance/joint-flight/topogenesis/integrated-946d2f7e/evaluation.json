@@ -1,0 +1,126 @@
+{
+  "format": "skimmer-integrated-evaluation-1",
+  "controller": "946d2f7e8381f9f9af68a0cf7e488ac41debde04",
+  "entry": {
+    "url": "/assets/index-BYs4BVvb.js",
+    "bytes": 1307632,
+    "sha256": "a700cba1c3cca8ed755c31809aeb05a4c2f874c5d623c7948dc3a8d81b849a4c"
+  },
+  "producerRevision": 2,
+  "independentReaderCommit": "5656a74f5786001e1011b1b3beb4649a903f76e6",
+  "lastIntegratedMatrixTraceUtc": "2026-11-28T06:35:09+00:00",
+  "verificationRecordedUtc": "2026-11-28T06:35:28+00:00",
+  "traceFileCompletionTimes": {
+    "development": {
+      "firstTraceCompletedUtc": "2026-11-28T06:23:06+00:00",
+      "lastTraceCompletedUtc": "2026-11-28T06:35:09+00:00",
+      "runs": 14
+    },
+    "holdout": {
+      "firstTraceCompletedUtc": "2026-11-28T06:23:05+00:00",
+      "lastTraceCompletedUtc": "2026-11-28T06:29:28+00:00",
+      "runs": 6
+    },
+    "second-holdout": {
+      "firstTraceCompletedUtc": "2026-11-28T06:24:56+00:00",
+      "lastTraceCompletedUtc": "2026-11-28T06:32:57+00:00",
+      "runs": 8
+    },
+    "third-holdout": {
+      "firstTraceCompletedUtc": "2026-11-28T06:25:05+00:00",
+      "lastTraceCompletedUtc": "2026-11-28T06:31:30+00:00",
+      "runs": 6
+    }
+  },
+  "results": {
+    "original20": {
+      "stock": {
+        "runs": 20,
+        "met": 17,
+        "captured": 17,
+        "activeRelease": 12,
+        "cleanRelease": 10,
+        "shieldStrikes": 2,
+        "sampledHullIntrusions": 0
+      },
+      "0a5272b3": {
+        "runs": 20,
+        "met": 14,
+        "captured": 17,
+        "activeRelease": 9,
+        "cleanRelease": 6,
+        "shieldStrikes": 3,
+        "sampledHullIntrusions": 0
+      },
+      "7845d30f": {
+        "runs": 20,
+        "met": 17,
+        "captured": 17,
+        "activeRelease": 12,
+        "cleanRelease": 9,
+        "shieldStrikes": 3,
+        "sampledHullIntrusions": 0
+      },
+      "946d2f7e": {
+        "runs": 20,
+        "met": 20,
+        "captured": 17,
+        "activeRelease": 12,
+        "cleanRelease": 12,
+        "shieldStrikes": 0,
+        "sampledHullIntrusions": 0
+      }
+    },
+    "second8": {
+      "stock": {
+        "runs": 8,
+        "met": 7,
+        "captured": 7,
+        "activeRelease": 5,
+        "cleanRelease": 5,
+        "shieldStrikes": 0,
+        "sampledHullIntrusions": 0
+      },
+      "7845d30f": {
+        "runs": 8,
+        "met": 8,
+        "captured": 7,
+        "activeRelease": 5,
+        "cleanRelease": 5,
+        "shieldStrikes": 0,
+        "sampledHullIntrusions": 0
+      },
+      "946d2f7e": {
+        "runs": 8,
+        "met": 8,
+        "captured": 7,
+        "activeRelease": 5,
+        "cleanRelease": 5,
+        "shieldStrikes": 0,
+        "sampledHullIntrusions": 0
+      }
+    },
+    "third6": {
+      "stock": {
+        "runs": 6,
+        "met": 5,
+        "captured": 5,
+        "activeRelease": 3,
+        "cleanRelease": 3,
+        "shieldStrikes": 0,
+        "sampledHullIntrusions": 0
+      },
+      "946d2f7e": {
+        "runs": 6,
+        "met": 5,
+        "captured": 5,
+        "activeRelease": 3,
+        "cleanRelease": 3,
+        "shieldStrikes": 0,
+        "sampledHullIntrusions": 0
+      }
+    }
+  },
+  "secondPanelStockDirectory": "../integrated-7845d30f/second-holdout-stock",
+  "thirdCommitment": "../third-holdout-commitment.json"
+}

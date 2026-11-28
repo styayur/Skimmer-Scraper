@@ -1,4 +1,5 @@
 import { defineConfig } from 'vite';
+import { createHash } from 'node:crypto';
 import { execFileSync, spawnSync } from 'node:child_process';
 import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import packageInfo from './package.json' with { type: 'json' };
@@ -23,12 +24,20 @@ export default defineConfig({
   plugins: [{
     name: 'release-provenance-and-notices',
     transformIndexHtml: html => html.replaceAll('%SKIMMER_VERSION%', version).replaceAll('%SKIMMER_SOURCE_URL%', buildInfo.sourceUrl),
-    generateBundle() {
+    generateBundle: { order: 'post', handler(_options, bundle) {
+      // Vite rewrites preload references after transformIndexHtml. Hash the final JS bytes.
+      const html = bundle['index.html'];
+      const entry = Object.values(bundle).find(item => item.type === 'chunk' && item.isEntry && item.facadeModuleId?.endsWith('/index.html'));
+      if (html?.type !== 'asset' || typeof html.source !== 'string' || entry?.type !== 'chunk') throw Error('Missing game entry');
+      const binary = { url: entry.fileName, bytes: Buffer.byteLength(entry.code),
+        sha256: createHash('sha256').update(entry.code).digest('hex') };
+      const metadata = JSON.stringify({ version, sourceCommit, dirty, binary }).replaceAll('&', '&amp;').replaceAll('"', '&quot;');
+      html.source = html.source.replace('</head>', `<meta name="skimmer-flight-build" content="${metadata}">\n  </head>`);
       for (const file of ['LICENSE', 'CREDITS.md', ...readdirSync('licenses').sort().map(name => `licenses/${name}`)]) {
         this.emitFile({ type: 'asset', fileName: file, source: readFileSync(file) });
       }
       this.emitFile({ type: 'asset', fileName: 'build-info.json', source: `${JSON.stringify(buildInfo, null, 2)}\n` });
-    },
+    } },
   }],
   // The complete source is linked above. Asset modules can emit different
   // synthetic references in their source maps across identical builds.

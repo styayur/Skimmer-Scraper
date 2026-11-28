@@ -1,0 +1,186 @@
+{
+  "scope": "Historical rehearsal with released NSIS installers",
+  "harnessCommit": "6dc075fa0624605274f7c92a734ad98a8b062fb1",
+  "run": "https://github.com/styayur/Skimmer-Scraper/actions/runs/46108544728",
+  "runAttempt": 1,
+  "target": "0.10.0",
+  "rollback": "0.9.2",
+  "journey": "Synthetic v1 origin-key retention on historical releases",
+  "pending": "Integrated v0.11.0 candidate dispatch and game-created Journey Memory visit",
+  "lanes": [
+    {
+      "fromVersion": "0.8.2",
+      "artifactId": 15248911584,
+      "artifactSha256": "40b1fc3c59431ab684568bc09722cb2945fd0d36631c8622b8c07f278a15e284",
+      "archive": "from-0.8.2.zip",
+      "webview2": "131.0.2903.86",
+      "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "witnesses": [
+        {
+          "stage": "original",
+          "version": "0.8.2",
+          "executedEntrySha256": "73cdc287645d37685f0dbb8c16de8331ab525d44426e0a9c6596f2dafc1c41d1",
+          "pilotSha256": "fbd9a379dac2dd10ddfbbc3d615e9327e6050446c449ed7d10c994ec5bfbf836"
+        },
+        {
+          "stage": "upgrade",
+          "version": "0.10.0",
+          "executedEntrySha256": "296cd7632c3f9943257eba28a702fa73ca7f1a0bca9289125599ea5119a9836e",
+          "pilotSha256": "9667e663a7ab66f17280e7922d5002bc1936c12fb468a952044f7c2b40f131ee"
+        },
+        {
+          "stage": "rollback",
+          "version": "0.9.2",
+          "executedEntrySha256": "c55a8497334e901f9abf5407a7fa9b8cd41536b91f81e2dd7b4c71b0b3375523",
+          "pilotSha256": "9faa35a13c5f56ec092b42a631679a890370ddca698b49e251aa8f100e823c1a"
+        },
+        {
+          "stage": "reupgrade",
+          "version": "0.10.0",
+          "executedEntrySha256": "296cd7632c3f9943257eba28a702fa73ca7f1a0bca9289125599ea5119a9836e",
+          "pilotSha256": "9faa35a13c5f56ec092b42a631679a890370ddca698b49e251aa8f100e823c1a"
+        },
+        {
+          "stage": "relaunch",
+          "version": "0.10.0",
+          "executedEntrySha256": "296cd7632c3f9943257eba28a702fa73ca7f1a0bca9289125599ea5119a9836e",
+          "pilotSha256": "9faa35a13c5f56ec092b42a631679a890370ddca698b49e251aa8f100e823c1a"
+        }
+      ]
+    },
+    {
+      "fromVersion": "0.9.1",
+      "artifactId": 15248274578,
+      "artifactSha256": "3719063690f656eb0e9c1042e6ce5318b770e01ac701b58c686375fce97a3924",
+      "archive": "from-0.9.1.zip",
+      "webview2": "131.0.2903.86",
+      "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "witnesses": [
+        {
+          "stage": "original",
+          "version": "0.9.1",
+          "executedEntrySha256": "38f7d6f34492a9994bb196a0bfbbcd3c22d007d5fdf1578f38c31e861c595fa6",
+          "pilotSha256": "fbd9a379dac2dd10ddfbbc3d615e9327e6050446c449ed7d10c994ec5bfbf836"
+        },
+        {
+          "stage": "upgrade",
+          "version": "0.10.0",
+          "executedEntrySha256": "296cd7632c3f9943257eba28a702fa73ca7f1a0bca9289125599ea5119a9836e",
+          "pilotSha256": "9667e663a7ab66f17280e7922d5002bc1936c12fb468a952044f7c2b40f131ee"
+        },
+        {
+          "stage": "rollback",
+          "version": "0.9.2",
+          "executedEntrySha256": "c55a8497334e901f9abf5407a7fa9b8cd41536b91f81e2dd7b4c71b0b3375523",
+          "pilotSha256": "9faa35a13c5f56ec092b42a631679a890370ddca698b49e251aa8f100e823c1a"
+        },
+        {
+          "stage": "reupgrade",
+          "version": "0.10.0",
+          "executedEntrySha256": "296cd7632c3f9943257eba28a702fa73ca7f1a0bca9289125599ea5119a9836e",
+          "pilotSha256": "9faa35a13c5f56ec092b42a631679a890370ddca698b49e251aa8f100e823c1a"
+        },
+        {
+          "stage": "relaunch",
+          "version": "0.10.0",
+          "executedEntrySha256": "296cd7632c3f9943257eba28a702fa73ca7f1a0bca9289125599ea5119a9836e",
+          "pilotSha256": "9faa35a13c5f56ec092b42a631679a890370ddca698b49e251aa8f100e823c1a"
+        }
+      ]
+    },
+    {
+      "fromVersion": "0.9.2",
+      "artifactId": 15248976303,
+      "artifactSha256": "64c1f1758e84b17d05c97847f5f10dc279f132e20192b453374e25d396237e53",
+      "archive": "from-0.9.2.zip",
+      "webview2": "131.0.2903.86",
+      "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "witnesses": [
+        {
+          "stage": "original",
+          "version": "0.9.2",
+          "executedEntrySha256": "c55a8497334e901f9abf5407a7fa9b8cd41536b91f81e2dd7b4c71b0b3375523",
+          "pilotSha256": "fbd9a379dac2dd10ddfbbc3d615e9327e6050446c449ed7d10c994ec5bfbf836"
+        },
+        {
+          "stage": "upgrade",
+          "version": "0.10.0",
+          "executedEntrySha256": "296cd7632c3f9943257eba28a702fa73ca7f1a0bca9289125599ea5119a9836e",
+          "pilotSha256": "9667e663a7ab66f17280e7922d5002bc1936c12fb468a952044f7c2b40f131ee"
+        },
+        {
+          "stage": "rollback",
+          "version": "0.9.2",
+          "executedEntrySha256": "c55a8497334e901f9abf5407a7fa9b8cd41536b91f81e2dd7b4c71b0b3375523",
+          "pilotSha256": "9faa35a13c5f56ec092b42a631679a890370ddca698b49e251aa8f100e823c1a"
+        },
+        {
+          "stage": "reupgrade",
+          "version": "0.10.0",
+          "executedEntrySha256": "296cd7632c3f9943257eba28a702fa73ca7f1a0bca9289125599ea5119a9836e",
+          "pilotSha256": "9faa35a13c5f56ec092b42a631679a890370ddca698b49e251aa8f100e823c1a"
+        },
+        {
+          "stage": "relaunch",
+          "version": "0.10.0",
+          "executedEntrySha256": "296cd7632c3f9943257eba28a702fa73ca7f1a0bca9289125599ea5119a9836e",
+          "pilotSha256": "9faa35a13c5f56ec092b42a631679a890370ddca698b49e251aa8f100e823c1a"
+        }
+      ]
+    },
+    {
+      "fromVersion": "0.10.0",
+      "artifactId": 15248279336,
+      "artifactSha256": "057e7030689ddc370cc6a33c9bdeb1a1f45a78322753a6a3016ac36873799f1c",
+      "archive": "from-0.10.0.zip",
+      "webview2": "131.0.2903.86",
+      "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "witnesses": [
+        {
+          "stage": "original",
+          "version": "0.10.0",
+          "executedEntrySha256": "296cd7632c3f9943257eba28a702fa73ca7f1a0bca9289125599ea5119a9836e",
+          "pilotSha256": "fbd9a379dac2dd10ddfbbc3d615e9327e6050446c449ed7d10c994ec5bfbf836"
+        },
+        {
+          "stage": "upgrade",
+          "version": "0.10.0",
+          "executedEntrySha256": "296cd7632c3f9943257eba28a702fa73ca7f1a0bca9289125599ea5119a9836e",
+          "pilotSha256": "9667e663a7ab66f17280e7922d5002bc1936c12fb468a952044f7c2b40f131ee"
+        },
+        {
+          "stage": "rollback",
+          "version": "0.9.2",
+          "executedEntrySha256": "c55a8497334e901f9abf5407a7fa9b8cd41536b91f81e2dd7b4c71b0b3375523",
+          "pilotSha256": "9faa35a13c5f56ec092b42a631679a890370ddca698b49e251aa8f100e823c1a"
+        },
+        {
+          "stage": "reupgrade",
+          "version": "0.10.0",
+          "executedEntrySha256": "296cd7632c3f9943257eba28a702fa73ca7f1a0bca9289125599ea5119a9836e",
+          "pilotSha256": "9faa35a13c5f56ec092b42a631679a890370ddca698b49e251aa8f100e823c1a"
+        },
+        {
+          "stage": "relaunch",
+          "version": "0.10.0",
+          "executedEntrySha256": "296cd7632c3f9943257eba28a702fa73ca7f1a0bca9289125599ea5119a9836e",
+          "pilotSha256": "9faa35a13c5f56ec092b42a631679a890370ddca698b49e251aa8f100e823c1a"
+        }
+      ]
+    }
+  ],
+  "earlierRuns": [
+    {
+      "run": "https://github.com/styayur/Skimmer-Scraper/actions/runs/46106871319",
+      "finding": "Initial HKEY_USERS path lookup failed after installation."
+    },
+    {
+      "run": "https://github.com/styayur/Skimmer-Scraper/actions/runs/46107224144",
+      "finding": "Three lanes passed. The v0.8.2 client exported its pilot but missed the normal-close deadline."
+    },
+    {
+      "run": "https://github.com/styayur/Skimmer-Scraper/actions/runs/46107721268",
+      "finding": "All four lanes passed after switching to WM_CLOSE; pack staging used the native commands directly."
+    }
+  ]
+}

@@ -9,12 +9,14 @@ test('opens Dragonspine from the world menu, streams local tiles and restores th
   );
   await page.keyboard.press('g');
   const choices = page.locator('#world-theme option');
-  await expect(choices).toHaveCount(3);
-  await expect(choices.nth(2)).toHaveAttribute('value', 'worldforge');
-  await expect(choices.nth(1)).toHaveText(/Dragonspine/);
+  await expect(choices).toHaveCount(4);
+  expect(await choices.evaluateAll(options => options.map(option => option.getAttribute('value'))))
+    .toEqual(['city', 'kinetic-city', 'dragonspine', 'worldforge']);
+  await expect(page.locator('#world-theme option[value="dragonspine"]')).toHaveText(/Dragonspine/);
+  await expect(page.locator('#world-theme option[value="kinetic-city"]')).toHaveText(/Kinetic City/);
   await page.locator('#world-theme').selectOption('dragonspine');
   await page.locator('#world-form button[type=submit]').click();
-  await expect(page).toHaveURL(/theme=dragonspine/);
+  await expect(page).toHaveURL(url => url.searchParams.get('theme') === 'dragonspine' && url.searchParams.get('spans') === '1');
   await page.locator('#start-button').click();
   await page.waitForFunction(
     () => {
@@ -69,5 +71,8 @@ test('historical links retain the seed and explain how to recover the original w
   await page.keyboard.press('g');
   await expect(page.locator('#world-theme')).toHaveValue('dragonspine');
   await page.locator('#world-form button[type=submit]').click();
-  await expect(page).toHaveURL(/theme=dragonspine&seed=20822/);
+  await expect(page).toHaveURL(({searchParams}) => searchParams.get('theme') === 'dragonspine'
+    && searchParams.get('seed') === '20822' && searchParams.get('gen') === '4' && !searchParams.has('spans'));
+  await page.waitForFunction(() => window.__SKIMMER_SCRAPER__?.snapshot().ready);
+  expect(await fingerprint()).toBe(previous);
 });

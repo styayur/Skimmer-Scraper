@@ -1,7 +1,8 @@
 import { BoxGeometry, CylinderGeometry, type BufferGeometry } from 'three';
 import { mergeGeometries } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
+import { createGlideCourse, type GlideCourse } from './glideCourses';
 
-export type WorldFixture = 'building' | 'glide-tower' | 'arches' | 'detailed' | 'animated' | 'variants' | 'merged';
+export type WorldFixture = 'building' | 'glide-tower' | 'arches' | 'detailed' | 'animated' | 'variants' | 'merged' | GlideCourse;
 
 export const encodeGlb = (metadata: object, bytes = Buffer.alloc(0)): Buffer => {
   const json = Buffer.from(JSON.stringify(metadata), 'utf8');
@@ -47,6 +48,16 @@ export const createWorldFixture = (style: WorldFixture, withExternalUri = false)
     };
   };
   const asset = { version: '2.0', generator: 'Skimmer-Scraper original world fixtures' };
+  if (style === 'glide-helix' || style === 'glide-gallery' || style === 'glide-gap') {
+    const { geometry } = createGlideCourse(style);
+    const mesh = primitive(geometry);
+    geometry.dispose();
+    const data = Buffer.concat(parts);
+    return encodeGlb({ asset, scene: 0, scenes: [{ nodes: [0] }], nodes: [{ name: style, mesh: 0 }],
+      meshes: [{ primitives: [{ ...mesh, material: 0 }] }],
+      materials: [{ doubleSided: true, pbrMetallicRoughness: { baseColorFactor: [0.20, 0.60, 0.57, 1] } }],
+      accessors, bufferViews: views, buffers: [{ byteLength: data.length }] }, data);
+  }
   if (style === 'merged') {
     const source = [
       new BoxGeometry(200, 1, 240).translate(0, 0.5, 0),

@@ -1,0 +1,65 @@
+[
+  {
+    "attempt": "web-baseline-01",
+    "source": "991138b8c67c188bd47731d6c193142750225818",
+    "platform": "web",
+    "started": "2026-11-28T04:38:52.203Z",
+    "finished": "2026-11-28T04:39:28.386Z",
+    "ownershipChecks": 0,
+    "lastRecordedFlightSeconds": null,
+    "qualification": "failed",
+    "reason": "The PowerShell window-acquisition helper timed out before measurement.",
+    "failureReceipt": "rejected/web-baseline-01/failure.json"
+  },
+  {
+    "attempt": "web-baseline-02",
+    "source": "991138b8c67c188bd47731d6c193142750225818",
+    "platform": "web",
+    "started": "2026-11-28T04:44:57.741Z",
+    "finished": "2026-11-28T04:45:35.531Z",
+    "ownershipChecks": 64,
+    "lastRecordedFlightSeconds": 1.6583333333333918,
+    "qualification": "failed",
+    "reason": "The launched browser lost physical foreground ownership.",
+    "failureReceipt": "rejected/web-baseline-02/failure.json",
+    "partialTelemetry": "rejected/web-baseline-02/flight-partial.json"
+  },
+  {
+    "attempt": "web-baseline-03",
+    "source": "991138b8c67c188bd47731d6c193142750225818",
+    "platform": "web",
+    "started": "2026-11-28T04:47:49.416Z",
+    "finished": "2026-11-28T04:48:01.964Z",
+    "ownershipChecks": 12,
+    "lastRecordedFlightSeconds": 1.0416666666667185,
+    "qualification": "failed",
+    "reason": "Another process took the physical foreground.",
+    "failureReceipt": "rejected/web-baseline-03/failure.json",
+    "partialTelemetry": "rejected/web-baseline-03/flight-partial.json"
+  },
+  {
+    "attempt": "windows-baseline-01",
+    "source": "991138b8c67c188bd47731d6c193142750225818",
+    "platform": "windows",
+    "started": "2026-11-28T04:49:48.126Z",
+    "finished": "2026-11-28T04:50:55.879Z",
+    "ownershipChecks": 0,
+    "lastRecordedFlightSeconds": null,
+    "qualification": "failed",
+    "reason": "The native binary contains a different entry module from the standalone build at this revision. The original cross-platform module-name precondition rejected the run before measurement.",
+    "failureReceipt": "rejected/windows-baseline-01/failure.json"
+  },
+  {
+    "attempt": "web-kinetic-01",
+    "source": "0a5272b36352a1300253080bd38cfb5d520c7e0d",
+    "platform": "web",
+    "world": "kinetic-city",
+    "started": "2026-11-28T05:59:16.944Z",
+    "finished": "2026-11-28T05:59:58.511Z",
+    "ownershipChecks": 0,
+    "lastRecordedFlightSeconds": null,
+    "qualification": "failed",
+    "reason": "Edge did not acquire its unique foreground game window before measurement. The retained local diagnostic includes a host-specific stack path.",
+    "failureReceipt": "rejected/web-kinetic-01/failure.json"
+  }
+]

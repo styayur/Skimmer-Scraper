@@ -50,14 +50,49 @@ pub(crate) fn connect(directory: &Path) -> Result<Connection> {
     ] {
         check_path(&directory.join(name))?;
     }
-    let db = Connection::open(directory.join("worlds.sqlite"))?;
+    let mut db = Connection::open(directory.join("worlds.sqlite"))?;
     db.busy_timeout(Duration::from_secs(5))?;
-    db.execute_batch("PRAGMA trusted_schema=OFF; PRAGMA auto_vacuum=FULL;
-        CREATE TABLE IF NOT EXISTS worlds (
+    db.execute_batch(
+        "PRAGMA trusted_schema=OFF; PRAGMA foreign_keys=ON; PRAGMA auto_vacuum=FULL;",
+    )?;
+    let tables: u8 = db.query_row(
+        "SELECT count(*) FROM sqlite_schema WHERE type='table' AND name IN ('worlds','packs','tiles')",
+        [], |r| r.get(0),
+    )?;
+    if tables != 3 {
+        let tx = db.transaction_with_behavior(rusqlite::TransactionBehavior::Immediate)?;
+        tx.execute_batch("CREATE TABLE IF NOT EXISTS worlds (
             id TEXT PRIMARY KEY, metadata TEXT NOT NULL, glb BLOB NOT NULL, saved_at INTEGER NOT NULL
         );")?;
-    crate::packs::init(&db)?;
+        crate::packs::init(&tx)?;
+        tx.commit()?;
+    }
     Ok(db)
+}
+
+pub(crate) fn verify_snapshot(db: &Connection) -> Result<()> {
+    let integrity: String = db.query_row("PRAGMA integrity_check(1)", [], |r| r.get(0))?;
+    if integrity != "ok" || db.prepare("PRAGMA foreign_key_check")?.exists([])? {
+        return Err("World library snapshot failed SQLite integrity checks".into());
+    }
+    let mut worlds = db.prepare("SELECT id,metadata,glb FROM worlds")?;
+    let mut rows = worlds.query([])?;
+    while let Some(row) = rows.next()? {
+        let id: String = row.get(0)?;
+        let record: Value = serde_json::from_str(row.get_ref(1)?.as_str()?)?;
+        let data = row.get_ref(2)?.as_blob()?;
+        if record["manifest"]["id"] != id
+            || record["manifest"]["bytes"].as_u64() != Some(data.len() as u64)
+            || hex_digest(&Sha256::digest(data)) != id
+        {
+            return Err("World library snapshot contains a damaged GLB".into());
+        }
+    }
+    let mut packs = db.prepare("SELECT id FROM packs WHERE ready=1")?;
+    for id in packs.query_map([], |row| row.get::<_, String>(0))? {
+        crate::packs::verify(db, &id?)?;
+    }
+    Ok(())
 }
 
 pub(crate) fn hex_digest(bytes: &[u8]) -> String {
@@ -135,15 +170,35 @@ pub(crate) fn directory(app: &AppHandle) -> std::result::Result<PathBuf, String>
     }
 }
 
-pub(crate) static LOCATION_LOCK: std::sync::RwLock<()> = std::sync::RwLock::new(());
+// All instances resolve the location pointer under the same lock. Keeping this
+// file separate from the library also protects the interval when it changes paths.
+pub(crate) fn location_lock(root: &Path) -> Result<fs::File> {
+    let path = root.join("library-location.lock");
+    check_path(&path)?;
+    fs::create_dir_all(root)?;
+    Ok(fs::OpenOptions::new()
+        .read(true)
+        .write(true)
+        .create(true)
+        .truncate(false)
+        .open(path)?)
+}
+
+pub(crate) fn with_directory<T>(
+    app: &AppHandle,
+    operation: impl FnOnce(&Path) -> Result<T>,
+) -> Result<T> {
+    let guard = location_lock(&app.path().app_local_data_dir()?)?;
+    guard.lock_shared()?;
+    operation(&directory(app)?)
+}
 
 pub(crate) async fn run<T: Send + 'static>(
     app: AppHandle,
     operation: impl FnOnce(&mut Connection) -> Result<T> + Send + 'static,
 ) -> std::result::Result<T, String> {
     tauri::async_runtime::spawn_blocking(move || {
-        let _guard = LOCATION_LOCK.read().map_err(|_| "世界库忙。")?;
-        operation(&mut connect(&directory(&app)?)?)
+        with_directory(&app, |path| operation(&mut connect(path)?))
     })
     .await
     .map_err(|e| e.to_string())?
@@ -218,6 +273,41 @@ pub async fn world_remove(app: AppHandle, id: String) -> std::result::Result<(),
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn partial_schema_initialization_can_be_retried() -> Result<()> {
+        let scratch = tempfile::tempdir()?;
+        let db = Connection::open(scratch.path().join("worlds.sqlite"))?;
+        db.execute_batch(
+            "CREATE TABLE historical(k); CREATE INDEX tiles ON historical(k);
+                          INSERT INTO historical VALUES(42)",
+        )?;
+        assert!(connect(scratch.path()).is_err());
+        assert!(!db
+            .prepare("SELECT 1 FROM sqlite_schema WHERE name IN ('worlds','packs')")?
+            .exists([])?);
+        db.execute("DROP INDEX tiles", [])?;
+        let initialized = connect(scratch.path())?;
+        assert_eq!(
+            initialized.query_row("SELECT k FROM historical", [], |r| r.get::<_, i32>(0))?,
+            42
+        );
+        verify_snapshot(&initialized)?;
+        Ok(())
+    }
+
+    #[test]
+    fn location_readers_exclude_relocation_across_file_handles() -> Result<()> {
+        let scratch = tempfile::tempdir()?;
+        let reader = location_lock(scratch.path())?;
+        reader.lock_shared()?;
+        let mover = location_lock(scratch.path())?;
+        assert!(mover.try_lock().is_err());
+        drop(reader);
+        mover.try_lock()?;
+        assert!(location_lock(scratch.path())?.try_lock_shared().is_err());
+        Ok(())
+    }
 
     #[test]
     fn records_survive_restart_and_invalid_replacement() -> Result<()> {

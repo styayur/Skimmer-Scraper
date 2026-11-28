@@ -2,6 +2,7 @@ import { Euler, Quaternion, Vector3 } from 'three';
 import type { Vec3 } from '../core/math';
 import type { SurfaceProvider, SurfaceQuery } from '../world/worldTypes';
 import type { FlightInput, FlightState } from './flightModel';
+import type { ControlSettings } from './controlSettings';
 
 export const glideTuning = Object.freeze({
   acceleration: 260, emergencyAcceleration: 560, planningHz: 15, clearance: 6, attitudeRate: 4.2,
@@ -12,6 +13,7 @@ export interface GlideContext {
   worldUp: Vec3;
   bodyRadius: number;
   input?: FlightInput;
+  settings?: ControlSettings;
   acceleration?: number;
 }
 type Contact = SurfaceQuery & { contact: NonNullable<SurfaceQuery['contact']> };
@@ -233,7 +235,9 @@ export function planTransfer(flight: FlightState, wall: SurfaceQuery, ctx: Glide
     const cosine = normal.dot(roofNormal);
     const acrossDirection = heading.clone().applyQuaternion(new Quaternion().setFromUnitVectors(normal, roofNormal));
     const sine = Math.sqrt(Math.max(0, 1 - cosine * cosine));
-    if (sine < 0.35 || roofNormal.dot(heading) < 0.96 * sine ||
+    // The along-edge component of momentum stays continuous through an
+    // oblique crossing. Only the perpendicular component rounds the corner.
+    if (cosine > 0.84 || sine < 0.35 || roofNormal.dot(heading) < 0.60 * sine ||
         vec(roof.contact.velocity).distanceTo(surfaceVelocity) > 0.25) continue;
     const along = vec(roof.point).sub(wall.point).dot(roofNormal) / heading.dot(roofNormal);
     if (along <= 0.2) continue;
@@ -243,7 +247,11 @@ export function planTransfer(flight: FlightState, wall: SurfaceQuery, ctx: Glide
     if (!hasFrame(before) || !hasFrame(after) || vec(before.contact.normal).dot(normal) < 0.96 ||
         vec(after.contact.normal).dot(roofNormal) < 0.96 || after.surfaceId !== roof.surfaceId) continue;
 
-    const cornerSpeed = Math.min(speed, Math.sqrt(acceleration * clearance * 0.85));
+    // Smoothstep peaks at 1.5 times the mean velocity change. For a
+    // shallow fold this can exceed the limit even at the right-angle speed.
+    const perpendicular = heading.dot(roofNormal) / sine;
+    const peakFactor = 1.5 * perpendicular ** 2 * Math.sqrt((1 + cosine) / 2);
+    const cornerSpeed = Math.min(speed, Math.sqrt(acceleration * clearance * Math.min(0.85, 0.98 / peakFactor)));
     const entry = heading.clone().multiplyScalar(cornerSpeed).add(surfaceVelocity);
     const across = acrossDirection.multiplyScalar(cornerSpeed).add(surfaceVelocity);
     const approach = 2 * along / (speed + cornerSpeed);

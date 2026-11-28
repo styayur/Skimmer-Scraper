@@ -8,6 +8,7 @@ interface IndexedChunk {
   origin: THREE.Vector3;
   bounds: THREE.Box3;
   bvh: MeshBVH;
+  surfaceSpans?: CollisionChunk['surfaceSpans'];
 }
 
 export const collisionBvhOptions = { maxDepth: 28, targetLeafSize: 10 };
@@ -45,6 +46,7 @@ export class ChunkedWorldAdapter implements SurfaceProvider {
       id: chunk.id,
       origin: new THREE.Vector3(chunk.origin.x, chunk.origin.y, chunk.origin.z),
       bounds: chunk.bounds.clone(),
+      surfaceSpans: chunk.surfaceSpans,
       bvh: prepared ?? new MeshBVH(chunk.geometry, collisionBvhOptions),
     });
   }
@@ -101,9 +103,12 @@ export class ChunkedWorldAdapter implements SurfaceProvider {
       const vertices = geometry.getAttribute('position');
       const vertex = (i: number) => new THREE.Vector3().fromBufferAttribute(vertices, geometry.index?.getX(i) ?? i);
       const i = 3 * triangle;
+      const first = geometry.index?.getX(i) ?? i;
+      const surface = bestChunk.surfaceSpans?.find(span => first >= span.first && first < span.end);
       const normal = THREE.Triangle.getNormal(vertex(i),vertex(i+1),vertex(i+2),new THREE.Vector3());
       if (normal.dot(this.queryPoint.clone().sub(bestPoint)) < 0) normal.negate();
-      frame = { normal, localPoint: bestPoint.clone().sub(bestChunk.origin), triangle, geometryId:geometry.uuid, velocity:{x:0,y:0,z:0} };
+      frame = { normal, localPoint: bestPoint.clone().sub(bestChunk.origin), triangle, geometryId:geometry.uuid, velocity:{x:0,y:0,z:0},
+        ...(surface ? { logicalSurfaceId: surface.id } : {}) };
     }
     return {
       ...(frame ? {contact:frame} : {}),
