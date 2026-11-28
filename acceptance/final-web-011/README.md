@@ -1,5 +1,7 @@
 # Final Web flight repeat
 
+The official `67a56870` build completed all 34 matrix and five default-entry replays. All 39 sampled trajectories and metric sets matched `ac943acd`, including the historical S-curve gate miss. The runs used an emulated standard-mapped gamepad. Three preregistered manual entries have separate receipts. [Final matrix and default worlds](results/main-67a56870/README.md) · [Hosted replay](https://github.com/styayur/Skimmer-Scraper/actions/runs/46141326650) · [Three directed entries](https://github.com/styayur/Skimmer-Scraper/blob/c74fbcdd824341b83da430a5cd9799ac63af6274/acceptance/shipped-approaches-011/results/46141440292/README.md)
+
 The #97 rollout on `ac943acd` met 33/34 frozen dispositions. All 39 sampled trajectories and metric sets, including the five original shipped worlds, matched the earlier #92 production run. [Rollout report and raw flights](results/main-ac943acd/README.md) · [GitHub-hosted rollout run](https://github.com/styayur/Skimmer-Scraper/actions/runs/46129621281)
 
 The #92 production Web build `c4bc8eac` reproduced the historical 33/34 result with zero shield strikes. The five original shipped-world flights all reproduced their stock outcome. [Original immutable 34+5 receipt](https://github.com/styayur/Skimmer-Scraper/blob/e6ee8e90def33f4430aed783cc61fb0a079450b1/acceptance/final-web-011/RESULTS.md) · [Original hosted run](https://github.com/styayur/Skimmer-Scraper/actions/runs/46120953678)
