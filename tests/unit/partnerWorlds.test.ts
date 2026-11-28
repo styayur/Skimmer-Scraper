@@ -27,10 +27,19 @@ describe('confirmed partner downloads', () => {
     }
   });
   it('limits the desktop connection permission to the pinned producer repository path', () => {
-    const directive = desktop.app.security.csp.split(';').find(item => item.trim().startsWith('connect-src'))!;
-    const paths = directive.split(/\s+/).filter(host => host.includes('raw.githubusercontent.com'));
-    expect(paths).toEqual(['https://raw.githubusercontent.com/styayur/V2Wpro/']);
-    expect(partnerWorlds.every(world => world.source.startsWith(paths[0]!))).toBe(true);
+    const repository = new URL('https://raw.githubusercontent.com/styayur/V2Wpro/');
+    const directives = desktop.app.security.csp.split(';').map(value => value.trim().split(/\s+/));
+    const connections = directives.filter(([name]) => name === 'connect-src');
+    expect(connections).toHaveLength(1);
+    expect(connections[0]!.slice(1).sort()).toEqual([
+      "'self'", 'ipc:', 'http://ipc.localhost', 'https://ipc.localhost', 'blob:', 'data:',
+      'https://api.deepseek.com', 'https://api.openai.com', repository.href,
+    ].sort());
+    for (const world of partnerWorlds) {
+      const source = new URL(world.source);
+      expect(source.origin).toBe(repository.origin);
+      expect(source.pathname).toMatch(/^\/styayur\/V2Wpro\/[a-f0-9]{40}\/examples\/[a-z0-9-]+\.glb$/);
+    }
   });
   it('resolves only catalog IDs and never dereferences a URL from a link', () => {
     const fetch = vi.fn();
