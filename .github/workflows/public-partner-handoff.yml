@@ -1,0 +1,111 @@
+name: Public V2Wpro and Skimmer handoff
+
+on:
+  push:
+    branches: [codex/flight-diagnostic-v2]
+    paths: [acceptance/joint-flight/topogenesis/public-handoff/request.json]
+
+permissions:
+  actions: read
+  contents: read
+
+jobs:
+  handoff:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    env:
+      GAME_SHA: ac943acd6a2c6d21431aa138327bc3e64ed8552f
+      PRODUCER_SHA: 241bd0eec72439d77a43e8d289cc29c714bf0e4e
+      REQUEST: acceptance/joint-flight/topogenesis/public-handoff/request.json
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          ref: ac943acd6a2c6d21431aa138327bc3e64ed8552f
+          path: official
+          sparse-checkout-cone-mode: false
+          sparse-checkout: /scripts/verify-partner-handoff.py
+          persist-credentials: false
+      - name: Verify the selected successful Pages publication and original script
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python3 - <<'PY'
+          import hashlib, json, os, re, subprocess
+          from pathlib import Path
+
+          request = json.loads(Path(os.environ["REQUEST"]).read_bytes())
+          run_id = str(request["pagesRun"])
+          game, producer = os.environ["GAME_SHA"], os.environ["PRODUCER_SHA"]
+          if not re.fullmatch(r"[1-9][0-9]*", run_id) or (request["game"], request["producer"]) != (game, producer):
+              raise ValueError("Unexpected Pages run or source pair")
+
+          def get(endpoint):
+              return json.loads(subprocess.check_output(["gh", "api", "repos/styayur/Skimmer-Scraper/actions/" + endpoint]))
+
+          pages = get("runs/" + run_id)
+          if (pages["path"], pages["event"], pages["head_repository"]["full_name"], pages["head_branch"],
+              pages["head_sha"], pages["conclusion"]) != (
+              ".github/workflows/deploy-github-pages.yml", "workflow_dispatch", "styayur/Skimmer-Scraper",
+              "main", game, "success"):
+              raise ValueError("The selected run must successfully publish the requested Skimmer main source")
+          jobs = get(f"runs/{run_id}/attempts/{pages['run_attempt']}/jobs?per_page=100")["jobs"]
+          published, = [j for j in jobs if j["name"] == "Publish verified Pages artifact" and j["conclusion"] == "success"]
+          if not any(s["name"] == "Deploy Pages" and s["conclusion"] == "success" for s in published["steps"]):
+              raise ValueError("The Pages publication step did not succeed")
+
+          script = "scripts/verify-partner-handoff.py"
+          def official_git(*args):
+              return subprocess.check_output(["git", "-C", "official", *args], text=True).strip()
+
+          blob = official_git("rev-parse", "HEAD:" + script)
+          if official_git("rev-parse", "HEAD") != game or blob != "cc0d2126ae4da6f566eedf68a95897494a198e8d" or official_git("hash-object", script) != blob:
+              raise ValueError("The checked-out handoff verifier differs from the official source")
+          out = Path("handoff-evidence")
+          out.mkdir()
+          provenance = {"game": game, "producer": producer, "pagesRun": pages["html_url"], "pagesAttempt": pages["run_attempt"],
+                        "publishedJob": published["html_url"], "publishedUtc": published["completed_at"],
+                        "evidenceRun": os.environ["GITHUB_RUN_ID"], "evidenceAttempt": os.environ["GITHUB_RUN_ATTEMPT"],
+                        "procedureCommit": os.environ["GITHUB_SHA"], "scriptGitBlob": blob,
+                        "scriptSha256": hashlib.sha256((Path("official") / script).read_bytes()).hexdigest(),
+                        "runnerImage": os.environ.get("ImageVersion")}
+          (out / "provenance.json").write_text(json.dumps(provenance, indent=2) + "\n", encoding="utf-8")
+          PY
+      - name: Install the pinned hosted Chromium
+        run: |
+          python3 -m venv "$RUNNER_TEMP/handoff-browser"
+          "$RUNNER_TEMP/handoff-browser/bin/python" -m pip install --disable-pip-version-check playwright==1.63.0
+          "$RUNNER_TEMP/handoff-browser/bin/python" -m playwright install --with-deps chromium
+      - name: Fly from the public Inspector into the public game and reopen the exact layout
+        run: |
+          "$RUNNER_TEMP/handoff-browser/bin/python" official/scripts/verify-partner-handoff.py \
+            "$PRODUCER_SHA" "$GAME_SHA" handoff-evidence/public
+      - name: Verify the four public-site outputs
+        run: |
+          "$RUNNER_TEMP/handoff-browser/bin/python" - <<'PY'
+          import hashlib, json, os
+          from pathlib import Path
+          from importlib.metadata import version
+
+          out = Path("handoff-evidence/public")
+          files = ["player-observation.json", "reopened-observation.json", "switchyard-flight.png", "handoff.json"]
+          receipt = json.loads((out / "handoff.json").read_bytes())
+          if (receipt["publicSites"], receipt["producerCommit"], receipt["consumerCommit"], receipt["producer"], receipt["game"]) != (
+              True, os.environ["PRODUCER_SHA"], os.environ["GAME_SHA"], "https://styayur.github.io/V2Wpro/",
+              "https://styayur.github.io/Skimmer-Scraper/"):
+              raise ValueError("Expected both official public sites at the requested revisions")
+          if not (out / "switchyard-flight.png").read_bytes().startswith(b"\x89PNG\r\n\x1a\n"):
+              raise ValueError("The public flight screenshot is missing or invalid")
+          file_hashes = {name: {"sha256": hashlib.sha256((out / name).read_bytes()).hexdigest(),
+                                "bytes": (out / name).stat().st_size} for name in files}
+          manifest = {"playwright": version("playwright"), "browser": receipt["browser"], "files": file_hashes}
+          (out.parent / "files.json").write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
+          PY
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        if: always()
+        with:
+          name: public-partner-handoff-${{ github.run_id }}-${{ github.run_attempt }}
+          path: handoff-evidence/
+          if-no-files-found: warn
