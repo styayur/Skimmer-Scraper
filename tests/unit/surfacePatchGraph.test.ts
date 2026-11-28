@@ -273,4 +273,33 @@ describe('rolling finite patch guidance', () => {
     }
     world.dynamic.dispose();
   });
+
+  it.each(['early', 'low', 'blocked'])('keeps manual release active at a moving %s crossing', crossing => {
+    const world = new CourseWorld(), startX = crossing === 'early' ? 0 : -18;
+    const gatePose = (seconds: number) => new Matrix4().makeTranslation(startX + 45 * seconds, 1.2, -28);
+    world.add('floor', new BoxGeometry(80, 1, 160).translate(0, -0.5, -40));
+    world.dynamic.add('gate', 'lease', new BoxGeometry(4, crossing === 'blocked' ? 32 : 4, 6), gatePose(-dt), true);
+    world.dynamic.setTransform('gate', gatePose(0), dt);
+    let flight = createFlightState({ position: v(0, 6, 0), yaw: 0 });
+    let state = toggleGlide({ phase: 'GLIDING', time: 1, normal: v(0, 1, 0) });
+    let collision = false, impact = false;
+    const ctx = { world, worldUp: v(0, 1, 0), bodyRadius: COLLISION_RADIUS, input: NEUTRAL_INPUT, settings: DEFAULT_CONTROLS };
+    for (let tick = 1; tick <= 90; tick++) {
+      const free = stepFlight(flight, NEUTRAL_INPUT, dt, DEFAULT_CONTROLS);
+      const next = stepGlide(state, flight, free, null, dt, ctx);
+      if (tick === 1) {
+        expect(next.state.phase).toBe('DETACHING');
+        expect(next.state.departureNormalSpeed !== undefined).toBe(crossing === 'low');
+      }
+      world.dynamic.setTransform('gate', gatePose(tick * dt), dt);
+      collision = flightWouldCollide(flight, next.flight, world);
+      impact = resolveShield(flight, next.flight, world).impact;
+      flight = next.flight;
+      state = next.state;
+      if (impact || collision) break;
+    }
+    expect(state.phase).toBe('FLIGHT');
+    expect([collision, impact]).toEqual([crossing === 'blocked', crossing === 'blocked']);
+    world.dynamic.dispose();
+  });
 });

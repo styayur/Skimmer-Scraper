@@ -9,3 +9,5 @@ These are the three original revision 2 GLBs from the joint flight benchmark. V2
 | 95603 | Cruise | 36 | 2 |
 
 All three rows use the imported entry pose, default controls and LB capture after four frames. To reproduce a GLB, run `node tools/topogenesis.js fixture ribbon-bridge <seed> <cruise-or-boost> 2 <output-stem>` at the linked revision. [Fixed-step regression](../../unit/ribbonBridgeGlide.test.ts)
+
+The additional `ribbon-bridge-104729-boost.glb` preserves the previously held-out first-panel regression. Its original input used boost from launch, three wingmates and LB at intervals 4 and 48. The archived integrated recording contains the original shield impact. [Frozen failure and input schedule](../../../acceptance/v0110/surface-glide/ribbon-departure/frozen-7845d30f.json)

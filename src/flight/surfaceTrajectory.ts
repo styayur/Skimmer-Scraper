@@ -2,6 +2,7 @@ import { Euler, Quaternion, Vector3 } from 'three';
 import type { Vec3 } from '../core/math';
 import type { SurfaceProvider, SurfaceQuery } from '../world/worldTypes';
 import type { FlightInput, FlightState } from './flightModel';
+import type { ControlSettings } from './controlSettings';
 
 export const glideTuning = Object.freeze({
   acceleration: 260, emergencyAcceleration: 560, planningHz: 15, clearance: 6, attitudeRate: 4.2,
@@ -12,6 +13,7 @@ export interface GlideContext {
   worldUp: Vec3;
   bodyRadius: number;
   input?: FlightInput;
+  settings?: ControlSettings;
   acceleration?: number;
 }
 type Contact = SurfaceQuery & { contact: NonNullable<SurfaceQuery['contact']> };
