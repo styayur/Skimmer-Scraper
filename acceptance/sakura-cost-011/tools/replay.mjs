@@ -10,7 +10,7 @@ import {installProbe} from './browser-probe.mjs';
 const {chromium}=createRequire(path.resolve('final/package.json'))('@playwright/test');
 const lane=process.env.LANE;
 const graphics=lane==='graphics';
-const labels=process.env.LABELS?.split(',') || ['stock','final','final','stock'];
+const labels=lane==='relay' ? ['final','fixed','fixed','final'] : ['stock','final','final','stock'];
 const seeds=[334458,479568308,501763084];
 const sha=s=>createHash('sha256').update(s).digest('hex');
 const out=(file,value)=>fs.writeFileSync('out/'+file,JSON.stringify(value,null,2));
@@ -49,7 +49,7 @@ try {
     const page=await context.newPage();
     const errors=[];
     page.on('pageerror',e=>{errors.push(String(e.stack||e)); console.error(String(e));});
-    const url='http://127.0.0.1:'+(4173+refs.indexOf(ref))+'/?preset=city&world=stable&gen=4&seed='+seed;
+    const url='http://127.0.0.1:'+(4173+refs.indexOf(ref))+'/?preset=city&world=stable&gen=4&seed='+seeds[0];
     try {
       await page.goto(url,{waitUntil:'load'});
       await page.waitForFunction(()=>!!window.__SKIMMER_SCRAPER__?.snapshot().ready,undefined,{polling:100,timeout:65000});
@@ -60,13 +60,29 @@ try {
       if (/balanced/i.test(await quality.textContent())) await quality.click();
       assert.match(await quality.textContent(),/high/i);
       await page.locator('#rules-close').click();
-      await page.evaluate(async()=>{
+      const arrivals=await page.evaluate(async({index,seeds})=>{
         window.__delivery.hold();
         const g=window.__SKIMMER_SCRAPER__;
+        const cruise={x:0,y:390,z:120},pose={yaw:0,roll:0,pitch:0},arrivals=[];
         await g.start();
+        for(let n=1;n<=index;n++) {
+          await g.setPose(cruise,pose);
+          await g.advance(.15);
+          await g.setPose({...cruise,y:519},{...pose,pitch:1.15});
+          let s=g.snapshot();
+          for(let i=0;i<100 && s.journey.crossings<n;i++) s=await g.advance(.1);
+          const phases=s.journey.history.slice(-6).map(p=>p.phase);
+          if(s.seed!==seeds[n] || s.journey.worldIndex!==n || s.journey.crossings!==n ||
+             phases.join(',')!=='THRESHOLD,INVERSION,WORLD_SWAP,DIVE,RECOVERY,ASCENT')
+            throw Error('incorrect journey arrival '+JSON.stringify({n,seed:s.seed,journey:s.journey}));
+          arrivals.push({seed:s.seed,worldIndex:n,phases,release:s.worldReleases.at(-1)});
+        }
+        await g.setPose(cruise,pose);
+        await g.advance(2);
         if(!g.pause()) throw Error('start did not enter Free Flight');
-        await g.setPose({x:0,y:390,z:120},{yaw:0,roll:0,pitch:0});
-      });
+        await g.setPose(cruise,pose);
+        return arrivals;
+      },{index:seeds.indexOf(seed),seeds});
       // Paused streaming requests use the shipping fixed visual limit. At a fixed pose this
       // removes the adaptive worker-latency budget from this particular graphics control.
       const settle=async()=>page.evaluate(async()=>{
@@ -89,7 +105,7 @@ try {
         // Fixed animation timestamp and zero free-running catch-up. advance() owns all physical ticks.
         const rafCallbacks=window.__delivery.pulse(1);
         const draw=graphics?window.__webgl.end():null, s=g.snapshot();
-        return {tag,rafCallbacks,runTime:s.runTime,mode:s.mode,seed:s.seed,rules:s.rules,settings:s.companionSettings,
+        return {tag,rafCallbacks,runTime:s.runTime,mode:s.mode,seed:s.seed,index:s.journey.worldIndex,phase:s.journey.phase,rules:s.rules,settings:s.companionSettings,
           camera:s.cameraMode,cameraPosition:s.cameraPosition,position:s.position,attitude:s.attitude,velocity:s.velocity,
           speed:s.speed,shieldImpacts:s.shieldImpacts,glide:s.glide.phase,usedGlide:s.surfaceGlideAssisted,
           debugInput:s.debugInput,agents:s.companions.map(a=>[a.id,a.deployed,a.uncovered,a.task,a.decisions,a.impacts,a.position]),
@@ -105,7 +121,17 @@ try {
       await page.keyboard.down('q'); await page.keyboard.down('Shift');
       await page.evaluate(()=>window.__meter.reset());
       for(let sec=1;sec<=12;sec++) {
-        await page.evaluate(async()=>{await window.__SKIMMER_SCRAPER__.advance(1);});
+        await page.evaluate(async()=>{
+          const g=window.__SKIMMER_SCRAPER__;
+          await g.advance(1);
+          const until=performance.now()+25000;
+          while(performance.now()<until) {
+            const st=g.snapshot().streaming;
+            if(!st.queuedChunks && !st.generatingChunks) return;
+            await new Promise(r=>setTimeout(r,50));
+          }
+          throw Error('workers did not drain after physical step');
+        });
         rows.push(await sample('flight-'+sec));
       }
       const workload=await page.evaluate(()=>window.__meter.take());
@@ -132,9 +158,10 @@ try {
           assert.equal(row.draw.draws.length,row.render.calls,'WebGL interception misses a draw at '+row.tag);
         }
       }
-      zip(prefix+'.json.gz',{seed,ref,round,url,graphics,gl,workload,positive,rows,errors});
+      zip(prefix+'.json.gz',{seed,ref,round,url,arrivals,graphics,gl,workload,positive,rows,errors});
       for(const row of rows) {
         assert.equal(row.seed,seed); assert.equal(row.settings.count,3); assert.equal(row.settings.formation,'wedge');
+        assert.equal(row.index,seeds.indexOf(seed)); assert.equal(row.phase,'ASCENT');
         assert.equal(row.settings.behavior,'formation'); assert.equal(row.rules.mode,'free'); assert.equal(row.rules.shield,true);
         assert.equal(row.debugInput,false); assert.equal(row.glide,'FLIGHT'); assert.equal(row.usedGlide,false);
         assert.equal(row.requests,0); assert.equal(row.missions,0); assert.equal(row.music,true);
