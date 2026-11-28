@@ -32,6 +32,8 @@ import { bindCompanionSettings } from './ui/CompanionSettings';
 import { updateCompanionHud } from './ui/CompanionHud';
 import { SymbiosisRuntime } from './ai/SymbiosisRuntime';
 import { bindModelSettings } from './ui/ModelSettings';
+import { bindJourneyMemory } from './ui/JourneyMemorySettings';
+import { JourneyMemory } from './ai/journeyMemory';
 import type { Perception } from './ai/contracts';
 import { SkyJourney } from './game/skyJourney';
 import { planSkyPassage, stepSkyDive, translateWingForSky, type SkyPassage } from './game/skyFlight';
@@ -206,7 +208,8 @@ const initialSetup = loadFlightSetup(window.localStorage, false);
 let selectedRules = initialSetup.rules;
 let companionSettings = initialSetup.companions;
 const companions = new CompanionTeam();
-const symbiosis = new SymbiosisRuntime(companions);
+const journal = new JourneyMemory();
+const symbiosis = new SymbiosisRuntime(companions, undefined, journal);
 let controls = loadControls();
 const gamepad = new GamepadInputSource();
 let shieldGlow = 0;
@@ -648,6 +651,14 @@ const beginSkySwap = (): void => {
   }).finally(() => { if (pendingWorldSwap === job) pendingWorldSwap = null; });
 };
 
+function enterFlightJournal() {
+  if (!activeWorld) return;
+  symbiosis.enterWorld({
+    realm: activeWorld instanceof ImportedWorldAdapter ? 'imported' : activeWorld.settings.theme ?? 'city',
+    seed: activeWorld.settings.seed, fingerprint: activeWorld.getFingerprint(),
+  });
+}
+
 const simulateJourneyStep = (dt: number): boolean => {
   if (!flightState || !activeWorld || journey.phase === 'WORLD_SWAP') return false;
   const previousPhase = journey.phase;
@@ -678,6 +689,7 @@ const simulateJourneyStep = (dt: number): boolean => {
   if (event === 'completed') {
     skyPassage = null;
     journeyHud.completed(journey.crossings, journey.time);
+    enterFlightJournal();
     symbiosis.flightReport(3, 'crossing', 'notice');
     proximityFeedback = createProximityFeedback();
   }
@@ -879,6 +891,7 @@ const startRun = async (): Promise<void> => {
   lastSurfaceHit = queryFlightSurface(activeWorld, flightState.position, SURFACE_QUERY_RANGE);
   lastFrameTime = performance.now();
   mode = 'running';
+  enterFlightJournal();
   symbiosis.flightReport(1, 'launch', 'notice');
   keyboard.setEnabled(!debugInputEnabled);
   audio.start();
@@ -1127,6 +1140,7 @@ const bindFlightOptions = (): void => {
   });
 };
 const updateModelStatus = bindModelSettings(symbiosis, error => ui.showToast(error, true));
+bindJourneyMemory(journal);
 const journeyHud = new JourneyHud();
 const transitionSpeed = document.querySelector<HTMLSelectElement>('#transition-speed')!;
 try { journey.fast = localStorage.getItem('skimmer-scraper.transition-speed') === 'fast'; } catch { /* optional preference */ }

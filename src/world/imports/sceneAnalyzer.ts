@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { ImportedSemantics } from './importedSemantics';
 import type { DrivenMesh, ImportedMotion } from './importedMotion';
 import { applyImportedVariant, type VariantLayout } from './worldVariantLayout';
 import {
@@ -19,6 +20,7 @@ export interface AnalyzedWorldScene {
   collisionTriangles: number;
   variant?: VariantLayout;
   routeHints?: THREE.Vector3[];
+  semantics?: ImportedSemantics;
   authoredSpawn?: {position:THREE.Vector3; yaw:number};
 }
 
@@ -199,7 +201,8 @@ export const analyzeWorldScene = (
   }
   return { root, surfaces: collisionGeometry(positions.SURFACE), obstacles: collisionGeometry(positions.OBSTACLE),
     bounds: sourceBounds.translate(root.position), nodes, triangles: vertices / 3, materials: materials.size, textures: textures.size,
-    meshRoles, dynamic, routeHints, authoredSpawn, collisionTriangles: solidTriangles, ...(layout ? { variant: layout } : {}) };
+    meshRoles, dynamic, routeHints, authoredSpawn, collisionTriangles: solidTriangles, ...(layout ? { variant: layout } : {}),
+    semantics: new ImportedSemantics(scene, new Map(solidMeshes.map(s => [s.mesh, s.localBounds])), !!layout && layout.layout === 'grouped') };
 };
 
 /** A glTF can share its geometry, materials and decoded images between primitives and scenes. */

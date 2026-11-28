@@ -3,26 +3,11 @@ import type { FlightState } from '../flight/flightModel';
 import type { CompanionWorld } from '../companions/AgentController';
 import type { PerceivedTarget } from './contracts';
 import type { SurfaceQuery } from '../world/worldTypes';
+import { clearApproach, covered } from './flightClearance';
+import { verifySite, type VerifiedSite } from './semanticVerification';
+import type { MotionSemanticCandidate } from '../world/motionSemantic';
+export { clearApproach, covered } from './flightClearance';
 
-export const covered = (world: CompanionWorld, p: Vec3) =>
-  (world.isCompanionCovered?.(p) ?? world.isCollisionCovered?.(p)) !== false;
-
-/** Fixed-wing clearance probes. The reactive sweep and shield still own actual motion. */
-export function clearApproach(world: CompanionWorld, from: Vec3, to: Vec3): boolean {
-  const length = distance(from, to);
-  if (!Number.isFinite(length) || length > 350) return false;
-  const steps = Math.max(1, Math.ceil(length / 8));
-  for (let i = 1; i <= steps; i++) {
-    const t = i / steps;
-    const p = {
-      x: from.x + (to.x - from.x) * t,
-      y: from.y + (to.y - from.y) * t,
-      z: from.z + (to.z - from.z) * t,
-    };
-    if (!covered(world, p) || (world.queryNearest(p, 8)?.distance ?? Infinity) < 7) return false;
-  }
-  return true;
-}
 
 interface SurfaceObservation {
   chunkId: string;
@@ -60,9 +45,12 @@ function continuousGlide(world: CompanionWorld, position: Vec3, hit: SurfaceQuer
 /** The last perception contains at most two observed structures. Leased missions retain their own identity check. */
 export class SemanticTargets {
   private entries = new Map<string, SurfaceObservation>();
+  private sites = new Map<string, VerifiedSite>();
   public clear(): void {
     this.entries.clear();
+    this.sites.clear();
   }
+  public site(id: string) { return this.sites.get(id); }
   public observation(id: string) {
     return this.entries.get(id);
   }
@@ -74,6 +62,15 @@ export class SemanticTargets {
         y: player.position.y + 65 * forward.y,
         z: player.position.z + 65 * forward.z,
       };
+    const addSite = (candidate: MotionSemanticCandidate, authored: boolean, kind?: PerceivedTarget['kind']) => {
+      if (this.sites.size >= 6 || distance(player.position, candidate.position) > 240) return;
+      const site = verifySite(world, candidate, forward, player.position, epoch, authored);
+      if (site && clearApproach(world, player.position, site.target.position)) {
+        if (kind) site.target.kind = kind;
+        this.sites.set(site.target.id, site);
+      }
+    };
+    for (const candidate of world.semanticCandidates?.(player.position).slice(0, 12) ?? []) addSite(candidate, true);
     for (const p of [player.position,ahead]) {
       if (!covered(world, p)) continue;
       const glideHit = world.queryGlide?.(p, 75);
@@ -110,8 +107,15 @@ export class SemanticTargets {
         surfaceId: hit.surfaceId,
         target: { id, kind, position, clearance: standOff, capabilities },
       });
+      if (![...this.sites.values()].some(s => s.paths.inspect && s.paths.glide)) {
+        addSite({ semantic: { version: 1, id, kind: 'landmark', capabilities: ['guide', 'observe', 'glide'] },
+          position: point, lease: id }, false, kind);
+      }
     }
-    return [...this.entries.values()].map((entry) => entry.target);
+    if (![...this.sites.values()].some(s => s.paths.scout && s.paths.release))
+      addSite({ semantic: { version: 1, id: 'forward-fork', kind: 'route', capabilities: ['scout', 'release'] },
+        position: ahead, lease: `scan-${epoch}-${Math.round(ahead.x)}-${Math.round(ahead.y)}-${Math.round(ahead.z)}` }, false);
+    return [...this.entries.values(), ...this.sites.values()].map(entry => entry.target);
   }
 }
 

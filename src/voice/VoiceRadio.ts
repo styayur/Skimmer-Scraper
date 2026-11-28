@@ -267,7 +267,7 @@ export class VoiceRadio {
     };
     signal.addEventListener('abort', cancel, { once: true });
     try {
-      if (identity && this.activated && !this.muted && this.settings.volume > 0 && selected !== 'off'
+      if (line.event !== 'journey-recall' && identity && this.activated && !this.muted && this.settings.volume > 0 && selected !== 'off'
           && (line.catalog || selected === 'deepseek' && line.priority !== 'notice')) {
         const done = await this.playAudio(line, playbackId, identity, selected, AbortSignal.any([signal, audio.signal]));
         signal.throwIfAborted();

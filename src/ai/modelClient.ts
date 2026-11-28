@@ -3,6 +3,7 @@ import { COMPANION_PROFILES, radioLanguageOf, type RadioLanguage } from './radio
 import { identities, type DialogueTurn } from './companionMemory';
 import type { MissionPlan } from './missions';
 import { speechActs } from './radioSpeech';
+import type { shareableObservation } from './journeyMemory';
 export const validateModelConfig=(value:PublicModelConfig):PublicModelConfig=>{
   const endpoint=new URL(value.endpoint);
   if(endpoint.username||endpoint.password||endpoint.search||endpoint.hash)throw Error('Endpoint must not contain credentials, query or fragment.');
@@ -21,6 +22,7 @@ export interface ModelStats { connected:boolean; pending:boolean; requests:numbe
 export interface ModelReply { decision:unknown; usage:TokenUsage; latencyMs:number; provider:string; model:string }
 type BudgetLane='background'|'dialogue'|'planning'|'asr'|'tts';
 interface RadioContext {
+  historicalObservations?: ReturnType<typeof shareableObservation>[];
   turns:DialogueTurn[]; missions?:MissionPlan['missions']; working:unknown; explicitMission?:boolean; freeDialogue?:boolean;
 }
 const MISSION_PROMPT = `You are the radio of three aircraft in a flight game. Return JSON with exactly schemaVersion:2, requestId, epoch, dialogue, missions.
@@ -30,11 +32,11 @@ The dialogue field is an ARRAY. Each item has exactly {"agentId":2,"act":"missio
 Example json envelope: {"schemaVersion":2,"epoch":0,"requestId":"copy from perception","dialogue":[],"missions":[{"agentIds":[2],"type":"ESCORT","targetId":null,"timeoutSeconds":30}]}.
 Copy the current perception.requestId and numeric epoch. When suggestedMissions is nonempty, copy each assignment exactly, including its timeoutSeconds, into the missions array. If explicitMission is true, interpret the player's assignment using only allowed mission types, named wingmates and published targets. Return missions:[] for chat or an unavailable task. Do not add coordinates, commands or fields.
 Each mission has agentIds, type, targetId, timeoutSeconds (integer 2..120), optionally waitSeconds (1..30, WAIT_AND_REGROUP only).
-Types: FOLLOW, REGROUP, ESCORT, FIND_PASSAGE, INSPECT_LANDMARK, FIND_GLIDE_SURFACE, WAIT_AND_REGROUP, PATROL, SURFACE_RELAY. Use only sensory target IDs and deployed agents.`;
+Types: FOLLOW, REGROUP, ESCORT, FIND_PASSAGE, INSPECT_LANDMARK, FIND_GLIDE_SURFACE, FIND_GLIDE_ROUTE, GUIDE_LANDMARK, SCOUT_BRANCH, FIND_ESCAPE, WAIT_AND_REGROUP, PATROL, SURFACE_RELAY. Use only sensory target IDs and deployed agents.`;
 const PLAN_RULES = `You plan a small aircraft team in a real flight game. Use only declared json fields, no code or tools.
 Required exact keys: requestId, epoch, ttl (1..12 seconds), risk (0..riskLimit), formation (wedge|line|spread), orders (1..3), reason (brief Chinese, <=100 characters).
 Each order has exact keys agents (unique active integer IDs), action (FOLLOW|LEAD|REGROUP|SCOUT|PROTECT|RELAY|HOLD), targetId (a published target ID or null for FOLLOW/REGROUP/PROTECT). Never invent a target, agent, trust value or key.
-Each agent can appear in ONLY ONE order across the entire plan. In free mode grace never drains: RELAY is optional training, not a survival emergency. LEAD selects a moving local corridor; SCOUT/HOLD select fixed published points.
+Each agent can appear in ONLY ONE order across the entire plan. Targets with semanticKind are reserved for the mission executive. In free mode grace never drains: RELAY is optional training, not a survival emergency. LEAD selects a moving local corridor; SCOUT/HOLD select fixed published points.
 Use perception, hazards, grace, trust, charges and recent outcomes to choose actual cooperation. In clear space choose useful lead/scout/formation; near obstacles choose safe routes/regroup/protect. When grace is draining and a surface partner exists, prepare RELAY with sufficient ttl. RELAY must target that partner's surface ID and include the partner. HOLD loiters at a target; local physics handles safety.
 Example json: {"requestId":"copy perception.requestId","epoch":0,"ttl":10,"risk":0.3,"formation":"wedge","orders":[{"agents":[1],"action":"FOLLOW","targetId":null}],"reason":"保持安全编队"}`;
 const PLAN_PROMPT = `${PLAN_RULES}\nReturn a single plan json object. No dialogue, code fences or surrounding text.`;
@@ -105,11 +107,14 @@ export class ModelClient {
     if(!this.canRequest(message !== undefined) || (message !== undefined && this.containsCredential(message)))return null;
     if(this.#stats.requests>=this.#config.maxRequests){this.#stats.error='request-budget';return null;}
     const turns=context?.turns.slice()??[];
-    const input = message === undefined ? perception : { perception, message, replyLanguage: replyLanguage ?? radioLanguageOf(message),
+    const history = context?.historicalObservations;
+    const input = history ? { historicalObservations: history } : message === undefined ? perception : { perception, message, replyLanguage: replyLanguage ?? radioLanguageOf(message),
       suggestedOrders, profiles: COMPANION_PROFILES, identities:identities.map(({id,en})=>({id,background:en})), turns,
       suggestedMissions:context?.missions, working:context?.working, explicitMission:context?.explicitMission, freeDialogue:context?.freeDialogue };
     const deepSeek=this.#config.provider==='deepseek';
-    const body={model:this.#config.model,messages:[{role:'system',content:message === undefined ? PLAN_PROMPT : context?.missions ? MISSION_PROMPT : RADIO_PROMPT},{role:'user',content:JSON.stringify(input)}],
+    const prompt = history ? 'Select a memorable shared experience from historicalObservations. Return only JSON {"observation":0} with a zero-based index. The entries describe past flights.' :
+      message === undefined ? PLAN_PROMPT : context?.missions ? MISSION_PROMPT : RADIO_PROMPT;
+    const body={model:this.#config.model,messages:[{role:'system',content:prompt},{role:'user',content:JSON.stringify(input)}],
       max_tokens:512,temperature:0.2,stream:false,
       ...(deepSeek?{thinking:{type:'disabled'},safety_check:{level:'high'}}:{response_format:{type:'json_object'}})};
     let serialized=JSON.stringify(body);const encoder=new TextEncoder();let bytes=encoder.encode(serialized).length;

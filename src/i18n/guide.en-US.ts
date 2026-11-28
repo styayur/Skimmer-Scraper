@@ -39,6 +39,8 @@ export const chapters = {
   ],
   'guide-companions': [
     "Wingmates, formations and tasks",
+    "In Independent follow, the navigator surveys a parallel glide route, the guardian checks release space and the explorer scouts a branch when nearby world hints pass collision checks. Try “guide me to the landmark”, “find a glide route”, “find escape space” or “scout a branch”. Follow the navigator to the landmark to finish a guided flight.",
+    "In Advanced settings, Journey Memory lets you keep, inspect and delete shared experiences on this device. Ask “what do you remember from past flights?” for a local recollection. You can allow a connected model to select a memory with a separate switch.",
     "KITE-1 is the navigator in cyan, KITE-2 the guardian in gold, and KITE-3 the explorer in rose. Local wingmates follow, avoid obstacles and regroup. Start with three in a wedge. Use a line for narrow passages or spread out over open ground.",
     "Choose the number of wingmates before launch. Advanced settings offer formation follow, independent follow and KITE-1 leading. Give orders by radio during flight. Wingmates return safely when they fall behind. Call everyone back together before a tight passage.",
     "Address each wingmate to split the work. Try “KITE-1 find a passage; KITE-2 escort; KITE-3 inspect the island”. An inspection needs a nearby observed landmark. Ask a wingmate to patrol, find a glide surface or wait 5 seconds and regroup. A new order replaces the previous task for that wingmate.",

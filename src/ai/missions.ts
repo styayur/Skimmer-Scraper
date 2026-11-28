@@ -3,6 +3,7 @@ import type { AgentTask, CompanionTeam, CompanionWorld } from '../companions/Age
 import type { Perception } from './contracts';
 import { readUtterance, type WireUtterance } from './radioSpeech';
 import { clearApproach, covered, observedHere, type SemanticTargets } from './semanticTargets';
+import { resolveSite, type VerifiedCapability, type VerifiedSite } from './semanticVerification';
 
 export const missionTypes = [
   'FOLLOW',
@@ -11,11 +12,18 @@ export const missionTypes = [
   'FIND_PASSAGE',
   'INSPECT_LANDMARK',
   'FIND_GLIDE_SURFACE',
+  'FIND_GLIDE_ROUTE',
+  'GUIDE_LANDMARK',
+  'SCOUT_BRANCH',
+  'FIND_ESCAPE',
   'WAIT_AND_REGROUP',
   'PATROL',
   'SURFACE_RELAY',
 ] as const;
 export type MissionType = (typeof missionTypes)[number];
+export const siteMissions = {
+  FIND_GLIDE_ROUTE: 'glide', GUIDE_LANDMARK: 'guide', SCOUT_BRANCH: 'scout', FIND_ESCAPE: 'release',
+} as const;
 export interface Assignment {
   agentIds: number[];
   type: MissionType;
@@ -34,6 +42,8 @@ interface ValidatedAssignment {
   order: Assignment;
   position: Vec3;
   observation?: ReturnType<SemanticTargets['observation']>;
+  site?: VerifiedSite;
+  capability?: VerifiedCapability;
 }
 
 export function matchesMissionIntent(accepted: ValidatedAssignment[], requested: Assignment[]): boolean {
@@ -169,8 +179,18 @@ export function validateMissions(
       position = target.position;
     }
     const observation = target && registry.observation(target.id);
+    const capability: VerifiedCapability | undefined = Object.hasOwn(siteMissions, type)
+      ? siteMissions[type as keyof typeof siteMissions] : type === 'INSPECT_LANDMARK' ? 'inspect'
+      : type === 'FIND_GLIDE_SURFACE' ? 'glide' : type === 'FIND_PASSAGE' ? 'guide' : undefined;
+    const candidate = target && registry.site(target.id);
+    if (Object.hasOwn(siteMissions, type) && !candidate) return fail('target-kind');
+    if (candidate && (!capability || !candidate.paths[capability] ||
+      (type === 'GUIDE_LANDMARK' && !['landmark', 'surface'].includes(candidate.candidate.semantic.kind)))) return fail('target-kind');
+    const site = candidate && capability && resolveSite(live.world, candidate, live.player, capability, false);
+    if (candidate && !site) return fail('target-unloaded');
+    if (site) position = site.target.position;
     if (
-      target?.capabilities?.length &&
+      !site && target?.capabilities?.length &&
       (!observation || !observedHere(live.world, observation, type === 'FIND_GLIDE_SURFACE'))
     )
       return fail('target-unloaded');
@@ -191,12 +211,13 @@ export function validateMissions(
       },
       position: { ...position },
       observation,
+      site, capability,
     });
   }
   return { ok: true, assignments, dialogue };
 }
 
-type Phase = 'approach' | 'observe' | 'guide' | 'hold' | 'formation' | 'return' | 'relay';
+type Phase = 'approach' | 'survey' | 'observe' | 'guide' | 'hold' | 'formation' | 'return' | 'relay';
 const firstPhase: Record<MissionType, Phase> = {
   WAIT_AND_REGROUP: 'hold',
   SURFACE_RELAY: 'relay',
@@ -205,6 +226,10 @@ const firstPhase: Record<MissionType, Phase> = {
   REGROUP: 'formation',
   FIND_PASSAGE: 'approach',
   FIND_GLIDE_SURFACE: 'approach',
+  FIND_GLIDE_ROUTE: 'approach',
+  GUIDE_LANDMARK: 'approach',
+  SCOUT_BRANCH: 'approach',
+  FIND_ESCAPE: 'approach',
   INSPECT_LANDMARK: 'approach',
   PATROL: 'approach',
 };
@@ -216,11 +241,12 @@ export interface MissionRecord {
   type: MissionType;
   targetId: string | null;
   phase: Phase;
-  priority: 'pilot';
+  priority: 'pilot' | 'local';
   started: number;
   deadline: number;
   progress: number;
-  observed: 'passage' | 'structure' | 'floating-island' | 'glide-surface' | 'patrol-waypoint' | null;
+  observed: 'passage' | 'structure' | 'floating-island' | 'glide-surface' | 'patrol-waypoint'
+    | 'glide-route' | 'guided-landmark' | 'branch' | 'escape' | null;
   outcome: 'running' | 'completed' | 'failed' | 'cancelled';
   reason: string | null;
 }
@@ -230,6 +256,8 @@ interface Running {
   phaseStart: number;
   dwell: number;
   lastTick: number;
+  waypoint: number;
+  missingSince?: number;
 }
 export class MissionExecutive {
   private running = new Map<number, Running>();
@@ -247,7 +275,7 @@ export class MissionExecutive {
   public snapshot() {
     return [...this.history, ...Array.from(this.running.values(), (m) => m.record)].map((r) => ({ ...r }));
   }
-  public start(assignments: ValidatedAssignment[], p: Perception, now: number): void {
+  public start(assignments: ValidatedAssignment[], p: Perception, now: number, priority: MissionRecord['priority'] = 'pilot'): void {
     for (const a of assignments) {
       for (const id of a.order.agentIds) {
         this.cancel([id], 'replaced');
@@ -260,7 +288,7 @@ export class MissionExecutive {
           agentId: id,
           type,
           targetId: a.order.targetId,
-          priority: 'pilot',
+          priority,
           phase,
           started: now,
           deadline: now + a.order.timeoutSeconds,
@@ -273,7 +301,7 @@ export class MissionExecutive {
           phase === 'hold'
             ? { ...a, position: { ...this.team.agents.find((member) => member.id === id)!.flight.position } }
             : a;
-        this.running.set(id, { record, assignment, phaseStart: now, dwell: 0, lastTick: now });
+        this.running.set(id, { record, assignment: { ...assignment }, phaseStart: now, dwell: 0, lastTick: now, waypoint: 0 });
       }
     }
   }
@@ -324,8 +352,29 @@ export class MissionExecutive {
       }
       const elapsed = live.time - running.lastTick;
       running.lastTick = live.time;
-      const point = running.assignment.position;
       const targeted = mission.targetId !== null && mission.phase !== 'return';
+      const assignment = running.assignment;
+      if (targeted && assignment.site && assignment.capability) {
+        const fresh = resolveSite(live.world, assignment.site, live.player, assignment.capability, running.missingSince !== undefined);
+        if (!fresh) {
+          // Stop pursuing the old point immediately. A stable feature may reappear on a new resident lease.
+          this.team.clearTarget(id);
+          running.dwell = 0;
+          running.missingSince ??= live.time;
+          if (live.time - running.missingSince >= 2) this.finish(id, 'failed', 'target-unloaded');
+          continue;
+        }
+        if (running.missingSince !== undefined && !clearApproach(live.world, agent.flight.position, fresh.target.position)) {
+          this.finish(id, 'failed', 'unreachable');
+          continue;
+        }
+        running.missingSince = undefined;
+        assignment.site = fresh;
+        assignment.position = fresh.target.position;
+        mission.targetId = fresh.target.id;
+      }
+      const survey = assignment.site && assignment.capability && assignment.site.paths[assignment.capability];
+      const point = mission.phase === 'survey' && survey ? survey[running.waypoint]! : assignment.position;
       if (
         targeted &&
         (!covered(live.world, point) ||
@@ -358,7 +407,23 @@ export class MissionExecutive {
             this.finish(id, 'failed', 'unreachable');
             continue;
           }
-          if (near && safe) advancePhase(mission.type === 'FIND_PASSAGE' ? 'guide' : 'observe', 0.45);
+          if (near && safe) {
+            if (mission.type === 'FIND_PASSAGE' || mission.type === 'GUIDE_LANDMARK') advancePhase('guide', 0.45);
+            else if (survey?.length && Object.hasOwn(siteMissions, mission.type)) advancePhase('survey', 0.4);
+            else advancePhase('observe', 0.45);
+          }
+          break;
+        case 'survey':
+          task = 'SCOUT';
+          if (!clearApproach(live.world, agent.flight.position, point)) {
+            this.finish(id, 'failed', 'unreachable');
+            continue;
+          }
+          if (safe && distance(agent.flight.position, point) <= 14) running.waypoint++;
+          if (running.waypoint >= survey!.length) {
+            mission.observed = mission.type === 'FIND_GLIDE_ROUTE' ? 'glide-route' : mission.type === 'SCOUT_BRANCH' ? 'branch' : 'escape';
+            advancePhase('return', 0.75);
+          }
           break;
         case 'observe':
           task = 'HOLD';
@@ -374,7 +439,7 @@ export class MissionExecutive {
             if (mission.type === 'FIND_GLIDE_SURFACE') mission.observed = 'glide-surface';
             if (mission.type === 'INSPECT_LANDMARK') {
               mission.observed =
-                running.assignment.observation?.target.kind === 'floating-island'
+                (assignment.site?.target.kind ?? assignment.observation?.target.kind) === 'floating-island'
                   ? 'floating-island'
                   : 'structure';
             }
@@ -382,13 +447,13 @@ export class MissionExecutive {
           }
           break;
         case 'guide':
-          task = 'LEAD';
+          task = mission.type === 'GUIDE_LANDMARK' ? 'HOLD' : 'LEAD';
           if (!clearApproach(live.world, live.player, point)) {
             this.finish(id, 'failed', 'unreachable');
             continue;
           }
-          if (safe && distance(live.player, point) <= 40) {
-            mission.observed = 'passage';
+          if (safe && distance(live.player, point) <= 40 && (mission.type !== 'GUIDE_LANDMARK' || near)) {
+            mission.observed = mission.type === 'GUIDE_LANDMARK' ? 'guided-landmark' : 'passage';
             advancePhase('return', 0.75);
           }
           break;
