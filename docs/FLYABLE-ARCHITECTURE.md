@@ -4,7 +4,7 @@ In Worlds (G), open **V2Wpro worlds** and select Relay District, Contact Deck or
 
 Use **Play link** to share the selected catalog entry. Opening `?catalog=relay-district`, `?catalog=contact-deck` or `?catalog=switchyard` shows that selection. `?catalog=kinetic-city` points to the built-in city when the build includes its streaming source. A public link carries the catalog ID alone.
 
-**Download exact layout** saves the active `glb-world:` seed as text. To replay it on another device, open the same GLB and paste the text into World seed. **Download flight diagnostic** saves a local observation of the latest flight in that imported world. It records up to two minutes at 15 samples per second. A saved-layout reopen is reported only when it happened. The `player-observation` outcome distinguishes ordinary play from the controlled benchmark. Both downloads work with session-only imports.
+**Download exact layout** saves the active `glb-world:` seed as text. To replay it on another device, open the same GLB and paste the text into World seed. **Download player flight diagnostic** saves a local observation of the latest flight in that imported world. It records up to two minutes at 15 samples per second. A saved-layout reopen is reported only when it happened. The `player-observation` outcome distinguishes ordinary play from the controlled benchmark. Both downloads work with session-only imports.
 
 The [Topogenesis benchmark](../acceptance/joint-flight/topogenesis) records controlled v2 reports, original baselines, generator revisions and holdout seeds.
 

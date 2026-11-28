@@ -18,7 +18,7 @@ export const zh = {
   "partner.unavailable": "无法从所选来源下载此 GLB。",
   "partner.wrongLength": "GLB 大小与目录记录不符。",
   "partner.layout": "下载精确布局",
-  "partner.diagnostic": "下载飞行诊断",
+  "partner.diagnostic": "下载玩家试飞诊断",
   "actionRouter.flightPaused": "飞行已暂停",
   "cameraAnchorSettings.cockpitPositionSavedForThisAircraft": "已保存当前机型的座舱位置。",
   "cameraAnchorSettings.enterAValueFrom8To8": "每轴需填入 −8 至 8 米。",

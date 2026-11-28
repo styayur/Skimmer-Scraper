@@ -16,7 +16,7 @@ export const en = {
   "partner.unavailable": "The selected source could not supply this GLB.",
   "partner.wrongLength": "The GLB size differs from the catalog entry.",
   "partner.layout": "Download exact layout",
-  "partner.diagnostic": "Download flight diagnostic",
+  "partner.diagnostic": "Download player flight diagnostic",
   "actionRouter.flightPaused": "Flight paused",
   "cameraAnchorSettings.cockpitPositionSavedForThisAircraft": "Cockpit position saved for this aircraft.",
   "cameraAnchorSettings.enterAValueFrom8To8": "Enter a value from −8 to 8 metres on each axis.",

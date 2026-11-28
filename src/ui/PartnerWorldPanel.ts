@@ -4,8 +4,6 @@ import { partnerFromSearch, partnerWorlds, type PartnerWorld } from '../platform
 /** A catalog link selects a source. Only an explicit import click can fetch its bytes. */
 export function bindPartnerWorlds(load: (world: PartnerWorld) => Promise<void>): boolean {
   const panel = document.querySelector<HTMLDetailsElement>('#partner-world-catalog')!;
-  // Desktop has its own pack manager and network policy. Its local GLB importer is always available.
-  if ('__TAURI__' in window) { panel.hidden = true; return false; }
   const select = panel.querySelector('select')!;
   const confirm = panel.querySelector('button')!;
   const link = panel.querySelector<HTMLAnchorElement>('#partner-world-inspect')!;

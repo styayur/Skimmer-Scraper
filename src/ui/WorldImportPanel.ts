@@ -109,7 +109,7 @@ export class WorldImportPanel {
       if (!active || !seed) return;
       const report = hooks.recording.report(active.world.manifest, active.world.getDefaultSpawn().position, seed, this.reopened);
       if (report) download(new Blob([JSON.stringify(report) + '\n'], { type: 'application/json' }),
-        active.world.manifest.id + '-flight.json');
+        active.world.manifest.id + '-player-flight.json');
     });
     this.seedInput.maxLength = MAX_IMPORTED_SEED_LENGTH;
     const drop = get('drop');
