@@ -6,10 +6,9 @@ import { createRequire } from 'node:module';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 
-const [base, source, output, seedText = '17'] = process.argv.slice(2);
+const [base, source, output] = process.argv.slice(2);
 if (!base || !source || !output) throw Error('Pass a production preview URL, its checkout, and a new output directory.');
-const seed = Number(seedText);
-assert.ok([11, 17].includes(seed), 'Recorded routes use seed 11 (S-curve) or 17 (helix).');
+const seed = 11;
 const { chromium } = createRequire(path.resolve(source, 'package.json'))('@playwright/test');
 const build = await (await fetch(new URL('build-info.json', base))).json();
 assert.equal(build.dirty, false);
@@ -71,19 +70,20 @@ try {
   }
   execFileSync(process.env.FFMPEG || 'ffmpeg', [
     '-hide_banner', '-loglevel', 'error', '-framerate', String(fps), '-i', path.join(directory, '%04d.jpg'),
-    '-c:v', 'libx264', '-threads', '2', '-preset', 'fast', '-crf', '21', '-pix_fmt', 'yuv420p', '-movflags', '+faststart', '-an', '-n', video,
+    '-c:v', 'libx264', '-threads', '2', '-preset', 'fast', '-crf', '23', '-pix_fmt', 'yuv420p', '-movflags', '+faststart', '-an', '-n', video,
   ]);
   const clip = await readFile(video);
   const report = {build, environment, world:url.search, viewport, fps, frames, seconds:frames/fps, byteLength:clip.length,
     sha256:createHash('sha256').update(clip).digest('hex'), codec:'H.264, yuv420p, MP4, silent',
-    method:'Headless Chromium WebGL2 on SwiftShader. The normal Start button enters Free Flight from the built-in spawn. Keyboard events drive the aircraft. Playwright advances the browser clock by 50 ms per captured gameplay frame. The debug bridge is read only. This visual recording measures no hardware performance.',
+    method:'Headless Chromium WebGL2 on SwiftShader. The normal Start button enters Free Flight from the built-in spawn. Keyboard events drive the aircraft. Playwright advances the browser clock by 50 ms per captured gameplay frame. The recorder reads the debug snapshot for telemetry.',
     input, samples, errors};
   await writeFile(path.join(output, 'kinetic-free-flight.json'), JSON.stringify(report, null, 2) + '\n', {flag:'wx'});
   console.log(JSON.stringify({seed, samples, bytes:clip.length}));
   assert.deepEqual(errors, []);
-  assert.ok(samples.every(s => s.mode === 'running' && !s.debugInput && s.seed === seed && s.shieldImpacts === 0));
+  assert.ok(samples.every(s => s.mode === 'running' && s.rules.mode === 'free' && s.glide === 'FLIGHT'
+    && s.wingmates === 3 && !s.debugInput && !s.buffered && s.seed === seed && s.shieldImpacts === 0));
   assert.ok(samples.some(s => s.layout === 'junction'));
-  assert.ok(samples.some(s => s.layout === (seed === 17 ? 'helix' : 's-curve')));
+  assert.ok(samples.some(s => s.layout === 's-curve'));
   assert.ok(samples[0].position.z - samples.at(-1).position.z > 320);
 } finally {
   await browser.close();
