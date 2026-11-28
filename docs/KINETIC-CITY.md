@@ -37,7 +37,7 @@ Stable revisits reconstruct the same vertex and index buffers. Ephemeral retirem
 
 ## Dragonspine
 
-Selecting Dragonspine from the World panel enables `spans=1`. Historical Dragonspine links keep their original terrain and record scope. The new variant has its own score scope and places the same sky-arch profile across the rock banks at `z=1760*row−90` in each canyon. Adjacent chunks clip the fine mesh and coarse collider to their respective boundaries. The crownback, islands, vaults and terrain detail packs retain their existing streaming paths.
+Entering Dragonspine from another theme in the World panel enables `spans=1`. Re-entering an existing Dragonspine, Ascendant or Dragon link preserves its terrain variant and record scope. The new variant has its own score scope and places the same sky-arch profile across the rock banks at `z=1760*row−90` in each canyon. Adjacent chunks clip the fine mesh and coarse collider to their respective boundaries. The crownback, islands, vaults and terrain detail packs retain their existing streaming paths.
 
 ## Reproduction
 

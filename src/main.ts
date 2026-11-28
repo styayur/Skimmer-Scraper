@@ -439,7 +439,9 @@ const applyWorldSettings = (
     generatorVersion: upgrade || passages || theme !== 'city' ? GENERATOR_VERSION : baseWorldSettings.generatorVersion,
   });
   if (theme === 'dragonspine' || theme === 'worldforge' || theme === 'kinetic-city') next.theme = theme;
-  if (theme === 'dragonspine') next.dragonSpans = true;
+  if (theme === 'dragonspine' && (baseWorldSettings.theme !== theme || baseWorldSettings.dragonSpans)) {
+    next.dragonSpans = true;
+  }
   if (passages) next.generatedPassages = true;
   worldPanel.clearVisit();
   window.location.assign(buildWorldShareUrl(window.location.href, next));
