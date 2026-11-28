@@ -7,6 +7,8 @@ player-owned local models retain their original terms.
 
 ## Project code and generated art
 
+The partner catalog references V2Wpro's original MIT worlds. The deterministic browser import test includes the 18,928-byte Relay District from V2Wpro v0.3.0. Copyright © 2026 V2Wpro contributors. [Source GLB](https://github.com/styayur/V2Wpro/blob/7eb42fd3db2693989db7d3626101ed1b6e92e533/examples/district.glb) · [MIT license](licenses/V2Wpro-MIT.txt).
+
 The Blender district, loft profiles, materials, GLB, procedural tower library and
 inverted city geometry introduced for v0.7 are original work licensed under
 AGPL-3.0-only. Blender 5.2.4 generated the reference scene and Cycles renders. The three bridge spans share an original metre-scaled Geometry Nodes group.

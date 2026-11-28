@@ -1,0 +1,48 @@
+{
+  "format": "skimmer-flight-matrix-1",
+  "captureTick": 4,
+  "sampleMs": 64,
+  "postReleaseTicks": 16,
+  "controller": "991138b8c67c188bd47731d6c193142750225818",
+  "historicalProducer": "7eb42fd3db2693989db7d3626101ed1b6e92e533",
+  "producerRevisions": ["43cbe696592ce7bbab17140cbb8c6fc6a07478e9", "382a5c201b246849d5023a9eabdac5eef13e4d02", "6522b42c9a020c96712a523e3492d8fc2377340a"],
+  "baselines": [
+    ["lattice", 8131, "cruise", 48, "may-reject"],
+    ["lattice", 8131, "boost", 48, "may-reject"],
+    ["contact-deck", 8131, "cruise", 48, "must-succeed"],
+    ["contact-deck", 8131, "boost", 48, "may-reject"],
+    ["relay-district", 8131, "cruise", 74, "must-succeed"]
+  ],
+  "columns": ["module", "seed", "profile", "releaseTick", "disposition", "approach", "wingmates"],
+  "pairedSeeds": [8131, 8132],
+  "pairedProbes": [
+    ["s-curve", 8131, "cruise", 48, "may-reject", "entry", 3],
+    ["sky-arch", 8132, "boost", 48, "may-reject", "entry", 3],
+    ["helix", 8131, "cruise", 56, "may-reject", "entry", 3],
+    ["bowl", 8132, "boost", 36, "may-reject", "entry", 3]
+  ],
+  "development": [
+    ["ribbon-bridge", 8131, "cruise", 48, "must-succeed", "entry", 3],
+    ["ribbon-bridge", 8132, "boost", 48, "must-succeed", "entry", 3],
+    ["s-curve", 10243, "cruise", 36, "may-reject", "entry", 1],
+    ["helix", 18731, "boost", 56, "may-reject", "entry", 2],
+    ["sky-arch", 25057, "cruise", 48, "may-reject", "entry", 0],
+    ["bowl", 31607, "boost", 36, "may-reject", "entry", 3],
+    ["tunnel", 40751, "cruise", 48, "may-reject", "entry", 1],
+    ["ribbon-bridge", 48947, "cruise", 48, "must-reject", "open-air", 3],
+    ["s-curve", 55001, "boost", 36, "may-reject", "yaw", 2],
+    ["helix", 62819, "cruise", 56, "may-reject", "entry", 0],
+    ["sky-arch", 71023, "boost", 48, "may-reject", "yaw", 1],
+    ["bowl", 79757, "cruise", 48, "may-reject", "entry", 3],
+    ["tunnel", 87337, "boost", 48, "must-reject", "open-air", 1],
+    ["ribbon-bridge", 95603, "cruise", 36, "must-succeed", "entry", 2]
+  ],
+  "holdout": [
+    ["ribbon-bridge", 104729, "boost", 48, "must-succeed", "entry", 3],
+    ["s-curve", 112909, "cruise", 36, "may-reject", "yaw", 0],
+    ["helix", 120011, "cruise", 56, "may-reject", "entry", 1],
+    ["sky-arch", 131071, "boost", 48, "may-reject", "entry", 2],
+    ["bowl", 140053, "cruise", 48, "may-reject", "entry", 3],
+    ["tunnel", 150001, "boost", 48, "must-reject", "open-air", 2]
+  ]
+}
