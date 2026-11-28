@@ -3,7 +3,7 @@ import { writeFile } from 'node:fs/promises';
 import path from 'node:path';
 
 /** Real WebView2, its installed CSP and the session-only stock importer. */
-export async function checkDesktopCatalog(page, output, runtime) {
+export async function checkDesktopCatalog(page, output, runtime, expected) {
   const requests = [];
   const errors = [];
   page.on('request', request => {
@@ -19,6 +19,10 @@ export async function checkDesktopCatalog(page, output, runtime) {
   assert.equal(await page.locator('#partner-world-select').inputValue(), 'switchyard');
   const [source, sha256] = (await page.locator('#partner-world-pin').textContent()).split(' · SHA-256 ');
   assert.equal(new URL(source).origin, 'https://raw.githubusercontent.com');
+  if (expected) {
+    assert.equal(source, expected.source);
+    assert.equal(sha256, expected.sha256);
+  }
   assert.deepEqual(requests, []);
   await page.locator('#partner-world-import').click();
   await page.locator('#local-world-config').waitFor({ timeout: 60000 });
@@ -30,8 +34,10 @@ export async function checkDesktopCatalog(page, output, runtime) {
     return { id: manifest.id, bytes: manifest.bytes, collisionTriangles: manifest.collisionTriangles, spawn };
   });
   assert.equal(world.id, sha256);
+  if (expected) assert.equal(world.bytes, expected.bytes);
   assert.deepEqual(requests, [{ method: 'GET', url: source }]);
   assert.deepEqual(errors, []);
-  await writeFile(path.join(output, 'desktop-partner-catalog.json'),
-    JSON.stringify({ runtime, world, beforeConfirmation: 0, requests, errors }, null, 2) + '\n');
+  const receipt = { runtime, world, beforeConfirmation: 0, requests, errors };
+  await writeFile(path.join(output, 'desktop-partner-catalog.json'), JSON.stringify(receipt, null, 2) + '\n');
+  return receipt;
 }

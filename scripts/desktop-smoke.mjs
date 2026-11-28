@@ -73,6 +73,9 @@ try {
   if (libraryCheck === 'partner-catalog') {
     const { checkDesktopCatalog } = await import('./desktop-partner-check.mjs');
     await checkDesktopCatalog(page, output, runtime);
+  } else if (libraryCheck === 'joint-flight') {
+    const { checkJointFlight } = await import('./desktop-joint-flight.mjs');
+    await checkJointFlight(page, output, runtime);
   } else if (libraryCheck === 'product') {
     const { checkDesktopProduct } = await import('./desktop-product-check.mjs');
     await checkDesktopProduct(page, output, runtime);

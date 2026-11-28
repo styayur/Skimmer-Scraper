@@ -1,0 +1,119 @@
+name: Installed Windows Switchyard handoff
+
+on:
+  push:
+    branches: [codex/flight-diagnostic-v2]
+    paths: [acceptance/joint-flight/topogenesis/windows-final/request.json]
+
+permissions:
+  actions: read
+  contents: read
+  pull-requests: read
+
+jobs:
+  switchyard:
+    runs-on: windows-2022
+    timeout-minutes: 15
+    env:
+      REQUEST: acceptance/joint-flight/topogenesis/windows-final/request.json
+      EVIDENCE: windows-joint-evidence
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - name: Verify the public-main run and merged release
+        id: official
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          $request = Get-Content -Raw -LiteralPath $env:REQUEST | ConvertFrom-Json
+          if ($request.buildRun -cnotmatch '^[0-9]+$' -or $request.source -cnotmatch '^[0-9a-f]{40}$' -or
+              $request.installedExeSha256 -cnotmatch '^[0-9a-f]{64}$' -or $request.installerSha256 -cnotmatch '^[0-9a-f]{64}$') { throw 'Invalid identity in request' }
+          $api = 'repos/styayur/Skimmer-Scraper'
+          $run = gh api "$api/actions/runs/$($request.buildRun)" | ConvertFrom-Json
+          $release = gh api "$api/pulls/92" | ConvertFrom-Json
+          if (!$release.merged_at -or $release.base.ref -cne 'main' -or $run.head_branch -cne 'main' -or
+              $run.head_repository.full_name -cne 'styayur/Skimmer-Scraper' -or $run.event -cne 'workflow_dispatch' -or
+              $run.path -cne '.github/workflows/windows-desktop.yml' -or $run.conclusion -cne 'success' -or
+              $run.head_sha -cne $request.source -or [datetime]$run.created_at -lt [datetime]$release.merged_at) { throw 'Expected a successful public-main Windows build after the merge' }
+          $comparison = gh api "$api/compare/$($release.merge_commit_sha)...$($request.source)" --jq '.status'
+          if ($comparison -cnotin 'identical','ahead') { throw 'The official build must include the merged release' }
+          New-Item -ItemType Directory -Path $env:EVIDENCE | Out-Null
+          Copy-Item -LiteralPath $env:REQUEST -Destination "$env:EVIDENCE/request.json"
+          @{ buildRun = $run.html_url; source = $run.head_sha; branch = $run.head_branch; event = $run.event;
+             buildCreated = $run.created_at; buildFinished = $run.updated_at; releaseMerge = $release.merge_commit_sha;
+             releaseMerged = $release.merged_at; procedure = $env:GITHUB_SHA; handoffRun = $env:GITHUB_RUN_ID;
+             runnerImage = $env:ImageVersion } | ConvertTo-Json | Set-Content "$env:EVIDENCE/run.json"
+          "source=$($request.source)" >> $env:GITHUB_OUTPUT
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          ref: ${{ steps.official.outputs.source }}
+          path: official-source
+          sparse-checkout: |
+            scripts/windows-lifecycle
+            src/world/kinetic
+            public/contracts
+          persist-credentials: false
+      - name: Obtain the original installer and validate its published artifact and both executable hashes
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          $request = Get-Content -Raw -LiteralPath $env:REQUEST | ConvertFrom-Json
+          python official-source/scripts/windows-lifecycle/reuse-package.py $request.buildRun $request.source 0.11.0 candidate-package
+          if ($LASTEXITCODE) { throw 'Official package verification failed' }
+          $identity = Get-Content candidate-package/identity.json -Raw | ConvertFrom-Json
+          if ($identity.installerSha256 -cne $request.installerSha256 -or $identity.exeSha256 -cne $request.installedExeSha256) { throw 'The request differs from the official installed hashes' }
+          Copy-Item candidate-package/identity.json "$env:EVIDENCE/package.json"
+          $producer = Get-Content official-source/src/world/kinetic/upstream.json -Raw | ConvertFrom-Json
+          if ($producer.version -cne '0.4.0' -or $producer.sourceCommit -cne '241bd0eec72439d77a43e8d289cc29c714bf0e4e') { throw 'Unexpected producer pin' }
+          $manifest = 'official-source/public/contracts/v2wpro-0.4.0.json'
+          $digest = python -c "import hashlib,subprocess; print(hashlib.sha256(subprocess.check_output(['git','-C','official-source','show','HEAD:public/contracts/v2wpro-0.4.0.json'])).hexdigest())"
+          if ($digest -cne $producer.manifestSha256) { throw 'Producer manifest digest mismatch' }
+          $world = (Get-Content $manifest -Raw | ConvertFrom-Json).files | Where-Object path -CEQ 'examples/switchyard.glb'
+          if ($world.bytes -ne 326792 -or $world.sha256 -cne '7227e0cfe7d9c4051ea509e298028c7ae7eece2cde0e1d54b324f7f09197a348') { throw 'Unexpected producer GLB' }
+          @{ producer = $producer; world = $world } | ConvertTo-Json -Depth 4 | Set-Content "$env:EVIDENCE/contract.json"
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - name: Install the identified NSIS package and fly its WebView2 client
+        run: |
+          $identity = Get-Content candidate-package/identity.json -Raw | ConvertFrom-Json
+          $installer = Join-Path candidate-package $identity.installer
+          $install = Join-Path $env:RUNNER_TEMP 'SwitchyardInstalled'
+          $process = Start-Process -FilePath $installer -ArgumentList '/S',"/D=$install" -Wait -PassThru -WindowStyle Hidden
+          if ($process.ExitCode -ne 0) { throw "NSIS returned $($process.ExitCode)" }
+          $client = Join-Path $install 'skimmer-scraper.exe'
+          $hash = (Get-FileHash -LiteralPath $client).Hash.ToLowerInvariant()
+          if ($hash -cne $identity.exeSha256) { throw 'Newly installed executable differs from the public-main receipt' }
+          @{ installedExeSha256 = $hash; installedBytes = (Get-Item -LiteralPath $client).Length;
+             installerSha256 = (Get-FileHash -LiteralPath $installer).Hash.ToLowerInvariant();
+             startedUtc = [datetime]::UtcNow.ToString('o') } | ConvertTo-Json | Set-Content "$env:EVIDENCE/installed.json"
+          $env:SKIMMER_QA_SHA = $identity.source
+          node scripts/desktop-smoke.mjs $client $env:EVIDENCE joint-flight
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        if: ${{ !cancelled() && steps.official.outcome == 'success' }}
+        with:
+          repository: styayur/V2Wpro
+          ref: 241bd0eec72439d77a43e8d289cc29c714bf0e4e
+          path: official-producer
+          sparse-checkout: |
+            tools
+            src
+          persist-credentials: false
+      - name: Read both emitted observations with the official v0.4 reader
+        if: ${{ !cancelled() && steps.official.outcome == 'success' }}
+        run: |
+          foreach ($opening in 'fresh','reopened') {
+            $report = "$env:EVIDENCE/$opening-observation.json"
+            if (!(Test-Path -LiteralPath $report)) { throw "Missing observation $opening" }
+            node official-producer/tools/read-flight-diagnostic.js "$env:EVIDENCE/switchyard.glb" $report > "$env:EVIDENCE/$opening-producer.json"
+            if ($LASTEXITCODE) { throw "Producer rejected $opening" }
+          }
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        if: always()
+        with:
+          name: windows-switchyard-${{ github.run_id }}-${{ github.run_attempt }}
+          path: windows-joint-evidence/
+          if-no-files-found: warn
