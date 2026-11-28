@@ -38,7 +38,9 @@ def collect(directory):
 a, ga = collect(args.stock)
 b, gb = collect(args.candidate)
 shared = sorted(ga.keys() & gb.keys())
-assert len(shared) == 293
+expected_groups = {"web": 293, "windows": 301}
+assert a["platform"] == b["platform"]
+assert len(shared) == expected_groups[a["platform"]]
 ratios, repeated, same_pose, pose_delta, same_epoch_pose, raw_diffs = [], [], [], [], [], []
 by_seed, self_split = defaultdict(list), {}
 groups = []
