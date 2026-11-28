@@ -48,6 +48,33 @@ function crossingCounts(start,total,transitions) {
 
 const cruise={x:0,y:390,z:120};
 
+export function controlledSchedule(seconds) {
+  const third = Math.floor(seconds / 3);
+  const inversions = [third, 2 * third];
+  const circuits = [];
+  for (let t = 12; t < seconds - 1; t += 12) if (!inversions.includes(t)) circuits.push(t);
+  return { inversions, circuits, seeds: [334458, 479568308, 501763084] };
+}
+
+export function cpuSummary(samples) {
+  const values = samples.map(sample => sample.busyPercent).sort((a,b) => a-b);
+  assert(values.length && values.every(value => Number.isFinite(value) && value >= 0 && value <= 100));
+  return { count: values.length, medianPercent: values[Math.ceil(values.length*0.5)-1], p95Percent: values[Math.ceil(values.length*0.95)-1] };
+}
+
+export function verifyKineticBudget(samples) {
+  const measured = samples.filter(row => Number.isInteger(row.loadedChunks) && Number.isInteger(row.maxLoadedChunks));
+  assert(measured.length > 0 && measured.every(row => row.loadedChunks <= row.maxLoadedChunks),
+    'Kinetic City exceeded its resident chunk budget');
+  assert(samples.every(row => Number.isInteger(row.loadedChunks) || row.phase !== 'ASCENT' || row.buffering),
+    'Missing active city resource counters');
+  assert(measured.some(row => row.retiredTotal > 0), 'The flight did not retire streamed chunks');
+  assert(measured.every(row => row.missionRecords <= 24 + row.deployed && row.runningMissionTargets <= row.deployed && row.staleMissionTargets === 0),
+    'Mission records or active targets exceeded the team and world lifetime bounds');
+  assert(measured.every(row => row.queuedSpeech <= 3 && row.playbackEvents <= 32),
+    'Voice queue or playback history exceeded its shipping limit');
+}
+
 export async function prepareFlight(page,output,world) {
   await page.bringToFront();
   if(world==='kinetic-city'){
@@ -75,7 +102,7 @@ export async function prepareFlight(page,output,world) {
   await page.waitForFunction(()=>window.__SKIMMER_SCRAPER__.snapshot().companions.filter(a=>a.deployed&&!a.uncovered).length===3);
 }
 
-export async function foregroundFlight(page,seconds,output,world) {
+export async function foregroundFlight(page,seconds,output,world,controlled=false) {
   await page.evaluate(world=>{
     const f=window.__qaFlight, g=window.__SKIMMER_SCRAPER__, start=g.snapshot();
     if(start.rules.mode!=='free' || !start.rules.shield || start.companionSettings.count!==3 || start.debugInput)
@@ -114,8 +141,12 @@ export async function foregroundFlight(page,seconds,output,world) {
           gpuMs:s.render.gpuMs,heap:performance.memory?.usedJSHeapSize});
         if(world==='kinetic-city' && s.streaming){
           const {generatedTotal,retiredTotal,rebaseCount}=s.streaming;
+          const missions=s.cooperation.missions;
+          const targets=missions.filter(mission=>mission.outcome==='running' && mission.targetId!==null);
           Object.assign(f.samples.at(-1),{generatedTotal,retiredTotal,rebaseCount,
-            missionRecords:s.cooperation.missions.length,queuedSpeech:s.voice.queuedSpeech,
+            missionRecords:missions.length,runningMissionTargets:targets.length,
+            staleMissionTargets:targets.filter(mission=>mission.epoch!==s.cooperation.epoch).length,
+            queuedSpeech:s.voice.queuedSpeech,
             playbackEvents:s.voice.playbackEvents.length});
         }
       }
@@ -124,6 +155,8 @@ export async function foregroundFlight(page,seconds,output,world) {
     f.raf=requestAnimationFrame(frame);
   },world);
   const crossings=[],checkpointSamples=[];
+  const schedule=controlled ? controlledSchedule(seconds) : null;
+  const circuits=[];
   let attempt=null;
   const checkpoint=async(reason=null)=>{
     const snapshot=await page.evaluate(offset=>{
@@ -135,7 +168,7 @@ export async function foregroundFlight(page,seconds,output,world) {
     checkpointSamples.push(...snapshot.samples);
     const file=path.join(output,'flight-partial.json');
     await writeFile(file+'.tmp',JSON.stringify({...snapshot,samples:checkpointSamples,
-      status:reason?'failed':'in-progress',reason,scriptedCrossings:crossings.length,transitions:crossings,attempt},null,2));
+      status:reason?'failed':'in-progress',reason,scriptedCrossings:crossings.length,transitions:crossings,circuits,attempt},null,2));
     await rename(file+'.tmp',file);
   };
   const hold=async()=>{if(world==='city')await page.keyboard.down('q');await page.keyboard.down('Shift');};
@@ -149,12 +182,14 @@ export async function foregroundFlight(page,seconds,output,world) {
       const {row,error}=await page.evaluate(()=>({row:window.__qaFlight.samples.at(-1),error:window.__qaFlight.error}));
       assert(!error,error);
       if(!row)continue;
+      if(controlled)assert(row.crossings<=crossings.length,'Unscheduled inversion on the controlled route');
       if(row.wallMs>=nextHeartbeat){
         nextHeartbeat=row.wallMs+15000;
         await writeFile(path.join(output,'progress.json'),JSON.stringify(row,null,2));
         await checkpoint();
       }
-      if(crossings.length<2 && row.flightSeconds>=seconds*(crossings.length+1)/3) {
+      const inversionAt=schedule ? schedule.inversions[crossings.length] : seconds*(crossings.length+1)/3;
+      if(crossings.length<2 && row.flightSeconds>=inversionAt) {
         await release();
         attempt={number:crossings.length+1,stage:'waiting for idle world'};
         // A natural crossing may just have finished. Fly below the rearm height for
@@ -191,6 +226,10 @@ export async function foregroundFlight(page,seconds,output,world) {
         await checkpoint();
         if(world==='city')await pose(page,cruise);
         await hold();
+      } else if(schedule && row.flightSeconds>=schedule.circuits[circuits.length]) {
+        const before=await pose(page,cruise);
+        assert.equal(before.index,crossings.length,'Circuit entered an unscheduled world');
+        circuits.push({scheduled:schedule.circuits[circuits.length],observed:row.flightSeconds,worldIndex:before.index,seed:before.seed});
       }
       if(row.flightSeconds>=seconds && row.wallMs>=seconds*1000 && crossings.length===2 && row.phase==='ASCENT')break;
     }
@@ -219,16 +258,17 @@ export async function foregroundFlight(page,seconds,output,world) {
     assert(result.samples.every(row=>row.music.enabled),'Music preference changed during flight');
     assert(result.samples.filter(row=>row.music.playing && row.music.mediaTime>0).length>result.samples.length/2,'Default music did not play through the flight');
     const counts=crossingCounts(result.startCrossings,result.crossings,crossings);
-    if(world==='kinetic-city'){
-      const measured=result.samples.filter(r=>Number.isInteger(r.loadedChunks)&&Number.isInteger(r.maxLoadedChunks));
-      assert(measured.length>0 && measured.every(r=>r.loadedChunks<=r.maxLoadedChunks),'Kinetic City exceeded its resident chunk budget');
-      assert(result.samples.every(r=>Number.isInteger(r.loadedChunks)||r.phase!=='ASCENT'||r.buffering),'Missing active city resource counters');
-      assert(result.samples.some(r=>r.retiredTotal>0),'The flight did not retire streamed chunks');
+    if(schedule){
+      assert.equal(counts.naturalCrossings,0);
+      assert.deepEqual([result.startSeed,...crossings.map(item=>item.after.seed)],schedule.seeds);
+      assert.deepEqual(circuits.map(item=>item.scheduled),schedule.circuits);
+      assert(circuits.every(item=>item.seed===schedule.seeds[item.worldIndex]));
     }
-    const route=world==='city'?'Sakura city with two scripted Sky Inversions':'Kinetic City boosted traversal with two scripted Sky Inversions';
+    if(world==='kinetic-city')verifyKineticBudget(result.samples);
+    const route=controlled?'Sakura 12-second circuits with two scheduled Sky Inversions':world==='city'?'Sakura city with two scripted Sky Inversions':'Kinetic City boosted traversal with two scripted Sky Inversions';
     return {route,quality:'high',seconds,
       method:'Wall-clock foreground animation frames and shipping fixed steps. Scripted keyboard and repeatable approach poses.',...result,
-      ...counts,transitions:crossings};
+      ...counts,transitions:crossings,controlledRoute:schedule?{schedule,circuits}:undefined};
   } catch(error) {
     await checkpoint(String(error.message)).catch(()=>{});
     throw error;

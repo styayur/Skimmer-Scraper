@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { execFileSync, spawn } from 'node:child_process';
+import { execFile, execFileSync, spawn } from 'node:child_process';
 import { createHash, randomUUID } from 'node:crypto';
 import { once } from 'node:events';
 import { mkdir, mkdtemp, readFile, realpath, rm, writeFile } from 'node:fs/promises';
@@ -7,21 +7,22 @@ import os from 'node:os';
 import path from 'node:path';
 import { createInterface } from 'node:readline';
 import { setTimeout as delay } from 'node:timers/promises';
-import { parseArgs } from 'node:util';
+import { parseArgs, promisify } from 'node:util';
 import { fileURLToPath } from 'node:url';
 import { gzipSync } from 'node:zlib';
 import { chromium } from '@playwright/test';
 import { preview } from 'vite';
-import { foregroundFlight, prepareFlight } from './qualification/flight.mjs';
+import { cpuSummary, foregroundFlight, prepareFlight } from './qualification/flight.mjs';
 import { captureNativeBoot } from './qualification/native-boot.mjs';
 
 const { values: options } = parseArgs({ options: {
   dist: { type: 'string' }, sha: { type: 'string' }, output: { type: 'string' },
   exe: { type: 'string' }, 'exe-sha256': { type: 'string' }, 'native-build-info': { type: 'string' },
-  seconds: { type: 'string', default: '901' }, world: { type: 'string', default: 'city' }, help: { type: 'boolean' },
+  seconds: { type: 'string', default: '901' }, world: { type: 'string', default: 'city' },
+  route: { type: 'string', default: 'reference' }, help: { type: 'boolean' },
 } });
 if (options.help) {
-  console.log('node scripts/qualify-foreground.mjs --dist DIST --sha COMMIT --output NEW_DIRECTORY [--seconds 901] [--world city|kinetic-city] [--exe PORTABLE --exe-sha256 SHA256 [--native-build-info FILE]]');
+  console.log('node scripts/qualify-foreground.mjs --dist DIST --sha COMMIT --output NEW_DIRECTORY [--seconds 901] [--world city|kinetic-city] [--route reference|controlled] [--exe PORTABLE --exe-sha256 SHA256 [--native-build-info FILE]]');
   process.exit(0);
 }
 assert.equal(process.platform, 'win32', 'Windows foreground window ownership is required');
@@ -35,6 +36,9 @@ const dist = await realpath(options.dist);
 const output = path.resolve(options.output);
 const native = !!options.exe;
 assert(['city', 'kinetic-city'].includes(options.world), 'Unknown qualification world');
+assert(['reference','controlled'].includes(options.route), 'Unknown flight route');
+const controlled = options.route === 'controlled';
+assert(!controlled || options.world === 'city', 'Controlled circuits use the original city');
 const helpers = fileURLToPath(new URL('./qualification/', import.meta.url));
 const powerShell = (name, args = [], env = process.env) => execFileSync('powershell.exe',
   ['-NoProfile', '-NonInteractive', '-File', path.join(helpers, name), ...args],
@@ -65,6 +69,7 @@ const size = { width: 1920, height: 1080 };
 const errors = [];
 let server, app, browser, monitor, monitorLines, page;
 const focus = { samples: 0, lost: false };
+const hostCpu = [];
 const started = new Date().toISOString();
 
 async function startClient() {
@@ -176,38 +181,67 @@ async function measure(pid) {
   await prepareFlight(page, output, options.world);
   const marker = native ? 'Skimmer-Scraper' : 'SkimmerQA-' + randomUUID();
   if (!native) await page.evaluate(value => { document.title = value; }, marker);
-  monitor = spawn('python', ['-u', path.join(helpers, 'watch-window.py'), String(pid), marker],
+  await page.bringToFront();
+  monitor = spawn('python', ['-B', '-u', path.join(helpers, 'watch-window.py'), String(pid), marker, ...(controlled ? ['--cpu'] : [])],
     { windowsHide: true, stdio: ['ignore', 'pipe', 'pipe'] });
   let diagnostic = '';
   monitor.stderr.on('data', bytes => { diagnostic = (diagnostic + bytes).slice(-400); });
   monitorLines = createInterface({ input: monitor.stdout });
-  monitorLines.on('line', line => { if (line === 'owned') focus.samples++; });
+  monitorLines.on('line', line => {
+    if (line === 'owned') focus.samples++;
+    if (line.startsWith('cpu ')) hostCpu.push(JSON.parse(line.slice(4)));
+  });
   const stopped = once(monitor, 'exit').then(() => { focus.lost = true; throw Error(diagnostic.trim() || 'Windows foreground observer exited'); });
   await Promise.race([once(monitorLines, 'line'), stopped, delay(60000, null, { ref: false }).then(() => { throw Error('Foreground observer did not start'); })]);
   assert(focus.samples && !focus.lost);
-  const flight = await Promise.race([foregroundFlight(page, seconds, output, options.world), stopped]);
-  assert(monitor.exitCode === null && !focus.lost && focus.samples > 1);
-  return { flight, measuredFocus: { ...focus } };
+  const session = controlled ? await page.context().newCDPSession(page) : undefined;
+  try {
+    const metrics = async () => Object.fromEntries((await session.send('Performance.getMetrics')).metrics.map(m => [m.name,m.value]));
+    const before = session && await session.send('Performance.enable', { timeDomain: 'threadTicks' }).then(metrics).catch(() => null);
+    const flight = await Promise.race([foregroundFlight(page, seconds, output, options.world, controlled), stopped]);
+    assert(monitor.exitCode === null && !focus.lost && focus.samples > 1);
+    if (controlled) {
+      const after = before && await metrics().catch(() => null);
+      const values = {};
+      if (after) for (const key of ['ThreadTime','TaskDuration','ScriptDuration','LayoutDuration','RecalcStyleDuration']) {
+        if (Number.isFinite(before[key]) && Number.isFinite(after[key]) && after[key]>=before[key]) values[key] = after[key]-before[key];
+      }
+      flight.rendererThreadCpu = { timeDomain: 'threadTicks', available: Object.keys(values).length>0, seconds: values };
+    }
+    return { flight, measuredFocus: { ...focus } };
+  } finally { await session?.detach().catch(() => {}); }
 }
 
 try {
+  let idleCpu;
+  if (controlled) {
+    const { stdout } = await promisify(execFile)('python', ['-B', path.join(helpers, 'host_cpu.py'), '60'],
+      { windowsHide: true, timeout: 95000, encoding: 'utf8' });
+    const idle = JSON.parse(stdout);
+    await save('idle-cpu.json', idle);
+    idleCpu = cpuSummary(idle.samples);
+    assert.equal(idleCpu.count, 60);
+    assert(idleCpu.medianPercent <= 15 && idleCpu.p95Percent <= 25, 'Host exceeded the predeclared idle CPU bounds');
+  }
   const client = await startClient();
   const identity = await identify(client);
   await save('identity.json', identity);
   const { flight, measuredFocus } = await measure(client.pid);
   assert.deepEqual(errors, []);
   const { samples, frameIntervalsMs, ...totals } = flight;
-  const packed = gzipSync(JSON.stringify({ samples, frameIntervalsMs }));
+  const measuredCpu = controlled ? cpuSummary(hostCpu) : undefined;
+  if (controlled) assert(hostCpu.at(-1).elapsedSeconds >= flight.wallMs/1000 - 5, 'Host CPU capture ended before the flight');
+  const packed = gzipSync(JSON.stringify({ samples, frameIntervalsMs, hostCpu: controlled ? hostCpu : undefined }));
   await writeFile(path.join(output, 'samples.json.gz'), packed);
   const resources = {};
   for (const name of ['loadedChunks','activeChunks','maxLoadedChunks','bvh','dynamic','collisionTriangles','geometries','textures','renderObjects',
     'residentGeometry','triangles','calls','gpuMs','heap','disposedGeometry','generatedTotal','retiredTotal','rebaseCount',
-    'missionRecords','queuedSpeech','playbackEvents']) {
+    'missionRecords','runningMissionTargets','staleMissionTargets','queuedSpeech','playbackEvents']) {
     const values = samples.map(row => row[name]).filter(Number.isFinite);
     if (values.length) resources[name] = { min: Math.min(...values), max: Math.max(...values), last: values.at(-1) };
   }
   const report = { sourceCommit: options.sha, world: options.world, platform: native ? 'windows' : 'web', started, finished: new Date().toISOString(),
-    status: 'passed', enduranceQualified: seconds >= 901, identity, focus: measuredFocus, ...totals, resources, sampleCount: samples.length,
+    status: 'passed', enduranceQualified: seconds >= 901, identity, focus: measuredFocus, ...totals, resources, idleCpu, measuredCpu, sampleCount: samples.length,
     musicPlayingSamples: samples.filter(row => row.music.playing).length, rawSha256: hash(packed) };
   await save('result.json', report);
   await page.screenshot({ path: path.join(output, 'flight.png'), timeout: 30000 });

@@ -1,0 +1,263 @@
+{
+  "sourceCommit": "0a5272b36352a1300253080bd38cfb5d520c7e0d",
+  "world": "city",
+  "platform": "web",
+  "started": "2026-11-28T05:26:16.748Z",
+  "finished": "2026-11-28T05:42:32.024Z",
+  "status": "passed",
+  "enduranceQualified": true,
+  "identity": {
+    "build": {
+      "version": "0.11.0",
+      "sourceCommit": "0a5272b36352a1300253080bd38cfb5d520c7e0d",
+      "sourceCommitTime": "2026-11-28T13:07:00+08:00",
+      "dirty": false,
+      "sourceUrl": "https://github.com/styayur/Skimmer-Scraper/tree/0a5272b36352a1300253080bd38cfb5d520c7e0d",
+      "toolchain": {
+        "node": "v26.7.0",
+        "platform": "win32",
+        "architecture": "x64"
+      }
+    },
+    "renderer": "ANGLE (AMD, AMD Radeon 780M Graphics (0x00001900) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/158.0.0.0 Safari/537.36 Edg/158.0.0.0",
+    "viewport": [
+      1920,
+      1080
+    ],
+    "dpr": 1,
+    "buffer": [
+      1920,
+      1080
+    ],
+    "language": "en-US",
+    "sourceUrl": "https://github.com/styayur/Skimmer-Scraper/tree/0a5272b36352a1300253080bd38cfb5d520c7e0d",
+    "entry": "assets/index-Co53ToFO.js",
+    "entrySha256": "e5993c151442ba79878303908d507e016ea05a1908895891f1bab943583c15b9",
+    "profileVerified": true
+  },
+  "focus": {
+    "samples": 8603,
+    "lost": false
+  },
+  "route": "Sakura city with two scripted Sky Inversions",
+  "quality": "high",
+  "seconds": 901,
+  "method": "Wall-clock foreground animation frames and shipping fixed steps. Scripted keyboard and repeatable approach poses.",
+  "settings": {
+    "mode": "free",
+    "shield": true,
+    "companions": 3,
+    "camera": "chase",
+    "aircraft": "procedural",
+    "worldMode": "stable",
+    "preset": "city",
+    "generator": 4,
+    "language": "en-US",
+    "musicEnabled": true,
+    "viewport": [
+      1920,
+      1080
+    ],
+    "buffer": [
+      1920,
+      1080
+    ],
+    "dpr": 1
+  },
+  "startSeed": 334458,
+  "startCrossings": 0,
+  "flightSeconds": 902.1166666660074,
+  "wallMs": 960602,
+  "frames": 82796,
+  "meanFps": 86.19548080662541,
+  "frameMs": {
+    "p50": 8.400000000023283,
+    "p95": 17,
+    "p99": 25.20000000001164,
+    "worst": 116.60000000009313
+  },
+  "bufferEntries": 25,
+  "bufferMs": 3129.1999999284744,
+  "finalAgents": [
+    {
+      "id": 1,
+      "deployed": true,
+      "uncovered": false
+    },
+    {
+      "id": 2,
+      "deployed": true,
+      "uncovered": false
+    },
+    {
+      "id": 3,
+      "deployed": true,
+      "uncovered": false
+    }
+  ],
+  "finalWorldIndex": 15,
+  "finalPhase": "ASCENT",
+  "crossings": 15,
+  "error": null,
+  "scriptedCrossings": 2,
+  "naturalCrossings": 13,
+  "transitions": [
+    {
+      "before": {
+        "seed": 334458,
+        "index": 0,
+        "crossings": 0,
+        "epoch": 2,
+        "charges": 2,
+        "runTime": 305.4999999998865,
+        "phase": "ASCENT"
+      },
+      "after": {
+        "seed": 479568308,
+        "index": 1,
+        "crossings": 1,
+        "epoch": 3,
+        "charges": 2,
+        "phase": "ASCENT",
+        "release": {
+          "seed": 334458,
+          "bvhBefore": 33,
+          "bvhAfter": 0,
+          "dynamicBvhBefore": 8,
+          "dynamicBvhAfter": 0,
+          "rootChildrenAfter": 0,
+          "disposedGeometryCount": 21126
+        },
+        "deployed": 3,
+        "covered": 3,
+        "phases": [
+          "THRESHOLD",
+          "INVERSION",
+          "WORLD_SWAP",
+          "DIVE",
+          "RECOVERY",
+          "ASCENT"
+        ]
+      }
+    },
+    {
+      "before": {
+        "seed": 1486642781,
+        "index": 14,
+        "crossings": 14,
+        "epoch": 16,
+        "charges": 2,
+        "runTime": 605.2333333329473,
+        "phase": "ASCENT"
+      },
+      "after": {
+        "seed": 1216447423,
+        "index": 15,
+        "crossings": 15,
+        "epoch": 17,
+        "charges": 2,
+        "phase": "ASCENT",
+        "release": {
+          "seed": 1486642781,
+          "bvhBefore": 33,
+          "bvhAfter": 0,
+          "dynamicBvhBefore": 8,
+          "dynamicBvhAfter": 0,
+          "rootChildrenAfter": 0,
+          "disposedGeometryCount": 2266
+        },
+        "deployed": 3,
+        "covered": 3,
+        "phases": [
+          "THRESHOLD",
+          "INVERSION",
+          "WORLD_SWAP",
+          "DIVE",
+          "RECOVERY",
+          "ASCENT"
+        ]
+      }
+    }
+  ],
+  "resources": {
+    "loadedChunks": {
+      "min": 6,
+      "max": 36,
+      "last": 36
+    },
+    "activeChunks": {
+      "min": 6,
+      "max": 36,
+      "last": 36
+    },
+    "maxLoadedChunks": {
+      "min": 41,
+      "max": 41,
+      "last": 41
+    },
+    "bvh": {
+      "min": 6,
+      "max": 36,
+      "last": 36
+    },
+    "dynamic": {
+      "min": 8,
+      "max": 8,
+      "last": 8
+    },
+    "collisionTriangles": {
+      "min": 27148,
+      "max": 227412,
+      "last": 203980
+    },
+    "geometries": {
+      "min": 23,
+      "max": 513,
+      "last": 467
+    },
+    "textures": {
+      "min": 19,
+      "max": 25,
+      "last": 24
+    },
+    "renderObjects": {
+      "min": 74,
+      "max": 500,
+      "last": 466
+    },
+    "residentGeometry": {
+      "min": 5867208,
+      "max": 48195984,
+      "last": 43424136
+    },
+    "triangles": {
+      "min": 46512,
+      "max": 559580,
+      "last": 492772
+    },
+    "calls": {
+      "min": 71,
+      "max": 676,
+      "last": 546
+    },
+    "gpuMs": {
+      "min": 3.71848,
+      "max": 104.08089,
+      "last": 6.9302
+    },
+    "heap": {
+      "min": 40805910,
+      "max": 166832689,
+      "last": 80118802
+    },
+    "disposedGeometry": {
+      "min": 0,
+      "max": 20682,
+      "last": 19136
+    }
+  },
+  "sampleCount": 955,
+  "musicPlayingSamples": 954,
+  "rawSha256": "2072ebe3a4d19e75aaae9099e264d7f60992ae42163035877742c52c332b5cc8"
+}
