@@ -1,0 +1,31 @@
+name: Stage the paired performance candidate
+on:
+  push:
+    branches: [codex/kinetic-hud-evidence]
+    paths: ['.github/workflows/prepare-kinetic-perf-probe.yml']
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: 33c316263d7bb4e1ed54902bcfc83f4bfec452c1
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24.22.3
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - name: Verify the clean production identity
+        run: |
+          jq -e '.sourceCommit == "33c316263d7bb4e1ed54902bcfc83f4bfec452c1" and .dirty == false and .toolchain.node == "v24.22.3"' dist/build-info.json
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: paired-probe-web-33c316263d7bb4e1ed54902bcfc83f4bfec452c1
+          path: dist/
+          include-hidden-files: true
+          if-no-files-found: error
