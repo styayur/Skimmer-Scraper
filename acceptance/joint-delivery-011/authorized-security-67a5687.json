@@ -1,0 +1,54 @@
+{
+  "sourceCommit": "67a568705cd0cabe18d467f465ae745e784aa245",
+  "readAt": "2026-11-28T11:57:17.823772+00:00",
+  "workflow": "https://github.com/styayur/Skimmer-Scraper/actions/runs/46141241483",
+  "jobs": [
+    {
+      "name": "Linux GTK3 desktop and native tests",
+      "conclusion": "success",
+      "html_url": "https://github.com/styayur/Skimmer-Scraper/actions/runs/46141241483/job/140967434896"
+    },
+    {
+      "name": "Cargo and npm lockfile audits",
+      "conclusion": "success",
+      "html_url": "https://github.com/styayur/Skimmer-Scraper/actions/runs/46141241483/job/140967435053"
+    },
+    {
+      "name": "Full CodeQL (actions)",
+      "conclusion": "success",
+      "html_url": "https://github.com/styayur/Skimmer-Scraper/actions/runs/46141241483/job/140967435086"
+    },
+    {
+      "name": "Full CodeQL (javascript-typescript)",
+      "conclusion": "success",
+      "html_url": "https://github.com/styayur/Skimmer-Scraper/actions/runs/46141241483/job/140967435088"
+    },
+    {
+      "name": "Full CodeQL (rust)",
+      "conclusion": "success",
+      "html_url": "https://github.com/styayur/Skimmer-Scraper/actions/runs/46141241483/job/140967435121"
+    },
+    {
+      "name": "Full CodeQL (python)",
+      "conclusion": "success",
+      "html_url": "https://github.com/styayur/Skimmer-Scraper/actions/runs/46141241483/job/140967435128"
+    }
+  ],
+  "openDependabot": 0,
+  "openCodeScanning": 0,
+  "glibAlert": {
+    "number": 2,
+    "state": "fixed",
+    "fixed_at": "2026-11-28T05:20:31Z",
+    "dismissed_at": null,
+    "html_url": "https://github.com/styayur/Skimmer-Scraper/security/dependabot/2"
+  },
+  "codeScanningAlert": {
+    "number": 1,
+    "state": "fixed",
+    "fixed_at": "2026-11-28T09:15:23Z",
+    "dismissed_at": null,
+    "html_url": "https://github.com/styayur/Skimmer-Scraper/security/code-scanning/1"
+  },
+  "codeScanningRule": "js/incomplete-url-substring-sanitization"
+}
