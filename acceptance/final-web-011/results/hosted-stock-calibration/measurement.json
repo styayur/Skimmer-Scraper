@@ -1,0 +1,61 @@
+{
+  "source": "991138b8c67c188bd47731d6c193142750225818",
+  "entry": {
+    "url": "/assets/index-CWYYOHnj.js",
+    "bytes": 1261128,
+    "sha256": "91f1a9bcdb190878af05d6b93ebdc16c01fbbb5ffc898d70bf5fdb22e52687c8"
+  },
+  "run": "https://github.com/styayur/Skimmer-Scraper/actions/runs/46119515899",
+  "reference": "stock",
+  "assigned": 2,
+  "measured": 2,
+  "met": 1,
+  "unmeasured": 0,
+  "cases": [
+    {
+      "case": "holdout/ribbon-bridge-104729-boost.json",
+      "status": "measured",
+      "outcome": "glide-and-release",
+      "met": true,
+      "disposition": "must-succeed",
+      "reportSha256": "fad89e4b643f5609e44975487abaf217c048446233ca23003fd214bebc999f60",
+      "worldSha256": "269abb1b4ee7832b0af77d491f3837d55738880831d5628b7e992a11b1472997",
+      "samples": 65,
+      "clockMatchesStockAnd946": true,
+      "exactTraceVsReference": true,
+      "maxPositionDeltaM": 0.0,
+      "referenceCommit": "991138b8c67c188bd47731d6c193142750225818",
+      "shieldImpacts": 0,
+      "sampledHullIntrusion": false,
+      "captureLosses": 0,
+      "releasePhase": "GLIDING",
+      "activeRelease": true,
+      "longestGlideM": 231.62337035257073,
+      "releaseSpeedRetention": 1.0218357494532262,
+      "minimumSolidM": 5.098466361322091
+    },
+    {
+      "case": "third-holdout/s-curve-661077278-cruise.json",
+      "status": "measured",
+      "outcome": "contact-lost",
+      "met": false,
+      "disposition": "may-reject",
+      "reportSha256": "d4a91999bd146eb79e3d687de2abca08b93c04117bf09cd18b80323bc7d4e00f",
+      "worldSha256": "74d0528b124f07781d8883764dbd6ade07edfb98d5a102f3417eb23139fbe075",
+      "samples": 53,
+      "clockMatchesStockAnd946": true,
+      "exactTraceVsReference": true,
+      "maxPositionDeltaM": 0.0,
+      "referenceCommit": "991138b8c67c188bd47731d6c193142750225818",
+      "shieldImpacts": 0,
+      "sampledHullIntrusion": false,
+      "captureLosses": 1,
+      "releasePhase": "RECOVERY",
+      "activeRelease": false,
+      "longestGlideM": 92.79452109854952,
+      "releaseSpeedRetention": null,
+      "minimumSolidM": 5.9521565846120525
+    }
+  ],
+  "shipped": []
+}

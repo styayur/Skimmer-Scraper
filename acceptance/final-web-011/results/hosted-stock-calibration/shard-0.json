@@ -1,0 +1,47 @@
+{
+  "runId": "46119515899",
+  "runAttempt": "1",
+  "shard": 0,
+  "harness": "d66b343cdd88d7d499e77afa4a63e8e3594f2813",
+  "reader": "5656a74f5786001e1011b1b3beb4649a903f76e6",
+  "python": "3.14.7",
+  "system": "Linux-7.0.0-1020-azure-x86_64-with-glibc2.39",
+  "rendererFlags": [
+    "--use-angle=swiftshader",
+    "--enable-unsafe-swiftshader"
+  ],
+  "beganUtc": "2026-11-28T07:06:51.075365+00:00",
+  "selected": [
+    "holdout/ribbon-bridge-104729-boost.json",
+    "third-holdout/s-curve-661077278-cruise.json"
+  ],
+  "cases": [
+    {
+      "group": "holdout",
+      "name": "ribbon-bridge-104729-boost.json",
+      "attempts": [
+        {
+          "number": 1,
+          "startedUtc": "2026-11-28T07:06:51.077864+00:00",
+          "exitCode": 0,
+          "finishedUtc": "2026-11-28T07:07:56.457751+00:00",
+          "verificationError": "CalledProcessError: Command '['node', 'reader/tools/read-flight-diagnostic.js', 'staging/ribbon-bridge-104729-boost.glb', 'output/attempts/holdout/ribbon-bridge-104729-boost/1/ribbon-bridge-104729-boost.json']' returned non-zero exit status 1."
+        }
+      ]
+    },
+    {
+      "group": "third-holdout",
+      "name": "s-curve-661077278-cruise.json",
+      "attempts": [
+        {
+          "number": 1,
+          "startedUtc": "2026-11-28T07:07:56.497257+00:00",
+          "exitCode": 0,
+          "finishedUtc": "2026-11-28T07:09:05.138187+00:00",
+          "verificationError": "CalledProcessError: Command '['node', 'reader/tools/read-flight-diagnostic.js', 'staging/s-curve-661077278-cruise.glb', 'output/attempts/third-holdout/s-curve-661077278-cruise/1/s-curve-661077278-cruise.json']' returned non-zero exit status 1."
+        }
+      ]
+    }
+  ],
+  "finishedUtc": "2026-11-28T07:09:05.356289+00:00"
+}

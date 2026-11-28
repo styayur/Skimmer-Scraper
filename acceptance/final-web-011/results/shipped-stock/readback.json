@@ -1,0 +1,81 @@
+{
+  "producerCommit": "241bd0eec72439d77a43e8d289cc29c714bf0e4e",
+  "sourceCommit": "991138b8c67c188bd47731d6c193142750225818",
+  "entrySha256": "91f1a9bcdb190878af05d6b93ebdc16c01fbbb5ffc898d70bf5fdb22e52687c8",
+  "names": [
+    "canopy",
+    "caldera",
+    "lattice",
+    "contact",
+    "district"
+  ],
+  "method": "All original unmodified entry poses. Standard gamepad capture pulse on interval 4, release request on 48 where held, no yaw, three companions. The disposition is descriptive for stock geometry. Each trace retains actual outcome and game states.",
+  "worlds": [
+    {
+      "name": "canopy",
+      "worldSha256": "d6c1ef9f3235a21c5a777c54acac1a8ed6c34caf5e33a291911509542afc72d9",
+      "traceSha256": "12dd3022d33e565d5a502c69225e0ad1e4f10f4e0db2914bfb684ee19a99df0d",
+      "bytes": 22148,
+      "seed": 1049,
+      "outcome": "capture-missed",
+      "capture": false,
+      "activeRelease": false,
+      "shieldImpacts": 0,
+      "glideMetres": 0.0,
+      "geometryRestored": true
+    },
+    {
+      "name": "caldera",
+      "worldSha256": "1c0ebf2bb7725f1e43152dab448ce9e9e2c5a43ee649df75d3fd83cfee9ec813",
+      "traceSha256": "dcd4b9295a282bd581169b29f95090c2a45967453f439a64e0faa6c08ace8fdf",
+      "bytes": 13068,
+      "seed": 2503,
+      "outcome": "capture-missed",
+      "capture": false,
+      "activeRelease": false,
+      "shieldImpacts": 0,
+      "glideMetres": 0.0,
+      "geometryRestored": true
+    },
+    {
+      "name": "lattice",
+      "worldSha256": "ccd5cfe69e084c7921f52399bb738539a455ed2e38959d66cf471e108252941f",
+      "traceSha256": "e8cf275a0f48c14cb1569c42871138ed7a2a4d327d538eceb0835192781b53f0",
+      "bytes": 32796,
+      "seed": 8131,
+      "outcome": "capture-missed",
+      "capture": false,
+      "activeRelease": false,
+      "shieldImpacts": 0,
+      "glideMetres": 0.0,
+      "geometryRestored": true
+    },
+    {
+      "name": "contact",
+      "worldSha256": "243949bbceae959ee58da971859bd5f614bf4b2f30ae7e5cf711fb3f597d89f3",
+      "traceSha256": "4b14bdf806b0dd349cc2fe89fb983be153c7c214dd92fc1f29abfa31777468f2",
+      "bytes": 72744,
+      "seed": 8131,
+      "outcome": "glide-and-release",
+      "capture": true,
+      "activeRelease": true,
+      "shieldImpacts": 0,
+      "glideMetres": 148.00835800043504,
+      "geometryRestored": true
+    },
+    {
+      "name": "district",
+      "worldSha256": "a707d463ce3279c9517d51b3dccde296c461eea2131b214315923b58b4f383d0",
+      "traceSha256": "4212609b88d368032d4cf2c3730832139797a6f3eac6c7766ef736985f613a84",
+      "bytes": 18928,
+      "seed": 8131,
+      "outcome": "contact-lost",
+      "capture": true,
+      "activeRelease": false,
+      "shieldImpacts": 0,
+      "glideMetres": 0.0,
+      "geometryRestored": true
+    }
+  ],
+  "complete": true
+}
