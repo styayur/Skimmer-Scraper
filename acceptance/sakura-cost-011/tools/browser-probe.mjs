@@ -1,13 +1,20 @@
 // Runs only in the hosted Chromium test context, before any application scripts.
 export function installProbe({graphics}) {
   const now = performance.now.bind(performance);
-  let active = false, calls = {}, inclusiveMs = {};
+  let active = false, calls = {}, inclusiveMs = {}, physicalByCaller = {}, stack=[];
   window.__meter = {
-    hit(k) { if (active) calls[k] = (calls[k] || 0) + 1; },
-    start() { return active ? now() : -1; },
-    end(k,t) { if (t >= 0 && active) inclusiveMs[k] = (inclusiveMs[k] || 0) + now()-t; },
-    reset() { calls={}; inclusiveMs={}; active=true; },
-    take() { active=false; return {calls,inclusiveMs}; },
+    hit(k) {
+      if (!active) return;
+      calls[k] = (calls[k] || 0) + 1;
+      if (k==='MeshBVH.closestPointToPoint') {
+        const path=stack.join(' > ');
+        physicalByCaller[path]=(physicalByCaller[path]||0)+1;
+      }
+    },
+    start(k) { if (!active) return -1; stack.push(k); return now(); },
+    end(k,t) { if (t >= 0 && active) { inclusiveMs[k] = (inclusiveMs[k] || 0) + now()-t; stack.pop(); } },
+    reset() { calls={}; inclusiveMs={}; physicalByCaller={}; stack=[]; active=true; },
+    take() { active=false; return {calls,inclusiveMs,physicalByCaller}; },
   };
   // Hold only rAF delivery. The real keyboard, workers, timers and collision-coverage waits continue.
   let held = false, queue = new Map(), next = 1;

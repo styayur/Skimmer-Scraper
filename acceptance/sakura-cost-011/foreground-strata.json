@@ -1,0 +1,4832 @@
+{
+  "method": "Equal-weight within-group medians, no independence assumption. Closest disjoint ASCENT pairs within 5 metres, same world index and three covered aircraft. Within-version time splits overlap a single hardware session.",
+  "groupFields": [
+    "seed",
+    "calls",
+    "triangles",
+    "renderObjects",
+    "collisionTriangles",
+    "loadedChunks"
+  ],
+  "sources": [
+    {
+      "sha": "991138b8c67c188bd47731d6c193142750225818",
+      "rawSha256": "1057e240d14182494839fd2d7d8110ad4f73659dfd7b6ca2ad756ba3d077806e",
+      "settings": {
+        "mode": "free",
+        "shield": true,
+        "companions": 3,
+        "camera": "chase",
+        "aircraft": "procedural",
+        "worldMode": "stable",
+        "preset": "city",
+        "generator": 4,
+        "language": "en-US",
+        "musicEnabled": true,
+        "viewport": [
+          1920,
+          1080
+        ],
+        "buffer": [
+          1920,
+          1080
+        ],
+        "dpr": 1,
+        "theme": "city",
+        "formation": "wedge",
+        "behavior": "formation",
+        "worldFingerprint": 53102820
+      },
+      "frames": 100110,
+      "meanFps": 109.18930946022427,
+      "start": "2026-11-28T07:44:32.038Z",
+      "finish": "2026-11-28T07:59:48.131Z"
+    },
+    {
+      "sha": "ac943acd6a2c6d21431aa138327bc3e64ed8552f",
+      "rawSha256": "73ddbedd1af5785e6fc4dc8d608202160edfea3f98314cd7dd7b85c5a0ccc5aa",
+      "settings": {
+        "mode": "free",
+        "shield": true,
+        "companions": 3,
+        "camera": "chase",
+        "aircraft": "procedural",
+        "worldMode": "stable",
+        "preset": "city",
+        "generator": 4,
+        "language": "en-US",
+        "musicEnabled": true,
+        "viewport": [
+          1920,
+          1080
+        ],
+        "buffer": [
+          1920,
+          1080
+        ],
+        "dpr": 1,
+        "theme": "city",
+        "formation": "wedge",
+        "behavior": "formation",
+        "worldFingerprint": 53102820
+      },
+      "frames": 92166,
+      "meanFps": 100.54249705733886,
+      "start": "2026-11-28T09:17:23.445Z",
+      "finish": "2026-11-28T09:32:41.240Z"
+    }
+  ],
+  "all": {
+    "n": 293,
+    "median": 1.0921712193748239,
+    "p10": 1.0370911518441661,
+    "p90": 1.1504286043033023,
+    "aboveOne": 271
+  },
+  "deltaMsMedian": 0.5236000000000001,
+  "seeds": {
+    "334458": {
+      "n": 100,
+      "median": 1.0885554962870656,
+      "p10": 0.9865584613954231,
+      "p90": 1.1580443412755326,
+      "aboveOne": 90
+    },
+    "479568308": {
+      "n": 99,
+      "median": 1.0876024390503152,
+      "p10": 1.0366284844519627,
+      "p90": 1.132887915541079,
+      "aboveOne": 92
+    },
+    "501763084": {
+      "n": 94,
+      "median": 1.099072144006584,
+      "p10": 1.046560670384861,
+      "p90": 1.1833808562596164,
+      "aboveOne": 89
+    }
+  },
+  "twoOrMorePerBuild": {
+    "n": 107,
+    "median": 1.0882422597597117,
+    "p10": 1.0376829044658273,
+    "p90": 1.1415898815315058,
+    "aboveOne": 100
+  },
+  "closest5mGroupRatios": {
+    "n": 287,
+    "median": 1.0921712193748239,
+    "p10": 1.0392445754085184,
+    "p90": 1.173354781676159,
+    "aboveOne": 265
+  },
+  "closest5mPairs": 485,
+  "closest5mMedianMetres": 0.5500000000000114,
+  "withinBuildLaterOverEarlier": {
+    "stock": {
+      "n": 160,
+      "median": 0.9866705642020439,
+      "p10": 0.9283136862512117,
+      "p90": 1.035045078144872,
+      "aboveOne": 57
+    },
+    "candidate": {
+      "n": 144,
+      "median": 0.9956337997216522,
+      "p10": 0.9631538592605214,
+      "p90": 1.031473643472759,
+      "aboveOne": 65
+    }
+  },
+  "groups": [
+    {
+      "key": [
+        334458,
+        124,
+        128832,
+        409,
+        152956,
+        33
+      ],
+      "stockN": 1,
+      "candidateN": 1,
+      "stockMedianMs": 3.91384,
+      "candidateMedianMs": 7.55109,
+      "nearPairs": 0,
+      "nearMedianRatio": null
+    },
+    {
+      "key": [
+        334458,
+        368,
+        308404,
+        248,
+        98272,
+        20
+      ],
+      "stockN": 1,
+      "candidateN": 1,
+      "stockMedianMs": 4.30376,
+      "candidateMedianMs": 6.46476,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.502119077271967
+    },
+    {
+      "key": [
+        334458,
+        403,
+        376292,
+        424,
+        176436,
+        33
+      ],
+      "stockN": 4,
+      "candidateN": 2,
+      "stockMedianMs": 5.506539999999999,
+      "candidateMedianMs": 5.9098,
+      "nearPairs": 2,
+      "nearMedianRatio": 1.073268840148591
+    },
+    {
+      "key": [
+        334458,
+        408,
+        366460,
+        386,
+        144360,
+        31
+      ],
+      "stockN": 1,
+      "candidateN": 1,
+      "stockMedianMs": 6.06152,
+      "candidateMedianMs": 7.32173,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.207903298182634
+    },
+    {
+      "key": [
+        334458,
+        418,
+        377288,
+        409,
+        152956,
+        33
+      ],
+      "stockN": 5,
+      "candidateN": 4,
+      "stockMedianMs": 5.34296,
+      "candidateMedianMs": 5.78406,
+      "nearPairs": 4,
+      "nearMedianRatio": 1.0738211648547296
+    },
+    {
+      "key": [
+        334458,
+        422,
+        382512,
+        409,
+        152956,
+        33
+      ],
+      "stockN": 2,
+      "candidateN": 3,
+      "stockMedianMs": 5.42846,
+      "candidateMedianMs": 5.69536,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.110409100459225
+    },
+    {
+      "key": [
+        334458,
+        423,
+        381796,
+        433,
+        181828,
+        33
+      ],
+      "stockN": 4,
+      "candidateN": 1,
+      "stockMedianMs": 5.39112,
+      "candidateMedianMs": 5.91688,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.0758824342311022
+    },
+    {
+      "key": [
+        334458,
+        423,
+        403860,
+        424,
+        176436,
+        33
+      ],
+      "stockN": 2,
+      "candidateN": 1,
+      "stockMedianMs": 5.4995,
+      "candidateMedianMs": 6.14484,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.164536523242063
+    },
+    {
+      "key": [
+        334458,
+        424,
+        385176,
+        409,
+        152956,
+        33
+      ],
+      "stockN": 3,
+      "candidateN": 4,
+      "stockMedianMs": 5.53008,
+      "candidateMedianMs": 5.9115,
+      "nearPairs": 3,
+      "nearMedianRatio": 1.0717646465447053
+    },
+    {
+      "key": [
+        334458,
+        426,
+        389880,
+        409,
+        152956,
+        33
+      ],
+      "stockN": 5,
+      "candidateN": 5,
+      "stockMedianMs": 5.5814,
+      "candidateMedianMs": 5.94232,
+      "nearPairs": 5,
+      "nearMedianRatio": 1.0554667462398135
+    },
+    {
+      "key": [
+        334458,
+        427,
+        389268,
+        433,
+        181828,
+        33
+      ],
+      "stockN": 1,
+      "candidateN": 1,
+      "stockMedianMs": 5.60448,
+      "candidateMedianMs": 5.98152,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.0672747516272696
+    },
+    {
+      "key": [
+        334458,
+        428,
+        390048,
+        409,
+        152956,
+        33
+      ],
+      "stockN": 4,
+      "candidateN": 4,
+      "stockMedianMs": 5.47246,
+      "candidateMedianMs": 5.982900000000001,
+      "nearPairs": 3,
+      "nearMedianRatio": 1.083258773593684
+    },
+    {
+      "key": [
+        334458,
+        430,
+        392384,
+        409,
+        152956,
+        33
+      ],
+      "stockN": 1,
+      "candidateN": 1,
+      "stockMedianMs": 5.41324,
+      "candidateMedianMs": 6.00792,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.1098565738818158
+    },
+    {
+      "key": [
+        334458,
+        432,
+        401596,
+        425,
+        161248,
+        33
+      ],
+      "stockN": 1,
+      "candidateN": 1,
+      "stockMedianMs": 5.46676,
+      "candidateMedianMs": 5.89732,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.0787596309331304
+    },
+    {
+      "key": [
+        334458,
+        434,
+        403276,
+        425,
+        161248,
+        33
+      ],
+      "stockN": 1,
+      "candidateN": 1,
+      "stockMedianMs": 6.02312,
+      "candidateMedianMs": 5.94216,
+      "nearPairs": 1,
+      "nearMedianRatio": 0.9865584613954231
+    },
+    {
+      "key": [
+        334458,
+        437,
+        399588,
+        433,
+        181828,
+        33
+      ],
+      "stockN": 4,
+      "candidateN": 5,
+      "stockMedianMs": 5.52472,
+      "candidateMedianMs": 5.81428,
+      "nearPairs": 4,
+      "nearMedianRatio": 1.0564969194631662
+    },
+    {
+      "key": [
+        334458,
+        438,
+        397468,
+        409,
+        152956,
+        33
+      ],
+      "stockN": 5,
+      "candidateN": 3,
+      "stockMedianMs": 5.70848,
+      "candidateMedianMs": 6.15428,
+      "nearPairs": 3,
+      "nearMedianRatio": 1.0657431564997724
+    },
+    {
+      "key": [
+        334458,
+        438,
+        414540,
+        425,
+        161248,
+        33
+      ],
+      "stockN": 1,
+      "candidateN": 2,
+      "stockMedianMs": 5.41076,
+      "candidateMedianMs": 6.2659,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.1474173683549076
+    },
+    {
+      "key": [
+        334458,
+        439,
+        403444,
+        433,
+        181828,
+        33
+      ],
+      "stockN": 2,
+      "candidateN": 2,
+      "stockMedianMs": 5.6774000000000004,
+      "candidateMedianMs": 7.3081949999999996,
+      "nearPairs": 2,
+      "nearMedianRatio": 1.286733871425103
+    },
+    {
+      "key": [
+        334458,
+        441,
+        407244,
+        433,
+        181828,
+        33
+      ],
+      "stockN": 3,
+      "candidateN": 1,
+      "stockMedianMs": 5.46952,
+      "candidateMedianMs": 6.07624,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.0836495933799402
+    },
+    {
+      "key": [
+        334458,
+        443,
+        409908,
+        433,
+        181828,
+        33
+      ],
+      "stockN": 9,
+      "candidateN": 10,
+      "stockMedianMs": 5.51464,
+      "candidateMedianMs": 6.08108,
+      "nearPairs": 8,
+      "nearMedianRatio": 1.0874116809875296
+    },
+    {
+      "key": [
+        334458,
+        444,
+        409436,
+        424,
+        176436,
+        33
+      ],
+      "stockN": 8,
+      "candidateN": 8,
+      "stockMedianMs": 5.74118,
+      "candidateMedianMs": 6.17614,
+      "nearPairs": 6,
+      "nearMedianRatio": 1.1039015181794474
+    },
+    {
+      "key": [
+        334458,
+        444,
+        417276,
+        425,
+        161248,
+        33
+      ],
+      "stockN": 4,
+      "candidateN": 1,
+      "stockMedianMs": 5.4915199999999995,
+      "candidateMedianMs": 6.3708,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.195191319160432
+    },
+    {
+      "key": [
+        334458,
+        446,
+        401772,
+        409,
+        152956,
+        33
+      ],
+      "stockN": 4,
+      "candidateN": 3,
+      "stockMedianMs": 5.7433,
+      "candidateMedianMs": 6.77316,
+      "nearPairs": 3,
+      "nearMedianRatio": 1.1768193095971142
+    },
+    {
+      "key": [
+        334458,
+        447,
+        410080,
+        433,
+        181828,
+        33
+      ],
+      "stockN": 5,
+      "candidateN": 2,
+      "stockMedianMs": 5.73924,
+      "candidateMedianMs": 6.21326,
+      "nearPairs": 2,
+      "nearMedianRatio": 1.075112284172475
+    },
+    {
+      "key": [
+        334458,
+        448,
+        411964,
+        424,
+        176436,
+        33
+      ],
+      "stockN": 3,
+      "candidateN": 1,
+      "stockMedianMs": 5.7946,
+      "candidateMedianMs": 6.5694,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.1337106961653953
+    },
+    {
+      "key": [
+        334458,
+        450,
+        415292,
+        424,
+        176436,
+        33
+      ],
+      "stockN": 1,
+      "candidateN": 2,
+      "stockMedianMs": 7.47835,
+      "candidateMedianMs": 6.27796,
+      "nearPairs": 1,
+      "nearMedianRatio": 0.8353553925665421
+    },
+    {
+      "key": [
+        334458,
+        451,
+        410560,
+        433,
+        181828,
+        33
+      ],
+      "stockN": 4,
+      "candidateN": 6,
+      "stockMedianMs": 5.72006,
+      "candidateMedianMs": 6.18844,
+      "nearPairs": 4,
+      "nearMedianRatio": 1.0871258831623822
+    },
+    {
+      "key": [
+        334458,
+        453,
+        404324,
+        409,
+        152956,
+        33
+      ],
+      "stockN": 5,
+      "candidateN": 3,
+      "stockMedianMs": 5.59136,
+      "candidateMedianMs": 6.38304,
+      "nearPairs": 3,
+      "nearMedianRatio": 1.0601419227691473
+    },
+    {
+      "key": [
+        334458,
+        453,
+        410728,
+        433,
+        181828,
+        33
+      ],
+      "stockN": 4,
+      "candidateN": 1,
+      "stockMedianMs": 5.80162,
+      "candidateMedianMs": 6.36304,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.1188195411514819
+    },
+    {
+      "key": [
+        334458,
+        453,
+        411456,
+        433,
+        181828,
+        33
+      ],
+      "stockN": 1,
+      "candidateN": 2,
+      "stockMedianMs": 5.96624,
+      "candidateMedianMs": 6.13218,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.0307396283086165
+    },
+    {
+      "key": [
+        334458,
+        454,
+        422076,
+        424,
+        176436,
+        33
+      ],
+      "stockN": 3,
+      "candidateN": 2,
+      "stockMedianMs": 5.97748,
+      "candidateMedianMs": 6.286239999999999,
+      "nearPairs": 2,
+      "nearMedianRatio": 0.9983621966302867
+    },
+    {
+      "key": [
+        334458,
+        456,
+        425296,
+        425,
+        161248,
+        33
+      ],
+      "stockN": 1,
+      "candidateN": 1,
+      "stockMedianMs": 5.48572,
+      "candidateMedianMs": 6.001,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.0939311521550499
+    },
+    {
+      "key": [
+        334458,
+        456,
+        425380,
+        424,
+        176436,
+        33
+      ],
+      "stockN": 1,
+      "candidateN": 1,
+      "stockMedianMs": 5.869,
+      "candidateMedianMs": 6.3574,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.0832169023683762
+    },
+    {
+      "key": [
+        334458,
+        457,
+        414036,
+        437,
+        182876,
+        33
+      ],
+      "stockN": 1,
+      "candidateN": 1,
+      "stockMedianMs": 5.77992,
+      "candidateMedianMs": 6.12824,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.0602638098797215
+    },
+    {
+      "key": [
+        334458,
+        458,
+        426192,
+        425,
+        161248,
+        33
+      ],
+      "stockN": 2,
+      "candidateN": 2,
+      "stockMedianMs": 5.737080000000001,
+      "candidateMedianMs": 6.28154,
+      "nearPairs": 2,
+      "nearMedianRatio": 1.0949842976805488
+    },
+    {
+      "key": [
+        334458,
+        459,
+        342728,
+        429,
+        149160,
+        34
+      ],
+      "stockN": 1,
+      "candidateN": 1,
+      "stockMedianMs": 5.7094,
+      "candidateMedianMs": 6.28664,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.101103443444145
+    },
+    {
+      "key": [
+        334458,
+        462,
+        431824,
+        425,
+        161248,
+        33
+      ],
+      "stockN": 2,
+      "candidateN": 1,
+      "stockMedianMs": 5.760479999999999,
+      "candidateMedianMs": 6.1062,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.0785900008478648
+    },
+    {
+      "key": [
+        334458,
+        464,
+        426480,
+        390,
+        148528,
+        31
+      ],
+      "stockN": 2,
+      "candidateN": 1,
+      "stockMedianMs": 5.245,
+      "candidateMedianMs": 6.35256,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.2491957241628846
+    },
+    {
+      "key": [
+        334458,
+        464,
+        432976,
+        425,
+        161248,
+        33
+      ],
+      "stockN": 1,
+      "candidateN": 1,
+      "stockMedianMs": 5.41596,
+      "candidateMedianMs": 6.1994,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.1446539486997687
+    },
+    {
+      "key": [
+        334458,
+        466,
+        418580,
+        447,
+        186736,
+        34
+      ],
+      "stockN": 2,
+      "candidateN": 2,
+      "stockMedianMs": 7.087425,
+      "candidateMedianMs": 6.298579999999999,
+      "nearPairs": 2,
+      "nearMedianRatio": 0.9304030159144931
+    },
+    {
+      "key": [
+        334458,
+        468,
+        419476,
+        447,
+        186736,
+        34
+      ],
+      "stockN": 2,
+      "candidateN": 2,
+      "stockMedianMs": 5.84756,
+      "candidateMedianMs": 6.417400000000001,
+      "nearPairs": 2,
+      "nearMedianRatio": 1.0983659726562736
+    },
+    {
+      "key": [
+        334458,
+        468,
+        435368,
+        425,
+        161248,
+        33
+      ],
+      "stockN": 1,
+      "candidateN": 2,
+      "stockMedianMs": 5.7304,
+      "candidateMedianMs": 5.9426000000000005,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.026259946949602
+    },
+    {
+      "key": [
+        334458,
+        469,
+        435524,
+        425,
+        161248,
+        33
+      ],
+      "stockN": 3,
+      "candidateN": 2,
+      "stockMedianMs": 5.59128,
+      "candidateMedianMs": 6.08708,
+      "nearPairs": 2,
+      "nearMedianRatio": 1.1057525495021432
+    },
+    {
+      "key": [
+        334458,
+        471,
+        436420,
+        425,
+        161248,
+        33
+      ],
+      "stockN": 1,
+      "candidateN": 1,
+      "stockMedianMs": 5.83788,
+      "candidateMedianMs": 6.1744,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.0576442133103112
+    },
+    {
+      "key": [
+        334458,
+        472,
+        438496,
+        424,
+        176436,
+        33
+      ],
+      "stockN": 2,
+      "candidateN": 1,
+      "stockMedianMs": 5.83938,
+      "candidateMedianMs": 6.68872,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.1606960650253009
+    },
+    {
+      "key": [
+        334458,
+        474,
+        424260,
+        447,
+        186736,
+        34
+      ],
+      "stockN": 2,
+      "candidateN": 1,
+      "stockMedianMs": 5.920120000000001,
+      "candidateMedianMs": 6.49764,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.1094559983608236
+    },
+    {
+      "key": [
+        334458,
+        474,
+        428156,
+        437,
+        182876,
+        33
+      ],
+      "stockN": 1,
+      "candidateN": 1,
+      "stockMedianMs": 5.93352,
+      "candidateMedianMs": 6.35012,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.0702112742520462
+    },
+    {
+      "key": [
+        334458,
+        474,
+        440480,
+        424,
+        176436,
+        33
+      ],
+      "stockN": 2,
+      "candidateN": 1,
+      "stockMedianMs": 5.75744,
+      "candidateMedianMs": 6.30396,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.1166067974578613
+    },
+    {
+      "key": [
+        334458,
+        475,
+        437704,
+        425,
+        161248,
+        33
+      ],
+      "stockN": 2,
+      "candidateN": 2,
+      "stockMedianMs": 5.68522,
+      "candidateMedianMs": 6.165100000000001,
+      "nearPairs": 2,
+      "nearMedianRatio": 1.0849324597123207
+    },
+    {
+      "key": [
+        334458,
+        477,
+        438600,
+        425,
+        161248,
+        33
+      ],
+      "stockN": 2,
+      "candidateN": 2,
+      "stockMedianMs": 6.421749999999999,
+      "candidateMedianMs": 6.10494,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.1237736291777267
+    },
+    {
+      "key": [
+        334458,
+        478,
+        438448,
+        425,
+        161248,
+        33
+      ],
+      "stockN": 2,
+      "candidateN": 1,
+      "stockMedianMs": 5.6122,
+      "candidateMedianMs": 6.206,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.0818330149078892
+    },
+    {
+      "key": [
+        334458,
+        478,
+        451148,
+        425,
+        160228,
+        33
+      ],
+      "stockN": 1,
+      "candidateN": 1,
+      "stockMedianMs": 5.7402,
+      "candidateMedianMs": 6.18336,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.077202884916902
+    },
+    {
+      "key": [
+        334458,
+        480,
+        439344,
+        425,
+        161248,
+        33
+      ],
+      "stockN": 2,
+      "candidateN": 1,
+      "stockMedianMs": 5.60866,
+      "candidateMedianMs": 6.24356,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.091638342215322
+    },
+    {
+      "key": [
+        334458,
+        481,
+        453672,
+        426,
+        177392,
+        33
+      ],
+      "stockN": 1,
+      "candidateN": 1,
+      "stockMedianMs": 6.27144,
+      "candidateMedianMs": 6.51756,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.0392445754085184
+    },
+    {
+      "key": [
+        334458,
+        482,
+        439728,
+        425,
+        161248,
+        33
+      ],
+      "stockN": 1,
+      "candidateN": 1,
+      "stockMedianMs": 5.57828,
+      "candidateMedianMs": 6.10004,
+      "nearPairs": 0,
+      "nearMedianRatio": null
+    },
+    {
+      "key": [
+        334458,
+        482,
+        443824,
+        424,
+        176436,
+        33
+      ],
+      "stockN": 1,
+      "candidateN": 1,
+      "stockMedianMs": 5.765,
+      "candidateMedianMs": 6.33084,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.098150910667823
+    },
+    {
+      "key": [
+        334458,
+        483,
+        443940,
+        424,
+        176436,
+        33
+      ],
+      "stockN": 2,
+      "candidateN": 1,
+      "stockMedianMs": 5.8491,
+      "candidateMedianMs": 6.34252,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.0537147793726742
+    },
+    {
+      "key": [
+        334458,
+        485,
+        445284,
+        424,
+        176436,
+        33
+      ],
+      "stockN": 1,
+      "candidateN": 2,
+      "stockMedianMs": 8.84726,
+      "candidateMedianMs": 6.35968,
+      "nearPairs": 1,
+      "nearMedianRatio": 0.7274523411768162
+    },
+    {
+      "key": [
+        334458,
+        486,
+        440248,
+        470,
+        198156,
+        36
+      ],
+      "stockN": 2,
+      "candidateN": 1,
+      "stockMedianMs": 6.727885000000001,
+      "candidateMedianMs": 6.5838,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.078632467430339
+    },
+    {
+      "key": [
+        334458,
+        486,
+        441600,
+        425,
+        161248,
+        33
+      ],
+      "stockN": 2,
+      "candidateN": 1,
+      "stockMedianMs": 5.896459999999999,
+      "candidateMedianMs": 6.48076,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.0787602370330913
+    },
+    {
+      "key": [
+        334458,
+        488,
+        441144,
+        470,
+        198156,
+        36
+      ],
+      "stockN": 3,
+      "candidateN": 2,
+      "stockMedianMs": 6.00972,
+      "candidateMedianMs": 6.66474,
+      "nearPairs": 2,
+      "nearMedianRatio": 1.132632980701604
+    },
+    {
+      "key": [
+        334458,
+        493,
+        457524,
+        424,
+        176436,
+        33
+      ],
+      "stockN": 2,
+      "candidateN": 1,
+      "stockMedianMs": 5.8970400000000005,
+      "candidateMedianMs": 6.46296,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.0959370548734992
+    },
+    {
+      "key": [
+        334458,
+        496,
+        461124,
+        437,
+        180052,
+        34
+      ],
+      "stockN": 1,
+      "candidateN": 1,
+      "stockMedianMs": 5.79276,
+      "candidateMedianMs": 6.60364,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.1399816322443879
+    },
+    {
+      "key": [
+        334458,
+        498,
+        451064,
+        470,
+        198156,
+        36
+      ],
+      "stockN": 3,
+      "candidateN": 2,
+      "stockMedianMs": 6.07808,
+      "candidateMedianMs": 6.59652,
+      "nearPairs": 2,
+      "nearMedianRatio": 1.0908904479588333
+    },
+    {
+      "key": [
+        334458,
+        499,
+        465560,
+        437,
+        180052,
+        34
+      ],
+      "stockN": 2,
+      "candidateN": 1,
+      "stockMedianMs": 5.977320000000001,
+      "candidateMedianMs": 6.56048,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.0881394839677032
+    },
+    {
+      "key": [
+        334458,
+        503,
+        467048,
+        437,
+        180052,
+        34
+      ],
+      "stockN": 1,
+      "candidateN": 1,
+      "stockMedianMs": 5.98076,
+      "candidateMedianMs": 6.57292,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.0990108280552973
+    },
+    {
+      "key": [
+        334458,
+        508,
+        466444,
+        472,
+        210180,
+        36
+      ],
+      "stockN": 1,
+      "candidateN": 1,
+      "stockMedianMs": 6.38468,
+      "candidateMedianMs": 6.66068,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.0432284781696184
+    },
+    {
+      "key": [
+        334458,
+        511,
+        469692,
+        438,
+        166676,
+        34
+      ],
+      "stockN": 2,
+      "candidateN": 1,
+      "stockMedianMs": 5.911,
+      "candidateMedianMs": 6.37704,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.0922207378481144
+    },
+    {
+      "key": [
+        334458,
+        513,
+        470588,
+        438,
+        166676,
+        34
+      ],
+      "stockN": 2,
+      "candidateN": 2,
+      "stockMedianMs": 5.7805,
+      "candidateMedianMs": 6.517860000000001,
+      "nearPairs": 2,
+      "nearMedianRatio": 1.1276567956915855
+    },
+    {
+      "key": [
+        334458,
+        514,
+        459728,
+        470,
+        198156,
+        36
+      ],
+      "stockN": 5,
+      "candidateN": 5,
+      "stockMedianMs": 6.15296,
+      "candidateMedianMs": 6.66556,
+      "nearPairs": 5,
+      "nearMedianRatio": 1.090327615100229
+    },
+    {
+      "key": [
+        334458,
+        516,
+        384860,
+        453,
+        148448,
+        36
+      ],
+      "stockN": 1,
+      "candidateN": 1,
+      "stockMedianMs": 5.62528,
+      "candidateMedianMs": 6.04188,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.074058535752887
+    },
+    {
+      "key": [
+        334458,
+        517,
+        459936,
+        470,
+        198156,
+        36
+      ],
+      "stockN": 2,
+      "candidateN": 1,
+      "stockMedianMs": 6.14248,
+      "candidateMedianMs": 6.66308,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.0652542318686729
+    },
+    {
+      "key": [
+        334458,
+        519,
+        461808,
+        470,
+        198156,
+        36
+      ],
+      "stockN": 2,
+      "candidateN": 3,
+      "stockMedianMs": 6.10558,
+      "candidateMedianMs": 6.83636,
+      "nearPairs": 2,
+      "nearMedianRatio": 1.2175847143907172
+    },
+    {
+      "key": [
+        334458,
+        521,
+        463488,
+        470,
+        198156,
+        36
+      ],
+      "stockN": 4,
+      "candidateN": 1,
+      "stockMedianMs": 6.09424,
+      "candidateMedianMs": 6.76084,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.1223993784406563
+    },
+    {
+      "key": [
+        334458,
+        521,
+        482588,
+        461,
+        189208,
+        36
+      ],
+      "stockN": 1,
+      "candidateN": 1,
+      "stockMedianMs": 6.11432,
+      "candidateMedianMs": 6.6016,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.079694880215625
+    },
+    {
+      "key": [
+        334458,
+        523,
+        465024,
+        470,
+        198156,
+        36
+      ],
+      "stockN": 1,
+      "candidateN": 1,
+      "stockMedianMs": 5.914,
+      "candidateMedianMs": 6.65964,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.1260804869800474
+    },
+    {
+      "key": [
+        334458,
+        525,
+        465584,
+        470,
+        198156,
+        36
+      ],
+      "stockN": 1,
+      "candidateN": 2,
+      "stockMedianMs": 5.6406,
+      "candidateMedianMs": 6.02852,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.0672765308655108
+    },
+    {
+      "key": [
+        334458,
+        525,
+        465632,
+        470,
+        198156,
+        36
+      ],
+      "stockN": 3,
+      "candidateN": 3,
+      "stockMedianMs": 5.54492,
+      "candidateMedianMs": 6.69716,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.2698059975427367
+    },
+    {
+      "key": [
+        334458,
+        525,
+        484796,
+        461,
+        189208,
+        36
+      ],
+      "stockN": 1,
+      "candidateN": 3,
+      "stockMedianMs": 6.10128,
+      "candidateMedianMs": 6.5084,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.0611478247187476
+    },
+    {
+      "key": [
+        334458,
+        527,
+        481716,
+        438,
+        166676,
+        34
+      ],
+      "stockN": 1,
+      "candidateN": 1,
+      "stockMedianMs": 8.8122,
+      "candidateMedianMs": 6.63516,
+      "nearPairs": 1,
+      "nearMedianRatio": 0.7529515898413562
+    },
+    {
+      "key": [
+        334458,
+        529,
+        482612,
+        438,
+        166676,
+        34
+      ],
+      "stockN": 3,
+      "candidateN": 1,
+      "stockMedianMs": 5.85868,
+      "candidateMedianMs": 6.5896,
+      "nearPairs": 1,
+      "nearMedianRatio": 0.8610412044332594
+    },
+    {
+      "key": [
+        334458,
+        530,
+        492868,
+        461,
+        189208,
+        36
+      ],
+      "stockN": 3,
+      "candidateN": 3,
+      "stockMedianMs": 6.11324,
+      "candidateMedianMs": 6.55372,
+      "nearPairs": 3,
+      "nearMedianRatio": 1.072053444654553
+    },
+    {
+      "key": [
+        334458,
+        532,
+        493252,
+        461,
+        189208,
+        36
+      ],
+      "stockN": 4,
+      "candidateN": 3,
+      "stockMedianMs": 6.06286,
+      "candidateMedianMs": 6.61816,
+      "nearPairs": 3,
+      "nearMedianRatio": 1.0847963076841696
+    },
+    {
+      "key": [
+        334458,
+        533,
+        475572,
+        474,
+        208592,
+        36
+      ],
+      "stockN": 2,
+      "candidateN": 1,
+      "stockMedianMs": 5.363580000000001,
+      "candidateMedianMs": 5.83792,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.0886767119200358
+    },
+    {
+      "key": [
+        334458,
+        540,
+        481356,
+        435,
+        160204,
+        34
+      ],
+      "stockN": 1,
+      "candidateN": 1,
+      "stockMedianMs": 6.07552,
+      "candidateMedianMs": 6.73584,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.1086853470978615
+    },
+    {
+      "key": [
+        334458,
+        542,
+        495696,
+        461,
+        176436,
+        36
+      ],
+      "stockN": 2,
+      "candidateN": 2,
+      "stockMedianMs": 6.09604,
+      "candidateMedianMs": 6.53016,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.070394893347078
+    },
+    {
+      "key": [
+        334458,
+        544,
+        496592,
+        461,
+        176436,
+        36
+      ],
+      "stockN": 4,
+      "candidateN": 4,
+      "stockMedianMs": 6.35138,
+      "candidateMedianMs": 6.5869599999999995,
+      "nearPairs": 4,
+      "nearMedianRatio": 1.0371874331485467
+    },
+    {
+      "key": [
+        334458,
+        545,
+        478440,
+        458,
+        167524,
+        36
+      ],
+      "stockN": 1,
+      "candidateN": 1,
+      "stockMedianMs": 6.44532,
+      "candidateMedianMs": 7.18824,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.115265029509784
+    },
+    {
+      "key": [
+        334458,
+        546,
+        495756,
+        461,
+        189208,
+        36
+      ],
+      "stockN": 3,
+      "candidateN": 2,
+      "stockMedianMs": 5.95144,
+      "candidateMedianMs": 7.52022,
+      "nearPairs": 2,
+      "nearMedianRatio": 1.2651576656645385
+    },
+    {
+      "key": [
+        334458,
+        555,
+        495564,
+        461,
+        175912,
+        36
+      ],
+      "stockN": 1,
+      "candidateN": 1,
+      "stockMedianMs": 6.0246,
+      "candidateMedianMs": 7.1584,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.1881950668924077
+    },
+    {
+      "key": [
+        334458,
+        556,
+        503020,
+        461,
+        189208,
+        36
+      ],
+      "stockN": 5,
+      "candidateN": 3,
+      "stockMedianMs": 6.21704,
+      "candidateMedianMs": 6.79788,
+      "nearPairs": 3,
+      "nearMedianRatio": 1.0658124964723148
+    },
+    {
+      "key": [
+        334458,
+        556,
+        511720,
+        461,
+        176436,
+        36
+      ],
+      "stockN": 1,
+      "candidateN": 2,
+      "stockMedianMs": 5.9624,
+      "candidateMedianMs": 6.6189599999999995,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.1228297329934254
+    },
+    {
+      "key": [
+        334458,
+        558,
+        504396,
+        461,
+        189208,
+        36
+      ],
+      "stockN": 4,
+      "candidateN": 7,
+      "stockMedianMs": 5.95376,
+      "candidateMedianMs": 6.64956,
+      "nearPairs": 4,
+      "nearMedianRatio": 1.1227989595801686
+    },
+    {
+      "key": [
+        334458,
+        578,
+        520544,
+        461,
+        176436,
+        36
+      ],
+      "stockN": 1,
+      "candidateN": 1,
+      "stockMedianMs": 6.47196,
+      "candidateMedianMs": 6.94392,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.0729238128789425
+    },
+    {
+      "key": [
+        334458,
+        581,
+        521136,
+        461,
+        176436,
+        36
+      ],
+      "stockN": 1,
+      "candidateN": 1,
+      "stockMedianMs": 6.31252,
+      "candidateMedianMs": 6.68532,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.059057238630531
+    },
+    {
+      "key": [
+        334458,
+        587,
+        527560,
+        461,
+        176436,
+        36
+      ],
+      "stockN": 9,
+      "candidateN": 7,
+      "stockMedianMs": 6.24916,
+      "candidateMedianMs": 6.8006,
+      "nearPairs": 7,
+      "nearMedianRatio": 1.0953728181067535
+    },
+    {
+      "key": [
+        334458,
+        591,
+        528112,
+        461,
+        176436,
+        36
+      ],
+      "stockN": 1,
+      "candidateN": 1,
+      "stockMedianMs": 6.26092,
+      "candidateMedianMs": 5.59444,
+      "nearPairs": 1,
+      "nearMedianRatio": 0.8935491908537403
+    },
+    {
+      "key": [
+        334458,
+        591,
+        528880,
+        461,
+        176436,
+        36
+      ],
+      "stockN": 1,
+      "candidateN": 2,
+      "stockMedianMs": 6.10316,
+      "candidateMedianMs": 5.78336,
+      "nearPairs": 1,
+      "nearMedianRatio": 0.9329593194345225
+    },
+    {
+      "key": [
+        334458,
+        593,
+        529008,
+        461,
+        176436,
+        36
+      ],
+      "stockN": 2,
+      "candidateN": 2,
+      "stockMedianMs": 6.15228,
+      "candidateMedianMs": 5.7364999999999995,
+      "nearPairs": 2,
+      "nearMedianRatio": 0.933284344647158
+    },
+    {
+      "key": [
+        479568308,
+        126,
+        143976,
+        425,
+        169720,
+        33
+      ],
+      "stockN": 2,
+      "candidateN": 1,
+      "stockMedianMs": 4.06988,
+      "candidateMedianMs": 4.208,
+      "nearPairs": 0,
+      "nearMedianRatio": null
+    },
+    {
+      "key": [
+        479568308,
+        355,
+        273312,
+        373,
+        157456,
+        29
+      ],
+      "stockN": 1,
+      "candidateN": 1,
+      "stockMedianMs": 5.40416,
+      "candidateMedianMs": 5.87336,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.0868220037896732
+    },
+    {
+      "key": [
+        479568308,
+        399,
+        323856,
+        422,
+        185204,
+        33
+      ],
+      "stockN": 1,
+      "candidateN": 1,
+      "stockMedianMs": 5.36928,
+      "candidateMedianMs": 5.89988,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.0988214434710053
+    },
+    {
+      "key": [
+        479568308,
+        401,
+        324024,
+        422,
+        185204,
+        33
+      ],
+      "stockN": 2,
+      "candidateN": 1,
+      "stockMedianMs": 6.085089999999999,
+      "candidateMedianMs": 5.79196,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.0844742360695028
+    },
+    {
+      "key": [
+        479568308,
+        405,
+        330016,
+        422,
+        185204,
+        33
+      ],
+      "stockN": 5,
+      "candidateN": 1,
+      "stockMedianMs": 5.5054,
+      "candidateMedianMs": 5.9086,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.1053202633941932
+    },
+    {
+      "key": [
+        479568308,
+        407,
+        332984,
+        422,
+        185204,
+        33
+      ],
+      "stockN": 1,
+      "candidateN": 2,
+      "stockMedianMs": 6.11524,
+      "candidateMedianMs": 5.98508,
+      "nearPairs": 1,
+      "nearMedianRatio": 0.9839940869041934
+    },
+    {
+      "key": [
+        479568308,
+        408,
+        307068,
+        422,
+        168584,
+        33
+      ],
+      "stockN": 1,
+      "candidateN": 1,
+      "stockMedianMs": 5.35912,
+      "candidateMedianMs": 5.59396,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.0438206272671633
+    },
+    {
+      "key": [
+        479568308,
+        410,
+        309564,
+        422,
+        168584,
+        33
+      ],
+      "stockN": 1,
+      "candidateN": 1,
+      "stockMedianMs": 5.273,
+      "candidateMedianMs": 5.60604,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.0631594917504268
+    },
+    {
+      "key": [
+        479568308,
+        411,
+        336056,
+        422,
+        185204,
+        33
+      ],
+      "stockN": 1,
+      "candidateN": 1,
+      "stockMedianMs": 5.66292,
+      "candidateMedianMs": 6.33404,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.1185112980582457
+    },
+    {
+      "key": [
+        479568308,
+        412,
+        310476,
+        422,
+        168584,
+        33
+      ],
+      "stockN": 3,
+      "candidateN": 1,
+      "stockMedianMs": 5.3176,
+      "candidateMedianMs": 5.84244,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.0986986610500977
+    },
+    {
+      "key": [
+        479568308,
+        419,
+        338776,
+        422,
+        185204,
+        33
+      ],
+      "stockN": 3,
+      "candidateN": 3,
+      "stockMedianMs": 5.65108,
+      "candidateMedianMs": 6.05008,
+      "nearPairs": 3,
+      "nearMedianRatio": 1.0817373583714238
+    },
+    {
+      "key": [
+        479568308,
+        424,
+        331052,
+        424,
+        172304,
+        33
+      ],
+      "stockN": 1,
+      "candidateN": 1,
+      "stockMedianMs": 5.37108,
+      "candidateMedianMs": 5.87152,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.0931730676139622
+    },
+    {
+      "key": [
+        479568308,
+        426,
+        334660,
+        424,
+        172304,
+        33
+      ],
+      "stockN": 2,
+      "candidateN": 1,
+      "stockMedianMs": 5.36508,
+      "candidateMedianMs": 5.77556,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.0737636647579385
+    },
+    {
+      "key": [
+        479568308,
+        427,
+        341528,
+        422,
+        185204,
+        33
+      ],
+      "stockN": 1,
+      "candidateN": 1,
+      "stockMedianMs": 5.59636,
+      "candidateMedianMs": 6.25396,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.1175049496458414
+    },
+    {
+      "key": [
+        479568308,
+        428,
+        335628,
+        424,
+        172304,
+        33
+      ],
+      "stockN": 1,
+      "candidateN": 3,
+      "stockMedianMs": 5.38276,
+      "candidateMedianMs": 5.93464,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.3152564855204394
+    },
+    {
+      "key": [
+        479568308,
+        430,
+        335716,
+        424,
+        172304,
+        33
+      ],
+      "stockN": 1,
+      "candidateN": 1,
+      "stockMedianMs": 5.49332,
+      "candidateMedianMs": 5.81324,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.0582380054320522
+    },
+    {
+      "key": [
+        479568308,
+        430,
+        336516,
+        424,
+        172304,
+        33
+      ],
+      "stockN": 2,
+      "candidateN": 1,
+      "stockMedianMs": 5.35316,
+      "candidateMedianMs": 5.91032,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.0938797870844037
+    },
+    {
+      "key": [
+        479568308,
+        432,
+        344304,
+        422,
+        185204,
+        33
+      ],
+      "stockN": 2,
+      "candidateN": 2,
+      "stockMedianMs": 5.7066,
+      "candidateMedianMs": 6.141220000000001,
+      "nearPairs": 2,
+      "nearMedianRatio": 1.076347024434007
+    },
+    {
+      "key": [
+        479568308,
+        433,
+        344504,
+        422,
+        185204,
+        33
+      ],
+      "stockN": 2,
+      "candidateN": 2,
+      "stockMedianMs": 5.67204,
+      "candidateMedianMs": 6.15098,
+      "nearPairs": 2,
+      "nearMedianRatio": 1.08443124180415
+    },
+    {
+      "key": [
+        479568308,
+        434,
+        338688,
+        424,
+        172304,
+        33
+      ],
+      "stockN": 3,
+      "candidateN": 4,
+      "stockMedianMs": 5.44212,
+      "candidateMedianMs": 5.90754,
+      "nearPairs": 3,
+      "nearMedianRatio": 1.0884136048030768
+    },
+    {
+      "key": [
+        479568308,
+        435,
+        316084,
+        422,
+        168584,
+        33
+      ],
+      "stockN": 3,
+      "candidateN": 1,
+      "stockMedianMs": 5.27484,
+      "candidateMedianMs": 5.90404,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.123218348819335
+    },
+    {
+      "key": [
+        479568308,
+        435,
+        344508,
+        422,
+        185204,
+        33
+      ],
+      "stockN": 1,
+      "candidateN": 1,
+      "stockMedianMs": 5.69436,
+      "candidateMedianMs": 9.20261,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.6160920630237638
+    },
+    {
+      "key": [
+        479568308,
+        436,
+        340600,
+        424,
+        172304,
+        33
+      ],
+      "stockN": 4,
+      "candidateN": 2,
+      "stockMedianMs": 5.42856,
+      "candidateMedianMs": 6.09624,
+      "nearPairs": 2,
+      "nearMedianRatio": 1.1136887828665287
+    },
+    {
+      "key": [
+        479568308,
+        437,
+        317236,
+        422,
+        168584,
+        33
+      ],
+      "stockN": 1,
+      "candidateN": 4,
+      "stockMedianMs": 5.37684,
+      "candidateMedianMs": 5.7783,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.0646327582743769
+    },
+    {
+      "key": [
+        479568308,
+        437,
+        345276,
+        422,
+        185204,
+        33
+      ],
+      "stockN": 1,
+      "candidateN": 2,
+      "stockMedianMs": 5.67728,
+      "candidateMedianMs": 6.201219999999999,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.0732674802017867
+    },
+    {
+      "key": [
+        479568308,
+        439,
+        319276,
+        422,
+        168584,
+        33
+      ],
+      "stockN": 3,
+      "candidateN": 3,
+      "stockMedianMs": 5.33236,
+      "candidateMedianMs": 5.96088,
+      "nearPairs": 3,
+      "nearMedianRatio": 1.1249823082022898
+    },
+    {
+      "key": [
+        479568308,
+        439,
+        347612,
+        422,
+        185204,
+        33
+      ],
+      "stockN": 2,
+      "candidateN": 1,
+      "stockMedianMs": 5.89978,
+      "candidateMedianMs": 6.11588,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.0015459089092826
+    },
+    {
+      "key": [
+        479568308,
+        440,
+        343896,
+        424,
+        172304,
+        33
+      ],
+      "stockN": 1,
+      "candidateN": 2,
+      "stockMedianMs": 5.50908,
+      "candidateMedianMs": 5.96988,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.09544969395979
+    },
+    {
+      "key": [
+        479568308,
+        441,
+        321980,
+        422,
+        168584,
+        33
+      ],
+      "stockN": 3,
+      "candidateN": 3,
+      "stockMedianMs": 6.94947,
+      "candidateMedianMs": 5.93424,
+      "nearPairs": 3,
+      "nearMedianRatio": 0.8586784315926251
+    },
+    {
+      "key": [
+        479568308,
+        441,
+        347616,
+        425,
+        169720,
+        33
+      ],
+      "stockN": 2,
+      "candidateN": 1,
+      "stockMedianMs": 5.31956,
+      "candidateMedianMs": 6.13108,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.1420343630321723
+    },
+    {
+      "key": [
+        479568308,
+        443,
+        347760,
+        425,
+        169720,
+        33
+      ],
+      "stockN": 3,
+      "candidateN": 2,
+      "stockMedianMs": 5.38192,
+      "candidateMedianMs": 5.78408,
+      "nearPairs": 2,
+      "nearMedianRatio": 1.077919180257358
+    },
+    {
+      "key": [
+        479568308,
+        444,
+        345816,
+        424,
+        172304,
+        33
+      ],
+      "stockN": 1,
+      "candidateN": 1,
+      "stockMedianMs": 5.55156,
+      "candidateMedianMs": 6.0284,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.0858929742270642
+    },
+    {
+      "key": [
+        479568308,
+        445,
+        324812,
+        422,
+        168584,
+        33
+      ],
+      "stockN": 2,
+      "candidateN": 1,
+      "stockMedianMs": 5.34116,
+      "candidateMedianMs": 6.10756,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.1295904477258605
+    },
+    {
+      "key": [
+        479568308,
+        445,
+        348700,
+        422,
+        185204,
+        33
+      ],
+      "stockN": 1,
+      "candidateN": 1,
+      "stockMedianMs": 8.44005,
+      "candidateMedianMs": 6.22784,
+      "nearPairs": 1,
+      "nearMedianRatio": 0.7378913632028247
+    },
+    {
+      "key": [
+        479568308,
+        446,
+        346384,
+        424,
+        172304,
+        33
+      ],
+      "stockN": 1,
+      "candidateN": 1,
+      "stockMedianMs": 5.54124,
+      "candidateMedianMs": 6.15864,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.1114191047491175
+    },
+    {
+      "key": [
+        479568308,
+        447,
+        349596,
+        422,
+        185204,
+        33
+      ],
+      "stockN": 1,
+      "candidateN": 1,
+      "stockMedianMs": 5.74944,
+      "candidateMedianMs": 6.35972,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.1061459898703179
+    },
+    {
+      "key": [
+        479568308,
+        447,
+        351616,
+        425,
+        169720,
+        33
+      ],
+      "stockN": 6,
+      "candidateN": 4,
+      "stockMedianMs": 5.4596,
+      "candidateMedianMs": 5.904059999999999,
+      "nearPairs": 4,
+      "nearMedianRatio": 1.0728666557656406
+    },
+    {
+      "key": [
+        479568308,
+        452,
+        349048,
+        424,
+        172304,
+        33
+      ],
+      "stockN": 1,
+      "candidateN": 1,
+      "stockMedianMs": 5.58468,
+      "candidateMedianMs": 6.02644,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.0791021150719469
+    },
+    {
+      "key": [
+        479568308,
+        453,
+        351540,
+        422,
+        185204,
+        33
+      ],
+      "stockN": 2,
+      "candidateN": 1,
+      "stockMedianMs": 5.64482,
+      "candidateMedianMs": 6.13932,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.0811402890873743
+    },
+    {
+      "key": [
+        479568308,
+        453,
+        355608,
+        425,
+        169720,
+        33
+      ],
+      "stockN": 2,
+      "candidateN": 1,
+      "stockMedianMs": 5.4674,
+      "candidateMedianMs": 6.02192,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.0990670034604098
+    },
+    {
+      "key": [
+        479568308,
+        454,
+        329920,
+        422,
+        168584,
+        33
+      ],
+      "stockN": 1,
+      "candidateN": 2,
+      "stockMedianMs": 5.36932,
+      "candidateMedianMs": 5.86686,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.0926746776128076
+    },
+    {
+      "key": [
+        479568308,
+        455,
+        358608,
+        425,
+        169720,
+        33
+      ],
+      "stockN": 8,
+      "candidateN": 8,
+      "stockMedianMs": 5.51406,
+      "candidateMedianMs": 6.0024,
+      "nearPairs": 6,
+      "nearMedianRatio": 1.0785553710439353
+    },
+    {
+      "key": [
+        479568308,
+        456,
+        330120,
+        422,
+        168584,
+        33
+      ],
+      "stockN": 4,
+      "candidateN": 2,
+      "stockMedianMs": 5.4907,
+      "candidateMedianMs": 5.83826,
+      "nearPairs": 2,
+      "nearMedianRatio": 1.0633763966564767
+    },
+    {
+      "key": [
+        479568308,
+        458,
+        331648,
+        422,
+        168584,
+        33
+      ],
+      "stockN": 1,
+      "candidateN": 3,
+      "stockMedianMs": 5.65868,
+      "candidateMedianMs": 6.01464,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.0600917528469536
+    },
+    {
+      "key": [
+        479568308,
+        459,
+        352780,
+        422,
+        185204,
+        33
+      ],
+      "stockN": 3,
+      "candidateN": 1,
+      "stockMedianMs": 5.76356,
+      "candidateMedianMs": 6.54032,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.1347708707812534
+    },
+    {
+      "key": [
+        479568308,
+        461,
+        353676,
+        422,
+        185204,
+        33
+      ],
+      "stockN": 2,
+      "candidateN": 1,
+      "stockMedianMs": 6.00544,
+      "candidateMedianMs": 6.21148,
+      "nearPairs": 0,
+      "nearMedianRatio": null
+    },
+    {
+      "key": [
+        479568308,
+        463,
+        366476,
+        425,
+        169720,
+        33
+      ],
+      "stockN": 5,
+      "candidateN": 7,
+      "stockMedianMs": 5.68552,
+      "candidateMedianMs": 6.07696,
+      "nearPairs": 5,
+      "nearMedianRatio": 1.072492929406633
+    },
+    {
+      "key": [
+        479568308,
+        466,
+        355924,
+        424,
+        172304,
+        33
+      ],
+      "stockN": 4,
+      "candidateN": 2,
+      "stockMedianMs": 5.62108,
+      "candidateMedianMs": 6.300000000000001,
+      "nearPairs": 2,
+      "nearMedianRatio": 1.1158050046264734
+    },
+    {
+      "key": [
+        479568308,
+        467,
+        334572,
+        422,
+        168584,
+        33
+      ],
+      "stockN": 1,
+      "candidateN": 1,
+      "stockMedianMs": 5.58104,
+      "candidateMedianMs": 6.1104,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.0948497054312458
+    },
+    {
+      "key": [
+        479568308,
+        467,
+        370852,
+        425,
+        169720,
+        33
+      ],
+      "stockN": 1,
+      "candidateN": 1,
+      "stockMedianMs": 5.7656,
+      "candidateMedianMs": 9.68517,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.6798199666990425
+    },
+    {
+      "key": [
+        479568308,
+        471,
+        338740,
+        422,
+        168584,
+        33
+      ],
+      "stockN": 3,
+      "candidateN": 4,
+      "stockMedianMs": 5.6636,
+      "candidateMedianMs": 6.4078,
+      "nearPairs": 3,
+      "nearMedianRatio": 1.1024529970113917
+    },
+    {
+      "key": [
+        479568308,
+        476,
+        360180,
+        424,
+        172304,
+        33
+      ],
+      "stockN": 3,
+      "candidateN": 4,
+      "stockMedianMs": 5.8132,
+      "candidateMedianMs": 6.18344,
+      "nearPairs": 3,
+      "nearMedianRatio": 1.0921788285779126
+    },
+    {
+      "key": [
+        479568308,
+        477,
+        341060,
+        422,
+        168584,
+        33
+      ],
+      "stockN": 1,
+      "candidateN": 1,
+      "stockMedianMs": 5.65944,
+      "candidateMedianMs": 6.1304,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.0832167140211753
+    },
+    {
+      "key": [
+        479568308,
+        477,
+        341060,
+        435,
+        172200,
+        34
+      ],
+      "stockN": 1,
+      "candidateN": 1,
+      "stockMedianMs": 5.42836,
+      "candidateMedianMs": 6.0626,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.116838234752301
+    },
+    {
+      "key": [
+        479568308,
+        477,
+        384684,
+        425,
+        169720,
+        33
+      ],
+      "stockN": 1,
+      "candidateN": 1,
+      "stockMedianMs": 5.61856,
+      "candidateMedianMs": 6.17248,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.098587538444014
+    },
+    {
+      "key": [
+        479568308,
+        478,
+        360348,
+        424,
+        172304,
+        33
+      ],
+      "stockN": 1,
+      "candidateN": 1,
+      "stockMedianMs": 5.69116,
+      "candidateMedianMs": 6.24988,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.0981733073749465
+    },
+    {
+      "key": [
+        479568308,
+        479,
+        384836,
+        425,
+        169720,
+        33
+      ],
+      "stockN": 1,
+      "candidateN": 1,
+      "stockMedianMs": 5.6816,
+      "candidateMedianMs": 6.20528,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.0921712193748239
+    },
+    {
+      "key": [
+        479568308,
+        480,
+        370116,
+        435,
+        188380,
+        34
+      ],
+      "stockN": 1,
+      "candidateN": 2,
+      "stockMedianMs": 5.81872,
+      "candidateMedianMs": 6.3346599999999995,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.096907911018231
+    },
+    {
+      "key": [
+        479568308,
+        481,
+        346660,
+        435,
+        172200,
+        34
+      ],
+      "stockN": 1,
+      "candidateN": 1,
+      "stockMedianMs": 5.54584,
+      "candidateMedianMs": 6.1038,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.1006087445725083
+    },
+    {
+      "key": [
+        479568308,
+        481,
+        365444,
+        460,
+        192420,
+        36
+      ],
+      "stockN": 1,
+      "candidateN": 1,
+      "stockMedianMs": 5.7944,
+      "candidateMedianMs": 6.29348,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.0861314372497584
+    },
+    {
+      "key": [
+        479568308,
+        482,
+        370364,
+        435,
+        188380,
+        34
+      ],
+      "stockN": 1,
+      "candidateN": 1,
+      "stockMedianMs": 5.99744,
+      "candidateMedianMs": 6.68832,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.1151958168818696
+    },
+    {
+      "key": [
+        479568308,
+        482,
+        371012,
+        435,
+        188380,
+        34
+      ],
+      "stockN": 2,
+      "candidateN": 3,
+      "stockMedianMs": 5.76154,
+      "candidateMedianMs": 6.57328,
+      "nearPairs": 2,
+      "nearMedianRatio": 1.2435465317132557
+    },
+    {
+      "key": [
+        479568308,
+        483,
+        389692,
+        425,
+        169720,
+        33
+      ],
+      "stockN": 2,
+      "candidateN": 2,
+      "stockMedianMs": 5.69508,
+      "candidateMedianMs": 6.22162,
+      "nearPairs": 2,
+      "nearMedianRatio": 1.0926144954285892
+    },
+    {
+      "key": [
+        479568308,
+        484,
+        371260,
+        435,
+        188380,
+        34
+      ],
+      "stockN": 1,
+      "candidateN": 1,
+      "stockMedianMs": 5.75248,
+      "candidateMedianMs": 6.47892,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.1262829249297692
+    },
+    {
+      "key": [
+        479568308,
+        485,
+        349372,
+        435,
+        172200,
+        34
+      ],
+      "stockN": 1,
+      "candidateN": 1,
+      "stockMedianMs": 5.60036,
+      "candidateMedianMs": 6.10444,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.0900084994536066
+    },
+    {
+      "key": [
+        479568308,
+        491,
+        366436,
+        424,
+        172304,
+        33
+      ],
+      "stockN": 2,
+      "candidateN": 1,
+      "stockMedianMs": 7.037555,
+      "candidateMedianMs": 6.29908,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.102085520330324
+    },
+    {
+      "key": [
+        479568308,
+        492,
+        378668,
+        435,
+        188380,
+        34
+      ],
+      "stockN": 1,
+      "candidateN": 1,
+      "stockMedianMs": 5.80076,
+      "candidateMedianMs": 7.8677,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.3563222750122397
+    },
+    {
+      "key": [
+        479568308,
+        497,
+        357020,
+        435,
+        172200,
+        34
+      ],
+      "stockN": 1,
+      "candidateN": 1,
+      "stockMedianMs": 5.61496,
+      "candidateMedianMs": 6.09252,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.0850513627879808
+    },
+    {
+      "key": [
+        479568308,
+        497,
+        373428,
+        437,
+        177072,
+        34
+      ],
+      "stockN": 3,
+      "candidateN": 1,
+      "stockMedianMs": 5.80228,
+      "candidateMedianMs": 6.29884,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.1017736575126815
+    },
+    {
+      "key": [
+        479568308,
+        498,
+        389300,
+        460,
+        196684,
+        36
+      ],
+      "stockN": 1,
+      "candidateN": 2,
+      "stockMedianMs": 5.96376,
+      "candidateMedianMs": 6.469620000000001,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.0831757146498184
+    },
+    {
+      "key": [
+        479568308,
+        501,
+        375908,
+        437,
+        177072,
+        34
+      ],
+      "stockN": 2,
+      "candidateN": 2,
+      "stockMedianMs": 5.8654399999999995,
+      "candidateMedianMs": 6.27688,
+      "nearPairs": 2,
+      "nearMedianRatio": 1.0704628882561011
+    },
+    {
+      "key": [
+        479568308,
+        504,
+        392244,
+        460,
+        196684,
+        36
+      ],
+      "stockN": 1,
+      "candidateN": 1,
+      "stockMedianMs": 5.9672,
+      "candidateMedianMs": 6.40624,
+      "nearPairs": 0,
+      "nearMedianRatio": null
+    },
+    {
+      "key": [
+        479568308,
+        506,
+        362200,
+        435,
+        172200,
+        34
+      ],
+      "stockN": 3,
+      "candidateN": 2,
+      "stockMedianMs": 5.69128,
+      "candidateMedianMs": 6.191140000000001,
+      "nearPairs": 2,
+      "nearMedianRatio": 1.0833416969555265
+    },
+    {
+      "key": [
+        479568308,
+        506,
+        393332,
+        460,
+        196684,
+        36
+      ],
+      "stockN": 1,
+      "candidateN": 1,
+      "stockMedianMs": 5.90936,
+      "candidateMedianMs": 6.37888,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.0794536125739504
+    },
+    {
+      "key": [
+        479568308,
+        511,
+        396320,
+        460,
+        196684,
+        36
+      ],
+      "stockN": 1,
+      "candidateN": 2,
+      "stockMedianMs": 5.88364,
+      "candidateMedianMs": 6.51202,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.1094696480410087
+    },
+    {
+      "key": [
+        479568308,
+        512,
+        373952,
+        461,
+        184144,
+        36
+      ],
+      "stockN": 2,
+      "candidateN": 3,
+      "stockMedianMs": 5.8197600000000005,
+      "candidateMedianMs": 6.19088,
+      "nearPairs": 2,
+      "nearMedianRatio": 1.0668845667589433
+    },
+    {
+      "key": [
+        479568308,
+        514,
+        376016,
+        463,
+        191292,
+        36
+      ],
+      "stockN": 1,
+      "candidateN": 1,
+      "stockMedianMs": 5.49404,
+      "candidateMedianMs": 5.75224,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.0469963815334433
+    },
+    {
+      "key": [
+        479568308,
+        523,
+        381096,
+        461,
+        184144,
+        36
+      ],
+      "stockN": 2,
+      "candidateN": 3,
+      "stockMedianMs": 5.870100000000001,
+      "candidateMedianMs": 6.21984,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.0830320408926568
+    },
+    {
+      "key": [
+        479568308,
+        525,
+        382264,
+        461,
+        184144,
+        36
+      ],
+      "stockN": 3,
+      "candidateN": 3,
+      "stockMedianMs": 7.33749,
+      "candidateMedianMs": 6.36748,
+      "nearPairs": 3,
+      "nearMedianRatio": 0.8745170351169133
+    },
+    {
+      "key": [
+        479568308,
+        528,
+        399236,
+        460,
+        196684,
+        36
+      ],
+      "stockN": 3,
+      "candidateN": 1,
+      "stockMedianMs": 6.02788,
+      "candidateMedianMs": 6.76684,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.1225903634445278
+    },
+    {
+      "key": [
+        479568308,
+        530,
+        401732,
+        460,
+        196684,
+        36
+      ],
+      "stockN": 2,
+      "candidateN": 3,
+      "stockMedianMs": 5.96556,
+      "candidateMedianMs": 6.6214,
+      "nearPairs": 2,
+      "nearMedianRatio": 1.127470654654
+    },
+    {
+      "key": [
+        479568308,
+        532,
+        401948,
+        460,
+        196684,
+        36
+      ],
+      "stockN": 3,
+      "candidateN": 4,
+      "stockMedianMs": 6.0688,
+      "candidateMedianMs": 6.55916,
+      "nearPairs": 3,
+      "nearMedianRatio": 1.060664381755866
+    },
+    {
+      "key": [
+        479568308,
+        532,
+        404340,
+        460,
+        196684,
+        36
+      ],
+      "stockN": 2,
+      "candidateN": 1,
+      "stockMedianMs": 5.56224,
+      "candidateMedianMs": 6.39896,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.1856864387308128
+    },
+    {
+      "key": [
+        479568308,
+        533,
+        405412,
+        463,
+        186548,
+        36
+      ],
+      "stockN": 2,
+      "candidateN": 1,
+      "stockMedianMs": 5.87542,
+      "candidateMedianMs": 6.30936,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.071067713284624
+    },
+    {
+      "key": [
+        479568308,
+        534,
+        404948,
+        460,
+        196684,
+        36
+      ],
+      "stockN": 4,
+      "candidateN": 5,
+      "stockMedianMs": 6.00258,
+      "candidateMedianMs": 6.40664,
+      "nearPairs": 4,
+      "nearMedianRatio": 1.0671804187580187
+    },
+    {
+      "key": [
+        479568308,
+        542,
+        389272,
+        461,
+        184144,
+        36
+      ],
+      "stockN": 1,
+      "candidateN": 2,
+      "stockMedianMs": 5.8962,
+      "candidateMedianMs": 6.62402,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.1419083477493979
+    },
+    {
+      "key": [
+        479568308,
+        546,
+        391184,
+        461,
+        184144,
+        36
+      ],
+      "stockN": 2,
+      "candidateN": 2,
+      "stockMedianMs": 5.909739999999999,
+      "candidateMedianMs": 6.49072,
+      "nearPairs": 2,
+      "nearMedianRatio": 1.0989839101509862
+    },
+    {
+      "key": [
+        479568308,
+        547,
+        413908,
+        463,
+        186548,
+        36
+      ],
+      "stockN": 3,
+      "candidateN": 2,
+      "stockMedianMs": 5.92752,
+      "candidateMedianMs": 6.413320000000001,
+      "nearPairs": 2,
+      "nearMedianRatio": 1.0853216522748115
+    },
+    {
+      "key": [
+        479568308,
+        547,
+        414308,
+        463,
+        186548,
+        36
+      ],
+      "stockN": 1,
+      "candidateN": 2,
+      "stockMedianMs": 5.8632,
+      "candidateMedianMs": 6.5038599999999995,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.1006958657388457
+    },
+    {
+      "key": [
+        479568308,
+        548,
+        391568,
+        461,
+        184144,
+        36
+      ],
+      "stockN": 3,
+      "candidateN": 4,
+      "stockMedianMs": 5.94376,
+      "candidateMedianMs": 6.3918,
+      "nearPairs": 3,
+      "nearMedianRatio": 1.0761735929740044
+    },
+    {
+      "key": [
+        479568308,
+        550,
+        391784,
+        461,
+        184144,
+        36
+      ],
+      "stockN": 6,
+      "candidateN": 5,
+      "stockMedianMs": 6.0169999999999995,
+      "candidateMedianMs": 6.43936,
+      "nearPairs": 4,
+      "nearMedianRatio": 0.9733600945882259
+    },
+    {
+      "key": [
+        479568308,
+        551,
+        394736,
+        461,
+        184144,
+        36
+      ],
+      "stockN": 1,
+      "candidateN": 1,
+      "stockMedianMs": 5.37176,
+      "candidateMedianMs": 6.04904,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.1260815822002472
+    },
+    {
+      "key": [
+        479568308,
+        552,
+        394816,
+        461,
+        184144,
+        36
+      ],
+      "stockN": 1,
+      "candidateN": 1,
+      "stockMedianMs": 5.34596,
+      "candidateMedianMs": 6.29736,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.177966165104116
+    },
+    {
+      "key": [
+        479568308,
+        570,
+        421928,
+        463,
+        186548,
+        36
+      ],
+      "stockN": 2,
+      "candidateN": 1,
+      "stockMedianMs": 5.9266000000000005,
+      "candidateMedianMs": 6.48224,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.0934141190599889
+    },
+    {
+      "key": [
+        479568308,
+        575,
+        423952,
+        463,
+        186548,
+        36
+      ],
+      "stockN": 1,
+      "candidateN": 2,
+      "stockMedianMs": 5.9502,
+      "candidateMedianMs": 6.4424600000000005,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.0850122684951766
+    },
+    {
+      "key": [
+        479568308,
+        587,
+        436204,
+        463,
+        186548,
+        36
+      ],
+      "stockN": 1,
+      "candidateN": 1,
+      "stockMedianMs": 5.98404,
+      "candidateMedianMs": 6.5658,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.0972186014799366
+    },
+    {
+      "key": [
+        479568308,
+        589,
+        435668,
+        463,
+        186548,
+        36
+      ],
+      "stockN": 2,
+      "candidateN": 2,
+      "stockMedianMs": 5.39718,
+      "candidateMedianMs": 6.1144,
+      "nearPairs": 2,
+      "nearMedianRatio": 1.1343172400068737
+    },
+    {
+      "key": [
+        479568308,
+        589,
+        436484,
+        463,
+        186548,
+        36
+      ],
+      "stockN": 2,
+      "candidateN": 3,
+      "stockMedianMs": 6.16694,
+      "candidateMedianMs": 6.57076,
+      "nearPairs": 2,
+      "nearMedianRatio": 1.071055230079089
+    },
+    {
+      "key": [
+        479568308,
+        591,
+        436564,
+        463,
+        186548,
+        36
+      ],
+      "stockN": 4,
+      "candidateN": 3,
+      "stockMedianMs": 6.749055,
+      "candidateMedianMs": 6.69736,
+      "nearPairs": 2,
+      "nearMedianRatio": 0.9241643020153761
+    },
+    {
+      "key": [
+        501763084,
+        338,
+        282808,
+        367,
+        139064,
+        29
+      ],
+      "stockN": 1,
+      "candidateN": 1,
+      "stockMedianMs": 5.56724,
+      "candidateMedianMs": 8.84416,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.5886076404106884
+    },
+    {
+      "key": [
+        501763084,
+        360,
+        315224,
+        242,
+        85768,
+        19
+      ],
+      "stockN": 1,
+      "candidateN": 1,
+      "stockMedianMs": 3.91192,
+      "candidateMedianMs": 6.28296,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.6061064643448741
+    },
+    {
+      "key": [
+        501763084,
+        398,
+        345816,
+        419,
+        160980,
+        33
+      ],
+      "stockN": 2,
+      "candidateN": 1,
+      "stockMedianMs": 5.36242,
+      "candidateMedianMs": 5.80796,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.0874618973794383
+    },
+    {
+      "key": [
+        501763084,
+        400,
+        346200,
+        419,
+        160980,
+        33
+      ],
+      "stockN": 1,
+      "candidateN": 1,
+      "stockMedianMs": 5.34932,
+      "candidateMedianMs": 6.00712,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.1229689007200916
+    },
+    {
+      "key": [
+        501763084,
+        404,
+        353592,
+        421,
+        158232,
+        33
+      ],
+      "stockN": 4,
+      "candidateN": 2,
+      "stockMedianMs": 5.2305399999999995,
+      "candidateMedianMs": 5.7708200000000005,
+      "nearPairs": 2,
+      "nearMedianRatio": 1.0921583107203365
+    },
+    {
+      "key": [
+        501763084,
+        408,
+        361320,
+        421,
+        158232,
+        33
+      ],
+      "stockN": 2,
+      "candidateN": 3,
+      "stockMedianMs": 5.278560000000001,
+      "candidateMedianMs": 5.8758,
+      "nearPairs": 2,
+      "nearMedianRatio": 1.1129364460194227
+    },
+    {
+      "key": [
+        501763084,
+        412,
+        363080,
+        419,
+        160980,
+        33
+      ],
+      "stockN": 1,
+      "candidateN": 2,
+      "stockMedianMs": 5.55628,
+      "candidateMedianMs": 5.965339999999999,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.0721921861389274
+    },
+    {
+      "key": [
+        501763084,
+        415,
+        364828,
+        421,
+        158232,
+        33
+      ],
+      "stockN": 1,
+      "candidateN": 1,
+      "stockMedianMs": 5.2702,
+      "candidateMedianMs": 5.7938,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.099351068270654
+    },
+    {
+      "key": [
+        501763084,
+        418,
+        369120,
+        419,
+        160980,
+        33
+      ],
+      "stockN": 2,
+      "candidateN": 1,
+      "stockMedianMs": 5.597799999999999,
+      "candidateMedianMs": 6.07148,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.0961487076903078
+    },
+    {
+      "key": [
+        501763084,
+        422,
+        370352,
+        419,
+        160980,
+        33
+      ],
+      "stockN": 2,
+      "candidateN": 2,
+      "stockMedianMs": 5.30758,
+      "candidateMedianMs": 6.06666,
+      "nearPairs": 2,
+      "nearMedianRatio": 1.1439787973955386
+    },
+    {
+      "key": [
+        501763084,
+        423,
+        404572,
+        425,
+        151268,
+        33
+      ],
+      "stockN": 1,
+      "candidateN": 2,
+      "stockMedianMs": 5.44612,
+      "candidateMedianMs": 5.9741,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.0991825372926047
+    },
+    {
+      "key": [
+        501763084,
+        424,
+        370520,
+        419,
+        160980,
+        33
+      ],
+      "stockN": 5,
+      "candidateN": 6,
+      "stockMedianMs": 5.68468,
+      "candidateMedianMs": 6.1112400000000004,
+      "nearPairs": 5,
+      "nearMedianRatio": 1.07081489195522
+    },
+    {
+      "key": [
+        501763084,
+        426,
+        371432,
+        419,
+        160980,
+        33
+      ],
+      "stockN": 1,
+      "candidateN": 1,
+      "stockMedianMs": 5.56028,
+      "candidateMedianMs": 6.12884,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.102253843331631
+    },
+    {
+      "key": [
+        501763084,
+        426,
+        383840,
+        418,
+        147184,
+        33
+      ],
+      "stockN": 1,
+      "candidateN": 1,
+      "stockMedianMs": 5.12724,
+      "candidateMedianMs": 5.86776,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.1444285814590307
+    },
+    {
+      "key": [
+        501763084,
+        426,
+        385736,
+        418,
+        147184,
+        33
+      ],
+      "stockN": 1,
+      "candidateN": 1,
+      "stockMedianMs": 5.1824,
+      "candidateMedianMs": 5.97672,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.153272615004631
+    },
+    {
+      "key": [
+        501763084,
+        430,
+        387648,
+        418,
+        147184,
+        33
+      ],
+      "stockN": 1,
+      "candidateN": 2,
+      "stockMedianMs": 5.40336,
+      "candidateMedianMs": 5.6996,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.0591779929525331
+    },
+    {
+      "key": [
+        501763084,
+        431,
+        367384,
+        421,
+        158232,
+        33
+      ],
+      "stockN": 2,
+      "candidateN": 1,
+      "stockMedianMs": 5.501720000000001,
+      "candidateMedianMs": 5.92808,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.0450817649091382
+    },
+    {
+      "key": [
+        501763084,
+        432,
+        379208,
+        419,
+        160980,
+        33
+      ],
+      "stockN": 6,
+      "candidateN": 5,
+      "stockMedianMs": 5.72482,
+      "candidateMedianMs": 6.17064,
+      "nearPairs": 4,
+      "nearMedianRatio": 1.0897953039283785
+    },
+    {
+      "key": [
+        501763084,
+        434,
+        393800,
+        418,
+        147184,
+        33
+      ],
+      "stockN": 3,
+      "candidateN": 4,
+      "stockMedianMs": 5.39904,
+      "candidateMedianMs": 5.87782,
+      "nearPairs": 2,
+      "nearMedianRatio": 1.080224095308429
+    },
+    {
+      "key": [
+        501763084,
+        436,
+        393888,
+        418,
+        147184,
+        33
+      ],
+      "stockN": 3,
+      "candidateN": 1,
+      "stockMedianMs": 5.31716,
+      "candidateMedianMs": 5.67652,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.0675849513650144
+    },
+    {
+      "key": [
+        501763084,
+        437,
+        416844,
+        425,
+        151268,
+        33
+      ],
+      "stockN": 1,
+      "candidateN": 1,
+      "stockMedianMs": 5.44864,
+      "candidateMedianMs": 6.13288,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.1255799612380337
+    },
+    {
+      "key": [
+        501763084,
+        438,
+        393944,
+        418,
+        147184,
+        33
+      ],
+      "stockN": 7,
+      "candidateN": 5,
+      "stockMedianMs": 5.43932,
+      "candidateMedianMs": 5.94336,
+      "nearPairs": 4,
+      "nearMedianRatio": 1.0735937525476444
+    },
+    {
+      "key": [
+        501763084,
+        439,
+        377968,
+        421,
+        158232,
+        33
+      ],
+      "stockN": 1,
+      "candidateN": 1,
+      "stockMedianMs": 5.60476,
+      "candidateMedianMs": 6.12696,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.0931708048159066
+    },
+    {
+      "key": [
+        501763084,
+        439,
+        417604,
+        425,
+        151268,
+        33
+      ],
+      "stockN": 1,
+      "candidateN": 2,
+      "stockMedianMs": 5.56012,
+      "candidateMedianMs": 6.17546,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.0898397876304826
+    },
+    {
+      "key": [
+        501763084,
+        440,
+        383904,
+        419,
+        160980,
+        33
+      ],
+      "stockN": 2,
+      "candidateN": 2,
+      "stockMedianMs": 5.65852,
+      "candidateMedianMs": 6.27258,
+      "nearPairs": 2,
+      "nearMedianRatio": 1.1085333477897592
+    },
+    {
+      "key": [
+        501763084,
+        440,
+        394328,
+        418,
+        147184,
+        33
+      ],
+      "stockN": 9,
+      "candidateN": 10,
+      "stockMedianMs": 5.45628,
+      "candidateMedianMs": 6.057840000000001,
+      "nearPairs": 8,
+      "nearMedianRatio": 1.1170440091006002
+    },
+    {
+      "key": [
+        501763084,
+        441,
+        380928,
+        421,
+        158232,
+        33
+      ],
+      "stockN": 1,
+      "candidateN": 1,
+      "stockMedianMs": 5.6796,
+      "candidateMedianMs": 7.82558,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.3778399887316009
+    },
+    {
+      "key": [
+        501763084,
+        441,
+        419452,
+        425,
+        151268,
+        33
+      ],
+      "stockN": 4,
+      "candidateN": 2,
+      "stockMedianMs": 5.5437,
+      "candidateMedianMs": 5.93674,
+      "nearPairs": 2,
+      "nearMedianRatio": 1.07653197392309
+    },
+    {
+      "key": [
+        501763084,
+        442,
+        394712,
+        418,
+        147184,
+        33
+      ],
+      "stockN": 1,
+      "candidateN": 1,
+      "stockMedianMs": 5.67644,
+      "candidateMedianMs": 6.01088,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.0589172086730416
+    },
+    {
+      "key": [
+        501763084,
+        443,
+        419476,
+        425,
+        151268,
+        33
+      ],
+      "stockN": 2,
+      "candidateN": 3,
+      "stockMedianMs": 5.69156,
+      "candidateMedianMs": 6.28128,
+      "nearPairs": 2,
+      "nearMedianRatio": 1.1215898939562763
+    },
+    {
+      "key": [
+        501763084,
+        444,
+        396128,
+        418,
+        147184,
+        33
+      ],
+      "stockN": 1,
+      "candidateN": 1,
+      "stockMedianMs": 5.45584,
+      "candidateMedianMs": 5.99484,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.0987932197425143
+    },
+    {
+      "key": [
+        501763084,
+        445,
+        419860,
+        425,
+        151268,
+        33
+      ],
+      "stockN": 2,
+      "candidateN": 2,
+      "stockMedianMs": 5.78034,
+      "candidateMedianMs": 5.99816,
+      "nearPairs": 2,
+      "nearMedianRatio": 1.0377738340707023
+    },
+    {
+      "key": [
+        501763084,
+        446,
+        396296,
+        418,
+        147184,
+        33
+      ],
+      "stockN": 1,
+      "candidateN": 1,
+      "stockMedianMs": 5.76624,
+      "candidateMedianMs": 6.03472,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.046560670384861
+    },
+    {
+      "key": [
+        501763084,
+        447,
+        387208,
+        421,
+        158232,
+        33
+      ],
+      "stockN": 1,
+      "candidateN": 1,
+      "stockMedianMs": 5.34996,
+      "candidateMedianMs": 5.92584,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.1076419262947759
+    },
+    {
+      "key": [
+        501763084,
+        448,
+        396856,
+        418,
+        147184,
+        33
+      ],
+      "stockN": 1,
+      "candidateN": 2,
+      "stockMedianMs": 5.5448,
+      "candidateMedianMs": 6.2257,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.1067378444668878
+    },
+    {
+      "key": [
+        501763084,
+        449,
+        423588,
+        425,
+        151268,
+        33
+      ],
+      "stockN": 1,
+      "candidateN": 3,
+      "stockMedianMs": 5.72816,
+      "candidateMedianMs": 6.14852,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.0831471187955644
+    },
+    {
+      "key": [
+        501763084,
+        451,
+        389576,
+        421,
+        158232,
+        33
+      ],
+      "stockN": 2,
+      "candidateN": 2,
+      "stockMedianMs": 5.68574,
+      "candidateMedianMs": 5.91694,
+      "nearPairs": 2,
+      "nearMedianRatio": 1.0406696681133858
+    },
+    {
+      "key": [
+        501763084,
+        452,
+        400848,
+        418,
+        147184,
+        33
+      ],
+      "stockN": 2,
+      "candidateN": 3,
+      "stockMedianMs": 5.5824,
+      "candidateMedianMs": 6.1436,
+      "nearPairs": 2,
+      "nearMedianRatio": 1.0878597535812222
+    },
+    {
+      "key": [
+        501763084,
+        453,
+        425516,
+        425,
+        151268,
+        33
+      ],
+      "stockN": 1,
+      "candidateN": 1,
+      "stockMedianMs": 7.1749,
+      "candidateMedianMs": 8.05999,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.1233592105813324
+    },
+    {
+      "key": [
+        501763084,
+        457,
+        437484,
+        425,
+        151268,
+        33
+      ],
+      "stockN": 1,
+      "candidateN": 3,
+      "stockMedianMs": 5.902,
+      "candidateMedianMs": 6.21524,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.0530735343951203
+    },
+    {
+      "key": [
+        501763084,
+        459,
+        408288,
+        421,
+        158232,
+        33
+      ],
+      "stockN": 1,
+      "candidateN": 1,
+      "stockMedianMs": 5.55864,
+      "candidateMedianMs": 6.02828,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.084488292100226
+    },
+    {
+      "key": [
+        501763084,
+        461,
+        410984,
+        418,
+        147184,
+        33
+      ],
+      "stockN": 2,
+      "candidateN": 3,
+      "stockMedianMs": 5.59318,
+      "candidateMedianMs": 6.16684,
+      "nearPairs": 2,
+      "nearMedianRatio": 1.09615050529302
+    },
+    {
+      "key": [
+        501763084,
+        463,
+        445932,
+        425,
+        151268,
+        33
+      ],
+      "stockN": 1,
+      "candidateN": 2,
+      "stockMedianMs": 5.682,
+      "candidateMedianMs": 6.17462,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.0695811334037308
+    },
+    {
+      "key": [
+        501763084,
+        465,
+        415616,
+        418,
+        147184,
+        33
+      ],
+      "stockN": 1,
+      "candidateN": 1,
+      "stockMedianMs": 5.66824,
+      "candidateMedianMs": 6.07864,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.0724034268132612
+    },
+    {
+      "key": [
+        501763084,
+        465,
+        446428,
+        425,
+        151268,
+        33
+      ],
+      "stockN": 16,
+      "candidateN": 16,
+      "stockMedianMs": 5.7446,
+      "candidateMedianMs": 6.4204,
+      "nearPairs": 14,
+      "nearMedianRatio": 1.1164032288326662
+    },
+    {
+      "key": [
+        501763084,
+        469,
+        413480,
+        421,
+        158232,
+        33
+      ],
+      "stockN": 2,
+      "candidateN": 2,
+      "stockMedianMs": 5.706860000000001,
+      "candidateMedianMs": 6.20072,
+      "nearPairs": 2,
+      "nearMedianRatio": 1.087130304013415
+    },
+    {
+      "key": [
+        501763084,
+        470,
+        408224,
+        433,
+        166284,
+        34
+      ],
+      "stockN": 1,
+      "candidateN": 2,
+      "stockMedianMs": 5.8436,
+      "candidateMedianMs": 6.54726,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.1235402833869532
+    },
+    {
+      "key": [
+        501763084,
+        474,
+        428340,
+        431,
+        154012,
+        34
+      ],
+      "stockN": 1,
+      "candidateN": 2,
+      "stockMedianMs": 5.66744,
+      "candidateMedianMs": 6.70674,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.1870897618677922
+    },
+    {
+      "key": [
+        501763084,
+        478,
+        420312,
+        433,
+        166284,
+        34
+      ],
+      "stockN": 1,
+      "candidateN": 1,
+      "stockMedianMs": 9.50701,
+      "candidateMedianMs": 6.50388,
+      "nearPairs": 1,
+      "nearMedianRatio": 0.6841141431427967
+    },
+    {
+      "key": [
+        501763084,
+        478,
+        429828,
+        431,
+        154012,
+        34
+      ],
+      "stockN": 1,
+      "candidateN": 1,
+      "stockMedianMs": 5.71928,
+      "candidateMedianMs": 6.32884,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.1065798492117886
+    },
+    {
+      "key": [
+        501763084,
+        480,
+        422760,
+        433,
+        166284,
+        34
+      ],
+      "stockN": 2,
+      "candidateN": 1,
+      "stockMedianMs": 5.8235399999999995,
+      "candidateMedianMs": 6.62048,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.144999723282971
+    },
+    {
+      "key": [
+        501763084,
+        480,
+        431284,
+        431,
+        154012,
+        34
+      ],
+      "stockN": 2,
+      "candidateN": 2,
+      "stockMedianMs": 5.7820599999999995,
+      "candidateMedianMs": 7.05547,
+      "nearPairs": 2,
+      "nearMedianRatio": 1.2229954941578658
+    },
+    {
+      "key": [
+        501763084,
+        482,
+        430184,
+        421,
+        158232,
+        33
+      ],
+      "stockN": 4,
+      "candidateN": 2,
+      "stockMedianMs": 5.49922,
+      "candidateMedianMs": 6.0306,
+      "nearPairs": 2,
+      "nearMedianRatio": 1.0971187568891354
+    },
+    {
+      "key": [
+        501763084,
+        482,
+        475616,
+        463,
+        175164,
+        36
+      ],
+      "stockN": 1,
+      "candidateN": 1,
+      "stockMedianMs": 6.04844,
+      "candidateMedianMs": 6.56184,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.0848813909041009
+    },
+    {
+      "key": [
+        501763084,
+        484,
+        423504,
+        433,
+        166284,
+        34
+      ],
+      "stockN": 2,
+      "candidateN": 2,
+      "stockMedianMs": 6.802960000000001,
+      "candidateMedianMs": 6.55204,
+      "nearPairs": 2,
+      "nearMedianRatio": 0.970354192882412
+    },
+    {
+      "key": [
+        501763084,
+        484,
+        441548,
+        431,
+        154012,
+        34
+      ],
+      "stockN": 1,
+      "candidateN": 1,
+      "stockMedianMs": 5.82152,
+      "candidateMedianMs": 6.30912,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.0837581937363439
+    },
+    {
+      "key": [
+        501763084,
+        486,
+        435360,
+        421,
+        158232,
+        33
+      ],
+      "stockN": 2,
+      "candidateN": 3,
+      "stockMedianMs": 5.64818,
+      "candidateMedianMs": 6.0314,
+      "nearPairs": 2,
+      "nearMedianRatio": 1.0685797071793068
+    },
+    {
+      "key": [
+        501763084,
+        488,
+        435624,
+        421,
+        158232,
+        33
+      ],
+      "stockN": 2,
+      "candidateN": 2,
+      "stockMedianMs": 5.59748,
+      "candidateMedianMs": 7.540205,
+      "nearPairs": 2,
+      "nearMedianRatio": 1.3485754905214202
+    },
+    {
+      "key": [
+        501763084,
+        493,
+        440128,
+        421,
+        158232,
+        33
+      ],
+      "stockN": 1,
+      "candidateN": 2,
+      "stockMedianMs": 5.64448,
+      "candidateMedianMs": 6.22434,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.0792491070922388
+    },
+    {
+      "key": [
+        501763084,
+        495,
+        440344,
+        421,
+        158232,
+        33
+      ],
+      "stockN": 2,
+      "candidateN": 1,
+      "stockMedianMs": 7.08098,
+      "candidateMedianMs": 6.19452,
+      "nearPairs": 1,
+      "nearMedianRatio": 0.7206114329587492
+    },
+    {
+      "key": [
+        501763084,
+        498,
+        435432,
+        459,
+        174372,
+        36
+      ],
+      "stockN": 2,
+      "candidateN": 3,
+      "stockMedianMs": 5.84756,
+      "candidateMedianMs": 6.63604,
+      "nearPairs": 2,
+      "nearMedianRatio": 1.1302365776704257
+    },
+    {
+      "key": [
+        501763084,
+        499,
+        435580,
+        459,
+        174372,
+        36
+      ],
+      "stockN": 6,
+      "candidateN": 3,
+      "stockMedianMs": 5.91034,
+      "candidateMedianMs": 6.51912,
+      "nearPairs": 3,
+      "nearMedianRatio": 1.1135343431651874
+    },
+    {
+      "key": [
+        501763084,
+        499,
+        442096,
+        421,
+        158232,
+        33
+      ],
+      "stockN": 1,
+      "candidateN": 2,
+      "stockMedianMs": 5.52024,
+      "candidateMedianMs": 6.30714,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.173354781676159
+    },
+    {
+      "key": [
+        501763084,
+        500,
+        435832,
+        459,
+        174372,
+        36
+      ],
+      "stockN": 1,
+      "candidateN": 2,
+      "stockMedianMs": 6.28272,
+      "candidateMedianMs": 6.658939999999999,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.0726818957394249
+    },
+    {
+      "key": [
+        501763084,
+        510,
+        430012,
+        445,
+        167300,
+        35
+      ],
+      "stockN": 1,
+      "candidateN": 1,
+      "stockMedianMs": 5.52868,
+      "candidateMedianMs": 5.46076,
+      "nearPairs": 1,
+      "nearMedianRatio": 0.9877149699385749
+    },
+    {
+      "key": [
+        501763084,
+        513,
+        463956,
+        434,
+        165008,
+        34
+      ],
+      "stockN": 1,
+      "candidateN": 1,
+      "stockMedianMs": 5.82012,
+      "candidateMedianMs": 6.22384,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.0693662673621849
+    },
+    {
+      "key": [
+        501763084,
+        515,
+        464124,
+        434,
+        165008,
+        34
+      ],
+      "stockN": 1,
+      "candidateN": 1,
+      "stockMedianMs": 5.62348,
+      "candidateMedianMs": 6.2726,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.1154303029440844
+    },
+    {
+      "key": [
+        501763084,
+        518,
+        471008,
+        458,
+        163484,
+        36
+      ],
+      "stockN": 2,
+      "candidateN": 2,
+      "stockMedianMs": 5.89844,
+      "candidateMedianMs": 6.46658,
+      "nearPairs": 2,
+      "nearMedianRatio": 1.0966614405616593
+    },
+    {
+      "key": [
+        501763084,
+        524,
+        446064,
+        459,
+        174372,
+        36
+      ],
+      "stockN": 1,
+      "candidateN": 1,
+      "stockMedianMs": 5.97368,
+      "candidateMedianMs": 6.53352,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.093717775307683
+    },
+    {
+      "key": [
+        501763084,
+        524,
+        476760,
+        458,
+        163484,
+        36
+      ],
+      "stockN": 2,
+      "candidateN": 1,
+      "stockMedianMs": 5.96902,
+      "candidateMedianMs": 6.50152,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.0702090534979425
+    },
+    {
+      "key": [
+        501763084,
+        525,
+        446288,
+        459,
+        174372,
+        36
+      ],
+      "stockN": 3,
+      "candidateN": 3,
+      "stockMedianMs": 5.98432,
+      "candidateMedianMs": 6.5184,
+      "nearPairs": 2,
+      "nearMedianRatio": 1.0982983619353779
+    },
+    {
+      "key": [
+        501763084,
+        527,
+        446488,
+        459,
+        174372,
+        36
+      ],
+      "stockN": 4,
+      "candidateN": 4,
+      "stockMedianMs": 5.925140000000001,
+      "candidateMedianMs": 6.82114,
+      "nearPairs": 3,
+      "nearMedianRatio": 1.1556939742721732
+    },
+    {
+      "key": [
+        501763084,
+        528,
+        478632,
+        458,
+        163484,
+        36
+      ],
+      "stockN": 1,
+      "candidateN": 1,
+      "stockMedianMs": 5.84924,
+      "candidateMedianMs": 6.80792,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.1638982158365874
+    },
+    {
+      "key": [
+        501763084,
+        529,
+        448392,
+        459,
+        174372,
+        36
+      ],
+      "stockN": 3,
+      "candidateN": 2,
+      "stockMedianMs": 5.85644,
+      "candidateMedianMs": 7.371879999999999,
+      "nearPairs": 2,
+      "nearMedianRatio": 1.2353853808123827
+    },
+    {
+      "key": [
+        501763084,
+        529,
+        480900,
+        434,
+        165008,
+        34
+      ],
+      "stockN": 4,
+      "candidateN": 3,
+      "stockMedianMs": 5.66002,
+      "candidateMedianMs": 6.36216,
+      "nearPairs": 3,
+      "nearMedianRatio": 1.1093172451884268
+    },
+    {
+      "key": [
+        501763084,
+        532,
+        481920,
+        458,
+        163484,
+        36
+      ],
+      "stockN": 2,
+      "candidateN": 2,
+      "stockMedianMs": 5.9043399999999995,
+      "candidateMedianMs": 6.53822,
+      "nearPairs": 2,
+      "nearMedianRatio": 1.1073570813174056
+    },
+    {
+      "key": [
+        501763084,
+        535,
+        452280,
+        459,
+        174372,
+        36
+      ],
+      "stockN": 1,
+      "candidateN": 2,
+      "stockMedianMs": 5.10012,
+      "candidateMedianMs": 6.51604,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.293185258386077
+    },
+    {
+      "key": [
+        501763084,
+        538,
+        492232,
+        458,
+        163484,
+        36
+      ],
+      "stockN": 1,
+      "candidateN": 1,
+      "stockMedianMs": 6.02456,
+      "candidateMedianMs": 6.57364,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.0911402658451406
+    },
+    {
+      "key": [
+        501763084,
+        546,
+        492504,
+        461,
+        173268,
+        36
+      ],
+      "stockN": 5,
+      "candidateN": 5,
+      "stockMedianMs": 5.69704,
+      "candidateMedianMs": 6.37304,
+      "nearPairs": 3,
+      "nearMedianRatio": 1.115827863898922
+    },
+    {
+      "key": [
+        501763084,
+        548,
+        492720,
+        461,
+        173268,
+        36
+      ],
+      "stockN": 3,
+      "candidateN": 1,
+      "stockMedianMs": 6.00832,
+      "candidateMedianMs": 6.311,
+      "nearPairs": 1,
+      "nearMedianRatio": 0.8565697036819875
+    },
+    {
+      "key": [
+        501763084,
+        550,
+        492888,
+        461,
+        173268,
+        36
+      ],
+      "stockN": 1,
+      "candidateN": 1,
+      "stockMedianMs": 5.78872,
+      "candidateMedianMs": 6.5984,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.1398720269766027
+    },
+    {
+      "key": [
+        501763084,
+        552,
+        493264,
+        458,
+        163484,
+        36
+      ],
+      "stockN": 5,
+      "candidateN": 1,
+      "stockMedianMs": 6.06256,
+      "candidateMedianMs": 6.46076,
+      "nearPairs": 1,
+      "nearMedianRatio": 0.8585430935276654
+    },
+    {
+      "key": [
+        501763084,
+        552,
+        493976,
+        461,
+        173268,
+        36
+      ],
+      "stockN": 1,
+      "candidateN": 2,
+      "stockMedianMs": 5.93276,
+      "candidateMedianMs": 7.15719,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.3049137332371443
+    },
+    {
+      "key": [
+        501763084,
+        557,
+        496388,
+        458,
+        163484,
+        36
+      ],
+      "stockN": 1,
+      "candidateN": 1,
+      "stockMedianMs": 6.00172,
+      "candidateMedianMs": 6.85036,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.1413994654865607
+    },
+    {
+      "key": [
+        501763084,
+        559,
+        496444,
+        458,
+        163484,
+        36
+      ],
+      "stockN": 5,
+      "candidateN": 4,
+      "stockMedianMs": 5.98328,
+      "candidateMedianMs": 6.52506,
+      "nearPairs": 4,
+      "nearMedianRatio": 1.0967157030130785
+    },
+    {
+      "key": [
+        501763084,
+        563,
+        500788,
+        458,
+        163484,
+        36
+      ],
+      "stockN": 1,
+      "candidateN": 1,
+      "stockMedianMs": 5.46524,
+      "candidateMedianMs": 6.52004,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.1930015882193645
+    },
+    {
+      "key": [
+        501763084,
+        564,
+        500904,
+        458,
+        163484,
+        36
+      ],
+      "stockN": 2,
+      "candidateN": 1,
+      "stockMedianMs": 6.470685,
+      "candidateMedianMs": 5.87292,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.0861617446884062
+    },
+    {
+      "key": [
+        501763084,
+        565,
+        501684,
+        458,
+        163484,
+        36
+      ],
+      "stockN": 3,
+      "candidateN": 3,
+      "stockMedianMs": 6.02136,
+      "candidateMedianMs": 6.063,
+      "nearPairs": 2,
+      "nearMedianRatio": 1.0954249395447537
+    },
+    {
+      "key": [
+        501763084,
+        566,
+        495000,
+        461,
+        173268,
+        36
+      ],
+      "stockN": 2,
+      "candidateN": 2,
+      "stockMedianMs": 6.59176,
+      "candidateMedianMs": 6.61262,
+      "nearPairs": 2,
+      "nearMedianRatio": 1.0202453002592453
+    },
+    {
+      "key": [
+        501763084,
+        567,
+        495152,
+        461,
+        173268,
+        36
+      ],
+      "stockN": 3,
+      "candidateN": 4,
+      "stockMedianMs": 5.85616,
+      "candidateMedianMs": 6.60792,
+      "nearPairs": 3,
+      "nearMedianRatio": 1.1376065802619513
+    },
+    {
+      "key": [
+        501763084,
+        569,
+        496256,
+        461,
+        173268,
+        36
+      ],
+      "stockN": 2,
+      "candidateN": 2,
+      "stockMedianMs": 5.84042,
+      "candidateMedianMs": 6.6103000000000005,
+      "nearPairs": 1,
+      "nearMedianRatio": 1.1376116463402037
+    },
+    {
+      "key": [
+        501763084,
+        570,
+        496512,
+        461,
+        173268,
+        36
+      ],
+      "stockN": 3,
+      "candidateN": 3,
+      "stockMedianMs": 5.9318,
+      "candidateMedianMs": 6.41368,
+      "nearPairs": 3,
+      "nearMedianRatio": 1.0812367240972387
+    },
+    {
+      "key": [
+        501763084,
+        572,
+        497600,
+        461,
+        173268,
+        36
+      ],
+      "stockN": 6,
+      "candidateN": 5,
+      "stockMedianMs": 5.64686,
+      "candidateMedianMs": 6.47132,
+      "nearPairs": 5,
+      "nearMedianRatio": 1.1804842099118558
+    },
+    {
+      "key": [
+        501763084,
+        579,
+        538416,
+        470,
+        191836,
+        36
+      ],
+      "stockN": 1,
+      "candidateN": 1,
+      "stockMedianMs": 6.3696,
+      "candidateMedianMs": 6.94704,
+      "nearPairs": 0,
+      "nearMedianRatio": null
+    }
+  ]
+}

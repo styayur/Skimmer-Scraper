@@ -10,7 +10,7 @@ const selections = {
   'ai/semanticTargets': 'observe observedHere',
   'ai/missions': 'tick start validateMissions',
   'ai/journeyMemory': 'remember change snapshot',
-  'ai/ModelClient': 'request backgroundAvailable',
+  'ai/modelClient': 'request canRequest backgroundAvailable',
   'companions/AgentController': 'step perceive safeRoute',
   'flight/surfaceGlide': 'stepGlide glideChangedMotion followPlan',
   'flight/surfacePatchGraph': 'planSurfacePatches continuationContact sweptEdge',
@@ -52,7 +52,7 @@ for (const [stem, names] of Object.entries(selections)) {
       const prefix = 'globalThis.__meter.hit(' + lit + ');';
       if (timed.has(key) && !block) throw Error('timed expression body ' + key);
       if (block) {
-        edits.push([from+1,prefix+(timed.has(key)?'const __t=globalThis.__meter.start();try{':'')]);
+        edits.push([from+1,prefix+(timed.has(key)?'const __t=globalThis.__meter.start('+lit+');try{':'')]);
         if (timed.has(key)) edits.push([to-1,'}finally{globalThis.__meter.end('+lit+',__t);}']);
       } else {
         edits.push([from,'('+prefix.slice(0,-1)+',('], [to,'))']);

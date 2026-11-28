@@ -19,7 +19,7 @@ const servers=[];
 const refs=[...new Set(labels)];
 for (const [idx,ref] of refs.entries()) {
   const port=4173+idx;
-  const child=spawn(process.execPath,['node_modules/vite/bin/vite.js','preview','--port',String(port),'--strictPort'],
+  const child=spawn(process.execPath,['node_modules/vite/bin/vite.js','preview','--host','127.0.0.1','--port',String(port),'--strictPort'],
     {cwd:path.resolve(ref),stdio:'inherit'});
   servers.push(child);
 }
