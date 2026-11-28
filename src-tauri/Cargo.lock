@@ -1177,8 +1177,6 @@ dependencies = [
 [[package]]
 name = "glib"
 version = "0.18.5"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "233daaf6e83ae6a12a52055f568f9d7cf4671dabb78ff9560ab6da230ce00ee5"
 dependencies = [
  "bitflags 2.13.2",
  "futures-channel",
@@ -3300,6 +3298,7 @@ checksum = "33f4fe9184a62d842c9ef383018f3306d8ba224fd9d836f56d7288308847c256"
 name = "skimmer-scraper"
 version = "0.10.0"
 dependencies = [
+ "glib",
  "reqwest",
  "rfd",
  "rusqlite",
