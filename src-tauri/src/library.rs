@@ -275,6 +275,41 @@ mod tests {
     use super::*;
 
     #[test]
+    fn partial_schema_initialization_can_be_retried() -> Result<()> {
+        let scratch = tempfile::tempdir()?;
+        let db = Connection::open(scratch.path().join("worlds.sqlite"))?;
+        db.execute_batch(
+            "CREATE TABLE historical(k); CREATE INDEX tiles ON historical(k);
+                          INSERT INTO historical VALUES(42)",
+        )?;
+        assert!(connect(scratch.path()).is_err());
+        assert!(!db
+            .prepare("SELECT 1 FROM sqlite_schema WHERE name IN ('worlds','packs')")?
+            .exists([])?);
+        db.execute("DROP INDEX tiles", [])?;
+        let initialized = connect(scratch.path())?;
+        assert_eq!(
+            initialized.query_row("SELECT k FROM historical", [], |r| r.get::<_, i32>(0))?,
+            42
+        );
+        verify_snapshot(&initialized)?;
+        Ok(())
+    }
+
+    #[test]
+    fn location_readers_exclude_relocation_across_file_handles() -> Result<()> {
+        let scratch = tempfile::tempdir()?;
+        let reader = location_lock(scratch.path())?;
+        reader.lock_shared()?;
+        let mover = location_lock(scratch.path())?;
+        assert!(mover.try_lock().is_err());
+        drop(reader);
+        mover.try_lock()?;
+        assert!(location_lock(scratch.path())?.try_lock_shared().is_err());
+        Ok(())
+    }
+
+    #[test]
     fn records_survive_restart_and_invalid_replacement() -> Result<()> {
         let directory = std::env::temp_dir().join(format!(
             "skimmer-world-test-{}-{}",

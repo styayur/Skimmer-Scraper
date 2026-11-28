@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { spawn } from 'node:child_process';
+import { execFileSync, spawn } from 'node:child_process';
 import { createHash } from 'node:crypto';
 import { createServer } from 'node:net';
 import path from 'node:path';
@@ -22,7 +22,7 @@ export async function withInstalledGame(exe, version, source, visit) {
   const app = spawn(exe, [], { stdio: 'inherit', windowsHide: false, env: {
     ...process.env, WEBVIEW2_ADDITIONAL_BROWSER_ARGUMENTS: '--remote-debugging-address=127.0.0.1 --remote-debugging-port=' + new URL(endpoint).port,
   } });
-  let browser, page;
+  let browser;
   try {
     const deadline = Date.now() + 60000;
     while (Date.now() < deadline) {
@@ -32,7 +32,9 @@ export async function withInstalledGame(exe, version, source, visit) {
     }
     browser = await chromium.connectOverCDP(endpoint, { timeout: 10000 });
     const context = browser.contexts()[0];
-    page = context.pages()[0] ?? await context.waitForEvent('page');
+    context.setDefaultTimeout(30000);
+    context.setDefaultNavigationTimeout(90000);
+    const page = context.pages()[0] ?? await context.waitForEvent('page');
     await ready(page);
     const cdp = await context.newCDPSession(page);
     const scripts = new Map();
@@ -63,13 +65,16 @@ export async function withInstalledGame(exe, version, source, visit) {
     const { scriptSource } = await cdp.send('Debugger.getScriptSource', { scriptId: scripts.get(identity.entry) });
     identity.executedEntrySha256 = hash(scriptSource);
     await cdp.detach();
+    console.log('Installed WebView2', identity.build.version, identity.build.sourceCommit, identity.environment.webview2);
     await visit(page, identity);
   } finally {
-    if (page && !page.isClosed()) {
-      await page.evaluate(() => { void window.__TAURI__.window.getCurrentWindow().close(); }).catch(() => {});
-    }
-    for (let i = 0; app.exitCode === null && i < 100; i++) await delay(100);
     await browser?.close().catch(() => {});
+    if (app.exitCode === null && app.pid) {
+      // Use the same normal Windows close message as the installed desktop smoke.
+      const close = '$p = Get-Process -Id ' + app.pid + ' -ErrorAction SilentlyContinue; if ($p) { [void]$p.CloseMainWindow() }';
+      execFileSync('powershell.exe', ['-NoProfile', '-Command', close], { windowsHide: true, stdio: 'ignore' });
+      for (let i = 0; app.exitCode === null && i < 150; i++) await delay(100);
+    }
     if (app.exitCode === null) {
       app.kill();
       throw Error('The installed process did not shut down normally');

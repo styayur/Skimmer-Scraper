@@ -140,17 +140,22 @@ pub async fn pack_verify(app: AppHandle, id: String) -> std::result::Result<u64,
 }
 
 pub(crate) fn verify(db: &Connection, id: &str) -> Result<u64> {
-    let metadata: String = db.query_row(
-        "SELECT metadata FROM packs WHERE ready=1 AND id=?1",
+    let (metadata, tile_count): (String, usize) = db.query_row(
+        "SELECT metadata, (SELECT count(*) FROM tiles WHERE tiles.token=packs.token)
+         FROM packs WHERE ready=1 AND id=?1",
         [id],
-        |r| r.get(0),
+        |r| Ok((r.get(0)?, r.get(1)?)),
     )?;
     let manifest: Value = serde_json::from_str(&metadata)?;
+    let files = manifest["files"].as_array().ok_or("Missing files")?;
+    if manifest["id"] != id || files.is_empty() || files.len() != tile_count {
+        return Err("World pack manifest differs from its stored tiles".into());
+    }
     let mut total = 0;
-    for f in manifest["files"].as_array().ok_or("Missing files")? {
+    for f in files {
         let digest = f["sha256"].as_str().ok_or("Missing digest")?;
         let bytes: Vec<u8> = db.query_row(
-            "SELECT data FROM tiles JOIN packs USING(token) WHERE ready=1 AND id=?1 AND digest=?2",
+            "SELECT data FROM tiles JOIN packs USING(token) WHERE ready=1 AND id=?1 AND digest=?2 AND bytes=length(data)",
             params![id, digest],
             |r| r.get(0),
         )?;
@@ -294,6 +299,7 @@ mod tests {
         let first = begin(&mut db, manifest.clone())?;
         put(&mut db, &first, data)?;
         finish(&mut db, first.clone())?;
+        assert_eq!(verify(&db, "ascendant-high-2-334458")?, data.len() as u64);
         let second = begin(&mut db, manifest)?;
         assert!(finish(&mut db, second.clone()).is_err());
         let mut bad = data.to_vec();
@@ -309,6 +315,8 @@ mod tests {
             db.query_row("SELECT count(*) FROM tiles", [], |r| r.get::<_, i64>(0))?,
             1
         );
+        db.execute("UPDATE tiles SET data=zeroblob(bytes)", [])?;
+        assert!(verify(&db, "ascendant-high-2-334458").is_err());
         Ok(())
     }
 }

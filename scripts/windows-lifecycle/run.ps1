@@ -82,6 +82,7 @@ try {
         $entry = [ordered]@{ step = $stage; version = $version }
         $receipt.stages += $entry
         Save-Receipt
+        Write-Host "Running $stage with registered version $version"
         if ($stage -ne 'original') {
             python "$PSScriptRoot/snapshot.py" capture $appData "$scratch/backup-$stage" "$out/$stage-before.json"
         }

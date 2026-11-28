@@ -121,6 +121,7 @@ try {
     if (original) {
       assert.equal(await readMemory(page), null);
       await importPilot(page, pilot(records));
+      console.log('Imported pilot through the historical client');
       await populateLibrary(page);
       await page.locator('#local-world-builtin').evaluate(button => button.click());
       await page.waitForFunction(() => window.__SKIMMER_SCRAPER__.snapshot().localWorld === null);
@@ -129,6 +130,7 @@ try {
     if (!original && !upgrade) expected[best] = '140';
     if (!original && !upgrade && !rolledBack) expected[assisted] = '96.5';
     report.before = await witnessState(page, expected);
+    console.log('Verified pilot, legacy seed, local GLB and', report.before.tileHashes.length, 'pack tiles');
     if (!original) {
       const prior = await readJson('original.json');
       assert.equal(report.before.fingerprint, prior.before.fingerprint);
@@ -142,10 +144,15 @@ try {
       if (candidate) {
         await memorySettings(page);
         await page.locator('#journey-memory-enabled').check();
+        await page.waitForFunction(key => JSON.parse(localStorage.getItem(key))?.enabled, memoryKey);
         assert.equal(await page.locator('#journey-memory-share').isChecked(), false);
         await page.locator('#rules-close').click();
         await page.locator('#start-button').click();
         await page.waitForFunction(key => JSON.parse(localStorage.getItem(key))?.entries.some(e => e.event === 'visit'), memoryKey);
+        await page.evaluate(async key => {
+          window.__SKIMMER_SCRAPER__.pause();
+          await navigator.locks.request(key, () => {});
+        }, memoryKey);
       } else {
         // Released 0.10 has no Journey Memory UI. Exercise only retention of the unknown key.
         await page.evaluate(key => localStorage.setItem(key, JSON.stringify({ version: 1, enabled: true, shareWithModel: false,
