@@ -1,5 +1,6 @@
 import { t } from '../i18n';
 import { WORLD_IMPORT_LIMITS } from '../world/imports/worldManifest';
+import kineticUpstream from '../world/kinetic/upstream.json';
 
 export interface PartnerWorld {
   id: string;
@@ -19,7 +20,7 @@ export const partnerWorlds: readonly PartnerWorld[] = [
   { id: 'contact-deck', label: 'partner.contact', source: original + 'contact.glb', inspector: inspector + 'contact',
     bytes: 72744, sha256: '243949bbceae959ee58da971859bd5f614bf4b2f30ae7e5cf711fb3f597d89f3' },
   { id: 'switchyard', label: 'partner.switchyard',
-    source: 'https://raw.githubusercontent.com/styayur/V2Wpro/6143483c82caeb45d0e61b70934ad26d74a2bc95/examples/switchyard.glb',
+    source: 'https://raw.githubusercontent.com/styayur/V2Wpro/' + kineticUpstream.sourceCommit + '/examples/switchyard.glb',
     inspector: inspector + 'topogenesis', bytes: 326792,
     sha256: '7227e0cfe7d9c4051ea509e298028c7ae7eece2cde0e1d54b324f7f09197a348' },
 ];

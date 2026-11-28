@@ -1,4 +1,8 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
+import { createHash } from 'node:crypto';
+import { readFileSync } from 'node:fs';
+import release from '../../src/world/kinetic/upstream.json';
+import { KINETIC_CATALOG_SHA256 } from '../../src/world/kinetic/recipe';
 import { downloadPartnerWorld, partnerFromSearch, partnerWorlds } from '../../src/platform/partnerWorlds';
 import { WORLD_IMPORT_LIMITS } from '../../src/world/imports/worldManifest';
 import desktop from '../../src-tauri/tauri.conf.json';
@@ -8,6 +12,20 @@ const signal = new AbortController().signal;
 afterEach(() => vi.unstubAllGlobals());
 
 describe('confirmed partner downloads', () => {
+  it('binds the public protocol, six-module library and downloadable worlds to the producer manifest', () => {
+    const bytes = readFileSync(new URL('../../' + release.manifest, import.meta.url));
+    expect(createHash('sha256').update(bytes).digest('hex')).toBe(release.manifestSha256);
+    const manifest = JSON.parse(bytes.toString()) as {
+      version: string; files: { path: string; bytes: number; sha256: string }[];
+    };
+    expect(manifest.version).toBe(release.version);
+    const files = new Map(manifest.files.map(file => [file.path, file]));
+    expect(files.get('examples/kinetic-flight-modules.json')?.sha256).toBe(KINETIC_CATALOG_SHA256);
+    for (const world of partnerWorlds) {
+      const name = new URL(world.source).pathname.split('/').at(-1);
+      expect(files.get('examples/' + name)).toMatchObject({bytes: world.bytes, sha256: world.sha256});
+    }
+  });
   it('limits the desktop connection permission to the pinned producer repository path', () => {
     const directive = desktop.app.security.csp.split(';').find(item => item.trim().startsWith('connect-src'))!;
     const paths = directive.split(/\s+/).filter(host => host.includes('raw.githubusercontent.com'));

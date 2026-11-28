@@ -364,7 +364,7 @@ export const zh = {
   "ui.worldSeed": "输入种子",
   "ui.worldTheme": "世界主题",
   "ui.worldforge": "WorldForge · 层岩回廊",
-  "ui.kineticCity": "Kinetic City · 律动之城",
+  "ui.kineticCity": "Kinetic City · 动能之城",
   "ui.xM": "X（米）",
   "ui.yM": "Y（米）",
   "ui.yawAxis": "偏航轴",
