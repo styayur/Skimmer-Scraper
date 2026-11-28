@@ -1,0 +1,46 @@
+name: Observe flight HUD writes
+on:
+  push:
+    branches: [codex/kinetic-hud-evidence]
+    paths: ['acceptance/hud-write-witness/observe.mjs', '.github/workflows/observe-flight-hud.yml']
+permissions:
+  contents: read
+jobs:
+  measure:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          path: witness
+          persist-credentials: false
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: ac943acd6a2c6d21431aa138327bc3e64ed8552f
+          path: before
+          persist-credentials: false
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: b1582db7a1b1f88ec48435e0c3edf3b904cbda03
+          path: after
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24.22.3
+      - name: Build both pinned products
+        run: |
+          for version in before after; do
+            (cd "$version" && npm ci && npm run build)
+          done
+      - name: Install the locked Chromium
+        working-directory: after
+        run: npx playwright install --with-deps chromium
+      - name: Observe 48 frames of ordinary Free Flight on each build
+        run: node witness/acceptance/hud-write-witness/observe.mjs
+      - name: Preserve original observations
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: flight-hud-write-observations
+          path: observations/
+          if-no-files-found: warn
