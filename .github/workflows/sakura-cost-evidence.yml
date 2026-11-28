@@ -1,0 +1,66 @@
+name: Sakura flight workload
+on:
+  push:
+    branches: [codex/sakura-cost-evidence]
+    paths:
+      - '.github/workflows/sakura-cost-evidence.yml'
+      - 'acceptance/sakura-cost-011/tools/**'
+permissions:
+  contents: read
+jobs:
+  replay:
+    strategy:
+      fail-fast: false
+      matrix:
+        lane: [graphics, counters]
+    runs-on: ubuntu-latest
+    timeout-minutes: 32
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: evidence
+      - uses: actions/checkout@v4
+        with:
+          ref: 991138b8c67c188bd47731d6c193142750225818
+          path: stock
+      - uses: actions/checkout@v4
+        with:
+          ref: ac943acd6a2c6d21431aa138327bc3e64ed8552f
+          path: final
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: final/package-lock.json
+      - name: Prepare exact source and build identifiers
+        env:
+          LANE: ${{ matrix.lane }}
+        run: |
+          mkdir -p out
+          if [ "$LANE" = counters ]; then
+            npm install --prefix "$RUNNER_TEMP/ast" --no-save --ignore-scripts typescript@5.9.3
+          fi
+          for ref in stock final; do
+            cd "$ref"
+            git rev-parse HEAD > "../out/$ref.commit"
+            npm ci
+            if [ "$LANE" = counters ]; then
+              node ../evidence/acceptance/sakura-cost-011/tools/instrument.mjs "$RUNNER_TEMP/ast" "../out/$ref.probes.json"
+              npx vite build
+            else
+              npm run build
+            fi
+            find dist/assets -type f -name '*.js' -print0 | sort -z | xargs -0 sha256sum > "../out/$ref.bundles.sha256"
+            cd ..
+          done
+          (cd final && npx playwright install --with-deps chromium)
+      - name: Replay production flight
+        env:
+          LANE: ${{ matrix.lane }}
+        run: node evidence/acceptance/sakura-cost-011/tools/replay.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: sakura-${{ matrix.lane }}-${{ github.run_id }}-${{ github.run_attempt }}
+          path: out/
+          if-no-files-found: error
