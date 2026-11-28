@@ -1,0 +1,45 @@
+{
+  "sha256": "1c0ebf2bb7725f1e43152dab448ce9e9e2c5a43ee649df75d3fd83cfee9ec813",
+  "consumer": "67a568705cd0cabe18d467f465ae745e784aa245",
+  "outcome": "glide-and-release",
+  "sampledGlideMeters": 4.430022271266531,
+  "sampledGlideSeconds": 0.06666666666666676,
+  "longestContinuousSeconds": 0.06666666666666676,
+  "longestContinuousMeters": 4.430022271266531,
+  "minimumGlideClearance": 6.518032192049564,
+  "impacts": 0,
+  "phases": [
+    "FLIGHT",
+    "GLIDING",
+    "DETACHING"
+  ],
+  "minimumSampledSolidDistance": 6.518032192049564,
+  "peakSampledAcceleration": 40.835163442252835,
+  "level": "engine-replayed",
+  "dirty": false,
+  "binarySha256": "db070a006eb1e672ea92a994987cc563458aa5e2e621b4bafcda737564e8bd98",
+  "experiment": {
+    "module": "caldera",
+    "seed": 2503,
+    "profile": "cruise",
+    "ruleRevision": 0,
+    "inputId": "manual-top-lb6-release8-cruise",
+    "disposition": "may-reject",
+    "approach": "manual-top",
+    "wingmates": 3,
+    "directedCase": {
+      "world": "caldera",
+      "seed": 2503,
+      "sha256": "1c0ebf2bb7725f1e43152dab448ce9e9e2c5a43ee649df75d3fd83cfee9ec813",
+      "target": "mound-49",
+      "spawn": {
+        "x": -4.85,
+        "y": 26.4,
+        "z": -49.5
+      },
+      "spawnYaw": 180,
+      "captureTick": 6,
+      "releaseTick": 8
+    }
+  }
+}

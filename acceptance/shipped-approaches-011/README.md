@@ -1,5 +1,7 @@
 # V2Wpro v0.4 历史世界的可捕获入口
 
+正式 Web `67a56870` 已使用同一登记设计重放三个手动入口，逐帧对照与新产物身份单独收录。[67a56870 定向重播收据](results/46141440292/README.md)
+
 在 Skimmer-Scraper 正式 Web `ac943acd` 上，Canopy、Caldera 和 Lattice 各用一个预登记的手动入口实飞一次。三次都捕获了指定顶面，持续滑行到第二次 LB，主动释放后回到自由飞行，护盾受击均为零。三条路线各提供一个可复现的入口。五个默认出生点的中性 LB 结果和原矩阵的 **33/34** 独立保存在先前收据中。[飞行前登记的设计](https://github.com/styayur/Skimmer-Scraper/blob/1ccf35240747aeb7405679d1b517823a7b3f072b/acceptance/shipped-approaches-011/DESIGN.md) · [原 34+5 收据](https://github.com/styayur/Skimmer-Scraper/blob/c67d8f87e5b920019a7d46a3b1b0ec9ba0608882/acceptance/final-web-011/results/main-ac943acd/README.md)
 
 | 历史世界 | 默认出生点，中性 LB | 定向入口的实际结果 | 原始读数 |
