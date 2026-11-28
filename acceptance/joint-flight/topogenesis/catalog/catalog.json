@@ -1,0 +1,62 @@
+{
+  "build": {
+    "version": "0.10.0",
+    "sourceCommit": "bc395f8e0143fb8bfb5062dd138e88952c121f6d",
+    "sourceCommitTime": "2026-11-28T12:55:51+08:00",
+    "dirty": false,
+    "sourceUrl": "https://github.com/styayur/Skimmer-Scraper/tree/bc395f8e0143fb8bfb5062dd138e88952c121f6d",
+    "toolchain": {
+      "node": "v26.7.0",
+      "platform": "win32",
+      "architecture": "x64"
+    }
+  },
+  "browser": "153.0.8010.12",
+  "worlds": [
+    {
+      "id": "relay-district",
+      "confirmedSource": "https://raw.githubusercontent.com/styayur/V2Wpro/7eb42fd3db2693989db7d3626101ed1b6e92e533/examples/district.glb",
+      "beforeConfirmation": 0,
+      "requests": [
+        {
+          "method": "GET",
+          "url": "https://raw.githubusercontent.com/styayur/V2Wpro/7eb42fd3db2693989db7d3626101ed1b6e92e533/examples/district.glb"
+        }
+      ],
+      "sha256": "a707d463ce3279c9517d51b3dccde296c461eea2131b214315923b58b4f383d0",
+      "bytes": 18928,
+      "collisionTriangles": 1104,
+      "errors": []
+    },
+    {
+      "id": "contact-deck",
+      "confirmedSource": "https://raw.githubusercontent.com/styayur/V2Wpro/7eb42fd3db2693989db7d3626101ed1b6e92e533/examples/contact.glb",
+      "beforeConfirmation": 0,
+      "requests": [
+        {
+          "method": "GET",
+          "url": "https://raw.githubusercontent.com/styayur/V2Wpro/7eb42fd3db2693989db7d3626101ed1b6e92e533/examples/contact.glb"
+        }
+      ],
+      "sha256": "243949bbceae959ee58da971859bd5f614bf4b2f30ae7e5cf711fb3f597d89f3",
+      "bytes": 72744,
+      "collisionTriangles": 1240,
+      "errors": []
+    },
+    {
+      "id": "switchyard",
+      "confirmedSource": "https://raw.githubusercontent.com/styayur/V2Wpro/6143483c82caeb45d0e61b70934ad26d74a2bc95/examples/switchyard.glb",
+      "beforeConfirmation": 0,
+      "requests": [
+        {
+          "method": "GET",
+          "url": "https://raw.githubusercontent.com/styayur/V2Wpro/6143483c82caeb45d0e61b70934ad26d74a2bc95/examples/switchyard.glb"
+        }
+      ],
+      "sha256": "7227e0cfe7d9c4051ea509e298028c7ae7eece2cde0e1d54b324f7f09197a348",
+      "bytes": 326792,
+      "collisionTriangles": 6100,
+      "errors": []
+    }
+  ]
+}
