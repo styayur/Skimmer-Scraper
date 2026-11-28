@@ -4,7 +4,7 @@ All rows use the v0.10.0 entry bundle `91f1a9bcdb190878af05d6b93ebdc16c01fbbb5ff
 
 ## Revision 0 → revision 1
 
-At boost seed 8132 the bowl sustained 154.0 m of sampled contact and actively detached at 2.36 s. The aircraft returned to FLIGHT at 2.55 s and recorded a shield strike at 2.74 s. The sky arch held 234.6 m until the second LB press. DETACHING appeared at 3.12 s and the shield struck by 3.32 s. The stock controller and input are frozen. Producer request: reduce the vertical curvature across the bowl and arch departure envelope, then repeat the two boost inputs.
+At boost seed 8132 the bowl sustained 154.0 m of sampled contact and actively detached at 2.36 s. The aircraft returned to FLIGHT at 2.55 s and recorded a shield strike at 2.74 s. The sky arch held 234.6 m until the second LB press. DETACHING appeared at 3.12 s and the shield struck by 3.32 s. We asked the producer to reduce the vertical curvature across the bowl and arch departure envelope, then repeat the two boost inputs on the stock controller.
 
 The helix at cruise seed 8131 held 127.3 m, entered REACQUIRE at 2.55 s, returned to FLIGHT at 2.87 s and struck the shield at 3.38 s, before the second LB pulse at 3.584 s. S-curve cruise and both ribbon-bridge profiles completed active release with zero strikes. Retain those as controls.
 
@@ -12,7 +12,7 @@ The full v2 sample for the producer reader is [s-curve-8131-cruise.json](r0/s-cu
 
 ## Revision 1 → revision 2
 
-Producer `382a5c201b246849d5023a9eabdac5eef13e4d02` bounded longitudinal height on the bowl and arch. At boost seed 8132 the bowl and arch held 159.9 m and 237.5 m respectively, with active release and zero strikes. The original helix bytes reproduced the 2.55 s contact loss and 3.38 s shield strike. The unchanged ribbon control still held through release. Producer request: give the descending helix strand clearance from the stock neutral tangent after contact loss, retaining its loop and sockets. The six holdouts remain untouched through the revision-2 rule freeze.
+Producer `382a5c201b246849d5023a9eabdac5eef13e4d02` bounded longitudinal height on the bowl and arch. At boost seed 8132 the bowl and arch held 159.9 m and 237.5 m respectively, with active release and zero strikes. The original helix bytes reproduced the 2.55 s contact loss and 3.38 s shield strike. The unchanged ribbon control still held through release. We asked the producer to give the descending helix strand clearance from the stock neutral tangent after contact loss while retaining its loop and sockets. The six holdouts remained untouched through the revision-2 rule freeze.
 
 The first two batches used the historical clock setup. Clock phase could move an input by one fixed step. The aligned batches start on a controlled animation frame and preserve the preliminary observations above.
 
