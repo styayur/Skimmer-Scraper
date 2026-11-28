@@ -3,9 +3,6 @@ import type { MeshBVH } from 'three-mesh-bvh';
 import type { Vec3 } from '../core/math';
 import type { WorldSettings } from './worldConfig';
 
-/** Optional resolver on a loaded chunk. Triangle indices refer to its live collision BVH. */
-type LogicalSurfaceAt = (localPoint: Vec3, triangle: number) => string | undefined;
-
 export interface CollisionChunk {
   id: string;
   chunkX: number;
@@ -13,7 +10,6 @@ export interface CollisionChunk {
   origin: Vec3;
   bounds: Box3;
   geometry: BufferGeometry;
-  logicalSurfaceAt?: LogicalSurfaceAt;
 }
 
 export interface ChunkGenerationStats {
@@ -34,7 +30,6 @@ export interface GeneratedChunk {
   bounds: Box3;
   collisionGeometry: BufferGeometry;
   collisionTree?: MeshBVH;
-  logicalSurfaceAt?: LogicalSurfaceAt;
   passage?: { corridor: Box3; dispose(): void };
   workerBuildMs?: number;
   fingerprint: number;

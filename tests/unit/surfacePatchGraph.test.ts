@@ -9,7 +9,7 @@ import { flightWouldCollide, resolveShield } from '../../src/game/shield';
 import { ChunkedWorldAdapter } from '../../src/world/chunkedWorldAdapter';
 import { UnifiedSurfaceQuery } from '../../src/world/unifiedSurfaceQuery';
 import { createGlideCourse } from '../fixtures/glideCourses';
-import type { SurfaceProvider } from '../../src/world/worldTypes';
+import type { SurfaceProvider, SurfaceQuery } from '../../src/world/worldTypes';
 import type { Vec3 } from '../../src/core/math';
 
 const v = (x = 0, y = 0, z = 0) => new Vector3(x, y, z);
@@ -23,10 +23,15 @@ class CourseWorld extends UnifiedSurfaceQuery {
   constructor(readonly chunks = new ChunkedWorldAdapter()) { super(chunks); }
   add(id: string, geometry: BufferGeometry) {
     geometry.computeBoundingBox();
-    this.chunks.addChunk({ id, geometry, bounds: geometry.boundingBox!, origin: v(), chunkX: 0, chunkZ: 0,
-      logicalSurfaceAt: this.keys.has(id) ? () => this.keys.get(id) : undefined });
+    this.chunks.addChunk({ id, geometry, bounds: geometry.boundingBox!, origin: v(), chunkX: 0, chunkZ: 0 });
   }
   isGlideVolumeCovered(center: Vec3, radius: number) { return this.covered && this.covers(center, radius); }
+  override queryGlideAhead(...args: Parameters<UnifiedSurfaceQuery['queryGlideAhead']>): SurfaceQuery | null {
+    const hit = super.queryGlideAhead(...args);
+    const key = hit && this.keys.get(hit.surfaceId);
+    if (key && hit?.contact) hit.contact.logicalSurfaceId = key;
+    return hit;
+  }
 }
 
 function fly(world: CourseWorld, start: FlightState, seconds: number,
@@ -203,13 +208,20 @@ describe('rolling finite patch guidance', () => {
     expect(run.collisions + run.shieldImpacts).toBe(0);
   });
 
-  it('resolves an optional surface key on the live BVH in chunk-local coordinates', () => {
-    const chunks = new ChunkedWorldAdapter(), geometry = foldedDeck(-40, 32);
-    geometry.computeBoundingBox();
-    chunks.addChunk({ id: 'lease', chunkX: 100, chunkZ: -150, origin: v(22000, 0, -33000),
-      geometry, bounds: geometry.boundingBox!, logicalSurfaceAt: (p, face) => p.x > 0 && face >= 0 ? 'upper/deck' : undefined });
-    expect(chunks.queryGlide(v(22003, 6, -33000), 9)?.contact?.logicalSurfaceId).toBe('upper/deck');
-    expect(chunks.queryGlide(v(21997, 6, -33000), 9)?.contact?.logicalSurfaceId).toBeUndefined();
+  it('exhausts one reacquisition budget across intermittent one-tick contact returns', () => {
+    const world = new CourseWorld(), geometry = new BoxGeometry(48, 1, 240).translate(0, -0.5, 0);
+    world.add('lease', geometry);
+    world.advance = time => {
+      const tick = Math.round(time / dt);
+      if (tick < 24) return;
+      if (tick % 3 === 0) world.chunks.removeChunk('lease');
+      if (tick % 3 === 2) world.add('lease', geometry);
+    };
+    const run = fly(world, createFlightState({ position: v(0, 6, 30), yaw: 0 }), 1);
+    rows.push({ fixture: 'intermittent lease', profile: 'precision', run });
+    expect(run.phases.find(p => p.phase === 'RECOVERY')?.time).toBeLessThan(0.5);
+    expect(run.lastPhase).toBe('FLIGHT');
+    expect(run.collisions + run.shieldImpacts).toBe(0);
   });
 
   it.each([48, 76, 102])('checks swept clearance as the next collision lease reloads at %i m/s', speed => {

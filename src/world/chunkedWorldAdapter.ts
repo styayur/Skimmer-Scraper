@@ -8,7 +8,6 @@ interface IndexedChunk {
   origin: THREE.Vector3;
   bounds: THREE.Box3;
   bvh: MeshBVH;
-  logicalSurfaceAt?: CollisionChunk['logicalSurfaceAt'];
 }
 
 export const collisionBvhOptions = { maxDepth: 28, targetLeafSize: 10 };
@@ -47,7 +46,6 @@ export class ChunkedWorldAdapter implements SurfaceProvider {
       origin: new THREE.Vector3(chunk.origin.x, chunk.origin.y, chunk.origin.z),
       bounds: chunk.bounds.clone(),
       bvh: prepared ?? new MeshBVH(chunk.geometry, collisionBvhOptions),
-      logicalSurfaceAt: chunk.logicalSurfaceAt,
     });
   }
 
@@ -105,10 +103,7 @@ export class ChunkedWorldAdapter implements SurfaceProvider {
       const i = 3 * triangle;
       const normal = THREE.Triangle.getNormal(vertex(i),vertex(i+1),vertex(i+2),new THREE.Vector3());
       if (normal.dot(this.queryPoint.clone().sub(bestPoint)) < 0) normal.negate();
-      const localPoint = bestPoint.clone().sub(bestChunk.origin);
-      frame = { normal, localPoint, triangle, geometryId: geometry.uuid, velocity: { x: 0, y: 0, z: 0 } };
-      const logicalId = bestChunk.logicalSurfaceAt?.(localPoint, triangle);
-      if (logicalId) frame.logicalSurfaceId = logicalId;
+      frame = { normal, localPoint: bestPoint.clone().sub(bestChunk.origin), triangle, geometryId:geometry.uuid, velocity:{x:0,y:0,z:0} };
     }
     return {
       ...(frame ? {contact:frame} : {}),
