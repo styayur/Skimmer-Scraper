@@ -1,12 +1,19 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { downloadPartnerWorld, partnerFromSearch, partnerWorlds } from '../../src/platform/partnerWorlds';
 import { WORLD_IMPORT_LIMITS } from '../../src/world/imports/worldManifest';
+import desktop from '../../src-tauri/tauri.conf.json';
 
 const world = partnerWorlds[0]!;
 const signal = new AbortController().signal;
 afterEach(() => vi.unstubAllGlobals());
 
 describe('confirmed partner downloads', () => {
+  it('limits the desktop connection permission to the pinned producer repository path', () => {
+    const directive = desktop.app.security.csp.split(';').find(item => item.trim().startsWith('connect-src'))!;
+    const paths = directive.split(/\s+/).filter(host => host.includes('raw.githubusercontent.com'));
+    expect(paths).toEqual(['https://raw.githubusercontent.com/styayur/V2Wpro/']);
+    expect(partnerWorlds.every(world => world.source.startsWith(paths[0]!))).toBe(true);
+  });
   it('resolves only catalog IDs and never dereferences a URL from a link', () => {
     const fetch = vi.fn();
     vi.stubGlobal('fetch', fetch);

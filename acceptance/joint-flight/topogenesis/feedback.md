@@ -17,3 +17,7 @@ Producer `382a5c201b246849d5023a9eabdac5eef13e4d02` bounded longitudinal height 
 The first two batches used the historical clock setup. Clock phase could move an input by one fixed step. The aligned batches start on a controlled animation frame and preserve the preliminary observations above.
 
 One preliminary boost ribbon at revision 1 struck the shield on byte-identical control geometry. Its preliminary revision-0 counterpart completed the release. The controlled-frame alignment change addresses this input timing difference. Both raw outcomes are retained.
+
+## Frozen revision 2
+
+Producer `6522b42c9a020c96712a523e3492d8fc2377340a` moved the helix's descending strand away from the neutral flight tangent. On the aligned seed-8131 replay it retained 127.3 m of sampled glide. Minimum sampled solid distance rose from 3.56 m to 5.94 m and the shield strike disappeared. Contact loss remained. Under the same aligned input both earlier revisions struck the shield. The revision-1 boost bowl and arch clean releases also reproduced. The matrix and holdouts used these frozen rules. Cruise bowl exits and oblique S-curve recovery remain finite, reproducible follow-up cases.
