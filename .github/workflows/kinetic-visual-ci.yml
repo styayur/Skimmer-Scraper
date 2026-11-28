@@ -2,7 +2,7 @@ name: Draw the installed Switchyard flight comparison
 on:
   push:
     branches: [codex/kinetic-content-67a5687]
-    paths: [scripts/render-kinetic-flight-comparison.py]
+    paths: [scripts/render-kinetic-flight-comparison.py, .github/workflows/kinetic-visual-ci.yml]
 permissions:
   contents: read
 jobs:
@@ -18,7 +18,7 @@ jobs:
       - name: Prepare plotting environment
         run: |
           python3 -m venv "$RUNNER_TEMP/plot"
-          "$RUNNER_TEMP/plot/bin/python" -m pip install --disable-pip-version-check --only-binary=:all: matplotlib==3.10.3
+          "$RUNNER_TEMP/plot/bin/python" -m pip install --disable-pip-version-check --only-binary=:all: matplotlib==3.10.9
       - name: Render the published measurements
         run: '"$RUNNER_TEMP/plot/bin/python" scripts/render-kinetic-flight-comparison.py result'
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
