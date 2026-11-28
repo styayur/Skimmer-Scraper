@@ -70,7 +70,10 @@ try {
   });
   assert.match(runtime.origin, /^https?:\/\/tauri\.localhost$/);
   if (process.env.SKIMMER_QA_SHA) assert.equal(runtime.app.sourceCommit, process.env.SKIMMER_QA_SHA);
-  if (libraryCheck === 'product') {
+  if (libraryCheck === 'partner-catalog') {
+    const { checkDesktopCatalog } = await import('./desktop-partner-check.mjs');
+    await checkDesktopCatalog(page, output, runtime);
+  } else if (libraryCheck === 'product') {
     const { checkDesktopProduct } = await import('./desktop-product-check.mjs');
     await checkDesktopProduct(page, output, runtime);
   } else if (libraryCheck === 'flight-voice') {
@@ -217,6 +220,10 @@ try {
         2,
       ) + '\n',
     );
+    if (await page.locator('#partner-world-catalog').count()) {
+      const { checkDesktopCatalog } = await import('./desktop-partner-check.mjs');
+      await checkDesktopCatalog(page, output, runtime);
+    }
   }
 } finally {
   await browser?.close().catch(() => {});
