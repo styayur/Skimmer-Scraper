@@ -1,0 +1,4 @@
+# Keep the archived crate and its source receipts byte-identical on Windows.
+vendor/glib/** -text
+security/glib-*.patch -text
+security/glib-provenance.json -text
