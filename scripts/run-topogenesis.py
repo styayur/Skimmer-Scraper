@@ -15,6 +15,8 @@ parser.add_argument("output", type=Path, help="New directory, or an existing dir
 parser.add_argument("--revision", type=int, choices=[0, 1, 2], default=0)
 parser.add_argument("--url", default="http://127.0.0.1:4173")
 parser.add_argument("--browser")
+parser.add_argument("--controller", default=matrix["controller"], help="Expected clean game source commit")
+parser.add_argument("--entry-sha256", default=matrix["entrySha256"], help="Expected served JavaScript entry digest")
 parser.add_argument("--verify-with", type=Path, help="Regenerate the GLB and validate an existing report with the producer reader")
 parser.add_argument("--only", help="Filter by module or decimal seed")
 parser.add_argument("--resume", action="store_true", help="Reuse completed reports matching the frozen case and controller")
@@ -42,7 +44,8 @@ for module, seed, profile, tick, disposition, approach, wingmates in rows:
                             disposition=disposition, approach=approach, wingmates=wingmates)
             if (all(saved.get("experiment", {}).get(key) == value for key, value in expected.items())
                     and saved.get("releaseTick") == tick and saved.get("metrics", {}).get("completed")
-                    and saved.get("build", {}).get("sourceCommit") == matrix["controller"]
+                    and saved.get("build", {}).get("sourceCommit") == args.controller
+                    and saved.get("binary", {}).get("sha256") == args.entry_sha256
                     and saved["build"]["dirty"] is False and saved.get("schedule", {}).get("launchFrameOffsetMs") == 0):
                 continue
         parser.error(f"Report already exists: {report}")
@@ -78,6 +81,7 @@ for module, seed, profile, tick, disposition, approach, wingmates in rows:
             command.append("--boost")
         subprocess.run(command, check=True)
         result = json.loads(report.read_text())
-        if result["build"]["sourceCommit"] != matrix["controller"] or result["build"]["dirty"]:
-            raise ValueError("The served build differs from the frozen benchmark controller")
+        if (result["build"]["sourceCommit"] != args.controller or result["build"]["dirty"]
+                or result["binary"]["sha256"] != args.entry_sha256):
+            raise ValueError("The served source or JavaScript digest differs from the expected controller")
         print(result["experiment"]["inputId"], result["outcome"], result["metrics"]["meetsDisposition"], flush=True)
