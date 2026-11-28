@@ -101,10 +101,13 @@ jobs:
           sparse-checkout: |
             tools
             src
+            schema
           persist-credentials: false
       - name: Read both emitted observations with the official v0.4 reader
         if: ${{ !cancelled() && steps.official.outcome == 'success' }}
         run: |
+          npm ci --prefix official-producer --omit=dev --ignore-scripts --no-audit --no-fund
+          if ($LASTEXITCODE) { throw 'Producer reader dependencies could not be installed from its lockfile' }
           foreach ($opening in 'fresh','reopened') {
             $report = "$env:EVIDENCE/$opening-observation.json"
             if (!(Test-Path -LiteralPath $report)) { throw "Missing observation $opening" }
