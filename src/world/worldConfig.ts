@@ -35,7 +35,8 @@ export interface CityGenerationConfig {
 }
 
 export interface WorldSettings {
-  theme?: 'dragonspine' | 'worldforge';
+  theme?: 'dragonspine' | 'worldforge' | 'kinetic-city';
+  dragonSpans?: true;
   generatedPassages?: true;
   paletteHue?: number;
   seed: number;
@@ -51,6 +52,8 @@ export interface WorldPresetOption {
   label: string;
   description: string;
 }
+
+export const supportsSkyInversion = (settings: WorldSettings): boolean => !settings.theme || settings.theme === 'kinetic-city';
 
 export const WORLD_PRESET_OPTIONS: readonly WorldPresetOption[] = Object.freeze([
   { id: 'sakura', label: 'Sakura Dusk', description: '樱色黄昏、层叠高架与花园屋顶' },
@@ -215,6 +218,7 @@ export const worldSettingsFromSearch = (search: string | URLSearchParams): World
   const explicit = params.get('gen');
   const theme = params.get('theme');
   const dragon = theme === 'dragonspine' || theme === 'ascendant' || theme === 'dragon';
+  const kinetic = theme === 'kinetic-city';
   const hasLegacyFields = params.has('seed') || params.has('preset') || params.has('world');
   const generatorVersion = explicit === String(GENERATOR_VERSION) || (!explicit && !hasLegacyFields)
     ? GENERATOR_VERSION
@@ -223,21 +227,23 @@ export const worldSettingsFromSearch = (search: string | URLSearchParams): World
     seed: params.get('seed'),
     preset: params.get('preset'),
     mode: params.get('world'),
-    generatorVersion: dragon || theme === 'worldforge' ? GENERATOR_VERSION : generatorVersion,
+    generatorVersion: dragon || kinetic || theme === 'worldforge' ? GENERATOR_VERSION : generatorVersion,
   });
-  if (theme === 'worldforge') settings.theme = theme;
+  if (theme === 'worldforge' || kinetic) settings.theme = theme;
   if (dragon) settings.theme = 'dragonspine';
+  if (dragon && params.get('spans') === '1') settings.dragonSpans = true;
   if (!settings.theme && settings.generatorVersion === GENERATOR_VERSION && params.get('passages') === '1') {
     settings.generatedPassages = true;
   }
   return settings;
 };
 
-export const buildWorldShareUrl = (baseHref: string, settings: Pick<WorldSettings, 'theme' | 'seedText' | 'preset' | 'mode' | 'generatorVersion' | 'generatedPassages'>): string => {
+export const buildWorldShareUrl = (baseHref: string, settings: Pick<WorldSettings, 'theme' | 'seedText' | 'preset' | 'mode' | 'generatorVersion' | 'generatedPassages' | 'dragonSpans'>): string => {
   const url = new URL(baseHref);
   url.search = '';
   url.hash = '';
   if (settings.theme) url.searchParams.set('theme', settings.theme);
+  if (settings.theme === 'dragonspine' && settings.dragonSpans) url.searchParams.set('spans', '1');
   if (settings.generatedPassages && !settings.theme && settings.generatorVersion === GENERATOR_VERSION) {
     url.searchParams.set('passages', '1');
   }

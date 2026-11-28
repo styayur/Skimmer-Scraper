@@ -30,7 +30,8 @@ export const defaultScoreContext: ScoreContext = Object.freeze({
 
 export const scoreContextFor = (settings: WorldSettings, rules?: RuleConfig): ScoreContext => ({
   // Keep the existing score key for the same terrain, including after a rollback.
-  ...(settings.theme === 'worldforge' ? { worldAsset: 'worldforge-1' } : settings.theme === 'dragonspine' ? { worldAsset: 'ascendant' } :
+  ...(settings.theme === 'kinetic-city' ? { worldAsset: 'kinetic-grid-1' } :
+    settings.theme === 'worldforge' ? { worldAsset: 'worldforge-1' } : settings.theme === 'dragonspine' ? { worldAsset: settings.dragonSpans ? 'dragonspine-spans-1' : 'ascendant' } :
     settings.generatedPassages ? { worldAsset: 'generated-passages-v1' } : {}),
   seedText: settings.seedText,
   preset: settings.preset,

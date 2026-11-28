@@ -75,7 +75,7 @@ import {
 } from './world/chunkRevisionHistory';
 import { WorldStreamer, type StreamerStats, type StreamerUpdate } from './world/worldStreamer';
 import type { WorldMode, WorldPresetId } from './world/worldConfig';
-import { buildWorldShareUrl, DEFAULT_WORLD_SEED, DENSE_GENERATOR_VERSION, GENERATOR_VERSION, resolveWorldSettings, worldSettingsFromSearch } from './world/worldConfig';
+import { buildWorldShareUrl, DEFAULT_WORLD_SEED, DENSE_GENERATOR_VERSION, GENERATOR_VERSION, resolveWorldSettings, supportsSkyInversion, worldSettingsFromSearch } from './world/worldConfig';
 import { queryFlightSurface as nearestSurface, type SurfaceQuery, type WorldStats } from './world/worldTypes';
 import { ImportedWorldAdapter } from './world/imports/importedWorldAdapter';
 import type { WorldManifest } from './world/imports/worldManifest';
@@ -436,9 +436,10 @@ const applyWorldSettings = (
   const passages = theme === 'city' && worldPassages.checked;
   const next = resolveWorldSettings({
     seed: seedValue, preset: baseWorldSettings.preset, mode: worldMode,
-    generatorVersion: upgrade || passages || theme === 'worldforge' || theme === 'dragonspine' ? GENERATOR_VERSION : baseWorldSettings.generatorVersion,
+    generatorVersion: upgrade || passages || theme !== 'city' ? GENERATOR_VERSION : baseWorldSettings.generatorVersion,
   });
-  if (theme === 'dragonspine' || theme === 'worldforge') next.theme = theme;
+  if (theme === 'dragonspine' || theme === 'worldforge' || theme === 'kinetic-city') next.theme = theme;
+  if (theme === 'dragonspine') next.dragonSpans = true;
   if (passages) next.generatedPassages = true;
   worldPanel.clearVisit();
   window.location.assign(buildWorldShareUrl(window.location.href, next));
@@ -769,7 +770,7 @@ const simulateFixedStep = timedFlightFunction('fixedStep', (dt: number, holdPosi
       symbiosis.flightReport(3, 'island', 'notice');
     }
   }
-  if(activeWorld instanceof WorldStreamer && !activeWorld.settings.theme && journey.observe(previousY,flightState,runRules,dt)){
+  if(activeWorld instanceof WorldStreamer && supportsSkyInversion(activeWorld.settings) && journey.observe(previousY,flightState,runRules,dt)){
     pendingRadio=null;
     voiceRadio.reset();
     glide = freeGlide();

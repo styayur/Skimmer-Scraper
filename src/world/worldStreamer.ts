@@ -5,6 +5,7 @@ import { RealmHorizon } from './realmHorizon';
 import { RealmDetail } from './realmDetail';
 import { PassageChunkSource } from './procedural/passageChunkSource';
 import { PASSAGE_GRAMMAR_VERSION } from './procedural/passageGrammar';
+import { kineticSpawn, KINETIC_RECIPE, KINETIC_CATALOG_SHA256 } from './kinetic/recipe';
 import * as THREE from 'three';
 import { CHUNK_SIZE, DENSE_GENERATOR_VERSION, type WorldSettings } from './worldConfig';
 import { chunkKey, type ChunkSource } from './chunkSource';
@@ -109,6 +110,10 @@ const MAX_FORECAST_SECONDS = 4.5;
 const PLAN_INTERVAL_MS = 90;
 const RETENTION_MS = 1_250;
 const RETENTION_PRIORITY = 30;
+let nextStreamerLease = 0;
+const hintCapabilities = {
+  surface: ['glide', 'observe'], route: ['guide', 'scout'], socket: ['guide', 'scout'],
+} as const;
 
 export interface GenerationTiming {
   count: number;
@@ -161,6 +166,7 @@ const geometryBytes = (geometry: THREE.BufferGeometry): number => {
 const isActive = (record: ManagedChunk): boolean => record.state === 'ACTIVE';
 
 export class WorldStreamer implements RenderableWorld {
+  private readonly leaseId = ++nextStreamerLease;
   public readonly root = new THREE.Group();
   public readonly adapter = new ChunkedWorldAdapter();
   private readonly surfaces = new UnifiedSurfaceQuery(this.adapter);
@@ -228,8 +234,8 @@ export class WorldStreamer implements RenderableWorld {
     this.onChunkActivated = options.onChunkActivated ?? (() => {});
     this.onChunkRetired = options.onChunkRetired ?? (() => {});
     this.root.name = `world-stream-${settings.seed}`;
-    this.architecture = settings.theme === 'worldforge' ? null : settings.theme ? new CrownbackFlight(settings.seed, this.surfaces.dynamic)
-      : settings.generatorVersion >= DENSE_GENERATOR_VERSION
+    this.architecture = settings.theme === 'dragonspine' ? new CrownbackFlight(settings.seed, this.surfaces.dynamic)
+      : !settings.theme && settings.generatorVersion >= DENSE_GENERATOR_VERSION
       ? new ProceduralArchitecture(settings, this.surfaces.dynamic) : null;
     if (this.architecture) this.root.add(this.architecture.group);
     const baseSource = settings.theme !== 'dragonspine' && typeof Worker !== 'undefined'
@@ -237,7 +243,7 @@ export class WorldStreamer implements RenderableWorld {
     this.source = options.source ?? (settings.generatedPassages && this.architecture instanceof ProceduralArchitecture
       ? new PassageChunkSource(baseSource(), settings.seed, this.architecture.ceiling) : baseSource());
     const ground = terrainHeightAt(SPAWN_X, SPAWN_Z, settings);
-    this.defaultSpawn = {
+    this.defaultSpawn = settings.theme === 'kinetic-city' ? kineticSpawn(settings.seed) : {
       position: { x: SPAWN_X, y: ground + 24, z: SPAWN_Z },
       yaw: 0,
       pitch: -0.015,
@@ -253,7 +259,9 @@ export class WorldStreamer implements RenderableWorld {
       settings.config.streetSpacing,
       settings.config.islandFrequency,
       settings.config.terrainAmplitude,
-      ...(settings.theme === 'worldforge' ? ['worldforge-1'] : settings.theme ? ['ascendant-2'] : []),
+      ...(settings.theme === 'kinetic-city' ? [KINETIC_RECIPE, KINETIC_CATALOG_SHA256] :
+        settings.theme === 'worldforge' ? ['worldforge-1'] : settings.theme === 'dragonspine' ? ['ascendant-2'] : []),
+      ...(settings.dragonSpans ? ['canyon-span-1', KINETIC_CATALOG_SHA256] : []),
       ...(settings.generatedPassages ? ['generated-passage', PASSAGE_GRAMMAR_VERSION] : []),
     );
   }
@@ -408,6 +416,40 @@ export class WorldStreamer implements RenderableWorld {
   }
   public queryProximity(position: Vec3, range: number) { return this.surfaces.queryProximity(position, range); }
   public queryStatic(position: Vec3, range: number) { return this.surfaces.queryStatic(position, range); }
+  /** Collision activation owns the hints and their leases. Coordinates stay in simulation space. */
+  public semanticCandidates(position: Vec3) {
+    const found = [];
+    const reach = 160;
+    if ((this.settings.theme === 'kinetic-city' || this.settings.dragonSpans) && Number.isFinite(position.x) && Number.isFinite(position.z)) {
+      for (let x = Math.floor((position.x-reach)/CHUNK_SIZE); x <= Math.floor((position.x+reach)/CHUNK_SIZE); x++) {
+        for (let z = Math.floor((position.z-reach)/CHUNK_SIZE); z <= Math.floor((position.z+reach)/CHUNK_SIZE); z++) {
+          const owner = this.chunks.get(chunkKey(x,z));
+          if (owner?.state !== 'ACTIVE') continue;
+          for (const { id, kind, position: p } of owner.generated?.topology?.hints ?? []) {
+            const distance = Math.hypot(p.x-position.x, p.y-position.y, p.z-position.z);
+            if (distance <= reach) found.push({ distance, candidate: {
+              semantic: { version: 1 as const, id, kind, capabilities: [...hintCapabilities[kind]] },
+              position: { ...p }, lease: this.leaseId + '.' + owner.requestToken,
+            } });
+          }
+        }
+      }
+    }
+    return found.sort((a,b) => a.distance-b.distance || a.candidate.semantic.id.localeCompare(b.candidate.semantic.id))
+      .slice(0, 32).map(item => item.candidate);
+  }
+
+  public routeHint(position: Vec3, forward: Vec3): Vec3 | undefined {
+    let best: Vec3 | undefined, cost = Infinity;
+    for (const { semantic, position: p } of this.semanticCandidates(position)) {
+      if (semantic.kind === 'surface') continue;
+      const dx = p.x-position.x, dy = p.y-position.y, dz = p.z-position.z;
+      const ahead = dx*forward.x + dy*forward.y + dz*forward.z, distance = Math.hypot(dx,dy,dz);
+      const score = Math.abs(distance - 65) + distance - ahead;
+      if (ahead >= 12 && distance <= 110 && ahead >= 0.5*distance && score < cost) { cost = score; best = p; }
+    }
+    return best;
+  }
   public queryGlide(position: Vec3, range: number) { return this.surfaces.queryGlide(position,range); }
   public queryGlideAhead(position: Vec3, range: number, seconds: number, includeObstacles = false) {
     return this.surfaces.queryGlideAhead(position, range, seconds, includeObstacles);
@@ -524,6 +566,7 @@ export class WorldStreamer implements RenderableWorld {
     revision: number;
     fingerprint: number | null;
     passage?: { entry: Vec3 };
+    layout?: string;
   }> {
     return [...this.chunks.values()].map(record => {
       const generated = record.generated;
@@ -538,6 +581,7 @@ export class WorldStreamer implements RenderableWorld {
         state: record.state,
         revision: record.revision,
         fingerprint: generated?.fingerprint ?? null,
+        ...(generated?.topology ? { layout: generated.topology.layout } : {}),
         ...(entry ? { passage: { entry } } : {}),
       };
     });
@@ -692,6 +736,7 @@ export class WorldStreamer implements RenderableWorld {
             origin: generated.origin,
             bounds: generated.bounds,
             geometry: generated.collisionGeometry,
+            surfaceSpans: generated.surfaceSpans,
           } satisfies CollisionChunk, generated.collisionTree);
         } catch (error) {
           this.disposeGenerated(generated);

@@ -1,0 +1,240 @@
+{
+  "recipe": {
+    "recipe": "kinetic-grid-1",
+    "catalogSha256": "2ac10859708633e93f449b529acf34273dc0018fb69313c7120dac5acf71c294",
+    "seed": 334458,
+    "revision": 0,
+    "region": {
+      "x": -1,
+      "z": -1
+    },
+    "chunkSize": 220,
+    "width": 4,
+    "depth": 4
+  },
+  "scope": "One contiguous 880 m × 880 m region. All buildings, ground, near and distant roads, static colliders, resident hints and placement transforms. Vertex colours, zero textures. Both packages exclude executable code and runtime BVHs.",
+  "encoding": "Three GLTFExporter binary glTF, one tile per file. Each input/output payload independently gzipped at level 9.",
+  "equivalence": "Reloaded every GLB and compared typed position, normal, colour and index arrays element for element, material flags, LOD configuration, semantic hints and origins.",
+  "generated": {
+    "files": [
+      {
+        "name": "kinetic-modules.v1.json",
+        "bytes": 240866,
+        "gzipBytes": 48823,
+        "sha256": "2ac10859708633e93f449b529acf34273dc0018fb69313c7120dac5acf71c294"
+      },
+      {
+        "name": "profiles.json",
+        "bytes": 44246,
+        "gzipBytes": 3517,
+        "sha256": "0a4fb4717bdf494967278eaf2ae3b8bce291fa59063d6060c0f4b5c230d50c8c"
+      },
+      {
+        "name": "region.json",
+        "bytes": 199,
+        "gzipBytes": 173,
+        "sha256": "3dd1bf5e43a1d6a33733d1c3efe6f25e24cba0924b94d6bb55789dd0c20e84a2"
+      }
+    ],
+    "bytes": 285311,
+    "gzipBytes": 52513
+  },
+  "baked": {
+    "files": [
+      {
+        "x": -4,
+        "z": -4,
+        "layout": "sky-arch",
+        "nearTriangles": 3326,
+        "distantTriangles": 3102,
+        "collisionTriangles": 2294,
+        "name": "-4_-4.glb",
+        "bytes": 439108,
+        "gzipBytes": 85343,
+        "sha256": "c1450a58dd26fb2a0b7556326cd8a0beb675ccb81521b6e5059bb4b1cb789aef"
+      },
+      {
+        "x": -3,
+        "z": -4,
+        "layout": "bowl",
+        "nearTriangles": 5646,
+        "distantTriangles": 3982,
+        "collisionTriangles": 3446,
+        "name": "-3_-4.glb",
+        "bytes": 525848,
+        "gzipBytes": 137071,
+        "sha256": "319af908e2e4065493633df627391a5c0cabecb103643732af5bfc53d29e5320"
+      },
+      {
+        "x": -2,
+        "z": -4,
+        "layout": "ribbon-bridge",
+        "nearTriangles": 5194,
+        "distantTriangles": 3706,
+        "collisionTriangles": 2978,
+        "name": "-2_-4.glb",
+        "bytes": 504136,
+        "gzipBytes": 126804,
+        "sha256": "99efd3de8b7abe631988910d4440906ce6820e08355bd92fb530e744810612ee"
+      },
+      {
+        "x": -1,
+        "z": -4,
+        "layout": "tunnel",
+        "nearTriangles": 6234,
+        "distantTriangles": 5130,
+        "collisionTriangles": 3166,
+        "name": "-1_-4.glb",
+        "bytes": 608124,
+        "gzipBytes": 158672,
+        "sha256": "0e0c3817f9b9027369440c4439c0a3253d1b375b2dda45aced581870d9cb5ea1"
+      },
+      {
+        "x": -4,
+        "z": -3,
+        "layout": "junction",
+        "nearTriangles": 2110,
+        "distantTriangles": 2110,
+        "collisionTriangles": 1678,
+        "name": "-4_-3.glb",
+        "bytes": 284824,
+        "gzipBytes": 55244,
+        "sha256": "1ce61d0f06538be5953b1f279a12258ca78c7c4d8cfd1c4b4f081a350d1c3cd8"
+      },
+      {
+        "x": -3,
+        "z": -3,
+        "layout": "junction",
+        "nearTriangles": 2766,
+        "distantTriangles": 2766,
+        "collisionTriangles": 1350,
+        "name": "-3_-3.glb",
+        "bytes": 345828,
+        "gzipBytes": 63405,
+        "sha256": "a4072c76a674d313ff3f8ab83eae016ef0443a585aa3e7cae37e48100ae5af03"
+      },
+      {
+        "x": -2,
+        "z": -3,
+        "layout": "junction",
+        "nearTriangles": 2386,
+        "distantTriangles": 2386,
+        "collisionTriangles": 1542,
+        "name": "-2_-3.glb",
+        "bytes": 310576,
+        "gzipBytes": 58029,
+        "sha256": "35835b24e9b3e5b53fa8dbf3899e6b225c5e3dc2bfb7761478e27f832e9fd500"
+      },
+      {
+        "x": -1,
+        "z": -3,
+        "layout": "junction",
+        "nearTriangles": 2214,
+        "distantTriangles": 2214,
+        "collisionTriangles": 1622,
+        "name": "-1_-3.glb",
+        "bytes": 294324,
+        "gzipBytes": 58471,
+        "sha256": "d8e608175c463f5c7972c2d3eec0f345f12cbc664c4bf7dfd5934b7ca622998f"
+      },
+      {
+        "x": -4,
+        "z": -2,
+        "layout": "s-curve",
+        "nearTriangles": 3482,
+        "distantTriangles": 3194,
+        "collisionTriangles": 2466,
+        "name": "-4_-2.glb",
+        "bytes": 444584,
+        "gzipBytes": 88960,
+        "sha256": "0d2c9b9cde672a9acd13a933815ed53e70718c53cb035e9f7c88a600e4eb0f2c"
+      },
+      {
+        "x": -3,
+        "z": -2,
+        "layout": "helix",
+        "nearTriangles": 7966,
+        "distantTriangles": 4054,
+        "collisionTriangles": 3050,
+        "name": "-3_-2.glb",
+        "bytes": 514412,
+        "gzipBytes": 183972,
+        "sha256": "9ec0425efa6914b1cce8a6f36a9eb239ff1467a8132939f8bc92c6141f9c28d5"
+      },
+      {
+        "x": -2,
+        "z": -2,
+        "layout": "sky-arch",
+        "nearTriangles": 3878,
+        "distantTriangles": 3654,
+        "collisionTriangles": 2022,
+        "name": "-2_-2.glb",
+        "bytes": 490604,
+        "gzipBytes": 91556,
+        "sha256": "4141c568a2e70bcc397c6f25cf6f522f05ac1e39532f0d9ff02e1c774623bad9"
+      },
+      {
+        "x": -1,
+        "z": -2,
+        "layout": "bowl",
+        "nearTriangles": 5974,
+        "distantTriangles": 4310,
+        "collisionTriangles": 3282,
+        "name": "-1_-2.glb",
+        "bytes": 556360,
+        "gzipBytes": 143864,
+        "sha256": "7dd2045c7370c2a1b16d6886cbd136258efb09392fad8d3feb2779ea3f6042f3"
+      },
+      {
+        "x": -4,
+        "z": -1,
+        "layout": "sky-arch",
+        "nearTriangles": 3602,
+        "distantTriangles": 3378,
+        "collisionTriangles": 2158,
+        "name": "-4_-1.glb",
+        "bytes": 464852,
+        "gzipBytes": 88354,
+        "sha256": "3b4dfcd7b512ecd5b276cd7ce1812af3eb5dc02984ac88d198d44463842a2976"
+      },
+      {
+        "x": -3,
+        "z": -1,
+        "layout": "bowl",
+        "nearTriangles": 5670,
+        "distantTriangles": 4006,
+        "collisionTriangles": 3534,
+        "name": "-3_-1.glb",
+        "bytes": 532300,
+        "gzipBytes": 140592,
+        "sha256": "8e87d662559e43ad381f5e1408ea38c98ce89eee561cbbcdfae0ec8fed0cff5f"
+      },
+      {
+        "x": -2,
+        "z": -1,
+        "layout": "ribbon-bridge",
+        "nearTriangles": 5102,
+        "distantTriangles": 3614,
+        "collisionTriangles": 3078,
+        "name": "-2_-1.glb",
+        "bytes": 497852,
+        "gzipBytes": 125580,
+        "sha256": "e24899af9b91855652ccf0626110b5c0df2e45e3542a6602dfa78bf9ab7f0961"
+      },
+      {
+        "x": -1,
+        "z": -1,
+        "layout": "tunnel",
+        "nearTriangles": 5918,
+        "distantTriangles": 4814,
+        "collisionTriangles": 3374,
+        "name": "-1_-1.glb",
+        "bytes": 580816,
+        "gzipBytes": 155893,
+        "sha256": "b452831730590db0f88e6de0af762afe86fdce6a5282ee6de5d2fb08d112614d"
+      }
+    ],
+    "bytes": 7394548,
+    "gzipBytes": 1761810
+  }
+}
