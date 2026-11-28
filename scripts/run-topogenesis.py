@@ -16,6 +16,7 @@ parser.add_argument("--revision", type=int, choices=[0, 1, 2], default=0)
 parser.add_argument("--url", default="http://127.0.0.1:4173")
 parser.add_argument("--browser")
 parser.add_argument("--only", help="Filter by module or decimal seed")
+parser.add_argument("--resume", action="store_true", help="Reuse completed reports matching the frozen case and controller")
 args = parser.parse_args()
 args.output.mkdir(parents=True, exist_ok=True)
 producer = args.producer.resolve()
@@ -32,6 +33,15 @@ if not rows:
 for module, seed, profile, tick, disposition, approach, wingmates in rows:
     report = args.output / f"{module}-{seed}-{profile}.json"
     if report.exists():
+        if args.resume:
+            saved = json.loads(report.read_text())
+            expected = dict(module=module, seed=seed, profile=profile, ruleRevision=args.revision,
+                            disposition=disposition, approach=approach, wingmates=wingmates)
+            if (all(saved.get("experiment", {}).get(key) == value for key, value in expected.items())
+                    and saved.get("releaseTick") == tick and saved.get("metrics", {}).get("completed")
+                    and saved.get("build", {}).get("sourceCommit") == matrix["controller"]
+                    and saved["build"]["dirty"] is False and saved.get("schedule", {}).get("launchFrameOffsetMs") == 0):
+                continue
         parser.error(f"Report already exists: {report}")
     with tempfile.TemporaryDirectory(prefix="skimmer-fixture-") as temp:
         asset = Path(temp) / "world.glb"

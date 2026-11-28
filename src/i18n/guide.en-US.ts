@@ -69,6 +69,7 @@ export const chapters = {
   ],
   'guide-import': [
     "Importing and saving GLB worlds",
+    "For a V2Wpro world, press G, choose a catalog entry and check its source and SHA-256. Confirm the download to inspect the scene, then activate it. Download exact layout saves text you can paste into World seed with the same GLB. Download flight diagnostic saves the latest flight in that world to your device.",
     "Open Local GLB worlds, select or drop a self-contained GLB, then choose Analyze scene. Start with scale 1, Y up and an automatic spawn. Check orientation and collision geometry before activating. Scale accepts 0.001 to 1000 and the file limit is 128 MB.",
     "Enable local saving to reopen the world in this browser. The library holds six cities and 256 MB total. If you collide at takeoff, check scale and orientation, then choose an open spawn and heading. Re-export damaged files or externally linked resources as an embedded GLB.",
   ],

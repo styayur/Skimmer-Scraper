@@ -9,3 +9,11 @@ At boost seed 8132 the bowl sustained 154.0 m of sampled contact and actively de
 The helix at cruise seed 8131 held 127.3 m, entered REACQUIRE at 2.55 s, returned to FLIGHT at 2.87 s and struck the shield at 3.38 s, before the second LB pulse at 3.584 s. S-curve cruise and both ribbon-bridge profiles completed active release with zero strikes. Retain those as controls.
 
 The full v2 sample for the producer reader is [s-curve-8131-cruise.json](r0/s-curve-8131-cruise.json).
+
+## Revision 1 → revision 2
+
+Producer `382a5c201b246849d5023a9eabdac5eef13e4d02` bounded longitudinal height on the bowl and arch. At boost seed 8132 the bowl and arch held 159.9 m and 237.5 m respectively, with active release and zero strikes. The original helix bytes reproduced the 2.55 s contact loss and 3.38 s shield strike. The unchanged ribbon control still held through release. Producer request: give the descending helix strand clearance from the stock neutral tangent after contact loss, retaining its loop and sockets. The six holdouts remain untouched through the revision-2 rule freeze.
+
+The first two batches used the historical clock setup. Clock phase could move an input by one fixed step. The aligned batches start on a controlled animation frame and preserve the preliminary observations above.
+
+One preliminary boost ribbon at revision 1 struck the shield on byte-identical control geometry. Its preliminary revision-0 counterpart completed the release. The controlled-frame alignment change addresses this input timing difference. Both raw outcomes are retained.

@@ -69,16 +69,14 @@ with sync_playwright() as p:
         def button(index, pressed):
             page.evaluate("([i,p])=>window.pilotButtons[i]={pressed:p,value:Number(p)}", [index, pressed])
         def sample():
-            row = page.evaluate("""() => {
-              const s=window.__SKIMMER_SCRAPER__.snapshot();
+            row = page.evaluate("""extended => {
+              const game=window.__SKIMMER_SCRAPER__, s=game.snapshot();
               return {time:s.runTime,position:s.position,speed:s.speed,phase:s.glide.phase,
                 normal:s.glide.normal,clearance:s.surfaceDistance,impacts:s.shieldImpacts,mode:s.mode,
-                deployed:s.companions.filter(a=>a.deployed && !a.uncovered).length};
-            }""")
+                deployed:s.companions.filter(a=>a.deployed && !a.uncovered).length,
+                ...(extended ? {velocity:s.velocity,solidDistance:game.surface(s.position,90)?.distance ?? null} : {})};
+            }""", bool(case))
             report["trace"].append(row)
-            if case:
-                row.update(page.evaluate("""() => { const g=window.__SKIMMER_SCRAPER__, s=g.snapshot();
-                  return {velocity:s.velocity,solidDistance:g.surface(s.position,90)?.distance ?? null}; }"""))
             return row
         ready()
         library()
@@ -137,7 +135,7 @@ with sync_playwright() as p:
         page.goto(args.url + "/?seed=334458&gen=2")
         ready()
         if wingmates != 3:
-            page.locator("#rules-open").click()
+            page.keyboard.press("f")
             page.locator("#companion-count").select_option(str(wingmates))
             page.locator("#rules-close").click()
         library()
@@ -149,6 +147,22 @@ with sync_playwright() as p:
             assert page.locator("#world-seed-input").input_value() == report["world"]["layoutSeed"]
             assert page.evaluate(game + ".snapshot().companionSettings.count") == wingmates
         page.clock.pause_at(page.evaluate("Date.now()+1000"))
+        if case:
+            # pause_at can stop between animation frames. Launch exactly on a frame so
+            # every LB edge reaches the same fixed step on identical game binaries.
+            page.evaluate("""() => {
+              const mark = t => { window.benchFrameTime=t; requestAnimationFrame(mark); };
+              requestAnimationFrame(mark);
+            }""")
+            page.clock.run_for(32)
+            gap = page.evaluate("performance.now() - window.benchFrameTime")
+            assert gap == int(gap) and 0 <= gap < 16, f"Unexpected animation frame offset {gap}"
+            if gap:
+                page.clock.run_for(16 - int(gap))
+            assert page.evaluate("performance.now() === window.benchFrameTime")
+            report["schedule"]["launchFrameOffsetMs"] = 0
+            cdp = context.new_cdp_session(page)
+            launch_heap = cdp.send("Runtime.getHeapUsage")
         page.locator("#start-button").focus()
         page.keyboard.press("Enter")
         page.evaluate("document.activeElement.blur()")
@@ -180,6 +194,8 @@ with sync_playwright() as p:
             report["resources"] = page.evaluate("""() => { const s=window.__SKIMMER_SCRAPER__.snapshot();
               return {world:s.world,adapter:s.adapter,streaming:s.streaming,buffering:s.bufferingEvents,
                 usedJSHeapBytes:performance.memory?.usedJSHeapSize ?? null}; }""")
+            report["resources"]["v8HeapBytes"] = {"beforeLaunch": launch_heap, "afterFlight": cdp.send("Runtime.getHeapUsage")}
+            cdp.detach()
         page.clock.resume()
         if args.orders:
             field = page.locator("#radio-input")
