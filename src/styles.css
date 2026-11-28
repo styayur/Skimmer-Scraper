@@ -525,6 +525,15 @@ kbd {
   line-height: 1.55;
 }
 
+#journey-memory-entries {
+  max-height: 14rem;
+  overflow: auto;
+  padding-inline-start: 1.5rem;
+}
+#journey-memory-entries li {
+  margin-block: 0.5rem;
+  overflow-wrap: anywhere;
+}
 .world-inline-actions {
   display: flex;
   flex-wrap: wrap;

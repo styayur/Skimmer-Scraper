@@ -1,10 +1,12 @@
 import type { Vec3 } from '../core/math';
+import type { SemanticKind } from '../world/motionSemantic';
 export const ACTIONS = ['FOLLOW','LEAD','REGROUP','SCOUT','PROTECT','RELAY','HOLD'] as const;
 export type AgentAction = typeof ACTIONS[number];
 export interface PerceivedTarget {
   id: string; kind: 'route' | 'surface' | 'player' | 'structure' | 'floating-island';
   position: Vec3; clearance: number | null; agentId?: number;
-  capabilities?: readonly ('inspect' | 'glide')[];
+  semanticKind?: SemanticKind;
+  capabilities?: readonly ('inspect' | 'glide' | 'guide' | 'scout' | 'release')[];
 }
 export interface Perception {
   requestId: string; epoch: number; time: number; seed: number;

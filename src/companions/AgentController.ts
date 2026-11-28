@@ -3,9 +3,11 @@ import { createFlightState, type FlightState } from '../flight/flightModel';
 import { resolveShield } from '../game/shield';
 import { queryFlightSurface, type SurfaceProvider } from '../world/worldTypes';
 import { normalizeCompanions, type CompanionSettings } from './settings';
+import type { MotionSemanticCandidate } from '../world/motionSemantic';
 
 export type AgentTask = 'FORMATION_FOLLOW' | 'INDEPENDENT_FOLLOW' | 'LEAD' | 'REGROUP' | 'AVOID' | 'RECOVER' | 'SCOUT' | 'PROTECT' | 'RELAY' | 'HOLD';
 export interface CompanionWorld extends SurfaceProvider {
+  semanticCandidates?(position: Vec3): readonly MotionSemanticCandidate[];
   routeHint?(position: Vec3, forward: Vec3): Vec3 | undefined;
   isCollisionCovered?(position: Vec3): boolean;
   isCompanionCovered?(position: Vec3): boolean;

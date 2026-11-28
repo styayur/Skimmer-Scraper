@@ -56,7 +56,7 @@ export const localRadioIntent = (message: string, perception: Perception, format
   const intended = addressedAgent(message);
   const preferred = intended ?? (kind === 'scout-left' || kind === 'relay' ? 2 : 1);
   const agent = available.includes(preferred) ? preferred : intended === null ? available[0] ?? null : null;
-  const routes = perception.targets.filter(target => target.kind === 'route');
+  const routes = perception.targets.filter(target => target.kind === 'route' && !target.semanticKind);
   const safest = [...routes].sort((a, b) => (b.clearance ?? 41) - (a.clearance ?? 41))[0];
   let order: TeamOrder | null = null;
   if (agent !== null) {

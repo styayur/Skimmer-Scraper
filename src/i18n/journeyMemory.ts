@@ -1,4 +1,4 @@
-import type { JourneyRealm, Observation } from '../ai/journeyMemory';
+import type { Observation } from '../ai/journeyMemory';
 import { missionName } from '../ai/missionCommands';
 import { missionTypes } from '../ai/missions';
 import type { Locale } from './locale';
@@ -32,7 +32,7 @@ export const journeyText = (locale: Locale) => locale === 'en-US' ? en : zh;
 export function describeObservation(entry: Observation, locale: Locale) {
   const labels = journeyText(locale);
   const mission = missionTypes.find(type => type === entry.detail);
-  const detail = mission ? missionName(mission, locale === 'en-US') : labels[entry.detail as Exclude<keyof typeof en, JourneyRealm>];
+  const detail = entry.detail in labels ? labels[entry.detail as keyof typeof labels] : missionName(mission!, locale === 'en-US');
   const who = entry.agent ? `KITE-${entry.agent}` : labels.team;
   return `${who} · ${labels[entry.world.realm]} · ${detail}`;
 }
