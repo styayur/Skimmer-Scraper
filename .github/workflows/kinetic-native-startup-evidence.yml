@@ -1,0 +1,39 @@
+name: Rehearse Kinetic startup observation on hosted Web
+on:
+  push:
+    branches: [codex/kinetic-native-cold-start]
+    paths:
+      - .github/workflows/kinetic-native-startup-evidence.yml
+      - acceptance/kinetic-native-startup-011/observe.mjs
+      - acceptance/kinetic-native-startup-011/rehearse.mjs
+permissions:
+  contents: read
+jobs:
+  web-only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          ref: d167158166ae08d8c0d74925da0fe169d1566eb1
+          path: candidate
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Build the rehearsal Web client
+        working-directory: candidate
+        run: |
+          npm ci
+          npx playwright install --with-deps chromium
+          npm run build
+      - name: Observe normal title, world menu and first covered flight frame
+        run: |
+          npm --prefix candidate run preview -- --port 4175 --strictPort > "$RUNNER_TEMP/preview.log" 2>&1 &
+          for i in {1..60}; do if curl -fsS http://127.0.0.1:4175/build-info.json >/dev/null; then break; fi; sleep 1; done
+          node acceptance/kinetic-native-startup-011/rehearse.mjs candidate http://127.0.0.1:4175/ rehearsal.json
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: web-ui-rehearsal
+          path: rehearsal.json
