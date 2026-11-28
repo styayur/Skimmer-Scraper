@@ -41,6 +41,15 @@ jobs:
       - name: Production build
         run: npm run build
 
+      - name: Stage the merged Web build for foreground qualification
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main' && matrix.shard == 1
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: release-web-${{ github.sha }}
+          path: dist/
+          if-no-files-found: error
+          include-hidden-files: true
+
       - name: Browser integration tests
         env:
           SHARD_INDEX: ${{ matrix.shard }}
