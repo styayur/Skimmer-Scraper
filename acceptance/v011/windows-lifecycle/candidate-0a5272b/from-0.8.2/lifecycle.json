@@ -1,0 +1,91 @@
+{
+  "scope": "candidate",
+  "from": "0.8.2",
+  "target": "0.11.0",
+  "rollback": "0.10.0",
+  "harness": "1726498acfbc24116d68ff5dc38b9de6537c94cb",
+  "run": "46111711278",
+  "attempt": "1",
+  "image": "20261123.376.1",
+  "sid": "S-1-5-21-1995136769-2955844435-1397185536-500",
+  "profile": "C:\\Users\\runneradmin",
+  "localAppData": "C:\\Users\\runneradmin\\AppData\\Local",
+  "registry": "HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\Skimmer-Scraper",
+  "installDirectory": "D:\\a\\_temp\\skimmer-lifecycle\\installed",
+  "initialRegistrationAbsent": true,
+  "initialDataAbsent": true,
+  "stages": [
+    {
+      "step": "original",
+      "version": "0.8.2",
+      "install": {
+        "version": "0.8.2",
+        "source": "2bcd61cc2f82185e38623c42dadb70f7d0a24a34",
+        "installer": "Skimmer-Scraper_0.8.2_x64-setup.exe",
+        "installerSha256": "32de862c607f6d87eb5275a7aa7479f7bd3af47d7103193b781f198194e2d154",
+        "exeSha256": "6497a5cf1088877f007fd00ec1a163213714d4815809e14c4fd5cffc7fd39ceb",
+        "exitCode": 0,
+        "displayVersion": "0.8.2",
+        "installLocation": "\"D:\\a\\_temp\\skimmer-lifecycle\\installed\""
+      }
+    },
+    {
+      "step": "upgrade",
+      "version": "0.11.0",
+      "beforeInstall": {
+        "displayVersion": "0.8.2",
+        "installLocation": "\"D:\\a\\_temp\\skimmer-lifecycle\\installed\"",
+        "exeSha256": "6497a5cf1088877f007fd00ec1a163213714d4815809e14c4fd5cffc7fd39ceb"
+      },
+      "install": {
+        "version": "0.11.0",
+        "source": "0a5272b36352a1300253080bd38cfb5d520c7e0d",
+        "installer": "Skimmer-Scraper_0.11.0_x64-setup.exe",
+        "installerSha256": "e4fdff0f12e209971f6f429313e0879f0154b097bdc8c57c07718d624e662c04",
+        "exeSha256": "d74696be680324a79b615e5badc0778568a8825b9e2c3f2c90f7386df09bfff8",
+        "exitCode": 0,
+        "displayVersion": "0.11.0",
+        "installLocation": "\"D:\\a\\_temp\\skimmer-lifecycle\\installed\""
+      }
+    },
+    {
+      "step": "rollback",
+      "version": "0.10.0",
+      "beforeInstall": {
+        "displayVersion": "0.11.0",
+        "installLocation": "\"D:\\a\\_temp\\skimmer-lifecycle\\installed\"",
+        "exeSha256": "d74696be680324a79b615e5badc0778568a8825b9e2c3f2c90f7386df09bfff8"
+      },
+      "install": {
+        "version": "0.10.0",
+        "source": "991138b8c67c188bd47731d6c193142750225818",
+        "installer": "Skimmer-Scraper_0.10.0_x64-setup.exe",
+        "installerSha256": "8c6ca61b66f7dab41c0b18c406a262cef4d27670321cf135e20a8efad279eac9",
+        "exeSha256": "63f9652666533a9ccb736fc1cf7c73e9be7fc8837fed9162d39d9e6f146adaec",
+        "exitCode": 0,
+        "displayVersion": "0.10.0",
+        "installLocation": "\"D:\\a\\_temp\\skimmer-lifecycle\\installed\""
+      }
+    },
+    {
+      "step": "reupgrade",
+      "version": "0.11.0",
+      "beforeInstall": {
+        "displayVersion": "0.10.0",
+        "installLocation": "\"D:\\a\\_temp\\skimmer-lifecycle\\installed\"",
+        "exeSha256": "63f9652666533a9ccb736fc1cf7c73e9be7fc8837fed9162d39d9e6f146adaec"
+      },
+      "install": {
+        "version": "0.11.0",
+        "source": "0a5272b36352a1300253080bd38cfb5d520c7e0d",
+        "installer": "Skimmer-Scraper_0.11.0_x64-setup.exe",
+        "installerSha256": "e4fdff0f12e209971f6f429313e0879f0154b097bdc8c57c07718d624e662c04",
+        "exeSha256": "d74696be680324a79b615e5badc0778568a8825b9e2c3f2c90f7386df09bfff8",
+        "exitCode": 0,
+        "displayVersion": "0.11.0",
+        "installLocation": "\"D:\\a\\_temp\\skimmer-lifecycle\\installed\""
+      }
+    }
+  ],
+  "passed": true
+}
