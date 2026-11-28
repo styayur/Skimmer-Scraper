@@ -3,6 +3,9 @@ import { t, selectedLocale } from '../i18n';
 import type { ImportedWorldAdapter } from '../world/imports/importedWorldAdapter';
 import type { ImportVariantRequest, WorldImporter } from '../world/imports/worldImporter';
 import type { WorldLibrary } from '../platform/worldLibrary';
+import { downloadPartnerWorld } from '../platform/partnerWorlds';
+import { bindPartnerWorlds } from './PartnerWorldPanel';
+import type { PlayerFlightDiagnostic } from './playerFlightDiagnostic';
 import { WorldMotionSettings } from './WorldMotionSettings';
 import {
   defaultWorldImportOptions, isWorldRole, WORLD_IMPORT_LIMITS, type WorldImportOptions, type WorldRole,
@@ -15,7 +18,10 @@ import {
 export interface ImportedWorldSource {
   data: ArrayBuffer;
   saved: boolean;
+  /** Restore this layout on a future reload. */
   replay: boolean;
+  /** The active world was opened from an exact layout. */
+  reopened: boolean;
 }
 
 interface Draft {
@@ -25,6 +31,7 @@ interface Draft {
 }
 
 interface Hooks {
+  recording: PlayerFlightDiagnostic;
   read: WorldImporter['read'];
   open: (data: ArrayBuffer, name: string, options: WorldImportOptions, variant?: ImportVariantRequest) => Promise<ImportedWorldAdapter>;
   apply: (world: ImportedWorldAdapter, source: ImportedWorldSource) => void;
@@ -40,6 +47,15 @@ const get = <T extends HTMLElement = HTMLElement>(name: string) => document.getE
 const sessionKey = 'skimmer-scraper.imported-visit.v1';
 const fileSize = (bytes: number): string => bytes >= 1024 * 1024
   ? `${(bytes / (1024 * 1024)).toFixed(1)} MB` : `${Math.max(1, Math.ceil(bytes / 1024))} KB`;
+
+function download(blob: Blob, filename: string): void {
+  const link = document.createElement('a');
+  const url = URL.createObjectURL(blob);
+  link.href = url;
+  link.download = filename;
+  link.click();
+  setTimeout(() => URL.revokeObjectURL(url), 30000);
+}
 
 export class WorldImportPanel {
   private readonly panel = document.getElementById('world-panel')!;
@@ -65,8 +81,38 @@ export class WorldImportPanel {
   private roles: Record<string, WorldRole> = {};
   private generation = 0;
   private busy = false;
+  private partnerRequest?: AbortController;
+  public readonly catalogRequested: boolean;
 
   public constructor(private readonly store: WorldLibrary, private readonly hooks: Hooks) {
+    this.catalogRequested = bindPartnerWorlds(async world => {
+      if (this.busy) return;
+      this.discard();
+      this.pendingSeed = null;
+      this.library.open = true;
+      const controller = new AbortController();
+      this.partnerRequest = controller;
+      try {
+        await this.run(t('partner.downloading'), async current => {
+          const data = await downloadPartnerWorld(world, controller.signal);
+          if (current()) await this.prepare(data, world.id, defaultWorldImportOptions, current, undefined, world.sha256);
+        });
+      } finally {
+        this.partnerRequest = undefined;
+      }
+    });
+    get('layout').addEventListener('click', () => {
+      const seed = this.activeSeed;
+      if (seed && this.active) download(new Blob([seed + '\n'], { type: 'text/plain' }),
+        this.active.world.manifest.id + '-layout.txt');
+    });
+    get('diagnostic').addEventListener('click', () => {
+      const active = this.active, seed = this.activeSeed;
+      if (!active || !seed) return;
+      const report = hooks.recording.report(active.world.manifest, active.world.getDefaultSpawn().position, seed, active.source.reopened);
+      if (report) download(new Blob([JSON.stringify(report) + '\n'], { type: 'application/json' }),
+        active.world.manifest.id + '-player-flight.json');
+    });
     this.seedInput.maxLength = MAX_IMPORTED_SEED_LENGTH;
     const drop = get('drop');
     this.file.addEventListener('change', () => this.selectFile(this.file.files?.[0]));
@@ -79,6 +125,7 @@ export class WorldImportPanel {
     });
     this.panel.addEventListener('skimmer:open', () => {
       void this.refresh();
+      get<HTMLButtonElement>('diagnostic').disabled = !hooks.recording.available;
       const preview = hooks.previewState();
       get('motion-preview-label').hidden = !preview.available;
       get<HTMLInputElement>('motion-preview').checked = preview.enabled;
@@ -116,7 +163,7 @@ export class WorldImportPanel {
         const { manifest } = active.world;
         await store.save(manifest, active.source.data, manifest.variant?.seed ?? 0);
         if (!current()) return;
-        active.source = { data: active.source.data, saved: true, replay: true };
+        active.source = { ...active.source, saved: true, replay: true };
         this.rememberVisit();
         void this.refresh();
         this.status.textContent = '';
@@ -147,12 +194,7 @@ export class WorldImportPanel {
         const record = await this.store.get(this.select.value);
         if (!record) throw new Error(t('worldImportPanel.thisWorldWasRemovedFromThisDevice'));
         if (!current()) return;
-        const link = document.createElement('a');
-        const url = URL.createObjectURL(new Blob([record.data], { type: 'model/gltf-binary' }));
-        link.href = url;
-        link.download = record.manifest.name + '.glb';
-        link.click();
-        setTimeout(() => URL.revokeObjectURL(url), 30000);
+        download(new Blob([record.data], { type: 'model/gltf-binary' }), record.manifest.name + '.glb');
         this.status.textContent = t('worldImportPanel.exported');
       });
     });
@@ -175,6 +217,7 @@ export class WorldImportPanel {
   }
 
   public setActive(world: ImportedWorldAdapter | null, source?: ImportedWorldSource): void {
+    this.hooks.recording.reset();
     this.active = world && source ? { world, source } : null;
     this.pendingSeed = null;
     get('active').hidden = world === null;
@@ -257,7 +300,7 @@ export class WorldImportPanel {
     const world = await this.hooks.open(data, name, seed.options, { fingerprint: seed.fingerprint, variant: seed.variant, exact });
     if (!current()) { world.dispose(); return; }
     try {
-      this.hooks.apply(world, { data, saved, replay: exact });
+      this.hooks.apply(world, { data, saved, replay: exact, reopened: exact });
     } catch (error) {
       world.dispose();
       throw error;
@@ -292,6 +335,7 @@ export class WorldImportPanel {
   }
 
   private discard(): void {
+    this.partnerRequest?.abort();
     this.generation++;
     this.currentFile = null;
     this.draft?.world.dispose();
@@ -326,11 +370,12 @@ export class WorldImportPanel {
 
   private async prepare(
     data: ArrayBuffer, name: string, options: WorldImportOptions, current: () => boolean, saved?: Draft['saved'],
+    fingerprint?: string,
   ): Promise<void> {
     this.draft?.world.dispose();
     this.draft = null;
     this.form.hidden = true;
-    const world = await this.hooks.open(data, name, options);
+    const world = await this.hooks.open(data, name, options, fingerprint ? { fingerprint, variant: 0, exact: true } : undefined);
     if (!current()) { world.dispose(); return; }
     this.draft = { data, world, saved };
     this.currentFile = null;
@@ -387,7 +432,8 @@ export class WorldImportPanel {
         if (!current()) return;
         if (world !== draft.world) draft.world.dispose();
         this.draft = null;
-        this.hooks.apply(world, { data: draft.data, saved: shouldSave || !!draft.saved, replay: keptVariant !== undefined });
+        this.hooks.apply(world, { data: draft.data, saved: shouldSave || !!draft.saved,
+          replay: keptVariant !== undefined, reopened: keptVariant !== undefined && !changed });
         if (variant && !world.manifest.variant) this.hooks.notice(t('worldImportPanel.variantFallback'), true);
         applied = true;
       } finally {

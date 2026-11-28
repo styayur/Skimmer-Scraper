@@ -84,6 +84,7 @@ import type { WorldManifest } from './world/imports/worldManifest';
 import { WorldImporter } from './world/imports/worldImporter';
 import { createWorldLibrary } from './platform/worldLibrary';
 import { WorldImportPanel, type ImportedWorldSource } from './ui/WorldImportPanel';
+import { PlayerFlightDiagnostic } from './ui/playerFlightDiagnostic';
 
 type GameMode = 'title' | 'running' | 'paused' | 'failed';
 
@@ -266,6 +267,16 @@ let pendingRadio: { message: string; useModel: boolean; until: number } | null =
 let modelLoadVersion = 0;
 
 const stepRunner = new FixedStepRunner(FLIGHT.fixedDt, 12);
+const playerDiagnostic = new PlayerFlightDiagnostic();
+
+function recordImportedFlight(): void {
+  if (!(activeWorld instanceof ImportedWorldAdapter) || !flightState || !playerDiagnostic.due(flightState.boosting)) return;
+  playerDiagnostic.add({ time: runRules.elapsed, position: { ...flightState.position }, velocity: { ...flightState.velocity },
+    speed: flightState.speed, phase: glide.phase, normal: glide.normal ? { ...glide.normal } : null,
+    clearance: lastSurfaceHit?.distance ?? null, impacts: shieldImpacts, mode,
+    ...(runRules.failureReason && { failureReason: runRules.failureReason }),
+    deployed: companions.agents.filter(a => a.deployed && !a.uncovered).length });
+}
 const visualScaleFor = (level: VisualStimulation): number => level === 'reduced'
   ? EXPERIENCE_CONFIG.visuals.reducedScale
   : EXPERIENCE_CONFIG.visuals.standardScale;
@@ -794,6 +805,7 @@ const simulateFixedStep = timedFlightFunction('fixedStep', (dt: number, holdPosi
     dt,
     visualScaleFor(preferences.visualStimulation),
   );
+  recordImportedFlight();
   return runRules.status === 'running';
 });
 
@@ -898,6 +910,8 @@ const startRun = async (): Promise<void> => {
   audio.setMuted(muted);
   ui.finishLoading();
   ui.showFlight();
+  playerDiagnostic.reset();
+  recordImportedFlight();
   syncHud();
   renderer.snapCamera(toRenderFlightState(flightState));
   if (document.hidden || !document.hasFocus()) actionRouter.route('menu');
@@ -1227,6 +1241,7 @@ const activateWorld = (world: ImportedWorldAdapter | WorldStreamer, history: Chu
 
 bindPackPanel();
 const worldPanel = new WorldImportPanel(worldResources, {
+  recording: playerDiagnostic,
   read: file => worldImporter.read(file),
   open: (data, name, options, variant) => worldImporter.load(data, name, options, loader => {
     if (!renderer) throw new Error(t('main.webgl2SceneIsStillLoading'));
@@ -1405,6 +1420,7 @@ const boot = async (): Promise<void> => {
   ui.finishLoading();
   ui.showTitle();
   renderer.renderTitle(performance.now());
+  if (worldPanel.catalogRequested) actionRouter.route('world');
   requestAnimationFrame(frame);
 
   window.__SKIMMER_SCRAPER__ = {

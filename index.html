@@ -302,6 +302,8 @@
             <div class="world-inline-actions">
               <button id="local-world-new-variant" class="secondary-button" type="button" data-i18n="ui.generateNewVariant">Generate new variant</button>
               <button id="local-world-keep" class="text-button" type="button" data-i18n="ui.keepThisWorld">Keep this world</button>
+              <button id="local-world-layout" class="text-button" type="button" data-i18n="partner.layout">Download exact layout</button>
+              <button id="local-world-diagnostic" class="text-button" type="button" data-i18n="partner.diagnostic" disabled>Download player flight diagnostic</button>
             </div>
             <div class="world-inline-actions">
               <label><input id="local-world-collision" type="checkbox" /> <span data-i18n="ui.showCollisionGeometry">Show collision geometry</span></label>
@@ -326,6 +328,17 @@
               <button class="text-button" type="button" data-pack-cancel hidden data-i18n="ui.cancelInstallation">Cancel installation</button>
             </div>
             <p class="world-description" role="status"></p>
+          </details>
+          <details id="partner-world-catalog">
+            <summary data-i18n="partner.catalog">V2Wpro worlds</summary>
+            <label class="world-field"><span data-i18n="partner.world">World</span><select id="partner-world-select"></select></label>
+            <p id="partner-world-source" class="world-description"></p>
+            <details><summary data-i18n="partner.details">Source and SHA-256</summary><p id="partner-world-pin" class="world-description"></p></details>
+            <div class="world-inline-actions">
+              <button id="partner-world-import" type="button" class="secondary-button" data-i18n="partner.confirm">Confirm download and inspect</button>
+              <a id="partner-world-inspect" class="text-button" rel="noopener noreferrer" target="_blank" data-i18n="partner.inspect">View in V2Wpro</a>
+              <a id="partner-world-play-link" class="text-button" rel="noopener noreferrer" target="_blank" data-i18n="partner.playLink">Play link</a>
+            </div>
           </details>
           <details id="local-world-library">
             <summary data-i18n="ui.localGlbWorlds">Local GLB worlds</summary>

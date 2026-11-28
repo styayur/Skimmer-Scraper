@@ -1,0 +1,387 @@
+{
+  "controller": "991138b8c67c188bd47731d6c193142750225818",
+  "binarySha256": "91f1a9bcdb190878af05d6b93ebdc16c01fbbb5ffc898d70bf5fdb22e52687c8",
+  "groups": {
+    "baseline": {
+      "runs": 7,
+      "classes": {
+        "may-reject": {
+          "met": 1,
+          "runs": 4
+        },
+        "must-succeed": {
+          "met": 2,
+          "runs": 3
+        }
+      },
+      "failures": [
+        {
+          "module": "lattice",
+          "seed": 8131,
+          "profile": "cruise",
+          "outcome": "capture-missed"
+        },
+        {
+          "module": "lattice",
+          "seed": 8131,
+          "profile": "boost",
+          "outcome": "capture-missed"
+        },
+        {
+          "module": "cruise-deck",
+          "seed": 8132,
+          "profile": "boost",
+          "outcome": "impact"
+        },
+        {
+          "module": "relay-district",
+          "seed": 8131,
+          "profile": "cruise",
+          "outcome": "contact-lost"
+        }
+      ],
+      "captureRate": {
+        "count": 5,
+        "of": 7,
+        "percent": 71.43
+      },
+      "continuousPassRate": {
+        "count": 4,
+        "of": 7,
+        "percent": 57.14
+      },
+      "activeReleaseRate": {
+        "count": 5,
+        "of": 7,
+        "percent": 71.43
+      },
+      "cleanReleaseRate": {
+        "count": 3,
+        "of": 7,
+        "percent": 42.86
+      },
+      "safeRejections": 0,
+      "safeExits": 0,
+      "shieldImpacts": 1,
+      "sampledHullIntrusions": 0,
+      "minimumSampledSolidDistanceM": 3.3056784381434547,
+      "longestSampledGlideM": 211.16462593908807,
+      "contactLossesBeforeRelease": 1,
+      "peakSampledAccelerationMps2": 866.142381189826,
+      "nearSurfaceWindowsPerKm": 2.597,
+      "maxCollisionBVHsAtEnd": 1,
+      "maxCollisionTriangles": 1240,
+      "v8EndHeap": {
+        "runsMeasured": 2,
+        "minUsedBytes": 10872000,
+        "maxUsedBytes": 12271964
+      }
+    },
+    "aligned-r0": {
+      "runs": 6,
+      "classes": {
+        "may-reject": {
+          "met": 1,
+          "runs": 4
+        },
+        "must-succeed": {
+          "met": 2,
+          "runs": 2
+        }
+      },
+      "failures": [
+        {
+          "module": "sky-arch",
+          "seed": 8132,
+          "profile": "boost",
+          "outcome": "impact"
+        },
+        {
+          "module": "helix",
+          "seed": 8131,
+          "profile": "cruise",
+          "outcome": "impact"
+        },
+        {
+          "module": "bowl",
+          "seed": 8132,
+          "profile": "boost",
+          "outcome": "impact"
+        }
+      ],
+      "captureRate": {
+        "count": 6,
+        "of": 6,
+        "percent": 100.0
+      },
+      "continuousPassRate": {
+        "count": 5,
+        "of": 6,
+        "percent": 83.33
+      },
+      "activeReleaseRate": {
+        "count": 5,
+        "of": 6,
+        "percent": 83.33
+      },
+      "cleanReleaseRate": {
+        "count": 3,
+        "of": 6,
+        "percent": 50.0
+      },
+      "safeRejections": 0,
+      "safeExits": 0,
+      "shieldImpacts": 3,
+      "sampledHullIntrusions": 0,
+      "minimumSampledSolidDistanceM": 3.5589806888939988,
+      "longestSampledGlideM": 224.77090502572779,
+      "contactLossesBeforeRelease": 1,
+      "peakSampledAccelerationMps2": 1131.6327289454014,
+      "nearSurfaceWindowsPerKm": 3.6493,
+      "maxCollisionBVHsAtEnd": 1,
+      "maxCollisionTriangles": 1876,
+      "v8EndHeap": {
+        "runsMeasured": 5,
+        "minUsedBytes": 12480456,
+        "maxUsedBytes": 16196324
+      }
+    },
+    "aligned-r1": {
+      "runs": 6,
+      "classes": {
+        "may-reject": {
+          "met": 3,
+          "runs": 4
+        },
+        "must-succeed": {
+          "met": 2,
+          "runs": 2
+        }
+      },
+      "failures": [
+        {
+          "module": "helix",
+          "seed": 8131,
+          "profile": "cruise",
+          "outcome": "impact"
+        }
+      ],
+      "captureRate": {
+        "count": 6,
+        "of": 6,
+        "percent": 100.0
+      },
+      "continuousPassRate": {
+        "count": 5,
+        "of": 6,
+        "percent": 83.33
+      },
+      "activeReleaseRate": {
+        "count": 5,
+        "of": 6,
+        "percent": 83.33
+      },
+      "cleanReleaseRate": {
+        "count": 5,
+        "of": 6,
+        "percent": 83.33
+      },
+      "safeRejections": 0,
+      "safeExits": 0,
+      "shieldImpacts": 1,
+      "sampledHullIntrusions": 0,
+      "minimumSampledSolidDistanceM": 3.5589806888939988,
+      "longestSampledGlideM": 237.48723903892255,
+      "contactLossesBeforeRelease": 1,
+      "peakSampledAccelerationMps2": 855.8144545053653,
+      "nearSurfaceWindowsPerKm": 3.5468,
+      "maxCollisionBVHsAtEnd": 1,
+      "maxCollisionTriangles": 1876,
+      "v8EndHeap": {
+        "runsMeasured": 4,
+        "minUsedBytes": 10823716,
+        "maxUsedBytes": 14934368
+      }
+    },
+    "aligned-r2": {
+      "runs": 6,
+      "classes": {
+        "may-reject": {
+          "met": 4,
+          "runs": 4
+        },
+        "must-succeed": {
+          "met": 2,
+          "runs": 2
+        }
+      },
+      "failures": [],
+      "captureRate": {
+        "count": 6,
+        "of": 6,
+        "percent": 100.0
+      },
+      "continuousPassRate": {
+        "count": 5,
+        "of": 6,
+        "percent": 83.33
+      },
+      "activeReleaseRate": {
+        "count": 5,
+        "of": 6,
+        "percent": 83.33
+      },
+      "cleanReleaseRate": {
+        "count": 5,
+        "of": 6,
+        "percent": 83.33
+      },
+      "safeRejections": 0,
+      "safeExits": 1,
+      "shieldImpacts": 0,
+      "sampledHullIntrusions": 0,
+      "minimumSampledSolidDistanceM": 4.82029354786478,
+      "longestSampledGlideM": 237.48723903892255,
+      "contactLossesBeforeRelease": 1,
+      "peakSampledAccelerationMps2": 515.4128625039141,
+      "nearSurfaceWindowsPerKm": 3.0491,
+      "maxCollisionBVHsAtEnd": 1,
+      "maxCollisionTriangles": 2756,
+      "v8EndHeap": {
+        "runsMeasured": 0,
+        "minUsedBytes": null,
+        "maxUsedBytes": null
+      }
+    },
+    "development": {
+      "runs": 14,
+      "classes": {
+        "must-succeed": {
+          "met": 3,
+          "runs": 3
+        },
+        "may-reject": {
+          "met": 8,
+          "runs": 9
+        },
+        "must-reject": {
+          "met": 2,
+          "runs": 2
+        }
+      },
+      "failures": [
+        {
+          "module": "bowl",
+          "seed": 79757,
+          "profile": "cruise",
+          "outcome": "impact"
+        }
+      ],
+      "captureRate": {
+        "count": 12,
+        "of": 14,
+        "percent": 85.71
+      },
+      "continuousPassRate": {
+        "count": 9,
+        "of": 12,
+        "percent": 75.0
+      },
+      "activeReleaseRate": {
+        "count": 9,
+        "of": 12,
+        "percent": 75.0
+      },
+      "cleanReleaseRate": {
+        "count": 8,
+        "of": 12,
+        "percent": 66.67
+      },
+      "safeRejections": 2,
+      "safeExits": 3,
+      "shieldImpacts": 1,
+      "sampledHullIntrusions": 0,
+      "minimumSampledSolidDistanceM": 3.2656776844868225,
+      "longestSampledGlideM": 237.4870861919954,
+      "contactLossesBeforeRelease": 3,
+      "peakSampledAccelerationMps2": 515.2320713952229,
+      "nearSurfaceWindowsPerKm": 3.382,
+      "maxCollisionBVHsAtEnd": 1,
+      "maxCollisionTriangles": 2756,
+      "v8EndHeap": {
+        "runsMeasured": 9,
+        "minUsedBytes": 9208568,
+        "maxUsedBytes": 16497548
+      }
+    },
+    "holdout": {
+      "runs": 6,
+      "classes": {
+        "must-succeed": {
+          "met": 1,
+          "runs": 1
+        },
+        "may-reject": {
+          "met": 2,
+          "runs": 4
+        },
+        "must-reject": {
+          "met": 1,
+          "runs": 1
+        }
+      },
+      "failures": [
+        {
+          "module": "s-curve",
+          "seed": 112909,
+          "profile": "cruise",
+          "outcome": "contact-lost"
+        },
+        {
+          "module": "bowl",
+          "seed": 140053,
+          "profile": "cruise",
+          "outcome": "impact"
+        }
+      ],
+      "captureRate": {
+        "count": 5,
+        "of": 6,
+        "percent": 83.33
+      },
+      "continuousPassRate": {
+        "count": 3,
+        "of": 5,
+        "percent": 60.0
+      },
+      "activeReleaseRate": {
+        "count": 3,
+        "of": 5,
+        "percent": 60.0
+      },
+      "cleanReleaseRate": {
+        "count": 2,
+        "of": 5,
+        "percent": 40.0
+      },
+      "safeRejections": 1,
+      "safeExits": 1,
+      "shieldImpacts": 1,
+      "sampledHullIntrusions": 0,
+      "minimumSampledSolidDistanceM": 3.2664160705945244,
+      "longestSampledGlideM": 237.48723903892255,
+      "contactLossesBeforeRelease": 2,
+      "peakSampledAccelerationMps2": 515.3881766434453,
+      "nearSurfaceWindowsPerKm": 3.0095,
+      "maxCollisionBVHsAtEnd": 1,
+      "maxCollisionTriangles": 2756,
+      "v8EndHeap": {
+        "runsMeasured": 2,
+        "minUsedBytes": 10513536,
+        "maxUsedBytes": 11944200
+      }
+    }
+  },
+  "identicalControlComparisons": 11,
+  "differentControlTraces": []
+}

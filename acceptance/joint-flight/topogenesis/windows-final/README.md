@@ -1,0 +1,9 @@
+# Installed Windows Switchyard qualification
+
+The hosted procedure uses the installer from a successful Windows desktop dispatch on public main containing Skimmer PR #92. Its execution request records the source commit, original run ID and both published executable hashes. The runner verifies the artifact ZIP digest, hashes the installer, performs a current-user installation in a fresh runner directory, and hashes the installed executable before starting WebView2.
+
+The catalog must display the official v0.4.0 Switchyard pin from V2Wpro commit `241bd0eec72439d77a43e8d289cc29c714bf0e4e`. The first opening uses the normal confirmation and session-only import. The runner measures the bytes returned by that single GET, the loaded JavaScript entry and the world collision identity. It then saves the active layout and observation, keeps the world in the local library, starts a fresh built-in world and submits the exact exported layout through the world settings form.
+
+Both openings fly from the authored spawn. The standard-mapped virtual pad pulses LB (button 4) for one 32 ms sample at ticks 8, 40, 70 and 106. The first and third edges request capture, and the second and fourth request release. Each flight records the initial state and 132 intervals at 120 Hz game simulation. Each pair must start in FLIGHT, sustain GLIDING for at least five samples and more than five metres, register an LB edge from GLIDING, enter DETACHING and return to FLIGHT. The receipt retains shield impacts, sampled positions, gamepad polls, both active-release transitions, and fresh/reopened identity.
+
+Each in-game observation keeps its player classification. The harness captures the exact bytes delivered to the renderer's download anchor and saves them in the runner artifact. The official producer reader checks both against the received GLB. The standard Gamepad API is supplied by the harness. Physical hardware and the Windows Save As dialog are separate trials.
