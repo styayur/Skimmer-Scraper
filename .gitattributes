@@ -3,3 +3,9 @@ vendor/glib/** -text
 security/glib-*.patch -text
 security/glib-provenance.json -text
 public/contracts/v2wpro-0.4.0.json -text
+# Preserve the measured runner and its original Windows level samples.
+scripts/measure-release-audio.mjs text eol=lf
+scripts/qualification/session-meter.py text eol=lf
+scripts/qualification/audio-peaks.mjs text eol=lf
+acceptance/release-audio/**/*.json -text whitespace=cr-at-eol
+acceptance/release-audio/**/*.jsonl -text whitespace=cr-at-eol
