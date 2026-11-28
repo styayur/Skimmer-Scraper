@@ -23,7 +23,7 @@ import { CompanionRenderer } from './companions';
 import type { AgentState } from '../companions/AgentController';
 import { journeyProfile } from '../world/journeyWorlds';
 import { JourneyGate } from './journeyGate';
-import { CITY_SHADOW_LAYER } from '../world/worldConfig';
+import { CITY_SHADOW_LAYER, supportsSkyInversion } from '../world/worldConfig';
 import { GpuFrameTimer } from './gpuFrameTimer';
 
 export class WebGL2UnavailableError extends Error {
@@ -138,7 +138,7 @@ export class GameRenderer {
     this.cameraRig = new FlightCameraRig(this.camera);
 
     this.atmosphere = createSkyAtmosphere();
-    if (!world.kind && !world.settings.theme) this.mirrorSky.setWorld(world.settings, 0x21152e, 0x9f4f66);
+    if (!world.kind && supportsSkyInversion(world.settings)) this.mirrorSky.setWorld(world.settings, 0x21152e, 0x9f4f66);
     this.atmosphere.setMirrorGround(this.mirrorSky.ground);
     this.scene.add(this.atmosphere.group, this.mirrorSky.group);
 
@@ -250,7 +250,7 @@ export class GameRenderer {
     this.releaseWorld();this.world=world;this.scene.add(world.root);world.setRenderQuality?.(this.quality.name);
     const profile=index>0?journeyProfile(index):null;
     this.atmosphere.palette(profile?.top??0x21152e,profile?.mid??0x9f4f66,profile?.horizon??0xffb58f);
-    if (!world.kind && !world.settings.theme) this.mirrorSky.setWorld(world.settings, profile?.top ?? 0x21152e, profile?.mid ?? 0x9f4f66);
+    if (!world.kind && supportsSkyInversion(world.settings)) this.mirrorSky.setWorld(world.settings, profile?.top ?? 0x21152e, profile?.mid ?? 0x9f4f66);
     this.atmosphere.setMirrorGround(this.mirrorSky.ground);
     this.scene.fog=new THREE.FogExp2(profile?.mid??0x6f4152,world.settings.config.fogDensity);
     this.applyRealmAtmosphere(world);

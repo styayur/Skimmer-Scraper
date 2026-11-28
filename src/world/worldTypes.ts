@@ -10,7 +10,11 @@ export interface CollisionChunk {
   origin: Vec3;
   bounds: Box3;
   geometry: BufferGeometry;
+  surfaceSpans?: CollisionSurfaceSpan[];
 }
+
+/** Original vertex indices survive the BVH's triangle permutation. End is exclusive. */
+export interface CollisionSurfaceSpan { first: number; end: number; id: string }
 
 export interface ChunkGenerationStats {
   buildings: number;
@@ -31,10 +35,18 @@ export interface GeneratedChunk {
   collisionGeometry: BufferGeometry;
   collisionTree?: MeshBVH;
   passage?: { corridor: Box3; dispose(): void };
+  topology?: { layout: string; hints: TopologyHint[] };
+  surfaceSpans?: CollisionSurfaceSpan[];
   workerBuildMs?: number;
   fingerprint: number;
   stats: ChunkGenerationStats;
   synchronousBuildMs?: number;
+}
+
+export interface TopologyHint {
+  id: string;
+  kind: 'surface' | 'route' | 'socket';
+  position: Vec3;
 }
 
 export interface WorldStats {
@@ -47,7 +59,11 @@ export interface WorldStats {
 }
 
 export interface SurfaceQuery {
-  contact?: { normal: Vec3; velocity: Vec3; localPoint: Vec3; triangle: number; geometryId: string };
+  contact?: {
+    normal: Vec3; velocity: Vec3; localPoint: Vec3; triangle: number; geometryId: string;
+    /** Optional world-scoped identity shared by collision patches of one logical surface. */
+    logicalSurfaceId?: string;
+  };
   distance: number;
   point: Vec3;
   chunkId: string;

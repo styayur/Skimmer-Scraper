@@ -24,6 +24,7 @@ export const journeyWorld=(base:WorldSettings,index:number):WorldSettings=>{
  const world=resolveWorldSettings({seed:String(seed),preset:profile.preset,mode:base.mode,generatorVersion:base.generatorVersion});
  world.paletteHue=profile.hue;
  if (base.generatedPassages) world.generatedPassages = true;
+ if (base.theme === 'kinetic-city') world.theme = 'kinetic-city';
  if(base.generatorVersion>=DENSE_GENERATOR_VERSION){
   Object.assign(world.config,denseWorldStyles[(index-1)%5]);
   if(base.generatorVersion===GENERATOR_VERSION) world.config.landmark = (['foldedFan','terraceOrchard','lanternCourt','needleExchange','moonGate'] as const)[(index-1)%5];
