@@ -1,0 +1,345 @@
+{
+  "companionSource": "00eb16838faff7565c9e126722167b245ec4e110",
+  "citySource": "298fd0c41256a163f45485d315f863a23431565e",
+  "fixedHz": 120,
+  "simulator": "WorldStreamer with inline collision chunks, CompanionTeam and SymbiosisRuntime",
+  "runs": [
+    {
+      "seed": 17,
+      "spawn": {
+        "position": {
+          "x": 117,
+          "y": 96,
+          "z": 880
+        },
+        "yaw": 0,
+        "pitch": -0.015,
+        "speed": 66
+      },
+      "pilotHeld": true,
+      "localCandidates": [
+        "socket",
+        "route",
+        "route",
+        "route",
+        "route",
+        "surface",
+        "surface",
+        "route",
+        "route",
+        "socket",
+        "surface",
+        "route"
+      ],
+      "verified": [
+        {
+          "id": "site-0-1748410098",
+          "kind": "route",
+          "semanticKind": "socket",
+          "position": {
+            "x": 117,
+            "y": 111.99993226229691,
+            "z": 879.9361600138523
+          },
+          "clearance": 26.000000000000004,
+          "capabilities": [
+            "guide",
+            "scout",
+            "release"
+          ]
+        },
+        {
+          "id": "site-0-2187016911",
+          "kind": "route",
+          "semanticKind": "route",
+          "position": {
+            "x": 118.10811543074182,
+            "y": 112.27204359179977,
+            "z": 903.5716159655287
+          },
+          "clearance": 26.000000000000004,
+          "capabilities": [
+            "guide",
+            "scout"
+          ]
+        },
+        {
+          "id": "site-0-2300734867",
+          "kind": "route",
+          "semanticKind": "route",
+          "position": {
+            "x": 113.5,
+            "y": 111.24670493118445,
+            "z": 832.5547647281754
+          },
+          "clearance": 26.000000000000007,
+          "capabilities": [
+            "guide",
+            "scout"
+          ]
+        },
+        {
+          "id": "site-0-2529416173",
+          "kind": "route",
+          "semanticKind": "route",
+          "position": {
+            "x": 125.65587962898564,
+            "y": 113.2316334271008,
+            "z": 934.0608969389996
+          },
+          "clearance": 25.999685087357552,
+          "capabilities": [
+            "guide",
+            "scout"
+          ]
+        },
+        {
+          "id": "site-0-2303409625",
+          "kind": "structure",
+          "semanticKind": "landmark",
+          "position": {
+            "x": 117,
+            "y": 111.99997742048949,
+            "z": 879.9495999071196
+          },
+          "clearance": 26.000000000000004,
+          "capabilities": [
+            "inspect",
+            "guide",
+            "glide"
+          ]
+        }
+      ],
+      "missions": [
+        {
+          "id": "0-2/3",
+          "requestId": "0-2",
+          "epoch": 0,
+          "agentId": 3,
+          "type": "SCOUT_BRANCH",
+          "targetId": "site-0-1748410098",
+          "priority": "local",
+          "phase": "return",
+          "started": 8.000000000000187,
+          "deadline": 53.000000000000185,
+          "progress": 1,
+          "observed": "branch",
+          "outcome": "completed",
+          "reason": "returned"
+        },
+        {
+          "id": "0-2/2",
+          "requestId": "0-2",
+          "epoch": 0,
+          "agentId": 2,
+          "type": "FIND_ESCAPE",
+          "targetId": "site-0-1748410098",
+          "priority": "local",
+          "phase": "return",
+          "started": 8.000000000000187,
+          "deadline": 53.000000000000185,
+          "progress": 1,
+          "observed": "escape",
+          "outcome": "completed",
+          "reason": "returned"
+        },
+        {
+          "id": "0-3/3",
+          "requestId": "0-3",
+          "epoch": 0,
+          "agentId": 3,
+          "type": "SCOUT_BRANCH",
+          "targetId": "site-0-2187016911",
+          "priority": "local",
+          "phase": "survey",
+          "started": 53.00833333333097,
+          "deadline": 98.00833333333097,
+          "progress": 0.4,
+          "observed": null,
+          "outcome": "running",
+          "reason": null
+        }
+      ],
+      "impacts": [
+        0,
+        0,
+        0
+      ],
+      "deployed": [
+        true,
+        true,
+        true
+      ],
+      "activeBvhs": 25
+    },
+    {
+      "seed": 334458,
+      "spawn": {
+        "position": {
+          "x": 115,
+          "y": 94,
+          "z": 220
+        },
+        "yaw": 0,
+        "pitch": -0.015,
+        "speed": 66
+      },
+      "pilotHeld": true,
+      "localCandidates": [
+        "socket",
+        "route",
+        "route",
+        "route",
+        "route",
+        "surface",
+        "route",
+        "surface",
+        "route",
+        "route",
+        "surface",
+        "route",
+        "socket"
+      ],
+      "verified": [
+        {
+          "id": "site-0-2197528265",
+          "kind": "route",
+          "semanticKind": "socket",
+          "position": {
+            "x": 115,
+            "y": 109.99986041291912,
+            "z": 219.90835691233391
+          },
+          "clearance": 25.999984516131164,
+          "capabilities": [
+            "guide",
+            "scout",
+            "release"
+          ]
+        },
+        {
+          "id": "site-0-2852465563",
+          "kind": "route",
+          "semanticKind": "route",
+          "position": {
+            "x": 114.932724,
+            "y": 110.26631909622006,
+            "z": 248.59067721758075
+          },
+          "clearance": 24.5028054386769,
+          "capabilities": [
+            "guide",
+            "scout"
+          ]
+        },
+        {
+          "id": "site-0-3261197108",
+          "kind": "route",
+          "semanticKind": "route",
+          "position": {
+            "x": 112.5,
+            "y": 109.74963379930679,
+            "z": 172.85156536094294
+          },
+          "clearance": 26,
+          "capabilities": [
+            "guide",
+            "scout"
+          ]
+        },
+        {
+          "id": "site-0-3523857188",
+          "kind": "route",
+          "semanticKind": "route",
+          "position": {
+            "x": 116.99982092917706,
+            "y": 111.75014611078055,
+            "z": 291.3502225071268
+          },
+          "clearance": 24.238291964591916,
+          "capabilities": [
+            "guide",
+            "scout"
+          ]
+        },
+        {
+          "id": "site-0-1715842394",
+          "kind": "structure",
+          "semanticKind": "landmark",
+          "position": {
+            "x": 115,
+            "y": 109.99995346980037,
+            "z": 219.92764988684416
+          },
+          "clearance": 26.000000000000004,
+          "capabilities": [
+            "inspect",
+            "guide",
+            "glide"
+          ]
+        }
+      ],
+      "missions": [
+        {
+          "id": "0-2/3",
+          "requestId": "0-2",
+          "epoch": 0,
+          "agentId": 3,
+          "type": "SCOUT_BRANCH",
+          "targetId": "site-0-2197528265",
+          "priority": "local",
+          "phase": "return",
+          "started": 8.000000000000187,
+          "deadline": 53.000000000000185,
+          "progress": 1,
+          "observed": "branch",
+          "outcome": "completed",
+          "reason": "returned"
+        },
+        {
+          "id": "0-2/2",
+          "requestId": "0-2",
+          "epoch": 0,
+          "agentId": 2,
+          "type": "FIND_ESCAPE",
+          "targetId": "site-0-2197528265",
+          "priority": "local",
+          "phase": "return",
+          "started": 8.000000000000187,
+          "deadline": 53.000000000000185,
+          "progress": 1,
+          "observed": "escape",
+          "outcome": "completed",
+          "reason": "returned"
+        },
+        {
+          "id": "0-3/3",
+          "requestId": "0-3",
+          "epoch": 0,
+          "agentId": 3,
+          "type": "SCOUT_BRANCH",
+          "targetId": "site-0-2852465563",
+          "priority": "local",
+          "phase": "survey",
+          "started": 53.00833333333097,
+          "deadline": 98.00833333333097,
+          "progress": 0.4,
+          "observed": null,
+          "outcome": "running",
+          "reason": null
+        }
+      ],
+      "impacts": [
+        1,
+        0,
+        0
+      ],
+      "deployed": [
+        true,
+        true,
+        true
+      ],
+      "activeBvhs": 25
+    }
+  ]
+}

@@ -1,0 +1,83 @@
+{
+  "fixture": "240 x 300 metre imported collision deck with four v1 semantic anchors",
+  "fixedHz": 120,
+  "player": "stationary at (0,35,42)",
+  "wingmateBehavior": "independent",
+  "steps": 6241,
+  "missions": [
+    {
+      "id": "0-2/2",
+      "requestId": "0-2",
+      "epoch": 0,
+      "agentId": 2,
+      "type": "FIND_ESCAPE",
+      "targetId": "site-0-2396275027",
+      "priority": "pilot",
+      "phase": "return",
+      "started": 0.008333333333333333,
+      "deadline": 60.00833333333333,
+      "progress": 1,
+      "observed": "escape",
+      "outcome": "completed",
+      "reason": "returned"
+    },
+    {
+      "id": "0-2/3",
+      "requestId": "0-2",
+      "epoch": 0,
+      "agentId": 3,
+      "type": "SCOUT_BRANCH",
+      "targetId": "site-0-70088325",
+      "priority": "pilot",
+      "phase": "return",
+      "started": 0.008333333333333333,
+      "deadline": 60.00833333333333,
+      "progress": 1,
+      "observed": "branch",
+      "outcome": "completed",
+      "reason": "returned"
+    },
+    {
+      "id": "0-2/1",
+      "requestId": "0-2",
+      "epoch": 0,
+      "agentId": 1,
+      "type": "FIND_GLIDE_ROUTE",
+      "targetId": "site-0-968827269",
+      "priority": "pilot",
+      "phase": "return",
+      "started": 0.008333333333333333,
+      "deadline": 60.00833333333333,
+      "progress": 1,
+      "observed": "glide-route",
+      "outcome": "completed",
+      "reason": "returned"
+    },
+    {
+      "id": "0-3/1",
+      "requestId": "0-3",
+      "epoch": 0,
+      "agentId": 1,
+      "type": "GUIDE_LANDMARK",
+      "targetId": "site-0-4019631404",
+      "priority": "pilot",
+      "phase": "return",
+      "started": 32.00833333333216,
+      "deadline": 92.00833333333216,
+      "progress": 1,
+      "observed": "guided-landmark",
+      "outcome": "completed",
+      "reason": "returned"
+    }
+  ],
+  "travelledMetres": [
+    1180.792242853594,
+    1103.5846138099585,
+    1128.8669086066986
+  ],
+  "impacts": [
+    0,
+    0,
+    0
+  ]
+}

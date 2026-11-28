@@ -1,0 +1,66 @@
+{
+  "freshProfileKey": null,
+  "reloaded": {
+    "version": 1,
+    "enabled": true,
+    "shareWithModel": true,
+    "retentionDays": 30,
+    "capacity": 64,
+    "entries": [
+      {
+        "id": "15d813be-9d8c-4e9d-9689-e9ede6bd8b0f",
+        "at": 1795842313613,
+        "world": {
+          "realm": "city",
+          "seed": 42,
+          "fingerprint": 2924253214
+        },
+        "event": "visit",
+        "agent": 0,
+        "detail": "visit"
+      },
+      {
+        "id": "37116931-8a49-473f-9f7c-d84b5caa68bd",
+        "at": 1795842319366,
+        "world": {
+          "realm": "city",
+          "seed": 42,
+          "fingerprint": 2924253214
+        },
+        "event": "dialogue",
+        "agent": 1,
+        "detail": "radio-contact"
+      }
+    ]
+  },
+  "afterDelete": {
+    "version": 1,
+    "enabled": false,
+    "shareWithModel": false,
+    "retentionDays": 30,
+    "capacity": 64,
+    "entries": [
+      {
+        "id": "15d813be-9d8c-4e9d-9689-e9ede6bd8b0f",
+        "at": 1795842313613,
+        "world": {
+          "realm": "city",
+          "seed": 42,
+          "fingerprint": 2924253214
+        },
+        "event": "visit",
+        "agent": 0,
+        "detail": "visit"
+      }
+    ]
+  },
+  "afterClear": {
+    "version": 1,
+    "enabled": false,
+    "shareWithModel": false,
+    "retentionDays": 30,
+    "capacity": 64,
+    "entries": []
+  },
+  "externalRequests": []
+}
