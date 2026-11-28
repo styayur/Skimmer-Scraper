@@ -1,0 +1,75 @@
+name: Record Kinetic City on the main CI Web artifact
+
+on:
+  push:
+    branches: [codex/joint-delivery-records]
+    paths: [.github/workflows/record-release-city-flight.yml]
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  flight:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: 67a568705cd0cabe18d467f465ae745e784aa245
+          path: player
+          persist-credentials: false
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: 5921f1b8cef2393d8883fff20c7cf66810f859f6
+          path: recorder
+          persist-credentials: false
+          sparse-checkout: scripts/capture-kinetic-demo.mjs
+          sparse-checkout-cone-mode: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: 24
+      - name: Read and verify the exact files flown in the foreground comparison
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -eu -o pipefail
+          receipt=acceptance/joint-delivery-011/merged-67a5687-identity.json
+          commit=$(jq -er '.sourceCommit' "$receipt")
+          test "$(git -C player rev-parse HEAD)" = "$commit"
+          run=$(jq -er '.webArtifact.run' "$receipt")
+          id=$(jq -er '.webArtifact.id' "$receipt")
+          digest=$(jq -er '.webArtifact.sha256' "$receipt")
+          gh api "repos/$GITHUB_REPOSITORY/actions/artifacts/$id" | jq -e \
+            --arg sha "$commit" --argjson run "$run" --arg digest "sha256:$digest" \
+            '.workflow_run.id == $run and .workflow_run.head_sha == $sha and .digest == $digest and (.expired | not)' >/dev/null
+          gh api "repos/$GITHUB_REPOSITORY/actions/artifacts/$id/zip" > "$RUNNER_TEMP/site.zip"
+          echo "$digest  $RUNNER_TEMP/site.zip" | sha256sum -c
+          mkdir "$RUNNER_TEMP/site" recordings
+          unzip -q "$RUNNER_TEMP/site.zip" -d "$RUNNER_TEMP/site"
+          node player/scripts/qualification/dist-manifest.mjs --record "$RUNNER_TEMP/site" "$commit" recordings/served-files.json
+          test "$(jq -r .treeSha256 recordings/served-files.json)" = "$(jq -r .treeSha256 "$receipt")"
+      - name: Install the pinned browser and video encoder
+        working-directory: player
+        run: |
+          npm ci
+          npx --no-install playwright install --with-deps chromium
+          if ! command -v ffmpeg >/dev/null; then sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg; fi
+      - name: Fly the original seed 11 input sequence and save its video and telemetry
+        run: |
+          python3 -m http.server 4175 --bind 127.0.0.1 --directory "$RUNNER_TEMP/site" > "$RUNNER_TEMP/site-server.log" 2>&1 &
+          server=$!
+          trap 'kill "$server"' EXIT
+          curl --fail --retry 8 --retry-delay 1 --retry-connrefused --silent http://127.0.0.1:4175/build-info.json > recordings/build-info.json
+          node recorder/scripts/capture-kinetic-demo.mjs http://127.0.0.1:4175/ player recordings/seed-11
+          ffmpeg -hide_banner -loglevel error -ss 3 -i recordings/seed-11/kinetic-free-flight.mp4 -frames:v 1 -q:v 2 recordings/seed-11/flight.jpg
+          ffprobe -v error -show_entries stream=codec_name,width,height,nb_frames,duration -of json recordings/seed-11/kinetic-free-flight.mp4 > recordings/seed-11/video.json
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: kinetic-city-flight-67a5687
+          path: recordings/
+          if-no-files-found: error
