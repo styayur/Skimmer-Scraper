@@ -23,6 +23,11 @@ most 15% and p95 is at most 25%. Preserve a rejected start and reschedule it
 if this check fails. Record total host CPU throughout each flight. Keep every
 timed result, including slow intervals.
 
+Stock Web can start after the release has merged and its official builds are
+underway. If an artifact arrives between legs, record the wait, the UTC start
+and finish of each measured interval, and the gap to the next interval. Release
+the display as soon as the fourth client and foreground observer exit.
+
 Use the Radeon 780M, D3D11, High quality, 1920 × 1080 at DPR 1, shielded Free
 Flight, chase camera, three companions and default music. Hold the same yaw
 and boost keys as the historical flight. Every 12 simulation seconds, return

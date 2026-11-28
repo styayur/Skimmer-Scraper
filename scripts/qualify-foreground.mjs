@@ -40,6 +40,14 @@ assert(['reference','controlled'].includes(options.route), 'Unknown flight route
 const controlled = options.route === 'controlled';
 assert(!controlled || options.world === 'city', 'Controlled circuits use the original city');
 const helpers = fileURLToPath(new URL('./qualification/', import.meta.url));
+let runner;
+if (controlled) {
+  const sources = ['qualify-foreground.mjs','qualification/flight.mjs','qualification/native-boot.mjs',
+    'qualification/verify-native-profile.ps1','qualification/watch-window.py','qualification/host_cpu.py'];
+  const files = Object.fromEntries(await Promise.all(sources.map(async name =>
+    [name, hash(await readFile(new URL(name, import.meta.url)))])));
+  runner = { files, sha256: hash(JSON.stringify(files)) };
+}
 const powerShell = (name, args = [], env = process.env) => execFileSync('powershell.exe',
   ['-NoProfile', '-NonInteractive', '-File', path.join(helpers, name), ...args],
   { env, windowsHide: true, encoding: 'utf8', timeout: 120000 });
@@ -169,6 +177,7 @@ async function identify(client) {
   assert.deepEqual(identity.build, expectedBuild);
   assert.equal(identity.sourceUrl, build.sourceUrl);
   assert.match(identity.renderer, /Radeon.*780M/i);
+  if (controlled) assert.match(identity.renderer, /D3D11/i);
   assert.doesNotMatch(identity.renderer, /swiftshader|llvmpipe|software|warp|basic render/i);
   assert.deepEqual(identity.viewport, [size.width, size.height]);
   assert.equal(identity.dpr, 1);
@@ -178,7 +187,7 @@ async function identify(client) {
 
 async function measure(pid) {
   await page.bringToFront();
-  await prepareFlight(page, output, options.world);
+  await prepareFlight(page, output, options.world, controlled);
   const marker = native ? 'Skimmer-Scraper' : 'SkimmerQA-' + randomUUID();
   if (!native) await page.evaluate(value => { document.title = value; }, marker);
   await page.bringToFront();
@@ -198,7 +207,10 @@ async function measure(pid) {
   try {
     const metrics = async () => Object.fromEntries((await session.send('Performance.getMetrics')).metrics.map(m => [m.name,m.value]));
     const before = session && await session.send('Performance.enable', { timeDomain: 'threadTicks' }).then(metrics).catch(() => null);
+    const measuredStartedUtc = new Date().toISOString();
     const flight = await Promise.race([foregroundFlight(page, seconds, output, options.world, controlled), stopped]);
+    flight.measuredStartedUtc = measuredStartedUtc;
+    flight.measuredFinishedUtc = new Date().toISOString();
     assert(monitor.exitCode === null && !focus.lost && focus.samples > 1);
     if (controlled) {
       const after = before && await metrics().catch(() => null);
@@ -241,7 +253,7 @@ try {
     if (values.length) resources[name] = { min: Math.min(...values), max: Math.max(...values), last: values.at(-1) };
   }
   const report = { sourceCommit: options.sha, world: options.world, platform: native ? 'windows' : 'web', started, finished: new Date().toISOString(),
-    status: 'passed', enduranceQualified: seconds >= 901, identity, focus: measuredFocus, ...totals, resources, idleCpu, measuredCpu, sampleCount: samples.length,
+    status: 'passed', enduranceQualified: seconds >= 901, identity, runner, focus: measuredFocus, ...totals, resources, idleCpu, measuredCpu, sampleCount: samples.length,
     musicPlayingSamples: samples.filter(row => row.music.playing).length, rawSha256: hash(packed) };
   await save('result.json', report);
   await page.screenshot({ path: path.join(output, 'flight.png'), timeout: 30000 });

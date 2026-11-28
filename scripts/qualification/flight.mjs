@@ -75,11 +75,11 @@ export function verifyKineticBudget(samples) {
     'Voice queue or playback history exceeded its shipping limit');
 }
 
-export async function prepareFlight(page,output,world) {
+export async function prepareFlight(page,output,world,controlled=false) {
   await page.bringToFront();
-  if(world==='kinetic-city'){
+  if(world==='kinetic-city' || controlled){
     await page.keyboard.press('g');
-    assert.equal(await page.locator('#world-theme').inputValue(),'kinetic-city','The running world selector must confirm Kinetic City');
+    assert.equal(await page.locator('#world-theme').inputValue(),world,'The running world selector must confirm the requested theme');
     await page.keyboard.press('Escape');
   }
   await page.keyboard.press('f');
@@ -103,7 +103,7 @@ export async function prepareFlight(page,output,world) {
 }
 
 export async function foregroundFlight(page,seconds,output,world,controlled=false) {
-  await page.evaluate(world=>{
+  await page.evaluate(({world,controlled})=>{
     const f=window.__qaFlight, g=window.__SKIMMER_SCRAPER__, start=g.snapshot();
     if(start.rules.mode!=='free' || !start.rules.shield || start.companionSettings.count!==3 || start.debugInput)
       throw Error('Expected normal shielded Free Flight with three wingmates');
@@ -114,6 +114,13 @@ export async function foregroundFlight(page,seconds,output,world,controlled=fals
       camera:start.cameraMode,aircraft:start.selectedAircraft,worldMode:start.worldMode,preset:start.worldPreset,
       generator:start.generatorVersion,language:document.documentElement.lang,musicEnabled:start.music.enabled,
       viewport:[innerWidth,innerHeight],buffer:[gl.drawingBufferWidth,gl.drawingBufferHeight],dpr:devicePixelRatio};
+    if(controlled){
+      Object.assign(f.settings,{theme:document.querySelector('#world-theme').value,formation:start.companionSettings.formation,
+        behavior:start.companionSettings.behavior,worldFingerprint:start.worldFingerprint});
+      if(f.settings.theme!=='city' || start.worldMode!=='stable' || start.worldPreset!=='city' || start.generatorVersion!==4 ||
+          start.seed!==334458 || start.journey.crossings!==0 || !Number.isInteger(start.worldFingerprint))
+        throw Error('The controlled flight must start in the specified legacy city');
+    }
     if(world==='kinetic-city')f.kineticStart={selectedTheme:document.querySelector('#world-theme').value,fingerprint:start.worldFingerprint};
     f.samples=[];f.frames=[];f.error=null;f.start=start.runTime;f.seed=start.seed;
     f.initialBuffer=start.bufferingEvents;f.startCrossings=start.journey.crossings;f.startWall=performance.now();
@@ -153,7 +160,7 @@ export async function foregroundFlight(page,seconds,output,world,controlled=fals
       f.raf=requestAnimationFrame(frame);
     };
     f.raf=requestAnimationFrame(frame);
-  },world);
+  },{world,controlled});
   const crossings=[],checkpointSamples=[];
   const schedule=controlled ? controlledSchedule(seconds) : null;
   const circuits=[];

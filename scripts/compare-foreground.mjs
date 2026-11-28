@@ -46,6 +46,7 @@ async function verified(directory) {
   assert.equal(report.transitions.length, report.scriptedCrossings);
   if (report.controlledRoute) {
     const schedule = controlledSchedule(report.seconds);
+    assert.equal(report.runner.sha256, createHash('sha256').update(JSON.stringify(report.runner.files)).digest('hex'));
     assert.deepEqual(report.controlledRoute.schedule, schedule);
     assert.deepEqual(report.controlledRoute.circuits.map(item => item.scheduled), schedule.circuits);
     assert.deepEqual([report.startSeed,...report.transitions.map(item=>item.after.seed)], schedule.seeds);
@@ -98,6 +99,7 @@ const [a, b] = await Promise.all([verified(left), verified(right)]);
 assert.deepEqual(a.settings, b.settings, 'Measured flight settings differ');
 assert.equal(a.world ?? 'city', b.world ?? 'city');
 assert.equal(a.identity.renderer, b.identity.renderer, 'GPU or graphics backend differs');
+if (a.controlledRoute || b.controlledRoute) assert.deepEqual(a.runner, b.runner, 'The controlled flights used different runner bytes');
 for (const key of ['seconds', 'startSeed', 'quality', 'route']) assert.deepEqual(a[key], b[key], key);
 if (mode !== '--regression') {
   assert.equal(a.platform, 'web');
