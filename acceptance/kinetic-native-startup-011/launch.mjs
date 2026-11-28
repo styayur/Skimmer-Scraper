@@ -11,13 +11,15 @@ import { parseArgs, promisify } from 'node:util';
 import { identifyRunningBuild, measureMenus } from './observe.mjs';
 
 const { values } = parseArgs({options:{ inputs:{type:'string'}, output:{type:'string'},
-  'tool-root':{type:'string'}, 'slot-clearance':{type:'string'}, help:{type:'boolean'} }});
+  'tool-root':{type:'string'}, 'slot-clearance':{type:'string'}, 'verify-only':{type:'boolean'}, help:{type:'boolean'} }});
 if (values.help) {
+  console.log('node launch.mjs --verify-only --inputs STAGED_DIR --tool-root CHECKOUT_WITH_PLAYWRIGHT');
   console.log('node launch.mjs --inputs STAGED_DIR --output NEW_DIR --tool-root CHECKOUT_WITH_PLAYWRIGHT --slot-clearance "Parent clearance reference and UTC"');
   process.exit(0);
 }
 assert.equal(process.platform,'win32');
-assert(values.inputs && values.output && values['tool-root'] && values['slot-clearance']?.trim(),
+assert(values.inputs && values['tool-root'], 'Supply the staged inputs and dependency checkout');
+assert(values['verify-only'] || (values.output && values['slot-clearance']?.trim()),
   'The native run requires staged inputs and the parent’s explicit exclusive desktop clearance');
 const subprocess = promisify(execFile);
 const ps = (args, env=process.env, timeout=5000) => subprocess('powershell.exe',
@@ -27,15 +29,30 @@ const jsonFile = async name => JSON.parse((await readFile(name,'utf8')).replace(
 const staged = await realpath(values.inputs);
 const identity = await jsonFile(path.join(staged,'inputs.json'));
 const local = await jsonFile(path.join(staged,'local-launch.json'));
-assert(/^[a-f0-9]{40}$/.test(identity.pr97Merge) && /^[a-f0-9]{64}$/.test(identity.archiveSha256));
+const release = await jsonFile(new URL('release-pin.json',import.meta.url));
+assert.equal(identity.build.sourceCommit,release.source);
+assert.equal(identity.pr97Merge,release.source);
+assert.equal(identity.tree,release.tree);
+assert.equal(identity.workflow,'https://github.com/styayur/Skimmer-Scraper/actions/runs/'+release.windowsRunId);
+assert(identity.verifiedSourceSignature && /^[a-f0-9]{64}$/.test(identity.archiveSha256));
 assert(identity.build.dirty===false && identity.build.toolchain.platform==='win32');
 const exe = await realpath(local.exe), info = await stat(exe,{bigint:true});
 assert.equal(info.mtimeNs.toString(),local.mtimeNs);
 assert.equal(Number(info.size),identity.executable.bytes);
 assert.equal(path.basename(exe),identity.executable.name);
 const tools = await realpath(values['tool-root']);
-const {chromium} = createRequire(path.join(tools,'package.json'))('@playwright/test');
+const requireTool = createRequire(path.join(tools,'package.json'));
+const {chromium} = requireTool('@playwright/test');
 const knownFolders=path.join(tools,'scripts','qualification','verify-native-profile.ps1');
+if (values['verify-only']) {
+  assert.equal(hash(await readFile(exe)),identity.executable.sha256);
+  assert((await stat(knownFolders)).isFile());
+  console.log(JSON.stringify({status:'passed',mode:'file verification only',launches:0,
+    source:release.source,tree:release.tree,officialRun:release.windowsRunId,artifact:identity.artifactId,
+    executableSha256:identity.executable.sha256,installerSha256:identity.nsis.sha256,
+    node:process.version,playwright:requireTool('@playwright/test/package.json').version},null,2));
+  process.exit(0);
+}
 const output=path.resolve(values.output);
 await mkdir(path.dirname(output),{recursive:true});
 await mkdir(output);   // Preserve every attempt, including a failed admission.

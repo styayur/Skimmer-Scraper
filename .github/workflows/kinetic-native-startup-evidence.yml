@@ -6,6 +6,7 @@ on:
       - .github/workflows/kinetic-native-startup-evidence.yml
       - acceptance/kinetic-native-startup-011/observe.mjs
       - acceptance/kinetic-native-startup-011/rehearse.mjs
+      - acceptance/kinetic-native-startup-011/release-pin.json
 permissions:
   contents: read
 jobs:
@@ -16,7 +17,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/checkout@v4
         with:
-          ref: d167158166ae08d8c0d74925da0fe169d1566eb1
+          ref: ac943acd6a2c6d21431aa138327bc3e64ed8552f
           path: candidate
       - uses: actions/setup-node@v4
         with:

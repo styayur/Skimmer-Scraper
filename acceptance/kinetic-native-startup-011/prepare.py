@@ -61,12 +61,14 @@ def main():
     opts = parser.parse_args()
     handoff = read_json(opts.handoff)
     sha = handoff["sourceCommit"]
+    pin = read_json(Path(__file__).with_name("release-pin.json"))
+    assert sha == pin["source"] and handoff["run"] == pin["windowsRunId"], "Unexpected release source or Windows run"
     pr = gh("pulls/97")
     assert pr["merged"] and pr["base"]["ref"] == "main", "The release correction in PR 97 has not merged"
     merge = pr["merge_commit_sha"]
-    if merge != sha:
-        assert gh("compare/" + merge + "..." + sha)["status"] == "ahead", "Native input predates PR 97"
+    assert merge == sha, "Expected the exact PR 97 main merge"
     source = gh("commits/" + sha)
+    assert source["commit"]["tree"]["sha"] == pin["tree"] and source["commit"]["verification"]["verified"]
     run = gh("actions/runs/" + str(handoff["run"]))
     artifact = gh("actions/artifacts/" + str(handoff["artifactId"]))
     assert run["head_sha"] == sha and run["head_branch"] == "main" and run["conclusion"] == "success"
