@@ -16,6 +16,14 @@ Kinetic City 用共享端口连接分区。相同种子可在不同访问顺序�
 
 使用相同的发布版 v0.10.0、GLB 导入流程、LB 输入时刻和接近姿态，第一轮修正降低拱顶与碗面的纵向起伏，第二轮移动螺旋下降段以留出脱离空间。六个对齐输入达标数依次为 3、5、6。另一次碗面实验只调整配方的起伏系数。在一个已知问题种子及三个预先选定的新种子上，原碗面各出现一次护盾撞击，较浅配方四次均主动脱离。固定二十种子的原始成绩保留。输入设备由测试驱动模拟，最终报告单列实体手柄证据。[固定矩阵、各轮原始轨迹和独立留出](../joint-flight/topogenesis/README.md) · [碗面配对实验](../joint-flight/topogenesis/bowl-relief/README.md) · [生成器核对索引](https://github.com/styayur/V2Wpro/blob/3e4afa56c92d2f5f517e2b35f5785c061410d8f1/evidence/topogenesis/engine-feedback.json)
 
+## 控制器对照
+
+构建 `946d2f7e` 的 34 条轨迹有 33 条达到预先规定的条件。原始 20 条和后来公开的 8 条回归轨迹全部达标。新控制器冻结前保密的 6 条中，3 个加速带状桥、1 个螺旋和 1 个空中拒绝场景达标。余下的斜向 S 弯在规定脱离时刻仍处于恢复阶段，约 0.067 秒后进入自由飞行。34 条均为零护盾撞击、零采样穿透。[逐例结果、三组原始对照和时间戳](../joint-flight/topogenesis/integrated-946d2f7e/results.md) · [主动脱离的逐物理步对照](../v0110/surface-glide/ribbon-departure/README.md)
+
+## 前台性能与资源
+
+Radeon 780M、D3D11、1920 × 1080、High 画质的首轮长飞，每端每版本均覆盖至少 901 秒。Web 的均值由 85.19 变为 86.20 FPS，p95 由 17.9 变为 17.0 毫秒。Windows 的均值由 78.08 降至 72.58 FPS，降幅 7.04%，超出 5% 目标。p95 由 23.7 变为 25.0 毫秒。两版自由航线触发的自然翻转次数不同。单独的 Kinetic City 180 秒前台预算测试中，两端均最多驻留 36 个区块和 36 棵静态碰撞树，上限为 41 个区块。[四份长飞原始记录及两端新城市预算](../foreground-qualification/README.md) · [合并版本预先登记的复验航线](../foreground-qualification/final-repeat.md)
+
 ## 伴机、记忆与历史存档
 
 领航、侦察和脱离空间检查都由当前世界的几何确认。三个角色在两个城市种子上分别完成任务。旅程记忆默认关闭。记录包含历史世界身份，玩家可以查看、单条删除或清空。向模型提供历史摘要使用单独授权。[飞行任务与转向](companions/README.md) · [存储和删除记录](companions/journal-lifecycle.json)
