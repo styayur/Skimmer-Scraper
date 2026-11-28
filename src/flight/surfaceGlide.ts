@@ -2,6 +2,7 @@ import { Euler, Matrix4, Quaternion, Vector3 } from 'three';
 import { clamp, type Vec3 } from '../core/math';
 import type { SurfaceQuery } from '../world/worldTypes';
 import type { FlightState } from './flightModel';
+import { clearCoast, continuationContact, planSurfacePatches, transportTangent } from './surfacePatchGraph';
 import { clearChord, glideTuning, planEscape, planMagnetic, planRedirect, planTransfer, sampleTrajectory, supported,
   type GlideContext, type SurfaceTrajectory } from './surfaceTrajectory';
 
@@ -12,12 +13,18 @@ export interface GlideState {
   normal?: Vec3;
   surfaceId?: string;
   geometryId?: string;
+  logicalSurfaceId?: string;
+  surfaceVelocity?: Vec3;
+  tangent?: Vec3;
   contactPoint?: Vec3;
   nextPlan?: number;
   deadline?: number;
   riskChecked?: boolean;
   speedLimit?: number;
   normalLead?: number;
+  turnRate?: number;
+  awaitingPlan?: boolean;
+  coast?: { distance: number; since: number; last: number };
   lostAt?: Vec3;
   trajectory?: SurfaceTrajectory;
 }
@@ -106,7 +113,7 @@ function followPlan(state: GlideState, previous: FlightState, free: FlightState,
   if (expected.position.distanceToSquared(previous.position) > 1e-6 ||
       expected.velocity.distanceToSquared(previous.velocity) > 1e-6 || (!plan.escape && !supported(plan, state.time, ctx)) ||
       !clearChord(ctx, vector(previous.position), sample.position, 0, dt, plan.acceleration)) {
-    return releaseSurface({ phase: 'RECOVERY', time: 0 }, previous, free, dt);
+    return releaseSurface({ phase: 'RECOVERY', time: 0, normal: state.normal }, previous, free, dt, ctx);
   }
   const tangent = sample.velocity.clone();
   if (!plan.escape) tangent.sub(plan.surfaceVelocity);
@@ -154,7 +161,7 @@ export function stepGlide(state: GlideState, previous: FlightState, free: Flight
     if (trajectory) return followPlan({ phase: trajectory.escape ? 'ESCAPE' : 'REDIRECT', time: 0,
       deadline, trajectory }, previous, free, dt, ctx);
   }
-  const loseContact = () => {
+  const loseContact = (awaitingPlan = false) => {
     if (state.phase === 'ARMED') {
       const trajectory = mayPlan && ctx && planMagnetic(previous, ctx);
       if (trajectory && ctx) return followPlan({ phase: 'REDIRECT', time: 0,
@@ -166,14 +173,18 @@ export function stepGlide(state: GlideState, previous: FlightState, free: Flight
       const time = state.phase === 'REACQUIRE' ? state.time + dt : dt;
       const start = vector(previous.position), end = start.clone().addScaledVector(previous.velocity, dt);
       const lostAt = state.lostAt ?? start;
-      if (time < glideTuning.reacquireSeconds && end.distanceTo(lostAt) < glideTuning.clearance &&
+      const coast = { distance: (state.coast?.distance ?? 0) + end.distanceTo(start),
+        since: state.coast?.since ?? previous.elapsed, last: free.elapsed };
+      if (coast.last - coast.since < glideTuning.reacquireSeconds && coast.distance < glideTuning.clearance &&
           clearChord(ctx, start, end, 0, dt, 0)) {
-        return { state: { ...state, phase: 'REACQUIRE' as const, lostAt, time },
+        return { state: { ...state, phase: 'REACQUIRE' as const, lostAt, time, awaitingPlan, nextPlan, coast },
           flight: { ...previous, elapsed: free.elapsed, position: end } };
       }
     }
-    return releaseSurface({ phase: 'RECOVERY', time: 0 }, previous, free, dt);
+    return releaseSurface({ phase: 'RECOVERY', time: 0, normal: state.normal }, previous, free, dt, ctx);
   };
+  if (state.awaitingPlan && !mayPlan) return loseContact(true);
+  if (ctx) hit = continuationContact(state, previous.position, hit, dt, ctx);
   if (!hit?.contact || hit.distance > glideRange || hit.distance < 3.3) return loseContact();
 
   const normal = vector(hit.contact.normal).normalize();
@@ -188,7 +199,8 @@ export function stepGlide(state: GlideState, previous: FlightState, free: Flight
     ? vector(state.lostAt).distanceTo(previous.position) : 0;
   // At an inside fold the closest point switches between two faces before
   // reaching the edge. Their offset flight paths meet even when the face points differ.
-  const foldOffset = state.normal && state.surfaceId === hit.surfaceId && state.geometryId === hit.contact.geometryId
+  const foldOffset = state.normal && (state.surfaceId === hit.surfaceId && state.geometryId === hit.contact.geometryId ||
+    state.logicalSurfaceId && state.logicalSurfaceId === hit.contact.logicalSurfaceId)
     ? Math.min(clearance, hit.distance) * normal.distanceTo(state.normal) : 0;
   const brokenSeam = state.contactPoint && vector(hit.point).distanceTo(
     vector(state.contactPoint).addScaledVector(surfaceVelocity, dt)) > tangentSpeed * dt + 1.1 + seamAllowance + foldOffset;
@@ -197,40 +209,27 @@ export function stepGlide(state: GlideState, previous: FlightState, free: Flight
   if (!(normal.lengthSq() > 0.99) || !Number.isFinite(tangentSpeed + normalSpeed + hit.distance) ||
     offset.dot(normal) < 0.88 * hit.distance || tangentSpeed < 0.48 * free.speed ||
     stoppingDistance > hit.distance - 3.3 || brokenSeam ||
+    (state.surfaceVelocity && surfaceVelocity.distanceTo(state.surfaceVelocity) > 0.5) ||
     (state.normal && vector(state.normal).dot(normal) < 0.84) ||
     (state.surfaceId === hit.surfaceId && state.geometryId !== hit.contact.geometryId)) {
     return loseContact();
   }
 
-  let speedLimit = state.speedLimit ?? Infinity, normalLead = state.normalLead ?? 0;
-  if (mayPlan && ctx && (state.phase === 'GLIDING' || state.phase === 'ATTACHING')) {
+  let speedLimit = state.speedLimit ?? Infinity, normalLead = state.normalLead ?? 0, turnRate = state.turnRate ?? 0;
+  if (mayPlan && ctx) {
     const trajectory = state.phase === 'GLIDING' && planTransfer(previous, hit, ctx);
     if (trajectory) return followPlan({ phase: 'TRANSFER', time: 0, trajectory }, previous, free, dt, ctx);
-    speedLimit = Infinity;
-    normalLead = 0;
-    const heading = tangent.clone().normalize();
-    const pathStart = vector(hit.point).addScaledVector(normal, clearance);
-    for (const seconds of [0.10, 0.24, 0.42]) {
-      const travel = Math.min(32, tangentSpeed * seconds);
-      const probe = pathStart.clone().addScaledVector(heading, travel);
-      const ahead = ctx.world.queryGlideAhead?.(probe, glideRange, seconds);
-      if (!ahead?.contact || vector(ahead.contact.velocity).distanceTo(surfaceVelocity) > 0.25) break;
-      const faceNormal = vector(ahead.contact.normal), angle = normal.angleTo(faceNormal);
-      const chord = vector(ahead.point).addScaledVector(faceNormal, clearance).sub(pathStart);
-      if (angle < 0.015 || angle > 1.1 || chord.dot(heading) < travel * 0.5) continue;
-      const radius = chord.length() / (2 * Math.sin(angle / 2));
-      const safeSpeedSq = glideTuning.followingAcceleration * 0.65 * radius;
-      speedLimit = Math.min(speedLimit, Math.sqrt(safeSpeedSq + 2 * 90 * Math.max(0, travel - tangentSpeed * 0.12)));
-      if (seconds === 0.10) {
-        // The next displacement targets the offset arc at one physics tick.
-        // A full lookahead chord here would continuously steer inside a convex curve.
-        normalLead = clamp(chord.dot(normal) * dt / (seconds * seconds), -8, 8);
-      }
+    const guidance = planSurfacePatches(previous, { ...hit, contact: hit.contact }, tangent, ctx, dt);
+    if (state.phase !== 'ARMED' && (guidance?.depth ?? 0) < 2 && !clearCoast(previous, ctx)) {
+      return releaseSurface({ phase: 'RECOVERY', time: 0, normal }, previous, free, dt, ctx);
     }
+    if (!guidance) return loseContact(true);
+    ({ speedLimit, normalLead, turnRate } = guidance);
   }
 
-  const turn = clamp(free.control.roll + free.control.yaw, -1, 1) * 1.25 * dt;
-  tangent.normalize().applyAxisAngle(normal, turn);
+  const steering = clamp(free.control.roll + free.control.yaw, -1, 1);
+  if (state.tangent && state.normal) tangent.copy(transportTangent(state.tangent, state.normal, normal));
+  tangent.normalize().applyAxisAngle(normal, (steering * 1.25 + (1 - Math.abs(steering)) * turnRate) * dt);
   const desiredDistance = clearance + 1.4 * free.control.pitch;
   const correction = clamp((desiredDistance - offset.dot(normal)) * 3.5 + normalLead, -9, 9);
   const maxVelocityChange = glideTuning.followingAcceleration * dt;
@@ -246,7 +245,9 @@ export function stepGlide(state: GlideState, previous: FlightState, free: Flight
   const phase = state.phase === 'GLIDING' || settled ? 'GLIDING' : 'ATTACHING';
   return {
     state: { phase, time: state.time + dt, nextPlan, normal, surfaceId: hit.surfaceId, geometryId: hit.contact.geometryId,
-      contactPoint: hit.point, speedLimit, normalLead },
+      contactPoint: hit.point, surfaceVelocity, logicalSurfaceId: hit.contact.logicalSurfaceId,
+      tangent, speedLimit, normalLead, turnRate,
+      coast: state.coast && free.elapsed - state.coast.last < 2 / glideTuning.planningHz ? state.coast : undefined },
     flight: { ...free, position, velocity, speed: velocity.clone().sub(surfaceVelocity).length(), attitude },
   };
 }
