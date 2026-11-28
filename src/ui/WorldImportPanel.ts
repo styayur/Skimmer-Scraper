@@ -18,7 +18,10 @@ import {
 export interface ImportedWorldSource {
   data: ArrayBuffer;
   saved: boolean;
+  /** Restore this layout on a future reload. */
   replay: boolean;
+  /** The active world was opened from an exact layout. */
+  reopened: boolean;
 }
 
 interface Draft {
@@ -79,7 +82,6 @@ export class WorldImportPanel {
   private generation = 0;
   private busy = false;
   private partnerRequest?: AbortController;
-  private reopened = false;
   public readonly catalogRequested: boolean;
 
   public constructor(private readonly store: WorldLibrary, private readonly hooks: Hooks) {
@@ -107,7 +109,7 @@ export class WorldImportPanel {
     get('diagnostic').addEventListener('click', () => {
       const active = this.active, seed = this.activeSeed;
       if (!active || !seed) return;
-      const report = hooks.recording.report(active.world.manifest, active.world.getDefaultSpawn().position, seed, this.reopened);
+      const report = hooks.recording.report(active.world.manifest, active.world.getDefaultSpawn().position, seed, active.source.reopened);
       if (report) download(new Blob([JSON.stringify(report) + '\n'], { type: 'application/json' }),
         active.world.manifest.id + '-player-flight.json');
     });
@@ -161,7 +163,7 @@ export class WorldImportPanel {
         const { manifest } = active.world;
         await store.save(manifest, active.source.data, manifest.variant?.seed ?? 0);
         if (!current()) return;
-        active.source = { data: active.source.data, saved: true, replay: true };
+        active.source = { ...active.source, saved: true, replay: true };
         this.rememberVisit();
         void this.refresh();
         this.status.textContent = '';
@@ -216,7 +218,6 @@ export class WorldImportPanel {
 
   public setActive(world: ImportedWorldAdapter | null, source?: ImportedWorldSource): void {
     this.hooks.recording.reset();
-    this.reopened = source?.replay === true;
     this.active = world && source ? { world, source } : null;
     this.pendingSeed = null;
     get('active').hidden = world === null;
@@ -299,7 +300,7 @@ export class WorldImportPanel {
     const world = await this.hooks.open(data, name, seed.options, { fingerprint: seed.fingerprint, variant: seed.variant, exact });
     if (!current()) { world.dispose(); return; }
     try {
-      this.hooks.apply(world, { data, saved, replay: exact });
+      this.hooks.apply(world, { data, saved, replay: exact, reopened: exact });
     } catch (error) {
       world.dispose();
       throw error;
@@ -431,7 +432,8 @@ export class WorldImportPanel {
         if (!current()) return;
         if (world !== draft.world) draft.world.dispose();
         this.draft = null;
-        this.hooks.apply(world, { data: draft.data, saved: shouldSave || !!draft.saved, replay: keptVariant !== undefined });
+        this.hooks.apply(world, { data: draft.data, saved: shouldSave || !!draft.saved,
+          replay: keptVariant !== undefined, reopened: keptVariant !== undefined && !changed });
         if (variant && !world.manifest.variant) this.hooks.notice(t('worldImportPanel.variantFallback'), true);
         applied = true;
       } finally {

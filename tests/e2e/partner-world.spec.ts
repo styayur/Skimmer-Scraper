@@ -20,6 +20,7 @@ test('selects a partner without a request, verifies the GLB, exports the active 
     await route.fulfill({ body, contentType: 'model/gltf-binary' });
   });
   await page.goto('/?catalog=relay-district');
+  await page.waitForFunction(() => window.__SKIMMER_SCRAPER__?.snapshot().ready, undefined, { timeout: 90_000 });
   const catalog = page.locator('#partner-world-catalog');
   await expect(catalog).toBeVisible();
   await expect(page.locator('#partner-world-select')).toHaveValue('relay-district');
@@ -37,9 +38,12 @@ test('selects a partner without a request, verifies the GLB, exports the active 
   await expect(page.locator('#local-world-summary')).toContainText('1104');
   await page.locator('#local-world-save').uncheck();
   await page.locator('#local-world-apply').click();
-  await page.locator('#start-button').click();
-  await page.waitForFunction(() => (window.__SKIMMER_SCRAPER__?.snapshot().runTime ?? 0) > .25);
-  await page.keyboard.press('g');
+  async function flyAndOpenWorlds() {
+    await page.locator('#start-button').click();
+    await page.waitForFunction(() => (window.__SKIMMER_SCRAPER__?.snapshot().runTime ?? 0) > .25);
+    await page.keyboard.press('g');
+  }
+  await flyAndOpenWorlds();
   const seed = await page.locator('#world-seed-input').inputValue();
   async function download(id: string) {
     const pending = page.waitForEvent('download');
@@ -60,7 +64,24 @@ test('selects a partner without a request, verifies the GLB, exports the active 
   await page.locator('#local-world-keep').click();
   await page.waitForFunction(() => Object.values(sessionStorage).some(v => v.includes('"replay":true')));
   await page.reload();
+  await page.waitForFunction(() => window.__SKIMMER_SCRAPER__?.snapshot().ready, undefined, { timeout: 90_000 });
   await expect(page.locator('#world-seed-input')).toHaveValue(seed);
+  await page.locator('#world-close').click();
+  await flyAndOpenWorlds();
+  const reopened = JSON.parse(await download('#local-world-diagnostic'));
+  expect(reopened.replayed).toEqual(reopened.imported);
+  expect(reopened.world.layoutSeed).toBe(seed);
+  const library = page.locator('#local-world-library');
+  if (!await library.evaluate((el: HTMLDetailsElement) => el.open)) await library.locator(':scope > summary').click();
+  await page.locator('#local-world-load').click();
+  await page.locator('.world-import-transform > summary').first().click();
+  await page.locator('#local-world-config [name="yaw"]').fill('15');
+  await page.locator('#local-world-apply').click();
+  await expect(page.locator('#world-seed-input')).not.toHaveValue(seed);
+  await flyAndOpenWorlds();
+  const edited = JSON.parse(await download('#local-world-diagnostic'));
+  expect(edited.world.layoutSeed).not.toBe(seed);
+  expect(edited.replayed).toBeNull();
   expect(external).toEqual(['GET ' + asset, 'GET ' + asset]);
   expect(errors).toEqual([]);
 });
