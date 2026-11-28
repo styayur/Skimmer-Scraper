@@ -1,0 +1,254 @@
+{
+  "fixedHz": 120,
+  "stepNumbering": "one-based",
+  "positionToleranceM": 1e-07,
+  "velocityToleranceMps": 1e-07,
+  "stock": "991138b8c67c188bd47731d6c193142750225818",
+  "integratedBefore": "0a5272b36352a1300253080bd38cfb5d520c7e0d",
+  "corrected": "34e62ffc603d8db0d898cb16a24ea1ffdb75d175",
+  "rows": [
+    {
+      "seed": 8131,
+      "tick": 207,
+      "pilot": {
+        "x": 9.325675029083317,
+        "y": 24.588604892422236,
+        "z": -93.73365358803774
+      },
+      "velocity": {
+        "x": -0.17874700674394628,
+        "y": 4.418132603603393,
+        "z": 63.853584958618214
+      },
+      "distance": 5.521832218793651,
+      "triangle": 138,
+      "oldGuidance": null,
+      "newGuidance": {
+        "speedLimit": 65.2261760163069,
+        "turnRate": 0,
+        "depth": 5,
+        "normalLead": 0.42509717350486287
+      },
+      "firstProbes": [
+        {
+          "position": {
+            "x": 9.342907483057548,
+            "y": 24.582720579297735,
+            "z": -89.48435293646101
+          },
+          "range": 11,
+          "seconds": 0.06666666666666667,
+          "point": {
+            "x": 10.16407951720596,
+            "y": 19.342654891148964,
+            "z": -88.7077840208052
+          },
+          "normal": {
+            "x": -0.12424276685597219,
+            "y": 0.9917620682811773,
+            "z": 0.03117266114103549
+          },
+          "triangle": 154,
+          "projectedOverhangM": 0.9555360669640184,
+          "kind": "cruising-height"
+        },
+        {
+          "position": {
+            "x": 9.851808332079774,
+            "y": 19.337679307451946,
+            "z": -89.61712619486507
+          },
+          "range": 3.2,
+          "seconds": 0.06666666666666667,
+          "point": {
+            "x": 9.86585450445789,
+            "y": 19.21631266413235,
+            "z": -89.6206971413487
+          },
+          "normal": {
+            "x": -0.11491693170203214,
+            "y": 0.9929454007693975,
+            "z": 0.02921523402424031
+          },
+          "triangle": 140,
+          "projectedOverhangM": 1.2206162816198091e-15,
+          "kind": "near-deck"
+        }
+      ],
+      "firstDifferenceStockVsIntegrated": {
+        "motionStep": 135,
+        "contactPointStep": 137,
+        "contactTriangleStep": 201,
+        "phaseStep": 207,
+        "firstIntegratedShieldStep": null
+      },
+      "maximumFixedStepToBrowserPositionErrorM": {
+        "stock": 0.0,
+        "integratedBefore": 0.0,
+        "corrected": 0.0
+      }
+    },
+    {
+      "seed": 8132,
+      "tick": 255,
+      "pilot": {
+        "x": 9.944935459426839,
+        "y": 24.71119421011559,
+        "z": -34.22177719856317
+      },
+      "velocity": {
+        "x": 0.4075030839423191,
+        "y": 1.9535495278751966,
+        "z": 67.44115508604925
+      },
+      "distance": 6.430813607500054,
+      "triangle": 382,
+      "oldGuidance": null,
+      "newGuidance": {
+        "speedLimit": 51.470734326141205,
+        "turnRate": 0,
+        "depth": 5,
+        "normalLead": 1.2483005430236354
+      },
+      "firstProbes": [
+        {
+          "position": {
+            "x": 10.177731164083225,
+            "y": 23.364719860996622,
+            "z": -28.46325249597458
+          },
+          "range": 11,
+          "seconds": 0.06666666666666667,
+          "point": {
+            "x": 10.354541511962598,
+            "y": 18.116925367059128,
+            "z": -28.399531529569124
+          },
+          "normal": {
+            "x": -0.022395578274244928,
+            "y": 0.9642123721713668,
+            "z": 0.26418353360008606
+          },
+          "triangle": 411,
+          "projectedOverhangM": 1.4495890436142773,
+          "kind": "cruising-height"
+        },
+        {
+          "position": {
+            "x": 10.618205402786161,
+            "y": 17.57769550186631,
+            "z": -29.949957350283494
+          },
+          "range": 3.2,
+          "seconds": 0.06666666666666667,
+          "point": {
+            "x": 10.595279330253241,
+            "y": 18.13334753132337,
+            "z": -29.90597774586396
+          },
+          "normal": {
+            "x": 0.04268275250555313,
+            "y": -0.998717900317392,
+            "z": 0.027216506465182692
+          },
+          "triangle": 404,
+          "projectedOverhangM": 0.059104763995906466,
+          "kind": "near-deck"
+        }
+      ],
+      "firstDifferenceStockVsIntegrated": {
+        "motionStep": 111,
+        "contactPointStep": 113,
+        "contactTriangleStep": 147,
+        "phaseStep": 255,
+        "firstIntegratedShieldStep": 428
+      },
+      "maximumFixedStepToBrowserPositionErrorM": {
+        "stock": 1.4210854715202004e-14,
+        "integratedBefore": 4.5635433489597437e-14,
+        "corrected": 2.842170943040401e-14
+      }
+    },
+    {
+      "seed": 95603,
+      "tick": 199,
+      "pilot": {
+        "x": 9.595977043888459,
+        "y": 24.675576382677196,
+        "z": -98.00486820592971
+      },
+      "velocity": {
+        "x": 0.1299695081558116,
+        "y": 1.7559172351208048,
+        "z": 64.69996156025572
+      },
+      "distance": 5.819910268742756,
+      "triangle": 111,
+      "oldGuidance": null,
+      "newGuidance": {
+        "speedLimit": 59.79209517460482,
+        "turnRate": 0,
+        "depth": 5,
+        "normalLead": -0.9960599714041425
+      },
+      "firstProbes": [
+        {
+          "position": {
+            "x": 9.499991664388972,
+            "y": 25.25871259544302,
+            "z": -94.13875698122
+          },
+          "range": 11,
+          "seconds": 0.06666666666666667,
+          "point": {
+            "x": 10.143370138945544,
+            "y": 19.046502361690983,
+            "z": -94.04054865997132
+          },
+          "normal": {
+            "x": -0.12177887964156958,
+            "y": 0.9820997652722061,
+            "z": -0.14370092388541514
+          },
+          "triangle": 133,
+          "projectedOverhangM": 0.8099580453889491,
+          "kind": "cruising-height"
+        },
+        {
+          "position": {
+            "x": 10.060088171359403,
+            "y": 19.832994588416796,
+            "z": -93.37770006171472
+          },
+          "range": 3.2,
+          "seconds": 0.06666666666666667,
+          "point": {
+            "x": 10.137918849587203,
+            "y": 19.027911373205008,
+            "z": -93.40041891739182
+          },
+          "normal": {
+            "x": -0.09618753259325256,
+            "y": 0.9949671487740172,
+            "z": 0.02807724050053785
+          },
+          "triangle": 138,
+          "projectedOverhangM": 4.119414202292909e-15,
+          "kind": "near-deck"
+        }
+      ],
+      "firstDifferenceStockVsIntegrated": {
+        "motionStep": 135,
+        "contactPointStep": 137,
+        "contactTriangleStep": 200,
+        "phaseStep": 199,
+        "firstIntegratedShieldStep": null
+      },
+      "maximumFixedStepToBrowserPositionErrorM": {
+        "stock": 0.0,
+        "integratedBefore": 0.0,
+        "corrected": 0.0
+      }
+    }
+  ]
+}

@@ -1,5 +1,7 @@
 # Surface Glide 3.0 qualification
 
+The follow-up qualification covers the revision 2 ribbon-bridge regression on three frozen development inputs. Flight source `34e62ffc` restored continuous LB glide on all three. The original gallery, helix, gap, coplanar turns and dynamic crossings were replayed on that source. [First divergent contacts, controlled browser runs and retained fixtures](ribbon-recheck/README.md)
+
 The strongest difference on the fixed assets was the curved gallery. Both aircraft on the candidate held the floor beneath a nearer ceiling, then detached on the second Space press. The reference lost the floor and hit the shield seven times. Both controllers completed the helical climb. [Issue 76](https://github.com/styayur/Skimmer-Scraper/issues/76)
 
 ## Imported-world gameplay
