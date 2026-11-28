@@ -828,10 +828,10 @@ export class WorldStreamer implements RenderableWorld {
   }
 
   private maybeRebase(position: { x: number; z: number }): { x: number; y: number; z: number } | null {
-    const nextX = Math.abs(position.x) >= ORIGIN_REBASE_THRESHOLD
+    const nextX = Math.abs(position.x - this.renderOrigin.x) >= ORIGIN_REBASE_THRESHOLD
       ? Math.trunc(position.x / ORIGIN_REBASE_STEP) * ORIGIN_REBASE_STEP
       : this.renderOrigin.x;
-    const nextZ = Math.abs(position.z) >= ORIGIN_REBASE_THRESHOLD
+    const nextZ = Math.abs(position.z - this.renderOrigin.z) >= ORIGIN_REBASE_THRESHOLD
       ? Math.trunc(position.z / ORIGIN_REBASE_STEP) * ORIGIN_REBASE_STEP
       : this.renderOrigin.z;
     if (nextX === this.renderOrigin.x && nextZ === this.renderOrigin.z) return null;
