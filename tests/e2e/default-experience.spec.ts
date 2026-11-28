@@ -36,6 +36,34 @@ test('new players take off with a shield, chase view and three offline companion
   await expect(page.locator('#companion-status [data-wing]')).toHaveCount(3);
   await expect(page.locator('#hud-timer')).toBeHidden();
   await expect(page.getByRole('meter')).toBeHidden();
+  const hudUpdates = await page.evaluate(async () => {
+    const timer = document.getElementById('hud-timer')!;
+    const best = document.getElementById('hud-best')!;
+    const meter = document.querySelector('.grace-meter')!;
+    const halo = document.getElementById('journey-easter-egg')!;
+    const writes = { best: 0, graceMaximum: 0, haloVisibility: 0 };
+    const observer = new MutationObserver(records => {
+      for (const record of records) {
+        if (record.target === best) writes.best++;
+        if (record.target === meter) writes.graceMaximum++;
+        if (record.target === halo) writes.haloVisibility++;
+      }
+    });
+    observer.observe(best, { childList: true });
+    observer.observe(meter, { attributes: true, attributeFilter: ['aria-valuemax'] });
+    observer.observe(halo, { attributes: true, attributeFilter: ['hidden'] });
+    const before = timer.textContent;
+    for (let frame = 0; frame < 12; frame++) {
+      await new Promise<void>(resolve => requestAnimationFrame(() => resolve()));
+    }
+    observer.disconnect();
+    return { before, after: timer.textContent, writes };
+  });
+  await testInfo.attach('flight-hud-updates', {
+    body: JSON.stringify(hudUpdates), contentType: 'application/json',
+  });
+  await expect(page.locator('#hud-timer')).not.toHaveText(hudUpdates.before ?? '');
+  expect(hudUpdates.writes).toEqual({ best: 0, graceMaximum: 0, haloVisibility: 0 });
   await page.screenshot({ path: testInfo.outputPath('first-flight.png'), animations: 'disabled' });
   expect(errors).toEqual([]);
 });
