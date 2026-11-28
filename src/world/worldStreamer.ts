@@ -692,6 +692,7 @@ export class WorldStreamer implements RenderableWorld {
             origin: generated.origin,
             bounds: generated.bounds,
             geometry: generated.collisionGeometry,
+            logicalSurfaceAt: generated.logicalSurfaceAt,
           } satisfies CollisionChunk, generated.collisionTree);
         } catch (error) {
           this.disposeGenerated(generated);
