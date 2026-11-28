@@ -559,6 +559,7 @@ export class SymbiosisRuntime {
     }
     const impacts=this.team.agents.reduce((n,a)=>n+a.impacts,0);if(impacts>this.impacts)this.event('impact');this.impacts=impacts;
     const requested=this.lastPlan?.resolved.filter(o=>o.action==='RELAY').flatMap(o=>o.agents)??[];
+    if (rules.config.mode === 'free' && !requested.length) return rules;
     const eligible=this.team.agents.find(partner=>!relayEligibility(this.relay,{time:this.time,trust:this.trust.value,player:player.position,rules,partner,world,requested:requested.includes(partner.id)}));
     if(eligible&&(rules.config.mode==='challenge'||requested.includes(eligible.id))){this.relayTried=this.lastPlan?.requestId??'';return this.relayAttempt(eligible.id,requested.includes(eligible.id));}
     if(requested.length&&this.lastPlan&&this.relayTried!==this.lastPlan.requestId&&
