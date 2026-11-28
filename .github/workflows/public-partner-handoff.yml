@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 15
     env:
-      GAME_SHA: ac943acd6a2c6d21431aa138327bc3e64ed8552f
+      VERIFIER_SHA: ac943acd6a2c6d21431aa138327bc3e64ed8552f
       PRODUCER_SHA: 241bd0eec72439d77a43e8d289cc29c714bf0e4e
       REQUEST: acceptance/joint-flight/topogenesis/public-handoff/request.json
     steps:
@@ -23,7 +23,7 @@ jobs:
           persist-credentials: false
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
-          ref: ac943acd6a2c6d21431aa138327bc3e64ed8552f
+          ref: ${{ env.VERIFIER_SHA }}
           path: official
           sparse-checkout-cone-mode: false
           sparse-checkout: /scripts/verify-partner-handoff.py
@@ -38,8 +38,10 @@ jobs:
 
           request = json.loads(Path(os.environ["REQUEST"]).read_bytes())
           run_id = str(request["pagesRun"])
-          game, producer = os.environ["GAME_SHA"], os.environ["PRODUCER_SHA"]
-          if not re.fullmatch(r"[1-9][0-9]*", run_id) or (request["game"], request["producer"]) != (game, producer):
+          game, producer = request["game"], os.environ["PRODUCER_SHA"]
+          if not re.fullmatch(r"[0-9a-f]{40}", game):
+              raise ValueError("Expected the full Skimmer release commit")
+          if not re.fullmatch(r"[1-9][0-9]*", run_id) or request["producer"] != producer:
               raise ValueError("Unexpected Pages run or source pair")
 
           def get(endpoint):
@@ -56,22 +58,26 @@ jobs:
           if not any(s["name"] == "Deploy Pages" and s["conclusion"] == "success" for s in published["steps"]):
               raise ValueError("The Pages publication step did not succeed")
 
-          script = "scripts/verify-partner-handoff.py"
           def official_git(*args):
               return subprocess.check_output(["git", "-C", "official", *args], text=True).strip()
 
+          script = "scripts/verify-partner-handoff.py"
+          verifier = official_git("rev-parse", "HEAD")
           blob = official_git("rev-parse", "HEAD:" + script)
-          if official_git("rev-parse", "HEAD") != game or blob != "cc0d2126ae4da6f566eedf68a95897494a198e8d" or official_git("hash-object", script) != blob:
+          if (verifier != os.environ["VERIFIER_SHA"] or blob != "cc0d2126ae4da6f566eedf68a95897494a198e8d"
+                  or official_git("hash-object", script) != blob):
               raise ValueError("The checked-out handoff verifier differs from the official source")
           out = Path("handoff-evidence")
           out.mkdir()
           provenance = {"game": game, "producer": producer, "pagesRun": pages["html_url"], "pagesAttempt": pages["run_attempt"],
                         "publishedJob": published["html_url"], "publishedUtc": published["completed_at"],
                         "evidenceRun": os.environ["GITHUB_RUN_ID"], "evidenceAttempt": os.environ["GITHUB_RUN_ATTEMPT"],
-                        "procedureCommit": os.environ["GITHUB_SHA"], "scriptGitBlob": blob,
+                        "procedureCommit": os.environ["GITHUB_SHA"], "verifierCommit": verifier, "scriptGitBlob": blob,
                         "scriptSha256": hashlib.sha256((Path("official") / script).read_bytes()).hexdigest(),
                         "runnerImage": os.environ.get("ImageVersion")}
           (out / "provenance.json").write_text(json.dumps(provenance, indent=2) + "\n", encoding="utf-8")
+          with open(os.environ["GITHUB_ENV"], "a", encoding="utf-8") as env_file:
+              print("GAME_SHA=" + game, file=env_file)
           PY
       - name: Install the pinned hosted Chromium
         run: |
