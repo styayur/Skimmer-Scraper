@@ -1,0 +1,28 @@
+name: Draw the installed Switchyard flight comparison
+on:
+  push:
+    branches: [codex/kinetic-content-67a5687]
+    paths: [scripts/render-kinetic-flight-comparison.py]
+permissions:
+  contents: read
+jobs:
+  figure:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          sparse-checkout: scripts/render-kinetic-flight-comparison.py
+          sparse-checkout-cone-mode: false
+          persist-credentials: false
+      - name: Prepare plotting environment
+        run: |
+          python3 -m venv "$RUNNER_TEMP/plot"
+          "$RUNNER_TEMP/plot/bin/python" -m pip install --disable-pip-version-check --only-binary=:all: matplotlib==3.10.3
+      - name: Render the published measurements
+        run: '"$RUNNER_TEMP/plot/bin/python" scripts/render-kinetic-flight-comparison.py result'
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: switchyard-release-comparison-67a5687
+          path: result/
+          if-no-files-found: error
