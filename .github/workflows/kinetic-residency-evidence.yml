@@ -10,7 +10,13 @@ permissions:
 jobs:
   evidence:
     runs-on: ubuntu-latest
-    timeout-minutes: 25
+    name: Resident ${{ matrix.seed }} ${{ matrix.mode }}
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        seed: [17, 334458, 4294967295]
+        mode: [stable, ephemeral]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/checkout@v4
@@ -28,7 +34,18 @@ jobs:
           npm run build
       - name: Inspect live production residency
         shell: bash
+        env:
+          MATRIX_SEED: ${{ matrix.seed }}
+          MATRIX_MODE: ${{ matrix.mode }}
         run: |
           npm --prefix candidate run preview -- --port 4175 --strictPort > "$RUNNER_TEMP/residency-preview.log" 2>&1 &
           for i in {1..60}; do if curl -fsS http://127.0.0.1:4175/build-info.json >/dev/null; then break; fi; sleep 1; done
-          node acceptance/kinetic-residency-011/probe.mjs
+          node acceptance/kinetic-residency-011/run-matrix.mjs candidate http://127.0.0.1:4175/ "$MATRIX_SEED" "$MATRIX_MODE" output
+      - name: Preserve observations and failure diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kinetic-residency-${{ matrix.seed }}-${{ matrix.mode }}
+          path: output/
+          if-no-files-found: warn
+          retention-days: 21
