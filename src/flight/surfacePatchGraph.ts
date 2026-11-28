@@ -127,7 +127,7 @@ export function planSurfacePatches(flight: FlightState, rootHit: Contact, tangen
     if (!hit?.contact || vec(hit.contact.normal).dot(parent.normal) < 0.70 ||
         Math.abs(hit.distance - height) > 1.2 || hit.surfaceId !== parent.hit.surfaceId ||
         probe.clone().sub(hit.point).addScaledVector(hit.contact.velocity, -seconds)
-          .projectOnPlane(hit.contact.normal).lengthSq() > footprintTolerance ** 2) {
+          .projectOnPlane(vec(hit.contact.normal)).lengthSq() > footprintTolerance ** 2) {
       probe.copy(foot).addScaledVector(parent.normal, 0.35);
       hit = query(probe, Math.max(3.2, spacing * 0.65), seconds);
     }
