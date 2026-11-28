@@ -11,8 +11,10 @@ corrected merged release. It uses four new flights in a reserved desktop slot.
 | 3 | Windows | Exact merged release |
 | 4 | Windows | v0.10.0 stock |
 
-Use the official static release artifact and CI-installed executable for the
-merged SHA. Verify the complete Web file manifest and native SHA-256. Keep
+Use the main push CI artifact `release-web-<full-sha>` and the CI-installed
+Windows executable for the same merged SHA. The staged Web artifact is the
+Linux Node 24 production build. Record its Actions run, artifact ID and archive
+digest, then verify the complete extracted Web file manifest and native SHA-256. Keep
 the same stock binaries from the original comparison. Run one client at a
 time. Reserve about 70–75 minutes after the Exchange replay, resource probes
 and local packaging have finished. Record a minute of idle total host CPU
@@ -43,3 +45,20 @@ Run each invocation from the reproduction instructions with `--route controlled
 and puts in-flight CPU readings beside the frame intervals in `samples.json.gz`.
 On Chromium versions that expose thread-tick performance metrics, the result
 also includes renderer main-thread CPU deltas for the measured flight.
+
+When the maintainer deploys Pages, obtain the Pages artifact actually used by
+that successful deployment. Extract its `artifact.tar` into a fresh directory
+and compare its complete file inventory with the staged manifest, including
+hidden files and build metadata. Retain both artifact IDs and the comparison.
+Any added, missing or changed file requires repeating the affected lane on
+the deployed bytes. This comparison can run while the user has the desktop.
+
+```powershell
+gh run download $MainPushRun --name "release-web-$Revision" --dir $StagedWeb
+node scripts/qualification/dist-manifest.mjs --record $StagedWeb $Revision $StagedManifest
+gh run download $PagesRun --name $DeployedArtifactName --dir $PagesArtifact
+New-Item -ItemType Directory -Path $DeployedWeb -ErrorAction Stop | Out-Null
+tar -xf (Join-Path $PagesArtifact artifact.tar) -C $DeployedWeb
+if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+node scripts/qualification/dist-manifest.mjs --verify $DeployedWeb $Revision $StagedManifest
+```
