@@ -57,6 +57,15 @@ const QUALITY_PRESETS: Record<RenderQuality['name'], RenderQuality> = {
   high: { name: 'high', pixelRatioCap: 2, bloom: true },
 };
 
+class ScreenOutputPass extends OutputPass {
+  public override render(renderer: THREE.WebGLRenderer, writeBuffer: THREE.WebGLRenderTarget,
+    readBuffer: THREE.WebGLRenderTarget, deltaTime: number, maskActive: boolean): void {
+    // EffectComposer checks needsSwap after render. Only offscreen output writes writeBuffer.
+    this.needsSwap = !this.renderToScreen;
+    super.render(renderer, writeBuffer, readBuffer, deltaTime, maskActive);
+  }
+}
+
 export class GameRenderer {
   public readonly camera: THREE.PerspectiveCamera;
   public readonly scene = new THREE.Scene();
@@ -183,7 +192,7 @@ export class GameRenderer {
     this.composer.addPass(new RenderPass(this.scene, this.camera));
     this.bloomPass = new UnrealBloomPass(new THREE.Vector2(1, 1), 0.36, 0.31, 0.86);
     this.composer.addPass(this.bloomPass);
-    this.composer.addPass(new OutputPass());
+    this.composer.addPass(new ScreenOutputPass());
 
     this.resizeObserver = new ResizeObserver(() => this.resize());
     this.resizeObserver.observe(canvas);
