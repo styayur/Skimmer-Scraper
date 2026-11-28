@@ -1,0 +1,246 @@
+{
+  "scope": "Integrated candidate on disposable current-user Windows installations",
+  "candidateSource": "ceb3f3ce212835bdf34f046bf07bfffa407480a3",
+  "harnessCommit": "1726498acfbc24116d68ff5dc38b9de6537c94cb",
+  "run": "https://github.com/styayur/Skimmer-Scraper/actions/runs/46113785742",
+  "runAttempt": 1,
+  "target": "0.11.0",
+  "rollback": "0.10.0",
+  "candidatePackage": {
+    "source": "ceb3f3ce212835bdf34f046bf07bfffa407480a3",
+    "installer": "Skimmer-Scraper_0.11.0_x64-setup.exe",
+    "installerSha256": "da52b9dcfcf3fc0604e4d4a40e2665092992276b5f2337d874d497dacf09c226",
+    "exeSha256": "7d30ba5254a5ef977ffdad44add706be8c486cb954bfdddb8709501d4a1219d9",
+    "buildRun": "46112640664",
+    "buildArtifactId": 15250633040,
+    "buildArtifactSha256": "29474fa06b0db1e6cbbf173053938af5a35c496ba1df400c2be6921ab1b7feb0",
+    "artifactId": 15250971946,
+    "artifactSha256": "7350cb5ddf32772132b7857ac974b81f79c4e6d22d7f12187084cab567d2c27a"
+  },
+  "journey": "Player opt-in, game-created historical visit, unchanged origin record after rollback, visible again after re-upgrade",
+  "lanes": [
+    {
+      "fromVersion": "0.8.2",
+      "artifactId": 15251163957,
+      "artifactSha256": "5ad5510b07cc5e1309d7b5976906869aa3407ac6fe613a25d20a21d434dc747c",
+      "archive": "from-0.8.2.zip",
+      "webview2": "131.0.2903.86",
+      "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "worldId": "f081067586fa34c8cc796153bfedaf872061454f9ef54f0e1660d0c104b5a4d4",
+      "packId": "ascendant-web-2-334458",
+      "packBytes": 807408,
+      "journeySha256": "b4e4a6c9486e51f00b7ebc381c6e98c2900b5f0e6e364303818ee055bb0236e5",
+      "visitWorld": {
+        "realm": "city",
+        "seed": 73581,
+        "fingerprint": 1598222733
+      },
+      "witnesses": [
+        {
+          "stage": "original",
+          "version": "0.8.2",
+          "executedEntrySha256": "73cdc287645d37685f0dbb8c16de8331ab525d44426e0a9c6596f2dafc1c41d1",
+          "pilotSha256": "fbd9a379dac2dd10ddfbbc3d615e9327e6050446c449ed7d10c994ec5bfbf836"
+        },
+        {
+          "stage": "upgrade",
+          "version": "0.11.0",
+          "executedEntrySha256": "6a3bdece0b03e31222ea68e485f6359af5f6e76ea83970ef91f299587ea959fb",
+          "pilotSha256": "9667e663a7ab66f17280e7922d5002bc1936c12fb468a952044f7c2b40f131ee"
+        },
+        {
+          "stage": "rollback",
+          "version": "0.10.0",
+          "executedEntrySha256": "296cd7632c3f9943257eba28a702fa73ca7f1a0bca9289125599ea5119a9836e",
+          "pilotSha256": "9faa35a13c5f56ec092b42a631679a890370ddca698b49e251aa8f100e823c1a"
+        },
+        {
+          "stage": "reupgrade",
+          "version": "0.11.0",
+          "executedEntrySha256": "6a3bdece0b03e31222ea68e485f6359af5f6e76ea83970ef91f299587ea959fb",
+          "pilotSha256": "9faa35a13c5f56ec092b42a631679a890370ddca698b49e251aa8f100e823c1a"
+        },
+        {
+          "stage": "relaunch",
+          "version": "0.11.0",
+          "executedEntrySha256": "6a3bdece0b03e31222ea68e485f6359af5f6e76ea83970ef91f299587ea959fb",
+          "pilotSha256": "9faa35a13c5f56ec092b42a631679a890370ddca698b49e251aa8f100e823c1a"
+        }
+      ]
+    },
+    {
+      "fromVersion": "0.9.1",
+      "artifactId": 15250419688,
+      "artifactSha256": "f6808eb5d16abf3bffbd1081db245610df5df0733aa5b9680cd6c68d34d75f84",
+      "archive": "from-0.9.1.zip",
+      "webview2": "131.0.2903.86",
+      "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "worldId": "f081067586fa34c8cc796153bfedaf872061454f9ef54f0e1660d0c104b5a4d4",
+      "packId": "ascendant-web-2-334458",
+      "packBytes": 807408,
+      "journeySha256": "429b956cf7133747ff25217c9ba9d8350a1ef752994c765eafcbc5987cb3fb7d",
+      "visitWorld": {
+        "realm": "city",
+        "seed": 73581,
+        "fingerprint": 1598222733
+      },
+      "witnesses": [
+        {
+          "stage": "original",
+          "version": "0.9.1",
+          "executedEntrySha256": "38f7d6f34492a9994bb196a0bfbbcd3c22d007d5fdf1578f38c31e861c595fa6",
+          "pilotSha256": "fbd9a379dac2dd10ddfbbc3d615e9327e6050446c449ed7d10c994ec5bfbf836"
+        },
+        {
+          "stage": "upgrade",
+          "version": "0.11.0",
+          "executedEntrySha256": "6a3bdece0b03e31222ea68e485f6359af5f6e76ea83970ef91f299587ea959fb",
+          "pilotSha256": "9667e663a7ab66f17280e7922d5002bc1936c12fb468a952044f7c2b40f131ee"
+        },
+        {
+          "stage": "rollback",
+          "version": "0.10.0",
+          "executedEntrySha256": "296cd7632c3f9943257eba28a702fa73ca7f1a0bca9289125599ea5119a9836e",
+          "pilotSha256": "9faa35a13c5f56ec092b42a631679a890370ddca698b49e251aa8f100e823c1a"
+        },
+        {
+          "stage": "reupgrade",
+          "version": "0.11.0",
+          "executedEntrySha256": "6a3bdece0b03e31222ea68e485f6359af5f6e76ea83970ef91f299587ea959fb",
+          "pilotSha256": "9faa35a13c5f56ec092b42a631679a890370ddca698b49e251aa8f100e823c1a"
+        },
+        {
+          "stage": "relaunch",
+          "version": "0.11.0",
+          "executedEntrySha256": "6a3bdece0b03e31222ea68e485f6359af5f6e76ea83970ef91f299587ea959fb",
+          "pilotSha256": "9faa35a13c5f56ec092b42a631679a890370ddca698b49e251aa8f100e823c1a"
+        }
+      ]
+    },
+    {
+      "fromVersion": "0.9.2",
+      "artifactId": 15251327301,
+      "artifactSha256": "31a3e1530590b94cc1ebab1b2ec5f6be63651ddd1e35da044dbd0d5c1ae222c8",
+      "archive": "from-0.9.2.zip",
+      "webview2": "131.0.2903.86",
+      "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "worldId": "f081067586fa34c8cc796153bfedaf872061454f9ef54f0e1660d0c104b5a4d4",
+      "packId": "ascendant-web-2-334458",
+      "packBytes": 807408,
+      "journeySha256": "ec50910d67fd0723613927afffb18be3fe64d68250160c569fad2de07567e0ad",
+      "visitWorld": {
+        "realm": "city",
+        "seed": 73581,
+        "fingerprint": 1598222733
+      },
+      "witnesses": [
+        {
+          "stage": "original",
+          "version": "0.9.2",
+          "executedEntrySha256": "c55a8497334e901f9abf5407a7fa9b8cd41536b91f81e2dd7b4c71b0b3375523",
+          "pilotSha256": "fbd9a379dac2dd10ddfbbc3d615e9327e6050446c449ed7d10c994ec5bfbf836"
+        },
+        {
+          "stage": "upgrade",
+          "version": "0.11.0",
+          "executedEntrySha256": "6a3bdece0b03e31222ea68e485f6359af5f6e76ea83970ef91f299587ea959fb",
+          "pilotSha256": "9667e663a7ab66f17280e7922d5002bc1936c12fb468a952044f7c2b40f131ee"
+        },
+        {
+          "stage": "rollback",
+          "version": "0.10.0",
+          "executedEntrySha256": "296cd7632c3f9943257eba28a702fa73ca7f1a0bca9289125599ea5119a9836e",
+          "pilotSha256": "9faa35a13c5f56ec092b42a631679a890370ddca698b49e251aa8f100e823c1a"
+        },
+        {
+          "stage": "reupgrade",
+          "version": "0.11.0",
+          "executedEntrySha256": "6a3bdece0b03e31222ea68e485f6359af5f6e76ea83970ef91f299587ea959fb",
+          "pilotSha256": "9faa35a13c5f56ec092b42a631679a890370ddca698b49e251aa8f100e823c1a"
+        },
+        {
+          "stage": "relaunch",
+          "version": "0.11.0",
+          "executedEntrySha256": "6a3bdece0b03e31222ea68e485f6359af5f6e76ea83970ef91f299587ea959fb",
+          "pilotSha256": "9faa35a13c5f56ec092b42a631679a890370ddca698b49e251aa8f100e823c1a"
+        }
+      ]
+    },
+    {
+      "fromVersion": "0.10.0",
+      "artifactId": 15251292689,
+      "artifactSha256": "5d0bfb8b72fac1afe784038f304144b26343592412484044c1b7c90f0c120fc7",
+      "archive": "from-0.10.0.zip",
+      "webview2": "131.0.2903.86",
+      "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "worldId": "f081067586fa34c8cc796153bfedaf872061454f9ef54f0e1660d0c104b5a4d4",
+      "packId": "ascendant-web-2-334458",
+      "packBytes": 807408,
+      "journeySha256": "0ded937d9a9c5b4e6b7d22cd9f0fea684c38f276488ee7a6f43d714347920f89",
+      "visitWorld": {
+        "realm": "city",
+        "seed": 73581,
+        "fingerprint": 1598222733
+      },
+      "witnesses": [
+        {
+          "stage": "original",
+          "version": "0.10.0",
+          "executedEntrySha256": "296cd7632c3f9943257eba28a702fa73ca7f1a0bca9289125599ea5119a9836e",
+          "pilotSha256": "fbd9a379dac2dd10ddfbbc3d615e9327e6050446c449ed7d10c994ec5bfbf836"
+        },
+        {
+          "stage": "upgrade",
+          "version": "0.11.0",
+          "executedEntrySha256": "6a3bdece0b03e31222ea68e485f6359af5f6e76ea83970ef91f299587ea959fb",
+          "pilotSha256": "9667e663a7ab66f17280e7922d5002bc1936c12fb468a952044f7c2b40f131ee"
+        },
+        {
+          "stage": "rollback",
+          "version": "0.10.0",
+          "executedEntrySha256": "296cd7632c3f9943257eba28a702fa73ca7f1a0bca9289125599ea5119a9836e",
+          "pilotSha256": "9faa35a13c5f56ec092b42a631679a890370ddca698b49e251aa8f100e823c1a"
+        },
+        {
+          "stage": "reupgrade",
+          "version": "0.11.0",
+          "executedEntrySha256": "6a3bdece0b03e31222ea68e485f6359af5f6e76ea83970ef91f299587ea959fb",
+          "pilotSha256": "9faa35a13c5f56ec092b42a631679a890370ddca698b49e251aa8f100e823c1a"
+        },
+        {
+          "stage": "relaunch",
+          "version": "0.11.0",
+          "executedEntrySha256": "6a3bdece0b03e31222ea68e485f6359af5f6e76ea83970ef91f299587ea959fb",
+          "pilotSha256": "9faa35a13c5f56ec092b42a631679a890370ddca698b49e251aa8f100e823c1a"
+        }
+      ]
+    }
+  ],
+  "sourceCommit": "ceb3f3ce212835bdf34f046bf07bfffa407480a3",
+  "files": [
+    {
+      "path": "from-0.8.2/lifecycle.json",
+      "sha256": "bb76c35a787d300332081dd166904649b67e683c39c049711f46dc7f1a8210e6",
+      "sourceCommit": "ceb3f3ce212835bdf34f046bf07bfffa407480a3",
+      "role": "windows-lifecycle"
+    },
+    {
+      "path": "from-0.9.1/lifecycle.json",
+      "sha256": "7fa0e0d2b34152adc1b7ef4211991b30e841df7e83cc66909020f2f4d166204d",
+      "sourceCommit": "ceb3f3ce212835bdf34f046bf07bfffa407480a3",
+      "role": "windows-lifecycle"
+    },
+    {
+      "path": "from-0.9.2/lifecycle.json",
+      "sha256": "a2e25c7ef5bc47656bfc176a2424ec86aceb68ee03046af918778237fd6b3d59",
+      "sourceCommit": "ceb3f3ce212835bdf34f046bf07bfffa407480a3",
+      "role": "windows-lifecycle"
+    },
+    {
+      "path": "from-0.10.0/lifecycle.json",
+      "sha256": "9b6fece78c62b2729212c66f237e8aeeda6b3ee9cdf61e138727393642d968d0",
+      "sourceCommit": "ceb3f3ce212835bdf34f046bf07bfffa407480a3",
+      "role": "windows-lifecycle"
+    }
+  ]
+}
