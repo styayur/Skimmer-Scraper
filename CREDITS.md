@@ -127,6 +127,8 @@ The Windows world library downloads the official terrain archive with reqwest (M
 
 The native Windows folder picker uses rfd (MIT, https://github.com/PolyMeilex/rfd).
 
+The Windows release QA meter uses pycaw and comtypes under MIT, and psutil under BSD-3-Clause. [pycaw](https://github.com/AndreMiras/pycaw) · [comtypes](https://github.com/enthought/comtypes) · [psutil](https://github.com/giampaolo/psutil)
+
 ### City passage module
 
 The celadon gate GLB and its authoring script in art/world-modules are original Skimmer-Scraper work under AGPL-3.0-only.
