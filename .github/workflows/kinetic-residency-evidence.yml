@@ -1,0 +1,34 @@
+name: Inspect the pinned Kinetic residency
+on:
+  push:
+    branches: [codex/kinetic-residency-evidence]
+    paths:
+      - .github/workflows/kinetic-residency-evidence.yml
+      - acceptance/kinetic-residency-011/*.mjs
+permissions:
+  contents: read
+jobs:
+  evidence:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          ref: c4bc8eac5425197ebb08c937316de415e75b89b1
+          path: candidate
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Build untouched production checkout
+        working-directory: candidate
+        run: |
+          npm ci
+          npx playwright install --with-deps chromium
+          npm run build
+      - name: Inspect live production residency
+        shell: bash
+        run: |
+          npm --prefix candidate run preview -- --port 4175 --strictPort > "$RUNNER_TEMP/residency-preview.log" 2>&1 &
+          for i in {1..60}; do if curl -fsS http://127.0.0.1:4175/build-info.json >/dev/null; then break; fi; sleep 1; done
+          node acceptance/kinetic-residency-011/probe.mjs
