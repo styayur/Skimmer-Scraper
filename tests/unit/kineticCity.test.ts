@@ -151,12 +151,13 @@ it.each(['stable','ephemeral'])('expires live leases across eviction and rebases
     expect(hint).toBeDefined();
     expect(hint.semantic.capabilities).toContain('release');
     expect(stream.routeHint(home,{x:0,y:0,z:-1})).toBeDefined();
-    const remote = {x:home.x+15400, y:home.y, z:home.z-15400};
+    const remote = {x:home.x+22_000_000, y:home.y, z:home.z-22_000_000};
     await stream.prime(remote);
     expect(stream.semanticCandidates(home)).toEqual([]);
-    expect(stream.getRenderOrigin().x).toBe(10000);
+    expect(stream.getRenderOrigin().x).toBe(22_000_000);
     expect(stream.getStreamerStats().activeChunks).toBe(9);
     await stream.prime(home);
+    expect(stream.getRenderOrigin()).toEqual({x:0,y:0,z:0});
     const restored = stream.semanticCandidates(home).find(h => h.semantic.id === hint.semantic.id)!;
     expect(restored.position).toEqual(hint.position);
     expect(restored.lease).not.toBe(hint.lease);

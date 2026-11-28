@@ -26,12 +26,15 @@ try {
       viewport:[innerWidth,innerHeight], devicePixelRatio, visibility:document.visibilityState};
   });
   assert.ok(environment.renderer && !/swiftshader|llvmpipe|software|basic render/i.test(environment.renderer));
-  const sample = await collectFlight(page,{seconds,altitude:132,cold:true});
+  // The generic cold staging coordinate is a corner lot. Start above its highest possible tower.
+  const altitude = 265;
+  const sample = await collectFlight(page,{seconds,altitude,cold:true});
   assert.equal(sample.mode,'running');
+  assert.ok(sample.collisionCellEntries >= Math.min(3, Math.floor(seconds/4)), 'Flight did not traverse the streaming grid');
   const state = await page.evaluate(() => window.__SKIMMER_SCRAPER__.snapshot());
   const result = {build,environment:{...environment,os:platform()+' '+release(),driver:process.env.GPU_DRIVER ?? null},
     method:'Fresh headless Chromium profile, hardware ANGLE D3D11, 1280 × 720. Cold relocation and real-time throttle/bank inputs from streaming-flight-sample.mjs. Durations and percentiles include snapshot instrumentation.',
-    route:{theme:'kinetic-city',seed:334458,mode:'stable',altitude:132,requestedFlightSeconds:seconds},
+    route:{theme:'kinetic-city',seed:334458,mode:'stable',altitude,requestedFlightSeconds:seconds},
     navigationToRunningMs:loadMs, ...sample, endStreaming:state.streaming, world:state.world, companions:state.companions.length,
     music:state.music, errors};
   await writeFile(output,JSON.stringify(result,null,2)+'\n',{flag:'wx'});
