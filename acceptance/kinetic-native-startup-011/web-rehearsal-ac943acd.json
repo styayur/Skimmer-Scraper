@@ -1,0 +1,438 @@
+{
+  "kind": "hosted UI rehearsal",
+  "nativeMeasurement": false,
+  "releasePin": {
+    "source": "ac943acd6a2c6d21431aa138327bc3e64ed8552f",
+    "tree": "cb5158950278ead4c800c54dfee7dd360acff798",
+    "windowsRunId": 46129495362
+  },
+  "hostedRun": "46129718116",
+  "observer": "cc273e512e063ce43666347af4bca47b55fcb728",
+  "events": [
+    {
+      "hostReceivedMs": 837.095909,
+      "hostReceivedUtc": "2026-11-28T09:17:33.726Z",
+      "event": "titleReady",
+      "selected": false,
+      "originMs": 1795857452937.5,
+      "nowMs": 788.1000000000058,
+      "href": "http://127.0.0.1:4175/",
+      "focus": true,
+      "visibility": "visible"
+    },
+    {
+      "hostReceivedMs": 880.75169,
+      "hostReceivedUtc": "2026-11-28T09:17:33.770Z",
+      "event": "worldMenu",
+      "selected": false,
+      "originMs": 1795857452937.5,
+      "nowMs": 831.5,
+      "trusted": true,
+      "key": "g"
+    },
+    {
+      "hostReceivedMs": 4104.176169,
+      "hostReceivedUtc": "2026-11-28T09:17:36.993Z",
+      "event": "applyWorld",
+      "selected": false,
+      "originMs": 1795857452937.5,
+      "nowMs": 4050.600000000006,
+      "trusted": true,
+      "theme": "kinetic-city",
+      "seed": "334458",
+      "mode": "stable"
+    },
+    {
+      "hostReceivedMs": 7770.777485,
+      "hostReceivedUtc": "2026-11-28T09:17:40.660Z",
+      "event": "titleReady",
+      "selected": true,
+      "originMs": 1795857457006.4,
+      "nowMs": 3652.5999999999985,
+      "href": "http://127.0.0.1:4175/?theme=kinetic-city&seed=334458&world=stable&gen=4",
+      "focus": true,
+      "visibility": "visible"
+    },
+    {
+      "hostReceivedMs": 8184.74707,
+      "hostReceivedUtc": "2026-11-28T09:17:41.074Z",
+      "event": "startClick",
+      "selected": true,
+      "originMs": 1795857457006.4,
+      "nowMs": 4066.7999999999956,
+      "trusted": true,
+      "beforeMode": "title",
+      "titleDraw": {
+        "rafMs": 4057,
+        "serial": 210,
+        "position": {
+          "x": 115,
+          "y": 93.65425076941135,
+          "z": 220
+        }
+      }
+    },
+    {
+      "hostReceivedMs": 8216.671495,
+      "hostReceivedUtc": "2026-11-28T09:17:41.106Z",
+      "event": "runningCoveredFrame",
+      "selected": true,
+      "originMs": 1795857457006.4,
+      "nowMs": 4097.000000000007,
+      "readyMs": 4096.700000000004,
+      "rafMs": 4073.7,
+      "sampleBeginMs": 4091.0000000000073,
+      "frames": 1,
+      "previous": [],
+      "ring": [
+        {
+          "key": "-1:0",
+          "state": "ACTIVE",
+          "revision": 0,
+          "fingerprint": 48499198,
+          "layout": "junction"
+        },
+        {
+          "key": "0:0",
+          "state": "ACTIVE",
+          "revision": 0,
+          "fingerprint": 1854590936,
+          "layout": "junction"
+        },
+        {
+          "key": "1:0",
+          "state": "ACTIVE",
+          "revision": 0,
+          "fingerprint": 2774396571,
+          "layout": "junction"
+        },
+        {
+          "key": "-1:1",
+          "state": "ACTIVE",
+          "revision": 0,
+          "fingerprint": 523811331,
+          "layout": "helix"
+        },
+        {
+          "key": "0:1",
+          "state": "ACTIVE",
+          "revision": 0,
+          "fingerprint": 4210502787,
+          "layout": "helix"
+        },
+        {
+          "key": "1:1",
+          "state": "ACTIVE",
+          "revision": 0,
+          "fingerprint": 608602127,
+          "layout": "sky-arch"
+        },
+        {
+          "key": "-1:2",
+          "state": "ACTIVE",
+          "revision": 0,
+          "fingerprint": 295028075,
+          "layout": "bowl"
+        },
+        {
+          "key": "0:2",
+          "state": "ACTIVE",
+          "revision": 0,
+          "fingerprint": 3102257661,
+          "layout": "bowl"
+        },
+        {
+          "key": "1:2",
+          "state": "ACTIVE",
+          "revision": 0,
+          "fingerprint": 341632360,
+          "layout": "ribbon-bridge"
+        }
+      ],
+      "draw": {
+        "rafMs": 4073.7,
+        "serial": 225,
+        "position": {
+          "x": 115,
+          "y": 94,
+          "z": 220
+        }
+      },
+      "titleDraw": {
+        "rafMs": 4057,
+        "serial": 210,
+        "position": {
+          "x": 115,
+          "y": 93.65425076941135,
+          "z": 220
+        }
+      },
+      "mode": "running",
+      "seed": 334458,
+      "worldMode": "stable",
+      "generator": 4,
+      "fingerprint": 603677033,
+      "position": {
+        "x": 115,
+        "y": 94,
+        "z": 220
+      },
+      "runTime": 0,
+      "focus": true,
+      "visibility": "visible",
+      "buffering": false,
+      "adapter": {
+        "chunks": 32,
+        "bvhCount": 32,
+        "lastBroadPhaseCandidates": 2,
+        "lastQueries": 2
+      },
+      "streaming": {
+        "stateCounts": {
+          "UNLOADED": 0,
+          "QUEUED": 0,
+          "GENERATING": 1,
+          "READY": 0,
+          "ACTIVE": 32,
+          "RETIRING": 0,
+          "DISPOSED": 0
+        },
+        "loadedChunks": 32,
+        "activeChunks": 32,
+        "queuedChunks": 0,
+        "generatingChunks": 1,
+        "generatedTotal": 32,
+        "retiredTotal": 0,
+        "disposedGeometryCount": 0,
+        "bvhCount": 32,
+        "dynamicBvhCount": 0,
+        "renderObjectCount": 91,
+        "estimatedCpuGeometryBytes": 16377312,
+        "generationAvgMs": 21.715624999998454,
+        "generationP95Ms": 49.89999999999418,
+        "generationMinMs": 4.099999999991269,
+        "generationMaxMs": 242.39999999999418,
+        "generationSampleCount": 32,
+        "synchronousBuildP95Ms": 8.30000000000291,
+        "workerBuildP95Ms": 30.5,
+        "activationP95Ms": 54.39999999999418,
+        "maxLoadedChunks": 41,
+        "coverageComplete": true,
+        "rebaseCount": 0
+      },
+      "world": {
+        "chunks": 32,
+        "buildings": 169,
+        "bridges": 47,
+        "islands": 0,
+        "collisionTriangles": 84772,
+        "renderTriangles": 180008
+      },
+      "render": {
+        "gpuMs": null,
+        "calls": 125,
+        "triangles": 145064,
+        "points": 560,
+        "lines": 0,
+        "fps": 79.9502585803159,
+        "geometries": 53,
+        "textures": 19,
+        "inversionAngle": 0,
+        "mirrorSky": {
+          "seed": 334458,
+          "triangles": 2880,
+          "cameraOffset": 0,
+          "ground": {
+            "height": 650,
+            "radius": 1530
+          }
+        }
+      },
+      "companions": 3,
+      "shieldImpacts": 0,
+      "contact": {
+        "id": "chunk:0:1:r0",
+        "distance": 9.999883678221892,
+        "surface": "kinetic-grid-1-r2.334458.spine.0",
+        "geometryId": "5340ff2b-a150-4f59-8952-beffeefab854",
+        "triangle": 405,
+        "point": {
+          "x": 115,
+          "y": 84.00023264220314,
+          "z": 220.04823243627558
+        }
+      }
+    }
+  ],
+  "pageErrors": [],
+  "clocks": {
+    "initial": {
+      "best": {
+        "sendMs": 875.718576,
+        "receiveMs": 876.765804,
+        "originMs": 1795857452937.5,
+        "nowMs": 828.5
+      },
+      "probes": [
+        {
+          "sendMs": 848.939707,
+          "receiveMs": 866.482731,
+          "originMs": 1795857452937.5,
+          "nowMs": 817.3000000000029
+        },
+        {
+          "sendMs": 866.490163,
+          "receiveMs": 873.870249,
+          "originMs": 1795857452937.5,
+          "nowMs": 825.2000000000044
+        },
+        {
+          "sendMs": 873.874035,
+          "receiveMs": 875.716142,
+          "originMs": 1795857452937.5,
+          "nowMs": 827.3000000000029
+        },
+        {
+          "sendMs": 875.718576,
+          "receiveMs": 876.765804,
+          "originMs": 1795857452937.5,
+          "nowMs": 828.5
+        },
+        {
+          "sendMs": 876.767907,
+          "receiveMs": 877.843306,
+          "originMs": 1795857452937.5,
+          "nowMs": 829.4000000000015
+        }
+      ]
+    },
+    "kinetic": {
+      "best": {
+        "sendMs": 8236.385319,
+        "receiveMs": 8237.163047,
+        "originMs": 1795857457006.4,
+        "nowMs": 4120.200000000004
+      },
+      "probes": [
+        {
+          "sendMs": 8229.349289,
+          "receiveMs": 8234.478999,
+          "originMs": 1795857457006.4,
+          "nowMs": 4116.200000000004
+        },
+        {
+          "sendMs": 8234.481383,
+          "receiveMs": 8235.298841,
+          "originMs": 1795857457006.4,
+          "nowMs": 4118.200000000004
+        },
+        {
+          "sendMs": 8235.302286,
+          "receiveMs": 8236.383086,
+          "originMs": 1795857457006.4,
+          "nowMs": 4119.299999999996
+        },
+        {
+          "sendMs": 8236.385319,
+          "receiveMs": 8237.163047,
+          "originMs": 1795857457006.4,
+          "nowMs": 4120.200000000004
+        },
+        {
+          "sendMs": 8237.16507,
+          "receiveMs": 8238.045262,
+          "originMs": 1795857457006.4,
+          "nowMs": 4120.9000000000015
+        }
+      ]
+    }
+  },
+  "drawObserverSetupMs": 95.49188200000026,
+  "timing": {
+    "monotonicMarks": {
+      "initialTitle": {
+        "hostMs": 835.8421900000058,
+        "earliestMs": 835.3185760000058,
+        "latestMs": 836.3658040000058
+      },
+      "worldMenu": {
+        "hostMs": 879.2421899999999,
+        "earliestMs": 878.718576,
+        "latestMs": 879.765804
+      },
+      "apply": {
+        "hostMs": 4098.342190000006,
+        "earliestMs": 4097.818576000006,
+        "latestMs": 4098.8658040000055
+      },
+      "kineticTitle": {
+        "hostMs": 7769.1741829999955,
+        "earliestMs": 7768.785318999995,
+        "latestMs": 7769.563046999994
+      },
+      "start": {
+        "hostMs": 8183.374182999993,
+        "earliestMs": 8182.985318999992,
+        "latestMs": 8183.763046999991
+      },
+      "firstRunningCoveredFrame": {
+        "hostMs": 8213.274183000001,
+        "earliestMs": 8212.885319,
+        "latestMs": 8213.663047
+      }
+    },
+    "launchToFrameMs": 8213.274183000001,
+    "launchToInitialTitleMs": 835.8421900000058,
+    "initialTitleToMenuMs": 43.39999999999418,
+    "menuSelectionMs": 3219.100000000006,
+    "applyToKineticTitleMs": 3670.83199299999,
+    "kineticTitleToStartMs": 414.1999999999971,
+    "startToFrameMs": 29.90000000000873,
+    "directHostObservationUpperBoundMs": 8216.671495
+  },
+  "identity": {
+    "build": {
+      "version": "0.11.0",
+      "sourceCommit": "ac943acd6a2c6d21431aa138327bc3e64ed8552f",
+      "sourceCommitTime": "2026-11-28T09:13:19Z",
+      "dirty": false,
+      "sourceUrl": "https://github.com/styayur/Skimmer-Scraper/tree/ac943acd6a2c6d21431aa138327bc3e64ed8552f",
+      "toolchain": {
+        "node": "v24.22.3",
+        "platform": "linux",
+        "architecture": "x64"
+      }
+    },
+    "meta": {
+      "version": "0.11.0",
+      "sourceCommit": "ac943acd6a2c6d21431aa138327bc3e64ed8552f",
+      "dirty": false,
+      "binary": {
+        "url": "assets/index-yT2wa0pU.js",
+        "bytes": 1307632,
+        "sha256": "176ab1ccad4a48f9aad5a73ca7f99c06d409807db34f5f797c3ad5ccc7a6483a"
+      }
+    },
+    "entry": "http://127.0.0.1:4175/assets/index-yT2wa0pU.js",
+    "url": "http://127.0.0.1:4175/?theme=kinetic-city&seed=334458&world=stable&gen=4",
+    "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/159.0.8154.6 Safari/537.36",
+    "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+    "viewport": [
+      800,
+      600
+    ],
+    "drawingBuffer": [
+      800,
+      600
+    ],
+    "dpr": 1,
+    "executedEntry": {
+      "sha256": "176ab1ccad4a48f9aad5a73ca7f99c06d409807db34f5f797c3ad5ccc7a6483a",
+      "bytes": 1307632,
+      "loader": "BBE830DD799928C8C9A6D59021A2FDAD",
+      "frame": "4089242FE42C938D1DA49F7D574823FD",
+      "script": "4"
+    }
+  },
+  "status": "passed"
+}

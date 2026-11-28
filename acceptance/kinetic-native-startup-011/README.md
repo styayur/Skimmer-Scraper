@@ -1,6 +1,6 @@
 # One native Kinetic City cold start
 
-The prepared observation reserves 90 seconds of exclusive desktop time on the Radeon 780M. Expected client use is 20–40 seconds. The parent releases the slot after the user's controller session and Russell's native endpoint tests permit desktop use. The native launch uses the revised official Windows artifact from main after PR 97. [Release correction](https://github.com/styayur/Skimmer-Scraper/pull/97)
+The prepared observation reserves 90 seconds of exclusive desktop time on the Radeon 780M. Expected client use is 20–40 seconds. The parent releases the slot after the user's controller session and Russell's native endpoint tests permit desktop use. The launch is pinned to signed main source `ac943acd6a2c6d21431aa138327bc3e64ed8552f`, tree `cb5158950278ead4c800c54dfee7dd360acff798` and official Windows run `46129495362`. [Release pin](release-pin.json) · [Signed source](https://api.github.com/repos/styayur/Skimmer-Scraper/commits/ac943acd6a2c6d21431aa138327bc3e64ed8552f) · [Windows build](https://github.com/styayur/Skimmer-Scraper/actions/runs/46129495362)
 
 The native receipt will be `acceptance/kinetic-native-startup-011/result.json` on `codex/kinetic-native-cold-start`. Its flight-view JPEG will be captured after the timing endpoint. The staged binary inputs and local result live under `E:\GitHub\Skimmer-Scraper-artifacts\kinetic-native-cold-start-011`, in separate `staged-<source-prefix>` and `exact-<source-prefix>` directories.
 
@@ -15,6 +15,8 @@ The native receipt will be `acceptance/kinetic-native-startup-011/result.json` o
 
 ## Preparation checks
 
+The signed main revision passed a second rehearsal on GitHub-hosted Chromium. The first sampled animation frame after Start contained the submitted flight draw at spawn, all nine coverage cells, 32 registered BVHs and a 9.99988 m deck contact. The draw serial advanced from 210 to 225. Its executed Web entry was byte-identical to the release Web artifact from main run `46129442515`, SHA-256 `176ab1ccad4a48f9aad5a73ca7f99c06d409807db34f5f797c3ad5ccc7a6483a`. The raw rehearsal JSON matched the digest-verified hosted ZIP. A separate admission check rejected the superseded `c4bc8ea` handoff and rejected an invocation without slot clearance before creating any profile or starting a client. [Exact-source rehearsal](https://github.com/styayur/Skimmer-Scraper/actions/runs/46129718116) · [Raw Web observations](web-rehearsal-ac943acd.json) · [Release Web artifact](https://github.com/styayur/Skimmer-Scraper/actions/runs/46129442515/artifacts/15256573631)
+
 The complete UI path and frame observer passed on GitHub-hosted Chromium using PR 97's Web build. The renderer submitted its first observed flight frame at the target spawn, with nine active ring cells, 32 registered BVHs and a 9.99988 m contact against `chunk:0:1:r0`. Its draw serial advanced from 150 to 165 and the stock renderer timestamp equalled the sampled frame timestamp. The raw receipt is labeled as a software Web rehearsal. Its timings apply to that hosted environment. An earlier rehearsal recorded the menu submission and timed out while Playwright separately awaited navigation. The current harness follows the product's title-ready signal after submission. The Windows Known Folders preflight and release-archive hash checks also passed privately without starting a client. [Successful hosted job](https://github.com/styayur/Skimmer-Scraper/actions/runs/46125184295) · [Raw Web rehearsal](web-ui-rehearsal.json) · [Earlier diagnostic](https://github.com/styayur/Skimmer-Scraper/actions/runs/46125010431)
 
 ## Invocation
@@ -23,6 +25,7 @@ Run input preparation against the shared `native-handoff.json` and its sibling o
 
 ```powershell
 python -B acceptance/kinetic-native-startup-011/prepare.py $NativeHandoff $StagedInputs
+node acceptance/kinetic-native-startup-011/launch.mjs --verify-only --inputs $StagedInputs --tool-root E:\GitHub\Skimmer-Perf-011
 ```
 
 Once the parent announces the exclusive slot, supply that announcement as the clearance reference. The checkout named by `--tool-root` supplies the existing Playwright package and the repository's Windows Known Folders preflight.
