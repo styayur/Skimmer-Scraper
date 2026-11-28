@@ -70,17 +70,17 @@ async function populateLibrary(page) {
   await page.waitForFunction(id => window.__SKIMMER_SCRAPER__.snapshot().localWorld?.manifest.id === id, worldId);
   await page.locator('#local-world-keep').evaluate(button => button.click());
   await page.waitForFunction(async id => (await window.__TAURI__.core.invoke('world_list')).some(w => w.manifest.id === id && w.keptVariant === 0), worldId);
-  const token = await page.evaluate(pack => window.__TAURI__.core.invoke('pack_begin', { manifest: pack }), manifest);
-  for (const file of manifest.files) {
-    const tile = await readFile(path.join(packDir, file.name));
-    assert.equal(hash(tile), file.sha256);
-    await page.evaluate(({ token, bytes }) => window.__TAURI__.core.invoke('pack_put', Uint8Array.from(bytes).buffer,
-      { headers: { 'x-pack-session': token } }), { token, bytes: [...tile] });
-  }
-  await page.evaluate(token => window.__TAURI__.core.invoke('pack_finish', { token }), token);
+  await page.locator('#world-packs input[type=file]').setInputFiles(path.resolve(packDir));
+  await page.waitForFunction(id => document.querySelector('#world-packs select')?.value === id,
+    manifest.id, { timeout: 120000 });
 }
 
 async function witnessState(page, expected) {
+  await page.locator('#world-packs').evaluate(panel => { panel.open = true; });
+  await page.waitForFunction(id => {
+    const option = document.querySelector('#world-packs select')?.selectedOptions[0];
+    return option?.value === id && option.dataset.compatible === 'true' && !document.querySelector('[data-pack-open]').disabled;
+  }, manifest.id);
   const state = await page.evaluate(async ({ keys, worldId, packId }) => {
     const invoke = window.__TAURI__.core.invoke;
     const snapshot = window.__SKIMMER_SCRAPER__.snapshot();

@@ -140,7 +140,7 @@ pub async fn pack_verify(app: AppHandle, id: String) -> std::result::Result<u64,
 }
 
 pub(crate) fn verify(db: &Connection, id: &str) -> Result<u64> {
-    let (metadata, tile_count): (String, usize) = db.query_row(
+    let (metadata, tile_count): (String, i64) = db.query_row(
         "SELECT metadata, (SELECT count(*) FROM tiles WHERE tiles.token=packs.token)
          FROM packs WHERE ready=1 AND id=?1",
         [id],
@@ -148,7 +148,7 @@ pub(crate) fn verify(db: &Connection, id: &str) -> Result<u64> {
     )?;
     let manifest: Value = serde_json::from_str(&metadata)?;
     let files = manifest["files"].as_array().ok_or("Missing files")?;
-    if manifest["id"] != id || files.is_empty() || files.len() != tile_count {
+    if manifest["id"] != id || files.is_empty() || files.len() as i64 != tile_count {
         return Err("World pack manifest differs from its stored tiles".into());
     }
     let mut total = 0;
