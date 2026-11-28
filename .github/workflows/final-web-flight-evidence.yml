@@ -28,10 +28,14 @@ jobs:
           python3 - <<'PY'
           import json, os
           from pathlib import Path
-          shards = json.loads(Path("acceptance/final-web-011/target.json").read_bytes())["shards"]
+          target = json.loads(Path("acceptance/final-web-011/target.json").read_bytes())
+          shards = target["shards"]
           assert 1 <= shards <= 6
+          indices = list(range(shards))
+          if target.get("shippedWorlds"):
+              indices.append("shipped")
           with open(os.environ["GITHUB_OUTPUT"], "a") as out:
-              print("indices=" + json.dumps(list(range(shards))), file=out)
+              print("indices=" + json.dumps(indices), file=out)
           PY
 
   replay:
@@ -70,6 +74,14 @@ jobs:
           ref: 5656a74f5786001e1011b1b3beb4649a903f76e6
           path: reader
           persist-credentials: false
+      - name: Check out original shipped world definitions and diagnostic reader
+        if: matrix.shard == 'shipped'
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          repository: styayur/V2Wpro
+          ref: 241bd0eec72439d77a43e8d289cc29c714bf0e4e
+          path: original
+          persist-credentials: false
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
         with:
           node-version: 24
@@ -83,10 +95,18 @@ jobs:
       - name: Install fixed replay dependencies
         run: |
           npm --prefix producer ci --no-fund --no-audit
+          npm --prefix reader ci --omit=dev --no-fund --no-audit
           python -m pip install playwright==1.63.0
           python -m playwright install --with-deps chromium
       - name: Run controlled flights
+        if: matrix.shard != 'shipped'
         run: python -Bu acceptance/final-web-011/run_shard.py "${{ matrix.shard }}"
+      - name: Run the five original shipped worlds
+        if: matrix.shard == 'shipped'
+        run: |
+          npm --prefix original ci --omit=dev --no-audit --no-fund
+          source_commit=$(python -c 'import json; print(json.load(open("output/runtime.json"))["controller"])')
+          timeout --kill-after=15s 16m python -Bu acceptance/final-web-011/run-legacy-examples.py original benchmark staging/served output/shipped "$source_commit"
       - name: Retain all collected evidence
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02

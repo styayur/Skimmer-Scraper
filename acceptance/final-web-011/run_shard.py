@@ -27,12 +27,12 @@ sys.path.insert(0, str(Path("benchmark/scripts").resolve()))
 from flight_bench_metrics import summarize
 
 shard = int(sys.argv[1])
-rows = inputs["cases"]
+rows = [row for row in inputs["cases"] if row["group"] != "legacy"]
 if "only" in target:
     chosen = set(target["only"])
     rows = [r for r in rows if r["group"]+"/"+r["name"] in chosen]
     assert len(rows) == len(chosen)
-rows = sorted(rows,key=lambda r:(r["group"]=="legacy",r["experiment"]["disposition"]!="must-succeed"))
+rows = sorted(rows,key=lambda r:r["experiment"]["disposition"]!="must-succeed")
 rows = rows[shard::target["shards"]]
 assert sha((HERE/"inputs.zip").read_bytes()) == inputs["inputZipSha256"]
 for directory, expected in [("benchmark",inputs["harness"]),("producer",inputs["generator"]),("reader",inputs["reader"])]:
@@ -95,17 +95,11 @@ with zipfile.ZipFile(HERE/"inputs.zip") as archived, ThreadingHTTPServer(
             item["attempts"].append(trial)
             checkpoint()
             print(f"Starting {group}/{name}, attempt {attempt}",flush=True)
-            if group=="legacy":
-                cmd = [sys.executable,"-B","benchmark/scripts/measure-import-flight.py",str(glb),str(dest/name),"--url",url,
-                       "--case",json.dumps(row["experiment"]),"--release-tick",str(row["schedule"]["releaseTick"])]
-                if row["experiment"]["profile"]=="boost":
-                    cmd.append("--boost")
-            else:
-                cmd = [sys.executable,"-B","benchmark/scripts/run-topogenesis.py",group,"producer",str(dest),"--revision","2",
-                       "--url",url,"--controller",target["source"],"--entry-sha256",target["entrySha256"],
-                       "--only",str(row["experiment"]["seed"])]
-                if group in ("second-holdout","third-holdout"):
-                    cmd.extend(["--sealed-cases",str(BENCH/(group+".json"))])
+            cmd = [sys.executable,"-B","benchmark/scripts/run-topogenesis.py",group,"producer",str(dest),"--revision","2",
+                   "--url",url,"--controller",target["source"],"--entry-sha256",target["entrySha256"],
+                   "--only",str(row["experiment"]["seed"])]
+            if group in ("second-holdout","third-holdout"):
+                cmd.extend(["--sealed-cases",str(BENCH/(group+".json"))])
             with (dest/"process.log").open("w") as log:
                 status = subprocess.run(["timeout","--kill-after=15s","240s",*cmd],stdout=log,stderr=subprocess.STDOUT)
             trial["exitCode"]=status.returncode
