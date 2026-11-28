@@ -1,6 +1,8 @@
 # Final Web flight repeat
 
-The merged production Web build reproduced the historical 33/34 result, with identical sampled trajectories on all 34 rows and zero shield strikes. The five original shipped-world flights all reproduced their stock outcome. [Merged case-by-case report](RESULTS.md) · [GitHub-hosted run](https://github.com/styayur/Skimmer-Scraper/actions/runs/46120953678)
+The #97 rollout on `ac943acd` met 33/34 frozen dispositions. All 39 sampled trajectories and metric sets, including the five original shipped worlds, matched the earlier #92 production run. [Rollout report and raw flights](results/main-ac943acd/README.md) · [GitHub-hosted rollout run](https://github.com/styayur/Skimmer-Scraper/actions/runs/46129621281)
+
+The #92 production Web build `c4bc8eac` reproduced the historical 33/34 result with zero shield strikes. The five original shipped-world flights all reproduced their stock outcome. [Original immutable 34+5 receipt](https://github.com/styayur/Skimmer-Scraper/blob/e6ee8e90def33f4430aed783cc61fb0a079450b1/acceptance/final-web-011/RESULTS.md) · [Original hosted run](https://github.com/styayur/Skimmer-Scraper/actions/runs/46120953678)
 
 The historical matrix contains 14 development flights, six first holdouts, eight second holdouts and six third holdouts. The third panel became public after its original run. All four panels use their previously published inputs and gates. The separate five-world comparison covers Canopy, Caldera, Lattice, Contact Deck and Relay District at their original entry poses.
 
