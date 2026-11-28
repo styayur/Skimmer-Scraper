@@ -34,3 +34,5 @@ gh workflow run windows-desktop.yml --ref codex/windows-011-compat -f expected_s
 日常 PR 演练以已发布的 v0.10.0 为目标，回滚到 v0.9.2。从 v0.10.0 开始的测试首先执行同版重装。演练使用合成记忆记录验证旧版保留陌生键。正式候选的验收以该候选 SHA 的四份 `lifecycle-<SHA>-from-*` 附件为准。每份 `lifecycle.json` 给出安装轨迹，各阶段 JSON 给出运行时观测及安装前后快照。仓库保留了四份历史演练原始附件及其 SHA-256。[历史验收索引](../acceptance/v011/windows-lifecycle/historical/receipts.json)
 
 0.11.0 集成候选 `0a5272b` 和 `ceb3f3c` 分别用各自常规 Windows 构建的安装包，在四条路径上通过了升级、回滚、再次升级及重启。两个索引分别记录安装包和已安装客户端的 SHA-256。每条路径保留完整的 Actions ZIP 和从中原样提取的 `lifecycle.json`。发布组装可按安装包摘要选取对应索引中 `files` 的四条记录。[0a5272b 验收索引](../acceptance/v011/windows-lifecycle/candidate-0a5272b/receipts.json) · [ceb3f3c 验收索引](../acceptance/v011/windows-lifecycle/candidate-ceb3f3c/receipts.json)
+
+正式主线 `c4bc8ea` 的安装包也已完成四条路径。四台主机的八次升级或再次升级均匹配原始 Windows 构建的安装包和客户端散列。[正式主线验收结果及原始附件](../acceptance/v011/windows-lifecycle/official-c4bc8ea/README.md)
