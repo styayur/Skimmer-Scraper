@@ -167,6 +167,8 @@ try {
       assert.equal(memory.enabled, true);
       assert.equal(memory.shareWithModel, false);
       assert(memory.entries.some(e => e.event === 'visit' && e.detail === 'visit'));
+      if (candidate) assert(memory.entries.some(e => e.event === 'visit' && e.world.realm === 'city'
+        && e.world.seed === report.before.seed && e.world.fingerprint === report.before.fingerprint));
       report.journey = { provenance: candidate ? 'installed candidate run' : 'synthetic unknown-key retention',
         sha256: hash(raw), entries: memory.entries };
       if (!upgrade) {
@@ -177,6 +179,7 @@ try {
           assert(await page.locator('#journey-memory-enabled').isChecked());
           assert.equal(await page.locator('#journey-memory-share').isChecked(), false);
           assert.equal(await page.locator('#journey-memory-entries li').count(), memory.entries.length);
+          assert((await page.locator('#journey-memory-entries').textContent()).includes('#' + report.before.seed + '/' + report.before.fingerprint.toString(16)));
         }
       }
     }

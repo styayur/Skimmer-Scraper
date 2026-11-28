@@ -22,7 +22,7 @@ jobs:
     runs-on: windows-2022
     timeout-minutes: 60
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
           ref: ${{ inputs.candidate_sha }}
           persist-credentials: false
@@ -34,7 +34,7 @@ jobs:
           if ($env:EXPECTED_SHA -cnotmatch '^[0-9a-f]{40}$' -or (git rev-parse HEAD) -cne $env:EXPECTED_SHA -or
               $config.version -cne '0.11.0' -or $config.bundle.windows.nsis.installMode -cne 'currentUser' -or
               $config.identifier -cne 'io.github.styayur.skimmer-scraper') { throw 'Unexpected candidate or storage identity' }
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
         with:
           node-version: 24
           cache: npm
@@ -55,7 +55,7 @@ jobs:
             installerSha256 = (Get-FileHash $bundle[0].FullName).Hash.ToLowerInvariant()
             exeSha256 = (Get-FileHash src-tauri/target/release/skimmer-scraper.exe).Hash.ToLowerInvariant()
           } | ConvertTo-Json | Set-Content candidate-package/identity.json
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: candidate-nsis-${{ inputs.candidate_sha }}
           path: candidate-package
@@ -71,17 +71,17 @@ jobs:
       matrix:
         from: ['0.8.2', '0.9.1', '0.9.2', '0.10.0']
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
           persist-credentials: false
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
         with:
           node-version: 24
           cache: npm
       - run: npm ci
       - if: inputs.candidate_sha != ''
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
         with:
           name: candidate-nsis-${{ inputs.candidate_sha }}
           path: candidate-package
@@ -90,7 +90,7 @@ jobs:
           START_VERSION: ${{ matrix.from }}
           CANDIDATE_SHA: ${{ inputs.candidate_sha }}
         run: ./scripts/windows-lifecycle/run.ps1 -From $env:START_VERSION -CandidateSha $env:CANDIDATE_SHA
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         if: always()
         with:
           name: lifecycle-${{ inputs.candidate_sha || 'historical-0.10.0' }}-from-${{ matrix.from }}-${{ github.run_attempt }}
