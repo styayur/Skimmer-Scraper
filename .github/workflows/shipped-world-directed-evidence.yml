@@ -1,0 +1,76 @@
+name: Shipped world directed evidence
+on:
+  push:
+    branches: [codex/shipped-world-directed-evidence]
+    paths:
+      - .github/workflows/shipped-world-directed-evidence.yml
+      - acceptance/shipped-approaches-011/*.py
+      - acceptance/shipped-approaches-011/directed.patch
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  directed:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 28
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          fetch-depth: 2
+          persist-credentials: false
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: d66b343cdd88d7d499e77afa4a63e8e3594f2813
+          path: benchmark
+          sparse-checkout: scripts
+          persist-credentials: false
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          repository: styayur/V2Wpro
+          ref: 241bd0eec72439d77a43e8d289cc29c714bf0e4e
+          path: producer
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: 24
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.14.7'
+      - name: Verify frozen design and original assets
+        run: |
+          design=1ccf35240747aeb7405679d1b517823a7b3f072b
+          git cat-file -e "$design^{commit}" || git fetch --depth=1 https://github.com/styayur/Skimmer-Scraper.git "$design"
+          git diff --exit-code "$design" HEAD -- acceptance/shipped-approaches-011/{DESIGN.md,plan.json,geometry.json,geometry.py} acceptance/final-web-011
+          python -B acceptance/shipped-approaches-011/geometry.py --check
+          test "$(git -C benchmark rev-parse HEAD)" = d66b343cdd88d7d499e77afa4a63e8e3594f2813
+          git -C benchmark apply --check "$GITHUB_WORKSPACE/acceptance/shipped-approaches-011/directed.patch"
+          git -C benchmark apply "$GITHUB_WORKSPACE/acceptance/shipped-approaches-011/directed.patch"
+      - name: Verify and stage the official main Web archive
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python -B acceptance/final-web-011/stage.py
+      - name: Install the pinned browser and original producer reader
+        run: |
+          npm --prefix producer ci --omit=dev --no-fund --no-audit
+          python -m pip install playwright==1.63.0
+          python -m playwright install --with-deps chromium
+      - name: Read the real colliders in the three original imports
+        run: python -Bu acceptance/shipped-approaches-011/run.py survey
+      - name: Archive the preflight measurements before launch
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: shipped-survey-${{ github.run_id }}-${{ github.run_attempt }}
+          path: output/geometry-survey.json
+          if-no-files-found: warn
+      - name: Fly the three preselected saved and reopened layouts
+        run: python -Bu acceptance/shipped-approaches-011/run.py flights
+      - name: Preserve every attempted flight and all raw evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: shipped-directed-${{ github.run_id }}-${{ github.run_attempt }}
+          path: output/
+          retention-days: 30
+          if-no-files-found: warn

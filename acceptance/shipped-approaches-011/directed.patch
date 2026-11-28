@@ -1,0 +1,94 @@
+--- a/scripts/measure-import-flight.py
++++ b/scripts/measure-import-flight.py
+@@ -6,6 +6,7 @@
+ from urllib.parse import urlsplit
+
+ from playwright.sync_api import sync_playwright
++from directed_flight import apply_spawn, frame, verify_layout
+
+ parser = argparse.ArgumentParser()
+ parser.add_argument("world", type=Path)
+@@ -27,12 +28,17 @@
+ report = dict(format="flight-diagnostic-1", sha256=digest, boost=args.boost,
+               input="emulated standard gamepad LB", fixedHz=120, sampleMs=64, trace=[], errors=[])
+ case = args.case
++directed = case["directedCase"]
++capture_tick = directed["captureTick"]
++assert case["approach"] == "manual-top" and not any((args.gpu, args.orders, args.boost, args.film))
++assert digest == directed["sha256"] and args.release_tick == directed["releaseTick"]
++detail = {"intervalMs": 16, "edges": [], "frames": []}
+ approach = case.get("approach", "entry") if case else "entry"
+ wingmates = case.get("wingmates", 3) if case else 3
+ if case:
+     from flight_bench_metrics import summarize
+     report.update(format="flight-diagnostic-2", experiment=case,
+-                  schedule=dict(captureTick=4, releaseTick=args.release_tick, releasePulse=approach != "open-air",
++                  schedule=dict(captureTick=capture_tick, releaseTick=args.release_tick, releasePulse=approach != "open-air",
+                                 postReleaseTicks=16, yawAxis=0.45 if approach == "yaw" else 0, wingmates=wingmates))
+ game = "window.__SKIMMER_SCRAPER__"
+ with sync_playwright() as p:
+@@ -67,6 +73,7 @@
+             if not panel.evaluate("e=>e.open"):
+                 panel.locator(":scope > summary").click()
+         def button(index, pressed):
++            detail["edges"].append({"index": index, "requested": pressed, "before": frame(page)})
+             page.evaluate("([i,p])=>window.pilotButtons[i]={pressed:p,value:Number(p)}", [index, pressed])
+         def sample():
+             row = page.evaluate("""extended => {
+@@ -82,6 +89,7 @@
+         library()
+         page.locator("#local-world-file").set_input_files(args.world)
+         page.locator("#local-world-analyze").click()
++        apply_spawn(page, directed)
+         if approach == "open-air":
+             panel = page.locator(".world-import-transform").first
+             panel.locator(":scope > summary").click()
+@@ -107,6 +115,7 @@
+         ready()
+         page.wait_for_function(game + ".snapshot().localWorld")
+         report["replayed"] = identity()
++        detail["layoutAfterReload"] = verify_layout(page, directed)
+         if case:
+             assert page.locator("#world-seed-input").input_value() == report["world"]["layoutSeed"]
+         assert report["imported"] == report["replayed"]
+@@ -143,6 +152,7 @@
+         page.locator("#local-world-apply").click()
+         page.wait_for_function(game + ".snapshot().localWorld")
+         assert identity() == report["imported"]
++        detail["flightTabLayout"] = verify_layout(page, directed)
+         if case:
+             assert page.locator("#world-seed-input").input_value() == report["world"]["layoutSeed"]
+             assert page.evaluate(game + ".snapshot().companionSettings.count") == wingmates
+@@ -167,6 +177,7 @@
+         page.keyboard.press("Enter")
+         page.evaluate("document.activeElement.blur()")
+         sample()
++        detail["frames"].append(frame(page))
+         if args.boost:
+             button(7, True)
+         if approach == "yaw":
+@@ -175,11 +186,13 @@
+         for tick in range(args.release_tick + 16):
+             if tick == 4 and approach == "yaw":
+                 page.evaluate("window.pilotAxes[2]=0")
+-            if tick == 4 or (tick == args.release_tick and approach != "open-air"):
++            if tick == capture_tick or (tick == args.release_tick and approach != "open-air"):
+                 button(4, True)
+-            if tick in (5, args.release_tick+1):
++            if tick in (capture_tick+1, args.release_tick+1):
+                 button(4, False)
+-            page.clock.run_for(64)
++            for _ in range(4):
++                page.clock.run_for(16)
++                detail["frames"].append(frame(page))
+             sample()
+             if args.film and tick % 3 == 0:
+                 from io import BytesIO
+@@ -236,6 +249,7 @@
+         report["errors"].append(str(error))
+         raise
+     finally:
++        args.report.with_name("frames.json").write_text(json.dumps(detail, allow_nan=False) + "\n", encoding="utf-8")
+         args.report.write_text(json.dumps(report, indent=None if case else 2, allow_nan=False) + "\n", encoding="utf-8")
+         browser.close()
+ print(args.report, report.get("outcome"))
