@@ -24,6 +24,10 @@ export const explicitLegacy = (message: string): boolean => {
 };
 
 const missionVerbs: ReadonlyArray<[MissionType, RegExp]> = [
+  ['FIND_GLIDE_ROUTE', /^(?:find|trace|look for|search for|寻找|找|搜索|勘察).*(?:glide (?:route|run)|滑行航路|连续滑行)/i],
+  ['GUIDE_LANDMARK', /^(?:guide|lead|navigate|带我|领航|引导).*(?:landmark|island|地标|浮岛)/i],
+  ['SCOUT_BRANCH', /^(?:scout|explore|survey|侦察|勘察|探索).*(?:branch|fork|分支|岔路)/i],
+  ['FIND_ESCAPE', /^(?:find|search|check|look for|寻找|找|搜索).*(?:escape|release|脱离|逃逸)/i],
   ['FIND_GLIDE_SURFACE', /^(?:find|look for|locate|search for|寻找|找|搜索).*(?:glid|滑行|贴面)/i],
   ['FIND_PASSAGE', /^(?:find|look for|locate|search for|寻找|找|搜索).*(?:passage|corridor|通道)/i],
   [
@@ -37,8 +41,17 @@ const missionVerbs: ReadonlyArray<[MissionType, RegExp]> = [
 
 function selectTarget(type: MissionType, clause: string, agentId: number, targets: PerceivedTarget[]) {
   switch (type) {
+    case 'GUIDE_LANDMARK':
+      return targets.find(t => (t.semanticKind === 'landmark' || t.semanticKind === 'surface') && t.capabilities?.includes('guide'));
+    case 'FIND_GLIDE_ROUTE': return targets.find(t => t.semanticKind && t.capabilities?.includes('glide'));
+    case 'SCOUT_BRANCH': return targets.find(t => t.capabilities?.includes('scout'));
+    case 'FIND_ESCAPE': return targets.find(t => t.capabilities?.includes('release'));
     case 'INSPECT_LANDMARK': {
       const wantsIsland = /island|浮岛/i.test(clause);
+      if (!wantsIsland) {
+        const charted = targets.find(t => t.semanticKind === 'landmark' && t.capabilities?.includes('inspect'));
+        if (charted) return charted;
+      }
       return targets.find(
         (t) => t.capabilities?.includes('inspect') && (!wantsIsland || t.kind === 'floating-island')
       );
@@ -46,10 +59,13 @@ function selectTarget(type: MissionType, clause: string, agentId: number, target
     case 'FIND_GLIDE_SURFACE':
       return targets.find((t) => t.capabilities?.includes('glide'));
     case 'FIND_PASSAGE':
-    case 'PATROL':
+    case 'PATROL': {
+      const guide = type === 'FIND_PASSAGE' && targets.find(t => t.semanticKind && t.kind === 'route' && t.capabilities?.includes('guide'));
+      if (guide) return guide;
       return targets
-        .filter((t) => t.kind === 'route')
+        .filter((t) => t.kind === 'route' && !t.semanticKind)
         .sort((a, b) => (b.clearance ?? 41) - (a.clearance ?? 41))[0];
+    }
     case 'SURFACE_RELAY':
       return targets.find((t) => t.kind === 'surface' && t.agentId === agentId);
   }
@@ -62,6 +78,10 @@ const preferredAgent: Record<MissionType, number> = {
   FIND_PASSAGE: 1,
   INSPECT_LANDMARK: 3,
   FIND_GLIDE_SURFACE: 1,
+  FIND_GLIDE_ROUTE: 1,
+  GUIDE_LANDMARK: 1,
+  SCOUT_BRANCH: 3,
+  FIND_ESCAPE: 2,
   WAIT_AND_REGROUP: 1,
   PATROL: 3,
   SURFACE_RELAY: 2,
@@ -123,6 +143,10 @@ const missionNames: Record<MissionType, [string, string]> = {
   FIND_PASSAGE: ['寻找通道', 'find passage'],
   INSPECT_LANDMARK: ['观察地标', 'inspect landmark'],
   FIND_GLIDE_SURFACE: ['寻找滑行面', 'find glide surface'],
+  FIND_GLIDE_ROUTE: ['勘察滑行航路', 'survey glide route'],
+  GUIDE_LANDMARK: ['地标领航', 'guide to landmark'],
+  SCOUT_BRANCH: ['侦察分支', 'scout branch'],
+  FIND_ESCAPE: ['寻找脱离空间', 'find escape space'],
   WAIT_AND_REGROUP: ['等待后归队', 'wait and regroup'],
   PATROL: ['巡航', 'patrol'],
   SURFACE_RELAY: ['地表接力', 'Surface Relay'],
@@ -134,6 +158,10 @@ const observations: Record<NonNullable<MissionRecord['observed']>, [string, stri
   'floating-island': ['已观察到浮岛', 'floating island observed'],
   'glide-surface': ['已观察到滑行面', 'glide surface observed'],
   'patrol-waypoint': ['已巡视航路点', 'patrol point visited'],
+  'glide-route': ['已沿滑行面勘察航路', 'parallel glide route surveyed'],
+  'guided-landmark': ['已带队抵达地标', 'pilot guided to landmark'],
+  branch: ['已侦察岔路', 'branch scouted'],
+  escape: ['已飞过脱离航路', 'escape corridor flown'],
 };
 export function missionReport(record: MissionRecord, english: boolean): string {
   const outcomes = {

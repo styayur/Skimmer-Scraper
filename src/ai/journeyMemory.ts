@@ -140,12 +140,15 @@ export class JourneyMemory {
     });
   }
 
-  public remember(world: HistoricalWorld, event: JourneyEvent, detail: JourneyDetail, agent: number) {
-    if (!this.snapshot().enabled) return Promise.resolve(false);
-    return this.change((journal, now) => {
+  public async remember(world: HistoricalWorld, event: JourneyEvent, detail: JourneyDetail, agent: number) {
+    if (!this.snapshot().enabled) return false;
+    let appended = false;
+    const written = await this.change((journal, now) => {
       if (!journal.enabled) return;
-      journal.entries.push({ id: crypto.randomUUID(), at: now, world, event, agent, detail });
+      const entry = readObservation({ id: crypto.randomUUID(), at: now, world, event, agent, detail }, 0, now);
+      if (entry) { journal.entries.push(entry); appended = true; }
     });
+    return written && appended;
   }
 
   public forget(id: string) {

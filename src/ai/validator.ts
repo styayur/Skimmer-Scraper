@@ -29,6 +29,8 @@ export const validatePlan = (raw: unknown, context: ValidationContext): Validati
     const target=context.perception.targets.find(candidate=>candidate.id===value.targetId);
     if(value.targetId!==null&&typeof value.targetId!=='string')return fail('target');
     if(value.targetId!==null&&!target)return fail('target');
+    // A semantic target needs continuous lease and geometry checks in the mission executive.
+    if(target?.semanticKind)return fail('mission-target');
     if(!target&&!['FOLLOW','REGROUP','PROTECT'].includes(String(value.action)))return fail('target');
     let position=target?{...target.position}:{...context.player};
     if(value.action==='RELAY'){

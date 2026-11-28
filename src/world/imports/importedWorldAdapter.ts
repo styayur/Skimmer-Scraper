@@ -80,6 +80,7 @@ export class ImportedWorldAdapter implements RenderableWorld, SurfaceProvider {
     return !this.disposed && Number.isFinite(position.x + position.y + position.z);
   }
   public isCompanionCovered(position: Vec3): boolean { return this.isCollisionCovered(position); }
+  public semanticCandidates(position: Vec3) { return this.scene.semantics?.near(position) ?? []; }
   public getAdapterStats() { return this.adapter.getStats(); }
   public queryNearest(position: Vec3, maxDistance: number) { return this.surfaces.queryNearest(position, maxDistance); }
   public queryGlide(position: Vec3, range: number) { return this.surfaces.queryGlide(position,range); }
@@ -128,6 +129,7 @@ export class ImportedWorldAdapter implements RenderableWorld, SurfaceProvider {
   }
 
   public dispose(): void {
+    this.scene.semantics?.dispose();
     if (this.disposed) return;
     this.disposed = true;
     this.adapter.dispose();

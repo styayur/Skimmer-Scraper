@@ -59,13 +59,23 @@ export class SymbiosisRuntime {
   private readonly dialogue=new CompanionMemory();
   private readonly missions:MissionExecutive;
   private nextMissionTick=0;
+  private nextSurvey = 8;
+  private surveyed = new Set<string>();
   private historicalWorld: HistoricalWorld | null = null;
+  private pendingVisit = false;
   public constructor(public readonly team:CompanionTeam,public readonly client=new ModelClient(),private readonly journal?: JourneyMemory){
     this.missions=new MissionExecutive(team,result=>this.missionOutcome(result));
   }
   public enterWorld(world: HistoricalWorld): void {
     this.historicalWorld = world;
-    this.remember('visit', 'visit', 0);
+    this.pendingVisit = true;
+    this.recordVisit();
+  }
+  private recordVisit(): void {
+    if (this.pendingVisit && this.team.agents.some(a => a.deployed)) {
+      this.pendingVisit = false;
+      void this.remember('visit', 'visit', 0);
+    }
   }
   private remember(event: JourneyEvent, detail: JourneyDetail, agent: number) {
     if (this.historicalWorld && this.team.agents.some(a => a.deployed))
@@ -74,11 +84,14 @@ export class SymbiosisRuntime {
   public reset():void {
     this.invalidate();this.time=0;this.trust=createTrust();this.relay=createRelay();this.trace=[];this.memory=[];
     this.cooldowns.clear();this.separated.clear();this.impacts=0;this.lastOutcome=0;
-    this.missions.reset();this.dialogue.clear();this.used.clear();
+    this.missions.reset();this.dialogue.clear();this.used.clear();this.nextSurvey=8;
     this.radio.reset();this.nextReport=0;this.nextRisk=0;
   }
   public invalidate():void {
+    this.surveyed.clear();
+    this.nextSurvey = this.time + 8;
     this.historicalWorld = null;
+    this.pendingVisit = false;
     this.missions.invalidate();this.pictures.clear();this.nextMissionTick=0;
     this.epoch++;this.client.cancel();this.team.clearTargets();this.lastPlan=null;this.lead=null;
     this.context=null;this.planner='Local Autonomous Controller';this.relayFlash=null;
@@ -118,7 +131,9 @@ export class SymbiosisRuntime {
     if (!this.context?.active || result.reason==='world-changed' || result.reason==='replaced') return;
     if (result.outcome === 'completed') {
       void this.remember('mission', result.type, result.agentId);
-      if (result.observed === 'structure') void this.remember('landmark', 'structure', result.agentId);
+      if (result.observed === 'structure' || result.observed === 'guided-landmark')
+        void this.remember('landmark', 'structure', result.agentId);
+      if (result.observed === 'floating-island') void this.remember('landmark', 'island', result.agentId);
     }
     const speaker=this.radioAgent(result.agentId);if(speaker===null)return;
     const locale=this.radioLanguage??selectedLocale, en=locale==='en-US';
@@ -194,6 +209,8 @@ export class SymbiosisRuntime {
       const perception=this.perception();if(!perception)return false;
       const proposal=missionCommand(message,perception);
       const explicitMission=missionPrefix.test(message);
+      if (proposal || explicitMission || explicitLegacy(message) || /cancel|abort|取消|撤销/i.test(message))
+        this.nextSurvey = this.time + 65;
       const intent=!proposal&&explicitLegacy(message)?localRadioIntent(message,perception,this.team.settings.formation):null;
       const language=this.radioLanguage??radioLanguageOf(message);
       const en=language==='en-US';
@@ -406,12 +423,12 @@ export class SymbiosisRuntime {
       this.planner = 'Local Autonomous Controller';
     }
   }
-  private startMissions(assignments:Parameters<MissionExecutive['start']>[0],p:Perception):void {
+  private startMissions(assignments:Parameters<MissionExecutive['start']>[0],p:Perception,priority:MissionRecord['priority']='pilot'):void {
     this.consume(p.requestId);
     const ids=assignments.flatMap(a=>a.order.agentIds);
     this.removeOrders(ids);
     ids.forEach(id=>this.team.clearTarget(id));
-    this.missions.start(assignments,p,this.time);
+    this.missions.start(assignments,p,this.time,priority);
     this.nextMissionTick=this.time;
   }
   private applyMission(proposal:MissionPlan,p:Perception,model:unknown):string {
@@ -472,9 +489,39 @@ export class SymbiosisRuntime {
     this.lead={origin:{...p},direction:{x:(target.x-p.x)/gap,y:(target.y-p.y)/gap,z:(target.z-p.z)/gap},id,until:this.time+ttl};
   }
   private positions():unknown {return this.team.agents.map(a=>({id:a.id,task:a.task,position:{...a.flight.position},target:{...a.target},impacts:a.impacts}));}
+  private independentSurvey(): void {
+    this.nextSurvey = this.time + 8;
+    if (this.team.settings.behavior !== 'independent' || !this.context?.world.semanticCandidates ||
+      this.radioPending || this.missions.busy || this.lastPlan || this.client.snapshot().connected) return;
+    const picture = this.perception();
+    if (!picture) return;
+    const registry = this.pictures.get(picture.requestId)!.registry, live = this.missionContext();
+    const assignments: Parameters<MissionExecutive['start']>[0] = [];
+    for (const [agent, type, capability] of [[1, 'FIND_GLIDE_ROUTE', 'glide'], [2, 'FIND_ESCAPE', 'release'],
+      [3, 'SCOUT_BRANCH', 'scout']] as const) {
+      if (!picture.agents.some(a => a.id === agent && a.deployed)) continue;
+      for (const target of picture.targets) {
+        if (!target.capabilities?.includes(capability) || !registry.site(target.id)?.authored || this.surveyed.has(target.id + capability)) continue;
+        const decision = validateMissions({ schemaVersion: 2, epoch: this.epoch, requestId: picture.requestId, dialogue: [],
+          missions: [{ agentIds: [agent], type, targetId: target.id, timeoutSeconds: 45 }] }, picture, live, registry, this.used);
+        if (!decision.ok) continue;
+        assignments.push(...decision.assignments);
+        this.surveyed.add(target.id + capability);
+        if (this.surveyed.size > 24) this.surveyed.delete(this.surveyed.values().next().value!);
+        break;
+      }
+    }
+    if (assignments.length) {
+      this.startMissions(assignments, picture, 'local');
+      this.nextSurvey = this.time + 45;
+    }
+  }
   public step(player:FlightState,rules:RunRulesState,world:CompanionWorld,seed:number,dt:number):RunRulesState {
     if (!(dt>0) || !Number.isFinite(dt) || rules.status!=='running') {this.suspend();return rules;}
+    if (this.context && (world !== this.context.world || seed !== this.context.seed)) this.invalidate();
     this.time+=dt;this.context={player,rules,world,seed,active:rules.status==='running'};
+    if (this.pendingVisit) this.recordVisit();
+    if (this.time >= this.nextSurvey) this.independentSurvey();
     this.radio.step(this.time);this.reportRadioOutcome();
     if(this.missions.busy && this.time>=this.nextMissionTick){
       this.nextMissionTick=this.time+.2;
