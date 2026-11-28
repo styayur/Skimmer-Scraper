@@ -8,7 +8,7 @@ Motion Inspector 打开 Switchyard 的游戏目录项。玩家确认后，游戏
 
 ## 城市与贴面飞行
 
-Kinetic City 用共享端口连接分区。相同种子可在不同访问顺序下重建几何并恢复碰撞。等价比较覆盖 16 个区块、774,400 平方米，计入材质、两级渲染网格和碰撞。生成输入的 gzip 总量为 67,765 字节，烘焙资产为 1,733,035 字节。Dragonspine 的可选峡谷桥使用同一套端口方法。[实机城市画面](../v0110/kinetic/kinetic-helix.jpg) · [峡谷桥](../v0110/kinetic/dragonspine-span.jpg) · [等价范围及三角面统计](../v0110/kinetic/comparison.json) · [卸载、重载及误差](../v0110/kinetic/geometry.json)
+Kinetic City 用共享端口连接分区。相同种子可在不同访问顺序下重建几何并恢复碰撞。等价比较覆盖 16 个区块、774,400 平方米，计入材质、两级渲染网格和碰撞。生成输入的 gzip 总量为 67,765 字节，烘焙资产为 1,733,035 字节。Dragonspine 的可选峡谷桥使用同一套端口方法。录屏中，玩家用常规飞行输入经过交汇口、S 弯和带状桥。录制构建为 `946d2f7e`。[7 秒游戏实飞](../v0110/kinetic/kinetic-free-flight.mp4) · [构建、按键与逐段位置](../v0110/kinetic/kinetic-free-flight.json) · [实机城市画面](../v0110/kinetic/kinetic-helix.jpg) · [峡谷桥](../v0110/kinetic/dragonspine-span.jpg) · [等价范围及三角面统计](../v0110/kinetic/comparison.json) · [卸载、重载及误差](../v0110/kinetic/geometry.json)
 
 固定步长为 120 Hz。弯廊、跨区块斜折面、螺旋、平移平台及缺失支撑的夹具分别测量了捕获、脱离和碰撞。在汇合处被移动面板封住的负例中，控制器开始脱离后，中性输入仍撞到了面板。修正带状桥接触判断前，首个集成候选在四个要求成功的桥面场景中均提早失去接触。原始轨迹和修正后的对照均保留。[复杂曲面及边界条件](../v0110/surface-glide/README.md) · [带状桥根因与对照](../v0110/surface-glide/ribbon-recheck/README.md) · [跨区块贴面轨迹](../v0110/surface-glide/kinetic-socket.json)
 
