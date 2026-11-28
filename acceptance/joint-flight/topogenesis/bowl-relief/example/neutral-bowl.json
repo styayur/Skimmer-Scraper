@@ -1,0 +1,116 @@
+{
+  "version": "2.0",
+  "name": "Topogenesis · bowl",
+  "seed": 79757,
+  "style": {
+    "sky": "#c6c2bb",
+    "stone": "#6c8f89",
+    "accent": "#c96d53",
+    "light": 1.65
+  },
+  "motion": {
+    "action": "flight",
+    "speed": 46
+  },
+  "physics": {
+    "radius": 3.2
+  },
+  "streaming": {
+    "cellSize": 128,
+    "radius": 3
+  },
+  "budget": {
+    "instances": 128,
+    "operations": 1024
+  },
+  "assets": [],
+  "unknowns": [
+    "Engine traversal requires a digest-bound downstream replay."
+  ],
+  "topology": {
+    "spawn": "approach",
+    "nodes": [
+      {
+        "id": "approach",
+        "position": [
+          0,
+          10,
+          -82
+        ],
+        "rule": "beacon"
+      },
+      {
+        "id": "survey",
+        "position": [
+          0,
+          90,
+          360
+        ],
+        "rule": "beacon"
+      }
+    ],
+    "edges": [
+      [
+        "approach",
+        "survey"
+      ]
+    ]
+  },
+  "prototypes": {
+    "beacon": {
+      "op": "transform",
+      "evidence": "sweep",
+      "offset": [
+        -45,
+        -24,
+        0
+      ],
+      "child": {
+        "op": "emit",
+        "shape": "box",
+        "material": "accent",
+        "solid": true,
+        "evidence": "sweep",
+        "size": [
+          3,
+          8,
+          3
+        ]
+      }
+    }
+  },
+  "evidence": [
+    {
+      "id": "sweep",
+      "kind": "decision",
+      "source": "docs/topogenesis.md",
+      "confidence": 1,
+      "claim": "Lay out common boundary sockets before sweeping original deck and vault sections."
+    }
+  ],
+  "extensions": {
+    "kineticRecipe": {
+      "version": 1,
+      "mode": "fixture",
+      "module": "bowl",
+      "profile": "cruise",
+      "ruleRevision": 2,
+      "relief": 0.4,
+      "regionX": 0,
+      "regionZ": 0
+    },
+    "flightEntry": {
+      "version": 1,
+      "position": [
+        0,
+        10,
+        -82
+      ],
+      "toward": [
+        0,
+        10,
+        -62
+      ]
+    }
+  }
+}
