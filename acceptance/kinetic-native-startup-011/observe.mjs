@@ -23,10 +23,13 @@ function installObserver() {
   };
   requestAnimationFrame(title);
   let frames = 0;
+  let titleDraw;
   const previous = [];
   const frame = rafMs => {
     const sampleBeginMs = performance.now();
-    const s = sample(), stream = s.streaming;
+    const s = sample(), stream = s.streaming, draw = window.__kineticStartupDraw();
+    const samePose = ['x','y','z'].every(k => Math.abs(draw.position[k]-(s.position[k]-s.renderOrigin[k]))<1e-5);
+    const currentDraw = Math.abs(draw.rafMs-rafMs)<0.001 && draw.serial>titleDraw.serial && samePose;
     const cx = Math.floor(s.position.x / 220), cz = Math.floor(s.position.z / 220);
     const byKey = new Map(s.chunkStates.map(c => [c.key, c]));
     const ring = [];
@@ -35,13 +38,13 @@ function installObserver() {
     }
     frames++;
     const row = { rafMs, sampleBeginMs, mode:s.mode, coverage:stream?.coverageComplete, buffering:s.buffering,
-      bvh:stream?.bvhCount, active:stream?.activeChunks, runTime:s.runTime };
+      bvh:stream?.bvhCount, active:stream?.activeChunks, runTime:s.runTime, draw, samePose, currentDraw };
     if (s.mode === 'running' && !s.buffering && stream?.coverageComplete && stream.bvhCount > 0
-        && ring.every(c => c.state === 'ACTIVE') && s.render.calls > 0 && visible('hud')) {
+        && ring.every(c => c.state === 'ACTIVE') && currentDraw && s.render.calls > 0 && visible('hud')) {
       // Timestamp readiness before making the extra live contact query or serializing the receipt.
       const readyMs = performance.now();
       const contact = window.__SKIMMER_SCRAPER__.glideSurface(s.position, 40);
-      send('runningCoveredFrame', { readyMs, rafMs, sampleBeginMs, frames, previous, ring,
+      send('runningCoveredFrame', { readyMs, rafMs, sampleBeginMs, frames, previous, ring, draw, titleDraw,
         mode:s.mode, seed:s.seed, worldMode:s.worldMode, generator:s.generatorVersion, fingerprint:s.worldFingerprint,
         position:s.position, runTime:s.runTime, focus:document.hasFocus(), visibility:document.visibilityState,
         buffering:s.buffering, adapter:s.adapter, streaming:stream, world:s.world, render:s.render,
@@ -60,7 +63,8 @@ function installObserver() {
   document.addEventListener('click', event => {
     const control = event.target.closest?.('button');
     if (control?.id === 'start-button' && selected) {
-      send('startClick', { trusted:event.isTrusted, beforeMode:sample()?.mode });
+      titleDraw=window.__kineticStartupDraw();
+      send('startClick', { trusted:event.isTrusted, beforeMode:sample()?.mode, titleDraw });
       // The game's existing frame loop already has its callback queued at the title.
       // Register behind it, then sample each successive render opportunity.
       requestAnimationFrame(frame);
@@ -71,6 +75,37 @@ function installObserver() {
       theme:document.querySelector('#world-theme').value, seed:document.querySelector('#world-seed-input').value,
       mode:document.querySelector('#world-mode-select').value });
   }, true);
+}
+
+// Expose a read-only accessor solely under the observation namespace. The existing
+// renderer and its frame loop are untouched. lastFrameTime is written by draw(now)
+// and Three's serial advances on a submitted draw. The aircraft mesh distinguishes
+// a flight pose from the title camera's bobbing attract pose.
+async function observeDraw(page) {
+  const cdp=await page.context().newCDPSession(page);
+  try {
+    const {result:fn}=await cdp.send('Runtime.evaluate',{expression:'window.__SKIMMER_SCRAPER__.snapshot',objectGroup:'cold-start'});
+    const name=fn.description.match(/([\w$]+)\.getCameraSnapshot\s*\(/)?.[1];
+    assert(name,'Production snapshot renderer binding');
+    const props=async objectId=>cdp.send('Runtime.getProperties',{objectId,ownProperties:true});
+    const scopes=(await props(fn.objectId)).internalProperties.find(p=>p.name==='[[Scopes]]');
+    for(const s of (await props(scopes.value.objectId)).result){
+      if(!s.value?.objectId || s.value.description==='Global') continue;
+      const renderer=(await props(s.value.objectId)).result.find(p=>p.name===name)?.value;
+      if(!renderer?.objectId) continue;
+      const registered=await cdp.send('Runtime.callFunctionOn',{objectId:renderer.objectId,returnByValue:true,
+        functionDeclaration:function(){
+          if(typeof this.lastFrameTime!=='number' || !this.aircraftMount?.position || !this.renderer?.info?.render) return false;
+          Object.defineProperty(window,'__kineticStartupDraw',{value:()=>{
+            const {x,y,z}=this.aircraftMount.position;
+            return {rafMs:this.lastFrameTime,serial:this.renderer.info.render.frame,position:{x,y,z}};
+          }});
+          return true;
+        }.toString()});
+      if(registered.result.value===true) return;
+    }
+    throw Error('Could not observe the attached renderer');
+  } finally {await cdp.detach();}
 }
 
 async function calibrate(page, clock) {
@@ -91,7 +126,8 @@ export async function measureMenus(page, report, clock, focusWindow) {
   page.on('pageerror', error => report.pageErrors.push(error.message.slice(0, 400)));
   page.on('console', message => {
     const t = message.text();
-    if (t.startsWith(tag)) events.push({ hostReceivedMs:clock(), ...JSON.parse(t.slice(tag.length)) });
+    if (t.startsWith(tag)) events.push({ hostReceivedMs:clock(),hostReceivedUtc:new Date().toISOString(),
+      ...JSON.parse(t.slice(tag.length)) });
   });
   await page.addInitScript(installObserver);
   await page.evaluate(installObserver);
@@ -119,6 +155,9 @@ export async function measureMenus(page, report, clock, focusWindow) {
   assert.equal(u.searchParams.get('seed'),String(seed));
   assert.equal(u.searchParams.get('gen'),'4');
   assert.equal(u.searchParams.get('world'),'stable');
+  const setup=clock();
+  await observeDraw(page);
+  report.drawObserverSetupMs=clock()-setup;
   await page.locator('#start-button').click();
   const endpoint = await get('runningCoveredFrame',true);
   report.clocks.kinetic = await calibrate(page,clock);
