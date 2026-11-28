@@ -1,0 +1,1267 @@
+{
+  "source": "38f4c3d8c4e1f8e0c5e2049d9bf71c3f19bc7271",
+  "physicsHz": 120,
+  "inputIntervalMs": 64,
+  "captureInterval": 4,
+  "postReleaseIntervals": 16,
+  "historical104729": {
+    "stock": {
+      "summary": {
+        "lastGlideSpeedMps": 98.99211321050512,
+        "firstDetachStep": 369,
+        "freeFlightStep": 399,
+        "firstShieldStep": null,
+        "firstChallengeContactOnRecordedPath": null,
+        "minimumPostLBProposedCentreDistanceM": 5.4914370266570245,
+        "endSpeedMps": 101.15368019241511
+      },
+      "maximumMatchedBrowserPositionErrorM": 0.0,
+      "samples": [
+        {
+          "tick": 368,
+          "phase": "GLIDING",
+          "p": {
+            "x": 7.709779617158519,
+            "y": 23.39183225977462,
+            "z": 71.1178713529544
+          },
+          "v": {
+            "x": -0.2264069668530427,
+            "y": 4.97289450865156,
+            "z": 98.86686774634182
+          },
+          "att": {
+            "pitch": 0.01814039625225188,
+            "yaw": 3.139098846724974,
+            "roll": 0.006267529255048917
+          },
+          "speed": 98.99211321050512,
+          "impact": false,
+          "collision": false,
+          "proposed": {
+            "x": 7.709779617158519,
+            "y": 23.39183225977462,
+            "z": 71.1178713529544
+          },
+          "proposedVelocity": {
+            "x": -0.2264069668530427,
+            "y": 4.97289450865156,
+            "z": 98.86686774634182
+          },
+          "center": 5.4566784591978355,
+          "solid": {
+            "x": 7.682327887891103,
+            "y": 17.935226548846625,
+            "z": 71.11152114808525
+          },
+          "normal": {
+            "x": 0.005030849714288096,
+            "y": 0.9999866680306742,
+            "z": 0.0011637491409179728
+          }
+        },
+        {
+          "tick": 369,
+          "phase": "DETACHING",
+          "p": {
+            "x": 7.707843645976119,
+            "y": 23.4256418216776,
+            "z": 71.94210043343028
+          },
+          "v": {
+            "x": -0.23231654188793407,
+            "y": 4.057147428357822,
+            "z": 98.90748965710655
+          },
+          "att": {
+            "pitch": 0.018140396252251886,
+            "yaw": 3.139098846724974,
+            "roll": 0
+          },
+          "speed": 99.0243824180529,
+          "impact": false,
+          "collision": false,
+          "proposed": {
+            "x": 7.707843645976119,
+            "y": 23.4256418216776,
+            "z": 71.94210043343028
+          },
+          "proposedVelocity": {
+            "x": -0.23231654188793407,
+            "y": 4.057147428357822,
+            "z": 98.90748965710655
+          },
+          "center": 5.4914370266570245,
+          "solid": {
+            "x": 7.680217051579533,
+            "y": 17.934278006690572,
+            "z": 71.93570977830811
+          },
+          "normal": {
+            "x": 0.005030849714288096,
+            "y": 0.9999866680306742,
+            "z": 0.0011637491409179728
+          }
+        },
+        {
+          "tick": 399,
+          "phase": "FLIGHT",
+          "p": {
+            "x": 7.645935823050865,
+            "y": 23.89152350390467,
+            "z": 96.80433725003846
+          },
+          "v": {
+            "x": -0.2489439680402311,
+            "y": 1.8110633966160605,
+            "z": 99.8246718641424
+          },
+          "att": {
+            "pitch": 0.018140396252252094,
+            "yaw": 3.139098846724974,
+            "roll": 3.388689338464703e-21
+          },
+          "speed": 99.84140942769929,
+          "impact": false,
+          "collision": false,
+          "proposed": {
+            "x": 7.645935823050865,
+            "y": 23.89152350390467,
+            "z": 96.80433725003846
+          },
+          "proposedVelocity": {
+            "x": -0.2489439680402311,
+            "y": 1.8110633966160605,
+            "z": 99.8246718641424
+          },
+          "center": 5.8915235039046685,
+          "solid": {
+            "x": 7.645935823050868,
+            "y": 18,
+            "z": 96.80433725003846
+          }
+        },
+        {
+          "tick": 451,
+          "phase": "FLIGHT",
+          "p": {
+            "x": 7.537516579214916,
+            "y": 24.68027177342829,
+            "z": 140.27964426343434
+          },
+          "v": {
+            "x": -0.2511915059738094,
+            "y": 1.8274141992326238,
+            "z": 100.7259177890302
+          },
+          "att": {
+            "pitch": 0.018140396252252094,
+            "roll": 0,
+            "yaw": 3.139098846724974
+          },
+          "speed": 100.74280646413769,
+          "impact": false,
+          "collision": false,
+          "proposed": {
+            "x": 7.537516579214916,
+            "y": 24.68027177342829,
+            "z": 140.27964426343434
+          },
+          "proposedVelocity": {
+            "x": -0.2511915059738094,
+            "y": 1.8274141992326238,
+            "z": 100.7259177890302
+          },
+          "center": 6.6802717734282915,
+          "solid": {
+            "x": 7.53751657921492,
+            "y": 18,
+            "z": 140.27964426343436
+          }
+        },
+        {
+          "tick": 452,
+          "phase": "FLIGHT",
+          "p": {
+            "x": 7.53542305310757,
+            "y": 24.695502142465646,
+            "z": 141.1191325962913
+          },
+          "v": {
+            "x": -0.2512231328816004,
+            "y": 1.8276442844823262,
+            "z": 100.73859994283843
+          },
+          "att": {
+            "pitch": 0.018140396252252094,
+            "roll": 0,
+            "yaw": 3.139098846724974
+          },
+          "speed": 100.75549074435766,
+          "impact": false,
+          "collision": false,
+          "proposed": {
+            "x": 7.53542305310757,
+            "y": 24.695502142465646,
+            "z": 141.1191325962913
+          },
+          "proposedVelocity": {
+            "x": -0.2512231328816004,
+            "y": 1.8276442844823262,
+            "z": 100.73859994283843
+          },
+          "center": 6.695502142465646,
+          "solid": {
+            "x": 7.53542305310757,
+            "y": 18,
+            "z": 141.1191325962913
+          }
+        },
+        {
+          "tick": 453,
+          "phase": "FLIGHT",
+          "p": {
+            "x": 7.533329266391065,
+            "y": 24.71073440743047,
+            "z": 141.95872543147428
+          },
+          "v": {
+            "x": -0.25125440598058485,
+            "y": 1.8278717957786044,
+            "z": 100.75114022195775
+          },
+          "att": {
+            "pitch": 0.018140396252252094,
+            "roll": 0,
+            "yaw": 3.139098846724974
+          },
+          "speed": 100.76803312610066,
+          "impact": false,
+          "collision": false,
+          "proposed": {
+            "x": 7.533329266391065,
+            "y": 24.71073440743047,
+            "z": 141.95872543147428
+          },
+          "proposedVelocity": {
+            "x": -0.25125440598058485,
+            "y": 1.8278717957786044,
+            "z": 100.75114022195775
+          },
+          "center": 6.7107344074304685,
+          "solid": {
+            "x": 7.533329266391062,
+            "y": 18,
+            "z": 141.95872543147428
+          }
+        },
+        {
+          "tick": 491,
+          "phase": "FLIGHT",
+          "p": {
+            "x": 7.453598308725913,
+            "y": 25.29077585266511,
+            "z": 173.93024395829195
+          },
+          "v": {
+            "x": -0.25221597604957424,
+            "y": 1.8348672026926087,
+            "z": 101.13672263781986
+          },
+          "att": {
+            "pitch": 0.018140396252252094,
+            "roll": 0,
+            "yaw": 3.139098846724974
+          },
+          "speed": 101.15368019241511,
+          "impact": false,
+          "collision": false,
+          "proposed": {
+            "x": 7.453598308725913,
+            "y": 25.29077585266511,
+            "z": 173.93024395829195
+          },
+          "proposedVelocity": {
+            "x": -0.25221597604957424,
+            "y": 1.8348672026926087,
+            "z": 101.13672263781986
+          },
+          "center": 7.29077585266511,
+          "solid": {
+            "x": 7.4535983087259154,
+            "y": 18,
+            "z": 173.93024395829195
+          }
+        }
+      ]
+    },
+    "before": {
+      "summary": {
+        "lastGlideSpeedMps": 72.49458147263161,
+        "firstDetachStep": 369,
+        "freeFlightStep": 399,
+        "firstShieldStep": 452,
+        "firstChallengeContactOnRecordedPath": null,
+        "minimumPostLBProposedCentreDistanceM": 3.2466461033625835,
+        "endSpeedMps": 69.18621385373038
+      },
+      "maximumMatchedBrowserPositionErrorM": 2.864289338439558e-14,
+      "samples": [
+        {
+          "tick": 368,
+          "phase": "GLIDING",
+          "p": {
+            "x": 11.46171311423148,
+            "y": 22.166308643955876,
+            "z": 22.343286117417446
+          },
+          "v": {
+            "x": 3.140453320050095,
+            "y": -1.8848133163238376,
+            "z": 72.40199841578419
+          },
+          "att": {
+            "pitch": -0.01602938837516033,
+            "yaw": -3.096150956677853,
+            "roll": 0.20816358545534952
+          },
+          "speed": 72.49458147263161,
+          "impact": false,
+          "collision": false,
+          "proposed": {
+            "x": 11.46171311423148,
+            "y": 22.166308643955876,
+            "z": 22.343286117417446
+          },
+          "proposedVelocity": {
+            "x": 3.140453320050095,
+            "y": -1.8848133163238376,
+            "z": 72.40199841578419
+          },
+          "center": 5.996948215097314,
+          "solid": {
+            "x": 10.267345692363172,
+            "y": 16.294824836605738,
+            "z": 22.093181626926718
+          },
+          "normal": {
+            "x": 0.19916253718207677,
+            "y": 0.9790786241189615,
+            "z": 0.04170529434639624
+          },
+          "tangent": {
+            "x": 0.038387565687536616,
+            "y": -0.050319805882286774,
+            "z": 0.9979951462489958
+          }
+        },
+        {
+          "tick": 369,
+          "phase": "DETACHING",
+          "p": {
+            "x": 11.49038596646369,
+            "y": 22.156581108371423,
+            "z": 22.94941265098433
+          },
+          "v": {
+            "x": 3.440742267865011,
+            "y": -1.1673042701342005,
+            "z": 72.735184028026
+          },
+          "att": {
+            "pitch": -0.01602938837516033,
+            "yaw": -3.0943228318961706,
+            "roll": 0.19707897247655123
+          },
+          "speed": 72.82587659756493,
+          "impact": false,
+          "collision": false,
+          "proposed": {
+            "x": 11.49038596646369,
+            "y": 22.156581108371423,
+            "z": 22.94941265098433
+          },
+          "proposedVelocity": {
+            "x": 3.440742267865011,
+            "y": -1.1673042701342005,
+            "z": 72.735184028026
+          },
+          "center": 5.9605345471845865,
+          "solid": {
+            "x": 10.285869225544792,
+            "y": 16.319432619799002,
+            "z": 23.0187598310552
+          },
+          "normal": {
+            "x": 0.19916253718207677,
+            "y": 0.9790786241189615,
+            "z": 0.04170529434639624
+          }
+        },
+        {
+          "tick": 399,
+          "phase": "FLIGHT",
+          "p": {
+            "x": 12.676151488709754,
+            "y": 21.846446041424283,
+            "z": 42.25907359371938
+          },
+          "v": {
+            "x": 5.253473372268548,
+            "y": -1.3017544885527907,
+            "z": 81.03341943530451
+          },
+          "att": {
+            "pitch": -0.016029388375160374,
+            "yaw": -3.0768523068584295,
+            "roll": 0
+          },
+          "speed": 81.21396808800552,
+          "impact": false,
+          "collision": false,
+          "proposed": {
+            "x": 12.676151488709754,
+            "y": 21.846446041424283,
+            "z": 42.25907359371938
+          },
+          "proposedVelocity": {
+            "x": 5.253473372268548,
+            "y": -1.3017544885527907,
+            "z": 81.03341943530451
+          },
+          "center": 5.275519151154437,
+          "solid": {
+            "x": 12.049008944803777,
+            "y": 16.642253074294093,
+            "z": 42.854195517944184
+          }
+        },
+        {
+          "tick": 451,
+          "phase": "FLIGHT",
+          "p": {
+            "x": 15.097423975823165,
+            "y": 21.246480627161944,
+            "z": 79.60655308245599
+          },
+          "v": {
+            "x": 5.8521036453791515,
+            "y": -1.4500886647796563,
+            "z": 90.26713103336961
+          },
+          "att": {
+            "pitch": -0.016029388375160193,
+            "roll": 0,
+            "yaw": -3.0768523068584295
+          },
+          "speed": 90.4682531013366,
+          "impact": false,
+          "collision": false,
+          "proposed": {
+            "x": 15.097423975823165,
+            "y": 21.246480627161944,
+            "z": 79.60655308245599
+          },
+          "proposedVelocity": {
+            "x": 5.8521036453791515,
+            "y": -1.4500886647796563,
+            "z": 90.26713103336961
+          },
+          "center": 3.2600966820946957,
+          "solid": {
+            "x": 15.095300151189281,
+            "y": 17.986384671279716,
+            "z": 79.60607935879406
+          }
+        },
+        {
+          "tick": 452,
+          "phase": "FLIGHT",
+          "p": {
+            "x": 15.096363986649411,
+            "y": 21.31720914129481,
+            "z": 79.58998053716033
+          },
+          "v": {
+            "x": 3.144862310157796,
+            "y": 20.115059985180675,
+            "z": 48.44268475709875
+          },
+          "att": {
+            "pitch": 0.39282574309893115,
+            "yaw": -3.0767643838798793,
+            "roll": 0
+          },
+          "speed": 52.5471169868806,
+          "impact": true,
+          "collision": false,
+          "proposed": {
+            "x": 15.146261704588063,
+            "y": 21.234379160546347,
+            "z": 80.35986196571102
+          },
+          "proposedVelocity": {
+            "x": 5.860527451787803,
+            "y": -1.4521759938714995,
+            "z": 90.39706599060331
+          },
+          "center": 3.2466461033625835,
+          "solid": {
+            "x": 15.146261704588063,
+            "y": 17.987749241321723,
+            "z": 80.37011321319416
+          }
+        },
+        {
+          "tick": 453,
+          "phase": "FLIGHT",
+          "p": {
+            "x": 15.122832564099436,
+            "y": 21.486506544685085,
+            "z": 79.99769598760753
+          },
+          "v": {
+            "x": 3.1762292940029955,
+            "y": 20.315688406832862,
+            "z": 48.92585405366418
+          },
+          "att": {
+            "pitch": 0.39282574309893115,
+            "roll": 0,
+            "yaw": -3.0767643838798793
+          },
+          "speed": 53.071224056470136,
+          "impact": false,
+          "collision": false,
+          "proposed": {
+            "x": 15.122832564099436,
+            "y": 21.486506544685085,
+            "z": 79.99769598760753
+          },
+          "proposedVelocity": {
+            "x": 3.1762292940029955,
+            "y": 20.315688406832862,
+            "z": 48.92585405366418
+          },
+          "center": 3.499915765559685,
+          "solid": {
+            "x": 15.122832564099438,
+            "y": 17.98660822578198,
+            "z": 80.0087469311168
+          }
+        },
+        {
+          "tick": 491,
+          "phase": "FLIGHT",
+          "p": {
+            "x": 16.296202482727498,
+            "y": 28.99157480213313,
+            "z": 98.07199732918514
+          },
+          "v": {
+            "x": 4.140686089123348,
+            "y": 26.48451373959842,
+            "z": 63.78210907537063
+          },
+          "att": {
+            "pitch": 0.39282574309893115,
+            "roll": 0,
+            "yaw": -3.0767643838798793
+          },
+          "speed": 69.18621385373038,
+          "impact": false,
+          "collision": false,
+          "proposed": {
+            "x": 16.296202482727498,
+            "y": 28.99157480213313,
+            "z": 98.07199732918514
+          },
+          "proposedVelocity": {
+            "x": 4.140686089123348,
+            "y": 26.48451373959842,
+            "z": 63.78210907537063
+          },
+          "center": 10.99157480213313,
+          "solid": {
+            "x": 16.296202482727494,
+            "y": 18,
+            "z": 98.07199732918514
+          }
+        }
+      ]
+    },
+    "qualified": {
+      "summary": {
+        "lastGlideSpeedMps": 72.49458147263161,
+        "firstDetachStep": 369,
+        "freeFlightStep": 399,
+        "firstShieldStep": null,
+        "firstChallengeContactOnRecordedPath": null,
+        "minimumPostLBProposedCentreDistanceM": 5.695846231103519,
+        "endSpeedMps": 94.44879007976171
+      },
+      "maximumMatchedBrowserPositionErrorM": 4.973799150320701e-14,
+      "samples": [
+        {
+          "tick": 368,
+          "phase": "GLIDING",
+          "p": {
+            "x": 11.46171311423148,
+            "y": 22.166308643955876,
+            "z": 22.343286117417446
+          },
+          "v": {
+            "x": 3.140453320050095,
+            "y": -1.8848133163238376,
+            "z": 72.40199841578419
+          },
+          "att": {
+            "pitch": -0.01602938837516033,
+            "yaw": -3.096150956677853,
+            "roll": 0.20816358545534952
+          },
+          "speed": 72.49458147263161,
+          "impact": false,
+          "collision": false,
+          "proposed": {
+            "x": 11.46171311423148,
+            "y": 22.166308643955876,
+            "z": 22.343286117417446
+          },
+          "proposedVelocity": {
+            "x": 3.140453320050095,
+            "y": -1.8848133163238376,
+            "z": 72.40199841578419
+          },
+          "center": 5.996948215097314,
+          "solid": {
+            "x": 10.267345692363172,
+            "y": 16.294824836605738,
+            "z": 22.093181626926718
+          },
+          "normal": {
+            "x": 0.19916253718207677,
+            "y": 0.9790786241189615,
+            "z": 0.04170529434639624
+          },
+          "tangent": {
+            "x": 0.038387565687536616,
+            "y": -0.050319805882286774,
+            "z": 0.9979951462489958
+          }
+        },
+        {
+          "tick": 369,
+          "phase": "DETACHING",
+          "p": {
+            "x": 11.489649730158916,
+            "y": 22.157971706299982,
+            "z": 22.947594603055293
+          },
+          "v": {
+            "x": 3.3523939112923618,
+            "y": -1.0004325187072527,
+            "z": 72.51701827654183
+          },
+          "att": {
+            "pitch": 0.008452736838289086,
+            "yaw": -3.0902174256776425,
+            "roll": 0.20241519777983574
+          },
+          "speed": 72.82587659756493,
+          "impact": false,
+          "collision": false,
+          "proposed": {
+            "x": 11.489649730158916,
+            "y": 22.157971706299982,
+            "z": 22.947594603055293
+          },
+          "proposedVelocity": {
+            "x": 3.3523939112923618,
+            "y": -1.0004325187072527,
+            "z": 72.51701827654183
+          },
+          "center": 5.96176894487731,
+          "solid": {
+            "x": 10.284609946118943,
+            "y": 16.319689726876852,
+            "z": 23.01852837306331
+          },
+          "normal": {
+            "x": 0.19916253718207677,
+            "y": 0.9790786241189615,
+            "z": 0.04170529434639624
+          },
+          "departureNormalSpeed": 6.096017302853353
+        },
+        {
+          "tick": 399,
+          "phase": "FLIGHT",
+          "p": {
+            "x": 12.83998301650671,
+            "y": 22.71474642149966,
+            "z": 42.21601074413605
+          },
+          "v": {
+            "x": 6.016725280895001,
+            "y": 2.5059189738874688,
+            "z": 80.86155955606274
+          },
+          "att": {
+            "pitch": 0.03089497018361109,
+            "yaw": -3.067321786605976,
+            "roll": 0
+          },
+          "speed": 81.12380924764393,
+          "impact": false,
+          "collision": false,
+          "proposed": {
+            "x": 12.83998301650671,
+            "y": 22.71474642149966,
+            "z": 42.21601074413605
+          },
+          "proposedVelocity": {
+            "x": 6.016725280895001,
+            "y": 2.5059189738874688,
+            "z": 80.86155955606274
+          },
+          "center": 6.156586332803965,
+          "solid": {
+            "x": 12.115123233128957,
+            "y": 16.635559552412627,
+            "z": 42.86533391362094
+          }
+        },
+        {
+          "tick": 451,
+          "phase": "FLIGHT",
+          "p": {
+            "x": 15.611396590003078,
+            "y": 23.869018477158612,
+            "z": 79.46232219520864
+          },
+          "v": {
+            "x": 6.695571045140453,
+            "y": 2.7886529199373995,
+            "z": 89.98488239900777
+          },
+          "att": {
+            "pitch": 0.03089497018361109,
+            "roll": 0,
+            "yaw": -3.067321786605976
+          },
+          "speed": 90.27672079274733,
+          "impact": false,
+          "collision": false,
+          "proposed": {
+            "x": 15.611396590003078,
+            "y": 23.869018477158612,
+            "z": 79.46232219520864
+          },
+          "proposedVelocity": {
+            "x": 6.695571045140453,
+            "y": 2.7886529199373995,
+            "z": 89.98488239900777
+          },
+          "center": 5.882947822675962,
+          "solid": {
+            "x": 15.607564081116365,
+            "y": 17.98607196495607,
+            "z": 79.4614673458415
+          }
+        },
+        {
+          "tick": 452,
+          "phase": "FLIGHT",
+          "p": {
+            "x": 15.667272620236595,
+            "y": 23.892290406291274,
+            "z": 80.21326606177185
+          },
+          "v": {
+            "x": 6.705123628022075,
+            "y": 2.7926314959193705,
+            "z": 90.1132639875854
+          },
+          "att": {
+            "pitch": 0.03089497018361109,
+            "roll": 0,
+            "yaw": -3.067321786605976
+          },
+          "speed": 90.40551874767003,
+          "impact": false,
+          "collision": false,
+          "proposed": {
+            "x": 15.667272620236595,
+            "y": 23.892290406291274,
+            "z": 80.21326606177185
+          },
+          "proposedVelocity": {
+            "x": 6.705123628022075,
+            "y": 2.7926314959193705,
+            "z": 90.1132639875854
+          },
+          "center": 5.905006974611042,
+          "solid": {
+            "x": 15.667272620236595,
+            "y": 17.987312867425455,
+            "z": 80.23191105292862
+          }
+        },
+        {
+          "tick": 453,
+          "phase": "FLIGHT",
+          "p": {
+            "x": 15.723227364791471,
+            "y": 23.915595119322518,
+            "z": 80.96526780658067
+          },
+          "v": {
+            "x": 6.714569346585152,
+            "y": 2.7965655637493207,
+            "z": 90.24020937705887
+          },
+          "att": {
+            "pitch": 0.03089497018361109,
+            "roll": 0,
+            "yaw": -3.067321786605976
+          },
+          "speed": 90.53287584561684,
+          "impact": false,
+          "collision": false,
+          "proposed": {
+            "x": 15.723227364791471,
+            "y": 23.915595119322518,
+            "z": 80.96526780658067
+          },
+          "proposedVelocity": {
+            "x": 6.714569346585152,
+            "y": 2.7965655637493207,
+            "z": 90.24020937705887
+          },
+          "center": 5.925937134668222,
+          "solid": {
+            "x": 15.723227364791468,
+            "y": 17.989687524733835,
+            "z": 80.98397888447552
+          }
+        },
+        {
+          "tick": 491,
+          "phase": "FLIGHT",
+          "p": {
+            "x": 17.8999671525464,
+            "y": 24.822190198986757,
+            "z": 110.21948264409349
+          },
+          "v": {
+            "x": 7.005001716427058,
+            "y": 2.917528371961444,
+            "z": 94.14346459889049
+          },
+          "att": {
+            "pitch": 0.03089497018361109,
+            "roll": 0,
+            "yaw": -3.067321786605976
+          },
+          "speed": 94.44879007976171,
+          "impact": false,
+          "collision": false,
+          "proposed": {
+            "x": 17.8999671525464,
+            "y": 24.822190198986757,
+            "z": 110.21948264409349
+          },
+          "proposedVelocity": {
+            "x": 7.005001716427058,
+            "y": 2.917528371961444,
+            "z": 94.14346459889049
+          },
+          "center": 6.822190198986757,
+          "solid": {
+            "x": 17.8999671525464,
+            "y": 18,
+            "z": 110.21948264409349
+          }
+        }
+      ]
+    }
+  },
+  "developmentBoostRows": [
+    {
+      "fixture": "8131-cruise",
+      "boost": true,
+      "releaseInterval": 24,
+      "before": {
+        "lastGlideSpeedMps": 84.73148826004159,
+        "firstDetachStep": 185,
+        "freeFlightStep": 215,
+        "firstShieldStep": null,
+        "firstChallengeContactOnRecordedPath": null,
+        "minimumPostLBProposedCentreDistanceM": 4.51357634964726,
+        "endSpeedMps": 97.84220155750664
+      },
+      "corrected": {
+        "lastGlideSpeedMps": 84.73148826004159,
+        "firstDetachStep": 185,
+        "freeFlightStep": 215,
+        "firstShieldStep": null,
+        "firstChallengeContactOnRecordedPath": null,
+        "minimumPostLBProposedCentreDistanceM": 4.51357634964726,
+        "endSpeedMps": 97.84220155750664
+      },
+      "selectedMinimumOutwardMps": null,
+      "firstReleaseTickSweeps": 123
+    },
+    {
+      "fixture": "8131-cruise",
+      "boost": true,
+      "releaseInterval": 32,
+      "before": {
+        "lastGlideSpeedMps": 76.23003948407114,
+        "firstDetachStep": 246,
+        "freeFlightStep": 276,
+        "firstShieldStep": null,
+        "firstChallengeContactOnRecordedPath": null,
+        "minimumPostLBProposedCentreDistanceM": 6.1154095445661225,
+        "endSpeedMps": 95.51279876343061
+      },
+      "corrected": {
+        "lastGlideSpeedMps": 76.23003948407114,
+        "firstDetachStep": 246,
+        "freeFlightStep": 276,
+        "firstShieldStep": null,
+        "firstChallengeContactOnRecordedPath": null,
+        "minimumPostLBProposedCentreDistanceM": 6.1154095445661225,
+        "endSpeedMps": 95.51279876343061
+      },
+      "selectedMinimumOutwardMps": null,
+      "firstReleaseTickSweeps": 114
+    },
+    {
+      "fixture": "8131-cruise",
+      "boost": true,
+      "releaseInterval": 40,
+      "before": {
+        "lastGlideSpeedMps": 67.90289348234465,
+        "firstDetachStep": 308,
+        "freeFlightStep": 338,
+        "firstShieldStep": 386,
+        "firstChallengeContactOnRecordedPath": null,
+        "minimumPostLBProposedCentreDistanceM": 3.2558197823084987,
+        "endSpeedMps": 70.07823750987703
+      },
+      "corrected": {
+        "lastGlideSpeedMps": 67.90289348234465,
+        "firstDetachStep": 308,
+        "freeFlightStep": 338,
+        "firstShieldStep": null,
+        "firstChallengeContactOnRecordedPath": null,
+        "minimumPostLBProposedCentreDistanceM": 4.084553340721721,
+        "endSpeedMps": 93.54840735403353
+      },
+      "selectedMinimumOutwardMps": 13.198014545223895,
+      "firstReleaseTickSweeps": 184
+    },
+    {
+      "fixture": "8131-cruise",
+      "boost": true,
+      "releaseInterval": 48,
+      "before": {
+        "lastGlideSpeedMps": 78.98481346269959,
+        "firstDetachStep": 369,
+        "freeFlightStep": 399,
+        "firstShieldStep": 408,
+        "firstChallengeContactOnRecordedPath": null,
+        "minimumPostLBProposedCentreDistanceM": 3.2527708617178237,
+        "endSpeedMps": 79.70872707004409
+      },
+      "corrected": {
+        "lastGlideSpeedMps": 78.98481346269959,
+        "firstDetachStep": 369,
+        "freeFlightStep": 399,
+        "firstShieldStep": null,
+        "firstChallengeContactOnRecordedPath": null,
+        "minimumPostLBProposedCentreDistanceM": 4.656366706468187,
+        "endSpeedMps": 96.14816677328632
+      },
+      "selectedMinimumOutwardMps": 4.950837260812319,
+      "firstReleaseTickSweeps": 155
+    },
+    {
+      "fixture": "8131-cruise",
+      "boost": true,
+      "releaseInterval": 56,
+      "before": {
+        "lastGlideSpeedMps": 72.5370618778506,
+        "firstDetachStep": 431,
+        "freeFlightStep": 461,
+        "firstShieldStep": null,
+        "firstChallengeContactOnRecordedPath": null,
+        "minimumPostLBProposedCentreDistanceM": 4.886203692743113,
+        "endSpeedMps": 94.5563405177789
+      },
+      "corrected": {
+        "lastGlideSpeedMps": 72.5370618778506,
+        "firstDetachStep": 431,
+        "freeFlightStep": 461,
+        "firstShieldStep": null,
+        "firstChallengeContactOnRecordedPath": null,
+        "minimumPostLBProposedCentreDistanceM": 4.886203692743113,
+        "endSpeedMps": 94.5563405177789
+      },
+      "selectedMinimumOutwardMps": null,
+      "firstReleaseTickSweeps": 110
+    },
+    {
+      "fixture": "8132-boost",
+      "boost": true,
+      "releaseInterval": 24,
+      "before": {
+        "lastGlideSpeedMps": 83.62164335876183,
+        "firstDetachStep": 185,
+        "freeFlightStep": 215,
+        "firstShieldStep": null,
+        "firstChallengeContactOnRecordedPath": null,
+        "minimumPostLBProposedCentreDistanceM": 5.1970317855183605,
+        "endSpeedMps": 97.40567443974054
+      },
+      "corrected": {
+        "lastGlideSpeedMps": 83.62164335876183,
+        "firstDetachStep": 185,
+        "freeFlightStep": 215,
+        "firstShieldStep": null,
+        "firstChallengeContactOnRecordedPath": null,
+        "minimumPostLBProposedCentreDistanceM": 5.1970317855183605,
+        "endSpeedMps": 97.40567443974054
+      },
+      "selectedMinimumOutwardMps": null,
+      "firstReleaseTickSweeps": 122
+    },
+    {
+      "fixture": "8132-boost",
+      "boost": true,
+      "releaseInterval": 32,
+      "before": {
+        "lastGlideSpeedMps": 74.14943733257057,
+        "firstDetachStep": 246,
+        "freeFlightStep": 276,
+        "firstShieldStep": null,
+        "firstChallengeContactOnRecordedPath": null,
+        "minimumPostLBProposedCentreDistanceM": 6.042899355448755,
+        "endSpeedMps": 94.92767829860952
+      },
+      "corrected": {
+        "lastGlideSpeedMps": 74.14943733257057,
+        "firstDetachStep": 246,
+        "freeFlightStep": 276,
+        "firstShieldStep": null,
+        "firstChallengeContactOnRecordedPath": null,
+        "minimumPostLBProposedCentreDistanceM": 6.042899355448755,
+        "endSpeedMps": 94.92767829860952
+      },
+      "selectedMinimumOutwardMps": null,
+      "firstReleaseTickSweeps": 114
+    },
+    {
+      "fixture": "8132-boost",
+      "boost": true,
+      "releaseInterval": 40,
+      "before": {
+        "lastGlideSpeedMps": 52.12796862367916,
+        "firstDetachStep": 308,
+        "freeFlightStep": 338,
+        "firstShieldStep": null,
+        "firstChallengeContactOnRecordedPath": null,
+        "minimumPostLBProposedCentreDistanceM": 6.164856335064555,
+        "endSpeedMps": 89.40265998502677
+      },
+      "corrected": {
+        "lastGlideSpeedMps": 52.12796862367916,
+        "firstDetachStep": 308,
+        "freeFlightStep": 338,
+        "firstShieldStep": null,
+        "firstChallengeContactOnRecordedPath": null,
+        "minimumPostLBProposedCentreDistanceM": 6.164856335064555,
+        "endSpeedMps": 89.40265998502677
+      },
+      "selectedMinimumOutwardMps": null,
+      "firstReleaseTickSweeps": 91
+    },
+    {
+      "fixture": "8132-boost",
+      "boost": true,
+      "releaseInterval": 48,
+      "before": {
+        "lastGlideSpeedMps": 70.64357084604411,
+        "firstDetachStep": 369,
+        "freeFlightStep": 399,
+        "firstShieldStep": null,
+        "firstChallengeContactOnRecordedPath": null,
+        "minimumPostLBProposedCentreDistanceM": 5.996187848407721,
+        "endSpeedMps": 93.85711110977752
+      },
+      "corrected": {
+        "lastGlideSpeedMps": 70.64357084604411,
+        "firstDetachStep": 369,
+        "freeFlightStep": 399,
+        "firstShieldStep": null,
+        "firstChallengeContactOnRecordedPath": null,
+        "minimumPostLBProposedCentreDistanceM": 5.996187848407721,
+        "endSpeedMps": 93.85711110977752
+      },
+      "selectedMinimumOutwardMps": null,
+      "firstReleaseTickSweeps": 112
+    },
+    {
+      "fixture": "8132-boost",
+      "boost": true,
+      "releaseInterval": 56,
+      "before": {
+        "lastGlideSpeedMps": 68.39027231657282,
+        "firstDetachStep": 431,
+        "freeFlightStep": 461,
+        "firstShieldStep": null,
+        "firstChallengeContactOnRecordedPath": null,
+        "minimumPostLBProposedCentreDistanceM": 3.4455695605234986,
+        "endSpeedMps": 93.57386224892147
+      },
+      "corrected": {
+        "lastGlideSpeedMps": 68.39027231657282,
+        "firstDetachStep": 431,
+        "freeFlightStep": 461,
+        "firstShieldStep": null,
+        "firstChallengeContactOnRecordedPath": null,
+        "minimumPostLBProposedCentreDistanceM": 5.611061407433828,
+        "endSpeedMps": 93.19444442755393
+      },
+      "selectedMinimumOutwardMps": 5.267980218434214,
+      "firstReleaseTickSweeps": 215
+    },
+    {
+      "fixture": "95603-cruise",
+      "boost": true,
+      "releaseInterval": 24,
+      "before": {
+        "lastGlideSpeedMps": 86.5244451181621,
+        "firstDetachStep": 185,
+        "freeFlightStep": 215,
+        "firstShieldStep": null,
+        "firstChallengeContactOnRecordedPath": null,
+        "minimumPostLBProposedCentreDistanceM": 4.223916469003811,
+        "endSpeedMps": 98.30676332128787
+      },
+      "corrected": {
+        "lastGlideSpeedMps": 86.5244451181621,
+        "firstDetachStep": 185,
+        "freeFlightStep": 215,
+        "firstShieldStep": null,
+        "firstChallengeContactOnRecordedPath": null,
+        "minimumPostLBProposedCentreDistanceM": 4.223916469003811,
+        "endSpeedMps": 98.30676332128787
+      },
+      "selectedMinimumOutwardMps": null,
+      "firstReleaseTickSweeps": 125
+    },
+    {
+      "fixture": "95603-cruise",
+      "boost": true,
+      "releaseInterval": 32,
+      "before": {
+        "lastGlideSpeedMps": 75.23298630570397,
+        "firstDetachStep": 246,
+        "freeFlightStep": 276,
+        "firstShieldStep": null,
+        "firstChallengeContactOnRecordedPath": null,
+        "minimumPostLBProposedCentreDistanceM": 6.1019075842540555,
+        "endSpeedMps": 95.2346764181902
+      },
+      "corrected": {
+        "lastGlideSpeedMps": 75.23298630570397,
+        "firstDetachStep": 246,
+        "freeFlightStep": 276,
+        "firstShieldStep": null,
+        "firstChallengeContactOnRecordedPath": null,
+        "minimumPostLBProposedCentreDistanceM": 6.1019075842540555,
+        "endSpeedMps": 95.2346764181902
+      },
+      "selectedMinimumOutwardMps": null,
+      "firstReleaseTickSweeps": 113
+    },
+    {
+      "fixture": "95603-cruise",
+      "boost": true,
+      "releaseInterval": 40,
+      "before": {
+        "lastGlideSpeedMps": 51.91059048860456,
+        "firstDetachStep": 308,
+        "freeFlightStep": 338,
+        "firstShieldStep": null,
+        "firstChallengeContactOnRecordedPath": null,
+        "minimumPostLBProposedCentreDistanceM": 4.090281870704945,
+        "endSpeedMps": 89.5842466606781
+      },
+      "corrected": {
+        "lastGlideSpeedMps": 51.91059048860456,
+        "firstDetachStep": 308,
+        "freeFlightStep": 338,
+        "firstShieldStep": null,
+        "firstChallengeContactOnRecordedPath": null,
+        "minimumPostLBProposedCentreDistanceM": 4.090281870704945,
+        "endSpeedMps": 89.5842466606781
+      },
+      "selectedMinimumOutwardMps": null,
+      "firstReleaseTickSweeps": 87
+    },
+    {
+      "fixture": "95603-cruise",
+      "boost": true,
+      "releaseInterval": 48,
+      "before": {
+        "lastGlideSpeedMps": 70.70613752824411,
+        "firstDetachStep": 369,
+        "freeFlightStep": 399,
+        "firstShieldStep": 425,
+        "firstChallengeContactOnRecordedPath": 425,
+        "minimumPostLBProposedCentreDistanceM": 3.194462348271543,
+        "endSpeedMps": 75.40074332289657
+      },
+      "corrected": {
+        "lastGlideSpeedMps": 70.70613752824411,
+        "firstDetachStep": 369,
+        "freeFlightStep": 399,
+        "firstShieldStep": null,
+        "firstChallengeContactOnRecordedPath": null,
+        "minimumPostLBProposedCentreDistanceM": 4.622181954701008,
+        "endSpeedMps": 94.14918665358053
+      },
+      "selectedMinimumOutwardMps": 3.7431229672620674,
+      "firstReleaseTickSweeps": 162
+    },
+    {
+      "fixture": "95603-cruise",
+      "boost": true,
+      "releaseInterval": 56,
+      "before": {
+        "lastGlideSpeedMps": 64.6956943975011,
+        "firstDetachStep": 431,
+        "freeFlightStep": 461,
+        "firstShieldStep": null,
+        "firstChallengeContactOnRecordedPath": null,
+        "minimumPostLBProposedCentreDistanceM": 4.099756251053471,
+        "endSpeedMps": 92.62166206697887
+      },
+      "corrected": {
+        "lastGlideSpeedMps": 64.6956943975011,
+        "firstDetachStep": 431,
+        "freeFlightStep": 461,
+        "firstShieldStep": null,
+        "firstChallengeContactOnRecordedPath": null,
+        "minimumPostLBProposedCentreDistanceM": 4.099756251053471,
+        "endSpeedMps": 92.62166206697887
+      },
+      "selectedMinimumOutwardMps": null,
+      "firstReleaseTickSweeps": 101
+    }
+  ]
+}

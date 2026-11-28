@@ -47,7 +47,11 @@ export interface WorldStats {
 }
 
 export interface SurfaceQuery {
-  contact?: { normal: Vec3; velocity: Vec3; localPoint: Vec3; triangle: number; geometryId: string };
+  contact?: {
+    normal: Vec3; velocity: Vec3; localPoint: Vec3; triangle: number; geometryId: string;
+    /** Optional world-scoped identity shared by collision patches of one logical surface. */
+    logicalSurfaceId?: string;
+  };
   distance: number;
   point: Vec3;
   chunkId: string;
