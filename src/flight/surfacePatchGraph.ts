@@ -71,6 +71,7 @@ export interface PatchGuidance {
 // just one branch. At an edge retain alternatives for both steering signs.
 const stations = 5, beamWidth = 3;
 const following = glideTuning.followingAcceleration, braking = 90;
+const footprintTolerance = 0.10;
 
 function sweptEdge(ctx: GlideContext, from: Vector3, to: Vector3, begin: number, end: number) {
   if (clearChord(ctx, from, to, begin, end, following)) return true;
@@ -120,8 +121,13 @@ export function planSurfacePatches(flight: FlightState, rootHit: Contact, tangen
     const height = clearance + (rootHit.distance - clearance) * Math.exp(-3.5 * seconds);
     const probe = foot.clone().addScaledVector(parent.normal, height);
     let hit = query(probe, 11, seconds);
+    // A cruising-height probe can land on the shared edge of two faces at a
+    // convex ridge. Check its footprint close to the deck before deciding
+    // whether there is finite support ahead.
     if (!hit?.contact || vec(hit.contact.normal).dot(parent.normal) < 0.70 ||
-        Math.abs(hit.distance - height) > 1.2 || hit.surfaceId !== parent.hit.surfaceId) {
+        Math.abs(hit.distance - height) > 1.2 || hit.surfaceId !== parent.hit.surfaceId ||
+        probe.clone().sub(hit.point).addScaledVector(hit.contact.velocity, -seconds)
+          .projectOnPlane(vec(hit.contact.normal)).lengthSq() > footprintTolerance ** 2) {
       probe.copy(foot).addScaledVector(parent.normal, 0.35);
       hit = query(probe, Math.max(3.2, spacing * 0.65), seconds);
     }
@@ -138,7 +144,7 @@ export function planSurfacePatches(flight: FlightState, rootHit: Contact, tangen
     const overhang = residual.length();
     const alignment = normal.dot(parent.normal);
     const sideways = Math.abs(residual.dot(heading.clone().cross(normal)));
-    if (sideways > 0.10 && sideways > Math.abs(residual.dot(heading)) && alignment > 0.999999) {
+    if (sideways > footprintTolerance && sideways > Math.abs(residual.dot(heading)) && alignment > 0.999999) {
       lateralEdge = true;
       return;
     }
