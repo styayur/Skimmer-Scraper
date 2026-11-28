@@ -1,0 +1,66 @@
+name: Hosted composer storage and pixel comparison
+on:
+  push:
+    branches: [codex/composer-target-evidence]
+    paths:
+      - .github/workflows/composer-target-evidence.yml
+      - acceptance/composer-screen/*.mjs
+      - acceptance/composer-screen/*.py
+      - acceptance/composer-screen/index.html
+      - acceptance/composer-screen/plan.json
+permissions:
+  contents: read
+jobs:
+  compare:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 24
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ac943acd6a2c6d21431aa138327bc3e64ed8552f
+          path: base
+          persist-credentials: false
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: b84ab55ef543e40f9c345445cb3b8d85089d2b40
+          path: candidate
+          fetch-depth: 2
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '24.22.3'
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.13'
+      - name: Verify candidate scope and install locked dependencies
+        run: |
+          mkdir -p output sites
+          test "$(git -C candidate rev-parse HEAD^)" = "$(git -C base rev-parse HEAD)"
+          test "$(git -C candidate diff --name-only HEAD^ HEAD)" = src/render/GameRenderer.ts
+          cmp base/package-lock.json candidate/package-lock.json
+          npm --prefix base ci --no-fund --no-audit
+          ln -s "$GITHUB_WORKSPACE/base/node_modules" candidate/node_modules
+          python -m pip install playwright==1.63.0 Pillow==11.3.0
+          python -m playwright install --with-deps chromium
+      - name: Build both clean production games and their paired renderer fixtures
+        run: |
+          for tree in base candidate; do
+            (cd "$tree" && npm run build)
+            mkdir "$tree/.probe"
+            cp acceptance/composer-screen/{fixture.mjs,targets.mjs,index.html,vite.config.mjs} "$tree/.probe/"
+            (cd "$tree" && ./node_modules/.bin/vite build .probe --config .probe/vite.config.mjs --outDir "$GITHUB_WORKSPACE/sites/$tree")
+          done
+          python -B acceptance/composer-screen/provenance.py
+      - name: Compare baseline, repeated baseline and candidate on one SwiftShader renderer
+        run: python -Bu acceptance/composer-screen/measure.py
+      - name: Retain observations, failures and lossless canvases
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: composer-storage-${{ github.run_id }}-${{ github.run_attempt }}
+          path: output/
+          retention-days: 30
+          if-no-files-found: warn

@@ -1,0 +1,28 @@
+{
+  "base": "ac943acd6a2c6d21431aa138327bc3e64ed8552f",
+  "candidate": "b84ab55ef543e40f9c345445cb3b8d85089d2b40",
+  "three": "0.187.0",
+  "threeGit": "7e89746a687bb88271253698fa108b1dd59825d0",
+  "mathRandomSeed": 191147,
+  "sceneSeed": 334458,
+  "devicePixelRatio": 2,
+  "pixelGate": "Exact RGBA8 on every paired canvas. Report all mismatch counts, maxima, means and >1 LSB counts even on failure.",
+  "storageGate": "Both starts have zero native composer targets and one after the first screen frame of each size epoch. From the second, stock has two and candidate one. Count distinct native FBOs, queried attachment bits, observed GL storage and retired handles. Both offscreen controls must swap and write the other target.",
+  "steps": [
+    {"name":"first","mode":"title"},
+    {"name":"second","mode":"title"},
+    {"name":"third","mode":"title"},
+    {"name":"flight","mode":"flight","snap":true},
+    {"name":"resize-first","mode":"flight","resize":[384,216]},
+    {"name":"resize-second","mode":"flight"},
+    {"name":"resize-third","mode":"flight"},
+    {"name":"high-first","mode":"flight","quality":"high"},
+    {"name":"high-second","mode":"flight"},
+    {"name":"high-third","mode":"flight"},
+    {"name":"balanced-first","mode":"flight","quality":"balanced"},
+    {"name":"balanced-second","mode":"flight"},
+    {"name":"offscreen","mode":"flight","control":"offscreen"},
+    {"name":"appended-copy","mode":"flight","control":"appended"},
+    {"name":"screen-return","mode":"flight"}
+  ]
+}
