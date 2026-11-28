@@ -1,6 +1,7 @@
 import { expect, test } from '@playwright/test';
 import { writeFile } from 'node:fs/promises';
 import { boundarySocket, junctionRow, kineticLayout, KINETIC_WORLD_ID } from '../../src/world/kinetic/recipe';
+import { dragonspineFloor, valleyAxis } from '../../src/world/dragonspineTerrain';
 
 test('selects Kinetic City, flies a shared opening, evicts and restores the district, then inverts', async ({page}, info) => {
   test.setTimeout(150_000);
@@ -74,4 +75,21 @@ test('selects Kinetic City, flies a shared opening, evicts and restores the dist
     streaming:swapped.streaming,
   },null,2)+'\n');
   await info.attach('kinetic-streaming', {contentType:'application/json', path:report});
+});
+
+test('flies past the revision-2 stone span in the Dragonspine variant', async ({ page }, info) => {
+  test.setTimeout(100_000);
+  const seed = 334458, z = -90, x = valleyAxis(z,seed,0);
+  const banks = (dragonspineFloor(x-110,z,seed) + dragonspineFloor(x+110,z,seed))/2-1;
+  await page.goto('/?theme=dragonspine&spans=1&seed='+seed+'&autostart=1');
+  await page.waitForFunction(() => window.__SKIMMER_SCRAPER__?.snapshot().mode === 'running');
+  const contact = await page.evaluate(async p => {
+    const game = window.__SKIMMER_SCRAPER__!;
+    game.pause();
+    await game.setPose({x:p.x+10,y:p.y+24,z:p.z+82},{yaw:0,pitch:-0.22,roll:0});
+    return game.glideSurface(p,8);
+  },{x,y:banks+6,z});
+  expect(contact?.contact?.logicalSurfaceId).toBe('canyon-span-1.'+seed+'.0.0');
+  await page.evaluate(async () => { await new Promise(requestAnimationFrame); await new Promise(requestAnimationFrame); });
+  await page.screenshot({path:info.outputPath('dragonspine-span.jpg'),quality:90});
 });

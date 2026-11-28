@@ -1,0 +1,73 @@
+{
+  "seed": 334458,
+  "portal": {
+    "x": 115,
+    "y": 84,
+    "z": 220
+  },
+  "first": {
+    "key": "0:0",
+    "state": "ACTIVE",
+    "revision": 0,
+    "fingerprint": 1854590936,
+    "layout": "junction"
+  },
+  "restored": {
+    "key": "0:0",
+    "state": "ACTIVE",
+    "revision": 0,
+    "fingerprint": 1854590936,
+    "layout": "junction"
+  },
+  "crossed": {
+    "x": 115,
+    "y": 93,
+    "z": 188.47652117507545
+  },
+  "inversion": {
+    "seed": 479568308,
+    "crossings": 1,
+    "release": {
+      "seed": 334458,
+      "bvhBefore": 17,
+      "bvhAfter": 0,
+      "dynamicBvhBefore": 0,
+      "dynamicBvhAfter": 0,
+      "rootChildrenAfter": 0,
+      "disposedGeometryCount": 501
+    }
+  },
+  "streaming": {
+    "stateCounts": {
+      "UNLOADED": 0,
+      "QUEUED": 18,
+      "GENERATING": 1,
+      "READY": 0,
+      "ACTIVE": 11,
+      "RETIRING": 0,
+      "DISPOSED": 0
+    },
+    "loadedChunks": 11,
+    "activeChunks": 11,
+    "queuedChunks": 18,
+    "generatingChunks": 1,
+    "generatedTotal": 17,
+    "retiredTotal": 6,
+    "disposedGeometryCount": 24,
+    "bvhCount": 11,
+    "dynamicBvhCount": 0,
+    "renderObjectCount": 29,
+    "estimatedCpuGeometryBytes": 4751424,
+    "generationAvgMs": 397.24705882633435,
+    "generationP95Ms": 2688.4000000059605,
+    "generationMinMs": 7.700000002980232,
+    "generationMaxMs": 2688.4000000059605,
+    "generationSampleCount": 17,
+    "synchronousBuildP95Ms": 282.40000000596046,
+    "workerBuildP95Ms": 2687.0999999940395,
+    "activationP95Ms": 2688.5,
+    "maxLoadedChunks": 41,
+    "coverageComplete": true,
+    "rebaseCount": 0
+  }
+}

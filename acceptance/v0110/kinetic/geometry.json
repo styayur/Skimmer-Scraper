@@ -1,0 +1,137 @@
+{
+  "catalog": "02d807f0ae74a011c45043d0fa0144260c5e36236c2d1695b912e839f9d9dabd",
+  "surfaceErrorMetres": [
+    {
+      "seed": 334458,
+      "id": "sky-arch",
+      "worst": 0.06785080998502854
+    },
+    {
+      "seed": 334458,
+      "id": "bowl",
+      "worst": 0.0654056612679586
+    },
+    {
+      "seed": 334458,
+      "id": "ribbon-bridge",
+      "worst": 0.08553544004979666
+    },
+    {
+      "seed": 334458,
+      "id": "tunnel",
+      "worst": 0.082161469664147
+    },
+    {
+      "seed": 334458,
+      "id": "s-curve",
+      "worst": 0.08029152560891273
+    },
+    {
+      "seed": 334458,
+      "id": "helix",
+      "worst": 0.07755609848780391
+    },
+    {
+      "seed": 17,
+      "id": "s-curve",
+      "worst": 0.08067852153880994
+    },
+    {
+      "seed": 17,
+      "id": "helix",
+      "worst": 0.07643538488969753
+    },
+    {
+      "seed": 17,
+      "id": "sky-arch",
+      "worst": 0.06784894622327718
+    },
+    {
+      "seed": 17,
+      "id": "bowl",
+      "worst": 0.0635763883683025
+    },
+    {
+      "seed": 17,
+      "id": "ribbon-bridge",
+      "worst": 0.08818430081514253
+    },
+    {
+      "seed": 17,
+      "id": "tunnel",
+      "worst": 0.07548355937846891
+    },
+    {
+      "seed": 4294967295,
+      "id": "helix",
+      "worst": 0.07559406696548326
+    },
+    {
+      "seed": 4294967295,
+      "id": "sky-arch",
+      "worst": 0.062282940647424914
+    },
+    {
+      "seed": 4294967295,
+      "id": "bowl",
+      "worst": 0.06698819822050117
+    },
+    {
+      "seed": 4294967295,
+      "id": "ribbon-bridge",
+      "worst": 0.0890306351367837
+    },
+    {
+      "seed": 4294967295,
+      "id": "tunnel",
+      "worst": 0.09959947279028095
+    },
+    {
+      "seed": 4294967295,
+      "id": "s-curve",
+      "worst": 0.0682559700805548
+    }
+  ],
+  "visitOrder": [
+    {
+      "key": "chunk:-1:-5:r0",
+      "collisionSha256": "9baf9c843734a40a4156d4190392a12f9eeda2c00764cfbe2b26329fc421a061"
+    },
+    {
+      "key": "chunk:2:0:r0",
+      "collisionSha256": "2fabd961797069b2f9262a6a06f5021dd742ca4ba2ad1c82fd75db182ef8351f"
+    },
+    {
+      "key": "chunk:4:-1:r0",
+      "collisionSha256": "64fc254c7bfb666eaa6b0881f06458de594ff7d69e9f701cd7ea99ac8fa85ea1"
+    },
+    {
+      "key": "chunk:-4:3:r0",
+      "collisionSha256": "62eefbae93be634ba615e652c82ccbbd258978410d72a86a338b12926d95d496"
+    }
+  ],
+  "eviction": [
+    {
+      "mode": "stable",
+      "beforeRevision": 0,
+      "afterRevision": 0,
+      "beforeFingerprint": 2993391802,
+      "afterFingerprint": 2993391802,
+      "residentBvhs": 9,
+      "leasesChanged": true
+    },
+    {
+      "mode": "ephemeral",
+      "beforeRevision": 0,
+      "afterRevision": 2,
+      "beforeFingerprint": 2993391802,
+      "afterFingerprint": 3707175597,
+      "residentBvhs": 9,
+      "leasesChanged": true
+    }
+  ],
+  "dragonSeamHeights": [
+    -115.4484634399414,
+    -115.4484634399414
+  ]
+}
