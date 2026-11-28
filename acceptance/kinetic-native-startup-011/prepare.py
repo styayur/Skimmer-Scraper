@@ -47,9 +47,13 @@ def official_bytes(handoff, archive_path):
     assert installer_hash == digest(installer) == handoff["installerSha256"] == installed[installer.name.lower()]
     exe_hash = digest(executable)
     assert exe_hash == smoke["executableSha256"] == handoff["exeSha"] == installed[executable.name.lower()]
+    assert smoke["runtime"]["origin"] in ("http://tauri.localhost", "https://tauri.localhost")
+    assert smoke["flight"]["time"] > 0 and not smoke["errors"]
     return {"build": build, "nsis": {"name": installer.name, "sha256": installer_hash},
             "executable": {"name": executable.name, "sha256": exe_hash, "bytes": executable.stat().st_size},
-            "hostedInstalledSmoke": "acceptance/installed-smoke/desktop-smoke.json"}
+            "hostedInstalledSmoke": {"file": "acceptance/installed-smoke/desktop-smoke.json",
+                "origin": smoke["runtime"]["origin"], "renderer": smoke["runtime"]["renderer"],
+                "flight": smoke["flight"], "errors": smoke["errors"]}}
 
 
 def main():
@@ -85,9 +89,9 @@ def main():
         "tree": source["commit"]["tree"]["sha"], "verifiedSourceSignature": source["commit"]["verification"]["verified"],
         "workflow": run["html_url"], "artifactId": artifact["id"], "archiveSha256": handoff["artifactSha256"],
         "launchImage": ("supplied local installation of the revised official NSIS" if opts.installed_exe
-                        else "official NSIS payload from the release handoff, verified against the CI installation"),
+                        else "flight client extracted from the official NSIS and verified against the CI installation"),
         "method": "Official main Windows build. Local NSIS bytes match the installer member of the verified Actions ZIP. "
-                  "The launched NSIS payload matches the SHA-256 of that workflow's normally installed, smoke-tested exe.",
+                  "The staged flight client matches the SHA-256 of that workflow's normally installed, smoke-tested exe.",
     })
     opts.directory.mkdir(parents=True, exist_ok=False)
     def save(name, data):

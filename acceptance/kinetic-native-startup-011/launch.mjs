@@ -17,7 +17,7 @@ if (values.help) {
   console.log('node launch.mjs --inputs STAGED_DIR --output NEW_DIR --tool-root CHECKOUT_WITH_PLAYWRIGHT --slot-clearance "Parent clearance reference and UTC"');
   process.exit(0);
 }
-assert.equal(process.platform,'win32');
+if (!values['verify-only']) assert.equal(process.platform,'win32');
 assert(values.inputs && values['tool-root'], 'Supply the staged inputs and dependency checkout');
 assert(values['verify-only'] || (values.output && values['slot-clearance']?.trim()),
   'The native run requires staged inputs and the parent’s explicit exclusive desktop clearance');
@@ -156,17 +156,24 @@ try {
 } catch(error){
   report.failure={stage:report.stage,message:String(error.stack??error)};
 } finally {
-  if(client){
+  if(client?.pid){
+    let closeRequestError=null, forced=false;
     try {
       if(!exited()) await ps(['-Command','(Get-Process -Id '+client.pid+').CloseMainWindow()']);
-      const end=Date.now()+4500;
-      while(!exited() && Date.now()<end) await delay(40);
-      if(!exited()) {client.kill(); throw Error('Owned test client did not exit after its normal window close');}
-      report.shutdown={exitCode:client.exitCode,signal:client.signalCode,hostMs:clock(),utc:new Date().toISOString()};
-      assert(!expired && client.exitCode===0,'The bounded client did not exit normally');
-    } catch(error){report.exitFailure=String(error);}
+    } catch(error){closeRequestError=String(error);}
+    const end=Date.now()+4500;
+    while(!exited() && Date.now()<end) await delay(40);
+    if(!exited()){
+      forced=true;
+      try { client.kill(); } catch(error){report.exitFailure=String(error);}
+      const killedDeadline=Date.now()+1200;
+      while(!exited() && Date.now()<killedDeadline) await delay(40);
+    }
+    report.shutdown={closeRequestError,forced,observedExit:exited(),exitCode:client.exitCode,
+      signal:client.signalCode,hostMs:clock(),utc:new Date().toISOString()};
+    if(expired || forced || client.exitCode!==0) report.exitFailure??='The bounded client did not exit normally';
   }
-  clearTimeout(killswitch);
+  if(!client?.pid || exited()) clearTimeout(killswitch);
   await browser?.close().catch(()=>{});
   if(client && !report.failure){
     try{assert.equal(hash(await readFile(exe)),identity.executable.sha256);report.executedFileHashRechecked=true;}

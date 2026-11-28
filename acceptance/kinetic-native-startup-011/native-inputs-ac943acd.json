@@ -1,0 +1,43 @@
+{
+  "build": {
+    "version": "0.11.0",
+    "sourceCommit": "ac943acd6a2c6d21431aa138327bc3e64ed8552f",
+    "sourceCommitTime": "2026-11-28T09:13:19Z",
+    "dirty": false,
+    "sourceUrl": "https://github.com/styayur/Skimmer-Scraper/tree/ac943acd6a2c6d21431aa138327bc3e64ed8552f",
+    "toolchain": {
+      "node": "v24.22.3",
+      "platform": "win32",
+      "architecture": "x64"
+    }
+  },
+  "nsis": {
+    "name": "Skimmer-Scraper_0.11.0_x64-setup.exe",
+    "sha256": "1ef368e51b05d7d1660178a9efb9626b414f0fc33fcca2bbc82a33ff966f2602"
+  },
+  "executable": {
+    "name": "skimmer-scraper.exe",
+    "sha256": "c8af4c3ebdcbfc19ace15d21c8ea3d7d7bdd51f95bf41ca7f30c9b4e09523275",
+    "bytes": 18225664
+  },
+  "hostedInstalledSmoke": {
+    "file": "acceptance/installed-smoke/desktop-smoke.json",
+    "origin": "http://tauri.localhost",
+    "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+    "flight": {
+      "time": 2.099999999999995,
+      "speed": 66.09600711000381,
+      "companions": 3
+    },
+    "errors": []
+  },
+  "preparedUtc": "2026-11-28T09:28:53.837006+00:00",
+  "pr97Merge": "ac943acd6a2c6d21431aa138327bc3e64ed8552f",
+  "tree": "cb5158950278ead4c800c54dfee7dd360acff798",
+  "verifiedSourceSignature": true,
+  "workflow": "https://github.com/styayur/Skimmer-Scraper/actions/runs/46129495362",
+  "artifactId": 15256599925,
+  "archiveSha256": "2b96bb555c0a39e79219e6ccd7ec502f3cd4adf2f8d56c7f1897420f3660277f",
+  "launchImage": "flight client extracted from the official NSIS and verified against the CI installation",
+  "method": "Official main Windows build. Local NSIS bytes match the installer member of the verified Actions ZIP. The staged flight client matches the SHA-256 of that workflow's normally installed, smoke-tested exe."
+}
