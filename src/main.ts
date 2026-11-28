@@ -273,7 +273,8 @@ function recordImportedFlight(): void {
   if (!(activeWorld instanceof ImportedWorldAdapter) || !flightState || !playerDiagnostic.due(flightState.boosting)) return;
   playerDiagnostic.add({ time: runRules.elapsed, position: { ...flightState.position }, velocity: { ...flightState.velocity },
     speed: flightState.speed, phase: glide.phase, normal: glide.normal ? { ...glide.normal } : null,
-    clearance: lastSurfaceHit?.distance ?? null, impacts: shieldImpacts, mode: runRules.status,
+    clearance: lastSurfaceHit?.distance ?? null, impacts: shieldImpacts, mode,
+    ...(runRules.failureReason && { failureReason: runRules.failureReason }),
     deployed: companions.agents.filter(a => a.deployed && !a.uncovered).length });
 }
 const visualScaleFor = (level: VisualStimulation): number => level === 'reduced'

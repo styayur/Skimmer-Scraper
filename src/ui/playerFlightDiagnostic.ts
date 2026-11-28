@@ -13,6 +13,7 @@ interface Observation {
   clearance: number | null;
   impacts: number;
   mode: string;
+  failureReason?: string;
   deployed: number;
 }
 

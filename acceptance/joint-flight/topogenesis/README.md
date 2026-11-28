@@ -94,3 +94,7 @@ python scripts/run-topogenesis.py development ../V2W-r2 new-results/development 
 python scripts/run-topogenesis.py holdout ../V2W-r2 new-results/holdout --revision 2 --url http://127.0.0.1:43847 --controller 0a5272b36352a1300253080bd38cfb5d520c7e0d --entry-sha256 e5993c151442ba79878303908d507e016ea05a1908895891f1bab943583c15b9
 python -B scripts/compare-flight-controllers.py new-results --stock acceptance/joint-flight/topogenesis
 ```
+
+For a new controller, `python -B scripts/freeze-flight-build.py path/to/dist new-server-directory new-results --controller <clean-SHA>` compares the source and private copy file by file and writes the runtime identity. Serve new-server-directory and use the recorded entry digest with the replay commands.
+
+After the second holdout is revealed, pass `second-holdout`, `--sealed-cases path/to/reveal.json` and `--revision 2` to run-topogenesis.py. Save the stock runs in new-results/second-holdout-stock and the revised runs in new-results/second-holdout. Pass the same `--sealed-cases` to compare-flight-controllers.py for the independent denominator. Both commands verify the published commitment before using the inputs.
