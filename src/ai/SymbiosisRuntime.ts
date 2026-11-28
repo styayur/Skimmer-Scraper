@@ -496,12 +496,14 @@ export class SymbiosisRuntime {
     const picture = this.perception();
     if (!picture) return;
     const registry = this.pictures.get(picture.requestId)!.registry, live = this.missionContext();
+    if (!picture.targets.some(target => registry.site(target.id)?.authored)) return;
     const assignments: Parameters<MissionExecutive['start']>[0] = [];
     for (const [agent, type, capability] of [[1, 'FIND_GLIDE_ROUTE', 'glide'], [2, 'FIND_ESCAPE', 'release'],
       [3, 'SCOUT_BRANCH', 'scout']] as const) {
       if (!picture.agents.some(a => a.id === agent && a.deployed)) continue;
       for (const target of picture.targets) {
-        if (!target.capabilities?.includes(capability) || !registry.site(target.id)?.authored || this.surveyed.has(target.id + capability)) continue;
+        // Authored sites precede the locally sampled alternatives for this request.
+        if (!target.capabilities?.includes(capability) || !registry.site(target.id) || this.surveyed.has(target.id + capability)) continue;
         const decision = validateMissions({ schemaVersion: 2, epoch: this.epoch, requestId: picture.requestId, dialogue: [],
           missions: [{ agentIds: [agent], type, targetId: target.id, timeoutSeconds: 45 }] }, picture, live, registry, this.used);
         if (!decision.ok) continue;
@@ -518,7 +520,7 @@ export class SymbiosisRuntime {
   }
   public step(player:FlightState,rules:RunRulesState,world:CompanionWorld,seed:number,dt:number):RunRulesState {
     if (!(dt>0) || !Number.isFinite(dt) || rules.status!=='running') {this.suspend();return rules;}
-    if (this.context && (world !== this.context.world || seed !== this.context.seed)) this.invalidate();
+    if (this.context && world !== this.context.world) this.invalidate();
     this.time+=dt;this.context={player,rules,world,seed,active:rules.status==='running'};
     if (this.pendingVisit) this.recordVisit();
     if (this.time >= this.nextSurvey) this.independentSurvey();

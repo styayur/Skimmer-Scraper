@@ -161,6 +161,17 @@ describe('semantic mission registration and steering', () => {
     world.dispose();
   });
 
+  it('can survey a verified parallel strip when nearby authored sockets give no explicit glide hint', () => {
+    const { world, runtime, advance } = district();
+    const candidates = world.semanticCandidates.bind(world);
+    world.semanticCandidates = p => candidates(p).filter(c => c.semantic.kind !== 'surface');
+    advance(120*42);
+    expect(runtime.snapshot().missions.find(m => m.agentId === 1)).toMatchObject({
+      priority: 'local', type: 'FIND_GLIDE_ROUTE', observed: 'glide-route', outcome: 'completed',
+    });
+    world.dispose();
+  });
+
   it('discards stale proposals, clears an unloaded target and only rebinds after a fresh geometric check', async () => {
     const { world, runtime, advance } = district();
     const candidates = world.semanticCandidates.bind(world);
