@@ -7,6 +7,14 @@ on:
         description: Full source SHA to build
         required: true
         type: string
+      installer_lifecycle:
+        description: Qualify this v0.11.0 SHA with four historical installers and rollback
+        default: false
+        type: boolean
+      windows_build_run:
+        description: Optional successful Windows desktop dispatch whose exact installer should be qualified
+        type: string
+        default: ''
   pull_request:
     paths:
       - 'src-tauri/**'
@@ -17,7 +25,18 @@ permissions:
   contents: read
 
 jobs:
+  installer-lifecycle:
+    if: github.event_name == 'workflow_dispatch' && inputs.installer_lifecycle
+    permissions:
+      actions: read
+      contents: read
+    uses: ./.github/workflows/windows-lifecycle.yml
+    with:
+      candidate_sha: ${{ inputs.expected_sha }}
+      windows_build_run: ${{ inputs.windows_build_run }}
+
   windows:
+    if: github.event_name != 'workflow_dispatch' || !inputs.installer_lifecycle
     runs-on: windows-2022
     timeout-minutes: 60
     steps:
