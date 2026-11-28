@@ -1,0 +1,159 @@
+name: Linux GLib verification
+
+on:
+  pull_request:
+    paths: &native_paths
+      - 'src-tauri/**'
+      - 'vendor/glib/**'
+      - 'security/glib-*'
+      - 'scripts/*glib*.py'
+      - '.github/workflows/linux-glib.yml'
+      - '.gitattributes'
+  push:
+    branches: [main, codex/linux-glib-0185]
+    paths: *native_paths
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  native:
+    name: Linux GTK3 desktop and native tests
+    if: github.event_name != 'push' || github.ref == 'refs/heads/main'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 50
+    env:
+      EVIDENCE: acceptance/linux-glib
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: 24
+          cache: npm
+      - name: Rebuild the source from the checksummed registry archive
+        run: |
+          mkdir -p "$EVIDENCE"
+          curl --fail --location --retry 3 https://static.crates.io/crates/glib/glib-0.18.5.crate -o "$RUNNER_TEMP/glib.crate"
+          python3 scripts/verify-glib-backport.py "$RUNNER_TEMP/glib.crate" | tee "$EVIDENCE/provenance.txt"
+      - name: Record locked Linux and Windows runtime graphs
+        run: python3 scripts/glib-target-graphs.py "$EVIDENCE"
+      - name: Install Linux desktop development packages
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libwebkit2gtk-4.1-dev libayatana-appindicator3-dev librsvg2-dev libssl-dev xvfb xauth xdotool dbus-x11
+          pkg-config --modversion glib-2.0 gtk+-3.0 webkit2gtk-4.1 | tee "$EVIDENCE/system-library-versions.txt"
+      - run: npm ci
+      - name: Build the release Tauri client with embedded frontend assets
+        run: npx --no-install tauri build --ci --no-bundle -- --locked
+      - name: Run the release-mode native tests against the same application lock
+        run: cargo test --locked --release --features custom-protocol --manifest-path src-tauri/Cargo.toml | tee "$EVIDENCE/native-tests.txt"
+      - name: Start the release desktop on an isolated X11 display
+        env:
+          GDK_BACKEND: x11
+          LIBGL_ALWAYS_SOFTWARE: '1'
+        run: |
+          client=src-tauri/target/release/skimmer-scraper
+          sha256sum "$client" > "$EVIDENCE/binary.sha256"
+          ldd "$client" > "$EVIDENCE/linked-libraries.txt"
+          grep -F 'libwebkit2gtk-4.1.so' "$EVIDENCE/linked-libraries.txt"
+          export XDG_CONFIG_HOME="$RUNNER_TEMP/skimmer/config" XDG_CACHE_HOME="$RUNNER_TEMP/skimmer/cache" XDG_DATA_HOME="$RUNNER_TEMP/skimmer/data"
+          xvfb-run -a dbus-run-session -- bash -eu -o pipefail -c '
+            "$1" > "$EVIDENCE/client.log" 2>&1 &
+            client_pid=$!
+            trap "kill $client_pid 2>/dev/null || true" EXIT
+            window=$(timeout 90s xdotool search --sync --all --onlyvisible --pid "$client_pid" --name "Skimmer")
+            xdotool getwindowname "$window" | tee "$EVIDENCE/window-title.txt"
+            test "$(xdotool getwindowpid "$window")" = "$client_pid"
+          ' bash "$client"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        if: always()
+        with:
+          name: linux-glib-native
+          path: acceptance/linux-glib/
+          if-no-files-found: error
+
+  audit:
+    name: Cargo and npm lockfile audits
+    if: github.event_name != 'push' || github.ref == 'refs/heads/main'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - name: Scan all Cargo.lock dependencies
+        run: |
+          cd "$RUNNER_TEMP"
+          archive=cargo-audit-x86_64-unknown-linux-gnu-v0.23.0.tgz
+          curl --fail --location --retry 3 "https://github.com/rustsec/rustsec/releases/download/cargo-audit/v0.23.0/$archive" -o "$archive"
+          echo "b77993532b253fcbf550996d7716465ec3d734d4e74e7f87bfb65a19add0fb59  $archive" | sha256sum --check
+          tar -xzf "$archive"
+          auditor=$(find . -name cargo-audit -type f)
+          "$auditor" audit --file "$GITHUB_WORKSPACE/src-tauri/Cargo.lock" --json > cargo-audit.json
+      - name: Scan npm production and development dependencies
+        if: '!cancelled()'
+        run: npm audit --include=dev --json > "$RUNNER_TEMP/npm-audit.json"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        if: always()
+        with:
+          name: linux-glib-audits
+          path: |
+            ${{ runner.temp }}/cargo-audit.json
+            ${{ runner.temp }}/npm-audit.json
+          if-no-files-found: error
+
+  codeql:
+    name: Full CodeQL (${{ matrix.language }})
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    permissions:
+      contents: read
+      actions: read
+      security-events: write
+    strategy:
+      fail-fast: false
+      matrix:
+        language: [rust, javascript-typescript, python, actions]
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: github/codeql-action/init@33d7b85da1a04171e211befe2c739303b9a4c066
+        with:
+          languages: ${{ matrix.language }}
+          build-mode: none
+          db-location: ${{ runner.temp }}/glib-codeql-db
+      - uses: github/codeql-action/analyze@33d7b85da1a04171e211befe2c739303b9a4c066
+        with:
+          category: /linux-glib/${{ matrix.language }}
+          output: ${{ runner.temp }}/glib-sarif
+      - name: Confirm the Rust database includes the application and patched bindings
+        if: matrix.language == 'rust'
+        run: |
+          python3 - <<'PY'
+          import os, pathlib, zipfile
+          [source] = (pathlib.Path(os.environ["RUNNER_TEMP"]) / "glib-codeql-db").rglob("src.zip")
+          with zipfile.ZipFile(source) as archive:
+              for path in ("src-tauri/src/main.rs", "vendor/glib/src/variant_iter.rs", "vendor/glib/src/gstring.rs"):
+                  [entry] = [name for name in archive.namelist() if name.endswith("/" + path)]
+                  if archive.read(entry) != pathlib.Path(path).read_bytes():
+                      raise ValueError(f"CodeQL source differs from checkout at {path}")
+                  print(f"CodeQL indexed {path}")
+          PY
+      - name: Report findings from the full scan
+        run: |
+          jq -s -e 'map(.runs[].results | length) | add | . as $count | {findings: $count}, ($count == 0)' "$RUNNER_TEMP"/glib-sarif/*.sarif
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        if: always()
+        with:
+          name: linux-glib-codeql-${{ matrix.language }}
+          path: ${{ runner.temp }}/glib-sarif/*.sarif
+          if-no-files-found: error

@@ -21,5 +21,11 @@ zip = { version = "9.8.2", default-features = false, features = ["deflate"] }
 windows-sys = { version = "0.61.2", features = ["Win32_Storage_FileSystem", "Win32_UI_Shell", "Win32_UI_WindowsAndMessaging"] }
 rfd = { version = "0.17.2", default-features = false }
 
+[target.'cfg(target_os = "linux")'.dev-dependencies]
+glib = "=0.18.5"
+
+[patch.crates-io]
+glib = { path = "../vendor/glib" }
+
 [features]
 custom-protocol = ["tauri/custom-protocol"]
